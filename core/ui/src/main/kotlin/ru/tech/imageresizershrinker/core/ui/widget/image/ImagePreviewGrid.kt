@@ -68,12 +68,14 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
 fun ImagePreviewGrid(
     data: List<Uri>?,
+    onNavigate: (Screen) -> Unit,
     onAddImages: ((List<Uri>) -> Unit)?,
     onShareImage: (Uri) -> Unit,
     onRemove: (Uri) -> Unit,
@@ -193,7 +195,8 @@ fun ImagePreviewGrid(
                 selectedUri = it?.toString()
             },
             onShare = onShareImage,
-            onDismiss = { showImagePreviewDialog = false }
+            onDismiss = { showImagePreviewDialog = false },
+            onNavigate = onNavigate
         )
     }
 

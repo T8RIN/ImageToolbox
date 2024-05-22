@@ -263,7 +263,8 @@ fun BytesResizeScreen(
                             Preset.Percentage(it)
                         },
                         includeTelegramOption = false,
-                        onValueChange = viewModel::selectPreset
+                        onValueChange = viewModel::selectPreset,
+                        isBytesResize = true
                     )
                 }
             }

@@ -66,8 +66,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -88,6 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 fun PresetSelector(
     value: Preset,
     includeTelegramOption: Boolean,
+    isBytesResize: Boolean = false,
     showWarning: Boolean = false,
     onValueChange: (Preset) -> Unit
 ) {
@@ -103,8 +102,6 @@ fun PresetSelector(
             }
         }
     }
-
-    val screen = LocalNavController.current.backstack.entries.last().destination
 
     val state = rememberRevealState()
     val scope = rememberCoroutineScope()
@@ -299,8 +296,8 @@ fun PresetSelector(
                 )
             },
             text = {
-                if (screen !is Screen.ResizeByBytes) Text(stringResource(R.string.presets_sub))
-                else Text(stringResource(R.string.presets_sub_bytes))
+                if (isBytesResize) Text(stringResource(R.string.presets_sub_bytes))
+                else Text(stringResource(R.string.presets_sub))
             }
         )
     }

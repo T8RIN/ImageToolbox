@@ -94,6 +94,9 @@ fun MainScreen(
         installedFromMarket: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
+    onNavigateToSettings: () -> Boolean,
+    onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
+    onNavigateToEasterEgg: () -> Unit,
     updateAvailable: Boolean,
     updateUris: (List<Uri>) -> Unit
 ) {
@@ -123,7 +126,9 @@ fun MainScreen(
                     SettingsScreen(
                         onTryGetUpdate = ::tryGetUpdate,
                         updateAvailable = updateAvailable,
-                        isStandaloneScreen = false
+                        isStandaloneScreen = false,
+                        onNavigateToEasterEgg = onNavigateToEasterEgg,
+                        onNavigateToSettings = onNavigateToSettings
                     ) { showSettingsSearch, onCloseSearch ->
                         AnimatedContent(
                             targetState = !isSheetSlideable to showSettingsSearch,
@@ -196,7 +201,9 @@ fun MainScreen(
                     }
                 )
             },
-            updateAvailable = updateAvailable
+            updateAvailable = updateAvailable,
+            onNavigateToSettings = { onNavigateToSettings() },
+            onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo
         )
     }
 

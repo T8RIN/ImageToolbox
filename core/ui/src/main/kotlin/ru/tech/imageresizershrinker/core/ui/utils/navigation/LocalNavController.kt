@@ -17,8 +17,14 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.navigation
 
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import dev.olshevski.navigation.reimagined.NavController
 
-val LocalNavController =
-    compositionLocalOf<NavController<Screen>> { error("NavController not present") }
+@Composable
+fun NavController<Screen>.currentScreen(): Screen? = remember(backstack.entries) {
+    derivedStateOf {
+        backstack.entries.lastOrNull()?.destination
+    }
+}.value

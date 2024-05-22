@@ -61,7 +61,6 @@ import coil.compose.AsyncImagePainter
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -72,7 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -95,9 +94,9 @@ import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewMode
 fun LoadNetImageScreen(
     url: String,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: LoadNetImageViewModel = hiltViewModel()
 ) {
-    val navController = LocalNavController.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
     val settingsState = LocalSettingsState.current
@@ -367,7 +366,7 @@ fun LoadNetImageScreen(
             scope.launch {
                 wantToEdit.value = false
                 delay(200)
-                navController.navigate(screen)
+                onNavigate(screen)
             }
         }
     )

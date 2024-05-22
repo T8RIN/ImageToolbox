@@ -23,12 +23,15 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavTransitionQueueing
+import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
+import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.NavigationTransition
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentScreen
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsScreen
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
 import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
@@ -95,7 +98,18 @@ internal fun ScreenSelector(
                 SettingsScreen(
                     onTryGetUpdate = viewModel::tryGetUpdate,
                     updateAvailable = viewModel.updateAvailable,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigateToEasterEgg = {
+                        if (navController.backstack.entries.lastOrNull()?.destination != Screen.EasterEgg) {
+                            navController.navigate(Screen.EasterEgg)
+                        }
+                    },
+                    onNavigateToSettings = {
+                        if (navController.backstack.entries.lastOrNull()?.destination !is Screen.Settings) {
+                            navController.navigate(Screen.Settings)
+                            return@SettingsScreen true
+                        } else return@SettingsScreen false
+                    }
                 )
             }
 
@@ -107,7 +121,22 @@ internal fun ScreenSelector(
                 MainScreen(
                     onTryGetUpdate = viewModel::tryGetUpdate,
                     updateAvailable = viewModel.updateAvailable,
-                    updateUris = viewModel::updateUris
+                    updateUris = viewModel::updateUris,
+                    onNavigateToSettings = {
+                        if (navController.backstack.entries.lastOrNull()?.destination !is Screen.Settings) {
+                            navController.navigate(Screen.Settings)
+                            return@MainScreen true
+                        } else return@MainScreen false
+                    },
+                    onNavigateToScreenWithPopUpTo = { navigable ->
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(navigable)
+                    },
+                    onNavigateToEasterEgg = {
+                        if (navController.backstack.entries.lastOrNull()?.destination != Screen.EasterEgg) {
+                            navController.navigate(Screen.EasterEgg)
+                        }
+                    }
                 )
             }
 
@@ -156,7 +185,8 @@ internal fun ScreenSelector(
             is Screen.ImagePreview -> {
                 ImagePreviewScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -179,7 +209,8 @@ internal fun ScreenSelector(
             is Screen.LoadNetImage -> {
                 LoadNetImageScreen(
                     url = screen.url,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -300,6 +331,5 @@ internal fun ScreenSelector(
             }
         }
     }
-
-    ScreenBasedMaxBrightnessEnforcement()
+    ScreenBasedMaxBrightnessEnforcement(navController.currentScreen())
 }

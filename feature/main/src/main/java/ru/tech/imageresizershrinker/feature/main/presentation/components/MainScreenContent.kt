@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 @Composable
 internal fun MainScreenContent(
@@ -53,6 +54,8 @@ internal fun MainScreenContent(
     sheetExpanded: Boolean,
     isGrid: Boolean,
     onGetClipList: (List<Uri>) -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     onShowSnowfall: () -> Unit,
     onTryGetUpdate: () -> Unit,
     updateAvailable: Boolean
@@ -80,7 +83,8 @@ internal fun MainScreenContent(
                 scrollBehavior = scrollBehavior,
                 onShowSnowfall = onShowSnowfall,
                 sideSheetState = sideSheetState,
-                isSheetSlideable = isSheetSlideable
+                isSheetSlideable = isSheetSlideable,
+                onNavigateToSettings = onNavigateToSettings
             )
 
             Row(
@@ -112,7 +116,8 @@ internal fun MainScreenContent(
                     onChangeShowScreenSearch = {
                         showScreenSearch = it
                     },
-                    onGetClipList = onGetClipList
+                    onGetClipList = onGetClipList,
+                    onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo
                 )
             }
 

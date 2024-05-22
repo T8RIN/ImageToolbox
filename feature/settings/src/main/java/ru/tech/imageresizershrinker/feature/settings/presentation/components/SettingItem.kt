@@ -38,7 +38,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -49,8 +48,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -68,6 +65,8 @@ internal fun SettingItem(
         installedFromMarket: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
+    onNavigateToEasterEgg: () -> Unit,
+    onNavigateToSettings: () -> Boolean,
     updateAvailable: Boolean,
     color: Color = MaterialTheme.colorScheme.surface
 ) {
@@ -218,12 +217,9 @@ internal fun SettingItem(
                 var clicks by rememberSaveable {
                     mutableIntStateOf(0)
                 }
-                val navController = LocalNavController.current
                 LaunchedEffect(clicks) {
                     if (clicks >= 3) {
-                        if (navController.backstack.entries.lastOrNull()?.destination != Screen.EasterEgg) {
-                            navController.navigate(Screen.EasterEgg)
-                        }
+                        onNavigateToEasterEgg()
                         clicks = 0
                     }
 
@@ -577,7 +573,10 @@ internal fun SettingItem(
             }
 
             Setting.UseFullscreenSettings -> {
-                UseFullscreenSettingsSettingItem(onClick = viewModel::toggleUseFullscreenSettings)
+                UseFullscreenSettingsSettingItem(
+                    onClick = viewModel::toggleUseFullscreenSettings,
+                    onNavigateToSettings = onNavigateToSettings
+                )
             }
 
             Setting.DefaultDrawLineWidth -> {

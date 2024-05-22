@@ -120,6 +120,8 @@ fun SettingsScreen(
         installedFromMarket: Boolean,
         onNoUpdates: Lambda
     ) -> Unit,
+    onNavigateToEasterEgg: () -> Unit,
+    onNavigateToSettings: () -> Boolean,
     updateAvailable: Boolean,
     onGoBack: Lambda? = null,
     isStandaloneScreen: Boolean = true,
@@ -395,7 +397,9 @@ fun SettingsScreen(
                                                         viewModel = viewModel,
                                                         onTryGetUpdate = onTryGetUpdate,
                                                         updateAvailable = updateAvailable,
-                                                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                                                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                                        onNavigateToEasterEgg = onNavigateToEasterEgg,
+                                                        onNavigateToSettings = onNavigateToSettings
                                                     )
                                                 }
                                             }
@@ -414,7 +418,9 @@ fun SettingsScreen(
                                                         setting = setting,
                                                         viewModel = viewModel,
                                                         onTryGetUpdate = onTryGetUpdate,
-                                                        updateAvailable = updateAvailable
+                                                        updateAvailable = updateAvailable,
+                                                        onNavigateToEasterEgg = onNavigateToEasterEgg,
+                                                        onNavigateToSettings = onNavigateToSettings
                                                     )
                                                 }
                                             }
@@ -442,7 +448,9 @@ fun SettingsScreen(
                                     setting = setting,
                                     viewModel = viewModel,
                                     onTryGetUpdate = onTryGetUpdate,
-                                    updateAvailable = updateAvailable
+                                    updateAvailable = updateAvailable,
+                                    onNavigateToEasterEgg = onNavigateToEasterEgg,
+                                    onNavigateToSettings = onNavigateToSettings
                                 )
                             }
                         }

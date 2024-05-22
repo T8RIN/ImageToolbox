@@ -61,7 +61,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -71,7 +70,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PageCloseTransition
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PageOpenTransition
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -82,12 +81,12 @@ fun ImagePager(
     visible: Boolean,
     selectedUri: Uri?,
     uris: List<Uri>?,
+    onNavigate: (Screen) -> Unit,
     onUriSelected: (Uri?) -> Unit,
     onShare: (Uri) -> Unit,
     onDismiss: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val navController = LocalNavController.current
 
     AnimatedVisibility(
         visible = visible,
@@ -244,7 +243,7 @@ fun ImagePager(
                 scope.launch {
                     wantToEdit.value = false
                     delay(200)
-                    navController.navigate(screen)
+                    onNavigate(screen)
                 }
             }
         )

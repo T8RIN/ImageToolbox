@@ -25,15 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
@@ -41,10 +38,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 @Composable
 fun UseFullscreenSettingsSettingItem(
     onClick: () -> Unit,
+    onNavigateToSettings: () -> Boolean,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val navController = LocalNavController.current
     val settingsState = LocalSettingsState.current
 
     PreferenceRowSwitch(
@@ -54,11 +51,12 @@ fun UseFullscreenSettingsSettingItem(
         subtitle = stringResource(R.string.fullscreen_settings_sub),
         checked = settingsState.useFullscreenSettings,
         onClick = {
-            if (it && navController.backstack.entries.lastOrNull()?.destination !is Screen.Settings) {
-                navController.navigate(Screen.Settings)
-                GlobalScope.launch {
-                    delay(1000)
-                    onClick()
+            if (it) {
+                if (onNavigateToSettings()) {
+                    GlobalScope.launch {
+                        delay(1000)
+                        onClick()
+                    }
                 }
             } else onClick()
         },

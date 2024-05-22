@@ -77,14 +77,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.getSystemService
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberClipboardData
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
@@ -101,12 +98,12 @@ internal fun RowScope.ScreenPreferenceSelection(
     isGrid: Boolean,
     isSheetSlideable: Boolean,
     onGetClipList: (List<Uri>) -> Unit,
+    onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     onChangeShowScreenSearch: (Boolean) -> Unit,
     showNavRail: Boolean,
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val navController = LocalNavController.current
     val settingsState = LocalSettingsState.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val canSearchScreens = settingsState.screensSearchEnabled
@@ -181,8 +178,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                             )
                             PreferenceItemOverload(
                                 onClick = {
-                                    navController.popUpTo { it == Screen.Main }
-                                    navController.navigate(screen)
+                                    onNavigateToScreenWithPopUpTo(screen)
                                 },
                                 color = MaterialTheme.colorScheme.surfaceContainerLow,
                                 modifier = Modifier

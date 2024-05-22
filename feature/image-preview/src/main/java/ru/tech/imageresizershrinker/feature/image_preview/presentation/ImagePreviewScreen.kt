@@ -75,6 +75,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.listFilesInDirectory
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -94,6 +95,7 @@ import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel
 fun ImagePreviewScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: ImagePreviewViewModel = hiltViewModel()
 ) {
     var showExitDialog by rememberSaveable {
@@ -251,7 +253,8 @@ fun ImagePreviewScreen(
                             },
                             state = gridState,
                             onRemove = viewModel::removeUri,
-                            initialShowImagePreviewDialog = initialShowImagePreviewDialog
+                            initialShowImagePreviewDialog = initialShowImagePreviewDialog,
+                            onNavigate = onNavigate
                         )
                     }
                 }

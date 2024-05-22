@@ -57,6 +57,8 @@ internal fun SearchableSettingItem(
         installedFromMarket: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
+    onNavigateToEasterEgg: () -> Unit,
+    onNavigateToSettings: () -> Boolean,
     updateAvailable: Boolean
 ) {
     Column(
@@ -104,7 +106,9 @@ internal fun SearchableSettingItem(
                 setting = setting,
                 viewModel = viewModel,
                 onTryGetUpdate = onTryGetUpdate,
-                updateAvailable = updateAvailable
+                updateAvailable = updateAvailable,
+                onNavigateToEasterEgg = onNavigateToEasterEgg,
+                onNavigateToSettings = onNavigateToSettings
             )
         }
         Spacer(Modifier.height(8.dp))

@@ -21,28 +21,21 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.util.fastAny
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 @Composable
-internal fun ScreenBasedMaxBrightnessEnforcement() {
-    val navController = LocalNavController.current
-    val screen by remember(navController.backstack.entries) {
-        derivedStateOf {
-            navController.backstack.entries.lastOrNull()?.destination
-        }
-    }
+internal fun ScreenBasedMaxBrightnessEnforcement(
+    currentScreen: Screen?
+) {
     val context = LocalContext.current as ComponentActivity
 
     val listToForceBrightness = LocalSettingsState.current.screenListWithMaxBrightnessEnforcement
 
-    DisposableEffect(screen) {
-        if (listToForceBrightness.fastAny { it == screen?.id }) {
+    DisposableEffect(currentScreen) {
+        if (listToForceBrightness.fastAny { it == currentScreen?.id }) {
             context.window.apply {
                 attributes.apply {
                     screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
