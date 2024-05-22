@@ -101,7 +101,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 160 various filters)
+- Applying filter chains (More than 170 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -269,6 +269,16 @@ or click one of the badges below.
   - [x] Fast Gaussian Blur 2D
   - [x] Fast Gaussian Blur 3D
   - [x] Fast Gaussian Blur 4D
+  - [x] Equalize Histogram
+  - [x] Equalize Histogram HSV
+  - [x] Equalize Histogram Pixelation
+  - [x] Equalize Histogram Adaptive
+  - [x] Equalize Histogram Adaptive LUV
+  - [x] Equalize Histogram Adaptive LAB
+  - [x] Clahe
+  - [x] Clahe LUV
+  - [x] Clahe LAB
+  - [x] Crop To Content
 
   </details>
 
