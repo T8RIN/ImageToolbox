@@ -53,7 +53,7 @@
     <string name="cancel">Hủy bỏ</string>
     <string name="clear_exif_sub">Tất cả dữ liệu EXIF của hình ảnh sẽ bị xóa, hành động này không thể hoàn tác được!</string>
     <string name="presets">cài đặt trước</string>
-    <string name="crop">Mùa vụ</string>
+    <string name="crop">Cắt</string>
     <string name="image_not_saved">Tiết kiệm</string>
     <string name="image_not_saved_sub">Tất cả các thay đổi chưa được lưu sẽ bị mất nếu bạn thoát ngay bây giờ</string>
     <string name="check_source_code">Mã nguồn</string>
@@ -98,7 +98,7 @@
     <string name="system">Hệ thống</string>
     <string name="dynamic_colors">Màu sắc năng động</string>
     <string name="customization">tùy biến</string>
-    <string name="allow_image_monet">Cho phép kiếm tiền từ hình ảnh</string>
+    <string name="allow_image_monet">Cho phép hình ảnh monet</string>
     <string name="allow_image_monet_sub">Nếu được bật, khi bạn chọn một hình ảnh để chỉnh sửa, màu của ứng dụng sẽ được áp dụng cho hình ảnh này</string>
     <string name="language">Ngôn ngữ</string>
     <string name="amoled_mode">chế độ amoled</string>
@@ -622,7 +622,7 @@
     <string name="gradient_maker_sub">Tạo độ dốc của kích thước đầu ra nhất định với màu sắc và kiểu dáng tùy chỉnh</string>
     <string name="pdf_tools">Công cụ PDF</string>
     <string name="rate_app">Đánh giá ứng dụng</string>
-    <string name="rate">Tỷ lệ</string>
+    <string name="rate">Đánh giá</string>
     <string name="rate_app_sub">Ứng dụng này hoàn toàn miễn phí, nếu bạn muốn nó lớn hơn, hãy gắn dấu sao cho dự án trên Github 😄</string>
     <string name="achromatomaly">bệnh sắc tố</string>
     <string name="achromatopsia">Achromatopsia</string>
