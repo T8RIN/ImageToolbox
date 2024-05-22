@@ -621,4 +621,69 @@ class FilterViewModel @Inject constructor(
         }
     }
 
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            val list = mutableListOf<Uri>()
+            when (filterType) {
+                is Screen.Filter.Type.Basic -> {
+                    _done.value = 0
+                    _left.value = basicFilterState.uris?.size ?: 0
+                    basicFilterState.uris?.forEach { uri ->
+                        imageGetter.getImageWithTransformations(
+                            uri = uri.toString(),
+                            transformations = _basicFilterState.value.filters.map {
+                                filterProvider.filterToTransformation(it)
+                            }
+                        )?.let { (image, imageInfo) ->
+                            shareProvider.cacheImage(
+                                image = image,
+                                imageInfo = imageInfo
+                            )?.let {
+                                list.add(it.toUri())
+                            }
+                        }
+                        _done.value++
+                    }
+                }
+
+                is Screen.Filter.Type.Masking -> {
+                    _done.value = 0
+                    _left.value = maskingFilterState.masks.size
+                    maskingFilterState.uri?.toString()?.let {
+                        imageGetter.getImage(uri = it)
+                    }?.let { imageData ->
+                        maskingFilterState.masks.fold<UiFilterMask, Bitmap?>(
+                            initial = imageData.image,
+                            operation = { bmp, mask ->
+                                bmp?.let {
+                                    filterMaskApplier.filterByMask(
+                                        filterMask = mask,
+                                        image = bmp
+                                    )
+                                }?.also { _done.value++ }
+                            }
+                        )?.let { bitmap ->
+                            shareProvider.cacheImage(
+                                image = bitmap,
+                                imageInfo = imageInfo.copy(
+                                    width = bitmap.width,
+                                    height = bitmap.height
+                                )
+                            )?.let {
+                                list.add(it.toUri())
+                            }
+                        }
+                    }
+                }
+
+                null -> Unit
+            }
+            onComplete(list)
+            _isSaving.value = false
+        }
+    }
+
 }

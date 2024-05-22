@@ -79,7 +79,8 @@ internal class AndroidImageCombiner @Inject constructor(
     override suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
-        imageScale: Float
+        imageScale: Float,
+        onProgress: (Int) -> Unit
     ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
         suspend fun getImageData(
             imagesUris: List<String>,
@@ -169,6 +170,8 @@ internal class AndroidImageCombiner @Inject constructor(
                 pos += if (isHorizontal) {
                     (bmp.width + combiningParams.spacing).coerceAtLeast(1)
                 } else (bmp.height + combiningParams.spacing).coerceAtLeast(1)
+
+                onProgress(i + 1)
             }
 
             return imageScaler.scaleImage(
@@ -203,7 +206,8 @@ internal class AndroidImageCombiner @Inject constructor(
                         else -> StitchMode.Horizontal
                     }
                 ),
-                imageScale = imageScale
+                imageScale = imageScale,
+                onProgress = onProgress
             )
         } else getImageData(
             imagesUris = imageUris,
@@ -360,7 +364,8 @@ internal class AndroidImageCombiner @Inject constructor(
         combineImages(
             imageUris = imageUris,
             combiningParams = combiningParams,
-            imageScale = 1f
+            imageScale = 1f,
+            onProgress = {}
         ).let { (image, imageInfo) ->
             return@let imagePreviewCreator.createPreview(
                 image = image,

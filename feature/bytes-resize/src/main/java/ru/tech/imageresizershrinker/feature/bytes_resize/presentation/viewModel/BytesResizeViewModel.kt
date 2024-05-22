@@ -352,8 +352,6 @@ class BytesResizeViewModel @Inject constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             selectedUri?.toString()?.let { uri ->
@@ -393,6 +391,56 @@ class BytesResizeViewModel @Inject constructor(
                     }
                 }
             }
+            _isSaving.value = false
+        }
+    }
+
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            _done.value = 0
+            val list = mutableListOf<Uri>()
+            uris?.forEach { uri ->
+                imageGetter.getImage(uri.toString())?.image?.let { bitmap ->
+                    if (handMode) {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = maxBytes,
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
+                        )
+                    } else {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = (fileController.getSize(uri.toString()) ?: 0)
+                                .times(_presetSelected.value / 100f)
+                                .toLong(),
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
+                        )
+                    }
+                }?.let { scaled ->
+                    scaled.first to scaled.second.copy(imageFormat = imageFormat)
+                }?.let { (image, imageInfo) ->
+                    shareProvider.cacheByteArray(
+                        byteArray = image,
+                        filename = fileController.constructImageFilename(
+                            ImageSaveTarget<ExifInterface>(
+                                imageInfo = imageInfo,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = image
+                            )
+                        )
+                    )?.let { uri ->
+                        list.add(uri.toUri())
+                    }
+                }
+                _done.value += 1
+            }
+            onComplete(list)
             _isSaving.value = false
         }
     }

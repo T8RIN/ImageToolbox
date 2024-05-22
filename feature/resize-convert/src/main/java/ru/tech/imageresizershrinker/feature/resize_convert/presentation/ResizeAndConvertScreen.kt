@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -47,6 +48,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
@@ -58,6 +60,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAs
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
@@ -86,6 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EditExifSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
@@ -95,6 +99,7 @@ import ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewMode
 fun ResizeAndConvertScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: ResizeAndConvertViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
@@ -202,6 +207,9 @@ fun ResizeAndConvertScreen(
         },
         onGoBack = onBack,
         actions = {
+            var editSheetData by remember {
+                mutableStateOf(listOf<Uri>())
+            }
             ShareButton(
                 enabled = viewModel.bitmap != null,
                 onShare = {
@@ -211,6 +219,27 @@ fun ResizeAndConvertScreen(
                     viewModel.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
+                    }
+                },
+                onEdit = {
+                    viewModel.cacheImages {
+                        editSheetData = it
+                    }
+                }
+            )
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = {
+                    if (!it) {
+                        editSheetData = emptyList()
+                    }
+                },
+                onNavigate = { screen ->
+                    scope.launch {
+                        editSheetData = emptyList()
+                        delay(200)
+                        onNavigate(screen)
                     }
                 }
             )

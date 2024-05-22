@@ -122,6 +122,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
@@ -136,6 +137,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -161,6 +163,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -191,6 +194,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun DrawScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: DrawViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
@@ -561,6 +565,9 @@ fun DrawScreen(
                                 )
                             }
                         }
+                        var editSheetData by remember {
+                            mutableStateOf(listOf<Uri>())
+                        }
                         ShareButton(
                             enabled = viewModel.drawBehavior !is DrawBehavior.None,
                             onShare = {
@@ -570,6 +577,27 @@ fun DrawScreen(
                                 viewModel.cacheCurrentImage { uri ->
                                     manager.setClip(uri.asClip(context))
                                     showConfetti()
+                                }
+                            },
+                            onEdit = {
+                                viewModel.cacheCurrentImage { uri ->
+                                    editSheetData = listOf(uri)
+                                }
+                            }
+                        )
+                        ProcessImagesPreferenceSheet(
+                            uris = editSheetData,
+                            visible = editSheetData.isNotEmpty(),
+                            onDismiss = {
+                                if (!it) {
+                                    editSheetData = emptyList()
+                                }
+                            },
+                            onNavigate = { screen ->
+                                scope.launch {
+                                    editSheetData = emptyList()
+                                    delay(200)
+                                    onNavigate(screen)
                                 }
                             }
                         )

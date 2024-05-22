@@ -141,6 +141,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -167,6 +168,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun FiltersScreen(
     type: Screen.Filter.Type?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: FilterViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
@@ -257,6 +259,42 @@ fun FiltersScreen(
     val actions: @Composable RowScope.() -> Unit = {
         Spacer(modifier = Modifier.width(8.dp))
         if (viewModel.bitmap != null) {
+            var editSheetData by remember {
+                mutableStateOf(listOf<Uri>())
+            }
+            ShareButton(
+                enabled = viewModel.canSave,
+                onShare = {
+                    viewModel.performSharing(showConfetti)
+                },
+                onCopy = { manager ->
+                    viewModel.cacheCurrentImage { uri ->
+                        manager.setClip(uri.asClip(context))
+                        showConfetti()
+                    }
+                },
+                onEdit = {
+                    viewModel.cacheImages {
+                        editSheetData = it
+                    }
+                }
+            )
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = {
+                    if (!it) {
+                        editSheetData = emptyList()
+                    }
+                },
+                onNavigate = { screen ->
+                    scope.launch {
+                        editSheetData = emptyList()
+                        delay(200)
+                        onNavigate(screen)
+                    }
+                }
+            )
             ShowOriginalButton(
                 canShow = viewModel.canShow(),
                 onStateChange = {
@@ -267,10 +305,6 @@ fun FiltersScreen(
         CompareButton(
             onClick = { showCompareSheet.value = true },
             visible = viewModel.previewBitmap != null
-        )
-        ZoomButton(
-            onClick = { showZoomSheet.value = true },
-            visible = viewModel.bitmap != null,
         )
         if (viewModel.bitmap != null && (viewModel.basicFilterState.filters.size >= 2 || viewModel.maskingFilterState.masks.size >= 2)) {
             EnhancedIconButton(
@@ -835,17 +869,9 @@ fun FiltersScreen(
                                     contentDescription = stringResource(R.string.pipette)
                                 )
                             }
-                            ShareButton(
-                                enabled = viewModel.canSave,
-                                onShare = {
-                                    viewModel.performSharing(showConfetti)
-                                },
-                                onCopy = { manager ->
-                                    viewModel.cacheCurrentImage { uri ->
-                                        manager.setClip(uri.asClip(context))
-                                        showConfetti()
-                                    }
-                                }
+                            ZoomButton(
+                                onClick = { showZoomSheet.value = true },
+                                visible = viewModel.bitmap != null,
                             )
                         }
                         if (viewModel.bitmap == null) {

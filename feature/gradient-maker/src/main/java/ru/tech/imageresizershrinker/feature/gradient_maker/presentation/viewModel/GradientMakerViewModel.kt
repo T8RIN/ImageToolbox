@@ -436,4 +436,59 @@ class GradientMakerViewModel @Inject constructor(
         }
     }
 
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
+        savingJob = viewModelScope.launch {
+            val list = mutableListOf<Uri>()
+
+            _left.value = -1
+            _isSaving.value = true
+
+            if (uris.isEmpty()) {
+                createGradientBitmap(
+                    data = Unit,
+                    useBitmapOriginalSizeIfAvailable = true
+                )?.let { localBitmap ->
+                    val imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = localBitmap.width,
+                        height = localBitmap.height
+                    )
+                    shareProvider.cacheImage(
+                        image = localBitmap,
+                        imageInfo = imageInfo
+                    )?.toUri()?.let(list::add)
+                }
+            } else {
+                _done.value = 0
+                _left.value = uris.size
+                uris.forEach { uri ->
+                    createGradientBitmap(
+                        data = uri,
+                        useBitmapOriginalSizeIfAvailable = true
+                    )?.let { localBitmap ->
+                        val imageInfo = ImageInfo(
+                            imageFormat = imageFormat,
+                            width = localBitmap.width,
+                            height = localBitmap.height,
+                            originalUri = uri.toString()
+                        )
+
+                        shareProvider.cacheImage(
+                            image = localBitmap,
+                            imageInfo = imageInfo
+                        )?.toUri()?.let(list::add)
+                    }
+
+                    _done.value += 1
+                }
+            }
+            _isSaving.value = false
+
+            onComplete(list)
+            _isSaving.value = false
+        }
+    }
+
 }

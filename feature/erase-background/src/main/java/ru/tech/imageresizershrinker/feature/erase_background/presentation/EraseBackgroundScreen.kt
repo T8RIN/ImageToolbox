@@ -101,6 +101,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
@@ -113,6 +114,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
@@ -135,6 +137,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
@@ -155,6 +158,7 @@ import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewMo
 fun EraseBackgroundScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: EraseBackgroundViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
@@ -408,6 +412,9 @@ fun EraseBackgroundScreen(
                                 )
                             }
                         }
+                        var editSheetData by remember {
+                            mutableStateOf(listOf<Uri>())
+                        }
                         ShareButton(
                             enabled = viewModel.bitmap != null,
                             onShare = {
@@ -417,6 +424,27 @@ fun EraseBackgroundScreen(
                                 viewModel.cacheCurrentImage { uri ->
                                     manager.setClip(uri.asClip(context))
                                     showConfetti()
+                                }
+                            },
+                            onEdit = {
+                                viewModel.cacheCurrentImage { uri ->
+                                    editSheetData = listOf(uri)
+                                }
+                            }
+                        )
+                        ProcessImagesPreferenceSheet(
+                            uris = editSheetData,
+                            visible = editSheetData.isNotEmpty(),
+                            onDismiss = {
+                                if (!it) {
+                                    editSheetData = emptyList()
+                                }
+                            },
+                            onNavigate = { screen ->
+                                scope.launch {
+                                    editSheetData = emptyList()
+                                    delay(200)
+                                    onNavigate(screen)
                                 }
                             }
                         )

@@ -150,7 +150,7 @@ fun LoadNetImageScreen(
         visible = showZoomSheet
     )
 
-    val wantToEdit = rememberSaveable { mutableStateOf(false) }
+    var wantToEdit by rememberSaveable { mutableStateOf(false) }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         viewModel.saveBitmap(link, it) { saveResult ->
@@ -326,7 +326,7 @@ fun LoadNetImageScreen(
                                 height = bitmap.height,
                             )
                         )
-                        wantToEdit.value = true
+                        wantToEdit = true
                     }
                 },
                 isPrimaryButtonVisible = imageState is AsyncImagePainter.State.Success,
@@ -362,9 +362,12 @@ fun LoadNetImageScreen(
     ProcessImagesPreferenceSheet(
         uris = listOfNotNull(viewModel.tempUri),
         visible = wantToEdit,
-        navigate = { screen ->
+        onDismiss = {
+            wantToEdit = it
+        },
+        onNavigate = { screen ->
             scope.launch {
-                wantToEdit.value = false
+                wantToEdit = false
                 delay(200)
                 onNavigate(screen)
             }

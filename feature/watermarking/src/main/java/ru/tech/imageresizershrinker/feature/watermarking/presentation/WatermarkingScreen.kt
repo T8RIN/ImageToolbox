@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
@@ -53,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAs
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -75,6 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
@@ -88,6 +91,7 @@ import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.
 fun WatermarkingScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: WatermarkingViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -184,6 +188,9 @@ fun WatermarkingScreen(
             )
         },
         actions = {
+            var editSheetData by remember {
+                mutableStateOf(listOf<Uri>())
+            }
             ShareButton(
                 enabled = viewModel.previewBitmap != null,
                 onShare = {
@@ -193,6 +200,27 @@ fun WatermarkingScreen(
                     viewModel.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
+                    }
+                },
+                onEdit = {
+                    viewModel.cacheImages {
+                        editSheetData = it
+                    }
+                }
+            )
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = {
+                    if (!it) {
+                        editSheetData = emptyList()
+                    }
+                },
+                onNavigate = { screen ->
+                    scope.launch {
+                        editSheetData = emptyList()
+                        delay(200)
+                        onNavigate(screen)
                     }
                 }
             )

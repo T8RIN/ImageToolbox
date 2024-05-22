@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
@@ -55,6 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAs
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -72,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.AddExifSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifViewModel
@@ -80,6 +83,7 @@ import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.D
 fun DeleteExifScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: DeleteExifViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
@@ -172,6 +176,9 @@ fun DeleteExifScreen(
         },
         actions = {
             if (viewModel.previewBitmap != null) {
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
                 ShareButton(
                     onShare = {
                         viewModel.shareBitmaps(showConfetti)
@@ -180,6 +187,27 @@ fun DeleteExifScreen(
                         viewModel.cacheCurrentImage { uri ->
                             manager.setClip(uri.asClip(context))
                             showConfetti()
+                        }
+                    },
+                    onEdit = {
+                        viewModel.cacheImages {
+                            editSheetData = it
+                        }
+                    }
+                )
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = {
+                        if (!it) {
+                            editSheetData = emptyList()
+                        }
+                    },
+                    onNavigate = { screen ->
+                        scope.launch {
+                            editSheetData = emptyList()
+                            delay(200)
+                            onNavigate(screen)
                         }
                     }
                 )

@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
@@ -79,6 +80,9 @@ class ImageStitchingViewModel @Inject constructor(
     private val _imageByteSize: MutableState<Int?> = mutableStateOf(null)
     val imageByteSize by _imageByteSize
 
+    private val _done: MutableState<Int> = mutableIntStateOf(0)
+    val done by _done
+
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
         calculatePreview()
@@ -128,10 +132,14 @@ class ImageStitchingViewModel @Inject constructor(
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
+            _done.value = 0
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
-                imageScale = imageScale
+                imageScale = imageScale,
+                onProgress = {
+                    _done.value = it
+                }
             ).let { (image, info) ->
                 val imageInfo = info.copy(
                     quality = imageInfo.quality,
@@ -161,10 +169,14 @@ class ImageStitchingViewModel @Inject constructor(
     fun shareBitmap(onComplete: () -> Unit) {
         savingJob = viewModelScope.launch {
             _isSaving.value = true
+            _done.value = 0
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
-                imageScale = imageScale
+                imageScale = imageScale,
+                onProgress = {
+                    _done.value = it
+                }
             ).let {
                 it.copy(
                     second = it.second.copy(
@@ -260,10 +272,14 @@ class ImageStitchingViewModel @Inject constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = viewModelScope.launch {
             _isSaving.value = true
+            _done.value = 0
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
-                imageScale = imageScale
+                imageScale = imageScale,
+                onProgress = {
+                    _done.value = it
+                }
             ).let {
                 it.copy(
                     second = it.second.copy(

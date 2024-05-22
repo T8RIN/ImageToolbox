@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
@@ -91,6 +92,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.ColorStopSelection
@@ -106,6 +108,7 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewMode
 fun GradientMakerScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: GradientMakerViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -227,6 +230,9 @@ fun GradientMakerScreen(
                     }
                 )
             }
+            var editSheetData by remember {
+                mutableStateOf(listOf<Uri>())
+            }
             ShareButton(
                 enabled = viewModel.brush != null,
                 onShare = {
@@ -236,6 +242,27 @@ fun GradientMakerScreen(
                     viewModel.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
+                    }
+                },
+                onEdit = {
+                    viewModel.cacheImages {
+                        editSheetData = it
+                    }
+                }
+            )
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = {
+                    if (!it) {
+                        editSheetData = emptyList()
+                    }
+                },
+                onNavigate = { screen ->
+                    scope.launch {
+                        editSheetData = emptyList()
+                        delay(200)
+                        onNavigate(screen)
                     }
                 }
             )

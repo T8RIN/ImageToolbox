@@ -143,35 +143,40 @@ internal fun ScreenSelector(
             is Screen.SingleEdit -> {
                 SingleEditScreen(
                     uriState = screen.uri,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.ResizeAndConvert -> {
                 ResizeAndConvertScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.DeleteExif -> {
                 DeleteExifScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.ResizeByBytes -> {
                 BytesResizeScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.Crop -> {
                 CropScreen(
                     uriState = screen.uri,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -217,21 +222,24 @@ internal fun ScreenSelector(
             is Screen.Filter -> {
                 FiltersScreen(
                     type = screen.type,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.LimitResize -> {
                 LimitsResizeScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.Draw -> {
                 DrawScreen(
                     uriState = screen.uri,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -245,14 +253,16 @@ internal fun ScreenSelector(
             is Screen.EraseBackground -> {
                 EraseBackgroundScreen(
                     uriState = screen.uri,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.ImageStitching -> {
                 ImageStitchingScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -273,14 +283,16 @@ internal fun ScreenSelector(
             is Screen.GradientMaker -> {
                 GradientMakerScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
             is Screen.Watermarking -> {
                 WatermarkingScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -322,7 +334,8 @@ internal fun ScreenSelector(
             is Screen.Convert -> {
                 ConvertScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = navController::navigate
                 )
             }
 

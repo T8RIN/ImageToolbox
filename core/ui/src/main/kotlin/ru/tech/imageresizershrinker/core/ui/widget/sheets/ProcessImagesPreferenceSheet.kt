@@ -30,7 +30,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -48,8 +47,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.screenList
 fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
     extraImageType: String? = null,
-    visible: MutableState<Boolean>,
-    navigate: (Screen) -> Unit
+    visible: Boolean,
+    onDismiss: (Boolean) -> Unit,
+    onNavigate: (Screen) -> Unit
 ) {
     SimpleSheet(
         title = {
@@ -62,7 +62,7 @@ fun ProcessImagesPreferenceSheet(
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
-                    visible.value = false
+                    onDismiss(false)
                 },
             ) {
                 AutoSizeText(stringResource(id = R.string.cancel))
@@ -88,12 +88,13 @@ fun ProcessImagesPreferenceSheet(
                     items(urisCorrespondingScreens) { screen ->
                         ScreenPreference(
                             screen = screen,
-                            navigate = navigate
+                            navigate = onNavigate
                         )
                     }
                 }
             }
         },
-        visible = visible
+        visible = visible,
+        onDismiss = onDismiss
     )
 }

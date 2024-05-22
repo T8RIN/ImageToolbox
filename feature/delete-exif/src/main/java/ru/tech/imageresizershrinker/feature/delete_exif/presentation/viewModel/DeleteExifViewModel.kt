@@ -244,4 +244,29 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            _done.value = 0
+            val list = mutableListOf<Uri>()
+            uris?.forEach {
+                imageGetter.getImage(
+                    it.toString()
+                )?.let { (image, imageInfo) ->
+                    shareProvider.cacheImage(
+                        image = image,
+                        imageInfo = imageInfo.copy(originalUri = it.toString())
+                    )?.let { uri ->
+                        list.add(uri.toUri())
+                    }
+                }
+                _done.value++
+            }
+            onComplete(list)
+            _isSaving.value = false
+        }
+    }
+
 }

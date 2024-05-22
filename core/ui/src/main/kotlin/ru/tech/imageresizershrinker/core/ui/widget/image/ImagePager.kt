@@ -48,9 +48,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -94,7 +96,9 @@ fun ImagePager(
         enter = PageOpenTransition,
         exit = PageCloseTransition
     ) {
-        val wantToEdit = rememberSaveable { mutableStateOf(false) }
+        var wantToEdit by rememberSaveable {
+            mutableStateOf(false)
+        }
         val state = rememberPagerState(
             initialPage = selectedUri?.let {
                 uris?.indexOf(it)
@@ -194,7 +198,7 @@ fun ImagePager(
                                     .size(40.dp)
                                     .clip(CircleShape)
                                     .clickable {
-                                        wantToEdit.value = true
+                                        wantToEdit = true
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
@@ -239,9 +243,12 @@ fun ImagePager(
         ProcessImagesPreferenceSheet(
             uris = listOfNotNull(selectedUri),
             visible = wantToEdit,
-            navigate = { screen ->
+            onDismiss = {
+                wantToEdit = it
+            },
+            onNavigate = { screen ->
                 scope.launch {
-                    wantToEdit.value = false
+                    wantToEdit = false
                     delay(200)
                     onNavigate(screen)
                 }

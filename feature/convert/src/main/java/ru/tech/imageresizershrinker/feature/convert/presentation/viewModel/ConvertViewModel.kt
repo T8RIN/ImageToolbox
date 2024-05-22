@@ -377,4 +377,37 @@ class ConvertViewModel @Inject constructor(
         }
     }
 
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            _done.value = 0
+            val list = mutableListOf<Uri>()
+            uris?.forEach {
+                imageGetter.getImage(it.toString())?.image?.let { bmp ->
+                    bmp to imageInfo.copy(
+                        originalUri = it.toString()
+                    ).let { info ->
+                        imageTransformer.applyPresetBy(
+                            image = bitmap,
+                            preset = Preset.Original,
+                            currentInfo = info
+                        )
+                    }
+                }?.let { (image, imageInfo) ->
+                    shareProvider.cacheImage(
+                        image = image,
+                        imageInfo = imageInfo.copy(originalUri = it.toString())
+                    )?.let { uri ->
+                        list.add(uri.toUri())
+                    }
+                }
+                _done.value += 1
+            }
+            onComplete(list)
+            _isSaving.value = false
+        }
+    }
+
 }

@@ -198,8 +198,9 @@ fun RootContent(
                 ProcessImagesPreferenceSheet(
                     uris = viewModel.uris ?: emptyList(),
                     extraImageType = viewModel.extraImageType,
-                    visible = showSelectSheet,
-                    navigate = { screen ->
+                    visible = showSelectSheet.value,
+                    onDismiss = { showSelectSheet.value = it },
+                    onNavigate = { screen ->
                         viewModel.navController.navigate(screen)
                         showSelectSheet.value = false
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

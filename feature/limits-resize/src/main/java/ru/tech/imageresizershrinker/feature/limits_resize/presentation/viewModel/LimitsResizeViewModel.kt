@@ -343,4 +343,42 @@ class LimitsResizeViewModel @Inject constructor(
         }
     }
 
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            _done.value = 0
+            val list = mutableListOf<Uri>()
+            uris?.forEach { uri ->
+                imageGetter.getImage(
+                    uri = uri.toString()
+                )?.image?.let { bitmap ->
+                    imageScaler.scaleImage(
+                        image = bitmap,
+                        width = imageInfo.width,
+                        height = imageInfo.height,
+                        resizeType = resizeType,
+                        imageScaleMode = imageInfo.imageScaleMode
+                    )
+                }?.let {
+                    it to imageInfo.copy(
+                        width = it.width,
+                        height = it.height
+                    )
+                }?.let { (image, imageInfo) ->
+                    shareProvider.cacheImage(
+                        image = image,
+                        imageInfo = imageInfo.copy(originalUri = uri.toString())
+                    )?.let { uri ->
+                        list.add(uri.toUri())
+                    }
+                }
+                _done.value += 1
+            }
+            onComplete(list)
+            _isSaving.value = false
+        }
+    }
+
 }

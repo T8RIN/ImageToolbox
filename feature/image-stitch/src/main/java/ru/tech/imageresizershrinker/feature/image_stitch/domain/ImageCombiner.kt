@@ -28,7 +28,8 @@ interface ImageCombiner<I> {
     suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
-        imageScale: Float
+        imageScale: Float,
+        onProgress: (Int) -> Unit
     ): Pair<I, ImageInfo>
 
     suspend fun calculateCombinedImageDimensions(

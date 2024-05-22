@@ -95,12 +95,12 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -118,6 +118,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
@@ -129,6 +130,7 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropView
 fun CropScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: CropViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
@@ -351,15 +353,33 @@ fun CropScreen(
                                     contentDescription = stringResource(R.string.reset_image)
                                 )
                             }
+                            var editSheetData by remember {
+                                mutableStateOf(listOf<Uri>())
+                            }
                             ShareButton(
                                 enabled = viewModel.bitmap != null,
                                 onShare = {
                                     viewModel.shareBitmap(showConfetti)
                                 },
-                                onCopy = { manager ->
+                                onCopy = {
                                     viewModel.cacheCurrentImage { uri ->
-                                        manager.setClip(uri.asClip(context))
-                                        showConfetti()
+                                        editSheetData = listOf(uri)
+                                    }
+                                }
+                            )
+                            ProcessImagesPreferenceSheet(
+                                uris = editSheetData,
+                                visible = editSheetData.isNotEmpty(),
+                                onDismiss = {
+                                    if (!it) {
+                                        editSheetData = emptyList()
+                                    }
+                                },
+                                onNavigate = { screen ->
+                                    scope.launch {
+                                        editSheetData = emptyList()
+                                        delay(200)
+                                        onNavigate(screen)
                                     }
                                 }
                             )
