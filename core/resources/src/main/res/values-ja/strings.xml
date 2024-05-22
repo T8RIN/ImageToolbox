@@ -684,7 +684,7 @@
     <string name="spline">スプライン</string>
     <string name="basic">基本</string>
     <string name="default_value">デフォルト値</string>
-    <string name="presets_sub">プリセット 125 を選択した場合、画像は元の画像の 125% のサイズで 100% の品質で保存されます。プリセット 50 を選択した場合、画像は 50% のサイズと 50% の品質で保存されます。</string>
+    <string name="presets_sub" formatted="false">プリセット 125 を選択した場合、画像は元の画像の 125% のサイズで 100% の品質で保存されます。プリセット 50 を選択した場合、画像は 50% のサイズと 50% の品質で保存されます。</string>
     <string name="value_in_range">%1$s - %2$s の範囲の値</string>
     <string name="sigma">シグマ</string>
     <string name="spatial_sigma">空間シグマ</string>

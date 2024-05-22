@@ -346,7 +346,7 @@
     <string name="free">Libre</string>
     <string name="images_overwritten">Mga larawang na-overwrite sa orihinal na destinasyon</string>
     <string name="emoji_as_color_scheme_sub">Gumagamit ng pangunahing kulay ng emoji bilang scheme ng kulay ng app sa halip na manu-manong tinukoy</string>
-    <string name="presets_sub">Kung pinili mo ang preset na 125, ang imahe ay ise-save bilang 125% na laki ng orihinal na imahe na may 100% na kalidad. Kung pipiliin mo ang preset na 50, mase-save ang larawan na may 50% na laki at 50% na kalidad.</string>
+    <string name="presets_sub" formatted="false">Kung pinili mo ang preset na 125, ang imahe ay ise-save bilang 125% na laki ng orihinal na imahe na may 100% na kalidad. Kung pipiliin mo ang preset na 50, mase-save ang larawan na may 50% na laki at 50% na kalidad.</string>
     <string name="presets_sub_bytes">Tinutukoy ng preset dito ang % ng output file, ibig sabihin, kung pipiliin mo ang preset na 50 sa 5mb na imahe pagkatapos ay makakakuha ka ng 2.5mb na imahe pagkatapos i-save</string>
     <string name="image_crop_mask_sub">Gamitin ang uri ng mask na ito upang lumikha ng mask mula sa ibinigay na larawan, pansinin na DAPAT itong magkaroon ng alpha channel</string>
     <string name="backup">Backup</string>

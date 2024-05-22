@@ -293,7 +293,7 @@
     <string name="skip">Pular</string>
     <string name="copy">Copiar</string>
     <string name="warning_bytes">Salvar no modo %1$s pode ser instável, pois é um formato sem perdas</string>
-    <string name="presets_sub">Se você selecionou a predefinição 125, a imagem será salva com tamanho de 125% a imagem original e qualidade de 100%. Se você escolher a predefinição 50, a imagem será salva com 50% tamanho e 50% qualidade.</string>
+    <string name="presets_sub" formatted="false">Se você selecionou a predefinição 125, a imagem será salva com tamanho de 125% a imagem original e qualidade de 100%. Se você escolher a predefinição 50, a imagem será salva com 50% tamanho e 50% qualidade.</string>
     <string name="presets_sub_bytes">A predefinição aqui determina a arquivo de saída, ou seja, se você selecionar a predefinição 50 em uma imagem de 5 MB, você obterá uma imagem de 2,5 MB após salvar</string>
     <string name="randomize_filename">Nome do arquivo aleatório</string>
     <string name="randomize_filename_sub">Se ativado, o nome do arquivo de saída será totalmente aleatório</string>

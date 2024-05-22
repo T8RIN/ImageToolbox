@@ -292,7 +292,7 @@
     <string name="copy">Copier</string>
     <string name="skip">Passer</string>
     <string name="warning_bytes">L’enregistrement en mode %1$s peut être instable, car c\'est un format sans perte</string>
-    <string name="presets_sub">Si vous avez sélectionné le préréglage 125, l\'image sera enregistrée avec une taille de 125 % de l\'image originale et une qualité de 100 %. Si vous sélectionnez le préréglage 50, l\'image sera enregistrée avec une taille de 50 % et une qualité de 50 %.</string>
+    <string name="presets_sub" formatted="false">Si vous avez sélectionné le préréglage 125, l\'image sera enregistrée avec une taille de 125 % de l\'image originale et une qualité de 100 %. Si vous sélectionnez le préréglage 50, l\'image sera enregistrée avec une taille de 50 % et une qualité de 50 %.</string>
     <string name="presets_sub_bytes">Ici, le préréglage détermine le pourcentage de la taille du fichier de sortie. Par exemple, si vous sélectionnez le préréglage 50 sur une image de 5 Mo, vous obtiendrez une image de 2,5 Mo après l\'enregistrement.</string>
     <string name="saved_to">Enregistré dans le dossier %1$s avec le nom %2$s</string>
     <string name="randomize_filename">Nom de fichier aléatoire</string>

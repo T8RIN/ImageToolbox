@@ -579,7 +579,7 @@
     <string name="images_overwritten">Hình ảnh bị ghi đè ở đích ban đầu</string>
     <string name="cannot_change_image_format">Không thể thay đổi định dạng hình ảnh khi bật tùy chọn ghi đè tệp</string>
     <string name="emoji_as_color_scheme">Biểu tượng cảm xúc dưới dạng bảng màu</string>
-    <string name="presets_sub">Nếu bạn đã chọn cài đặt trước 125, ảnh sẽ được lưu ở kích thước 125% của ảnh gốc với chất lượng 100%. Nếu bạn chọn cài đặt sẵn 50 thì ảnh sẽ được lưu với kích thước 50% và chất lượng 50%.</string>
+    <string name="presets_sub" formatted="false">Nếu bạn đã chọn cài đặt trước 125, ảnh sẽ được lưu ở kích thước 125% của ảnh gốc với chất lượng 100%. Nếu bạn chọn cài đặt sẵn 50 thì ảnh sẽ được lưu với kích thước 50% và chất lượng 50%.</string>
     <string name="crop_mask">Cắt mặt nạ</string>
     <string name="backup_sub">Sao lưu cài đặt ứng dụng của bạn vào một tập tin</string>
     <string name="corrupted_file_or_not_a_backup">Tệp bị hỏng hoặc không phải là bản sao lưu</string>

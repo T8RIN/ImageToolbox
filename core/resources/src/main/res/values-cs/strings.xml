@@ -684,7 +684,7 @@
     <string name="effort_sub">Hodnota %1$d znamená rychlou kompresi, která má za následek relativně velkou velikost souboru. %2$d znamená pomalejší kompresi, výsledkem je menší soubor.</string>
     <string name="saving_almost_complete">Ukládání téměř dokončeno. Zrušení nyní bude vyžadovat opětovné uložení.</string>
     <string name="presets_sub_bytes">Předvolba zde určuje % výstupního souboru, tj. pokud zvolíte předvolbu 50 na 5mb obrázku, získáte po uložení obrázek 2,5mb</string>
-    <string name="presets_sub">Pokud jste vybrali předvolbu 125, obrázek se uloží jako velikost 125 % původního obrázku se 100% kvalitou. Pokud zvolíte předvolbu 50, obrázek se uloží s 50% velikostí a 50% kvalitou.</string>
+    <string name="presets_sub" formatted="false">Pokud jste vybrali předvolbu 125, obrázek se uloží jako velikost 125 % původního obrázku se 100% kvalitou. Pokud zvolíte předvolbu 50, obrázek se uloží s 50% velikostí a 50% kvalitou.</string>
     <string name="aspect_ratio">Poměr stran</string>
     <string name="backup">Záloha</string>
     <string name="backup_sub">Zálohujte nastavení aplikace do souboru</string>

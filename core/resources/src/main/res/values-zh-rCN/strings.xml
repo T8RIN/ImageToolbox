@@ -314,7 +314,7 @@
     <string name="using_large_fonts_warn">使用大字体可能会导致 UI 故障和问题，这是无法修复的。谨慎使用。</string>
     <string name="randomize_filename">随机文件名</string>
     <string name="randomize_filename_sub">如果启用，输出文件名将是完全随机的</string>
-    <string name="presets_sub">如果你已经选择预设 125，图像将被保存为原始图像的 125% 大小，100% 质量，如果你选择预设50，那么图像将被保存为 50% 大小和 50% 质量</string>
+    <string name="presets_sub" formatted="false">如果你已经选择预设 125，图像将被保存为原始图像的 125% 大小，100% 质量，如果你选择预设50，那么图像将被保存为 50% 大小和 50% 质量</string>
     <string name="presets_sub_bytes">这里的预设决定了输出文件的 %，即如果你在5mb 的图像上选择预设 50，那么保存后你将得到2.5mb的图像</string>
     <string name="saved_to">已使用名称 %2$s 保存到 %1$s 文件夹</string>
     <string name="saved_to_without_filename">已保存到 %1$s 文件夹</string>

@@ -323,7 +323,7 @@
     <string name="empty">Tom</string>
     <string name="suffix">Suffiks</string>
     <string name="free">Gratis</string>
-    <string name="presets_sub">Hvis du har valgt forudindstilling 125, vil billedet blive gemt som 125 % størrelse af det originale billede med 100 % kvalitet. Hvis du vælger forudindstilling 50, vil billedet blive gemt med 50 % størrelse og 50 % kvalitet.</string>
+    <string name="presets_sub" formatted="false">Hvis du har valgt forudindstilling 125, vil billedet blive gemt som 125 % størrelse af det originale billede med 100 % kvalitet. Hvis du vælger forudindstilling 50, vil billedet blive gemt med 50 % størrelse og 50 % kvalitet.</string>
     <string name="presets_sub_bytes">Forudindstilling her bestemmer % af outputfilen, dvs. hvis du vælger forudindstillet 50 på 5mb billede, vil du få 2,5mb billede efter lagring</string>
     <string name="randomize_filename_sub">Hvis det er aktiveret, vil outputfilnavnet være helt tilfældigt</string>
     <string name="tg_chat_sub">Diskuter appen og få feedback fra andre brugere. Du kan også få betaopdateringer og indsigt her.</string>

@@ -362,7 +362,7 @@
     <string name="skip">Omet</string>
     <string name="copy">Copia</string>
     <string name="warning_bytes">Desar en mode %1$s pot ser inestable, perquè és un format sense pèrdues</string>
-    <string name="presets_sub">Si heu seleccionat el valor predefinit 125, la imatge es desarà com a mida del 125% de la imatge original amb una qualitat del 100%. Si trieu el valor predefinit 50, la imatge es desarà amb un 50% de mida i un 50% de qualitat.</string>
+    <string name="presets_sub" formatted="false">Si heu seleccionat el valor predefinit 125, la imatge es desarà com a mida del 125% de la imatge original amb una qualitat del 100%. Si trieu el valor predefinit 50, la imatge es desarà amb un 50% de mida i un 50% de qualitat.</string>
     <string name="presets_sub_bytes">El valor predefinit aquí determina el percentatge del fitxer de sortida, és a dir, si seleccioneu el valor predefinit 50 en una imatge de 5 MB, obtindreu una imatge de 2,5 MB després de desar-lo.</string>
     <string name="randomize_filename">Aleatoritzar el nom del fitxer</string>
     <string name="randomize_filename_sub">Si està activat, el nom del fitxer de sortida serà totalment aleatori</string>

@@ -513,7 +513,7 @@
     <string name="found_s">Talált: %1$s</string>
     <string name="group_options_by_type">Csoportosítsa a lehetőségeket típus szerint</string>
     <string name="edit_screenshot">Képernyőkép szerkesztése</string>
-    <string name="presets_sub">Ha a 125-ös beállítást választotta, a kép az eredeti kép 125% os méretében, 100% os minőségben kerül mentésre. Ha az 50-es előre beállított értéket választja, akkor a kép 50% méretben és 50% minőségben kerül mentésre.</string>
+    <string name="presets_sub" formatted="false">Ha a 125-ös beállítást választotta, a kép az eredeti kép 125% os méretében, 100% os minőségben kerül mentésre. Ha az 50-es előre beállított értéket választja, akkor a kép 50% méretben és 50% minőségben kerül mentésre.</string>
     <string name="presets_sub_bytes">A preset itt határozza meg a kimeneti fájl %-át, azaz ha az 50 preset értéket választja az 5 MB-os képen, akkor a mentés után 2,5 MB-os képet kap.</string>
     <string name="saved_to">Mentve %1$s mappába a következő névvel: %2$s</string>
     <string name="saved_to_without_filename">Mentve a(z) %1$s mappába</string>

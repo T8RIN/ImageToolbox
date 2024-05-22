@@ -628,7 +628,7 @@
     <string name="icon_shape">Oblika ikone</string>
     <string name="image_stitching">Šivanje slik</string>
     <string name="image_stitching_sub">Združite dane slike, da dobite eno veliko</string>
-    <string name="presets_sub">Če ste izbrali prednastavitev 125, bo slika shranjena v velikosti 125 % izvirne slike s 100 % kakovostjo. Če izberete prednastavitev 50, bo slika shranjena v 50 % velikosti in 50 % kakovosti.</string>
+    <string name="presets_sub" formatted="false">Če ste izbrali prednastavitev 125, bo slika shranjena v velikosti 125 % izvirne slike s 100 % kakovostjo. Če izberete prednastavitev 50, bo slika shranjena v 50 % velikosti in 50 % kakovosti.</string>
     <string name="brightness_enforcement">Uveljavljanje svetlosti</string>
     <string name="screen">zaslon</string>
     <string name="gradient_maker_type_image">Gradientno prekrivanje</string>

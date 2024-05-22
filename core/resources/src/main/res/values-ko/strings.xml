@@ -323,7 +323,7 @@
     <string name="overwrite_files_sub">선택한 폴더에 저장하는 대신 원본 파일이 새 파일로 대체됩니다. 이 옵션은 이미지 소스가 \"Explorer\" 또는 GetContent여야 하며, 이 옵션을 전환하면 자동으로 설정됩니다.</string>
     <string name="empty">비어 있는</string>
     <string name="free">무료</string>
-    <string name="presets_sub">사전 설정 125를 선택한 경우 이미지는 원본 이미지의 125% 크기, 100% 품질로 저장됩니다. 사전 설정 50을 선택하면 이미지는 크기 50%, 품질 50%로 저장됩니다.</string>
+    <string name="presets_sub" formatted="false">사전 설정 125를 선택한 경우 이미지는 원본 이미지의 125% 크기, 100% 품질로 저장됩니다. 사전 설정 50을 선택하면 이미지는 크기 50%, 품질 50%로 저장됩니다.</string>
     <string name="presets_sub_bytes">여기 사전 설정은 출력 파일의 %를 결정합니다. 즉, 5MB 이미지에서 사전 설정 50을 선택하면 저장 후 2.5MB 이미지를 얻게 됩니다.</string>
     <string name="randomize_filename_sub">활성화하면 출력 파일 이름이 완전히 무작위가 됩니다.</string>
     <string name="saved_to_without_filename">%1$s 폴더에 저장됨</string>

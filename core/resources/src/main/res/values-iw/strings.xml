@@ -357,7 +357,7 @@
     <string name="images_overwritten">תמונות שהוחלפו ביעד המקורי</string>
     <string name="cannot_change_image_format">לא ניתן לשנות את פורמט התמונה כאשר אפשרות החלפת קבצים מופעלת</string>
     <string name="emoji_as_color_scheme">אמוג\'י בתור ערכת צבעים</string>
-    <string name="presets_sub">אם בחרת מראש 125, התמונה תישמר בגודל של 125% מהתמונה המקורית באיכות של 100%. אם תבחר 50 מוגדר מראש, התמונה תישמר בגודל של 50% ובאיכות של 50%.</string>
+    <string name="presets_sub" formatted="false">אם בחרת מראש 125, התמונה תישמר בגודל של 125% מהתמונה המקורית באיכות של 100%. אם תבחר 50 מוגדר מראש, התמונה תישמר בגודל של 50% ובאיכות של 50%.</string>
     <string name="presets_sub_bytes">הגדרה מראש כאן קובעת את % מקובץ הפלט, כלומר אם תבחר מוגדר מראש 50 בתמונה של 5MB אז תקבל תמונה של 2.5MB לאחר השמירה</string>
     <string name="image_crop_mask_sub">השתמש בסוג המסכה הזה כדי ליצור מסכה מהתמונה הנתונה, שימו לב שהיא אמורה להיות בעלת ערוץ אלפא</string>
     <string name="backup_sub">גבה את הגדרות האפליקציה שלך לקובץ</string>

@@ -304,7 +304,7 @@
     <string name="restore">還原</string>
     <string name="backup_sub">備份您的應用程式設定為檔案</string>
     <string name="randomize_filename">隨機化檔案名稱</string>
-    <string name="presets_sub">如果您選取預設 125 ，則圖片將儲存為 125% 原始圖片尺寸與 100% 品質；如果您選擇了預設 50，則圖片將儲存為 50% 尺寸與 50% 品質。</string>
+    <string name="presets_sub" formatted="false">如果您選取預設 125 ，則圖片將儲存為 125% 原始圖片尺寸與 100% 品質；如果您選擇了預設 50，則圖片將儲存為 50% 尺寸與 50% 品質。</string>
     <string name="presets_sub_bytes">這裡的預設決定了輸出檔案的百分比，如果您選擇了預設 50 於 5mb 圖片，則在儲存後您將會獲得 2.5mb 的圖片</string>
     <string name="randomize_filename_sub">如果您啟用了，則輸出檔名將會是完全隨機的</string>
     <string name="saved_to">已儲存名為 %2$s 至 %1$s 資料夾</string>

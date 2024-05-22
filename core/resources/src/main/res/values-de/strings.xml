@@ -292,7 +292,7 @@
     <string name="fallback_option">Fallback-Option</string>
     <string name="skip">Überspringen</string>
     <string name="copy">Kopieren</string>
-    <string name="presets_sub">Wenn Du die Voreinstellung 50 wählst, wird das Bild mit einer Kantenlänge von 50% des Ursprungsbildes und einer Qualität von 50% gespeichert. Erstellst Du die Voreinstellung 125, wird das Bild damit mit einer Kantenlänge von 125% des Ursprungsbildes und in einer Qualität von 100% gespeichert.</string>
+    <string name="presets_sub" formatted="false">Wenn Du die Voreinstellung 50 wählst, wird das Bild mit einer Kantenlänge von 50% des Ursprungsbildes und einer Qualität von 50% gespeichert. Erstellst Du die Voreinstellung 125, wird das Bild damit mit einer Kantenlänge von 125% des Ursprungsbildes und in einer Qualität von 100% gespeichert.</string>
     <string name="presets_sub_bytes">Die Voreinstellung legt hier den Prozentsatz der Ausgabedatei fest, d. h. wenn Du die Voreinstellung 50 für ein 5 MB großes Bild wählst, erhältst Du nach dem Speichern ein 2,5 MB großes Bild.</string>
     <string name="randomize_filename">Zufälligen Dateinamen erzeugen</string>
     <string name="randomize_filename_sub">Wenn aktiviert, wird der Dateiname völlig zufällig gewählt.</string>

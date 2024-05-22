@@ -719,7 +719,7 @@
     <string name="random_emojis_error">Ezin da erabili ausazko emojiak hautatzea emojiak desgaituta dauden bitartean</string>
     <string name="emoji_selection_error">Ezin da emojirik hautatu ausazko bat gaituta dagoen bitartean</string>
     <string name="check_for_updates">Egiaztatu eguneratzeak</string>
-    <string name="presets_sub">Aurrez ezarritako 125a aukeratu baduzu, irudia jatorrizko irudiaren % 125eko tamainan gordeko da, % 100eko kalitatearekin. Aurrez ezarritako 50 aukeratzen baduzu, irudia% 50eko tamainarekin eta% 50eko kalitatearekin gordeko da.</string>
+    <string name="presets_sub" formatted="false">Aurrez ezarritako 125a aukeratu baduzu, irudia jatorrizko irudiaren % 125eko tamainan gordeko da, % 100eko kalitatearekin. Aurrez ezarritako 50 aukeratzen baduzu, irudia% 50eko tamainarekin eta% 50eko kalitatearekin gordeko da.</string>
     <string name="old_tv">Telebista Zaharra</string>
     <string name="shuffle_blur">Nahastu Lausotzea</string>
     <string name="recognize_text">OCR (testua ezagutu)</string>

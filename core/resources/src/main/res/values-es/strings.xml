@@ -308,7 +308,7 @@
     <string name="effort_sub">Un valor de %1$d significa comprimir rápidamente, resultando en un peso de archivo relativamente grande. %2$d significa tomar más tiempo comprimiendo, resultando en un peso de archivo más pequeño</string>
     <string name="backup_sub">Respalda tus configuraciones en la app a un archivo</string>
     <string name="corrupted_file_or_not_a_backup">Archivo corrompido o no es un respaldo</string>
-    <string name="presets_sub">Si has seleccionado el preajuste 125, la imagen se guardará al 125% del tamaño de la imagen original con su calidad al 100%, y si escoges el preajuste 50 entonces la imagen se guardará al 50% del tamaño original con su calidad al 50%</string>
+    <string name="presets_sub" formatted="false">Si has seleccionado el preajuste 125, la imagen se guardará al 125% del tamaño de la imagen original con su calidad al 100%, y si escoges el preajuste 50 entonces la imagen se guardará al 50% del tamaño original con su calidad al 50%</string>
     <string name="analytics_sub">Permitir la recolección de estadísticas anónimas de uso de la app</string>
     <string name="font_scale">Tamaño de fuente</string>
     <string name="allow_betas">Permitir betas</string>

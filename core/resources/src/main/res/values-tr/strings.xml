@@ -336,7 +336,7 @@
     <string name="auto_pin_sub">Etkinleştirilirse kaydedilen görüntüyü otomatik olarak panoya ekler</string>
     <string name="search_option">Aramak</string>
     <string name="free">Özgür</string>
-    <string name="presets_sub">Ön ayar 125\'i seçtiyseniz görüntü, orijinal görüntünün %125 boyutunda ve %100 kalitede kaydedilecektir. Ön ayar 50\'yi seçerseniz görüntü %50 boyut ve %50 kaliteyle kaydedilir.</string>
+    <string name="presets_sub" formatted="false">Ön ayar 125\'i seçtiyseniz görüntü, orijinal görüntünün %125 boyutunda ve %100 kalitede kaydedilecektir. Ön ayar 50\'yi seçerseniz görüntü %50 boyut ve %50 kaliteyle kaydedilir.</string>
     <string name="presets_sub_bytes">Buradaki ön ayar, çıktı dosyasının %\'sini belirler, yani 5 MB görüntüde ön ayar 50\'yi seçerseniz, kaydettikten sonra 2,5 MB görüntü elde edersiniz.</string>
     <string name="crop_mask">Kırpma maskesi</string>
     <string name="aspect_ratio">En boy oranı</string>

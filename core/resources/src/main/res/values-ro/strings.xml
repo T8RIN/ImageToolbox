@@ -329,7 +329,7 @@
     <string name="settings_restored">Setările restaurate cu succes</string>
     <string name="contact_me">Contactați-mă</string>
     <string name="restore_sub">Restaurați setările aplicației din fișierul generat anterior</string>
-    <string name="presets_sub">Dacă ați selectat presetarea 125, imaginea va fi salvată la 125% din dimensiunea imaginii originale la o calitate de 100%, iar dacă alegeți presetarea 50, atunci imaginea va fi salvată la o dimensiune de 50% și o calitate de 50%.</string>
+    <string name="presets_sub" formatted="false">Dacă ați selectat presetarea 125, imaginea va fi salvată la 125% din dimensiunea imaginii originale la o calitate de 100%, iar dacă alegeți presetarea 50, atunci imaginea va fi salvată la o dimensiune de 50% și o calitate de 50%.</string>
     <string name="restore_background">Restaurați fundalul</string>
     <string name="corrupted_file_or_not_a_backup">Fișier coruptat sau nu este un backup</string>
     <string name="reset_settings_sub">Acest lucru vă va readuce setările la valorile implicite, observați că acest lucru nu poate fi anulat fără fișierul de backup din opțiunea de mai sus.</string>
