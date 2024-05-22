@@ -1081,4 +1081,12 @@
     <string name="scale_color_space">कलर स्पेस को स्केल करें</string>
     <string name="linear">रेखीय</string>
     <string name="equalize_histogram_pixelation">हिस्टोग्राम पिक्सलेशन को समान करें</string>
+    <string name="grid_size_x">ग्रिड आकार X</string>
+    <string name="grid_size_y">ग्रिड आकार Y</string>
+    <string name="equalize_histogram_adaptive">हिस्टोग्राम अनुकूली को समान करें</string>
+    <string name="equalize_histogram_adaptive_luv">हिस्टोग्राम अनुकूली को समान करें LUV</string>
+    <string name="equalize_histogram_adaptive_lab">हिस्टोग्राम अनुकूली को समान करें LAB</string>
+    <string name="clahe">क्लैहे</string>
+    <string name="clahe_lab">क्लैहे LAB</string>
+    <string name="clahe_luv">क्लैहे LUV</string>
 </resources>

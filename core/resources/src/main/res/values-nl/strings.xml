@@ -1081,4 +1081,12 @@
     <string name="scale_color_space">Kleurruimte-schaal</string>
     <string name="linear">Lineair</string>
     <string name="equalize_histogram_pixelation">Pixelvorming-histogram vereffenen</string>
+    <string name="equalize_histogram_adaptive_luv">Histogram adaptief vereffenen LUV</string>
+    <string name="equalize_histogram_adaptive_lab">Histogram adaptief vereffenen LAB</string>
+    <string name="grid_size_x">Rastergrootte X</string>
+    <string name="grid_size_y">Rastergrootte Y</string>
+    <string name="equalize_histogram_adaptive">Histogram adaptief vereffenen</string>
+    <string name="clahe">Clahe</string>
+    <string name="clahe_lab">Clahe LAB</string>
+    <string name="clahe_luv">Clahe LUV</string>
 </resources>
