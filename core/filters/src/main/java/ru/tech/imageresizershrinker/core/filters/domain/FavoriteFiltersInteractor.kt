@@ -31,10 +31,18 @@ interface FavoriteFiltersInteractor<Image> {
 
     fun getTemplateFilters(): Flow<List<TemplateFilter<Image>>>
 
-    suspend fun addTemplateFilterFromString(string: String)
+    suspend fun addTemplateFilterFromString(
+        string: String,
+        onError: suspend () -> Unit
+    )
 
     suspend fun convertTemplateFilterToString(templateFilter: TemplateFilter<Image>): String
 
     suspend fun removeTemplateFilter(templateFilter: TemplateFilter<Image>)
+
+    suspend fun addTemplateFilterFromUri(
+        uri: String,
+        onError: suspend () -> Unit
+    )
 
 }

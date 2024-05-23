@@ -19,14 +19,16 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.t8rin.logger.makeLog
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -47,6 +49,7 @@ import javax.inject.Inject
 import kotlin.reflect.full.primaryConstructor
 
 internal class FavoriteFiltersInteractorImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     @FilterInteractorDataStore private val dataStore: DataStore<Preferences>
 ) : FavoriteFiltersInteractor<Bitmap> {
 
@@ -76,8 +79,25 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             prefs[TEMPLATE_FILTERS]?.toTemplateFiltersList() ?: emptyList()
         }
 
-    override suspend fun addTemplateFilterFromString(string: String) {
-        string.toTemplateFiltersList().firstOrNull()?.let { addTemplateFilter(it) }
+    override suspend fun addTemplateFilterFromString(
+        string: String,
+        onError: suspend () -> Unit
+    ) {
+        if (context.applicationInfo.packageName in string && "Filter" in string) {
+            string.toTemplateFiltersList().firstOrNull()?.let { addTemplateFilter(it) }
+        } else onError()
+    }
+
+    override suspend fun addTemplateFilterFromUri(
+        uri: String,
+        onError: suspend () -> Unit
+    ) {
+        context.contentResolver.openInputStream(uri.toUri())?.use {
+            addTemplateFilterFromString(
+                string = it.readBytes().decodeToString(),
+                onError = onError
+            )
+        }
     }
 
     override suspend fun removeTemplateFilter(templateFilter: TemplateFilter<Bitmap>) {
@@ -305,7 +325,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
     private fun String.toFiltersList(
         includeValue: Boolean
-    ): List<Filter<Bitmap, *>> = makeLog("COCK").split(",").mapNotNull {
+    ): List<Filter<Bitmap, *>> = split(",").mapNotNull {
         val (name, value) = if (includeValue) {
             runCatching {
                 val splitData = it.split(":")

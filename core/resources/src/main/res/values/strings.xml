@@ -1113,6 +1113,9 @@
     <string name="template">Template</string>
     <string name="no_template_filters">No template filters added</string>
     <string name="create_new">Create New</string>
-    <string name="scanned_qr_code_isnt_filter_template">Scanned QR Code isn\'t a valid filter template!</string>
+    <string name="scanned_qr_code_isnt_filter_template">Scanned QR Code isn\'t a valid filter template</string>
     <string name="scan_qr_code">Scan QR Code</string>
+    <string name="opened_file_have_no_filter_template">Selected file have no filter template data</string>
+    <string name="create_template">Create Template</string>
+    <string name="template_name">Template Name</string>
 </resources>

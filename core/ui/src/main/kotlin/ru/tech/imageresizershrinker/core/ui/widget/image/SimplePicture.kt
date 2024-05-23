@@ -41,6 +41,7 @@ fun SimplePicture(
     modifier: Modifier = Modifier,
     scale: ContentScale = ContentScale.Fit,
     boxModifier: Modifier = Modifier,
+    enableContainer: Boolean = true,
     loading: Boolean = false,
     visible: Boolean = true
 ) {
@@ -49,8 +50,13 @@ fun SimplePicture(
         ?.let {
             Box(
                 modifier = boxModifier
-                    .container()
-                    .padding(4.dp),
+                    .then(
+                        if (enableContainer) {
+                            Modifier
+                                .container()
+                                .padding(4.dp)
+                        } else Modifier
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Image(

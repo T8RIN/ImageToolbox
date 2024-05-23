@@ -20,4 +20,12 @@ package ru.tech.imageresizershrinker.core.filters.domain.model
 data class TemplateFilter<Image>(
     val name: String,
     val filters: List<Filter<Image, *>>
-)
+) {
+    companion object {
+        @Suppress("FunctionName")
+        fun <Image> Empty(): TemplateFilter<Image> = TemplateFilter(
+            name = "",
+            filters = emptyList()
+        )
+    }
+}
