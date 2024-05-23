@@ -24,10 +24,13 @@ plugins {
 android.namespace = "ru.tech.imageresizershrinker.core.ui"
 
 dependencies {
+    api(projects.core.resources)
+    api(projects.core.domain)
+    implementation(projects.core.settings)
+
+    // Navigation
     api(libs.reimagined)
     api(libs.reimagined.hilt)
-
-    api(libs.androidx.documentfile)
 
     //AndroidX
     api(libs.activityCompose)
@@ -35,6 +38,7 @@ dependencies {
     api(libs.androidx.exifinterface)
     api(libs.appCompat)
     api(libs.androidx.lifecycle.viewmodel.compose)
+    api(libs.androidx.documentfile)
 
     //Konfetti
     api(libs.konfetti.compose)
@@ -47,7 +51,6 @@ dependencies {
 
     //Modules
     api(libs.imageToolboxLibs)
-    api(projects.core.domain)
 
     api(libs.reorderable)
 
@@ -68,10 +71,8 @@ dependencies {
     "marketImplementation"(libs.app.update)
     "marketImplementation"(libs.app.update.ktx)
 
-    api(projects.core.resources)
-
-    implementation(projects.core.settings)
-
     "marketImplementation"(libs.mlkit.document.scanner)
     "fossImplementation"(libs.documentscanner)
+
+    api(libs.zxing.android.embedded)
 }
