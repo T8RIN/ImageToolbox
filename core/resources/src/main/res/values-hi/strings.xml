@@ -1089,4 +1089,7 @@
     <string name="clahe">क्लैहे</string>
     <string name="clahe_lab">क्लैहे LAB</string>
     <string name="clahe_luv">क्लैहे LUV</string>
+    <string name="crop_to_content">सामग्री के अनुसार काटें</string>
+    <string name="frame_color">फ्रेम का रंग</string>
+    <string name="color_to_ignore">नज़रअंदाज़ करने के लिए रंग</string>
 </resources>
