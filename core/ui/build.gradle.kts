@@ -74,5 +74,7 @@ dependencies {
     "marketImplementation"(libs.mlkit.document.scanner)
     "fossImplementation"(libs.documentscanner)
 
+    "marketImplementation"(libs.play.services.code.scanner)
+
     api(libs.zxing.android.embedded)
 }

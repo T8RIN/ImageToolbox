@@ -3,6 +3,7 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
+playServicesCodeScanner = "16.1.0"
 versionName = "2.8.2-alpha03"
 versionCode = "139"
 
@@ -89,6 +90,7 @@ fadingEdges = { module = "com.github.t8rin:ComposeFadingEdges", version.ref = "f
 firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
 konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfettiCompose" }
 mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
+play-services-code-scanner = { module = "com.google.android.gms:play-services-code-scanner", version.ref = "playServicesCodeScanner" }
 reimagined = { module = "dev.olshevski.navigation:reimagined", version.ref = "reimagined" }
 reimagined-hilt = { module = "dev.olshevski.navigation:reimagined-hilt", version.ref = "reimagined" }
 shadowsPlus = { module = "com.github.GIGAMOLE:ComposeShadowsPlus", version.ref = "shadowsPlus" }

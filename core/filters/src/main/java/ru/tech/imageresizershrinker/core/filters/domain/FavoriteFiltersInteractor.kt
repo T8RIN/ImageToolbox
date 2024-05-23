@@ -19,11 +19,22 @@ package ru.tech.imageresizershrinker.core.filters.domain
 
 import kotlinx.coroutines.flow.Flow
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 
 interface FavoriteFiltersInteractor<Image> {
 
     fun getFavoriteFilters(): Flow<List<Filter<Image, *>>>
 
     suspend fun toggleFavorite(filter: Filter<Image, *>)
+
+    suspend fun addTemplateFilter(templateFilter: TemplateFilter<Image>)
+
+    fun getTemplateFilters(): Flow<List<TemplateFilter<Image>>>
+
+    suspend fun addTemplateFilterFromString(string: String)
+
+    suspend fun convertTemplateFilterToString(templateFilter: TemplateFilter<Image>): String
+
+    suspend fun removeTemplateFilter(templateFilter: TemplateFilter<Image>)
 
 }

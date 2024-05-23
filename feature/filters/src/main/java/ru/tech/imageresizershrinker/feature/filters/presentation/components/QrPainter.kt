@@ -18,11 +18,17 @@
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -30,6 +36,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -37,6 +44,7 @@ import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 
 /**
  * Creates a [BitmapPainter] that draws a QR code for the given [content].
@@ -52,27 +60,28 @@ fun rememberQrBitmapPainter(
     backgroundColor: Color = MaterialTheme.colorScheme.tertiaryContainer
 ): BitmapPainter {
 
-    check(content.isNotEmpty()) { "Content must not be empty" }
-    check(size >= 0.dp) { "Size must be positive" }
-    check(padding >= 0.dp) { "Padding must be positive" }
+    check(size >= 0.dp) { "Size must be non negative" }
+    check(padding >= 0.dp) { "Padding must be non negative" }
 
     val density = LocalDensity.current
     val sizePx = with(density) { size.roundToPx() }
     val paddingPx = with(density) { padding.roundToPx() }
 
-    val bitmapState = remember {
+    val bitmapState = remember(content) {
         mutableStateOf<Bitmap?>(null)
     }
 
     // Use dependency on 'content' to re-trigger the effect when content changes
-    LaunchedEffect(content) {
-        bitmapState.value = generateQrBitmap(
-            content = content,
-            sizePx = sizePx,
-            paddingPx = paddingPx,
-            foregroundColor = foregroundColor,
-            backgroundColor = backgroundColor
-        )
+    LaunchedEffect(content, sizePx, paddingPx, foregroundColor, backgroundColor) {
+        if (content.isNotEmpty()) {
+            bitmapState.value = generateQrBitmap(
+                content = content,
+                sizePx = sizePx,
+                paddingPx = paddingPx,
+                foregroundColor = foregroundColor,
+                backgroundColor = backgroundColor
+            )
+        } else bitmapState.value = null
     }
 
     val bitmap = bitmapState.value ?: createDefaultBitmap(sizePx)
@@ -137,5 +146,27 @@ private suspend fun generateQrBitmap(
 private fun createDefaultBitmap(sizePx: Int): Bitmap {
     return Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888).apply {
         eraseColor(Color.Transparent.toArgb())
+    }
+}
+
+@Composable
+fun QrCode(
+    content: String,
+    modifier: Modifier = Modifier
+) {
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = rememberQrBitmapPainter(
+                content = content,
+                size = min(maxWidth, maxHeight)
+            ),
+            modifier = Modifier
+                .clip(RoundedCornerShape(4.dp))
+                .shimmer(content.isEmpty()),
+            contentDescription = null
+        )
     }
 }

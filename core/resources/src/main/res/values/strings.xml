@@ -1110,4 +1110,8 @@
     <string name="crop_to_content">Crop To Content</string>
     <string name="frame_color">Frame Color</string>
     <string name="color_to_ignore">Color To Ignore</string>
+    <string name="template">Template</string>
+    <string name="no_template_filters">No template filters added</string>
+    <string name="create_new">Create New</string>
+    <string name="scanned_qr_code_isnt_filter_template">Scanned QR Code isn\'t a valid filter template!</string>
 </resources>
