@@ -32,8 +32,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,6 +58,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -79,6 +82,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
@@ -102,14 +106,6 @@ internal fun FilterTemplateCreationSheet(
 ) {
     ScopedViewModelContainer<FilterTemplateCreationSheetViewModel> { disposable ->
         val viewModel = this
-
-        var selectedUri by rememberSaveable {
-            mutableStateOf<Uri?>(null)
-        }
-
-        LaunchedEffect(selectedUri) {
-            viewModel.setUri(selectedUri)
-        }
 
         val isPortrait by isPortraitOrientationAsState()
 
@@ -175,6 +171,14 @@ internal fun FilterTemplateCreationSheet(
             enableBackHandler = false
         ) {
             var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
+
+            var selectedUri by rememberSaveable {
+                mutableStateOf<Uri?>(null)
+            }
+
+            LaunchedEffect(selectedUri) {
+                viewModel.setUri(selectedUri)
+            }
 
             disposable()
             if (visible) {
@@ -242,17 +246,31 @@ internal fun FilterTemplateCreationSheet(
                         ) { notEmpty ->
                             if (notEmpty) {
                                 Column {
+                                    Spacer(Modifier.height(16.dp))
+                                    ImageSelector(
+                                        value = selectedUri ?: R.drawable.filter_preview_source,
+                                        onValueChange = { selectedUri = it },
+                                        subtitle = stringResource(id = R.string.select_template_preview),
+                                        shape = RoundedCornerShape(16.dp),
+                                        modifier = Modifier.padding(horizontal = 16.dp),
+                                        color = Color.Unspecified
+                                    )
+                                    Spacer(Modifier.height(16.dp))
                                     RoundedTextField(
                                         modifier = Modifier
-                                            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                                            .container(MaterialTheme.shapes.large),
+                                            .padding(horizontal = 16.dp)
+                                            .container(
+                                                shape = MaterialTheme.shapes.large,
+                                                resultPadding = 8.dp
+                                            ),
                                         onValueChange = viewModel::updateTemplateName,
                                         value = viewModel.templateName,
                                         label = stringResource(R.string.template_name)
                                     )
+                                    Spacer(Modifier.height(16.dp))
                                     Column(
                                         Modifier
-                                            .padding(16.dp)
+                                            .padding(horizontal = 16.dp)
                                             .container(MaterialTheme.shapes.extraLarge)
                                     ) {
                                         TitleItem(text = stringResource(R.string.filters))
@@ -300,14 +318,26 @@ internal fun FilterTemplateCreationSheet(
                                             )
                                         }
                                     }
+                                    Spacer(Modifier.height(16.dp))
                                 }
                             } else {
+                                Spacer(Modifier.height(16.dp))
+                                ImageSelector(
+                                    value = selectedUri ?: R.drawable.filter_preview_source,
+                                    onValueChange = { selectedUri = it },
+                                    subtitle = stringResource(id = R.string.select_template_preview),
+                                    shape = RoundedCornerShape(16.dp),
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    color = Color.Unspecified
+                                )
+                                Spacer(Modifier.height(16.dp))
                                 AddFilterButton(
                                     onClick = {
                                         showAddFilterSheet.value = true
                                     },
-                                    modifier = Modifier.padding(16.dp)
+                                    modifier = Modifier.padding(horizontal = 16.dp)
                                 )
+                                Spacer(Modifier.height(16.dp))
                             }
                         }
                     }

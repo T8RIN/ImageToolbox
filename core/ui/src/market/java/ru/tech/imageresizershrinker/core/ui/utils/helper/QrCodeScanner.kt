@@ -38,7 +38,6 @@ class QrCodeScanner internal constructor(
     fun scan() {
         val options = GmsBarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-            .enableAutoZoom()
             .build()
 
         val scanner = GmsBarcodeScanning.getClient(context, options)

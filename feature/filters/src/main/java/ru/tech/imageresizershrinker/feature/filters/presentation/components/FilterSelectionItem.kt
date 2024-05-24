@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
-import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -82,7 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 internal fun FilterSelectionItem(
     filter: UiFilter<*>,
     isFavoritePage: Boolean,
-    previewBitmap: Bitmap?,
+    canOpenPreview: Boolean,
     favoriteFilters: List<UiFilter<*>>,
     onLongClick: () -> Unit,
     onClick: () -> Unit,
@@ -147,7 +146,7 @@ internal fun FilterSelectionItem(
                                 .shimmer(loading)
                         )
                     }
-                    if (previewBitmap != null) {
+                    if (canOpenPreview) {
                         Box(
                             modifier = Modifier
                                 .size(36.dp)

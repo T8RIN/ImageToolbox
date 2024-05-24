@@ -1118,4 +1118,6 @@
     <string name="opened_file_have_no_filter_template">Selected file have no filter template data</string>
     <string name="create_template">Create Template</string>
     <string name="template_name">Template Name</string>
+    <string name="select_template_preview">This image will be used to preview this filter template</string>
+    <string name="template_filter">Template Filter</string>
 </resources>

@@ -315,7 +315,7 @@ fun AddFiltersSheet(
                                     FilterSelectionItem(
                                         filter = filter,
                                         isFavoritePage = false,
-                                        previewBitmap = previewBitmap,
+                                        canOpenPreview = previewBitmap != null,
                                         favoriteFilters = favoriteFilters,
                                         onLongClick = {
                                             previewSheetData = filter
@@ -418,8 +418,7 @@ fun AddFiltersSheet(
                                     ) {
                                         itemsIndexed(templateFilters) { index, filter ->
                                             TemplateFilterSelectionItem(
-                                                filter = filter,
-                                                previewBitmap = previewBitmap,
+                                                templateFilter = filter,
                                                 onClick = {
                                                     visible.value = false
                                                     filter.filters.forEach {
@@ -484,7 +483,7 @@ fun AddFiltersSheet(
                                             FilterSelectionItem(
                                                 filter = filter,
                                                 isFavoritePage = true,
-                                                previewBitmap = previewBitmap,
+                                                canOpenPreview = previewBitmap != null,
                                                 favoriteFilters = favoriteFilters,
                                                 onLongClick = {
                                                     previewSheetData = filter
@@ -513,7 +512,7 @@ fun AddFiltersSheet(
                                 itemsIndexed(filters) { index, filter ->
                                     FilterSelectionItem(
                                         filter = filter,
-                                        previewBitmap = previewBitmap,
+                                        canOpenPreview = previewBitmap != null,
                                         favoriteFilters = favoriteFilters,
                                         onLongClick = {
                                             previewSheetData = filter

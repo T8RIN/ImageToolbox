@@ -128,13 +128,13 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
     private fun Any.toPair(): Pair<String, String>? {
         return when (this) {
-            is Int -> "Int" to toString()
-            is Float -> "Float" to toString()
-            is Unit -> "Unit" to "Unit"
-            is FloatArray -> "FloatArray" to joinToString(separator = "$") { it.toString() }
+            is Int -> Int::class.simpleName!! to toString()
+            is Float -> Float::class.simpleName!! to toString()
+            is Unit -> Unit::class.simpleName!! to "Unit"
+            is FloatArray -> FloatArray::class.simpleName!! to joinToString(separator = "$") { it.toString() }
             is FilterValueWrapper<*> -> {
                 when (wrapped) {
-                    is Color -> "FilterValueWrapper{Color}" to (wrapped as Color).toArgb()
+                    is Color -> "${FilterValueWrapper::class.simpleName!!}{${Color::class.simpleName}}" to (wrapped as Color).toArgb()
                         .toString()
 
                     else -> null
@@ -145,7 +145,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 val firstPart = first!!.toPart()
                 val secondPart = second!!.toPart()
 
-                "Pair{${first!!::class.simpleName}$${second!!::class.simpleName}}" to ("$firstPart$$secondPart")
+                "${Pair::class.simpleName}{${first!!::class.simpleName}$${second!!::class.simpleName}}" to ("$firstPart$$secondPart")
             }
 
             is Triple<*, *, *> -> {
@@ -153,35 +153,35 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 val secondPart = second!!.toPart()
                 val thirdPart = third!!.toPart()
 
-                "Triple{${first!!::class.simpleName}$${second!!::class.simpleName}$${third!!::class.simpleName}}" to ("$firstPart$$secondPart$$thirdPart")
+                "${Triple::class.simpleName}{${first!!::class.simpleName}$${second!!::class.simpleName}$${third!!::class.simpleName}}" to ("$firstPart$$secondPart$$thirdPart")
             }
 
             is BokehParams -> {
-                "BokehParams" to "$radius$$amount$$scale"
+                BokehParams::class.simpleName!! to "$radius$$amount$$scale"
             }
 
             is GlitchParams -> {
-                "GlitchParams" to "$channelsShiftX$$channelsShiftY$$corruptionSize$$corruptionCount$$corruptionShiftX$$corruptionShiftY"
+                GlitchParams::class.simpleName!! to "$channelsShiftX$$channelsShiftY$$corruptionSize$$corruptionCount$$corruptionShiftX$$corruptionShiftY"
             }
 
             is LinearTiltShiftParams -> {
-                "LinearTiltShiftParams" to "$blurRadius$$sigma$$anchorX$$anchorY$$holeRadius$$angle"
+                LinearTiltShiftParams::class.simpleName!! to "$blurRadius$$sigma$$anchorX$$anchorY$$holeRadius$$angle"
             }
 
             is RadialTiltShiftParams -> {
-                "RadialTiltShiftParams" to "$blurRadius$$sigma$$anchorX$$anchorY$$holeRadius"
+                RadialTiltShiftParams::class.simpleName!! to "$blurRadius$$sigma$$anchorX$$anchorY$$holeRadius"
             }
 
             is MotionBlurParams -> {
-                "MotionBlurParams" to "$radius$$sigma$$centerX$$centerY$$strength$$angle"
+                MotionBlurParams::class.simpleName!! to "$radius$$sigma$$centerX$$centerY$$strength$$angle"
             }
 
             is SideFadeParams.Relative -> {
-                "SideFadeParams" to "${side.name}$$scale"
+                SideFadeParams::class.simpleName!! to "${side.name}$$scale"
             }
 
             is WaterParams -> {
-                "WaterParams" to "$fractionSize$$frequencyX$$frequencyY$$amplitudeX$$amplitudeY"
+                WaterParams::class.simpleName!! to "$fractionSize$$frequencyX$$frequencyY$$amplitudeX$$amplitudeY"
             }
 
             else -> null
@@ -193,25 +193,28 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         val value = second.trim()
 
         return when {
-            name == "Int" -> second.toInt()
-            name == "Float" -> second.toFloat()
-            name == "Boolean" -> second.toBoolean()
-            name == "Unit" -> Unit
-            name == "FloatArray" -> value.split("$").map { it.toFloat() }.toFloatArray()
-            "FilterValueWrapper{" in name -> {
+            name == Int::class.simpleName -> second.toInt()
+            name == Float::class.simpleName -> second.toFloat()
+            name == Boolean::class.simpleName -> second.toBoolean()
+            name == Unit::class.simpleName -> Unit
+            name == FloatArray::class.simpleName -> value.split("$")
+                .map { it.toFloat() }
+                .toFloatArray()
+
+            "${FilterValueWrapper::class.simpleName}{" in name -> {
                 when (name.getTypeFromBraces()) {
-                    "Color" -> Color(value.toInt())
+                    Color::class.simpleName -> Color(value.toInt())
                     else -> null
                 }
             }
 
-            "Pair{" in name -> {
+            "${Pair::class.simpleName}{" in name -> {
                 val (firstType, secondType) = name.getTypeFromBraces().split("$")
                 val (firstPart, secondPart) = value.split("$")
                 firstPart.fromPart(firstType) to secondPart.fromPart(secondType)
             }
 
-            "Triple{" in name -> {
+            "${Triple::class.simpleName}{" in name -> {
                 val (firstType, secondType, thirdType) = name.getTypeFromBraces().split("$")
                 val (firstPart, secondPart, thirdPart) = value.split("$")
                 Triple(
@@ -221,12 +224,12 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 )
             }
 
-            name == "BokehParams" -> {
+            name == BokehParams::class.simpleName -> {
                 val (radius, amount, scale) = value.split("$")
                 BokehParams(radius.toInt(), amount.toInt(), scale.toFloat())
             }
 
-            name == "GlitchParams" -> {
+            name == GlitchParams::class.simpleName -> {
                 val (channelsShiftX,
                     channelsShiftY,
                     corruptionSize,
@@ -243,7 +246,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 )
             }
 
-            name == "LinearTiltShiftParams" -> {
+            name == LinearTiltShiftParams::class.simpleName -> {
                 val (blurRadius, sigma, anchorX, anchorY, holeRadius, angle) = value.split("$")
                 LinearTiltShiftParams(
                     blurRadius = blurRadius.toFloat(),
@@ -255,7 +258,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 )
             }
 
-            name == "RadialTiltShiftParams" -> {
+            name == RadialTiltShiftParams::class.simpleName -> {
                 val (blurRadius, sigma, anchorX, anchorY, holeRadius) = value.split("$")
                 RadialTiltShiftParams(
                     blurRadius = blurRadius.toFloat(),
@@ -266,7 +269,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 )
             }
 
-            name == "MotionBlurParams" -> {
+            name == MotionBlurParams::class.simpleName -> {
                 val (radius, sigma, centerX, centerY, strength, angle) = value.split("$")
                 MotionBlurParams(
                     radius = radius.toInt(),
@@ -278,7 +281,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 )
             }
 
-            name == "SideFadeParams" -> {
+            name == SideFadeParams::class.simpleName -> {
                 val (sideName, scale) = value.split("$")
                 SideFadeParams.Relative(
                     side = FadeSide.valueOf(sideName),
@@ -286,7 +289,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 )
             }
 
-            name == "WaterParams" -> {
+            name == WaterParams::class.simpleName -> {
                 val (fractionSize, frequencyX, frequencyY, amplitudeX, amplitudeY) = value.split("$")
                 WaterParams(
                     fractionSize = fractionSize.toFloat(),
@@ -315,10 +318,10 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
     private fun String.fromPart(type: String): Any {
         return when (type) {
-            "Int" -> toInt()
-            "Float" -> toFloat()
-            "Color" -> Color(toInt())
-            "Boolean" -> toBoolean()
+            Int::class.simpleName!! -> toInt()
+            Float::class.simpleName!! -> toFloat()
+            Color::class.simpleName!! -> Color(toInt())
+            Boolean::class.simpleName!! -> toBoolean()
             else -> ""
         }
     }

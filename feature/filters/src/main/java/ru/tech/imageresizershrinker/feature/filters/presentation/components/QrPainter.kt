@@ -152,7 +152,7 @@ private fun createDefaultBitmap(sizePx: Int): Bitmap {
 @Composable
 fun QrCode(
     content: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier
 ) {
     BoxWithConstraints(
         modifier = modifier,
