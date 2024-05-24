@@ -246,7 +246,6 @@ internal fun FilterTemplateCreationSheet(
                         ) { notEmpty ->
                             if (notEmpty) {
                                 Column {
-                                    Spacer(Modifier.height(16.dp))
                                     ImageSelector(
                                         value = selectedUri ?: R.drawable.filter_preview_source,
                                         onValueChange = { selectedUri = it },
@@ -269,7 +268,7 @@ internal fun FilterTemplateCreationSheet(
                                     )
                                     Spacer(Modifier.height(16.dp))
                                     Column(
-                                        Modifier
+                                        modifier = Modifier
                                             .padding(horizontal = 16.dp)
                                             .container(MaterialTheme.shapes.extraLarge)
                                     ) {
@@ -321,23 +320,25 @@ internal fun FilterTemplateCreationSheet(
                                     Spacer(Modifier.height(16.dp))
                                 }
                             } else {
-                                Spacer(Modifier.height(16.dp))
-                                ImageSelector(
-                                    value = selectedUri ?: R.drawable.filter_preview_source,
-                                    onValueChange = { selectedUri = it },
-                                    subtitle = stringResource(id = R.string.select_template_preview),
-                                    shape = RoundedCornerShape(16.dp),
+                                Column(
                                     modifier = Modifier.padding(horizontal = 16.dp),
-                                    color = Color.Unspecified
-                                )
-                                Spacer(Modifier.height(16.dp))
-                                AddFilterButton(
-                                    onClick = {
-                                        showAddFilterSheet.value = true
-                                    },
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                )
-                                Spacer(Modifier.height(16.dp))
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    ImageSelector(
+                                        value = selectedUri ?: R.drawable.filter_preview_source,
+                                        onValueChange = { selectedUri = it },
+                                        subtitle = stringResource(id = R.string.select_template_preview),
+                                        shape = RoundedCornerShape(16.dp),
+                                        color = Color.Unspecified
+                                    )
+                                    Spacer(Modifier.height(16.dp))
+                                    AddFilterButton(
+                                        onClick = {
+                                            showAddFilterSheet.value = true
+                                        }
+                                    )
+                                    Spacer(Modifier.height(16.dp))
+                                }
                             }
                         }
                     }

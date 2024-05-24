@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
@@ -57,6 +58,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import coil.compose.rememberAsyncImagePainter
@@ -67,9 +69,11 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -229,12 +233,14 @@ internal fun FilterTemplateInfoSheet(
                 loading = false
             }
         )
-        var filterContent by rememberSaveable(templateFilter) {
+        var filterContent by rememberSaveable {
             mutableStateOf("")
         }
         val interactor = LocalFavoriteFiltersInteractor.current
         LaunchedEffect(filterContent) {
-            filterContent = interactor.convertTemplateFilterToString(templateFilter)
+            if (filterContent.isEmpty()) {
+                filterContent = interactor.convertTemplateFilterToString(templateFilter)
+            }
         }
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -258,6 +264,7 @@ internal fun FilterTemplateInfoSheet(
                         } else Modifier
                     )
                 ) {
+                    val targetSize = min(min(maxWidth, maxHeight), 300.dp)
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -269,19 +276,14 @@ internal fun FilterTemplateInfoSheet(
                                         Modifier.padding(top = 36.dp, bottom = 16.dp)
                                     } else Modifier
                                 )
-                                .size(
-                                    min(
-                                        min(
-                                            this@BoxWithConstraints.maxWidth,
-                                            this@BoxWithConstraints.maxHeight
-                                        ), 300.dp
-                                    )
-                                )
+                                .size(targetSize)
                         )
 
                         Text(
                             text = templateFilter.name,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.headlineSmall,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.width(targetSize)
                         )
                     }
 
@@ -297,6 +299,36 @@ internal fun FilterTemplateInfoSheet(
                                 .clip(MaterialTheme.shapes.medium)
                                 .transparencyChecker()
                                 .shimmer(loading)
+                        )
+                    }
+                }
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    EnhancedIconButton(
+                        onClick = { /*TODO*/ },
+                        containerColor = MaterialTheme.colorScheme.error
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.DeleteOutline,
+                            contentDescription = stringResource(R.string.delete)
+                        )
+                    }
+                    EnhancedButton(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.fillMaxWidth(0.75f)
+                    ) {
+                        Text(stringResource(R.string.share))
+                    }
+                    EnhancedIconButton(
+                        onClick = { /*TODO*/ },
+                        containerColor = MaterialTheme.colorScheme.secondary
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.EditAlt,
+                            contentDescription = stringResource(R.string.edit)
                         )
                     }
                 }
