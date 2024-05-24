@@ -328,24 +328,28 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
     private fun String.toFiltersList(
         includeValue: Boolean
-    ): List<Filter<Bitmap, *>> = split(",").mapNotNull {
+    ): List<Filter<Bitmap, *>> = split(",").mapNotNull { line ->
+        if (line.trim().isEmpty()) return@mapNotNull null
+
         val (name, value) = if (includeValue) {
             runCatching {
-                val splitData = it.split(":")
+                val splitData = line.split(":")
                 val className = splitData[1]
                 val valueString = splitData[2]
 
                 splitData[0].trim() to (className to valueString).fromPair()
-            }.getOrElse { _ -> it.trim() to Unit }
-        } else it.trim() to Unit
-        val filterClass = Class.forName(name) as Class<Filter<Bitmap, *>>
-        filterClass.kotlin.primaryConstructor?.run {
-            try {
-                callBy(if (includeValue && value != null) mapOf(parameters[0] to value) else emptyMap())
-            } catch (e: Throwable) {
-                callBy(emptyMap())
+            }.getOrElse { _ -> line.trim() to Unit }
+        } else line.trim() to Unit
+        runCatching {
+            val filterClass = Class.forName(name) as Class<Filter<Bitmap, *>>
+            filterClass.kotlin.primaryConstructor?.run {
+                try {
+                    callBy(if (includeValue && value != null) mapOf(parameters[0] to value) else emptyMap())
+                } catch (e: Throwable) {
+                    callBy(emptyMap())
+                }
             }
-        }
+        }.getOrNull()
     }
 
     private fun String.toTemplateFiltersList(): List<TemplateFilter<Bitmap>> = split("/").map {
