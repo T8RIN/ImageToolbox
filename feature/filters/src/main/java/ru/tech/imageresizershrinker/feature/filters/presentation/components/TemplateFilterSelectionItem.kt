@@ -36,11 +36,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.FilePresent
+import androidx.compose.material.icons.rounded.QrCode
+import androidx.compose.material.icons.rounded.QrCode2
+import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,9 +65,11 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
@@ -74,8 +83,11 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -242,6 +254,11 @@ internal fun FilterTemplateInfoSheet(
                 filterContent = interactor.convertTemplateFilterToString(templateFilter)
             }
         }
+
+        var showShareDialog by rememberSaveable {
+            mutableStateOf(false)
+        }
+
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(16.dp),
@@ -317,7 +334,7 @@ internal fun FilterTemplateInfoSheet(
                         )
                     }
                     EnhancedButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { showShareDialog = true },
                         modifier = Modifier.fillMaxWidth(0.75f)
                     ) {
                         Text(stringResource(R.string.share))
@@ -333,6 +350,100 @@ internal fun FilterTemplateInfoSheet(
                     }
                 }
             }
+        }
+
+        if (showShareDialog) {
+            AlertDialog(
+                modifier = Modifier.alertDialogBorder(),
+                onDismissRequest = { showShareDialog = false },
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = { showShareDialog = false },
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    ) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                },
+                title = {
+                    Text(stringResource(R.string.share))
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.AutoFixHigh,
+                        contentDescription = null
+                    )
+                },
+                text = {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        PreferenceItem(
+                            title = stringResource(R.string.as_qr_code),
+                            shape = ContainerShapeDefaults.topShape,
+                            startIcon = Icons.Rounded.QrCode,
+                            onClick = {
+                                showShareDialog = false
+                                TODO()
+                            },
+                            titleFontStyle = LocalTextStyle.current.copy(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                lineHeight = 18.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        PreferenceItem(
+                            title = stringResource(R.string.as_file),
+                            shape = ContainerShapeDefaults.centerShape,
+                            startIcon = Icons.Rounded.FilePresent,
+                            onClick = {
+                                showShareDialog = false
+                                TODO()
+                            },
+                            titleFontStyle = LocalTextStyle.current.copy(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                lineHeight = 18.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        PreferenceItem(
+                            title = stringResource(R.string.save_as_qr_code_image),
+                            shape = ContainerShapeDefaults.centerShape,
+                            startIcon = Icons.Rounded.QrCode2,
+                            onClick = {
+                                showShareDialog = false
+                                TODO()
+                            },
+                            titleFontStyle = LocalTextStyle.current.copy(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                lineHeight = 18.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        PreferenceItem(
+                            title = stringResource(R.string.save_as_file),
+                            shape = ContainerShapeDefaults.bottomShape,
+                            startIcon = Icons.Rounded.Save,
+                            onClick = {
+                                showShareDialog = false
+                                TODO()
+                            },
+                            titleFontStyle = LocalTextStyle.current.copy(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                lineHeight = 18.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        )
+                    }
+                }
+            )
         }
     }
 }
