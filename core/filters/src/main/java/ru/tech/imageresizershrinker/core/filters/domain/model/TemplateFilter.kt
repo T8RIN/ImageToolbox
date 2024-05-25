@@ -21,11 +21,31 @@ data class TemplateFilter<Image>(
     val name: String,
     val filters: List<Filter<Image, *>>
 ) {
-    companion object {
-        @Suppress("FunctionName")
-        fun <Image> Empty(): TemplateFilter<Image> = TemplateFilter(
-            name = "",
-            filters = emptyList()
-        )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TemplateFilter<*>
+
+        if (other.name != name) return false
+        if (other.filters.size != filters.size) return false
+        val filters1 = other.filters.sortedBy { it::class.simpleName }
+        val filters2 = filters.sortedBy { it::class.simpleName }
+        filters1.forEachIndexed { index, filter1 ->
+            val filter2 = filters2[index]
+            if (filter1::class.simpleName != filter2::class.simpleName) return false
+            if (filter1.value != filter2.value) return false
+        }
+
+        return true
     }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + filters.hashCode()
+        return result
+    }
+
+
 }

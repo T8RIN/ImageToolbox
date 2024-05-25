@@ -447,7 +447,6 @@ fun SingleEditScreen(
         onGetBitmap = {
             viewModel.updateBitmapAfterEditing(it, true)
         },
-        onRequestFiltering = viewModel::filter,
         onRequestMappingFilters = viewModel::mapFilters,
         filterList = viewModel.filterList,
         updateOrder = viewModel::updateOrder,

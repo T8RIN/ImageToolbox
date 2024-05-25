@@ -81,20 +81,26 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
     override suspend fun addTemplateFilterFromString(
         string: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
         if (context.applicationInfo.packageName in string && "Filter" in string) {
-            string.toTemplateFiltersList().firstOrNull()?.let { addTemplateFilter(it) }
+            string.toTemplateFiltersList().firstOrNull()?.let {
+                addTemplateFilter(it)
+                onSuccess(it.name, it.filters.size)
+            } ?: onError()
         } else onError()
     }
 
     override suspend fun addTemplateFilterFromUri(
         uri: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
         context.contentResolver.openInputStream(uri.toUri())?.use {
             addTemplateFilterFromString(
                 string = it.readBytes().decodeToString(),
+                onSuccess = onSuccess,
                 onError = onError
             )
         }
@@ -103,7 +109,9 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
     override suspend fun removeTemplateFilter(templateFilter: TemplateFilter<Bitmap>) {
         val currentFilters = getTemplateFilters().first()
         dataStore.edit { prefs ->
-            prefs[TEMPLATE_FILTERS] = (currentFilters - templateFilter).toDatastoreString()
+            prefs[TEMPLATE_FILTERS] = currentFilters.filter {
+                it != templateFilter
+            }.toDatastoreString()
         }
     }
 
@@ -114,7 +122,11 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
     override suspend fun addTemplateFilter(templateFilter: TemplateFilter<Bitmap>) {
         val currentFilters = getTemplateFilters().first()
         dataStore.edit { prefs ->
-            prefs[TEMPLATE_FILTERS] = (currentFilters + templateFilter).toDatastoreString()
+            prefs[TEMPLATE_FILTERS] = currentFilters.let {
+                if (templateFilter in it) {
+                    currentFilters
+                } else currentFilters + templateFilter
+            }.toDatastoreString()
         }
     }
 

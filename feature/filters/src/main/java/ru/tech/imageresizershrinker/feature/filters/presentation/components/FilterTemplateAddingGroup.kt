@@ -62,6 +62,16 @@ internal fun FilterTemplateAddingGroup() {
         scope.launch {
             interactor.addTemplateFilterFromString(
                 string = it,
+                onSuccess = { filterName, filtersCount ->
+                    toastHostState.showToast(
+                        message = context.getString(
+                            R.string.added_filter_template,
+                            filterName,
+                            filtersCount
+                        ),
+                        icon = Icons.Outlined.AutoFixHigh
+                    )
+                },
                 onError = {
                     toastHostState.showToast(
                         message = context.getString(R.string.scanned_qr_code_isnt_filter_template),
@@ -79,6 +89,16 @@ internal fun FilterTemplateAddingGroup() {
             scope.launch {
                 interactor.addTemplateFilterFromUri(
                     uri = it.toString(),
+                    onSuccess = { filterName, filtersCount ->
+                        toastHostState.showToast(
+                            message = context.getString(
+                                R.string.added_filter_template,
+                                filterName,
+                                filtersCount
+                            ),
+                            icon = Icons.Outlined.AutoFixHigh
+                        )
+                    },
                     onError = {
                         toastHostState.showToast(
                             message = context.getString(R.string.opened_file_have_no_filter_template),

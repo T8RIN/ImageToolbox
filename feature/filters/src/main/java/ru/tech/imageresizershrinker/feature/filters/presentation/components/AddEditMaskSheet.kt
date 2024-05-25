@@ -147,7 +147,7 @@ fun AddEditMaskSheet(
 
         val isPortrait by isPortraitOrientationAsState()
 
-        val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
+        var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
         val context = LocalContext.current as ComponentActivity
         val toastHostState = LocalToastHostState.current
@@ -524,7 +524,7 @@ fun AddEditMaskSheet(
                                         }
                                         AddFilterButton(
                                             onClick = {
-                                                showAddFilterSheet.value = true
+                                                showAddFilterSheet = true
                                             },
                                             modifier = Modifier.padding(
                                                 horizontal = 16.dp
@@ -535,7 +535,7 @@ fun AddEditMaskSheet(
                             } else {
                                 AddFilterButton(
                                     onClick = {
-                                        showAddFilterSheet.value = true
+                                        showAddFilterSheet = true
                                     },
                                     modifier = Modifier.padding(16.dp)
                                 )
@@ -548,11 +548,10 @@ fun AddEditMaskSheet(
 
         AddFiltersSheet(
             visible = showAddFilterSheet,
+            onVisibleChange = { showAddFilterSheet = it },
             previewBitmap = null,
             onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-            onFilterPickedWithParams = { viewModel.addFilter(it) },
-            onRequestFilterMapping = viewModel::filterToTransformation,
-            onRequestPreview = viewModel::filter
+            onFilterPickedWithParams = { viewModel.addFilter(it) }
         )
         FilterReorderSheet(
             filterList = viewModel.filterList,

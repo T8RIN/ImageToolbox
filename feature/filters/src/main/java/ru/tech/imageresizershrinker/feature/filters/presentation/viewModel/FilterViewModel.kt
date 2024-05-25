@@ -29,11 +29,9 @@ import androidx.compose.ui.graphics.Path
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
-import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -44,7 +42,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -264,7 +261,7 @@ class FilterViewModel @Inject constructor(
             _basicFilterState.update {
                 it.copy(filters = list)
             }
-        }.exceptionOrNull()?.let { throwable ->
+        }.onFailure { throwable ->
             showError(throwable)
             list[index] = list[index].newInstance()
             _basicFilterState.update {
@@ -551,20 +548,6 @@ class FilterViewModel @Inject constructor(
         updatePreview()
         updateCanSave()
     }
-
-    suspend fun filter(
-        bitmap: Bitmap,
-        filters: List<UiFilter<*>>,
-        size: IntegerSize
-    ): Bitmap? = imageTransformer.transform(
-        image = bitmap,
-        transformations = filters.map { filterProvider.filterToTransformation(it) },
-        size = size
-    )
-
-    fun filterToTransformation(
-        uiFilter: UiFilter<*>
-    ): Transformation = filterProvider.filterToTransformation(uiFilter).toCoil()
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = viewModelScope.launch {

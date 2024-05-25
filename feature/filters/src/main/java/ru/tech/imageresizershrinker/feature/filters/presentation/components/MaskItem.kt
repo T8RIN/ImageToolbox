@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -60,9 +59,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil.transform.Transformation
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
@@ -79,8 +75,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun MaskItem(
     mask: UiFilterMask,
     modifier: Modifier = Modifier,
-    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)? = null,
-    onRequestPreview: (suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?)? = null,
     titleText: String,
     onMaskChange: (UiFilterMask) -> Unit,
     previewOnly: Boolean = false,
@@ -92,7 +86,7 @@ fun MaskItem(
     previousMasks: List<UiFilterMask> = emptyList()
 ) {
     var showMaskRemoveDialog by rememberSaveable { mutableStateOf(false) }
-    val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
+    var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
     var showEditMaskSheet by rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
     Box {
@@ -275,7 +269,7 @@ fun MaskItem(
                                 AddFilterButton(
                                     containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                                     onClick = {
-                                        showAddFilterSheet.value = true
+                                        showAddFilterSheet = true
                                     }
                                 )
                             }
@@ -291,28 +285,25 @@ fun MaskItem(
         }
     }
 
-    if (onRequestPreview != null) {
-        AddFiltersSheet(
-            visible = showAddFilterSheet,
-            previewBitmap = null,
-            onRequestPreview = onRequestPreview,
-            onFilterPicked = { filter ->
-                onMaskChange(
-                    mask.copy(
-                        filters = mask.filters + filter.newInstance()
-                    )
+    AddFiltersSheet(
+        visible = showAddFilterSheet,
+        onVisibleChange = { showAddFilterSheet = it },
+        previewBitmap = null,
+        onFilterPicked = { filter ->
+            onMaskChange(
+                mask.copy(
+                    filters = mask.filters + filter.newInstance()
                 )
-            },
-            onRequestFilterMapping = onRequestFilterMapping,
-            onFilterPickedWithParams = { filter ->
-                onMaskChange(
-                    mask.copy(
-                        filters = mask.filters + filter
-                    )
+            )
+        },
+        onFilterPickedWithParams = { filter ->
+            onMaskChange(
+                mask.copy(
+                    filters = mask.filters + filter
                 )
-            }
-        )
-    }
+            )
+        }
+    )
 
     AddEditMaskSheet(
         mask = mask,

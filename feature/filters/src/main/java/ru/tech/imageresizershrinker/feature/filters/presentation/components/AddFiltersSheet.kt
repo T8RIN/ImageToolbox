@@ -28,6 +28,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -103,10 +105,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
@@ -116,13 +124,17 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
@@ -132,695 +144,777 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 import java.util.Locale
+import javax.inject.Inject
 
 
-private object FilterHolder {
-    val previewSheetData: MutableState<UiFilter<*>?> = mutableStateOf(null)
+@HiltViewModel
+private class AddFiltersSheetViewModel @Inject constructor(
+    private val filterProvider: FilterProvider<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>
+) : ViewModel() {
+    private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
+    val previewData by _previewData
+
+    private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val previewBitmap by _previewBitmap
+
+    private val _isPreviewLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isPreviewLoading by _isPreviewLoading
+
+    fun setPreviewData(data: UiFilter<*>?) {
+        _previewData.update { data?.let { listOf(it) } }
+    }
+
+    fun setPreviewData(data: List<Filter<Bitmap, *>>) {
+        _previewData.update { data.map { it.toUiFilter() } }
+    }
+
+    fun filterToTransformation(
+        filter: UiFilter<*>
+    ): Transformation = filterProvider.filterToTransformation(filter).toCoil()
+
+    fun updatePreview(previewBitmap: Bitmap) {
+        viewModelScope.launch {
+            _isPreviewLoading.update { true }
+            _previewBitmap.update {
+                imageTransformer.transform(
+                    image = previewBitmap,
+                    transformations = previewData?.map {
+                        filterProvider.filterToTransformation(it)
+                    } ?: emptyList(),
+                    size = IntegerSize(2000, 2000)
+                )
+            }
+            _isPreviewLoading.update { false }
+        }
+    }
+
+    fun removeFilterAtIndex(index: Int) {
+        _previewData.update {
+            it?.toMutableList()?.apply {
+                removeAt(index)
+            }
+        }
+    }
+
+    fun <T : Any> updateFilter(
+        value: T,
+        index: Int
+    ) {
+        val list = (previewData ?: emptyList()).toMutableList()
+        runCatching {
+            list[index] = list[index].copy(value)
+            _previewData.update { list }
+        }.onFailure {
+            list[index] = list[index].newInstance()
+            _previewData.update { list }
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddFiltersSheet(
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onVisibleChange: (Boolean) -> Unit,
     canAddTemplates: Boolean = true,
     previewBitmap: Bitmap?,
-    onRequestPreview: suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?,
-    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
     onFilterPicked: (UiFilter<*>) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
+    ScopedViewModelContainer<AddFiltersSheetViewModel> { disposable ->
+        val viewModel = this
 
-    val favoriteFilters by LocalFavoriteFiltersInteractor.getFavoriteFiltersAsUiState()
-    val templateFilters by LocalFavoriteFiltersInteractor.getTemplateFiltersAsUiState()
+        val onRequestFilterMapping = viewModel::filterToTransformation
 
-    var previewSheetData by FilterHolder.previewSheetData
+        val scope = rememberCoroutineScope()
 
-    LaunchedEffect(
-        previewBitmap,
-        previewSheetData
-    ) {
-        if (previewBitmap == null) {
-            previewSheetData = null
+        val favoriteFilters by LocalFavoriteFiltersInteractor.getFavoriteFiltersAsUiState()
+        val templateFilters by LocalFavoriteFiltersInteractor.getTemplateFiltersAsUiState()
+
+        val context = LocalContext.current
+        val groupedFilters by remember(context) {
+            derivedStateOf {
+                UiFilter.groupedEntries(context)
+            }
         }
-    }
-
-    val context = LocalContext.current
-    val groupedFilters by remember(context) {
-        derivedStateOf {
-            UiFilter.groupedEntries(context)
-        }
-    }
-    val haptics = LocalHapticFeedback.current
-    val pagerState = rememberPagerState(
-        pageCount = { groupedFilters.size + 1 },
-        initialPage = 2
-    )
-
-    var isSearching by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var searchKeyword by rememberSaveable {
-        mutableStateOf("")
-    }
-    var filtersForSearch by remember {
-        mutableStateOf(
-            groupedFilters.flatten().sortedBy { context.getString(it.title) }
+        val haptics = LocalHapticFeedback.current
+        val pagerState = rememberPagerState(
+            pageCount = { groupedFilters.size + 1 },
+            initialPage = 2
         )
-    }
-    LaunchedEffect(searchKeyword) {
-        delay(400L) // Debounce calculations
-        if (searchKeyword.isEmpty()) {
-            filtersForSearch = groupedFilters.flatten().sortedBy { context.getString(it.title) }
-            return@LaunchedEffect
-        }
 
-        filtersForSearch = groupedFilters.flatten().filter {
-            context.getString(it.title).contains(
-                other = searchKeyword,
-                ignoreCase = true
-            ).or(
-                context.getStringLocalized(
-                    it.title, Locale.ENGLISH
-                ).contains(
+        var isSearching by rememberSaveable {
+            mutableStateOf(false)
+        }
+        var searchKeyword by rememberSaveable {
+            mutableStateOf("")
+        }
+        var filtersForSearch by remember {
+            mutableStateOf(
+                groupedFilters.flatten().sortedBy { context.getString(it.title) }
+            )
+        }
+        LaunchedEffect(searchKeyword) {
+            delay(400L) // Debounce calculations
+            if (searchKeyword.isEmpty()) {
+                filtersForSearch = groupedFilters.flatten().sortedBy { context.getString(it.title) }
+                return@LaunchedEffect
+            }
+
+            filtersForSearch = groupedFilters.flatten().filter {
+                context.getString(it.title).contains(
                     other = searchKeyword,
                     ignoreCase = true
+                ).or(
+                    context.getStringLocalized(
+                        it.title, Locale.ENGLISH
+                    ).contains(
+                        other = searchKeyword,
+                        ignoreCase = true
+                    )
                 )
-            )
-        }.sortedBy { context.getString(it.title) }
-    }
+            }.sortedBy { context.getString(it.title) }
+        }
 
-    SimpleSheet(
-        dragHandle = {
-            SimpleDragHandle {
-                AnimatedVisibility(visible = !isSearching) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        ScrollableTabRow(
-                            divider = {},
-                            edgePadding = 16.dp,
-                            containerColor = SimpleSheetDefaults.barContainerColor,
-                            selectedTabIndex = pagerState.currentPage,
-                            indicator = { tabPositions ->
-                                if (pagerState.currentPage < tabPositions.size) {
-                                    val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
-                                    TabRowDefaults.PrimaryIndicator(
-                                        modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                                        width = width,
-                                        height = 4.dp,
-                                        shape = RoundedCornerShape(topStart = 100f, topEnd = 100f)
-                                    )
-                                }
-                            }
+        val previewSheetData = viewModel.previewData
+
+        SimpleSheet(
+            dragHandle = {
+                SimpleDragHandle {
+                    AnimatedVisibility(visible = !isSearching) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            listOf(
-                                Icons.Rounded.Bookmark to stringResource(id = R.string.favorite),
-                                Icons.Rounded.Speed to stringResource(id = R.string.simple_effects),
-                                Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
-                                Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
-                                Icons.Rounded.FilterHdr to stringResource(R.string.effect),
-                                Icons.Rounded.LensBlur to stringResource(R.string.blur),
-                                Icons.Rounded.Cube to stringResource(R.string.pixelation),
-                                Icons.Rounded.Animation to stringResource(R.string.distortion),
-                                Icons.Rounded.EditRoad to stringResource(R.string.dithering)
-                            ).let {
-                                if (canAddTemplates) listOf(
-                                    Icons.Rounded.Extension to stringResource(
-                                        id = R.string.template
-                                    )
-                                ) + it
-                                else it
-                            }.forEachIndexed { index, (icon, title) ->
-                                val selected = pagerState.currentPage == index
-                                val color by animateColorAsState(
-                                    if (selected) {
-                                        MaterialTheme.colorScheme.primary
-                                    } else MaterialTheme.colorScheme.onSurface
-                                )
-                                Tab(
-                                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .padding(8.dp)
-                                        .clip(CircleShape),
-                                    selected = selected,
-                                    onClick = {
-                                        haptics.performHapticFeedback(
-                                            HapticFeedbackType.LongPress
-                                        )
-                                        scope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
-                                    },
-                                    icon = {
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null,
-                                            tint = color
-                                        )
-                                    },
-                                    text = {
-                                        Text(
-                                            text = title,
-                                            color = color
+                            ScrollableTabRow(
+                                divider = {},
+                                edgePadding = 16.dp,
+                                containerColor = SimpleSheetDefaults.barContainerColor,
+                                selectedTabIndex = pagerState.currentPage,
+                                indicator = { tabPositions ->
+                                    if (pagerState.currentPage < tabPositions.size) {
+                                        val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
+                                        TabRowDefaults.PrimaryIndicator(
+                                            modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                            width = width,
+                                            height = 4.dp,
+                                            shape = RoundedCornerShape(
+                                                topStart = 100f,
+                                                topEnd = 100f
+                                            )
                                         )
                                     }
-                                )
+                                }
+                            ) {
+                                listOf(
+                                    Icons.Rounded.Bookmark to stringResource(id = R.string.favorite),
+                                    Icons.Rounded.Speed to stringResource(id = R.string.simple_effects),
+                                    Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
+                                    Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
+                                    Icons.Rounded.FilterHdr to stringResource(R.string.effect),
+                                    Icons.Rounded.LensBlur to stringResource(R.string.blur),
+                                    Icons.Rounded.Cube to stringResource(R.string.pixelation),
+                                    Icons.Rounded.Animation to stringResource(R.string.distortion),
+                                    Icons.Rounded.EditRoad to stringResource(R.string.dithering)
+                                ).let {
+                                    if (canAddTemplates) listOf(
+                                        Icons.Rounded.Extension to stringResource(
+                                            id = R.string.template
+                                        )
+                                    ) + it
+                                    else it
+                                }.forEachIndexed { index, (icon, title) ->
+                                    val selected = pagerState.currentPage == index
+                                    val color by animateColorAsState(
+                                        if (selected) {
+                                            MaterialTheme.colorScheme.primary
+                                        } else MaterialTheme.colorScheme.onSurface
+                                    )
+                                    Tab(
+                                        unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .clip(CircleShape),
+                                        selected = selected,
+                                        onClick = {
+                                            haptics.performHapticFeedback(
+                                                HapticFeedbackType.LongPress
+                                            )
+                                            scope.launch {
+                                                pagerState.animateScrollToPage(index)
+                                            }
+                                        },
+                                        icon = {
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null,
+                                                tint = color
+                                            )
+                                        },
+                                        text = {
+                                            Text(
+                                                text = title,
+                                                color = color
+                                            )
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
                 }
-            }
-        },
-        sheetContent = {
-            AnimatedContent(
-                modifier = Modifier.weight(1f, false),
-                targetState = isSearching
-            ) { isSearching ->
-                if (isSearching) {
-                    AnimatedContent(
-                        targetState = filtersForSearch.isNotEmpty()
-                    ) { isNotEmpty ->
-                        if (isNotEmpty) {
-                            LazyColumn(
-                                verticalArrangement = Arrangement.spacedBy(4.dp),
-                                modifier = Modifier.animateContentSize(),
-                                contentPadding = PaddingValues(16.dp)
-                            ) {
-                                itemsIndexed(filtersForSearch) { index, filter ->
-                                    FilterSelectionItem(
-                                        filter = filter,
-                                        isFavoritePage = false,
-                                        canOpenPreview = previewBitmap != null,
-                                        favoriteFilters = favoriteFilters,
-                                        onLongClick = {
-                                            previewSheetData = filter
-                                        },
-                                        onClick = {
-                                            visible.value = false
-                                            onFilterPicked(filter)
-                                        },
-                                        onRequestFilterMapping = onRequestFilterMapping,
-                                        shape = ContainerShapeDefaults.shapeForIndex(
-                                            index = index,
-                                            size = filtersForSearch.size
-                                        ),
-                                        modifier = Modifier.animateItem()
-                                    )
-                                }
-                            }
-                        } else {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(0.5f),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Spacer(Modifier.weight(1f))
-                                Text(
-                                    text = stringResource(R.string.nothing_found_by_search),
-                                    fontSize = 18.sp,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.padding(
-                                        start = 24.dp,
-                                        end = 24.dp,
-                                        top = 8.dp,
-                                        bottom = 8.dp
-                                    )
-                                )
-                                Icon(
-                                    imageVector = Icons.Rounded.SearchOff,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .weight(2f)
-                                        .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                        .fillMaxSize()
-                                )
-                                Spacer(Modifier.weight(1f))
-                            }
-                        }
-                    }
-                } else {
-                    HorizontalPager(
-                        state = pagerState,
-                        beyondViewportPageCount = 2
-                    ) { page ->
-                        val filters by remember(page) {
-                            derivedStateOf {
-                                groupedFilters[page - if (canAddTemplates) 2 else 1]
-                            }
-                        }
-                        val templatesContent = @Composable {
-                            AnimatedContent(
-                                targetState = templateFilters.isEmpty()
-                            ) { noTemplates ->
-                                if (noTemplates) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .fillMaxHeight(0.5f),
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-                                        Spacer(Modifier.weight(1f))
-                                        Text(
-                                            text = stringResource(R.string.no_template_filters),
-                                            fontSize = 18.sp,
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier.padding(
-                                                start = 24.dp,
-                                                end = 24.dp,
-                                                top = 8.dp,
-                                                bottom = 8.dp
-                                            )
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Outlined.ExtensionOff,
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .weight(2f)
-                                                .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                                .fillMaxSize()
-                                        )
-                                        FilterTemplateAddingGroup()
-                                        Spacer(Modifier.weight(1f))
-                                    }
-                                } else {
-                                    LazyColumn(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                                        contentPadding = PaddingValues(16.dp)
-                                    ) {
-                                        itemsIndexed(templateFilters) { index, filter ->
-                                            TemplateFilterSelectionItem(
-                                                templateFilter = filter,
-                                                onClick = {
-                                                    visible.value = false
-                                                    filter.filters.forEach {
-                                                        onFilterPickedWithParams(it.toUiFilter())
-                                                    }
-                                                },
-                                                onRequestFilterMapping = onRequestFilterMapping,
-                                                shape = ContainerShapeDefaults.shapeForIndex(
-                                                    index = index,
-                                                    size = templateFilters.size
-                                                ),
-                                                modifier = Modifier.animateItem()
-                                            )
-                                        }
-                                        item {
-                                            FilterTemplateAddingGroup()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        val favoritesContent = @Composable {
-                            AnimatedContent(
-                                targetState = favoriteFilters.isEmpty()
-                            ) { noFav ->
-                                if (noFav) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .fillMaxHeight(0.5f),
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-                                        Spacer(Modifier.weight(1f))
-                                        Text(
-                                            text = stringResource(R.string.no_favorite_filters),
-                                            fontSize = 18.sp,
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier.padding(
-                                                start = 24.dp,
-                                                end = 24.dp,
-                                                top = 8.dp,
-                                                bottom = 8.dp
-                                            )
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Outlined.BookmarkOff,
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .weight(2f)
-                                                .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                                .fillMaxSize()
-                                        )
-                                        Spacer(Modifier.weight(1f))
-                                    }
-                                } else {
-                                    LazyColumn(
-                                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                                        contentPadding = PaddingValues(16.dp)
-                                    ) {
-                                        itemsIndexed(favoriteFilters) { index, filter ->
-                                            FilterSelectionItem(
-                                                filter = filter,
-                                                isFavoritePage = true,
-                                                canOpenPreview = previewBitmap != null,
-                                                favoriteFilters = favoriteFilters,
-                                                onLongClick = {
-                                                    previewSheetData = filter
-                                                },
-                                                onClick = {
-                                                    visible.value = false
-                                                    onFilterPicked(filter)
-                                                },
-                                                onRequestFilterMapping = onRequestFilterMapping,
-                                                shape = ContainerShapeDefaults.shapeForIndex(
-                                                    index = index,
-                                                    size = favoriteFilters.size
-                                                ),
-                                                modifier = Modifier.animateItem()
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        val otherContent = @Composable {
-                            LazyColumn(
-                                verticalArrangement = Arrangement.spacedBy(4.dp),
-                                contentPadding = PaddingValues(16.dp)
-                            ) {
-                                itemsIndexed(filters) { index, filter ->
-                                    FilterSelectionItem(
-                                        filter = filter,
-                                        canOpenPreview = previewBitmap != null,
-                                        favoriteFilters = favoriteFilters,
-                                        onLongClick = {
-                                            previewSheetData = filter
-                                        },
-                                        onClick = {
-                                            visible.value = false
-                                            onFilterPicked(filter)
-                                        },
-                                        onRequestFilterMapping = onRequestFilterMapping,
-                                        shape = ContainerShapeDefaults.shapeForIndex(
-                                            index = index,
-                                            size = filters.size
-                                        ),
-                                        isFavoritePage = false,
-                                        modifier = Modifier.animateItem()
-                                    )
-                                }
-                            }
-                        }
+            },
+            sheetContent = {
+                disposable()
 
-                        if (canAddTemplates) {
-                            when (page) {
-                                0 -> templatesContent()
-
-                                1 -> favoritesContent()
-
-                                else -> otherContent()
-                            }
-                        } else {
-                            when (page) {
-                                0 -> favoritesContent()
-
-                                else -> otherContent()
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        title = {
-            AnimatedContent(
-                targetState = isSearching
-            ) { searching ->
-                if (searching) {
-                    BackHandler {
-                        searchKeyword = ""
-                        isSearching = false
-                    }
-                    ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
-                        RoundedTextField(
-                            maxLines = 1,
-                            hint = { Text(stringResource(id = R.string.search_here)) },
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Search,
-                                autoCorrectEnabled = null
-                            ),
-                            value = searchKeyword,
-                            onValueChange = {
-                                searchKeyword = it
-                            },
-                            startIcon = {
-                                EnhancedIconButton(
-                                    containerColor = Color.Transparent,
-                                    contentColor = LocalContentColor.current,
-                                    enableAutoShadowAndBorder = false,
-                                    onClick = {
-                                        searchKeyword = ""
-                                        isSearching = false
-                                    },
-                                    modifier = Modifier.padding(start = 4.dp)
+                AnimatedContent(
+                    modifier = Modifier.weight(1f, false),
+                    targetState = isSearching
+                ) { isSearching ->
+                    if (isSearching) {
+                        AnimatedContent(
+                            targetState = filtersForSearch.isNotEmpty()
+                        ) { isNotEmpty ->
+                            if (isNotEmpty) {
+                                LazyColumn(
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                    modifier = Modifier.animateContentSize(),
+                                    contentPadding = PaddingValues(16.dp)
                                 ) {
+                                    itemsIndexed(filtersForSearch) { index, filter ->
+                                        FilterSelectionItem(
+                                            filter = filter,
+                                            isFavoritePage = false,
+                                            canOpenPreview = previewBitmap != null,
+                                            favoriteFilters = favoriteFilters,
+                                            onLongClick = {
+                                                viewModel.setPreviewData(filter)
+                                            },
+                                            onClick = {
+                                                onVisibleChange(false)
+                                                onFilterPicked(filter)
+                                            },
+                                            onRequestFilterMapping = onRequestFilterMapping,
+                                            shape = ContainerShapeDefaults.shapeForIndex(
+                                                index = index,
+                                                size = filtersForSearch.size
+                                            ),
+                                            modifier = Modifier.animateItem()
+                                        )
+                                    }
+                                }
+                            } else {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Spacer(Modifier.weight(1f))
+                                    Text(
+                                        text = stringResource(R.string.nothing_found_by_search),
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(
+                                            start = 24.dp,
+                                            end = 24.dp,
+                                            top = 8.dp,
+                                            bottom = 8.dp
+                                        )
+                                    )
                                     Icon(
-                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                        contentDescription = stringResource(R.string.exit),
-                                        tint = MaterialTheme.colorScheme.onSurface
+                                        imageVector = Icons.Rounded.SearchOff,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .weight(2f)
+                                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                            .fillMaxSize()
                                     )
+                                    Spacer(Modifier.weight(1f))
                                 }
-                            },
-                            endIcon = {
-                                AnimatedVisibility(
-                                    visible = searchKeyword.isNotEmpty(),
-                                    enter = fadeIn() + scaleIn(),
-                                    exit = fadeOut() + scaleOut()
+                            }
+                        }
+                    } else {
+                        HorizontalPager(
+                            state = pagerState,
+                            beyondViewportPageCount = 2
+                        ) { page ->
+                            val filters by remember(page) {
+                                derivedStateOf {
+                                    groupedFilters[page - if (canAddTemplates) 2 else 1]
+                                }
+                            }
+                            val templatesContent = @Composable {
+                                AnimatedContent(
+                                    targetState = templateFilters.isEmpty()
+                                ) { noTemplates ->
+                                    if (noTemplates) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillMaxHeight(0.5f),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            Spacer(Modifier.weight(1f))
+                                            Text(
+                                                text = stringResource(R.string.no_template_filters),
+                                                fontSize = 18.sp,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(
+                                                    start = 24.dp,
+                                                    end = 24.dp,
+                                                    top = 8.dp,
+                                                    bottom = 8.dp
+                                                )
+                                            )
+                                            Icon(
+                                                imageVector = Icons.Outlined.ExtensionOff,
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .weight(2f)
+                                                    .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                                    .fillMaxSize()
+                                            )
+                                            FilterTemplateAddingGroup()
+                                            Spacer(Modifier.weight(1f))
+                                        }
+                                    } else {
+                                        LazyColumn(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                                            contentPadding = PaddingValues(16.dp)
+                                        ) {
+                                            itemsIndexed(templateFilters) { index, filter ->
+                                                TemplateFilterSelectionItem(
+                                                    templateFilter = filter,
+                                                    onClick = {
+                                                        onVisibleChange(false)
+                                                        filter.filters.forEach {
+                                                            onFilterPickedWithParams(it.toUiFilter())
+                                                        }
+                                                    },
+                                                    onLongClick = {
+                                                        viewModel.setPreviewData(filter.filters)
+                                                    },
+                                                    onRequestFilterMapping = onRequestFilterMapping,
+                                                    shape = ContainerShapeDefaults.shapeForIndex(
+                                                        index = index,
+                                                        size = templateFilters.size
+                                                    ),
+                                                    modifier = Modifier.animateItem()
+                                                )
+                                            }
+                                            item {
+                                                FilterTemplateAddingGroup()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            val favoritesContent = @Composable {
+                                AnimatedContent(
+                                    targetState = favoriteFilters.isEmpty()
+                                ) { noFav ->
+                                    if (noFav) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillMaxHeight(0.5f),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            Spacer(Modifier.weight(1f))
+                                            Text(
+                                                text = stringResource(R.string.no_favorite_filters),
+                                                fontSize = 18.sp,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(
+                                                    start = 24.dp,
+                                                    end = 24.dp,
+                                                    top = 8.dp,
+                                                    bottom = 8.dp
+                                                )
+                                            )
+                                            Icon(
+                                                imageVector = Icons.Outlined.BookmarkOff,
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .weight(2f)
+                                                    .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                                    .fillMaxSize()
+                                            )
+                                            Spacer(Modifier.weight(1f))
+                                        }
+                                    } else {
+                                        LazyColumn(
+                                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                                            contentPadding = PaddingValues(16.dp)
+                                        ) {
+                                            itemsIndexed(favoriteFilters) { index, filter ->
+                                                FilterSelectionItem(
+                                                    filter = filter,
+                                                    isFavoritePage = true,
+                                                    canOpenPreview = previewBitmap != null,
+                                                    favoriteFilters = favoriteFilters,
+                                                    onLongClick = {
+                                                        viewModel.setPreviewData(filter)
+                                                    },
+                                                    onClick = {
+                                                        onVisibleChange(false)
+                                                        onFilterPicked(filter)
+                                                    },
+                                                    onRequestFilterMapping = onRequestFilterMapping,
+                                                    shape = ContainerShapeDefaults.shapeForIndex(
+                                                        index = index,
+                                                        size = favoriteFilters.size
+                                                    ),
+                                                    modifier = Modifier.animateItem()
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            val otherContent = @Composable {
+                                LazyColumn(
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                    contentPadding = PaddingValues(16.dp)
                                 ) {
+                                    itemsIndexed(filters) { index, filter ->
+                                        FilterSelectionItem(
+                                            filter = filter,
+                                            canOpenPreview = previewBitmap != null,
+                                            favoriteFilters = favoriteFilters,
+                                            onLongClick = {
+                                                viewModel.setPreviewData(filter)
+                                            },
+                                            onClick = {
+                                                onVisibleChange(false)
+                                                onFilterPicked(filter)
+                                            },
+                                            onRequestFilterMapping = onRequestFilterMapping,
+                                            shape = ContainerShapeDefaults.shapeForIndex(
+                                                index = index,
+                                                size = filters.size
+                                            ),
+                                            isFavoritePage = false,
+                                            modifier = Modifier.animateItem()
+                                        )
+                                    }
+                                }
+                            }
+
+                            if (canAddTemplates) {
+                                when (page) {
+                                    0 -> templatesContent()
+
+                                    1 -> favoritesContent()
+
+                                    else -> otherContent()
+                                }
+                            } else {
+                                when (page) {
+                                    0 -> favoritesContent()
+
+                                    else -> otherContent()
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            title = {
+                AnimatedContent(
+                    targetState = isSearching
+                ) { searching ->
+                    if (searching) {
+                        BackHandler {
+                            searchKeyword = ""
+                            isSearching = false
+                        }
+                        ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                            RoundedTextField(
+                                maxLines = 1,
+                                hint = { Text(stringResource(id = R.string.search_here)) },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Search,
+                                    autoCorrectEnabled = null
+                                ),
+                                value = searchKeyword,
+                                onValueChange = {
+                                    searchKeyword = it
+                                },
+                                startIcon = {
                                     EnhancedIconButton(
                                         containerColor = Color.Transparent,
                                         contentColor = LocalContentColor.current,
                                         enableAutoShadowAndBorder = false,
                                         onClick = {
                                             searchKeyword = ""
+                                            isSearching = false
                                         },
-                                        modifier = Modifier.padding(end = 4.dp)
+                                        modifier = Modifier.padding(start = 4.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Rounded.Close,
-                                            contentDescription = stringResource(R.string.close),
+                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                            contentDescription = stringResource(R.string.exit),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     }
-                                }
-                            },
-                            shape = CircleShape
-                        )
-                    }
-                } else {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        TitleItem(
-                            text = stringResource(R.string.filter),
-                            icon = Icons.Rounded.AutoFixHigh
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        EnhancedIconButton(
-                            onClick = { isSearching = true },
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Search,
-                                contentDescription = stringResource(R.string.search_here)
+                                },
+                                endIcon = {
+                                    AnimatedVisibility(
+                                        visible = searchKeyword.isNotEmpty(),
+                                        enter = fadeIn() + scaleIn(),
+                                        exit = fadeOut() + scaleOut()
+                                    ) {
+                                        EnhancedIconButton(
+                                            containerColor = Color.Transparent,
+                                            contentColor = LocalContentColor.current,
+                                            enableAutoShadowAndBorder = false,
+                                            onClick = {
+                                                searchKeyword = ""
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Close,
+                                                contentDescription = stringResource(R.string.close),
+                                                tint = MaterialTheme.colorScheme.onSurface
+                                            )
+                                        }
+                                    }
+                                },
+                                shape = CircleShape
                             )
                         }
-                        EnhancedButton(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = { visible.value = false }
+                    } else {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            AutoSizeText(stringResource(R.string.close))
+                            TitleItem(
+                                text = stringResource(R.string.filter),
+                                icon = Icons.Rounded.AutoFixHigh
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            EnhancedIconButton(
+                                onClick = { isSearching = true },
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Search,
+                                    contentDescription = stringResource(R.string.search_here)
+                                )
+                            }
+                            EnhancedButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                onClick = { onVisibleChange(false) }
+                            ) {
+                                AutoSizeText(stringResource(R.string.close))
+                            }
                         }
                     }
                 }
-            }
-        },
-        confirmButton = {},
-        enableBottomContentWeight = false,
-        visible = visible.value,
-        onDismiss = {
-            visible.value = it
-        }
-    )
-
-    var transformedBitmap by remember(previewBitmap) {
-        mutableStateOf(
-            previewBitmap
+            },
+            confirmButton = {},
+            enableBottomContentWeight = false,
+            visible = visible,
+            onDismiss = onVisibleChange
         )
-    }
 
-    var imageState by rememberImageState()
-    var loading by remember { mutableStateOf(false) }
-    LaunchedEffect(previewSheetData) {
-        if (previewBitmap != null && previewSheetData != null) {
-            if (previewSheetData?.value is Unit) {
-                imageState = imageState.copy(position = 2)
-            }
-            loading = true
-            transformedBitmap = onRequestPreview(
-                previewBitmap,
-                listOf(previewSheetData!!),
-                IntegerSize(2000, 2000)
-            )
-            loading = false
-        }
-    }
-
-    val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
-    SimpleSheet(
-        dragHandle = {
-            SimpleDragHandle {
-                EnhancedTopAppBar(
-                    type = EnhancedTopAppBarType.Center,
-                    modifier = Modifier,
-                    navigationIcon = {
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = {
-                                previewSheetData = null
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Close,
-                                contentDescription = stringResource(R.string.close)
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = SimpleSheetDefaults.barContainerColor
-                    ),
-                    actions = {
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = {
-                                previewSheetData?.let {
-                                    onFilterPickedWithParams(it)
-                                }
-                                previewSheetData = null
-                                visible.value = false
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Done,
-                                contentDescription = "Done"
-                            )
-                        }
-                    },
-                    title = {
-                        Marquee {
-                            Text(
-                                text = stringResource(
-                                    id = previewSheetData?.title ?: R.string.app_name
-                                )
-                            )
-                        }
-                    }
-                )
-            }
-        },
-        sheetContent = {
-            DisposableEffect(Unit) {
-                onDispose {
+        var imageState by rememberImageState()
+        LaunchedEffect(previewSheetData) {
+            if (previewBitmap != null && previewSheetData != null) {
+                if (previewSheetData.size == 1 && previewSheetData.firstOrNull()?.value is Unit) {
                     imageState = imageState.copy(position = 2)
                 }
+                viewModel.updatePreview(previewBitmap)
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                val imageBlock = @Composable {
-                    SimplePicture(
-                        bitmap = transformedBitmap,
-                        loading = loading,
-                        modifier = Modifier
+        }
+
+        val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
+        SimpleSheet(
+            dragHandle = {
+                SimpleDragHandle {
+                    EnhancedTopAppBar(
+                        type = EnhancedTopAppBarType.Center,
+                        modifier = Modifier,
+                        navigationIcon = {
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
+                                onClick = {
+                                    viewModel.setPreviewData(null)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Close,
+                                    contentDescription = stringResource(R.string.close)
+                                )
+                            }
+                        },
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = SimpleSheetDefaults.barContainerColor
+                        ),
+                        actions = {
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
+                                onClick = {
+                                    previewSheetData?.forEach(onFilterPickedWithParams)
+                                    viewModel.setPreviewData(null)
+                                    onVisibleChange(false)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Done,
+                                    contentDescription = "Done"
+                                )
+                            }
+                        },
+                        title = {
+                            Marquee {
+                                Text(
+                                    text = stringResource(
+                                        id = previewSheetData?.let {
+                                            if (it.size == 1) it.first().title
+                                            else R.string.filter_preview
+                                        } ?: R.string.filter_preview
+                                    )
+                                )
+                            }
+                        }
                     )
                 }
-                val isPortrait by isPortraitOrientationAsState()
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
+            },
+            sheetContent = {
+                DisposableEffect(Unit) {
+                    onDispose {
+                        imageState = imageState.copy(position = 2)
+                    }
+                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    val isUnit = previewSheetData?.value == Unit
-                    if (!isPortrait) {
-                        Box(
-                            modifier = Modifier
-                                .container(RectangleShape)
-                                .weight(1.2f)
-                                .padding(20.dp)
-                        ) {
-                            Box(Modifier.align(Alignment.Center)) {
-                                imageBlock()
+                    val imageBlock = @Composable {
+                        AnimatedContent(
+                            targetState = viewModel.previewBitmap == null,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { isNull ->
+                            if (isNull) {
+                                Box(
+                                    modifier = if (viewModel.previewBitmap == null) {
+                                        Modifier
+                                            .aspectRatio(
+                                                previewBitmap?.safeAspectRatio ?: (1 / 2f)
+                                            )
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .shimmer(true)
+                                    } else Modifier
+                                )
+                            } else {
+                                SimplePicture(
+                                    bitmap = viewModel.previewBitmap,
+                                    loading = viewModel.isPreviewLoading,
+                                    modifier = Modifier
+                                )
                             }
                         }
                     }
+                    val isPortrait by isPortraitOrientationAsState()
 
-                    val internalHeight = rememberAvailableHeight(imageState = imageState)
-                    LazyColumn(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .then(
-                                if (!isPortrait && !isUnit) Modifier.weight(1f)
-                                else Modifier
-                            )
-                            .clipToBounds()
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
                     ) {
-                        imageStickyHeader(
-                            visible = isPortrait,
-                            imageState = imageState,
-                            internalHeight = internalHeight,
-                            onStateChange = { imageState = it },
-                            imageBlock = imageBlock,
-                            backgroundColor = backgroundColor
-                        )
-                        item {
-                            previewSheetData?.takeIf { it.value != Unit }?.let {
-                                FilterItem(
-                                    backgroundColor = MaterialTheme
-                                        .colorScheme
-                                        .surface,
-                                    modifier = Modifier.padding(horizontal = 16.dp),
-                                    filter = it,
-                                    showDragHandle = false,
-                                    onRemove = {
-                                        previewSheetData = null
-                                    },
-                                    onFilterChange = { v ->
-                                        previewSheetData = previewSheetData?.copy(v)
-                                    }
-                                )
-                                Spacer(Modifier.height(16.dp))
+                        val isUnit =
+                            previewSheetData?.size == 1 && previewSheetData.firstOrNull()?.value is Unit
+                        if (!isPortrait) {
+                            Box(
+                                modifier = Modifier
+                                    .container(RectangleShape)
+                                    .weight(1.2f)
+                                    .padding(20.dp)
+                            ) {
+                                Box(Modifier.align(Alignment.Center)) {
+                                    imageBlock()
+                                }
                             }
-                            Spacer(
-                                Modifier.height(
-                                    WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding()
+                        }
+
+                        val internalHeight = rememberAvailableHeight(imageState = imageState)
+                        LazyColumn(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .then(
+                                    if (!isPortrait && !isUnit) Modifier.weight(1f)
+                                    else Modifier
                                 )
+                                .clipToBounds()
+                        ) {
+                            imageStickyHeader(
+                                visible = isPortrait,
+                                imageState = imageState,
+                                internalHeight = internalHeight,
+                                onStateChange = { imageState = it },
+                                imageBlock = imageBlock,
+                                backgroundColor = backgroundColor
                             )
+                            item {
+                                previewSheetData?.takeIf { !isUnit }?.let { list ->
+                                    list.forEachIndexed { index, filter ->
+                                        FilterItem(
+                                            backgroundColor = MaterialTheme
+                                                .colorScheme
+                                                .surface,
+                                            modifier = Modifier.padding(horizontal = 16.dp),
+                                            filter = filter,
+                                            showDragHandle = false,
+                                            onRemove = {
+                                                if (list.size == 1) {
+                                                    viewModel.setPreviewData(null)
+                                                } else viewModel.removeFilterAtIndex(index)
+                                            },
+                                            onFilterChange = { value ->
+                                                viewModel.updateFilter(value, index)
+                                            }
+                                        )
+                                        if (index != list.lastIndex) {
+                                            Spacer(Modifier.height(8.dp))
+                                        }
+                                    }
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                                Spacer(
+                                    Modifier.height(
+                                        WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding()
+                                    )
+                                )
+                            }
                         }
                     }
                 }
+            },
+            visible = previewData != null,
+            onDismiss = {
+                if (!it) {
+                    viewModel.setPreviewData(null)
+                }
             }
-        },
-        visible = previewSheetData != null,
-        onDismiss = {
-            previewSheetData = null
-        }
-    )
+        )
+    }
 }

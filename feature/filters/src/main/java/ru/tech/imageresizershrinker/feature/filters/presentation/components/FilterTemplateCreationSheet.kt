@@ -66,17 +66,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
-import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -102,14 +99,15 @@ import javax.inject.Inject
 @Composable
 internal fun FilterTemplateCreationSheet(
     visible: Boolean,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    initialTemplateFilter: TemplateFilter<Bitmap>? = null
 ) {
     ScopedViewModelContainer<FilterTemplateCreationSheetViewModel> { disposable ->
         val viewModel = this
 
         val isPortrait by isPortraitOrientationAsState()
 
-        val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
+        var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
         val context = LocalContext.current as ComponentActivity
         val toastHostState = LocalToastHostState.current
@@ -139,7 +137,7 @@ internal fun FilterTemplateCreationSheet(
                     enabled = canSave && viewModel.templateName.isNotEmpty(),
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
-                        viewModel.saveTemplate()
+                        viewModel.saveTemplate(initialTemplateFilter)
                         onDismiss()
                     }
                 ) {
@@ -178,6 +176,12 @@ internal fun FilterTemplateCreationSheet(
 
             LaunchedEffect(selectedUri) {
                 viewModel.setUri(selectedUri)
+            }
+
+            LaunchedEffect(initialTemplateFilter) {
+                initialTemplateFilter?.let {
+                    viewModel.setInitialTemplateFilter(it)
+                }
             }
 
             disposable()
@@ -244,32 +248,32 @@ internal fun FilterTemplateCreationSheet(
                                 fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
                             }
                         ) { notEmpty ->
-                            if (notEmpty) {
-                                Column {
-                                    ImageSelector(
-                                        value = selectedUri ?: R.drawable.filter_preview_source,
-                                        onValueChange = { selectedUri = it },
-                                        subtitle = stringResource(id = R.string.select_template_preview),
-                                        shape = RoundedCornerShape(16.dp),
-                                        modifier = Modifier.padding(horizontal = 16.dp),
-                                        color = Color.Unspecified
-                                    )
-                                    Spacer(Modifier.height(16.dp))
-                                    RoundedTextField(
-                                        modifier = Modifier
-                                            .padding(horizontal = 16.dp)
-                                            .container(
-                                                shape = MaterialTheme.shapes.large,
-                                                resultPadding = 8.dp
-                                            ),
-                                        onValueChange = viewModel::updateTemplateName,
-                                        value = viewModel.templateName,
-                                        label = stringResource(R.string.template_name)
-                                    )
-                                    Spacer(Modifier.height(16.dp))
+                            Column(
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                ImageSelector(
+                                    value = selectedUri ?: R.drawable.filter_preview_source,
+                                    onValueChange = { selectedUri = it },
+                                    subtitle = stringResource(id = R.string.select_template_preview),
+                                    shape = RoundedCornerShape(16.dp),
+                                    color = Color.Unspecified
+                                )
+                                Spacer(Modifier.height(8.dp))
+                                RoundedTextField(
+                                    modifier = Modifier
+                                        .container(
+                                            shape = MaterialTheme.shapes.large,
+                                            resultPadding = 8.dp
+                                        ),
+                                    onValueChange = viewModel::updateTemplateName,
+                                    value = viewModel.templateName,
+                                    label = stringResource(R.string.template_name)
+                                )
+                                if (notEmpty) {
+                                    Spacer(Modifier.height(8.dp))
                                     Column(
                                         modifier = Modifier
-                                            .padding(horizontal = 16.dp)
                                             .container(MaterialTheme.shapes.extraLarge)
                                     ) {
                                         TitleItem(text = stringResource(R.string.filters))
@@ -309,7 +313,7 @@ internal fun FilterTemplateCreationSheet(
                                             }
                                             AddFilterButton(
                                                 onClick = {
-                                                    showAddFilterSheet.value = true
+                                                    showAddFilterSheet = true
                                                 },
                                                 modifier = Modifier.padding(
                                                     horizontal = 16.dp
@@ -318,23 +322,11 @@ internal fun FilterTemplateCreationSheet(
                                         }
                                     }
                                     Spacer(Modifier.height(16.dp))
-                                }
-                            } else {
-                                Column(
-                                    modifier = Modifier.padding(horizontal = 16.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    ImageSelector(
-                                        value = selectedUri ?: R.drawable.filter_preview_source,
-                                        onValueChange = { selectedUri = it },
-                                        subtitle = stringResource(id = R.string.select_template_preview),
-                                        shape = RoundedCornerShape(16.dp),
-                                        color = Color.Unspecified
-                                    )
-                                    Spacer(Modifier.height(16.dp))
+                                } else {
+                                    Spacer(Modifier.height(8.dp))
                                     AddFilterButton(
                                         onClick = {
-                                            showAddFilterSheet.value = true
+                                            showAddFilterSheet = true
                                         }
                                     )
                                     Spacer(Modifier.height(16.dp))
@@ -348,12 +340,11 @@ internal fun FilterTemplateCreationSheet(
 
         AddFiltersSheet(
             visible = showAddFilterSheet,
+            onVisibleChange = { showAddFilterSheet = it },
             canAddTemplates = false,
             previewBitmap = viewModel.previewBitmap,
             onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-            onFilterPickedWithParams = { viewModel.addFilter(it) },
-            onRequestFilterMapping = viewModel::filterToTransformation,
-            onRequestPreview = viewModel::filter
+            onFilterPickedWithParams = { viewModel.addFilter(it) }
         )
         FilterReorderSheet(
             filterList = viewModel.filterList,
@@ -371,7 +362,6 @@ internal fun FilterTemplateCreationSheet(
 
 @HiltViewModel
 private class FilterTemplateCreationSheetViewModel @Inject constructor(
-    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
@@ -447,27 +437,11 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
         updatePreview()
     }
 
-    suspend fun filter(
-        bitmap: Bitmap,
-        filters: List<UiFilter<*>>,
-        size: IntegerSize? = null
-    ): Bitmap? = size?.let { intSize ->
-        imageTransformer.transform(
-            image = bitmap,
-            transformations = filters.map { filterProvider.filterToTransformation(it) },
-            size = intSize
-        )
-    } ?: imageTransformer.transform(
-        image = bitmap,
-        transformations = filters.map { filterProvider.filterToTransformation(it) }
-    )
-
-    fun filterToTransformation(
-        uiFilter: UiFilter<*>
-    ): Transformation = filterProvider.filterToTransformation(uiFilter).toCoil()
-
-    fun saveTemplate() {
+    fun saveTemplate(initialTemplateFilter: TemplateFilter<Bitmap>?) {
         viewModelScope.launch {
+            if (initialTemplateFilter != null) {
+                favoriteFiltersInteractor.removeTemplateFilter(initialTemplateFilter)
+            }
             favoriteFiltersInteractor.addTemplateFilter(
                 TemplateFilter(
                     name = templateName,
@@ -480,5 +454,15 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
     fun setUri(selectedUri: Uri?) {
         bitmapUri = selectedUri
         updatePreview()
+    }
+
+    private var isInitialValueSetAlready: Boolean = false
+
+    fun setInitialTemplateFilter(filter: TemplateFilter<Bitmap>) {
+        if (templateName.isEmpty() && filterList.isEmpty() && !isInitialValueSetAlready) {
+            _templateName.update { filter.name }
+            _filterList.update { filter.filters.map { it.toUiFilter() } }
+            isInitialValueSetAlready = true
+        }
     }
 }

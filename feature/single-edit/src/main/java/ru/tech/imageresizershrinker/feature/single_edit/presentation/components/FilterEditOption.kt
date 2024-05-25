@@ -101,7 +101,6 @@ fun FilterEditOption(
     useScaffold: Boolean,
     bitmap: Bitmap?,
     onGetBitmap: (Bitmap) -> Unit,
-    onRequestFiltering: suspend (Bitmap, List<UiFilter<*>>) -> Bitmap?,
     onRequestMappingFilters: (List<UiFilter<*>>) -> List<Transformation<Bitmap>>,
     filterList: List<UiFilter<*>>,
     updateFilter: (Any, Int, (Throwable) -> Unit) -> Unit,
@@ -115,7 +114,7 @@ fun FilterEditOption(
     bitmap?.let {
         val scaffoldState = rememberBottomSheetScaffoldState()
 
-        val showFilterSheet = rememberSaveable { mutableStateOf(false) }
+        var showFilterSheet by rememberSaveable { mutableStateOf(false) }
         val showReorderSheet = rememberSaveable { mutableStateOf(false) }
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
@@ -125,7 +124,7 @@ fun FilterEditOption(
 
         LaunchedEffect(visible) {
             if (visible && filterList.isEmpty()) {
-                showFilterSheet.value = true
+                showFilterSheet = true
             }
         }
 
@@ -174,7 +173,7 @@ fun FilterEditOption(
                             }
                             EnhancedButton(
                                 containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                onClick = { showFilterSheet.value = true },
+                                onClick = { showFilterSheet = true },
                                 modifier = Modifier.padding(horizontal = 16.dp)
                             ) {
                                 Icon(
@@ -191,7 +190,7 @@ fun FilterEditOption(
             fabButtons = {
                 EnhancedFloatingActionButton(
                     onClick = {
-                        showFilterSheet.value = true
+                        showFilterSheet = true
                     },
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                 ) {
@@ -210,7 +209,7 @@ fun FilterEditOption(
                             .padding(horizontal = 16.dp)
                             .pointerInput(Unit) {
                                 detectTapGestures {
-                                    showFilterSheet.value = true
+                                    showFilterSheet = true
                                 }
                             }
                     )
@@ -300,6 +299,7 @@ fun FilterEditOption(
 
         AddFiltersSheet(
             visible = showFilterSheet,
+            onVisibleChange = { showFilterSheet = it },
             previewBitmap = stateBitmap,
             onFilterPicked = {
                 scope.launch {
@@ -312,12 +312,6 @@ fun FilterEditOption(
                     scaffoldState.bottomSheetState.expand()
                 }
                 addFilter(it)
-            },
-            onRequestFilterMapping = {
-                onRequestMappingFilters(listOf(it)).first().toCoil()
-            },
-            onRequestPreview = { bitmap, filters, _ ->
-                onRequestFiltering(bitmap, filters)
             }
         )
 

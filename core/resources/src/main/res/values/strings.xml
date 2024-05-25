@@ -1124,4 +1124,8 @@
     <string name="as_file">As File</string>
     <string name="save_as_file">Save As File</string>
     <string name="save_as_qr_code_image">Save As QR Code Image</string>
+    <string name="delete_template">Delete Template</string>
+    <string name="delete_template_warn">You are about to delete selected template filter. This operation cannot be undone</string>
+    <string name="added_filter_template">Added filter template with name \"%1$s\" (%2$d)</string>
+    <string name="filter_preview">Filter Preview</string>
 </resources>

@@ -108,9 +108,9 @@ private suspend fun generateQrBitmap(
 ): Bitmap? = withContext(Dispatchers.IO) {
     val qrCodeWriter = QRCodeWriter()
 
-    // Set the QR code margin to the given padding
     val encodeHints = mutableMapOf<EncodeHintType, Any?>()
         .apply {
+            this[EncodeHintType.CHARACTER_SET] = Charsets.UTF_8
             this[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.H
             this[EncodeHintType.MARGIN] = paddingPx
         }

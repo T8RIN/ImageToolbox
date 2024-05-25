@@ -26,16 +26,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.rounded.FilePresent
@@ -52,6 +55,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -68,6 +72,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
@@ -111,32 +116,6 @@ internal fun FilterTemplateInfoSheet(
             )
         }
     ) {
-        val context = LocalContext.current
-        val model = remember(templateFilter) {
-            if (onRequestFilterMapping != null) {
-                ImageRequest.Builder(context)
-                    .data(R.drawable.filter_preview_source)
-                    .error(R.drawable.filter_preview_source)
-                    .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
-                    .diskCacheKey(templateFilter.toString())
-                    .memoryCacheKey(templateFilter.toString())
-                    .crossfade(true)
-                    .size(300, 300)
-                    .build()
-            } else null
-        }
-        var loading by remember {
-            mutableStateOf(false)
-        }
-        val painter = rememberAsyncImagePainter(
-            model = model,
-            onLoading = {
-                loading = true
-            },
-            onSuccess = {
-                loading = false
-            }
-        )
         var filterContent by rememberSaveable {
             mutableStateOf("")
         }
@@ -150,6 +129,16 @@ internal fun FilterTemplateInfoSheet(
         var showShareDialog by rememberSaveable {
             mutableStateOf(false)
         }
+
+        var showDeleteDialog by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        var showEditTemplateSheet by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        val scope = rememberCoroutineScope()
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -197,17 +186,13 @@ internal fun FilterTemplateInfoSheet(
                     }
 
                     if (onRequestFilterMapping != null) {
-                        Image(
-                            painter = painter,
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null,
+                        TemplateFilterPreviewItem(
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .offset(y = (-48).dp)
-                                .size(64.dp)
-                                .clip(MaterialTheme.shapes.medium)
-                                .transparencyChecker()
-                                .shimmer(loading)
+                                .size(64.dp),
+                            templateFilter = templateFilter,
+                            onRequestFilterMapping = onRequestFilterMapping
                         )
                     }
                 }
@@ -217,7 +202,7 @@ internal fun FilterTemplateInfoSheet(
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
                     EnhancedIconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { showDeleteDialog = true },
                         containerColor = MaterialTheme.colorScheme.error
                     ) {
                         Icon(
@@ -232,7 +217,7 @@ internal fun FilterTemplateInfoSheet(
                         Text(stringResource(R.string.share))
                     }
                     EnhancedIconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { showEditTemplateSheet = true },
                         containerColor = MaterialTheme.colorScheme.secondary
                     ) {
                         Icon(
@@ -242,6 +227,62 @@ internal fun FilterTemplateInfoSheet(
                     }
                 }
             }
+        }
+
+        if (showDeleteDialog) {
+            AlertDialog(
+                modifier = Modifier.alertDialogBorder(),
+                onDismissRequest = { showDeleteDialog = false },
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = { showDeleteDialog = false }
+                    ) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                },
+                dismissButton = {
+                    EnhancedButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            scope.launch {
+                                interactor.removeTemplateFilter(templateFilter)
+                                onDismiss(false)
+                                showDeleteDialog = false
+                            }
+                        }
+                    ) {
+                        Text(stringResource(R.string.delete))
+                    }
+                },
+                title = {
+                    Text(stringResource(R.string.delete_template))
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = stringResource(R.string.delete)
+                    )
+                },
+                text = {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        TemplateFilterPreviewItem(
+                            modifier = Modifier
+                                .sizeIn(
+                                    maxHeight = 80.dp,
+                                    maxWidth = 80.dp
+                                )
+                                .aspectRatio(1f),
+                            templateFilter = templateFilter,
+                            onRequestFilterMapping = onRequestFilterMapping
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(stringResource(R.string.delete_template_warn))
+                    }
+                }
+            )
         }
 
         if (showShareDialog) {
@@ -337,5 +378,57 @@ internal fun FilterTemplateInfoSheet(
                 }
             )
         }
+
+        FilterTemplateCreationSheet(
+            visible = showEditTemplateSheet,
+            onDismiss = { showEditTemplateSheet = false },
+            initialTemplateFilter = templateFilter
+        )
+    }
+}
+
+@Composable
+internal fun TemplateFilterPreviewItem(
+    modifier: Modifier,
+    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
+    templateFilter: TemplateFilter<Bitmap>
+) {
+    val context = LocalContext.current
+    val model = remember(templateFilter) {
+        if (onRequestFilterMapping != null) {
+            ImageRequest.Builder(context)
+                .data(R.drawable.filter_preview_source)
+                .error(R.drawable.filter_preview_source)
+                .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
+                .diskCacheKey(templateFilter.toString())
+                .memoryCacheKey(templateFilter.toString())
+                .crossfade(true)
+                .size(300, 300)
+                .build()
+        } else null
+    }
+    var loading by remember {
+        mutableStateOf(false)
+    }
+    val painter = rememberAsyncImagePainter(
+        model = model,
+        onLoading = {
+            loading = true
+        },
+        onSuccess = {
+            loading = false
+        }
+    )
+
+    if (onRequestFilterMapping != null) {
+        Image(
+            painter = painter,
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+            modifier = modifier
+                .clip(MaterialTheme.shapes.medium)
+                .transparencyChecker()
+                .shimmer(loading)
+        )
     }
 }

@@ -220,7 +220,7 @@ fun FiltersScreen(
     var showAddMaskSheet by rememberSaveable { mutableStateOf(false) }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
-    val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
+    var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
         if (viewModel.haveChanges) showExitDialog = true
@@ -383,7 +383,7 @@ fun FiltersScreen(
                 EnhancedFloatingActionButton(
                     onClick = {
                         when (filterType) {
-                            is Screen.Filter.Type.Basic -> showAddFilterSheet.value = true
+                            is Screen.Filter.Type.Basic -> showAddFilterSheet = true
                             is Screen.Filter.Type.Masking -> showAddMaskSheet = true
                         }
                     },
@@ -516,7 +516,7 @@ fun FiltersScreen(
                                         }
                                         AddFilterButton(
                                             onClick = {
-                                                showAddFilterSheet.value = true
+                                                showAddFilterSheet = true
                                             },
                                             modifier = Modifier.padding(
                                                 horizontal = 16.dp
@@ -527,7 +527,7 @@ fun FiltersScreen(
                             } else {
                                 AddFilterButton(
                                     onClick = {
-                                        showAddFilterSheet.value = true
+                                        showAddFilterSheet = true
                                     },
                                     modifier = Modifier.padding(
                                         horizontal = 16.dp
@@ -588,8 +588,6 @@ fun FiltersScreen(
                                                 backgroundColor = MaterialTheme.colorScheme.surface,
                                                 imageUri = viewModel.maskingFilterState.uri,
                                                 previousMasks = maskList.take(index),
-                                                onRequestPreview = viewModel::filter,
-                                                onRequestFilterMapping = viewModel::filterToTransformation,
                                                 mask = mask,
                                                 titleText = stringResource(
                                                     R.string.mask_indexed,
@@ -883,7 +881,7 @@ fun FiltersScreen(
                                 is Screen.Filter.Type.Basic -> {
                                     EnhancedIconButton(
                                         containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                        onClick = { showAddFilterSheet.value = true }
+                                        onClick = { showAddFilterSheet = true }
                                     ) {
                                         Icon(
                                             imageVector = Icons.Rounded.AutoFixHigh,
@@ -1084,21 +1082,6 @@ fun FiltersScreen(
                                         },
                                         columns = if (isPortrait) 2 else 4,
                                     )
-
-                                    AddFiltersSheet(
-                                        visible = showAddFilterSheet,
-                                        previewBitmap = viewModel.previewBitmap,
-                                        onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-                                        onFilterPickedWithParams = { viewModel.addFilter(it) },
-                                        onRequestFilterMapping = viewModel::filterToTransformation,
-                                        onRequestPreview = viewModel::filter
-                                    )
-
-                                    FilterReorderSheet(
-                                        filterList = filterList,
-                                        visible = showReorderSheet,
-                                        updateOrder = viewModel::updateFiltersOrder
-                                    )
                                 } else if (filterType is Screen.Filter.Type.Masking) {
 
                                     content(filterType)
@@ -1110,27 +1093,43 @@ fun FiltersScreen(
                                             buttons(filterType)
                                         }
                                     }
-
-                                    AddEditMaskSheet(
-                                        visible = showAddMaskSheet,
-                                        targetBitmapUri = viewModel.maskingFilterState.uri,
-                                        onMaskPicked = viewModel::addMask,
-                                        onDismiss = {
-                                            showAddMaskSheet = false
-                                        },
-                                        masks = viewModel.maskingFilterState.masks
-                                    )
-
-                                    MaskReorderSheet(
-                                        maskList = viewModel.maskingFilterState.masks,
-                                        visible = showReorderSheet,
-                                        updateOrder = viewModel::updateMasksOrder
-                                    )
                                 }
                             }
                         }
                     }
                 }
+            }
+
+            if (viewModel.filterType is Screen.Filter.Type.Basic) {
+                AddFiltersSheet(
+                    visible = showAddFilterSheet,
+                    onVisibleChange = { showAddFilterSheet = it },
+                    previewBitmap = viewModel.previewBitmap,
+                    onFilterPicked = { viewModel.addFilter(it.newInstance()) },
+                    onFilterPickedWithParams = { viewModel.addFilter(it) }
+                )
+
+                FilterReorderSheet(
+                    filterList = viewModel.basicFilterState.filters,
+                    visible = showReorderSheet,
+                    updateOrder = viewModel::updateFiltersOrder
+                )
+            } else if (viewModel.filterType is Screen.Filter.Type.Masking) {
+                AddEditMaskSheet(
+                    visible = showAddMaskSheet,
+                    targetBitmapUri = viewModel.maskingFilterState.uri,
+                    onMaskPicked = viewModel::addMask,
+                    onDismiss = {
+                        showAddMaskSheet = false
+                    },
+                    masks = viewModel.maskingFilterState.masks
+                )
+
+                MaskReorderSheet(
+                    maskList = viewModel.maskingFilterState.masks,
+                    visible = showReorderSheet,
+                    updateOrder = viewModel::updateMasksOrder
+                )
             }
 
             if (viewModel.isSaving) {

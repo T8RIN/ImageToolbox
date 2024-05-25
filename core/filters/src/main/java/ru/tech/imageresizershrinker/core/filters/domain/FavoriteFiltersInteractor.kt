@@ -33,6 +33,7 @@ interface FavoriteFiltersInteractor<Image> {
 
     suspend fun addTemplateFilterFromString(
         string: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     )
 
@@ -42,6 +43,7 @@ interface FavoriteFiltersInteractor<Image> {
 
     suspend fun addTemplateFilterFromUri(
         uri: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     )
 
