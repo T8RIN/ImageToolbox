@@ -112,6 +112,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -123,6 +126,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.utils.getTemplateF
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -154,7 +158,8 @@ import javax.inject.Inject
 @HiltViewModel
 private class AddFiltersSheetViewModel @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
-    private val imageTransformer: ImageTransformer<Bitmap>
+    private val imageTransformer: ImageTransformer<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
     val previewData by _previewData
@@ -215,6 +220,23 @@ private class AddFiltersSheetViewModel @Inject constructor(
         }
     }
 
+    fun shareImage(
+        bitmap: Bitmap,
+        onComplete: () -> Unit
+    ) {
+        viewModelScope.launch {
+            shareProvider.shareImage(
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = ImageFormat.Png.Lossless
+                ),
+                image = bitmap,
+                onComplete = onComplete
+            )
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -233,6 +255,12 @@ fun AddFiltersSheet(
         val onRequestFilterMapping = viewModel::filterToTransformation
 
         val scope = rememberCoroutineScope()
+        val confettiHostState = LocalConfettiHostState.current
+        val showConfetti: () -> Unit = {
+            scope.launch {
+                confettiHostState.showConfetti()
+            }
+        }
 
         val favoriteFilters by LocalFavoriteFiltersInteractor.getFavoriteFiltersAsUiState()
         val templateFilters by LocalFavoriteFiltersInteractor.getTemplateFiltersAsUiState()
@@ -493,6 +521,9 @@ fun AddFiltersSheet(
                                             contentPadding = PaddingValues(16.dp)
                                         ) {
                                             itemsIndexed(templateFilters) { index, filter ->
+                                                var showFilterTemplateInfoSheet by rememberSaveable {
+                                                    mutableStateOf(false)
+                                                }
                                                 TemplateFilterSelectionItem(
                                                     templateFilter = filter,
                                                     onClick = {
@@ -504,12 +535,26 @@ fun AddFiltersSheet(
                                                     onLongClick = {
                                                         viewModel.setPreviewData(filter.filters)
                                                     },
+                                                    onInfoClick = {
+                                                        showFilterTemplateInfoSheet = true
+                                                    },
                                                     onRequestFilterMapping = onRequestFilterMapping,
                                                     shape = ContainerShapeDefaults.shapeForIndex(
                                                         index = index,
                                                         size = templateFilters.size
                                                     ),
                                                     modifier = Modifier.animateItem()
+                                                )
+                                                FilterTemplateInfoSheet(
+                                                    visible = showFilterTemplateInfoSheet,
+                                                    onDismiss = {
+                                                        showFilterTemplateInfoSheet = it
+                                                    },
+                                                    templateFilter = filter,
+                                                    onRequestFilterMapping = onRequestFilterMapping,
+                                                    onShareImage = {
+                                                        viewModel.shareImage(it, showConfetti)
+                                                    }
                                                 )
                                             }
                                             item {

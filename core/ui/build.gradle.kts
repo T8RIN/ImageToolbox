@@ -77,4 +77,6 @@ dependencies {
     "marketImplementation"(libs.play.services.code.scanner)
 
     api(libs.zxing.android.embedded)
+
+    api(libs.capturable)
 }

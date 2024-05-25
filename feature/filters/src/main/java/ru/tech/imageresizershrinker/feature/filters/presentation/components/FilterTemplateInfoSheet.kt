@@ -51,6 +51,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,8 +60,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -72,6 +75,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
+import dev.shreyaspatil.capturable.capturable
+import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -89,11 +94,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
 internal fun FilterTemplateInfoSheet(
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
     templateFilter: TemplateFilter<Bitmap>,
+    onShareImage: (Bitmap) -> Unit,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?
 ) {
     SimpleSheet(
@@ -139,6 +146,7 @@ internal fun FilterTemplateInfoSheet(
         }
 
         val scope = rememberCoroutineScope()
+        val captureController = rememberCaptureController()
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -147,53 +155,55 @@ internal fun FilterTemplateInfoSheet(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                if (onRequestFilterMapping != null) {
-                    Spacer(modifier = Modifier.height(36.dp))
-                }
-                BoxWithConstraints(
-                    modifier = Modifier.then(
-                        if (onRequestFilterMapping != null) {
-                            Modifier
-                                .background(
-                                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(16.dp)
-                        } else Modifier
-                    )
-                ) {
-                    val targetSize = min(min(maxWidth, maxHeight), 300.dp)
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        QrCode(
-                            content = filterContent,
-                            modifier = Modifier
-                                .then(
-                                    if (onRequestFilterMapping != null) {
-                                        Modifier.padding(top = 36.dp, bottom = 16.dp)
-                                    } else Modifier
-                                )
-                                .size(targetSize)
-                        )
-
-                        Text(
-                            text = templateFilter.name,
-                            style = MaterialTheme.typography.headlineSmall,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.width(targetSize)
-                        )
-                    }
-
+                Column(Modifier.capturable(captureController)) {
                     if (onRequestFilterMapping != null) {
-                        TemplateFilterPreviewItem(
-                            modifier = Modifier
-                                .align(Alignment.TopCenter)
-                                .offset(y = (-48).dp)
-                                .size(64.dp),
-                            templateFilter = templateFilter,
-                            onRequestFilterMapping = onRequestFilterMapping
+                        Spacer(modifier = Modifier.height(32.dp))
+                    }
+                    BoxWithConstraints(
+                        modifier = Modifier.then(
+                            if (onRequestFilterMapping != null) {
+                                Modifier
+                                    .background(
+                                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
+                                    .padding(16.dp)
+                            } else Modifier
                         )
+                    ) {
+                        val targetSize = min(min(maxWidth, maxHeight), 300.dp)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            QrCode(
+                                content = filterContent,
+                                modifier = Modifier
+                                    .then(
+                                        if (onRequestFilterMapping != null) {
+                                            Modifier.padding(top = 36.dp, bottom = 16.dp)
+                                        } else Modifier
+                                    )
+                                    .size(targetSize)
+                            )
+
+                            Text(
+                                text = templateFilter.name,
+                                style = MaterialTheme.typography.headlineSmall,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.width(targetSize)
+                            )
+                        }
+
+                        if (onRequestFilterMapping != null) {
+                            TemplateFilterPreviewItem(
+                                modifier = Modifier
+                                    .align(Alignment.TopCenter)
+                                    .offset(y = (-48).dp)
+                                    .size(64.dp),
+                                templateFilter = templateFilter,
+                                onRequestFilterMapping = onRequestFilterMapping
+                            )
+                        }
                     }
                 }
 
@@ -317,7 +327,12 @@ internal fun FilterTemplateInfoSheet(
                             startIcon = Icons.Rounded.QrCode,
                             onClick = {
                                 showShareDialog = false
-                                TODO()
+                                scope.launch {
+                                    captureController.captureAsync()
+                                        .await()
+                                        .asAndroidBitmap()
+                                        .let(onShareImage)
+                                }
                             },
                             titleFontStyle = LocalTextStyle.current.copy(
                                 fontSize = 16.sp,

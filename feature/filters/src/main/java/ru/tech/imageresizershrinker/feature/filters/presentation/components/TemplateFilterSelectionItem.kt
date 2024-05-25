@@ -41,7 +41,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,6 +76,7 @@ internal fun TemplateFilterSelectionItem(
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
+    onInfoClick: () -> Unit,
     shape: Shape,
     modifier: Modifier
 ) {
@@ -116,10 +116,6 @@ internal fun TemplateFilterSelectionItem(
             }
         }
     )
-
-    var showFilterTemplateInfoSheet by rememberSaveable {
-        mutableStateOf(false)
-    }
 
     PreferenceItemOverload(
         title = templateFilter.name,
@@ -182,9 +178,7 @@ internal fun TemplateFilterSelectionItem(
         },
         endIcon = {
             IconButton(
-                onClick = {
-                    showFilterTemplateInfoSheet = true
-                },
+                onClick = onInfoClick,
                 modifier = Modifier.offset(8.dp)
             ) {
                 Icon(
@@ -197,12 +191,5 @@ internal fun TemplateFilterSelectionItem(
         shape = shape,
         onClick = onClick,
         drawStartIconContainer = false
-    )
-
-    FilterTemplateInfoSheet(
-        visible = showFilterTemplateInfoSheet,
-        onDismiss = { showFilterTemplateInfoSheet = it },
-        templateFilter = templateFilter,
-        onRequestFilterMapping = onRequestFilterMapping
     )
 }
