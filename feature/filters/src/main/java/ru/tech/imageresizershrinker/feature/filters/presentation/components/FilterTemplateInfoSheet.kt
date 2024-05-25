@@ -18,6 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import android.graphics.Bitmap
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -93,6 +96,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
@@ -101,6 +107,8 @@ internal fun FilterTemplateInfoSheet(
     onDismiss: (Boolean) -> Unit,
     templateFilter: TemplateFilter<Bitmap>,
     onShareImage: (Bitmap) -> Unit,
+    onSaveImage: (Bitmap) -> Unit,
+    onSaveFile: (fileUri: Uri, content: String) -> Unit,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?
 ) {
     SimpleSheet(
@@ -295,6 +303,16 @@ internal fun FilterTemplateInfoSheet(
             )
         }
 
+        val saveLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.CreateDocument("*/*"),
+            onResult = {
+                it?.let { uri ->
+                    showShareDialog = false
+                    onSaveFile(uri, filterContent)
+                }
+            }
+        )
+
         if (showShareDialog) {
             AlertDialog(
                 modifier = Modifier.alertDialogBorder(),
@@ -364,7 +382,12 @@ internal fun FilterTemplateInfoSheet(
                             startIcon = Icons.Rounded.QrCode2,
                             onClick = {
                                 showShareDialog = false
-                                TODO()
+                                scope.launch {
+                                    captureController.captureAsync()
+                                        .await()
+                                        .asAndroidBitmap()
+                                        .let(onSaveImage)
+                                }
                             },
                             titleFontStyle = LocalTextStyle.current.copy(
                                 fontSize = 16.sp,
@@ -379,8 +402,11 @@ internal fun FilterTemplateInfoSheet(
                             shape = ContainerShapeDefaults.bottomShape,
                             startIcon = Icons.Rounded.Save,
                             onClick = {
-                                showShareDialog = false
-                                TODO()
+                                val timeStamp = SimpleDateFormat(
+                                    "yyyy-MM-dd_HH-mm-ss",
+                                    Locale.getDefault()
+                                ).format(Date())
+                                saveLauncher.launch("template(${templateFilter.name})$timeStamp.imtbx_template")
                             },
                             titleFontStyle = LocalTextStyle.current.copy(
                                 fontSize = 16.sp,

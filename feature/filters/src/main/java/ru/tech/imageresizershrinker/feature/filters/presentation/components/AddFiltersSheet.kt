@@ -66,6 +66,7 @@ import androidx.compose.material.icons.rounded.FilterHdr
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Speed
@@ -105,17 +106,24 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -128,8 +136,10 @@ import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -141,6 +151,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
@@ -151,6 +163,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
+import java.io.OutputStream
 import java.util.Locale
 import javax.inject.Inject
 
@@ -159,8 +172,11 @@ import javax.inject.Inject
 private class AddFiltersSheetViewModel @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
-) : ViewModel() {
+    private val shareProvider: ShareProvider<Bitmap>,
+    private val fileController: FileController,
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    private val dispatchersHolder: DispatchersHolder
+) : ViewModel(), DispatchersHolder by dispatchersHolder {
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
     val previewData by _previewData
 
@@ -237,6 +253,48 @@ private class AddFiltersSheetViewModel @Inject constructor(
         }
     }
 
+    fun saveImage(
+        bitmap: Bitmap,
+        onComplete: (result: SaveResult) -> Unit,
+    ) {
+        viewModelScope.launch {
+            val imageInfo = ImageInfo(
+                width = bitmap.width,
+                height = bitmap.height,
+                imageFormat = ImageFormat.Png.Lossless
+            )
+            onComplete(
+                fileController.save(
+                    saveTarget = ImageSaveTarget<ExifInterface>(
+                        imageInfo = imageInfo,
+                        originalUri = "",
+                        sequenceNumber = null,
+                        data = imageCompressor.compress(
+                            image = bitmap,
+                            imageFormat = imageInfo.imageFormat,
+                            quality = Quality.Base()
+                        )
+                    ),
+                    keepOriginalMetadata = true
+                )
+            )
+        }
+    }
+
+    fun saveContentTo(
+        content: String,
+        outputStream: OutputStream?,
+        onComplete: (Throwable?) -> Unit
+    ) {
+        viewModelScope.launch(ioDispatcher) {
+            kotlin.runCatching {
+                outputStream?.use {
+                    it.write(content.toByteArray())
+                }
+            }.exceptionOrNull().let(onComplete)
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -261,6 +319,7 @@ fun AddFiltersSheet(
                 confettiHostState.showConfetti()
             }
         }
+        val toastHostState = LocalToastHostState.current
 
         val favoriteFilters by LocalFavoriteFiltersInteractor.getFavoriteFiltersAsUiState()
         val templateFilters by LocalFavoriteFiltersInteractor.getTemplateFiltersAsUiState()
@@ -554,6 +613,53 @@ fun AddFiltersSheet(
                                                     onRequestFilterMapping = onRequestFilterMapping,
                                                     onShareImage = {
                                                         viewModel.shareImage(it, showConfetti)
+                                                    },
+                                                    onSaveImage = {
+                                                        viewModel.saveImage(it) { saveResult ->
+                                                            context.parseSaveResult(
+                                                                saveResult = saveResult,
+                                                                onSuccess = showConfetti,
+                                                                toastHostState = toastHostState,
+                                                                scope = scope
+                                                            )
+                                                        }
+                                                    },
+                                                    onSaveFile = { fileUri, content ->
+                                                        viewModel.saveContentTo(
+                                                            content = content,
+                                                            outputStream = context.openWriteableStream(
+                                                                fileUri
+                                                            ) {
+                                                                scope.launch {
+                                                                    toastHostState.showError(
+                                                                        context,
+                                                                        it
+                                                                    )
+                                                                }
+                                                            }
+                                                        ) { throwable ->
+                                                            if (throwable != null) {
+                                                                scope.launch {
+                                                                    toastHostState.showError(
+                                                                        context,
+                                                                        throwable
+                                                                    )
+                                                                }
+                                                            } else {
+                                                                scope.launch {
+                                                                    confettiHostState.showConfetti()
+                                                                }
+                                                                scope.launch {
+                                                                    toastHostState.showToast(
+                                                                        context.getString(
+                                                                            R.string.saved_to_without_filename,
+                                                                            ""
+                                                                        ),
+                                                                        Icons.Rounded.Save
+                                                                    )
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 )
                                             }
