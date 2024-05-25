@@ -20,7 +20,7 @@ package ru.tech.imageresizershrinker.core.data.saving
 import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 import java.io.OutputStream
 
-class StreamWriteable(
+internal class StreamWriteable(
     private val stream: OutputStream
 ) : Writeable {
 

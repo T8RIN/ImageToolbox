@@ -27,11 +27,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
-import java.io.OutputStream
 import java.security.InvalidKeyException
 import javax.inject.Inject
 
@@ -39,6 +40,7 @@ import javax.inject.Inject
 class FileCipherViewModel @Inject constructor(
     private val cryptographyManager: CryptographyManager,
     private val shareProvider: ShareProvider<Bitmap>,
+    private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
@@ -102,16 +104,17 @@ class FileCipherViewModel @Inject constructor(
     }
 
     fun saveCryptographyTo(
-        outputStream: OutputStream?,
-        onComplete: (Throwable?) -> Unit
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
-            runCatching {
-                outputStream?.use {
-                    it.write(_byteArray.value)
-                }
-            }.exceptionOrNull().let(onComplete)
+            byteArray?.let { byteArray ->
+                fileController.writeBytes(
+                    uri = uri.toString(),
+                    block = { it.writeBytes(byteArray) }
+                ).also(onResult).onSuccess(::registerSave)
+            }
             _isSaving.value = false
         }
     }

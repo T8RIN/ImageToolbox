@@ -44,7 +44,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImageState
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -100,16 +99,17 @@ class PdfToolsViewModel @Inject constructor(
     }
 
     fun savePdfTo(
-        outputStream: OutputStream?,
-        onComplete: (Throwable?) -> Unit
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch(ioDispatcher) {
             _isSaving.value = true
-            runCatching {
-                outputStream?.use {
-                    it.write(_byteArray.value)
-                }
-            }.exceptionOrNull().let(onComplete)
+            _byteArray.value?.let { byteArray ->
+                fileController.writeBytes(
+                    uri = uri.toString(),
+                    block = { it.writeBytes(byteArray) }
+                ).also(onResult).onSuccess(::registerSave)
+            }
             _isSaving.value = false
         }
     }

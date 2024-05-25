@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -140,29 +140,20 @@ internal fun SettingItem(
             }
 
             Setting.Backup -> {
-                val writeDenied: (Throwable) -> Unit = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
-                }
                 BackupSettingItem(
                     createBackupFilename = viewModel::createBackupFilename,
                     createBackup = { uri ->
                         viewModel.createBackup(
-                            outputStream = context.openWriteableStream(uri, writeDenied),
-                            onSuccess = {
-                                scope.launch {
-                                    confettiHostState.showConfetti()
-                                }
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        context.getString(
-                                            R.string.saved_to_without_filename,
-                                            ""
-                                        ),
-                                        Icons.Rounded.Save
-                                    )
-                                }
+                            uri = uri,
+                            onResult = { result ->
+                                context.parseFileSaveResult(
+                                    saveResult = result,
+                                    onSuccess = {
+                                        confettiHostState.showConfetti()
+                                    },
+                                    toastHostState = toastHostState,
+                                    scope = scope
+                                )
                             }
                         )
                     }

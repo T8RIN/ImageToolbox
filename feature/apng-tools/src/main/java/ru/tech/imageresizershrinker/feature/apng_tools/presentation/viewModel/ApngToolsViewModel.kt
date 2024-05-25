@@ -50,7 +50,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngConverter
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngParams
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -177,16 +176,17 @@ class ApngToolsViewModel @Inject constructor(
     }
 
     fun saveApngTo(
-        outputStream: OutputStream?,
-        onComplete: (Throwable?) -> Unit
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
-            kotlin.runCatching {
-                outputStream?.use {
-                    it.write(apngData)
-                }
-            }.exceptionOrNull().let(onComplete)
+            apngData?.let { byteArray ->
+                fileController.writeBytes(
+                    uri = uri.toString(),
+                    block = { it.writeBytes(byteArray) }
+                ).also(onResult).onSuccess(::registerSave)
+            }
             _isSaving.value = false
             apngData = null
         }

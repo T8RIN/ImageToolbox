@@ -53,7 +53,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -88,11 +87,10 @@ import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -114,7 +112,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.components.ApngParamsSelector
@@ -210,37 +207,19 @@ fun ApngToolsScreen(
         }
     }
 
-    val writeDenied: (Throwable) -> Unit = {
-        scope.launch {
-            toastHostState.showError(context, it)
-        }
-    }
     val saveApngLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("image/apng"),
         onResult = {
             it?.let { uri ->
-                viewModel.saveApngTo(
-                    outputStream = context.openWriteableStream(uri, writeDenied)
-                ) { t ->
-                    if (t != null) {
-                        scope.launch {
-                            toastHostState.showError(context, t)
-                        }
-                    } else {
-                        scope.launch {
+                viewModel.saveApngTo(uri) { result ->
+                    context.parseFileSaveResult(
+                        saveResult = result,
+                        onSuccess = {
                             confettiHostState.showConfetti()
-                        }
-                        scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.saved_to_without_filename,
-                                    ""
-                                ),
-                                Icons.Rounded.Save
-                            )
-                            ReviewHandler.showReview(context)
-                        }
-                    }
+                        },
+                        toastHostState = toastHostState,
+                        scope = scope
+                    )
                 }
             }
         }

@@ -76,10 +76,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
-import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import net.engawapg.lib.zoomable.rememberZoomState
-import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -781,9 +779,5 @@ private class AddMaskSheetViewModel @Inject constructor(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }
     )
-
-    fun filterToTransformation(
-        uiFilter: UiFilter<*>
-    ): Transformation = filterProvider.filterToTransformation(uiFilter).toCoil()
 
 }

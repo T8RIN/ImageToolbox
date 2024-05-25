@@ -41,7 +41,6 @@ import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileOpen
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.twotone.FileOpen
 import androidx.compose.material3.Icon
@@ -74,9 +73,8 @@ import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -124,37 +122,19 @@ fun ZipScreen(
         } else onGoBack()
     }
 
-    val writeDenied: (Throwable) -> Unit = {
-        scope.launch {
-            toastHostState.showError(context, it)
-        }
-    }
     val saveLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/zip"),
         onResult = {
             it?.let { uri ->
-                viewModel.saveResultTo(
-                    outputStream = context.openWriteableStream(uri, writeDenied)
-                ) { t ->
-                    if (t != null) {
-                        scope.launch {
-                            toastHostState.showError(context, t)
-                        }
-                    } else {
-                        scope.launch {
+                viewModel.saveResultTo(uri) { result ->
+                    context.parseFileSaveResult(
+                        saveResult = result,
+                        onSuccess = {
                             confettiHostState.showConfetti()
-                        }
-                        scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.saved_to_without_filename,
-                                    ""
-                                ),
-                                Icons.Rounded.Save
-                            )
-                            showReview(context)
-                        }
-                    }
+                        },
+                        toastHostState = toastHostState,
+                        scope = scope
+                    )
                 }
             }
         }

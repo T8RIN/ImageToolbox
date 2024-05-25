@@ -67,7 +67,6 @@ import androidx.compose.material.icons.rounded.FilterHdr
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Speed
@@ -108,12 +107,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -136,10 +133,12 @@ import ru.tech.imageresizershrinker.core.filters.presentation.utils.getTemplateF
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -153,7 +152,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
@@ -178,7 +176,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val dispatchersHolder: DispatchersHolder
-) : ViewModel(), DispatchersHolder by dispatchersHolder {
+) : BaseViewModel(dispatchersHolder) {
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
     val previewData by _previewData
 
@@ -286,32 +284,25 @@ private class AddFiltersSheetViewModel @Inject constructor(
     fun saveContentTo(
         content: String,
         fileUri: Uri,
-        onComplete: (Throwable?) -> Unit
+        onResult: (SaveResult) -> Unit
     ) {
         viewModelScope.launch(ioDispatcher) {
-            runCatching {
-                fileController.writeBytes(
-                    fileUri.toString(),
-                    onError = {
-                        onComplete(it)
-                        return@writeBytes
-                    }
-                ) {
-                    it.writeBytes(content.toByteArray())
-                }
-            }.exceptionOrNull().let(onComplete)
+            fileController.writeBytes(
+                uri = fileUri.toString(),
+                block = { it.writeBytes(content.toByteArray()) }
+            ).also(onResult).onSuccess(::registerSave)
         }
     }
 
     fun shareContent(
         content: String,
-        templateFilter: TemplateFilter<Bitmap>,
+        filename: String,
         onComplete: () -> Unit
     ) {
         viewModelScope.launch {
             shareProvider.shareData(
                 writeData = { it.writeBytes(content.toByteArray()) },
-                filename = createTemplateFilename(templateFilter),
+                filename = filename,
                 onComplete = onComplete
             )
         }
@@ -658,28 +649,15 @@ fun AddFiltersSheet(
                                                         viewModel.saveContentTo(
                                                             content = content,
                                                             fileUri = fileUri
-                                                        ) { throwable ->
-                                                            if (throwable != null) {
-                                                                scope.launch {
-                                                                    toastHostState.showError(
-                                                                        context,
-                                                                        throwable
-                                                                    )
-                                                                }
-                                                            } else {
-                                                                scope.launch {
+                                                        ) { result ->
+                                                            context.parseFileSaveResult(
+                                                                saveResult = result,
+                                                                onSuccess = {
                                                                     confettiHostState.showConfetti()
-                                                                }
-                                                                scope.launch {
-                                                                    toastHostState.showToast(
-                                                                        context.getString(
-                                                                            R.string.saved_to_without_filename,
-                                                                            ""
-                                                                        ),
-                                                                        Icons.Rounded.Save
-                                                                    )
-                                                                }
-                                                            }
+                                                                },
+                                                                toastHostState = toastHostState,
+                                                                scope = scope
+                                                            )
                                                         }
                                                     },
                                                     onRequestTemplateFilename = {
@@ -690,7 +668,9 @@ fun AddFiltersSheet(
                                                     onShareFile = { content ->
                                                         viewModel.shareContent(
                                                             content = content,
-                                                            templateFilter = templateFilter,
+                                                            filename = viewModel.createTemplateFilename(
+                                                                templateFilter
+                                                            ),
                                                             onComplete = showConfetti
                                                         )
                                                     }

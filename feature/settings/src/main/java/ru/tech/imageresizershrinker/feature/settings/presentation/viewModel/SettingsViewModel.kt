@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -45,7 +46,6 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import java.io.OutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -222,14 +222,14 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun createBackup(
-        outputStream: OutputStream?,
-        onSuccess: () -> Unit
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
     ) {
         viewModelScope.launch(ioDispatcher) {
-            outputStream?.use {
-                it.write(settingsManager.createBackupFile())
-            }
-            onSuccess()
+            fileController.writeBytes(
+                uri = uri.toString(),
+                block = { it.writeBytes(settingsManager.createBackupFile()) }
+            ).also(onResult)
         }
     }
 

@@ -40,7 +40,6 @@ import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.DocumentScanner
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.twotone.DocumentScanner
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -67,9 +66,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberDocumentScanner
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -127,28 +125,15 @@ fun DocumentScannerScreen(
         contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
             it?.let { uri ->
-                viewModel.savePdfTo(
-                    outputStream = context.openWriteableStream(uri, writeDenied)
-                ) { t ->
-                    if (t != null) {
-                        scope.launch {
-                            toastHostState.showError(context, t)
-                        }
-                    } else {
-                        scope.launch {
+                viewModel.savePdfTo(uri) { result ->
+                    context.parseFileSaveResult(
+                        saveResult = result,
+                        onSuccess = {
                             confettiHostState.showConfetti()
-                        }
-                        scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.saved_to_without_filename,
-                                    ""
-                                ),
-                                Icons.Rounded.Save
-                            )
-                            showReview(context)
-                        }
-                    }
+                        },
+                        toastHostState = toastHostState,
+                        scope = scope
+                    )
                 }
             }
         }

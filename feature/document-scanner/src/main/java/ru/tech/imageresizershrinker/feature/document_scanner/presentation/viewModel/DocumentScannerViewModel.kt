@@ -45,7 +45,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ScanResult
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -75,8 +74,8 @@ class DocumentScannerViewModel @Inject constructor(
 
     private suspend fun getPdfUri(): Uri? =
         if (_pdfUris.value.size > 1 || _pdfUris.value.isEmpty()) {
-        createPdfUri()
-    } else _pdfUris.value.firstOrNull()
+            createPdfUri()
+        } else _pdfUris.value.firstOrNull()
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -147,20 +146,18 @@ class DocumentScannerViewModel @Inject constructor(
     }
 
     fun savePdfTo(
-        outputStream: OutputStream?,
-        onComplete: (Throwable?) -> Unit
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch(ioDispatcher) {
             _isSaving.value = true
-            getPdfUri()?.let { uri ->
-                runCatching {
-                    outputStream?.use {
-                        it.write(fileController.readBytes(uri.toString()))
-                    }
-                }.exceptionOrNull().let(onComplete)
-                registerSave()
+            getPdfUri()?.let { pdfUri ->
+                fileController.writeBytes(
+                    uri = uri.toString(),
+                    block = { it.writeBytes(fileController.readBytes(pdfUri.toString())) }
+                ).also(onResult).onSuccess(::registerSave)
+                _isSaving.value = false
             }
-            _isSaving.value = false
         }
     }
 

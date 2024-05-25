@@ -21,9 +21,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 import java.io.File
 import java.io.FileOutputStream
 
-class FileWriteable(
-    private val file: File
-) : Writeable {
+internal class FileWriteable(file: File) : Writeable {
 
     private val stream = FileOutputStream(file)
 

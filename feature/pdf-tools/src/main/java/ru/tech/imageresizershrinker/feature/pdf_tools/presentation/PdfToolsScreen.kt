@@ -115,10 +115,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -201,37 +200,19 @@ fun PdfToolsScreen(
         }
     }
 
-    val writeDenied: (Throwable) -> Unit = {
-        scope.launch {
-            toastHostState.showError(context, it)
-        }
-    }
     val savePdfLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
             it?.let { uri ->
-                viewModel.savePdfTo(
-                    outputStream = context.openWriteableStream(uri, writeDenied)
-                ) { t ->
-                    if (t != null) {
-                        scope.launch {
-                            toastHostState.showError(context, t)
-                        }
-                    } else {
-                        scope.launch {
+                viewModel.savePdfTo(uri) { result ->
+                    context.parseFileSaveResult(
+                        saveResult = result,
+                        onSuccess = {
                             confettiHostState.showConfetti()
-                        }
-                        scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.saved_to_without_filename,
-                                    ""
-                                ),
-                                Icons.Rounded.Save
-                            )
-                            showReview(context)
-                        }
-                    }
+                        },
+                        toastHostState = toastHostState,
+                        scope = scope
+                    )
                 }
             }
         }

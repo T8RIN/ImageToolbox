@@ -51,7 +51,6 @@ interface FileController {
 
     suspend fun writeBytes(
         uri: String,
-        onError: (Throwable) -> Unit = {},
         block: suspend (Writeable) -> Unit
-    )
+    ): SaveResult
 }

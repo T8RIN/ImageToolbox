@@ -40,7 +40,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.use
 import ru.tech.imageresizershrinker.core.resources.R
 import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 internal class AndroidShareProvider @Inject constructor(
@@ -155,25 +154,10 @@ internal class AndroidShareProvider @Inject constructor(
         byteArray: ByteArray,
         filename: String
     ): String? = withContext(ioDispatcher) {
-        val imagesFolder = File(context.cacheDir, "files")
-
-        runCatching {
-            imagesFolder.mkdirs()
-            val file = File(imagesFolder, filename)
-            FileOutputStream(file).use {
-                it.write(byteArray)
-            }
-            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
-                .also { uri ->
-                    runCatching {
-                        context.grantUriPermission(
-                            context.packageName,
-                            uri,
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        )
-                    }
-                }
-        }.getOrNull()?.toString()
+        cacheData(
+            writeData = { it.writeBytes(byteArray) },
+            filename = filename,
+        )
     }
 
     override suspend fun shareByteArray(
@@ -181,18 +165,11 @@ internal class AndroidShareProvider @Inject constructor(
         filename: String,
         onComplete: () -> Unit
     ) = withContext(ioDispatcher) {
-        cacheByteArray(
-            byteArray = byteArray,
-            filename = filename
-        )?.let {
-            shareUri(
-                uri = it,
-                type = MimeTypeMap.getSingleton()
-                    .getMimeTypeFromExtension(
-                        imageGetter.getExtension(it)
-                    ) ?: "*/*"
-            )
-        }
+        shareData(
+            writeData = { it.writeBytes(byteArray) },
+            filename = filename,
+            onComplete = onComplete
+        )
         onComplete()
     }
 

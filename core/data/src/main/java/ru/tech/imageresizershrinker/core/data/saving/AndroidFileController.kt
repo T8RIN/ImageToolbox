@@ -503,15 +503,22 @@ internal class AndroidFileController @Inject constructor(
 
     override suspend fun writeBytes(
         uri: String,
-        onError: (Throwable) -> Unit,
         block: suspend (Writeable) -> Unit,
-    ) {
-        context.openWriteableStream(
-            uri = uri.toUri(),
-            onError = onError
-        )?.let { stream ->
-            StreamWriteable(stream).use { block(it) }
+    ): SaveResult {
+        runCatching {
+            context.openWriteableStream(
+                uri = uri.toUri(),
+                onError = { throw it }
+            )?.let { stream ->
+                StreamWriteable(stream).use { block(it) }
+            }
+        }.onSuccess {
+            return SaveResult.Success(null, "")
+        }.onFailure {
+            return SaveResult.Error.Exception(it)
         }
+
+        return SaveResult.Error.Exception(IllegalStateException())
     }
 
     private fun Context.openWriteableStream(

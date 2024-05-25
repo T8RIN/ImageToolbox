@@ -66,6 +66,33 @@ fun Context.parseSaveResult(
     }
 }
 
+fun Context.parseFileSaveResult(
+    saveResult: SaveResult,
+    onSuccess: suspend () -> Unit,
+    toastHostState: ToastHostState,
+    scope: CoroutineScope
+) {
+    if (saveResult is SaveResult.Error.Exception) {
+        scope.launch {
+            toastHostState.showError(this@parseFileSaveResult, saveResult.throwable)
+        }
+    } else if (saveResult is SaveResult.Success) {
+        scope.launch {
+            onSuccess()
+        }
+        scope.launch {
+            toastHostState.showToast(
+                getString(
+                    R.string.saved_to_without_filename,
+                    ""
+                ),
+                Icons.Rounded.Save
+            )
+            showReview(this@parseFileSaveResult)
+        }
+    }
+}
+
 fun Activity.parseSaveResults(
     scope: CoroutineScope,
     results: List<SaveResult>,
