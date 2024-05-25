@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.domain.image
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 
 interface ShareProvider<I> {
 
@@ -45,6 +46,17 @@ interface ShareProvider<I> {
 
     suspend fun shareByteArray(
         byteArray: ByteArray,
+        filename: String,
+        onComplete: () -> Unit = {}
+    )
+
+    suspend fun cacheData(
+        writeData: suspend (Writeable) -> Unit,
+        filename: String
+    ): String?
+
+    suspend fun shareData(
+        writeData: suspend (Writeable) -> Unit,
         filename: String,
         onComplete: () -> Unit = {}
     )

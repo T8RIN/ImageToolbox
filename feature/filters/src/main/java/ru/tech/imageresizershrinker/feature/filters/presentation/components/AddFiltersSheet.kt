@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -126,6 +127,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
@@ -136,7 +138,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
@@ -163,7 +164,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
-import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -283,16 +285,44 @@ private class AddFiltersSheetViewModel @Inject constructor(
 
     fun saveContentTo(
         content: String,
-        outputStream: OutputStream?,
+        fileUri: Uri,
         onComplete: (Throwable?) -> Unit
     ) {
         viewModelScope.launch(ioDispatcher) {
-            kotlin.runCatching {
-                outputStream?.use {
-                    it.write(content.toByteArray())
+            runCatching {
+                fileController.writeBytes(
+                    fileUri.toString(),
+                    onError = {
+                        onComplete(it)
+                        return@writeBytes
+                    }
+                ) {
+                    it.writeBytes(content.toByteArray())
                 }
             }.exceptionOrNull().let(onComplete)
         }
+    }
+
+    fun shareContent(
+        content: String,
+        templateFilter: TemplateFilter<Bitmap>,
+        onComplete: () -> Unit
+    ) {
+        viewModelScope.launch {
+            shareProvider.shareData(
+                writeData = { it.writeBytes(content.toByteArray()) },
+                filename = createTemplateFilename(templateFilter),
+                onComplete = onComplete
+            )
+        }
+    }
+
+    fun createTemplateFilename(templateFilter: TemplateFilter<Bitmap>): String {
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date())
+        return "template(${templateFilter.name})$timeStamp.imtbx_template"
     }
 
 }
@@ -579,20 +609,20 @@ fun AddFiltersSheet(
                                             verticalArrangement = Arrangement.spacedBy(4.dp),
                                             contentPadding = PaddingValues(16.dp)
                                         ) {
-                                            itemsIndexed(templateFilters) { index, filter ->
+                                            itemsIndexed(templateFilters) { index, templateFilter ->
                                                 var showFilterTemplateInfoSheet by rememberSaveable {
                                                     mutableStateOf(false)
                                                 }
                                                 TemplateFilterSelectionItem(
-                                                    templateFilter = filter,
+                                                    templateFilter = templateFilter,
                                                     onClick = {
                                                         onVisibleChange(false)
-                                                        filter.filters.forEach {
+                                                        templateFilter.filters.forEach {
                                                             onFilterPickedWithParams(it.toUiFilter())
                                                         }
                                                     },
                                                     onLongClick = {
-                                                        viewModel.setPreviewData(filter.filters)
+                                                        viewModel.setPreviewData(templateFilter.filters)
                                                     },
                                                     onInfoClick = {
                                                         showFilterTemplateInfoSheet = true
@@ -609,7 +639,7 @@ fun AddFiltersSheet(
                                                     onDismiss = {
                                                         showFilterTemplateInfoSheet = it
                                                     },
-                                                    templateFilter = filter,
+                                                    templateFilter = templateFilter,
                                                     onRequestFilterMapping = onRequestFilterMapping,
                                                     onShareImage = {
                                                         viewModel.shareImage(it, showConfetti)
@@ -627,16 +657,7 @@ fun AddFiltersSheet(
                                                     onSaveFile = { fileUri, content ->
                                                         viewModel.saveContentTo(
                                                             content = content,
-                                                            outputStream = context.openWriteableStream(
-                                                                fileUri
-                                                            ) {
-                                                                scope.launch {
-                                                                    toastHostState.showError(
-                                                                        context,
-                                                                        it
-                                                                    )
-                                                                }
-                                                            }
+                                                            fileUri = fileUri
                                                         ) { throwable ->
                                                             if (throwable != null) {
                                                                 scope.launch {
@@ -660,6 +681,18 @@ fun AddFiltersSheet(
                                                                 }
                                                             }
                                                         }
+                                                    },
+                                                    onRequestTemplateFilename = {
+                                                        viewModel.createTemplateFilename(
+                                                            templateFilter
+                                                        )
+                                                    },
+                                                    onShareFile = { content ->
+                                                        viewModel.shareContent(
+                                                            content = content,
+                                                            templateFilter = templateFilter,
+                                                            onComplete = showConfetti
+                                                        )
                                                     }
                                                 )
                                             }

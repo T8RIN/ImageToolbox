@@ -96,9 +96,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
@@ -109,6 +106,8 @@ internal fun FilterTemplateInfoSheet(
     onShareImage: (Bitmap) -> Unit,
     onSaveImage: (Bitmap) -> Unit,
     onSaveFile: (fileUri: Uri, content: String) -> Unit,
+    onShareFile: (content: String) -> Unit,
+    onRequestTemplateFilename: () -> String,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?
 ) {
     SimpleSheet(
@@ -366,7 +365,7 @@ internal fun FilterTemplateInfoSheet(
                             startIcon = Icons.Rounded.FilePresent,
                             onClick = {
                                 showShareDialog = false
-                                TODO()
+                                onShareFile(filterContent)
                             },
                             titleFontStyle = LocalTextStyle.current.copy(
                                 fontSize = 16.sp,
@@ -402,11 +401,7 @@ internal fun FilterTemplateInfoSheet(
                             shape = ContainerShapeDefaults.bottomShape,
                             startIcon = Icons.Rounded.Save,
                             onClick = {
-                                val timeStamp = SimpleDateFormat(
-                                    "yyyy-MM-dd_HH-mm-ss",
-                                    Locale.getDefault()
-                                ).format(Date())
-                                saveLauncher.launch("template(${templateFilter.name})$timeStamp.imtbx_template")
+                                saveLauncher.launch(onRequestTemplateFilename())
                             },
                             titleFontStyle = LocalTextStyle.current.copy(
                                 fontSize = 16.sp,

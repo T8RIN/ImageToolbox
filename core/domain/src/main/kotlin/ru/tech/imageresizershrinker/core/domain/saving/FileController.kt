@@ -48,4 +48,10 @@ interface FileController {
     fun getReadableCacheSize(): String
 
     suspend fun readBytes(uri: String): ByteArray
+
+    suspend fun writeBytes(
+        uri: String,
+        onError: (Throwable) -> Unit = {},
+        block: suspend (Writeable) -> Unit
+    )
 }

@@ -28,13 +28,16 @@ import androidx.exifinterface.media.ExifInterface
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.saving.FileWriteable
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.ImageFilenameProvider
+import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.use
 import ru.tech.imageresizershrinker.core.resources.R
 import java.io.File
 import java.io.FileOutputStream
@@ -180,6 +183,52 @@ internal class AndroidShareProvider @Inject constructor(
     ) = withContext(ioDispatcher) {
         cacheByteArray(
             byteArray = byteArray,
+            filename = filename
+        )?.let {
+            shareUri(
+                uri = it,
+                type = MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(
+                        imageGetter.getExtension(it)
+                    ) ?: "*/*"
+            )
+        }
+        onComplete()
+    }
+
+    override suspend fun cacheData(
+        writeData: suspend (Writeable) -> Unit,
+        filename: String
+    ): String? = withContext(ioDispatcher) {
+        val imagesFolder = File(context.cacheDir, "files")
+
+        runCatching {
+            imagesFolder.mkdirs()
+            val file = File(imagesFolder, filename)
+            FileWriteable(file).use {
+                writeData(it)
+            }
+
+            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
+                .also { uri ->
+                    runCatching {
+                        context.grantUriPermission(
+                            context.packageName,
+                            uri,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        )
+                    }
+                }
+        }.getOrNull()?.toString()
+    }
+
+    override suspend fun shareData(
+        writeData: suspend (Writeable) -> Unit,
+        filename: String,
+        onComplete: () -> Unit
+    ) = withContext(ioDispatcher) {
+        cacheData(
+            writeData = writeData,
             filename = filename
         )?.let {
             shareUri(

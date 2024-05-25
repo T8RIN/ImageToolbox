@@ -50,9 +50,11 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
+import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.use
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
@@ -497,6 +499,32 @@ internal class AndroidFileController @Inject constructor(
         context.contentResolver.openInputStream(uri.toUri())?.use {
             it.buffered().readBytes()
         } ?: ByteArray(0)
+    }
+
+    override suspend fun writeBytes(
+        uri: String,
+        onError: (Throwable) -> Unit,
+        block: suspend (Writeable) -> Unit,
+    ) {
+        context.openWriteableStream(
+            uri = uri.toUri(),
+            onError = onError
+        )?.let { stream ->
+            StreamWriteable(stream).use { block(it) }
+        }
+    }
+
+    private fun Context.openWriteableStream(
+        uri: Uri?,
+        onError: (Throwable) -> Unit = {}
+    ): OutputStream? = uri?.let {
+        runCatching {
+            contentResolver.openOutputStream(uri, "rw")
+        }.getOrElse {
+            runCatching {
+                contentResolver.openOutputStream(uri, "w")
+            }.onFailure(onError).getOrNull()
+        }
     }
 
     private fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
