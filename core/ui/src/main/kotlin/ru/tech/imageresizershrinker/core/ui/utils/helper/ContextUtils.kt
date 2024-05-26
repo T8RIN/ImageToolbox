@@ -214,7 +214,8 @@ object ContextUtils {
                         }
                     }
                 } else if (text != null) {
-                    navigate(Screen.LoadNetImage(text))
+                    onHasExtraImageType(text)
+                    onGetUris(listOf())
                 } else {
                     when (intent.action) {
                         Intent.ACTION_SEND_MULTIPLE -> {

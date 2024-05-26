@@ -38,9 +38,6 @@ internal fun List<Uri>.screenList(
     val uris = this
     val context = LocalContext.current
 
-
-    //TODO: handle text (also edit github readme)
-
     fun Uri?.type(
         vararg extensions: String
     ) = extensions.any { ext ->
@@ -219,6 +216,15 @@ internal fun List<Uri>.screenList(
         }
     }
 
+    val textAvailableScreens by remember(extraImageType) {
+        derivedStateOf {
+            listOf(
+                Screen.ScanQrCode(extraImageType ?: ""),
+                Screen.LoadNetImage(extraImageType ?: "")
+            )
+        }
+    }
+
     return remember(
         extraImageType,
         uris,
@@ -231,7 +237,10 @@ internal fun List<Uri>.screenList(
                 extraImageType == "pdf" -> pdfAvailableScreens
                 extraImageType == "gif" -> gifAvailableScreens
                 extraImageType == "file" -> filesAvailableScreens
-                uris.size < 2 -> singleImageScreens
+                uris.size == 1 -> singleImageScreens
+                uris.size >= 2 -> multipleImagesScreens
+                extraImageType != null -> textAvailableScreens
+
                 else -> multipleImagesScreens
             }
         }

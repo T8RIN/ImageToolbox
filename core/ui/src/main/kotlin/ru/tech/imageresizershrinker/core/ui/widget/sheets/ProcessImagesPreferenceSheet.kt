@@ -78,7 +78,7 @@ fun ProcessImagesPreferenceSheet(
                     verticalItemSpacing = 8.dp,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    if (extraImageType !in listOf("pdf", "file")) {
+                    if (extraImageType in listOf("gif", null)) {
                         item(
                             span = StaggeredGridItemSpan.FullLine
                         ) {
