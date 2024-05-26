@@ -17,17 +17,20 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -37,13 +40,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.getValue
@@ -57,7 +60,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -70,16 +72,18 @@ import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.QrCode
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -104,9 +108,6 @@ fun ScanQrCodeScreen(
 
     val scope = rememberCoroutineScope()
 
-    val isLandscape =
-        LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact || LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-
     var qrContent by rememberSaveable(qrCodeContent) { mutableStateOf(qrCodeContent ?: "") }
 
     val scanner = rememberQrCodeScanner {
@@ -120,8 +121,6 @@ fun ScanQrCodeScreen(
     var qrDescription by rememberSaveable {
         mutableStateOf("")
     }
-
-    //TODO: Add fields above
 
     val captureController = rememberCaptureController()
 
@@ -145,6 +144,83 @@ fun ScanQrCodeScreen(
         }
     }
 
+    val isLandscape by isLandscapeOrientationAsState()
+
+    @Composable
+    fun QrCodePreview() {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(Modifier.capturable(captureController)) {
+                if (qrImageUri != null) {
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+                BoxWithConstraints(
+                    modifier = Modifier
+                        .then(
+                            if (qrImageUri != null || qrDescription.isNotEmpty()) {
+                                Modifier
+                                    .background(
+                                        color = takeColorFromScheme {
+                                            if (isLandscape) {
+                                                surfaceContainerLowest
+                                            } else surfaceContainerLow
+                                        },
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
+                                    .padding(16.dp)
+                            } else Modifier
+                        )
+                ) {
+                    val targetSize = min(min(maxWidth, maxHeight), 300.dp)
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        QrCode(
+                            content = qrContent,
+                            modifier = Modifier
+                                .padding(
+                                    top = if (qrImageUri != null) 36.dp else 0.dp,
+                                    bottom = if (qrDescription.isNotEmpty()) 16.dp else 0.dp
+                                )
+                                .then(
+                                    if (isLandscape) {
+                                        Modifier
+                                            .weight(1f, false)
+                                            .aspectRatio(1f)
+                                    } else Modifier
+                                )
+                                .size(targetSize)
+                        )
+
+                        BoxAnimatedVisibility(visible = qrDescription.isNotEmpty()) {
+                            Text(
+                                text = qrDescription,
+                                style = MaterialTheme.typography.headlineSmall,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.width(targetSize)
+                            )
+                        }
+                    }
+
+                    if (qrImageUri != null) {
+                        Picture(
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .offset(y = (-48).dp)
+                                .size(64.dp),
+                            model = qrImageUri,
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
+                            shape = MaterialTheme.shapes.medium
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     AdaptiveLayoutScreen(
         title = {
             Text(
@@ -155,7 +231,7 @@ fun ScanQrCodeScreen(
         onGoBack = onGoBack,
         actions = {
             ShareButton(
-                enabled = qrCodeContent?.isNotEmpty() == true,
+                enabled = qrContent.isNotEmpty(),
                 onShare = {
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
@@ -176,69 +252,14 @@ fun ScanQrCodeScreen(
         topAppBarPersistentActions = {
             TopAppBarEmoji()
         },
+        showImagePreviewAsStickyHeader = false,
         imagePreview = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(Modifier.capturable(captureController)) {
-                    if (qrImageUri != null) {
-                        Spacer(modifier = Modifier.height(32.dp))
-                    }
-                    BoxWithConstraints(
-                        modifier = Modifier
-                            .then(
-                                if (qrImageUri != null) {
-                                    Modifier
-                                        .background(
-                                            color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                                            shape = RoundedCornerShape(16.dp)
-                                        )
-                                        .padding(16.dp)
-                                } else Modifier
-                            )
-                    ) {
-                        val targetSize = min(min(maxWidth, maxHeight), 300.dp)
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            QrCode(
-                                content = qrContent,
-                                modifier = Modifier
-                                    .padding(
-                                        top = if (qrImageUri != null) 36.dp else 0.dp,
-                                        bottom = if (qrDescription.isNotEmpty()) 16.dp else 0.dp
-                                    )
-                                    .size(targetSize)
-                            )
-
-                            BoxAnimatedVisibility(visible = qrDescription.isNotEmpty()) {
-                                Text(
-                                    text = qrDescription,
-                                    style = MaterialTheme.typography.headlineSmall,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.width(targetSize)
-                                )
-                            }
-                        }
-
-                        if (qrImageUri != null) {
-                            Picture(
-                                modifier = Modifier
-                                    .align(Alignment.TopCenter)
-                                    .offset(y = (-48).dp)
-                                    .size(64.dp),
-                                model = qrImageUri,
-                                contentScale = ContentScale.Crop,
-                                contentDescription = null,
-                                shape = MaterialTheme.shapes.medium
-                            )
-                        }
-                    }
-                }
-            }
+            if (isLandscape) QrCodePreview()
         },
         controls = {
+            Spacer(modifier = Modifier.height(20.dp))
+            if (!isLandscape) QrCodePreview()
+            Spacer(modifier = Modifier.height(16.dp))
             RoundedTextField(
                 modifier = Modifier
                     .container(shape = RoundedCornerShape(24.dp))
@@ -268,6 +289,7 @@ fun ScanQrCodeScreen(
                     }
                 }
             )
+            Spacer(modifier = Modifier.height(8.dp))
             Column(
                 modifier = Modifier
                     .padding(8.dp)
@@ -295,6 +317,60 @@ fun ScanQrCodeScreen(
                         lineHeight = 14.sp,
                         color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
                     )
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            AnimatedVisibility(visible = qrContent.isNotEmpty()) {
+                Column {
+                    Row(
+                        modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max)
+                    ) {
+                        ImageSelector(
+                            value = qrImageUri,
+                            subtitle = stringResource(id = R.string.watermarking_image_sub),
+                            onValueChange = {
+                                qrImageUri = it
+                            },
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f),
+                            shape = RoundedCornerShape(24.dp)
+                        )
+                        BoxAnimatedVisibility(visible = qrImageUri != null) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(start = 8.dp)
+                                    .container(color = MaterialTheme.colorScheme.errorContainer)
+                                    .padding(horizontal = 8.dp)
+                                    .clickable {
+                                        qrImageUri = null
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.DeleteOutline,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onErrorContainer
+                                )
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    RoundedTextField(
+                        modifier = Modifier
+                            .container(shape = RoundedCornerShape(24.dp))
+                            .padding(8.dp),
+                        value = qrDescription,
+                        onValueChange = {
+                            qrDescription = it
+                        },
+                        singleLine = false,
+                        label = {
+                            Text(stringResource(id = R.string.qr_description))
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         },

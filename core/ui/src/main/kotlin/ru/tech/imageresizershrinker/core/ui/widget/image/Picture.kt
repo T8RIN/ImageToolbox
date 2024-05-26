@@ -94,7 +94,7 @@ fun Picture(
         contentDescription = contentDescription,
         modifier = modifier
             .clip(shape)
-            .then(if (showTransparencyChecker && !(errorOccurred && error != null)) Modifier.transparencyChecker() else Modifier)
+            .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
             .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier),
         contentScale = contentScale,
         loading = {

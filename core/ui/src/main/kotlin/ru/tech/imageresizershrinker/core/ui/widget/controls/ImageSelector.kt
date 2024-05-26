@@ -18,15 +18,21 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import android.net.Uri
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -41,7 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 
 @Composable
 fun ImageSelector(
-    value: Any,
+    value: Any?,
     onValueChange: (Uri) -> Unit,
     subtitle: String,
     modifier: Modifier = Modifier,
@@ -63,7 +69,22 @@ fun ImageSelector(
                 contentScale = ContentScale.Inside,
                 model = value,
                 shape = CloverShape,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(48.dp),
+                error = {
+                    Icon(
+                        imageVector = Icons.Outlined.AddPhotoAlternate,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CloverShape)
+                            .background(
+                                MaterialTheme.colorScheme.secondaryContainer
+                                    .copy(0.5f)
+                                    .compositeOver(color)
+                            )
+                            .padding(8.dp)
+                    )
+                }
             )
         },
         endIcon = {
