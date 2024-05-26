@@ -929,4 +929,14 @@
     <string name="tag_datetime">日期時間</string>
     <string name="convert">轉換</string>
     <string name="convert_sub">將圖片批次轉換為給定的格式</string>
+    <string name="tag_compression">壓縮方法</string>
+    <string name="tag_offset_time">時間偏移</string>
+    <string name="tag_offset_time_original">原始時間偏移</string>
+    <string name="tag_exposure_time">曝光時間</string>
+    <string name="tag_f_number">F 數值</string>
+    <string name="tag_exposure_program">曝光模式</string>
+    <string name="tag_iso_speed">ISO 速度</string>
+    <string name="tag_aperture_value">光圈值</string>
+    <string name="legacy">舊式</string>
+    <string name="legacy_and_lstm">舊式和 LSTM</string>
 </resources>
