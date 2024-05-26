@@ -71,7 +71,49 @@ fun rememberClipboardData(): State<List<Uri>> {
     return clip
 }
 
+@Composable
+fun rememberClipboardText(): State<String> {
+    val settingsState = LocalSettingsState.current
+    val allowPaste = settingsState.allowAutoClipboardPaste
+
+    val context = LocalContext.current
+    val clipboardManager = remember(context) {
+        context.getSystemService<ClipboardManager>()
+    }
+
+    val clip = remember {
+        mutableStateOf(
+            if (allowPaste) {
+                clipboardManager.clipText()
+            } else ""
+        )
+    }.apply {
+        value = if (allowPaste) {
+            clipboardManager.clipText()
+        } else ""
+    }
+
+    val callback = remember {
+        ClipboardManager.OnPrimaryClipChangedListener {
+            if (allowPaste) {
+                clip.value = clipboardManager.clipText()
+            }
+        }
+    }
+    DisposableEffect(clipboardManager, allowPaste) {
+        if (allowPaste) {
+            clipboardManager?.addPrimaryClipChangedListener(callback)
+        }
+        onDispose {
+            clipboardManager?.removePrimaryClipChangedListener(callback)
+        }
+    }
+    return clip
+}
+
 fun ClipboardManager?.clipList(): List<Uri> = this?.primaryClip?.clipList() ?: emptyList()
+
+fun ClipboardManager?.clipText(): String = this?.primaryClip?.getItemAt(0)?.text?.toString() ?: ""
 
 fun ClipData.clipList() = List(
     size = itemCount,
