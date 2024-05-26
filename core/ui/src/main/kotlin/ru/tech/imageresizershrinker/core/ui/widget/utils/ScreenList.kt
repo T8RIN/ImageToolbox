@@ -38,6 +38,7 @@ internal fun List<Uri>.screenList(
     val uris = this
     val context = LocalContext.current
 
+
     //TODO: handle text (also edit github readme)
 
     fun Uri?.type(
