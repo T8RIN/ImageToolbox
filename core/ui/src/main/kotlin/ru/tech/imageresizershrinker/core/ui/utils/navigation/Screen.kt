@@ -36,6 +36,7 @@ import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
+import androidx.compose.material.icons.outlined.QrCode
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Gif
@@ -105,6 +106,7 @@ sealed class Screen(
             is Svg -> "Svg"
             is Convert -> "Convert"
             is DocumentScanner -> "Document_Scanner"
+            is ScanQrCode -> "QR_Code"
         }
 
     val icon: ImageVector?
@@ -140,6 +142,7 @@ sealed class Screen(
             is Svg -> Icons.Outlined.Svg
             is Convert -> Icons.Outlined.ImageConvert
             is DocumentScanner -> Icons.Outlined.DocumentScanner
+            is ScanQrCode -> Icons.Outlined.QrCode
         }
 
     data object Settings : Screen(
@@ -599,6 +602,14 @@ sealed class Screen(
         subtitle = R.string.document_scanner_sub
     )
 
+    data class ScanQrCode(
+        val qrCodeContent: String? = null
+    ) : Screen(
+        id = 27,
+        title = R.string.qr_code,
+        subtitle = R.string.qr_code_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -643,6 +654,7 @@ sealed class Screen(
                 listOf(
                     PdfTools(),
                     DocumentScanner,
+                    ScanQrCode(),
                     GifTools(),
                     JxlTools(),
                     ApngTools(),
@@ -659,6 +671,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 40
+        const val FEATURES_COUNT = 42
     }
 }

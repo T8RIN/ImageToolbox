@@ -58,6 +58,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFro
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextScreen
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeScreen
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsScreen
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
 import ru.tech.imageresizershrinker.feature.svg.presentation.SvgScreen
@@ -341,6 +342,13 @@ internal fun ScreenSelector(
 
             Screen.DocumentScanner -> {
                 DocumentScannerScreen(onGoBack = onGoBack)
+            }
+
+            is Screen.ScanQrCode -> {
+                ScanQrCodeScreen(
+                    qrCodeContent = screen.qrCodeContent,
+                    onGoBack = onGoBack
+                )
             }
         }
     }

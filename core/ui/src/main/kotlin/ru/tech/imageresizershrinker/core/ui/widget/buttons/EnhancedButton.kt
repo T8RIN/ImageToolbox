@@ -38,6 +38,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -50,6 +51,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
@@ -185,15 +187,19 @@ fun EnhancedIconButton(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
     val focus = LocalFocusManager.current
+    val scope = rememberCoroutineScope()
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         OutlinedIconButton(
             onClick = {
                 onClick()
-                focus.clearFocus()
                 haptics.performHapticFeedback(
                     HapticFeedbackType.LongPress
                 )
+                scope.launch {
+                    delay(300)
+                    focus.clearFocus()
+                }
             },
             modifier = modifier
                 .then(

@@ -186,20 +186,18 @@ fun LoadNetImageScreen(
         },
         onGoBack = onGoBack,
         actions = {
-            if (viewModel.bitmap != null || !isLandscape) {
-                ShareButton(
-                    enabled = viewModel.bitmap != null,
-                    onShare = {
-                        viewModel.shareBitmap(showConfetti)
-                    },
-                    onCopy = { manager ->
-                        viewModel.cacheCurrentImage { uri ->
-                            manager.setClip(uri.asClip(context))
-                            showConfetti()
-                        }
+            ShareButton(
+                enabled = viewModel.bitmap != null,
+                onShare = {
+                    viewModel.shareBitmap(showConfetti)
+                },
+                onCopy = { manager ->
+                    viewModel.cacheCurrentImage { uri ->
+                        manager.setClip(uri.asClip(context))
+                        showConfetti()
                     }
-                )
-            }
+                }
+            )
         },
         topAppBarPersistentActions = {
             if (viewModel.bitmap == null) {
@@ -303,8 +301,7 @@ fun LoadNetImageScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Cancel,
-                                contentDescription = stringResource(R.string.cancel),
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                contentDescription = stringResource(R.string.cancel)
                             )
                         }
                     }
