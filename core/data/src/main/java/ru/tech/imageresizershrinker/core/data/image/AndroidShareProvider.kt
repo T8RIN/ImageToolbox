@@ -103,7 +103,8 @@ internal class AndroidShareProvider @Inject constructor(
         )?.let {
             shareUri(
                 uri = it,
-                type = imageInfo.imageFormat.mimeType
+                type = imageInfo.imageFormat.mimeType,
+                onComplete = onComplete
             )
         }
         onComplete()
@@ -111,7 +112,8 @@ internal class AndroidShareProvider @Inject constructor(
 
     override suspend fun shareUri(
         uri: String,
-        type: String?
+        type: String?,
+        onComplete: () -> Unit
     ) = withContext(defaultDispatcher) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri.toUri())
@@ -125,6 +127,7 @@ internal class AndroidShareProvider @Inject constructor(
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
+        onComplete()
     }
 
     override suspend fun shareUris(
@@ -213,9 +216,26 @@ internal class AndroidShareProvider @Inject constructor(
                 type = MimeTypeMap.getSingleton()
                     .getMimeTypeFromExtension(
                         imageGetter.getExtension(it)
-                    ) ?: "*/*"
+                    ) ?: "*/*",
+                onComplete = onComplete
             )
         }
+        onComplete()
+    }
+
+    override fun shareText(
+        value: String,
+        onComplete: () -> Unit
+    ) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, value)
+        }
+        val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(shareIntent)
+
         onComplete()
     }
 

@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -73,6 +74,7 @@ class RecognizeTextViewModel @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
@@ -405,6 +407,15 @@ class RecognizeTextViewModel @Inject constructor(
 
     fun setOcrEngineMode(mode: OcrEngineMode) {
         _ocrEngineMode.update { mode }
+    }
+
+    fun shareRecognizedText(onComplete: () -> Unit) {
+        recognitionData?.text?.let {
+            shareProvider.shareText(
+                value = it,
+                onComplete = onComplete
+            )
+        }
     }
 
 }

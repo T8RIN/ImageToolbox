@@ -63,11 +63,17 @@ interface ShareProvider<I> {
 
     suspend fun shareUri(
         uri: String,
-        type: String? = null
+        type: String? = null,
+        onComplete: () -> Unit
     )
 
     suspend fun shareUris(
         uris: List<String>
+    )
+
+    fun shareText(
+        value: String,
+        onComplete: () -> Unit
     )
 
 }

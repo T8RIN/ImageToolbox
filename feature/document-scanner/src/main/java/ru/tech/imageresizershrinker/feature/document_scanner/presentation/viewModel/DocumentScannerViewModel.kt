@@ -196,15 +196,18 @@ class DocumentScannerViewModel @Inject constructor(
                 _left.update { 0 }
 
                 runCatching {
-                    shareProvider.shareUri(pdfUri.toString())
+                    shareProvider.shareUri(
+                        uri = pdfUri.toString(),
+                        onComplete = onComplete
+                    )
                 }.onFailure {
                     val bytes = fileController.readBytes(pdfUri.toString())
                     shareProvider.shareByteArray(
                         byteArray = bytes,
-                        filename = generatePdfFilename()
+                        filename = generatePdfFilename(),
+                        onComplete = onComplete
                     )
                 }
-                onComplete()
             }
             _isSaving.value = false
         }

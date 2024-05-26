@@ -58,7 +58,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.shareText
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -191,8 +190,7 @@ fun RecognizeTextScreen(
     }
 
     val shareText: () -> Unit = {
-        viewModel.recognitionData?.text?.let {
-            context.shareText(it)
+        viewModel.shareRecognizedText {
             scope.launch {
                 confettiHostState.showConfetti()
             }
