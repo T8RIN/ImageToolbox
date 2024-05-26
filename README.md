@@ -281,7 +281,10 @@ or click one of the badges below.
   - [x] Crop To Content
 
   </details>
-
+- Custom Filters Creation by Template filters
+  - You can create filter from any filter chain
+  - Share created filters by QR code
+  - Scan filters from the app to get them on your device
 - AES-256 GCM No Padding files encryption and decryption
 - Extract Text From Images
   - 120+ languages
@@ -360,6 +363,10 @@ or click one of the badges below.
   - Images to PDF
   - PDF previewing
 - Document Scanning
+- QR Codes
+  - Scanning
+  - Creating
+  - Sharing as images
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
