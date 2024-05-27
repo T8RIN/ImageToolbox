@@ -1092,4 +1092,27 @@
     <string name="grid_size_x">网格大小 X</string>
     <string name="equalize_histogram_adaptive">均衡直方图自适应</string>
     <string name="crop_to_content">裁剪为内容</string>
+    <string name="create_new">新建</string>
+    <string name="opened_file_have_no_filter_template">所选文件无过滤模板数据</string>
+    <string name="create_template">创建模板</string>
+    <string name="template_name">模板名称</string>
+    <string name="select_template_preview">该图片将用于预览该滤镜模板</string>
+    <string name="as_qr_code">作为二维码图像</string>
+    <string name="as_file">作为文件</string>
+    <string name="save_as_file">保存为文件</string>
+    <string name="save_as_qr_code_image">另存为 QR 码图像</string>
+    <string name="delete_template">删除模板</string>
+    <string name="filter_preview">滤镜预览</string>
+    <string name="qr_code">二维码</string>
+    <string name="qr_code_sub">扫描二维码并获取其内容，或粘贴字符串以生成新的 二维码</string>
+    <string name="code_content">代码内容</string>
+    <string name="scan_qr_code_to_replace_content">扫描二维码以替换字段中的内容，或输入内容以生成新的二维码</string>
+    <string name="qr_description">QR 说明</string>
+    <string name="delete_template_warn">您将删除选定的模板滤镜。 此操作无法撤销</string>
+    <string name="template_filter">模板滤镜</string>
+    <string name="no_template_filters">未添加模板滤镜</string>
+    <string name="template">模板</string>
+    <string name="scanned_qr_code_isnt_filter_template">扫描的二维码不是有效的滤镜模板</string>
+    <string name="scan_qr_code">扫描二维码</string>
+    <string name="added_filter_template">已添加滤镜模板，名称为\"%1$s\" (%2$d)</string>
 </resources>
