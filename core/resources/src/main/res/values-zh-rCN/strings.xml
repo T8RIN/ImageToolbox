@@ -1100,7 +1100,7 @@
     <string name="as_qr_code">作为二维码图像</string>
     <string name="as_file">作为文件</string>
     <string name="save_as_file">保存为文件</string>
-    <string name="save_as_qr_code_image">另存为 QR 码图像</string>
+    <string name="save_as_qr_code_image">另存为二维码图像</string>
     <string name="delete_template">删除模板</string>
     <string name="filter_preview">滤镜预览</string>
     <string name="qr_code">二维码</string>
