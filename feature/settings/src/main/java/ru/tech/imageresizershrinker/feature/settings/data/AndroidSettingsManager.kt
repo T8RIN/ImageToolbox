@@ -25,6 +25,7 @@ import androidx.datastore.preferences.PreferencesMapCompat
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -825,6 +826,7 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun adjustPerformance(performanceClass: PerformanceClass) {
+        performanceClass.makeLog("PerformanceClass")
         when (performanceClass) {
             PerformanceClass.Low -> {
                 dataStore.edit {
