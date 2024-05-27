@@ -8,7 +8,7 @@
     <string name="explicit">Expliciet</string>
     <string name="flexible">Flexibel</string>
     <string name="pick_image_alt">Afbeelding kiezen</string>
-    <string name="app_closing_sub">Wil je de app echt sluiten?</string>
+    <string name="app_closing_sub">Wil je de app echt afsluiten?</string>
     <string name="app_closing">App sluiten</string>
     <string name="stay">Blijven</string>
     <string name="reset_image_sub">Afbeeldingswijzigingen worden teruggezet naar de oorspronkelijke waarden</string>
@@ -68,7 +68,7 @@
     <string name="image">Afbeelding</string>
     <string name="folder">Uitvoer map</string>
     <string name="image_not_saved">Opslaan</string>
-    <string name="donation_sub">Deze applicatie is geheel gratis, maar als u de projectontwikkeling wilt ondersteunen, kunt u hier klikken</string>
+    <string name="donation_sub">Deze applicatie is geheel gratis, maar als je de projectontwikkeling wilt ondersteunen, kun je hier klikken</string>
     <string name="fab_alignment">FAB-uitlijning</string>
     <string name="check_updates">Controleer op updates</string>
     <string name="zoom">Beeldzoom</string>
@@ -146,7 +146,7 @@
     <string name="cannot_change_image_format">Kan het afbeeldingsformaat niet wijzigen terwijl de optie voor het overschrijven van bestanden is ingeschakeld</string>
     <string name="emoji_as_color_scheme">Emoji als kleurenschema</string>
     <string name="emoji_as_color_scheme_sub">Gebruikt de primaire kleur van emoji als app-kleurenschema in plaats van handmatig gedefinieerd</string>
-    <string name="material_you_sub">Creëert materiaal Je palet van afbeelding</string>
+    <string name="material_you_sub">Maakt een \"Material You\"-palet aan van afbeelding</string>
     <string name="dark_colors">Donkere kleuren</string>
     <string name="dark_colors_sub">Maakt gebruik van het nachtmoduskleurenschema in plaats van de lichtvariant</string>
     <string name="copy_as_compose_code">Kopieer als Jetpack Compose-code</string>
@@ -186,7 +186,7 @@
     <string name="issue_tracker_sub">Stuur hier bugrapporten en functieverzoeken</string>
     <string name="help_translate">Help vertalen</string>
     <string name="help_translate_sub">Corrigeer vertaalfouten of lokaliseer het project naar een andere taal</string>
-    <string name="nothing_found_by_search">Er is niets gevonden met uw zoekopdracht</string>
+    <string name="nothing_found_by_search">De zoekopdracht heeft niets opgeleverd</string>
     <string name="search_here">Zoek hier</string>
     <string name="dynamic_colors_sub">Indien ingeschakeld, worden app-kleuren overgenomen in achtergrondkleuren</string>
     <string name="failed_to_save">Kan %d afbeelding(en) niet opslaan</string>
@@ -200,7 +200,7 @@
     <string name="add">Toevoegen</string>
     <string name="permission">Toestemming</string>
     <string name="grant">Studiebeurs</string>
-    <string name="permission_sub">De app heeft toegang tot uw opslag nodig om afbeeldingen op te slaan om te werken, dit is noodzakelijk. Geef toestemming in het volgende dialoogvenster.</string>
+    <string name="permission_sub">De app heeft toegang tot je opslag nodig om afbeeldingen op te slaan om te werken, dit is noodzakelijk. Geef toestemming in het volgende dialoogvenster.</string>
     <string name="grant_permission_manual">De app heeft deze toestemming nodig om te werken. Verleen deze toestemming handmatig</string>
     <string name="external_storage">Externe opslag</string>
     <string name="monet_colors">Monet-kleuren</string>
@@ -214,7 +214,7 @@
     <string name="add_original_filename">Originele bestandsnaam toevoegen</string>
     <string name="add_original_filename_sub">Indien ingeschakeld, wordt de originele bestandsnaam toegevoegd aan de naam van de uitvoerafbeelding</string>
     <string name="replace_sequence_number">Volgnummer vervangen</string>
-    <string name="replace_sequence_number_sub">Indien ingeschakeld, wordt de standaardtijdstempel vervangen door het volgnummer van de afbeelding als u reeksverwerking gebruikt</string>
+    <string name="replace_sequence_number_sub">Indien ingeschakeld, wordt de standaardtijdstempel vervangen door het volgnummer van de afbeelding als je reeksverwerking gebruikt</string>
     <string name="filename_not_work_with_photopicker">Het toevoegen van de originele bestandsnaam werkt niet als de afbeeldingsbron van de fotokiezer is geselecteerd</string>
     <string name="load_image_from_net">Afbeelding laden van net</string>
     <string name="load_image_from_net_sub">Laad elke afbeelding van internet om deze te bekijken, in te zoomen, te bewerken en op te slaan.</string>
@@ -312,7 +312,7 @@
     <string name="encryption">Encryptie</string>
     <string name="key">Sleutel</string>
     <string name="file_proceed">Bestand verwerkt</string>
-    <string name="store_file_desc">Bewaar dit bestand op uw apparaat of gebruik de deelactie om het te plaatsen waar u maar wilt</string>
+    <string name="store_file_desc">Bewaar dit bestand op je apparaat of gebruik de deelactie om het te plaatsen waar je maar wilt</string>
     <string name="features">Functies</string>
     <string name="implementation">Implementatie</string>
     <string name="compatibility">Compatibiliteit</string>
@@ -323,7 +323,7 @@
 \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Houd er rekening mee dat compatibiliteit met andere bestandsversleutelingssoftware of -services niet kan worden gegarandeerd. Een iets andere sleutelbehandeling of coderingsconfiguratie kan incompatibiliteit veroorzaken.</string>
     <string name="invalid_password_or_not_encrypted">Ongeldig wachtwoord of gekozen bestand is niet gecodeerd</string>
-    <string name="image_size_warning">Als u probeert een afbeelding met de opgegeven breedte en hoogte op te slaan, kan dit een OOM-fout veroorzaken. Doe dit op eigen risico en zeg niet dat ik je niet heb gewaarschuwd!</string>
+    <string name="image_size_warning">Als je probeert een afbeelding met de opgegeven breedte en hoogte op te slaan, kan dit een OOM-fout veroorzaken. Doe dit op eigen risico en zeg niet dat ik je niet heb gewaarschuwd!</string>
     <string name="cache">Cache</string>
     <string name="cache_size">Cache grootte</string>
     <string name="found_s">Gevonden %1$s</string>
@@ -340,7 +340,7 @@
     <string name="copy">Kopiëren</string>
     <string name="warning_bytes">Opslaan in de modus %1$s kan onstabiel zijn, omdat het een verliesvrij formaat is</string>
     <string name="presets_sub" formatted="false">Bij voorinstelling 125, wordt de afbeelding opgeslagen als 125% van de originele afbeelding met 100% kwaliteit. Bij voorinstelling 50, wordt de afbeelding opgeslagen met 50% grootte en 50% kwaliteit.</string>
-    <string name="presets_sub_bytes">De voorinstelling hier bepaalt het percentage van het uitvoerbestand, d.w.z. bij voorinstelling 50 op een afbeelding van 5 MB, krijgt u na het opslaan een afbeelding van 2,5 MB</string>
+    <string name="presets_sub_bytes">De voorinstelling hier bepaalt het percentage van het uitvoerbestand, d.w.z. bij voorinstelling 50 op een afbeelding van 5 MB, krijg je na het opslaan een afbeelding van 2,5 MB</string>
     <string name="randomize_filename">Willekeurige bestandsnaam</string>
     <string name="randomize_filename_sub">Indien ingeschakeld zal de uitvoerbestandsnaam volledig willekeurig zijn</string>
     <string name="saved_to">Opgeslagen in map %1$s met naam %2$s</string>
@@ -353,12 +353,12 @@
     <string name="backup_and_restore">Backup en herstellen</string>
     <string name="backup">Back-up</string>
     <string name="restore">Herstellen</string>
-    <string name="backup_sub">Maak een back-up van uw app-instellingen naar een bestand</string>
+    <string name="backup_sub">Een back-up van de app-instellingen maken</string>
     <string name="restore_sub">Herstel app-instellingen van een eerder gegenereerd bestand</string>
     <string name="corrupted_file_or_not_a_backup">Beschadigd bestand of geen back-up</string>
     <string name="settings_restored">Instellingen succesvol hersteld</string>
     <string name="contact_me">Neem contact met mij op</string>
-    <string name="reset_settings_sub">Hiermee worden uw instellingen teruggezet naar de standaardwaarden. Merk op dat dit niet ongedaan kan worden gemaakt zonder een hierboven vermeld back-upbestand.</string>
+    <string name="reset_settings_sub">Hiermee worden de instellingen teruggezet naar de standaardwaarden. Merk op dat dit niet ongedaan kan worden gemaakt zonder een hierboven vermeld back-upbestand.</string>
     <string name="delete">Verwijderen</string>
     <string name="delete_color_scheme_warn">U staat op het punt het geselecteerde kleurenschema te verwijderen. Deze bewerking kan niet ongedaan worden gemaakt</string>
     <string name="delete_color_scheme_title">Schema verwijderen</string>
@@ -391,7 +391,7 @@
     <string name="crashlytics_sub">Hierdoor kan de app crashrapporten handmatig verzamelen</string>
     <string name="analytics">Analyses</string>
     <string name="analytics_sub">Sta het verzamelen van anonieme app-gebruiksstatistieken toe</string>
-    <string name="jxl_sub">JXL-formaat wordt niet officieel ondersteund door Android, dus het kan zijn dat iets niet werkt. Opslaan werkt alleen als u een aangepaste uitvoermap kiest. Dit is een experimentele versie. Bugs hier worden niet opgelost tenzij Google JXL-ondersteuning toevoegt. Deze versie kan JXL-afbeeldingen bekijken</string>
+    <string name="jxl_sub">JXL-formaat wordt niet officieel ondersteund door Android, dus het kan zijn dat iets niet werkt. Opslaan werkt alleen als je een aangepaste uitvoermap kiest. Dit is een experimentele versie. Bugs hier worden niet opgelost tenzij Google JXL-ondersteuning toevoegt. Deze versie kan JXL-afbeeldingen bekijken</string>
     <string name="image_exif_warning">Momenteel staat het %1$s-formaat alleen het lezen van EXIF-metagegevens op Android toe. De uitvoerafbeelding heeft helemaal geen metagegevens wanneer deze wordt opgeslagen.</string>
     <string name="effort">Poging</string>
     <string name="effort_sub">Een waarde van %1$d betekent een snelle compressie, wat resulteert in een relatief grote bestandsgrootte. %2$d betekent een langzamere compressie, wat resulteert in een kleiner bestand.</string>
@@ -446,7 +446,7 @@
     <string name="fruit_salad">Fruit salade</string>
     <string name="fidelity">Trouw</string>
     <string name="content">Inhoud</string>
-    <string name="tonal_spot_sub">Standaard paletstijl, hiermee kunt u alle vier de kleuren aanpassen, bij andere kunt u alleen de hoofdkleur instellen</string>
+    <string name="tonal_spot_sub">Standaard paletstijl waarin alle vier de kleuren zijn aan te passen, bij andere kan alleen de hoofdkleur worden ingesteld</string>
     <string name="neutral_sub">Een stijl die iets chromatischer is dan monochroom</string>
     <string name="vibrant_sub">Een luid thema, kleurrijkheid is maximaal voor het primaire palet, verhoogd voor anderen</string>
     <string name="playful_scheme">Een speels thema: de tint van de bronkleur komt niet voor in het thema</string>
@@ -476,7 +476,7 @@
     <string name="add_mask">Masker toevoegen</string>
     <string name="mask_indexed">Masker %d</string>
     <string name="mask_color">Maskerkleur</string>
-    <string name="mask_preview_sub">Er wordt een getekend filtermasker weergegeven om u het geschatte resultaat te tonen</string>
+    <string name="mask_preview_sub">Er wordt een getekend filtermasker weergegeven om het geschatte resultaat te tonen</string>
     <string name="inverse_fill_type">Omgekeerd vultype</string>
     <string name="delete_mask">Masker verwijderen</string>
     <string name="full_filter">Volledig filter</string>
@@ -488,9 +488,9 @@
     <string name="pen">Pen</string>
     <string name="privacy_blur">Privacyvervaging</string>
     <string name="highlighter_sub">Teken semi-transparante, scherpe markeerstiftpaden</string>
-    <string name="neon_sub">Voeg een gloeiend effect toe aan uw tekeningen</string>
+    <string name="neon_sub">Voeg een gloeiend effect toe aan je tekeningen</string>
     <string name="pen_sub">Standaard één, eenvoudigste: alleen de kleur</string>
-    <string name="privacy_blur_sub">Vervaagt het beeld onder het getekende pad om alles wat u wilt verbergen veilig te stellen</string>
+    <string name="privacy_blur_sub">Vervaagt het beeld onder het getekende pad om alles te beveiligen dat je wilt verbergen</string>
     <string name="pixelation_sub">Vergelijkbaar met privacyvervaging, maar met pixelvorming i.p.v. vervaging</string>
     <string name="containers_shadow">Containers</string>
     <string name="containers_shadow_sub">Maakt schaduwtekenen achter containers mogelijk</string>
@@ -565,15 +565,15 @@
     <string name="standard">Standaard</string>
     <string name="best">Best</string>
     <string name="no_data">Geen gegevens</string>
-    <string name="download_description">Voor een goede werking van Tesseract OCR moeten aanvullende trainingsgegevens (%1$s) naar uw apparaat worden gedownload.
-\nWilt u %2$s gegevens downloaden?</string>
+    <string name="download_description">Voor een goede werking van Tesseract OCR moeten aanvullende trainingsgegevens (%1$s) naar je apparaat worden gedownload.
+\nWil je %2$s gegevens downloaden?</string>
     <string name="download">Downloaden</string>
     <string name="no_connection">Geen verbinding, controleer dit en probeer het opnieuw om trainingsmodellen te downloaden</string>
     <string name="downloaded_languages">Gedownloade talen</string>
     <string name="available_languages">Beschikbare talen</string>
     <string name="segmentation_mode">Segmentatiemodus</string>
     <string name="use_pixel_switch">Gebruik Pixelswitch</string>
-    <string name="use_pixel_switch_sub">Er wordt een pixelachtige schakelaar gebruikt in plaats van het materiaal van Google waarop u zich baseert</string>
+    <string name="use_pixel_switch_sub">Er wordt een pixelachtige schakelaar gebruikt in plaats van het materiaal van Google waarop je je baseert</string>
     <string name="saved_to_original">Overschreven bestand met naam %s op oorspronkelijke bestemming</string>
     <string name="magnifier">Vergrootglas</string>
     <string name="magnifier_sub">Schakelt vergrootglas aan de bovenkant van de vinger in tekenmodi in voor betere toegankelijkheid</string>
@@ -601,7 +601,7 @@
     <string name="segmentation_mode_sparse_text">Schaarse tekst</string>
     <string name="segmentation_mode_sparse_text_osd">Sparse tekst Oriëntatie &amp; Scriptdetectie</string>
     <string name="segmentation_mode_raw_line">Ruwe lijn</string>
-    <string name="delete_language_sub">Wilt u taal \"%1$s\" OCR-trainingsgegevens verwijderen voor alle herkenningstypen, of alleen voor een geselecteerd type (%2$s)?</string>
+    <string name="delete_language_sub">Wil je OCR-trainingsgegevens van taal \"%1$s\" verwijderen voor alle herkenningstypen, of alleen voor een geselecteerd type (%2$s)?</string>
     <string name="current">Huidig</string>
     <string name="all">Alle</string>
     <string name="gradient_maker">Verloopmaker</string>
@@ -659,7 +659,7 @@
     <string name="secure_mode_sub">Verbergt inhoud bij het afsluiten, ook kan het scherm niet worden vastgelegd of opgenomen</string>
     <string name="exit">Uitgang</string>
     <string name="sierra_lite_dithering">Sierra Lite-dithering</string>
-    <string name="preview_closing">Als u het voorbeeld nu verlaat, moet u de afbeeldingen opnieuw toevoegen</string>
+    <string name="preview_closing">Als je het voorbeeld nu verlaat, moet je de afbeeldingen opnieuw toevoegen</string>
     <string name="dithering">Dithering</string>
     <string name="quantizier">Quantizer</string>
     <string name="gray_scale">Grijsschaal</string>
@@ -863,7 +863,7 @@
     <string name="jxl_type_to_jxl_sub">Converteer reeks afbeeldingen naar JXL-animatie</string>
     <string name="gif_type_to_jxl_sub">Converteer GIF-afbeeldingen naar JXL-geanimeerde afbeeldingen</string>
     <string name="switch_type">Schakeltype</string>
-    <string name="auto_paste_sub">Hiermee kan de app klembordgegevens automatisch plakken, zodat deze op het hoofdscherm verschijnen en u deze kunt verwerken</string>
+    <string name="auto_paste_sub">Hiermee kan de app klembordgegevens automatisch plakken, zodat deze op het hoofdscherm verschijnen en je deze kunt verwerken</string>
     <string name="lanczos_bessel_sub">Resampling-methode die interpolatie van hoge kwaliteit handhaaft door een Bessel (jinc) -functie toe te passen op de pixelwaarden</string>
     <string name="generate_previews_sub">Maakt het maken van voorbeelden mogelijk, wat crashes op sommige apparaten kan helpen voorkomen, maar dit schakelt ook enkele framebewerkingsfuncties uit</string>
     <string name="lossy_compression">Verliesgevende compressie</string>
@@ -1076,7 +1076,7 @@
     <string name="engine_mode">Machine-modus</string>
     <string name="antialias_sub">Maakt anti-aliasing mogelijk om scherpe randen te voorkomen</string>
     <string name="antialias">Anti-alias</string>
-    <string name="open_edit_instead_of_preview_sub">Wanneer u een afbeelding selecteert om te openen (preview) in ImageToolbox, wordt het selectieblad voor bewerken geopend in plaats van een voorbeeld te bekijken</string>
+    <string name="open_edit_instead_of_preview_sub">Wanneer je een afbeelding selecteert om te openen (preview) in ImageToolbox, wordt het selectieblad voor bewerken geopend in plaats van een voorbeeld te bekijken</string>
     <string name="open_edit_instead_of_preview">Open Bewerken in plaats van Voorbeeld</string>
     <string name="scale_color_space">Kleurruimte-schaal</string>
     <string name="linear">Lineair</string>
@@ -1092,4 +1092,27 @@
     <string name="crop_to_content">Bijsnijden naar inhoud</string>
     <string name="frame_color">Kleur kader</string>
     <string name="color_to_ignore">Kleur om te negeren</string>
+    <string name="template_filter">Filtersjabloon</string>
+    <string name="as_qr_code">Als QR-code afbeelding</string>
+    <string name="as_file">Als bestand</string>
+    <string name="save_as_file">Opslaan als bestand</string>
+    <string name="save_as_qr_code_image">Opslaan als QR-code afbeelding</string>
+    <string name="delete_template">Sjabloon verwijderen</string>
+    <string name="delete_template_warn">U staat op het punt het geselecteerde sjabloonfilter te verwijderen. Deze operatie kan niet ongedaan worden gemaakt.</string>
+    <string name="added_filter_template">Filtersjabloon toegevoegd met naam \"%1$s\" (%2$d)</string>
+    <string name="filter_preview">Filtervoorbeeld</string>
+    <string name="qr_code">QR-code</string>
+    <string name="qr_code_sub">Scan QR-code voor de inhoud of plak de tekenreeks om een nieuwe te genereren</string>
+    <string name="code_content">Inhoudscode</string>
+    <string name="template">Sjabloon</string>
+    <string name="no_template_filters">Geen filtersjabloon toegevoegd</string>
+    <string name="create_new">Nieuw aanmaken</string>
+    <string name="scanned_qr_code_isnt_filter_template">De gescande QR-code is geen geldig filtersjabloon</string>
+    <string name="create_template">Sjabloon aanmaken</string>
+    <string name="scan_qr_code">QR-code scannen</string>
+    <string name="opened_file_have_no_filter_template">Geselecteerd bestand bevat geen filtersjabloongegevens</string>
+    <string name="template_name">Sjabloonnaam</string>
+    <string name="select_template_preview">Deze afbeelding wordt gebruikt als voorbeeld voor het filtersjabloon</string>
+    <string name="scan_qr_code_to_replace_content">Scan QR-code om inhoud in het veld te vervangen of typ iets om nieuwe QR-code te genereren</string>
+    <string name="qr_description">QR-beschrijving</string>
 </resources>

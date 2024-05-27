@@ -1091,4 +1091,27 @@
     <string name="crop_to_content">Cortar para o conteúdo</string>
     <string name="color_to_ignore">Cor a ser ignorada</string>
     <string name="frame_color">Cor da moldura</string>
+    <string name="template">Modelo</string>
+    <string name="no_template_filters">Nenhum filtro de modelo adicionado</string>
+    <string name="create_new">Criar um novo</string>
+    <string name="scanned_qr_code_isnt_filter_template">O código QR digitalizado não é um modelo de filtro válido</string>
+    <string name="scan_qr_code">Digitalizar código QR</string>
+    <string name="opened_file_have_no_filter_template">O arquivo selecionado não tem dados de modelo de filtro</string>
+    <string name="create_template">Criar modelo</string>
+    <string name="template_name">Nome do modelo</string>
+    <string name="select_template_preview">Essa imagem será usada para visualizar esse modelo de filtro</string>
+    <string name="template_filter">Filtro de modelo</string>
+    <string name="as_qr_code">Como imagem de código QR</string>
+    <string name="as_file">Como arquivo</string>
+    <string name="save_as_file">Salvar como arquivo</string>
+    <string name="save_as_qr_code_image">Salvar como imagem de código QR</string>
+    <string name="delete_template">Excluir modelo</string>
+    <string name="delete_template_warn">Você está prestes a excluir o filtro de modelo selecionado. Essa operação não pode ser desfeita</string>
+    <string name="added_filter_template">Modelo de filtro adicionado com o nome \"%1$s\" (%2$d)</string>
+    <string name="filter_preview">Pré-visualização do filtro</string>
+    <string name="qr_code">Código QR</string>
+    <string name="qr_code_sub">Digitalize o código QR e obtenha seu conteúdo ou cole seu texto para gerar uma nova</string>
+    <string name="code_content">Conteúdo do código</string>
+    <string name="scan_qr_code_to_replace_content">Digitalize o código QR para substituir o conteúdo no campo ou digite algo para gerar um novo código QR</string>
+    <string name="qr_description">Descrição do código QR</string>
 </resources>
