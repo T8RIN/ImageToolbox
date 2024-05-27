@@ -19,7 +19,8 @@ package ru.tech.imageresizershrinker.core.domain.image.model
 
 enum class ResizeAnchor {
     Default,
-    Max,
     Width,
-    Height
+    Height,
+    Max,
+    Min
 }

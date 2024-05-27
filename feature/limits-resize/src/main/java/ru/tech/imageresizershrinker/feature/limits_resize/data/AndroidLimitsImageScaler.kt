@@ -23,7 +23,6 @@ import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsImageScaler
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsResizeType
 import javax.inject.Inject
@@ -42,8 +41,8 @@ internal class AndroidLimitsImageScaler @Inject constructor(
         resizeType: LimitsResizeType,
         imageScaleMode: ImageScaleMode
     ): Bitmap? = withContext(defaultDispatcher) {
-        val widthInternal = width.takeIf { it > 0 } ?: image.width
-        val heightInternal = height.takeIf { it > 0 } ?: image.height
+        val widthInternal = width.takeIf { it > 0 } ?: Int.MAX_VALUE
+        val heightInternal = height.takeIf { it > 0 } ?: Int.MAX_VALUE
 
         resizeType.resizeWithLimits(
             image = image,
@@ -69,42 +68,81 @@ internal class AndroidLimitsImageScaler @Inject constructor(
             limitWidth = width
             limitHeight = height
         }
+
         val limitAspectRatio = limitWidth / limitHeight.toFloat()
 
         if (image.height > limitHeight || image.width > limitWidth) {
-            if (image.aspectRatio > limitAspectRatio) {
-                return scaleImage(
-                    image = image,
-                    width = limitWidth,
-                    height = limitWidth,
-                    resizeType = ResizeType.Flexible,
-                    imageScaleMode = imageScaleMode
-                )
-            } else if (image.aspectRatio < limitAspectRatio) {
-                return scaleImage(
-                    image = image,
-                    width = limitHeight,
-                    height = limitHeight,
-                    imageScaleMode = imageScaleMode
-                )
-            } else {
-                return scaleImage(
-                    image = image,
-                    width = limitWidth,
-                    height = limitHeight,
-                    imageScaleMode = imageScaleMode
-                )
+            return when {
+                image.aspectRatio > limitAspectRatio -> {
+                    scaleImage(
+                        image = image,
+                        width = limitWidth,
+                        height = (limitWidth / image.aspectRatio).toInt(),
+                        imageScaleMode = imageScaleMode
+                    )
+                }
+
+                image.aspectRatio < limitAspectRatio -> {
+                    scaleImage(
+                        image = image,
+                        width = (limitHeight * image.aspectRatio).toInt(),
+                        height = limitHeight,
+                        imageScaleMode = imageScaleMode
+                    )
+                }
+
+                else -> {
+                    scaleImage(
+                        image = image,
+                        width = limitWidth,
+                        height = limitHeight,
+                        imageScaleMode = imageScaleMode
+                    )
+                }
             }
         } else {
             return when (this) {
                 is LimitsResizeType.Recode -> image
 
-                is LimitsResizeType.Zoom -> scaleImage(
-                    image = image,
-                    width = limitWidth,
-                    height = limitHeight,
-                    imageScaleMode = imageScaleMode
-                )
+                is LimitsResizeType.Zoom -> {
+                    when {
+                        limitHeight == Int.MAX_VALUE -> {
+                            val newHeight = (limitWidth / image.aspectRatio).toInt()
+                            scaleImage(
+                                image = image,
+                                width = limitWidth,
+                                height = newHeight,
+                                imageScaleMode = imageScaleMode
+                            )
+                        }
+
+                        limitWidth == Int.MAX_VALUE -> {
+                            val newWidth = (limitHeight * image.aspectRatio).toInt()
+                            scaleImage(
+                                image = image,
+                                width = newWidth,
+                                height = limitHeight,
+                                imageScaleMode = imageScaleMode
+                            )
+                        }
+
+                        else -> {
+                            val widthRatio = limitWidth.toDouble() / image.width
+                            val heightRatio = limitHeight.toDouble() / image.height
+                            val ratio = minOf(widthRatio, heightRatio)
+
+                            val newWidth = (image.width * ratio).toInt()
+                            val newHeight = (image.height * ratio).toInt()
+
+                            scaleImage(
+                                image = image,
+                                width = newWidth,
+                                height = newHeight,
+                                imageScaleMode = imageScaleMode
+                            )
+                        }
+                    }
+                }
 
                 is LimitsResizeType.Skip -> null
             }

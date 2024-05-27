@@ -1133,4 +1133,5 @@
     <string name="code_content">Code Content</string>
     <string name="scan_qr_code_to_replace_content">Scan QR Code to replace content in field, or type something to generate new QR Code</string>
     <string name="qr_description">QR Description</string>
+    <string name="min">Min</string>
 </resources>

@@ -300,6 +300,7 @@ fun ResizeTypeSelector(
 private val ResizeAnchor.title: String
     @Composable
     get() = when (this) {
+        ResizeAnchor.Min -> stringResource(R.string.min)
         ResizeAnchor.Max -> stringResource(R.string.max)
         ResizeAnchor.Width -> stringResource(R.string.width, "")
         ResizeAnchor.Height -> stringResource(R.string.height, "")

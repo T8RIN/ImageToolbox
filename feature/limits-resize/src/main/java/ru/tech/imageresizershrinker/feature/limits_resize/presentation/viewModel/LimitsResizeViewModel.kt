@@ -232,7 +232,7 @@ class LimitsResizeViewModel @Inject constructor(
 
     private fun updateCanSave() {
         _canSave.update {
-            _bitmap.value != null && (_imageInfo.value.height != 0 && _imageInfo.value.width != 0)
+            _bitmap.value != null && (_imageInfo.value.height != 0 || _imageInfo.value.width != 0)
         }
 
         registerChanges()

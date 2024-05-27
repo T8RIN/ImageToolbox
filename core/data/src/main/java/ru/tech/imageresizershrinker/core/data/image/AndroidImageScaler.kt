@@ -293,6 +293,12 @@ internal class AndroidImageScaler @Inject constructor(
                 } else scaleByHeight()
             }
 
+            ResizeAnchor.Min -> {
+                if (width >= height) {
+                    scaleByHeight()
+                } else scaleByWidth()
+            }
+
             ResizeAnchor.Width -> scaleByWidth()
 
             ResizeAnchor.Height -> scaleByHeight()
