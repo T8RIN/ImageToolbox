@@ -47,4 +47,6 @@ interface FavoriteFiltersInteractor<Image> {
         onError: suspend () -> Unit
     )
 
+    fun isValidTemplateFilter(string: String): Boolean
+
 }

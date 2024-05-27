@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.scan_qr_code"
+
+dependencies {
+    implementation(projects.core.filters)
+}

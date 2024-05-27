@@ -23,7 +23,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -32,6 +31,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
@@ -50,7 +50,8 @@ import kotlin.reflect.full.primaryConstructor
 
 internal class FavoriteFiltersInteractorImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    @FilterInteractorDataStore private val dataStore: DataStore<Preferences>
+    @FilterInteractorDataStore private val dataStore: DataStore<Preferences>,
+    private val fileController: FileController
 ) : FavoriteFiltersInteractor<Bitmap> {
 
     override fun getFavoriteFilters(): Flow<List<Filter<Bitmap, *>>> = dataStore.data.map { prefs ->
@@ -86,8 +87,10 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         onError: suspend () -> Unit
     ) {
         runCatching {
-            if (context.applicationInfo.packageName in string && "Filter" in string && LINK_HEADER in string) {
-                string.removePrefix(LINK_HEADER).toTemplateFiltersList().firstOrNull()?.let {
+            if (isValidTemplateFilter(string)) {
+                runCatching {
+                    string.removePrefix(LINK_HEADER).toTemplateFiltersList().firstOrNull()
+                }.getOrNull()?.let {
                     addTemplateFilter(it)
                     onSuccess(it.name, it.filters.size)
                 } ?: onError()
@@ -95,18 +98,21 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         }.onFailure { onError() }
     }
 
+    override fun isValidTemplateFilter(
+        string: String
+    ): Boolean =
+        context.applicationInfo.packageName in string && "Filter" in string && LINK_HEADER in string
+
     override suspend fun addTemplateFilterFromUri(
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
-        context.contentResolver.openInputStream(uri.toUri())?.use {
-            addTemplateFilterFromString(
-                string = it.readBytes().decodeToString(),
-                onSuccess = onSuccess,
-                onError = onError
-            )
-        }
+        addTemplateFilterFromString(
+            string = fileController.readBytes(uri).decodeToString(),
+            onSuccess = onSuccess,
+            onError = onError
+        )
     }
 
     override suspend fun removeTemplateFilter(templateFilter: TemplateFilter<Bitmap>) {
@@ -147,7 +153,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             is Int -> Int::class.simpleName!! to toString()
             is Float -> Float::class.simpleName!! to toString()
             is Unit -> Unit::class.simpleName!! to "Unit"
-            is FloatArray -> FloatArray::class.simpleName!! to joinToString(separator = "$") { it.toString() }
+            is FloatArray -> FloatArray::class.simpleName!! to joinToString(separator = PROPERTIES_SEPARATOR) { it.toString() }
             is FilterValueWrapper<*> -> {
                 when (wrapped) {
                     is Color -> "${FilterValueWrapper::class.simpleName!!}{${Color::class.simpleName}}" to (wrapped as Color).toArgb()
@@ -160,8 +166,10 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             is Pair<*, *> -> {
                 val firstPart = first!!.toPart()
                 val secondPart = second!!.toPart()
-
-                "${Pair::class.simpleName}{${first!!::class.simpleName}$${second!!::class.simpleName}}" to ("$firstPart$$secondPart")
+                "${Pair::class.simpleName}{${first!!::class.simpleName}$PROPERTIES_SEPARATOR${second!!::class.simpleName}}" to listOf(
+                    firstPart,
+                    secondPart
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             is Triple<*, *, *> -> {
@@ -169,35 +177,76 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 val secondPart = second!!.toPart()
                 val thirdPart = third!!.toPart()
 
-                "${Triple::class.simpleName}{${first!!::class.simpleName}$${second!!::class.simpleName}$${third!!::class.simpleName}}" to ("$firstPart$$secondPart$$thirdPart")
+                "${Triple::class.simpleName}{${first!!::class.simpleName}$PROPERTIES_SEPARATOR${second!!::class.simpleName}$PROPERTIES_SEPARATOR${third!!::class.simpleName}}" to listOf(
+                    firstPart,
+                    secondPart,
+                    thirdPart
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             is BokehParams -> {
-                BokehParams::class.simpleName!! to "$radius$$amount$$scale"
+                BokehParams::class.simpleName!! to listOf(radius, amount, scale).joinToString(
+                    PROPERTIES_SEPARATOR
+                )
             }
 
             is GlitchParams -> {
-                GlitchParams::class.simpleName!! to "$channelsShiftX$$channelsShiftY$$corruptionSize$$corruptionCount$$corruptionShiftX$$corruptionShiftY"
+                GlitchParams::class.simpleName!! to listOf(
+                    channelsShiftX,
+                    channelsShiftY,
+                    corruptionSize,
+                    corruptionCount,
+                    corruptionShiftX,
+                    corruptionShiftY
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             is LinearTiltShiftParams -> {
-                LinearTiltShiftParams::class.simpleName!! to "$blurRadius$$sigma$$anchorX$$anchorY$$holeRadius$$angle"
+                LinearTiltShiftParams::class.simpleName!! to listOf(
+                    blurRadius,
+                    sigma,
+                    anchorX,
+                    anchorY,
+                    holeRadius,
+                    angle
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             is RadialTiltShiftParams -> {
-                RadialTiltShiftParams::class.simpleName!! to "$blurRadius$$sigma$$anchorX$$anchorY$$holeRadius"
+                RadialTiltShiftParams::class.simpleName!! to listOf(
+                    blurRadius,
+                    sigma,
+                    anchorX,
+                    anchorY,
+                    holeRadius
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             is MotionBlurParams -> {
-                MotionBlurParams::class.simpleName!! to "$radius$$sigma$$centerX$$centerY$$strength$$angle"
+                MotionBlurParams::class.simpleName!! to listOf(
+                    radius,
+                    sigma,
+                    centerX,
+                    centerY,
+                    strength,
+                    angle
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             is SideFadeParams.Relative -> {
-                SideFadeParams::class.simpleName!! to "${side.name}$$scale"
+                SideFadeParams::class.simpleName!! to listOf(
+                    side.name, scale
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             is WaterParams -> {
-                WaterParams::class.simpleName!! to "$fractionSize$$frequencyX$$frequencyY$$amplitudeX$$amplitudeY"
+                WaterParams::class.simpleName!! to listOf(
+                    fractionSize,
+                    frequencyX,
+                    frequencyY,
+                    amplitudeX,
+                    amplitudeY
+                ).joinToString(PROPERTIES_SEPARATOR)
             }
 
             else -> null
@@ -213,7 +262,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             name == Float::class.simpleName -> second.toFloat()
             name == Boolean::class.simpleName -> second.toBoolean()
             name == Unit::class.simpleName -> Unit
-            name == FloatArray::class.simpleName -> value.split("$")
+            name == FloatArray::class.simpleName -> value.split(PROPERTIES_SEPARATOR)
                 .map { it.toFloat() }
                 .toFloatArray()
 
@@ -225,14 +274,15 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }
 
             "${Pair::class.simpleName}{" in name -> {
-                val (firstType, secondType) = name.getTypeFromBraces().split("$")
-                val (firstPart, secondPart) = value.split("$")
+                val (firstType, secondType) = name.getTypeFromBraces().split(PROPERTIES_SEPARATOR)
+                val (firstPart, secondPart) = value.split(PROPERTIES_SEPARATOR)
                 firstPart.fromPart(firstType) to secondPart.fromPart(secondType)
             }
 
             "${Triple::class.simpleName}{" in name -> {
-                val (firstType, secondType, thirdType) = name.getTypeFromBraces().split("$")
-                val (firstPart, secondPart, thirdPart) = value.split("$")
+                val (firstType, secondType, thirdType) = name.getTypeFromBraces()
+                    .split(PROPERTIES_SEPARATOR)
+                val (firstPart, secondPart, thirdPart) = value.split(PROPERTIES_SEPARATOR)
                 Triple(
                     firstPart.fromPart(firstType),
                     secondPart.fromPart(secondType),
@@ -241,7 +291,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }
 
             name == BokehParams::class.simpleName -> {
-                val (radius, amount, scale) = value.split("$")
+                val (radius, amount, scale) = value.split(PROPERTIES_SEPARATOR)
                 BokehParams(radius.toInt(), amount.toInt(), scale.toFloat())
             }
 
@@ -251,7 +301,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                     corruptionSize,
                     corruptionCount,
                     corruptionShiftX,
-                    corruptionShiftY) = value.split("$")
+                    corruptionShiftY) = value.split(PROPERTIES_SEPARATOR)
                 GlitchParams(
                     channelsShiftX = channelsShiftX.toFloat(),
                     channelsShiftY = channelsShiftY.toFloat(),
@@ -263,7 +313,9 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }
 
             name == LinearTiltShiftParams::class.simpleName -> {
-                val (blurRadius, sigma, anchorX, anchorY, holeRadius, angle) = value.split("$")
+                val (blurRadius, sigma, anchorX, anchorY, holeRadius, angle) = value.split(
+                    PROPERTIES_SEPARATOR
+                )
                 LinearTiltShiftParams(
                     blurRadius = blurRadius.toFloat(),
                     sigma = sigma.toFloat(),
@@ -275,7 +327,9 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }
 
             name == RadialTiltShiftParams::class.simpleName -> {
-                val (blurRadius, sigma, anchorX, anchorY, holeRadius) = value.split("$")
+                val (blurRadius, sigma, anchorX, anchorY, holeRadius) = value.split(
+                    PROPERTIES_SEPARATOR
+                )
                 RadialTiltShiftParams(
                     blurRadius = blurRadius.toFloat(),
                     sigma = sigma.toFloat(),
@@ -286,7 +340,9 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }
 
             name == MotionBlurParams::class.simpleName -> {
-                val (radius, sigma, centerX, centerY, strength, angle) = value.split("$")
+                val (radius, sigma, centerX, centerY, strength, angle) = value.split(
+                    PROPERTIES_SEPARATOR
+                )
                 MotionBlurParams(
                     radius = radius.toInt(),
                     sigma = sigma.toFloat(),
@@ -298,7 +354,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }
 
             name == SideFadeParams::class.simpleName -> {
-                val (sideName, scale) = value.split("$")
+                val (sideName, scale) = value.split(PROPERTIES_SEPARATOR)
                 SideFadeParams.Relative(
                     side = FadeSide.valueOf(sideName),
                     scale = scale.toFloat()
@@ -306,7 +362,9 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }
 
             name == WaterParams::class.simpleName -> {
-                val (fractionSize, frequencyX, frequencyY, amplitudeX, amplitudeY) = value.split("$")
+                val (fractionSize, frequencyX, frequencyY, amplitudeX, amplitudeY) = value.split(
+                    PROPERTIES_SEPARATOR
+                )
                 WaterParams(
                     fractionSize = fractionSize.toFloat(),
                     frequencyX = frequencyX.toFloat(),
@@ -395,6 +453,7 @@ private const val FILTERS_SEPARATOR = ","
 private const val TEMPLATES_SEPARATOR = "\\"
 private const val TEMPLATE_CONTENT_SEPARATOR = "+"
 private const val VALUE_SEPARATOR = ":"
+private const val PROPERTIES_SEPARATOR = "$"
 
 private val FAVORITE_FILTERS = stringPreferencesKey("FAVORITE_FILTERS")
 private val TEMPLATE_FILTERS = stringPreferencesKey("TEMPLATE_FILTERS")

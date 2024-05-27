@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Info
@@ -49,6 +50,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -71,6 +73,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.QrCode
@@ -112,6 +115,27 @@ fun ScanQrCodeScreen(
 
     val scanner = rememberQrCodeScanner {
         qrContent = it
+    }
+
+    val interactor = LocalFavoriteFiltersInteractor.current
+
+    LaunchedEffect(qrContent, interactor) {
+        if (interactor.isValidTemplateFilter(qrContent)) {
+            interactor.addTemplateFilterFromString(
+                string = qrContent,
+                onSuccess = { filterName, filtersCount ->
+                    toastHostState.showToast(
+                        message = context.getString(
+                            R.string.added_filter_template,
+                            filterName,
+                            filtersCount
+                        ),
+                        icon = Icons.Outlined.AutoFixHigh
+                    )
+                },
+                onError = {}
+            )
+        }
     }
 
     var qrImageUri by rememberSaveable {
@@ -159,7 +183,7 @@ fun ScanQrCodeScreen(
                 BoxWithConstraints(
                     modifier = Modifier
                         .then(
-                            if (qrImageUri != null || qrDescription.isNotEmpty()) {
+                            if ((qrImageUri != null || qrDescription.isNotEmpty()) && qrContent.isNotEmpty()) {
                                 Modifier
                                     .background(
                                         color = takeColorFromScheme {
@@ -194,7 +218,7 @@ fun ScanQrCodeScreen(
                                 .size(targetSize)
                         )
 
-                        BoxAnimatedVisibility(visible = qrDescription.isNotEmpty()) {
+                        BoxAnimatedVisibility(visible = qrDescription.isNotEmpty() && qrContent.isNotEmpty()) {
                             Text(
                                 text = qrDescription,
                                 style = MaterialTheme.typography.headlineSmall,
@@ -204,7 +228,7 @@ fun ScanQrCodeScreen(
                         }
                     }
 
-                    if (qrImageUri != null) {
+                    if (qrImageUri != null && qrContent.isNotEmpty()) {
                         Picture(
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
