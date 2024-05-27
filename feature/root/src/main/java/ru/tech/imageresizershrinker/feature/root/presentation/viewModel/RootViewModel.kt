@@ -38,6 +38,7 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
@@ -335,5 +336,11 @@ class RootViewModel @Inject constructor(
     }
 
     fun getSettingsInteractor(): SettingsInteractor = settingsManager
+
+    fun adjustPerformance(performanceClass: PerformanceClass) {
+        viewModelScope.launch {
+            settingsManager.adjustPerformance(performanceClass)
+        }
+    }
 
 }

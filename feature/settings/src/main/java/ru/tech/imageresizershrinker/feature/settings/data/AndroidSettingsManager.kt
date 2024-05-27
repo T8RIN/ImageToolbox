@@ -33,6 +33,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
@@ -820,6 +821,40 @@ internal class AndroidSettingsManager @Inject constructor(
                 key = CAN_ENTER_PRESETS_BY_TEXT_FIELD,
                 defaultValue = default.canEnterPresetsByTextField
             )
+        }
+    }
+
+    override suspend fun adjustPerformance(performanceClass: PerformanceClass) {
+        when (performanceClass) {
+            PerformanceClass.Low -> {
+                dataStore.edit {
+                    it[DRAW_BUTTON_SHADOWS] = false
+                    it[DRAW_SWITCH_SHADOWS] = false
+                    it[DRAW_SLIDER_SHADOWS] = false
+                    it[DRAW_CONTAINER_SHADOWS] = false
+                    it[DRAW_APPBAR_SHADOWS] = false
+                }
+            }
+
+            PerformanceClass.Average -> {
+                dataStore.edit {
+                    it[DRAW_BUTTON_SHADOWS] = false
+                    it[DRAW_SWITCH_SHADOWS] = true
+                    it[DRAW_SLIDER_SHADOWS] = false
+                    it[DRAW_CONTAINER_SHADOWS] = false
+                    it[DRAW_APPBAR_SHADOWS] = true
+                }
+            }
+
+            PerformanceClass.High -> {
+                dataStore.edit {
+                    it[DRAW_BUTTON_SHADOWS] = true
+                    it[DRAW_SWITCH_SHADOWS] = true
+                    it[DRAW_SLIDER_SHADOWS] = true
+                    it[DRAW_CONTAINER_SHADOWS] = true
+                    it[DRAW_APPBAR_SHADOWS] = true
+                }
+            }
         }
     }
 

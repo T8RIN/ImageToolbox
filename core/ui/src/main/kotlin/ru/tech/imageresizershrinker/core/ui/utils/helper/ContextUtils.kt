@@ -21,6 +21,7 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import android.Manifest
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -38,6 +39,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
 import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
+import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
@@ -49,7 +51,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.has
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.io.RandomAccessFile
 import java.util.Locale
+import kotlin.math.ceil
 
 
 object ContextUtils {
@@ -243,6 +247,45 @@ object ContextUtils {
             Icons.Rounded.ErrorOutline
         )
     }
+
+    val Context.performanceClass: PerformanceClass
+        get() {
+            val androidVersion = Build.VERSION.SDK_INT
+            val cpuCount = Runtime.getRuntime().availableProcessors()
+            val memoryClass =
+                (applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).memoryClass
+            var totalCpuFreq = 0
+            var freqResolved = 0
+            for (i in 0 until cpuCount) {
+                try {
+                    val reader = RandomAccessFile(
+                        String.format(
+                            Locale.ENGLISH,
+                            "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq",
+                            i
+                        ), "r"
+                    )
+                    val line = reader.readLine()
+                    if (line != null) {
+                        totalCpuFreq += line.toInt() / 1000
+                        freqResolved++
+                    }
+                    reader.close()
+                } catch (ignore: Throwable) {
+                }
+            }
+            val maxCpuFreq =
+                if (freqResolved == 0) -1 else ceil((totalCpuFreq / freqResolved.toFloat()).toDouble())
+                    .toInt()
+
+            return if (androidVersion < 21 || cpuCount <= 2 || memoryClass <= 100 || cpuCount <= 4 && maxCpuFreq != -1 && maxCpuFreq <= 1250 || cpuCount <= 4 && maxCpuFreq <= 1600 && memoryClass <= 128 && androidVersion <= 21 || cpuCount <= 4 && maxCpuFreq <= 1300 && memoryClass <= 128 && androidVersion <= 24) {
+                PerformanceClass.Low
+            } else if (cpuCount < 8 || memoryClass <= 160 || maxCpuFreq != -1 && maxCpuFreq <= 2050 || maxCpuFreq == -1 && cpuCount == 8 && androidVersion <= 23) {
+                PerformanceClass.Average
+            } else {
+                PerformanceClass.High
+            }
+        }
 
     tailrec fun Context.findActivity(): Activity? = when (this) {
         is Activity -> this

@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.settings.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
@@ -174,5 +175,7 @@ interface SettingsInteractor {
     suspend fun toggleOpenEditInsteadOfPreview()
 
     suspend fun toggleCanEnterPresetsByTextField()
+
+    suspend fun adjustPerformance(performanceClass: PerformanceClass)
 
 }

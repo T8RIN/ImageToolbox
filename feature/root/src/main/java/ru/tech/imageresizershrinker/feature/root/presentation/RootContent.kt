@@ -239,7 +239,8 @@ fun RootContent(
 
             FirstLaunchSetupDialog(
                 toggleShowUpdateDialog = viewModel::toggleShowUpdateDialog,
-                toggleAllowBetas = viewModel::toggleAllowBetas
+                toggleAllowBetas = viewModel::toggleAllowBetas,
+                adjustPerformance = viewModel::adjustPerformance
             )
 
             PermissionDialog()
