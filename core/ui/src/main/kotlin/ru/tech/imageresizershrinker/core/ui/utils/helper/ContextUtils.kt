@@ -257,7 +257,7 @@ object ContextUtils {
             var totalCpuFreq = 0
             var freqResolved = 0
             for (i in 0 until cpuCount) {
-                try {
+                runCatching {
                     val reader = RandomAccessFile(
                         String.format(
                             Locale.ENGLISH,
@@ -271,7 +271,6 @@ object ContextUtils {
                         freqResolved++
                     }
                     reader.close()
-                } catch (ignore: Throwable) {
                 }
             }
             val maxCpuFreq =
