@@ -826,10 +826,10 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun adjustPerformance(performanceClass: PerformanceClass) {
-        performanceClass.makeLog("PerformanceClass")
-        when (performanceClass) {
+        when (performanceClass.makeLog("PerformanceClass")) {
             PerformanceClass.Low -> {
                 dataStore.edit {
+                    it[CONFETTI_ENABLED] = false
                     it[DRAW_BUTTON_SHADOWS] = false
                     it[DRAW_SWITCH_SHADOWS] = false
                     it[DRAW_SLIDER_SHADOWS] = false
@@ -840,6 +840,7 @@ internal class AndroidSettingsManager @Inject constructor(
 
             PerformanceClass.Average -> {
                 dataStore.edit {
+                    it[CONFETTI_ENABLED] = true
                     it[DRAW_BUTTON_SHADOWS] = false
                     it[DRAW_SWITCH_SHADOWS] = true
                     it[DRAW_SLIDER_SHADOWS] = false
@@ -850,6 +851,7 @@ internal class AndroidSettingsManager @Inject constructor(
 
             PerformanceClass.High -> {
                 dataStore.edit {
+                    it[CONFETTI_ENABLED] = true
                     it[DRAW_BUTTON_SHADOWS] = true
                     it[DRAW_SWITCH_SHADOWS] = true
                     it[DRAW_SLIDER_SHADOWS] = true
