@@ -1115,4 +1115,5 @@
     <string name="no_template_filters">कोई खाका फिल्टर नहीं जोड़ा गया</string>
     <string name="create_new">नया बनाएं</string>
     <string name="delete_template_warn">आप चयनित खाका फिल्टर को मिटाने वाले हैं। यह कार्रवाई पूर्ववत नहीं की जा सकती</string>
+    <string name="min">न्यून</string>
 </resources>

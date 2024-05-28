@@ -885,4 +885,17 @@
     <string name="coordinates_rounding_tolerance">تلورانس گرد کردن مختصات</string>
     <string name="path_scale">مقیاس مسیر</string>
     <string name="reset_properties">بازنشانی خصوصیات</string>
+    <string name="add_new_folder">افزودن پوشه جدید</string>
+    <string name="tag_bits_per_sample">بیت ها در نمونه</string>
+    <string name="tag_compression">فشرده سازی</string>
+    <string name="tag_samples_per_pixel">نمونه ها در پیکسل</string>
+    <string name="default_line_width">پیش فرض ردیف های عرض</string>
+    <string name="engine_mode">حالت موتور</string>
+    <string name="lstm_network">شبکه LSTM</string>
+    <string name="legacy">میراث</string>
+    <string name="legacy_and_lstm">میراث و LSTM</string>
+    <string name="convert">تبدیل</string>
+    <string name="min">کمترین</string>
+    <string name="qr_description">توضیحات QR</string>
+    <string name="convert_sub">تبدیل تصاویر به فرمت داده شده</string>
 </resources>
