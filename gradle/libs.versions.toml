@@ -3,7 +3,6 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
-playServicesCodeScanner = "16.1.0"
 versionName = "2.8.2-alpha03"
 versionCode = "139"
 
@@ -18,6 +17,7 @@ aire = "0.9.99"
 jxlCoderCoil = "2.2.0"
 jxlCoder = "2.2.0"
 
+quickieBundled = "1.10.0"
 tesseract = "4.7.0"
 composeVersion = "1.7.0-beta01"
 androidx-datastorePreferencesAndroid = "1.1.1"
@@ -71,6 +71,9 @@ zxingAndroidEmbedded = "4.3.0"
 capturable = "2.1.0"
 
 [libraries]
+mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
+quickie-bundled = { module = "io.github.g00fy2.quickie:quickie-bundled", version.ref = "quickieBundled" }
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 capturable = { module = "dev.shreyaspatil:capturable", version.ref = "capturable" }
 documentscanner = { module = "com.github.T8RIN:DocumentScanner", version.ref = "documentScanner" }
 imageToolboxLibs = { module = "com.github.T8RIN:ImageToolboxLibs", version.ref = "imageToolboxLibs" }
@@ -91,8 +94,6 @@ datastore-preferences-android = { module = "androidx.datastore:datastore-prefere
 fadingEdges = { module = "com.github.t8rin:ComposeFadingEdges", version.ref = "fadingEdges" }
 firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
 konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfettiCompose" }
-mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
-play-services-code-scanner = { module = "com.google.android.gms:play-services-code-scanner", version.ref = "playServicesCodeScanner" }
 reimagined = { module = "dev.olshevski.navigation:reimagined", version.ref = "reimagined" }
 reimagined-hilt = { module = "dev.olshevski.navigation:reimagined-hilt", version.ref = "reimagined" }
 shadowsPlus = { module = "com.github.GIGAMOLE:ComposeShadowsPlus", version.ref = "shadowsPlus" }
@@ -136,7 +137,6 @@ agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
-zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 
 [plugins]
 image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" }

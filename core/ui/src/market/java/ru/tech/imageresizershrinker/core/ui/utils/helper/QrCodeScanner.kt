@@ -18,35 +18,37 @@
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
-import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
+import io.github.g00fy2.quickie.QRResult
+import io.github.g00fy2.quickie.ScanCustomCode
+import io.github.g00fy2.quickie.config.BarcodeFormat
+import io.github.g00fy2.quickie.config.ScannerConfig
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 
 class QrCodeScanner internal constructor(
-    private val context: ComponentActivity,
-    private val onSuccess: (String) -> Unit,
-    private val onFailure: (Throwable) -> Unit
+    private val scannerLauncher: ManagedActivityResultLauncher<ScannerConfig, QRResult>
 ) {
 
     fun scan() {
-        val options = GmsBarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-            .build()
+        val config = ScannerConfig.build {
+            setBarcodeFormats(listOf(BarcodeFormat.FORMAT_QR_CODE))
+            setHapticSuccessFeedback(true)
+            setShowTorchToggle(true)
+            setShowCloseButton(true)
+            setKeepScreenOn(true)
+        }
 
-        val scanner = GmsBarcodeScanning.getClient(context, options)
-
-        scanner.startScan()
-            .addOnSuccessListener { code ->
-                onSuccess(code.rawValue ?: "")
-            }
-            .addOnFailureListener(onFailure)
+        scannerLauncher.launch(config)
     }
 
 }
@@ -60,18 +62,36 @@ fun rememberQrCodeScanner(
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current as ComponentActivity
 
-    return remember(context, onSuccess) {
-        QrCodeScanner(
-            context = context,
-            onSuccess = onSuccess,
-            onFailure = {
+    val scannerLauncher = rememberLauncherForActivityResult(ScanCustomCode()) { result ->
+        when (result) {
+            is QRResult.QRError -> {
                 scope.launch {
                     toastHostState.showError(
                         context = context,
-                        error = it
+                        error = result.exception
                     )
                 }
             }
-        )
+
+            QRResult.QRMissingPermission -> {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.grant_camera_permission_to_scan_qr_code),
+                        icon = Icons.Outlined.CameraAlt
+                    )
+                }
+            }
+
+            is QRResult.QRSuccess -> {
+                onSuccess(result.content.rawValue ?: "")
+            }
+
+            QRResult.QRUserCanceled -> Unit
+        }
+    }
+
+
+    return remember(scannerLauncher) {
+        QrCodeScanner(scannerLauncher)
     }
 }
