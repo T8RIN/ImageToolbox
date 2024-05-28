@@ -175,7 +175,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
     val previewData by _previewData
@@ -353,7 +353,7 @@ fun AddFiltersSheet(
         }
         val haptics = LocalHapticFeedback.current
         val pagerState = rememberPagerState(
-            pageCount = { groupedFilters.size + 1 },
+            pageCount = { groupedFilters.size + 2 },
             initialPage = 2
         )
 
