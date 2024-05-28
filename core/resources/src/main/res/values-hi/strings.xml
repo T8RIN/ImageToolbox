@@ -1092,4 +1092,27 @@
     <string name="crop_to_content">सामग्री के अनुसार काटें</string>
     <string name="frame_color">फ्रेम का रंग</string>
     <string name="color_to_ignore">नज़रअंदाज़ करने के लिए रंग</string>
+    <string name="scan_qr_code">QR कोड स्कैन करें</string>
+    <string name="opened_file_have_no_filter_template">चयनित फाइल में कोई फिल्टर खाका डेटा नहीं है</string>
+    <string name="create_template">खाका बनाएं</string>
+    <string name="template_name">खाका नाम</string>
+    <string name="select_template_preview">इस फिल्टर खाके का पूर्वावलोकन करने के लिए इस छवि का उपयोग किया जाएगा</string>
+    <string name="scanned_qr_code_isnt_filter_template">स्कैन किया गया QR कोड मान्य फिल्टर खाका नहीं है</string>
+    <string name="template_filter">खाका फिल्टर</string>
+    <string name="as_qr_code">QR कोड छवि के रूप में</string>
+    <string name="as_file">फाइल के रूप में</string>
+    <string name="save_as_file">फाइल के रूप में सहेजें</string>
+    <string name="save_as_qr_code_image">QR कोड छवि के रूप में सहेजें</string>
+    <string name="delete_template">टेम्प्लेट मिटाएं</string>
+    <string name="added_filter_template">\"%1$s\" नाम के साथ फिल्टर खाका जोड़ा गया (%2$d)</string>
+    <string name="filter_preview">फिल्टर पूर्वावलोकन</string>
+    <string name="qr_code">QR कोड</string>
+    <string name="qr_code_sub">QR कोड को स्कैन करें और उसकी सामग्री प्राप्त करें या नया कोड बनाने के लिए अपनी स्ट्रिंग पेस्ट करें</string>
+    <string name="code_content">कोड सामग्री</string>
+    <string name="scan_qr_code_to_replace_content">क्षेत्र में सामग्री को बदलने के लिए QR कोड को स्कैन करें, या नया QR कोड उत्पन्न करने के लिए कुछ टाइप करें</string>
+    <string name="qr_description">QR विवरण</string>
+    <string name="template">खाका</string>
+    <string name="no_template_filters">कोई खाका फिल्टर नहीं जोड़ा गया</string>
+    <string name="create_new">नया बनाएं</string>
+    <string name="delete_template_warn">आप चयनित खाका फिल्टर को मिटाने वाले हैं। यह कार्रवाई पूर्ववत नहीं की जा सकती</string>
 </resources>
