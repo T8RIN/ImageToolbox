@@ -149,5 +149,4 @@ internal class AndroidLimitsImageScaler @Inject constructor(
         }
     }
 
-
 }
