@@ -1116,4 +1116,5 @@
     <string name="create_new">नया बनाएं</string>
     <string name="delete_template_warn">आप चयनित खाका फिल्टर को मिटाने वाले हैं। यह कार्रवाई पूर्ववत नहीं की जा सकती</string>
     <string name="min">न्यून</string>
+    <string name="grant_camera_permission_to_scan_qr_code">QR कोड स्कैन करने के लिए सेटिंग्स में कैमरे की अनुमति दें</string>
 </resources>
