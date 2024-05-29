@@ -1115,4 +1115,5 @@
     <string name="scan_qr_code_to_replace_content">Digitalize o código QR para substituir o conteúdo no campo ou digite algo para gerar um novo código QR</string>
     <string name="qr_description">Descrição do código QR</string>
     <string name="min">Min</string>
+    <string name="grant_camera_permission_to_scan_qr_code">Conceder permissão à câmara nas definições para digitalizar o código QR</string>
 </resources>
