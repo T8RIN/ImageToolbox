@@ -1116,4 +1116,5 @@
     <string name="scan_qr_code_to_replace_content">Scan QR-code om inhoud in het veld te vervangen of typ iets om nieuwe QR-code te genereren</string>
     <string name="qr_description">QR-beschrijving</string>
     <string name="min">Min</string>
+    <string name="grant_camera_permission_to_scan_qr_code">Geef camera toestemming in instellingen om QR-codes te scannen</string>
 </resources>
