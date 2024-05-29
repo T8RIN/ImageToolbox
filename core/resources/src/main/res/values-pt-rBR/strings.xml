@@ -1114,4 +1114,5 @@
     <string name="code_content">Conteúdo do código</string>
     <string name="scan_qr_code_to_replace_content">Digitalize o código QR para substituir o conteúdo no campo ou digite algo para gerar um novo código QR</string>
     <string name="qr_description">Descrição do código QR</string>
+    <string name="min">Min</string>
 </resources>

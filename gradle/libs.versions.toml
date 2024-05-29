@@ -34,7 +34,7 @@ firebaseCrashlyticsGradle = "3.0.1"
 google-segmentationSelfie = "16.0.0-beta5"
 google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.6"
-detektCompose = "0.4.2"
+detektCompose = "0.4.3"
 
 kotlin = "1.9.24"
 agp = "8.4.1"
