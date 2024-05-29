@@ -50,6 +50,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 
 /**
@@ -179,9 +180,19 @@ fun QrCode(
         contentAlignment = Alignment.Center
     ) {
         val size = min(maxWidth, maxHeight)
+        val backgroundColor = if (LocalSettingsState.current.isNightMode) {
+            MaterialTheme.colorScheme.tertiary
+        } else MaterialTheme.colorScheme.tertiaryContainer
+
+        val foregroundColor = if (LocalSettingsState.current.isNightMode) {
+            MaterialTheme.colorScheme.onTertiary
+        } else MaterialTheme.colorScheme.onTertiaryContainer
+
         val painter = rememberQrBitmapPainter(
             content = content,
-            size = size
+            size = size,
+            foregroundColor = foregroundColor,
+            backgroundColor = backgroundColor
         )
         Box(
             modifier = Modifier

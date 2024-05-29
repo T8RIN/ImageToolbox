@@ -353,7 +353,7 @@ fun AddFiltersSheet(
         }
         val haptics = LocalHapticFeedback.current
         val pagerState = rememberPagerState(
-            pageCount = { groupedFilters.size + 2 },
+            pageCount = { groupedFilters.size + if (canAddTemplates) 2 else 1 },
             initialPage = 2
         )
 
