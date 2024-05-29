@@ -19,7 +19,9 @@ package ru.tech.imageresizershrinker.core.ui.utils
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -94,13 +96,17 @@ fun rememberQrBitmapPainter(
     return remember(bitmap) {
         bitmap?.asImageBitmap()?.let {
             BitmapPainter(it)
-        } ?: object : Painter() {
-            override val intrinsicSize: Size
-                get() = Size(sizePx.toFloat(), sizePx.toFloat())
-
-            override fun DrawScope.onDraw() = Unit
-        }
+        } ?: EmptyPainter(sizePx)
     }
+}
+
+private class EmptyPainter(
+    private val sizePx: Int
+) : Painter() {
+    override val intrinsicSize: Size
+        get() = Size(sizePx.toFloat(), sizePx.toFloat())
+
+    override fun DrawScope.onDraw() = Unit
 }
 
 
@@ -172,14 +178,21 @@ fun QrCode(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = rememberQrBitmapPainter(
-                content = content,
-                size = min(maxWidth, maxHeight)
-            ),
+        val size = min(maxWidth, maxHeight)
+        val painter = rememberQrBitmapPainter(
+            content = content,
+            size = size
+        )
+        Box(
             modifier = Modifier
+                .size(size)
                 .clip(RoundedCornerShape(4.dp))
-                .shimmer(content.isEmpty()),
+                .shimmer(true)
+        )
+        Image(
+            painter = painter,
+            modifier = Modifier
+                .clip(RoundedCornerShape(4.dp)),
             contentDescription = null
         )
     }

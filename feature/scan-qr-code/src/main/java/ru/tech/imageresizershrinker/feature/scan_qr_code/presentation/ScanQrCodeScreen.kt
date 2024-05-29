@@ -281,9 +281,11 @@ fun ScanQrCodeScreen(
             if (isLandscape) QrCodePreview()
         },
         controls = {
-            Spacer(modifier = Modifier.height(20.dp))
-            if (!isLandscape) QrCodePreview()
-            Spacer(modifier = Modifier.height(16.dp))
+            if (!isLandscape) {
+                Spacer(modifier = Modifier.height(20.dp))
+                QrCodePreview()
+                Spacer(modifier = Modifier.height(16.dp))
+            }
             RoundedTextField(
                 modifier = Modifier
                     .container(shape = RoundedCornerShape(24.dp))
