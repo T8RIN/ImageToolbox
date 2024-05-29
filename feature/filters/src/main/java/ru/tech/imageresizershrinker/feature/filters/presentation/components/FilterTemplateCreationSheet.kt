@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Extension
@@ -62,13 +63,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
@@ -86,6 +90,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -206,7 +211,8 @@ internal fun FilterTemplateCreationSheet(
                             color = MaterialTheme.colorScheme
                                 .surfaceContainer
                                 .copy(0.8f)
-                        ),
+                        )
+                        .shimmer(viewModel.previewBitmap == null && viewModel.previewLoading),
                     contentAlignment = Alignment.Center
                 ) {
                     SimplePicture(
@@ -266,6 +272,9 @@ internal fun FilterTemplateCreationSheet(
                                             shape = MaterialTheme.shapes.large,
                                             resultPadding = 8.dp
                                         ),
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Text
+                                    ),
                                     onValueChange = viewModel::updateTemplateName,
                                     value = viewModel.templateName,
                                     label = stringResource(R.string.template_name)
@@ -382,7 +391,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
     val previewLoading by _previewLoading
 
     fun updateTemplateName(newName: String) {
-        _templateName.update { newName }
+        _templateName.update { newName.filter { it.isLetter() || it.isWhitespace() }.trim() }
     }
 
     private fun updatePreview() {
@@ -392,7 +401,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
                 imageGetter.getImageWithTransformations(
                     data = bitmapUri ?: R.drawable.filter_preview_source,
                     transformations = filterList.map { filterProvider.filterToTransformation(it) },
-                    originalSize = false
+                    size = IntegerSize(1000, 1000)
                 )
             }
             _previewLoading.update { false }
@@ -445,7 +454,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
             favoriteFiltersInteractor.addTemplateFilter(
                 TemplateFilter(
                     name = templateName,
-                    filters = filterList
+                    filters = filterList.makeLog("COCK")
                 )
             )
         }

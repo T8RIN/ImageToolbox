@@ -130,7 +130,7 @@ private suspend fun generateQrBitmap(
     val encodeHints = mutableMapOf<EncodeHintType, Any?>()
         .apply {
             this[EncodeHintType.CHARACTER_SET] = Charsets.UTF_8
-            this[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.H
+            this[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
             this[EncodeHintType.MARGIN] = paddingPx
         }
 
@@ -181,12 +181,12 @@ fun QrCode(
     ) {
         val size = min(maxWidth, maxHeight)
         val backgroundColor = if (LocalSettingsState.current.isNightMode) {
-            MaterialTheme.colorScheme.tertiary
-        } else MaterialTheme.colorScheme.tertiaryContainer
+            MaterialTheme.colorScheme.onSurface
+        } else MaterialTheme.colorScheme.surfaceContainerHigh
 
         val foregroundColor = if (LocalSettingsState.current.isNightMode) {
-            MaterialTheme.colorScheme.onTertiary
-        } else MaterialTheme.colorScheme.onTertiaryContainer
+            MaterialTheme.colorScheme.surfaceContainer
+        } else MaterialTheme.colorScheme.onSurface
 
         val painter = rememberQrBitmapPainter(
             content = content,

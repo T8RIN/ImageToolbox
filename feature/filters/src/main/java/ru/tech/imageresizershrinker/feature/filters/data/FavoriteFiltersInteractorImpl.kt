@@ -101,7 +101,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
     override fun isValidTemplateFilter(
         string: String
     ): Boolean =
-        context.applicationInfo.packageName in string && "Filter" in string && LINK_HEADER in string
+        (context.applicationInfo.packageName in string || PACKAGE in string) && "Filter" in string && LINK_HEADER in string
 
     override suspend fun addTemplateFilterFromUri(
         uri: String,
@@ -119,7 +119,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         val currentFilters = getTemplateFilters().first()
         dataStore.edit { prefs ->
             prefs[TEMPLATE_FILTERS] = currentFilters.filter {
-                it != templateFilter
+                convertTemplateFilterToString(it) != convertTemplateFilterToString(templateFilter)
             }.toDatastoreString()
         }
     }
@@ -131,10 +131,13 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
     override suspend fun addTemplateFilter(templateFilter: TemplateFilter<Bitmap>) {
         val currentFilters = getTemplateFilters().first()
         dataStore.edit { prefs ->
-            prefs[TEMPLATE_FILTERS] = currentFilters.let {
-                if (templateFilter in it) {
-                    currentFilters
-                } else currentFilters + templateFilter
+            prefs[TEMPLATE_FILTERS] = currentFilters.let { filters ->
+                val index = filters.indexOfFirst {
+                    convertTemplateFilterToString(it) == convertTemplateFilterToString(
+                        templateFilter
+                    )
+                }
+                if (index != -1) filters else filters + templateFilter
             }.toDatastoreString()
         }
     }
@@ -142,7 +145,10 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
     private fun List<Filter<Bitmap, *>>.toDatastoreString(
         includeValue: Boolean = false
     ): String = joinToString(separator = FILTERS_SEPARATOR) { filter ->
-        filter::class.qualifiedName!! + if (includeValue && filter.value != null) {
+        filter::class.qualifiedName!!.replace(
+            context.applicationInfo.packageName,
+            PACKAGE
+        ) + if (includeValue && filter.value != null) {
             VALUE_SEPARATOR + filter.value!!.toPair()
                 ?.let { it.first + VALUE_SEPARATOR + it.second }
         } else ""
@@ -268,7 +274,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
             "${FilterValueWrapper::class.simpleName}{" in name -> {
                 when (name.getTypeFromBraces()) {
-                    Color::class.simpleName -> Color(value.toInt())
+                    Color::class.simpleName -> FilterValueWrapper(Color(value.toInt()))
                     else -> null
                 }
             }
@@ -415,7 +421,12 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             }.getOrElse { _ -> line.trim() to Unit }
         } else line.trim() to Unit
         runCatching {
-            val filterClass = Class.forName(name) as Class<Filter<Bitmap, *>>
+            val filterClass = Class.forName(
+                name.replace(
+                    PACKAGE,
+                    context.applicationInfo.packageName
+                )
+            ) as Class<Filter<Bitmap, *>>
             filterClass.kotlin.primaryConstructor?.run {
                 try {
                     callBy(if (includeValue && value != null) mapOf(parameters[0] to value) else emptyMap())
@@ -449,6 +460,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
 private const val LINK_HEADER: String = "https://github.com/T8RIN/ImageToolbox?"
 
+private const val PACKAGE = "^^"
 private const val FILTERS_SEPARATOR = ","
 private const val TEMPLATES_SEPARATOR = "\\"
 private const val TEMPLATE_CONTENT_SEPARATOR = "+"

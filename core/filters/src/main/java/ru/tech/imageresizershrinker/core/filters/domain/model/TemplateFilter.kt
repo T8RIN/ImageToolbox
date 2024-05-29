@@ -32,10 +32,22 @@ data class TemplateFilter<Image>(
         if (other.filters.size != filters.size) return false
         val filters1 = other.filters.sortedBy { it::class.simpleName }
         val filters2 = filters.sortedBy { it::class.simpleName }
+
         filters1.forEachIndexed { index, filter1 ->
             val filter2 = filters2[index]
-            if (filter1::class.simpleName != filter2::class.simpleName) return false
-            if (filter1.value != filter2.value) return false
+            val filter1Name = filter1::class.simpleName
+            val filter2Name = filter2::class.simpleName
+
+            val filter1Value = filter1.value
+            val filter2Value = filter2.value
+
+            if (filter1Name != filter2Name) return false
+            if (filter1Value is FloatArray) {
+                if (filter2Value !is FloatArray) return false
+                if (filter1Value.joinToString() != filter2Value.joinToString()) return false
+            }
+
+            if (filter1Value != filter2Value) return false
         }
 
         return true

@@ -171,7 +171,7 @@ internal class AndroidImageGetter @Inject constructor(
     override suspend fun getImageWithTransformations(
         data: Any,
         transformations: List<Transformation<Bitmap>>,
-        originalSize: Boolean
+        size: IntegerSize?
     ): Bitmap? = withContext(defaultDispatcher) {
         val request = ImageRequest
             .Builder(context)
@@ -180,7 +180,8 @@ internal class AndroidImageGetter @Inject constructor(
                 transformations.map { it.toCoil() }
             )
             .apply {
-                if (originalSize) size(Size.ORIGINAL)
+                if (size == null) size(Size.ORIGINAL)
+                else size(size.width, size.height)
             }
             .build()
 
