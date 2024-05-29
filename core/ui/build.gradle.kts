@@ -75,6 +75,7 @@ dependencies {
     "fossImplementation"(libs.documentscanner)
 
     "marketImplementation"(libs.quickie.bundled)
+    "fossImplementation"(libs.quickie.foss)
     api(libs.zxing.android.embedded)
 
     api(libs.capturable)
