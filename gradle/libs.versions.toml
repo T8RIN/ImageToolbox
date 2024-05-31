@@ -39,7 +39,7 @@ detektCompose = "0.4.3"
 kotlin = "1.9.24"
 agp = "8.4.1"
 hilt = "2.51.1"
-gms = "4.4.1"
+gms = "4.4.2"
 
 coil = "2.6.0"
 appCompat = "1.7.0"
