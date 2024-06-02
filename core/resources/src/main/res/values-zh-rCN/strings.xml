@@ -79,7 +79,7 @@
     <string name="light">亮色</string>
     <string name="system">跟随系统</string>
     <string name="customization">自定义</string>
-    <string name="allow_image_monet">允许来自图片莫奈颜色</string>
+    <string name="allow_image_monet">允许来自图片的莫奈颜色</string>
     <string name="allow_image_monet_sub">如果启用，当你选择一张要编辑的图片时，应用程序的颜色将根据此图片改变</string>
     <string name="language">语言</string>
     <string name="dynamic_colors">动态颜色</string>
