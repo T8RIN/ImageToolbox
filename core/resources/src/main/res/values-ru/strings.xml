@@ -1075,4 +1075,6 @@
     <string name="options_below_is_for_images">Параметры ниже предназначены для сохранения изображений, а не PDF</string>
     <string name="equalize_histogram_hsv">Выровнять HSV гистограмму</string>
     <string name="equalize_histogram">Выровнять гистограмму</string>
+    <string name="enter_percentage">Введите процент</string>
+    <string name="allow_enter_by_text_field">Разрешить ввод по текстовому полю</string>
 </resources>
