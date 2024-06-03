@@ -418,7 +418,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 val valueString = splitData[2]
 
                 splitData[0].trim() to (className to valueString).fromPair()
-            }.getOrElse { _ -> line.trim() to Unit }
+            }.getOrElse { line.trim() to Unit }
         } else line.trim() to Unit
         runCatching {
             val filterClass = Class.forName(
@@ -429,7 +429,9 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             ) as Class<Filter<Bitmap, *>>
             filterClass.kotlin.primaryConstructor?.run {
                 try {
-                    callBy(if (includeValue && value != null) mapOf(parameters[0] to value) else emptyMap())
+                    if (includeValue && value != null) {
+                        callBy(mapOf(parameters[0] to value))
+                    } else callBy(emptyMap())
                 } catch (e: Throwable) {
                     callBy(emptyMap())
                 }
