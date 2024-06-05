@@ -24,11 +24,11 @@ sealed interface ScaleColorSpace {
     data object Linear : ScaleColorSpace
 
     companion object {
-        val Default = LAB
+        val Default = Linear
 
         val entries by lazy {
             listOf(
-                LAB, SRGB, Linear, LUV
+                Linear, LAB, SRGB, LUV
             )
         }
     }
@@ -338,7 +338,6 @@ sealed class ImageScaleMode(val value: Int) {
 
         val entries by lazy {
             listOf(
-                Base,
                 Bilinear(),
                 Nearest(),
                 Cubic(),

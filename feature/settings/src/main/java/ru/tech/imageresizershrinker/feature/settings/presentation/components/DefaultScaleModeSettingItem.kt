@@ -52,6 +52,7 @@ fun DefaultScaleModeSettingItem(
     ScaleModeSelector(
         modifier = modifier,
         shape = shape,
+        initialShowAll = true,
         backgroundColor = Color.Unspecified,
         value = settingsState.defaultImageScaleMode,
         onValueChange = onValueChange,

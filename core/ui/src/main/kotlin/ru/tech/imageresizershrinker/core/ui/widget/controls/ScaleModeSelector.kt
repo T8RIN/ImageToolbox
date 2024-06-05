@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -28,10 +30,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,15 +47,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gigamole.composefadingedges.FadingEdgesGravity
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ScaleColorSpace
 import ru.tech.imageresizershrinker.core.resources.R
@@ -57,10 +69,13 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -73,12 +88,11 @@ fun ScaleModeSelector(
     shape: Shape = RoundedCornerShape(24.dp),
     enableItemsCardBackground: Boolean = true,
     value: ImageScaleMode,
+    initialShowAll: Boolean = false,
     titlePadding: PaddingValues = PaddingValues(top = 8.dp),
     titleArrangement: Arrangement.Horizontal = Arrangement.Center,
     onValueChange: (ImageScaleMode) -> Unit,
-    entries: List<ImageScaleMode> = remember {
-        ImageScaleMode.entries
-    },
+    entries: List<ImageScaleMode> = ImageScaleMode.defaultEntries(),
     title: @Composable RowScope.() -> Unit = {
         Text(
             text = stringResource(R.string.scale_mode),
@@ -90,6 +104,9 @@ fun ScaleModeSelector(
     val isColorSpaceSelectionVisible = enableItemsCardBackground && value !is ImageScaleMode.Base
     val showInfoSheet = rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
+    var showAll by rememberSaveable(initialShowAll) {
+        mutableStateOf(initialShowAll)
+    }
 
     LaunchedEffect(settingsState) {
         if (value != settingsState.defaultImageScaleMode) {
@@ -112,6 +129,7 @@ fun ScaleModeSelector(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = titleArrangement
         ) {
+            if (!initialShowAll) Spacer(Modifier.weight(1f))
             title()
             Spacer(modifier = Modifier.width(8.dp))
             SupportingButton(
@@ -119,8 +137,35 @@ fun ScaleModeSelector(
                     showInfoSheet.value = true
                 }
             )
+            if (!initialShowAll) {
+                Spacer(Modifier.weight(1f))
+
+                val rotation by animateFloatAsState(
+                    if (showAll) 180f
+                    else 0f
+                )
+                EnhancedIconButton(
+                    forceMinimumInteractiveComponentSize = false,
+                    containerColor = Color.Transparent,
+                    onClick = { showAll = !showAll },
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(24.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowDown,
+                        contentDescription = "Expand",
+                        modifier = Modifier.rotate(rotation)
+                    )
+                }
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
+
+        val count by animateIntAsState(
+            if (showAll) entries.size
+            else 8
+        )
 
         FlowRow(
             verticalArrangement = Arrangement.spacedBy(
@@ -146,7 +191,7 @@ fun ScaleModeSelector(
                     } else Modifier.padding(8.dp)
                 )
         ) {
-            entries.forEach {
+            entries.take(count).forEach {
                 val selected by remember(value, it) {
                     derivedStateOf {
                         value::class.isInstance(it)
@@ -158,7 +203,7 @@ fun ScaleModeSelector(
                     },
                     selected = selected,
                     label = {
-                        Text(text = it.title)
+                        Text(text = stringResource(id = it.title))
                     },
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
                     selectedColor = MaterialTheme.colorScheme.outlineVariant(
@@ -167,6 +212,46 @@ fun ScaleModeSelector(
                     ),
                     selectedContentColor = MaterialTheme.colorScheme.onTertiary,
                     unselectedContentColor = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            BoxAnimatedVisibility(visible = !showAll) {
+                val density = LocalDensity.current
+                val item = entries.getOrNull(count)
+                val selected by remember(value, item) {
+                    derivedStateOf {
+                        value::class.isInstance(item)
+                    }
+                }
+                var width by remember {
+                    mutableStateOf(72.dp)
+                }
+                EnhancedChip(
+                    onClick = {
+                        showAll = true
+                        item?.copy(value.scaleColorSpace)?.let(onValueChange)
+                    },
+                    selected = selected,
+                    label = {
+                        Text(text = item?.title?.let { stringResource(it) } ?: "")
+                    },
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+                    selectedColor = MaterialTheme.colorScheme.outlineVariant(
+                        0.2f,
+                        MaterialTheme.colorScheme.tertiary
+                    ),
+                    selectedContentColor = MaterialTheme.colorScheme.onTertiary,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .onSizeChanged {
+                            with(density) {
+                                width = it.width.toDp()
+                            }
+                        }
+                        .fadingEdges(
+                            scrollableState = null,
+                            length = width / 2.5f,
+                            gravity = FadingEdgesGravity.End
+                        )
                 )
             }
         }
@@ -232,9 +317,9 @@ fun ScaleModeSelector(
                                 resultPadding = 0.dp
                             )
                     ) {
-                        TitleItem(text = item.title)
+                        TitleItem(text = stringResource(id = item.title))
                         Text(
-                            text = item.subtitle,
+                            text = stringResource(id = item.subtitle),
                             modifier = Modifier.padding(
                                 start = 16.dp,
                                 end = 16.dp,
@@ -262,6 +347,14 @@ fun ScaleModeSelector(
     )
 }
 
+@Composable
+fun ImageScaleMode.Companion.defaultEntries(): List<ImageScaleMode> {
+    val context = LocalContext.current
+    return remember {
+        listOf(ImageScaleMode.Base) + entries.sortedBy { context.getString(it.title) }
+    }
+}
+
 private val ScaleColorSpace.title: String
     @Composable
     get() = when (this) {
@@ -271,82 +364,80 @@ private val ScaleColorSpace.title: String
         is ScaleColorSpace.LUV -> "LUV"
     }
 
-private val ImageScaleMode.title: String
-    @Composable
+private val ImageScaleMode.title: Int
     get() = when (this) {
         ImageScaleMode.Base,
-        ImageScaleMode.NotPresent -> stringResource(id = R.string.basic)
+        ImageScaleMode.NotPresent -> R.string.basic
 
-        is ImageScaleMode.Bilinear -> stringResource(id = R.string.bilinear)
-        is ImageScaleMode.Nearest -> stringResource(id = R.string.nearest)
-        is ImageScaleMode.Cubic -> stringResource(id = R.string.cubic)
-        is ImageScaleMode.Mitchell -> stringResource(id = R.string.mitchell)
-        is ImageScaleMode.Catmull -> stringResource(id = R.string.catmull)
-        is ImageScaleMode.Hermite -> stringResource(id = R.string.hermite)
-        is ImageScaleMode.BSpline -> stringResource(id = R.string.bspline)
-        is ImageScaleMode.Hann -> stringResource(id = R.string.hann)
-        is ImageScaleMode.Bicubic -> stringResource(id = R.string.bicubic)
-        is ImageScaleMode.Hamming -> stringResource(id = R.string.hamming)
-        is ImageScaleMode.Hanning -> stringResource(id = R.string.hanning)
-        is ImageScaleMode.Blackman -> stringResource(id = R.string.blackman)
-        is ImageScaleMode.Welch -> stringResource(id = R.string.welch)
-        is ImageScaleMode.Quadric -> stringResource(id = R.string.quadric)
-        is ImageScaleMode.Gaussian -> stringResource(id = R.string.gaussian)
-        is ImageScaleMode.Sphinx -> stringResource(id = R.string.sphinx)
-        is ImageScaleMode.Bartlett -> stringResource(id = R.string.bartlett)
-        is ImageScaleMode.Robidoux -> stringResource(id = R.string.robidoux)
-        is ImageScaleMode.RobidouxSharp -> stringResource(id = R.string.robidoux_sharp)
-        is ImageScaleMode.Spline16 -> stringResource(id = R.string.spline16)
-        is ImageScaleMode.Spline36 -> stringResource(id = R.string.spline36)
-        is ImageScaleMode.Spline64 -> stringResource(id = R.string.spline64)
-        is ImageScaleMode.Kaiser -> stringResource(id = R.string.kaiser)
-        is ImageScaleMode.BartlettHann -> stringResource(id = R.string.bartlett_hann)
-        is ImageScaleMode.Box -> stringResource(id = R.string.box)
-        is ImageScaleMode.Bohman -> stringResource(id = R.string.bohman)
-        is ImageScaleMode.Lanczos2 -> stringResource(id = R.string.lanczos2)
-        is ImageScaleMode.Lanczos3 -> stringResource(id = R.string.lanczos3)
-        is ImageScaleMode.Lanczos4 -> stringResource(id = R.string.lanczos4)
-        is ImageScaleMode.Lanczos2Jinc -> stringResource(id = R.string.lanczos2_jinc)
-        is ImageScaleMode.Lanczos3Jinc -> stringResource(id = R.string.lanczos3_jinc)
-        is ImageScaleMode.Lanczos4Jinc -> stringResource(id = R.string.lanczos4_jinc)
+        is ImageScaleMode.Bilinear -> R.string.bilinear
+        is ImageScaleMode.Nearest -> R.string.nearest
+        is ImageScaleMode.Cubic -> R.string.cubic
+        is ImageScaleMode.Mitchell -> R.string.mitchell
+        is ImageScaleMode.Catmull -> R.string.catmull
+        is ImageScaleMode.Hermite -> R.string.hermite
+        is ImageScaleMode.BSpline -> R.string.bspline
+        is ImageScaleMode.Hann -> R.string.hann
+        is ImageScaleMode.Bicubic -> R.string.bicubic
+        is ImageScaleMode.Hamming -> R.string.hamming
+        is ImageScaleMode.Hanning -> R.string.hanning
+        is ImageScaleMode.Blackman -> R.string.blackman
+        is ImageScaleMode.Welch -> R.string.welch
+        is ImageScaleMode.Quadric -> R.string.quadric
+        is ImageScaleMode.Gaussian -> R.string.gaussian
+        is ImageScaleMode.Sphinx -> R.string.sphinx
+        is ImageScaleMode.Bartlett -> R.string.bartlett
+        is ImageScaleMode.Robidoux -> R.string.robidoux
+        is ImageScaleMode.RobidouxSharp -> R.string.robidoux_sharp
+        is ImageScaleMode.Spline16 -> R.string.spline16
+        is ImageScaleMode.Spline36 -> R.string.spline36
+        is ImageScaleMode.Spline64 -> R.string.spline64
+        is ImageScaleMode.Kaiser -> R.string.kaiser
+        is ImageScaleMode.BartlettHann -> R.string.bartlett_hann
+        is ImageScaleMode.Box -> R.string.box
+        is ImageScaleMode.Bohman -> R.string.bohman
+        is ImageScaleMode.Lanczos2 -> R.string.lanczos2
+        is ImageScaleMode.Lanczos3 -> R.string.lanczos3
+        is ImageScaleMode.Lanczos4 -> R.string.lanczos4
+        is ImageScaleMode.Lanczos2Jinc -> R.string.lanczos2_jinc
+        is ImageScaleMode.Lanczos3Jinc -> R.string.lanczos3_jinc
+        is ImageScaleMode.Lanczos4Jinc -> R.string.lanczos4_jinc
     }
 
-private val ImageScaleMode.subtitle: String
-    @Composable
+private val ImageScaleMode.subtitle: Int
     get() = when (this) {
         ImageScaleMode.Base,
-        ImageScaleMode.NotPresent -> stringResource(id = R.string.basic_sub)
+        ImageScaleMode.NotPresent -> R.string.basic_sub
 
-        is ImageScaleMode.Bilinear -> stringResource(id = R.string.bilinear_sub)
-        is ImageScaleMode.Nearest -> stringResource(id = R.string.nearest_sub)
-        is ImageScaleMode.Cubic -> stringResource(id = R.string.cubic_sub)
-        is ImageScaleMode.Mitchell -> stringResource(id = R.string.mitchell_sub)
-        is ImageScaleMode.Catmull -> stringResource(id = R.string.catmull_sub)
-        is ImageScaleMode.Hermite -> stringResource(id = R.string.hermite_sub)
-        is ImageScaleMode.BSpline -> stringResource(id = R.string.bspline_sub)
-        is ImageScaleMode.Hann -> stringResource(id = R.string.hann_sub)
-        is ImageScaleMode.Bicubic -> stringResource(id = R.string.bicubic_sub)
-        is ImageScaleMode.Hamming -> stringResource(id = R.string.hamming_sub)
-        is ImageScaleMode.Hanning -> stringResource(id = R.string.hanning_sub)
-        is ImageScaleMode.Blackman -> stringResource(id = R.string.blackman_sub)
-        is ImageScaleMode.Welch -> stringResource(id = R.string.welch_sub)
-        is ImageScaleMode.Quadric -> stringResource(id = R.string.quadric_sub)
-        is ImageScaleMode.Gaussian -> stringResource(id = R.string.gaussian_sub)
-        is ImageScaleMode.Sphinx -> stringResource(id = R.string.sphinx_sub)
-        is ImageScaleMode.Bartlett -> stringResource(id = R.string.bartlett_sub)
-        is ImageScaleMode.Robidoux -> stringResource(id = R.string.robidoux_sub)
-        is ImageScaleMode.RobidouxSharp -> stringResource(id = R.string.robidoux_sharp_sub)
-        is ImageScaleMode.Spline16 -> stringResource(id = R.string.spline16_sub)
-        is ImageScaleMode.Spline36 -> stringResource(id = R.string.spline36_sub)
-        is ImageScaleMode.Spline64 -> stringResource(id = R.string.spline64_sub)
-        is ImageScaleMode.Kaiser -> stringResource(id = R.string.kaiser_sub)
-        is ImageScaleMode.BartlettHann -> stringResource(id = R.string.bartlett_hann_sub)
-        is ImageScaleMode.Box -> stringResource(id = R.string.box_sub)
-        is ImageScaleMode.Bohman -> stringResource(id = R.string.bohman_sub)
-        is ImageScaleMode.Lanczos2 -> stringResource(id = R.string.lanczos2_sub)
-        is ImageScaleMode.Lanczos3 -> stringResource(id = R.string.lanczos3_sub)
-        is ImageScaleMode.Lanczos4 -> stringResource(id = R.string.lanczos4_sub)
-        is ImageScaleMode.Lanczos2Jinc -> stringResource(id = R.string.lanczos2_jinc_sub)
-        is ImageScaleMode.Lanczos3Jinc -> stringResource(id = R.string.lanczos3_jinc_sub)
-        is ImageScaleMode.Lanczos4Jinc -> stringResource(id = R.string.lanczos4_jinc_sub)
+        is ImageScaleMode.Bilinear -> R.string.bilinear_sub
+        is ImageScaleMode.Nearest -> R.string.nearest_sub
+        is ImageScaleMode.Cubic -> R.string.cubic_sub
+        is ImageScaleMode.Mitchell -> R.string.mitchell_sub
+        is ImageScaleMode.Catmull -> R.string.catmull_sub
+        is ImageScaleMode.Hermite -> R.string.hermite_sub
+        is ImageScaleMode.BSpline -> R.string.bspline_sub
+        is ImageScaleMode.Hann -> R.string.hann_sub
+        is ImageScaleMode.Bicubic -> R.string.bicubic_sub
+        is ImageScaleMode.Hamming -> R.string.hamming_sub
+        is ImageScaleMode.Hanning -> R.string.hanning_sub
+        is ImageScaleMode.Blackman -> R.string.blackman_sub
+        is ImageScaleMode.Welch -> R.string.welch_sub
+        is ImageScaleMode.Quadric -> R.string.quadric_sub
+        is ImageScaleMode.Gaussian -> R.string.gaussian_sub
+        is ImageScaleMode.Sphinx -> R.string.sphinx_sub
+        is ImageScaleMode.Bartlett -> R.string.bartlett_sub
+        is ImageScaleMode.Robidoux -> R.string.robidoux_sub
+        is ImageScaleMode.RobidouxSharp -> R.string.robidoux_sharp_sub
+        is ImageScaleMode.Spline16 -> R.string.spline16_sub
+        is ImageScaleMode.Spline36 -> R.string.spline36_sub
+        is ImageScaleMode.Spline64 -> R.string.spline64_sub
+        is ImageScaleMode.Kaiser -> R.string.kaiser_sub
+        is ImageScaleMode.BartlettHann -> R.string.bartlett_hann_sub
+        is ImageScaleMode.Box -> R.string.box_sub
+        is ImageScaleMode.Bohman -> R.string.bohman_sub
+        is ImageScaleMode.Lanczos2 -> R.string.lanczos2_sub
+        is ImageScaleMode.Lanczos3 -> R.string.lanczos3_sub
+        is ImageScaleMode.Lanczos4 -> R.string.lanczos4_sub
+        is ImageScaleMode.Lanczos2Jinc -> R.string.lanczos2_jinc_sub
+        is ImageScaleMode.Lanczos3Jinc -> R.string.lanczos3_jinc_sub
+        is ImageScaleMode.Lanczos4Jinc -> R.string.lanczos4_jinc_sub
     }
