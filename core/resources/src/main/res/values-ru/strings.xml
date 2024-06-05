@@ -1117,7 +1117,7 @@
     <string name="min">Мин</string>
     <string name="grant_camera_permission_to_scan_qr_code">Разрешите доступ к камере в настройках для сканирования QR-кода</string>
     <string name="cubic">Кубический</string>
-    <string name="bspline">Би Сплайн</string>
+    <string name="bspline">Би-Сплайн</string>
     <string name="hamming">Хэмминг</string>
     <string name="hanning">Хэннинг</string>
     <string name="blackman">Блэкман</string>
