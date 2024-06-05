@@ -336,14 +336,36 @@ or click one of the badges below.
   - Different Scaling Algorithms
     - Bilinear
     - Nearest Neighbour
-    - Bicubic
-    - Mitchell
-    - Lanczos
-    - Catmull
+    - Cubic
+    - Mitchell-Netravalli
+    - Catmull-Rom
     - Hermite
-    - Spline
-    - BSpline
+    - B-Spline
     - Hann
+    - Bicubic
+    - Hamming
+    - Hanning
+    - Blackman
+    - Welch
+    - Quadric
+    - Gaussian
+    - Sphinx
+    - Bartlett
+    - Robidoux
+    - Robidoux Sharp
+    - Spline 16
+    - Spline 36
+    - Spline 64
+    - Kaiser
+    - Bartlett-Hann
+    - Box
+    - Bohman
+    - Lanczos 2
+    - Lanczos 3
+    - Lanczos 4
+    - Lanczos 2 Jinc
+    - Lanczos 3 Jinc
+    - Lanczos 4 Jinc
 - GIF conversion
   - GIF to images
   - Images to GIF
