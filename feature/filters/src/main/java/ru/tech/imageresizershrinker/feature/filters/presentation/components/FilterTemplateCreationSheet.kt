@@ -68,7 +68,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
-import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -454,7 +453,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
             favoriteFiltersInteractor.addTemplateFilter(
                 TemplateFilter(
                     name = templateName,
-                    filters = filterList.makeLog("COCK")
+                    filters = filterList
                 )
             )
         }

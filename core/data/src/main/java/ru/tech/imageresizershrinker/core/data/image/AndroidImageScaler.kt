@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
-import com.awxkee.aire.BitmapScaleMode
+import com.awxkee.aire.ResizeFunction
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -243,11 +243,47 @@ internal class AndroidImageScaler @Inject constructor(
             bitmap = image.toSoftware(),
             dstWidth = width,
             dstHeight = height,
-            scaleMode = BitmapScaleMode.entries.firstOrNull {
-                it.ordinal == mode.value
-            } ?: BitmapScaleMode.Bilinear,
+            scaleMode = mode.toResizeFunction(),
             colorSpace = mode.scaleColorSpace.toColorSpace()
         )
+    }
+
+    private fun ImageScaleMode.toResizeFunction(): ResizeFunction = when (this) {
+        is ImageScaleMode.Bilinear -> ResizeFunction.Bilinear
+        is ImageScaleMode.Nearest -> ResizeFunction.Nearest
+        is ImageScaleMode.Cubic -> ResizeFunction.Cubic
+        is ImageScaleMode.Mitchell -> ResizeFunction.MitchellNetravalli
+        is ImageScaleMode.Catmull -> ResizeFunction.CatmullRom
+        is ImageScaleMode.Hermite -> ResizeFunction.Hermite
+        is ImageScaleMode.BSpline -> ResizeFunction.BSpline
+        is ImageScaleMode.Hann -> ResizeFunction.Hann
+        is ImageScaleMode.Bicubic -> ResizeFunction.Bicubic
+        is ImageScaleMode.Hamming -> ResizeFunction.Hamming
+        is ImageScaleMode.Hanning -> ResizeFunction.Hanning
+        is ImageScaleMode.Blackman -> ResizeFunction.Blackman
+        is ImageScaleMode.Welch -> ResizeFunction.Welch
+        is ImageScaleMode.Quadric -> ResizeFunction.Quadric
+        is ImageScaleMode.Gaussian -> ResizeFunction.Gaussian
+        is ImageScaleMode.Sphinx -> ResizeFunction.Sphinx
+        is ImageScaleMode.Bartlett -> ResizeFunction.Bartlett
+        is ImageScaleMode.Robidoux -> ResizeFunction.Robidoux
+        is ImageScaleMode.RobidouxSharp -> ResizeFunction.RobidouxSharp
+        is ImageScaleMode.Spline16 -> ResizeFunction.Spline16
+        is ImageScaleMode.Spline36 -> ResizeFunction.Spline36
+        is ImageScaleMode.Spline64 -> ResizeFunction.Spline64
+        is ImageScaleMode.Kaiser -> ResizeFunction.Kaiser
+        is ImageScaleMode.BartlettHann -> ResizeFunction.BartlettHann
+        is ImageScaleMode.Box -> ResizeFunction.Box
+        is ImageScaleMode.Bohman -> ResizeFunction.Bohman
+        is ImageScaleMode.Lanczos2 -> ResizeFunction.Lanczos2
+        is ImageScaleMode.Lanczos3 -> ResizeFunction.Lanczos3
+        is ImageScaleMode.Lanczos4 -> ResizeFunction.Lanczos4
+        is ImageScaleMode.Lanczos2Jinc -> ResizeFunction.Lanczos2Jinc
+        is ImageScaleMode.Lanczos3Jinc -> ResizeFunction.Lanczos3Jinc
+        is ImageScaleMode.Lanczos4Jinc -> ResizeFunction.Lanczos4Jinc
+
+        ImageScaleMode.NotPresent,
+        ImageScaleMode.Base -> ResizeFunction.Bilinear
     }
 
     private fun ScaleColorSpace.toColorSpace(): AireScaleColorSpace = when (this) {

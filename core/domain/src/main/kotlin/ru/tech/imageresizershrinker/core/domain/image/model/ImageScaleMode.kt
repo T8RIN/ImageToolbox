@@ -28,7 +28,7 @@ sealed interface ScaleColorSpace {
 
         val entries by lazy {
             listOf(
-                LAB, SRGB, Linear
+                LAB, SRGB, Linear, LUV
             )
         }
     }
@@ -93,12 +93,12 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = Nearest(scaleColorSpace)
     }
 
-    class Spline(
+    class Cubic(
         override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
     ) : ImageScaleMode(2) {
         override fun copy(
             scaleColorSpace: ScaleColorSpace
-        ): ImageScaleMode = Spline(scaleColorSpace)
+        ): ImageScaleMode = Cubic(scaleColorSpace)
     }
 
     class Mitchell(
@@ -109,17 +109,9 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = Mitchell(scaleColorSpace)
     }
 
-    class Lanczos(
-        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
-    ) : ImageScaleMode(4) {
-        override fun copy(
-            scaleColorSpace: ScaleColorSpace
-        ): ImageScaleMode = Lanczos(scaleColorSpace)
-    }
-
     class Catmull(
         override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
-    ) : ImageScaleMode(5) {
+    ) : ImageScaleMode(4) {
         override fun copy(
             scaleColorSpace: ScaleColorSpace
         ): ImageScaleMode = Catmull(scaleColorSpace)
@@ -127,7 +119,7 @@ sealed class ImageScaleMode(val value: Int) {
 
     class Hermite(
         override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
-    ) : ImageScaleMode(6) {
+    ) : ImageScaleMode(5) {
         override fun copy(
             scaleColorSpace: ScaleColorSpace
         ): ImageScaleMode = Hermite(scaleColorSpace)
@@ -135,7 +127,7 @@ sealed class ImageScaleMode(val value: Int) {
 
     class BSpline(
         override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
-    ) : ImageScaleMode(7) {
+    ) : ImageScaleMode(6) {
         override fun copy(
             scaleColorSpace: ScaleColorSpace
         ): ImageScaleMode = BSpline(scaleColorSpace)
@@ -143,7 +135,7 @@ sealed class ImageScaleMode(val value: Int) {
 
     class Hann(
         override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
-    ) : ImageScaleMode(8) {
+    ) : ImageScaleMode(7) {
         override fun copy(
             scaleColorSpace: ScaleColorSpace
         ): ImageScaleMode = Hann(scaleColorSpace)
@@ -151,10 +143,194 @@ sealed class ImageScaleMode(val value: Int) {
 
     class Bicubic(
         override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
-    ) : ImageScaleMode(9) {
+    ) : ImageScaleMode(8) {
         override fun copy(
             scaleColorSpace: ScaleColorSpace
         ): ImageScaleMode = Bicubic(scaleColorSpace)
+    }
+
+    class Hamming(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(9) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Hamming(scaleColorSpace)
+    }
+
+    class Hanning(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(10) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Hanning(scaleColorSpace)
+    }
+
+    class Blackman(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(11) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Blackman(scaleColorSpace)
+    }
+
+    class Welch(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(12) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Welch(scaleColorSpace)
+    }
+
+    class Quadric(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(13) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Quadric(scaleColorSpace)
+    }
+
+    class Gaussian(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(14) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Gaussian(scaleColorSpace)
+    }
+
+    class Sphinx(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(15) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Sphinx(scaleColorSpace)
+    }
+
+    class Bartlett(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(16) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Bartlett(scaleColorSpace)
+    }
+
+    class Robidoux(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(17) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Robidoux(scaleColorSpace)
+    }
+
+    class RobidouxSharp(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(18) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = RobidouxSharp(scaleColorSpace)
+    }
+
+    class Spline16(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(19) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Spline16(scaleColorSpace)
+    }
+
+    class Spline36(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(20) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Spline36(scaleColorSpace)
+    }
+
+    class Spline64(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(21) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Spline64(scaleColorSpace)
+    }
+
+    class Kaiser(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(22) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Kaiser(scaleColorSpace)
+    }
+
+    class BartlettHann(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(23) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = BartlettHann(scaleColorSpace)
+    }
+
+    class Box(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(24) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Box(scaleColorSpace)
+    }
+
+    class Bohman(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(25) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Bohman(scaleColorSpace)
+    }
+
+    class Lanczos2(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(26) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos2(scaleColorSpace)
+    }
+
+    class Lanczos3(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(27) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos3(scaleColorSpace)
+    }
+
+    class Lanczos4(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(28) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos4(scaleColorSpace)
+    }
+
+    class Lanczos2Jinc(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(29) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos2Jinc(scaleColorSpace)
+    }
+
+    class Lanczos3Jinc(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(30) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos3Jinc(scaleColorSpace)
+    }
+
+    class Lanczos4Jinc(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(31) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos4Jinc(scaleColorSpace)
     }
 
     companion object {
@@ -165,14 +341,36 @@ sealed class ImageScaleMode(val value: Int) {
                 Base,
                 Bilinear(),
                 Nearest(),
-                Spline(),
+                Cubic(),
                 Mitchell(),
-                Lanczos(),
                 Catmull(),
                 Hermite(),
                 BSpline(),
                 Hann(),
-                Bicubic()
+                Bicubic(),
+                Hamming(),
+                Hanning(),
+                Blackman(),
+                Welch(),
+                Quadric(),
+                Gaussian(),
+                Sphinx(),
+                Bartlett(),
+                Robidoux(),
+                RobidouxSharp(),
+                Spline16(),
+                Spline36(),
+                Spline64(),
+                Kaiser(),
+                BartlettHann(),
+                Box(),
+                Bohman(),
+                Lanczos2(),
+                Lanczos3(),
+                Lanczos4(),
+                Lanczos2Jinc(),
+                Lanczos3Jinc(),
+                Lanczos4Jinc(),
             )
         }
 
@@ -180,14 +378,36 @@ sealed class ImageScaleMode(val value: Int) {
             -3 -> Base
             0 -> Bilinear()
             1 -> Nearest()
-            2 -> Spline()
+            2 -> Cubic()
             3 -> Mitchell()
-            4 -> Lanczos()
-            5 -> Catmull()
-            6 -> Hermite()
-            7 -> BSpline()
-            8 -> Hann()
-            9 -> Bicubic()
+            4 -> Catmull()
+            5 -> Hermite()
+            6 -> BSpline()
+            7 -> Hann()
+            8 -> Bicubic()
+            9 -> Hamming()
+            10 -> Hanning()
+            11 -> Blackman()
+            12 -> Welch()
+            13 -> Quadric()
+            14 -> Gaussian()
+            15 -> Sphinx()
+            16 -> Bartlett()
+            17 -> Robidoux()
+            18 -> RobidouxSharp()
+            19 -> Spline16()
+            20 -> Spline36()
+            21 -> Spline64()
+            22 -> Kaiser()
+            23 -> BartlettHann()
+            24 -> Box()
+            25 -> Bohman()
+            26 -> Lanczos2()
+            27 -> Lanczos3()
+            28 -> Lanczos4()
+            29 -> Lanczos2Jinc()
+            30 -> Lanczos3Jinc()
+            31 -> Lanczos4Jinc()
 
             else -> NotPresent
         }
