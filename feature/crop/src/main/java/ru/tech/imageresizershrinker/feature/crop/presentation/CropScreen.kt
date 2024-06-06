@@ -392,8 +392,8 @@ fun CropScreen(
                         Cropper(
                             bitmap = bitmap,
                             crop = crop,
-                            imageCropStarted = viewModel::imageCropStarted,
-                            imageCropFinished = {
+                            onImageCropStarted = viewModel::imageCropStarted,
+                            onImageCropFinished = {
                                 viewModel.imageCropFinished()
                                 viewModel.updateBitmap(it)
                                 crop = false
@@ -413,8 +413,8 @@ fun CropScreen(
                                 Cropper(
                                     bitmap = bitmap,
                                     crop = crop,
-                                    imageCropStarted = viewModel::imageCropStarted,
-                                    imageCropFinished = {
+                                    onImageCropStarted = viewModel::imageCropStarted,
+                                    onImageCropFinished = {
                                         viewModel.imageCropFinished()
                                         viewModel.updateBitmap(it)
                                         crop = false

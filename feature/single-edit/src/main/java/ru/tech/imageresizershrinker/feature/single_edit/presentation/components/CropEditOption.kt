@@ -176,8 +176,8 @@ fun CropEditOption(
                 Cropper(
                     bitmap = stateBitmap,
                     crop = crop,
-                    imageCropStarted = { loading = true },
-                    imageCropFinished = {
+                    onImageCropStarted = { loading = true },
+                    onImageCropFinished = {
                         stateBitmap = it
                         crop = false
                         scope.launch {

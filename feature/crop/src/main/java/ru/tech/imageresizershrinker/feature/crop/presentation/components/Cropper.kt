@@ -58,8 +58,8 @@ fun Cropper(
     modifier: Modifier = Modifier,
     bitmap: Bitmap,
     crop: Boolean,
-    imageCropStarted: () -> Unit,
-    imageCropFinished: (Bitmap) -> Unit,
+    onImageCropStarted: () -> Unit,
+    onImageCropFinished: (Bitmap) -> Unit,
     cropProperties: CropProperties
 ) {
     Column {
@@ -80,9 +80,7 @@ fun Cropper(
                     imageBitmap = bmp,
                     contentDescription = null,
                     cropProperties = cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
-                    onCropStart = {
-                        imageCropStarted()
-                    },
+                    onCropStart = onImageCropStarted,
                     crop = crop,
                     cropStyle = CropDefaults.style(
                         overlayColor = MaterialTheme.colorScheme.surfaceVariant
@@ -91,7 +89,7 @@ fun Cropper(
                         zoomLevel = newZoom
                     },
                     onCropSuccess = { image ->
-                        imageCropFinished(image.asAndroidBitmap())
+                        onImageCropFinished(image.asAndroidBitmap())
                     }
                 )
                 BoxAnimatedVisibility(
