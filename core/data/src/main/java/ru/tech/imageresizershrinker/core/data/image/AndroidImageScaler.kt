@@ -281,6 +281,12 @@ internal class AndroidImageScaler @Inject constructor(
         is ImageScaleMode.Lanczos2Jinc -> ResizeFunction.Lanczos2Jinc
         is ImageScaleMode.Lanczos3Jinc -> ResizeFunction.Lanczos3Jinc
         is ImageScaleMode.Lanczos4Jinc -> ResizeFunction.Lanczos4Jinc
+        is ImageScaleMode.EwaHanning -> ResizeFunction.EwaHanning
+        is ImageScaleMode.EwaRobidoux -> ResizeFunction.EwaRobidoux
+        is ImageScaleMode.EwaBlackman -> ResizeFunction.EwaBlackman
+        is ImageScaleMode.EwaQuadric -> ResizeFunction.EwaQuadric
+        is ImageScaleMode.EwaRobidouxSharp -> ResizeFunction.EwaRobidouxSharp
+        is ImageScaleMode.EwaLanczos3Jinc -> ResizeFunction.EwaLanczos3Jinc
 
         ImageScaleMode.NotPresent,
         ImageScaleMode.Base -> ResizeFunction.Bilinear

@@ -401,6 +401,12 @@ private val ImageScaleMode.title: Int
         is ImageScaleMode.Lanczos2Jinc -> R.string.lanczos2_jinc
         is ImageScaleMode.Lanczos3Jinc -> R.string.lanczos3_jinc
         is ImageScaleMode.Lanczos4Jinc -> R.string.lanczos4_jinc
+        is ImageScaleMode.EwaHanning -> R.string.ewa_hanning
+        is ImageScaleMode.EwaRobidoux -> R.string.ewa_robidoux
+        is ImageScaleMode.EwaBlackman -> R.string.ewa_blackman
+        is ImageScaleMode.EwaQuadric -> R.string.ewa_quadric
+        is ImageScaleMode.EwaRobidouxSharp -> R.string.ewa_robidoux_sharp
+        is ImageScaleMode.EwaLanczos3Jinc -> R.string.ewa_lanczos3_jinc
     }
 
 private val ImageScaleMode.subtitle: Int
@@ -440,4 +446,10 @@ private val ImageScaleMode.subtitle: Int
         is ImageScaleMode.Lanczos2Jinc -> R.string.lanczos2_jinc_sub
         is ImageScaleMode.Lanczos3Jinc -> R.string.lanczos3_jinc_sub
         is ImageScaleMode.Lanczos4Jinc -> R.string.lanczos4_jinc_sub
+        is ImageScaleMode.EwaHanning -> R.string.ewa_hanning_sub
+        is ImageScaleMode.EwaRobidoux -> R.string.ewa_robidoux_sub
+        is ImageScaleMode.EwaBlackman -> R.string.ewa_blackman_sub
+        is ImageScaleMode.EwaQuadric -> R.string.ewa_quadric_sub
+        is ImageScaleMode.EwaRobidouxSharp -> R.string.ewa_robidoux_sharp_sub
+        is ImageScaleMode.EwaLanczos3Jinc -> R.string.ewa_lanczos3_jinc_sub
     }

@@ -1167,4 +1167,16 @@
     <string name="lanczos3_jinc_sub">Вариант фильтра Ланцош 3, использующий функцию джинка, обеспечивающий высококачественную интерполяцию с минимальными артефактами</string>
     <string name="lanczos4_jinc_sub">Вариант фильтра Ланцош 4, использующий функцию джинка, обеспечивающий высококачественную интерполяцию с минимальными артефактами</string>
     <string name="allow_enter_by_text_field_sub">Включает текстовое поле за выбором пресетов, чтобы вводить их на лету</string>
+    <string name="ewa_hanning">Ханнинг EWA</string>
+    <string name="ewa_hanning_sub">Вариант фильтра Ханнинг с эллиптическим взвешенным средним (EWA) для плавной интерполяции и ресемплинга</string>
+    <string name="ewa_robidoux">Робиду EWA</string>
+    <string name="ewa_robidoux_sub">Вариант фильтра Робиду с эллиптическим взвешенным средним (EWA) для высококачественного ресемплинга</string>
+    <string name="ewa_blackman">Блэкман EWA</string>
+    <string name="ewa_blackman_sub">Вариант фильтра Блэкман с эллиптическим взвешенным средним (EWA) для минимизации артефактов звона</string>
+    <string name="ewa_quadric">Квадратический EWA</string>
+    <string name="ewa_quadric_sub">Вариант квадратического фильтра с эллиптическим взвешенным средним (EWA) для плавной интерполяции</string>
+    <string name="ewa_robidoux_sharp">Робиду Шарп EWA</string>
+    <string name="ewa_robidoux_sharp_sub">Вариант фильтра Робиду Шарп с эллиптическим взвешенным средним (EWA) для более четких результатов</string>
+    <string name="ewa_lanczos3_jinc">Ланцош 3 Jinc EWA</string>
+    <string name="ewa_lanczos3_jinc_sub">Вариант фильтра Ланцош 3 Jinc с эллиптическим взвешенным средним (EWA) для высококачественного ресемплинга с уменьшением алиасинга</string>
 </resources>

@@ -1185,4 +1185,16 @@
     <string name="lanczos2_jinc_sub">A variant of the Lanczos 2 filter that uses the jinc function, providing high-quality interpolation with minimal artifacts</string>
     <string name="lanczos3_jinc_sub">A variant of the Lanczos 3 filter that uses the jinc function, providing high-quality interpolation with minimal artifacts</string>
     <string name="lanczos4_jinc_sub">A variant of the Lanczos 4 filter that uses the jinc function, providing high-quality interpolation with minimal artifacts</string>
+    <string name="ewa_hanning">Hanning EWA</string>
+    <string name="ewa_hanning_sub">Elliptical Weighted Average (EWA) variant of the Hanning filter for smooth interpolation and resampling</string>
+    <string name="ewa_robidoux">Robidoux EWA</string>
+    <string name="ewa_robidoux_sub">Elliptical Weighted Average (EWA) variant of the Robidoux filter for high-quality resampling</string>
+    <string name="ewa_blackman">Blackman EWA</string>
+    <string name="ewa_blackman_sub">Elliptical Weighted Average (EWA) variant of the Blackman filter for minimizing ringing artifacts</string>
+    <string name="ewa_quadric">Quadric EWA</string>
+    <string name="ewa_quadric_sub">Elliptical Weighted Average (EWA) variant of the Quadric filter for smooth interpolation</string>
+    <string name="ewa_robidoux_sharp">Robidoux Sharp EWA</string>
+    <string name="ewa_robidoux_sharp_sub">Elliptical Weighted Average (EWA) variant of the Robidoux Sharp filter for sharper results</string>
+    <string name="ewa_lanczos3_jinc">Lanczos 3 Jinc EWA</string>
+    <string name="ewa_lanczos3_jinc_sub">Elliptical Weighted Average (EWA) variant of the Lanczos 3 Jinc filter for high-quality resampling with reduced aliasing</string>
 </resources>

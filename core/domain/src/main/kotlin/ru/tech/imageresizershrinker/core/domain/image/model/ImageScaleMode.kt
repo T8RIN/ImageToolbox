@@ -333,6 +333,54 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = Lanczos4Jinc(scaleColorSpace)
     }
 
+    class EwaHanning(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(32) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaHanning(scaleColorSpace)
+    }
+
+    class EwaRobidoux(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(33) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaRobidoux(scaleColorSpace)
+    }
+
+    class EwaBlackman(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(34) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaBlackman(scaleColorSpace)
+    }
+
+    class EwaQuadric(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(35) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaQuadric(scaleColorSpace)
+    }
+
+    class EwaRobidouxSharp(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(36) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaRobidouxSharp(scaleColorSpace)
+    }
+
+    class EwaLanczos3Jinc(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(37) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaLanczos3Jinc(scaleColorSpace)
+    }
+
     companion object {
         val Default = Bilinear()
 
@@ -370,44 +418,18 @@ sealed class ImageScaleMode(val value: Int) {
                 Lanczos2Jinc(),
                 Lanczos3Jinc(),
                 Lanczos4Jinc(),
+                EwaHanning(),
+                EwaRobidoux(),
+                EwaBlackman(),
+                EwaQuadric(),
+                EwaRobidouxSharp(),
+                EwaLanczos3Jinc(),
             )
         }
 
-        fun fromInt(value: Int): ImageScaleMode = when (value) {
-            -3 -> Base
-            0 -> Bilinear()
-            1 -> Nearest()
-            2 -> Cubic()
-            3 -> Mitchell()
-            4 -> Catmull()
-            5 -> Hermite()
-            6 -> BSpline()
-            7 -> Hann()
-            8 -> Bicubic()
-            9 -> Hamming()
-            10 -> Hanning()
-            11 -> Blackman()
-            12 -> Welch()
-            13 -> Quadric()
-            14 -> Gaussian()
-            15 -> Sphinx()
-            16 -> Bartlett()
-            17 -> Robidoux()
-            18 -> RobidouxSharp()
-            19 -> Spline16()
-            20 -> Spline36()
-            21 -> Spline64()
-            22 -> Kaiser()
-            23 -> BartlettHann()
-            24 -> Box()
-            25 -> Bohman()
-            26 -> Lanczos2()
-            27 -> Lanczos3()
-            28 -> Lanczos4()
-            29 -> Lanczos2Jinc()
-            30 -> Lanczos3Jinc()
-            31 -> Lanczos4Jinc()
-
+        fun fromInt(value: Int): ImageScaleMode = when {
+            value == -3 -> Base
+            value >= 0 -> entries.associateBy { it.value }[value] ?: NotPresent
             else -> NotPresent
         }
     }
