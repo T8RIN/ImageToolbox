@@ -275,7 +275,7 @@ fun ScaleModeSelector(
                 title = {
                     Text(
                         modifier = Modifier.padding(top = 8.dp),
-                        text = stringResource(R.string.scale_color_space),
+                        text = stringResource(R.string.tag_color_space),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Medium
                     )
