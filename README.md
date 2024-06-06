@@ -366,6 +366,18 @@ or click one of the badges below.
     - Lanczos 2 Jinc
     - Lanczos 3 Jinc
     - Lanczos 4 Jinc
+    - Ewa Hanning
+    - Ewa Robidoux
+    - Ewa Blackman
+    - Ewa Quadric
+    - Ewa Robidoux Sharp
+    - Ewa Lanczos 3 Jinc
+    - Ginseng
+    - Ginseng EWA
+    - Lanczos Sharp EWA
+    - Lanczos 4 Sharpest EWA
+    - Lanczos Soft EWA
+    - Haasn Soft
 - GIF conversion
   - GIF to images
   - Images to GIF
