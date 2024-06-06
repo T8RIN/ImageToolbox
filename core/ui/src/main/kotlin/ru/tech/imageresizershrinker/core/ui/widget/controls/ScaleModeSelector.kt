@@ -407,6 +407,12 @@ private val ImageScaleMode.title: Int
         is ImageScaleMode.EwaQuadric -> R.string.ewa_quadric
         is ImageScaleMode.EwaRobidouxSharp -> R.string.ewa_robidoux_sharp
         is ImageScaleMode.EwaLanczos3Jinc -> R.string.ewa_lanczos3_jinc
+        is ImageScaleMode.Ginseng -> R.string.ginseng
+        is ImageScaleMode.EwaGinseng -> R.string.ewa_ginseng
+        is ImageScaleMode.EwaLanczosSharp -> R.string.ewa_lanczos_sharp
+        is ImageScaleMode.EwaLanczos4Sharpest -> R.string.ewa_lanczos_4_sharpest
+        is ImageScaleMode.EwaLanczosSoft -> R.string.ewa_lanczos_soft
+        is ImageScaleMode.HaasnSoft -> R.string.haasn_soft
     }
 
 private val ImageScaleMode.subtitle: Int
@@ -452,4 +458,10 @@ private val ImageScaleMode.subtitle: Int
         is ImageScaleMode.EwaQuadric -> R.string.ewa_quadric_sub
         is ImageScaleMode.EwaRobidouxSharp -> R.string.ewa_robidoux_sharp_sub
         is ImageScaleMode.EwaLanczos3Jinc -> R.string.ewa_lanczos3_jinc_sub
+        is ImageScaleMode.Ginseng -> R.string.ginseng_sub
+        is ImageScaleMode.EwaGinseng -> R.string.ewa_ginseng_sub
+        is ImageScaleMode.EwaLanczosSharp -> R.string.ewa_lanczos_sharp_sub
+        is ImageScaleMode.EwaLanczos4Sharpest -> R.string.ewa_lanczos_4_sharpest_sub
+        is ImageScaleMode.EwaLanczosSoft -> R.string.ewa_lanczos_soft_sub
+        is ImageScaleMode.HaasnSoft -> R.string.haasn_soft_sub
     }

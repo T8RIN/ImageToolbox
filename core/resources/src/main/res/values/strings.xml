@@ -1197,4 +1197,16 @@
     <string name="ewa_robidoux_sharp_sub">Elliptical Weighted Average (EWA) variant of the Robidoux Sharp filter for sharper results</string>
     <string name="ewa_lanczos3_jinc">Lanczos 3 Jinc EWA</string>
     <string name="ewa_lanczos3_jinc_sub">Elliptical Weighted Average (EWA) variant of the Lanczos 3 Jinc filter for high-quality resampling with reduced aliasing</string>
+    <string name="ginseng">Ginseng</string>
+    <string name="ginseng_sub">A resampling filter designed for high-quality image processing with a good balance of sharpness and smoothness</string>
+    <string name="ewa_ginseng">Ginseng EWA</string>
+    <string name="ewa_ginseng_sub">Elliptical Weighted Average (EWA) variant of the Ginseng filter for enhanced image quality</string>
+    <string name="ewa_lanczos_sharp">Lanczos Sharp EWA</string>
+    <string name="ewa_lanczos_sharp_sub">Elliptical Weighted Average (EWA) variant of the Lanczos Sharp filter for achieving sharp results with minimal artifacts</string>
+    <string name="ewa_lanczos_4_sharpest">Lanczos 4 Sharpest EWA</string>
+    <string name="ewa_lanczos_4_sharpest_sub">Elliptical Weighted Average (EWA) variant of the Lanczos 4 Sharpest filter for extremely sharp image resampling</string>
+    <string name="ewa_lanczos_soft">Lanczos Soft EWA</string>
+    <string name="ewa_lanczos_soft_sub">Elliptical Weighted Average (EWA) variant of the Lanczos Soft filter for smoother image resampling</string>
+    <string name="haasn_soft">Haasn Soft</string>
+    <string name="haasn_soft_sub">A resampling filter designed by Haasn for smooth and artifact-free image scaling</string>
 </resources>

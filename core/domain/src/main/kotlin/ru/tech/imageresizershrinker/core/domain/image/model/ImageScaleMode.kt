@@ -381,6 +381,54 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = EwaLanczos3Jinc(scaleColorSpace)
     }
 
+    class Ginseng(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(38) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Ginseng(scaleColorSpace)
+    }
+
+    class EwaGinseng(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(39) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaGinseng(scaleColorSpace)
+    }
+
+    class EwaLanczosSharp(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(40) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaLanczosSharp(scaleColorSpace)
+    }
+
+    class EwaLanczos4Sharpest(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(41) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaLanczos4Sharpest(scaleColorSpace)
+    }
+
+    class EwaLanczosSoft(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(42) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = EwaLanczosSoft(scaleColorSpace)
+    }
+
+    class HaasnSoft(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(43) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = HaasnSoft(scaleColorSpace)
+    }
+
     companion object {
         val Default = Bilinear()
 
@@ -424,6 +472,12 @@ sealed class ImageScaleMode(val value: Int) {
                 EwaQuadric(),
                 EwaRobidouxSharp(),
                 EwaLanczos3Jinc(),
+                Ginseng(),
+                EwaGinseng(),
+                EwaLanczosSharp(),
+                EwaLanczos4Sharpest(),
+                EwaLanczosSoft(),
+                HaasnSoft(),
             )
         }
 
