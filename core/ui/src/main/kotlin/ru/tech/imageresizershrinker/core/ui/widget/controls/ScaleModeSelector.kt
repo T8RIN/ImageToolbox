@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -163,8 +164,8 @@ fun ScaleModeSelector(
         Spacer(modifier = Modifier.height(8.dp))
 
         val count by animateIntAsState(
-            if (showAll) entries.size
-            else 8
+            targetValue = if (showAll) entries.size else 8,
+            animationSpec = tween(1000)
         )
 
         FlowRow(
@@ -249,7 +250,7 @@ fun ScaleModeSelector(
                         }
                         .fadingEdges(
                             scrollableState = null,
-                            length = width / 2.5f,
+                            length = width / 1.5f,
                             gravity = FadingEdgesGravity.End
                         )
                 )
