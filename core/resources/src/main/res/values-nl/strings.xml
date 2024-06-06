@@ -580,8 +580,7 @@
     <string name="standard">Standaard</string>
     <string name="best">Best</string>
     <string name="no_data">Geen gegevens</string>
-    <string name="download_description">Voor een goede werking van Tesseract OCR moeten aanvullende trainingsgegevens (%1$s) naar je apparaat worden gedownload.
-\nWil je %2$s gegevens downloaden?</string>
+    <string name="download_description">Voor een goede werking van Tesseract OCR moeten aanvullende trainingsgegevens (%1$s) naar je apparaat worden gedownload. \nWil je %2$s gegevens downloaden?</string>
     <string name="download">Downloaden</string>
     <string name="no_connection">Geen verbinding, controleer dit en probeer het opnieuw om trainingsmodellen te downloaden</string>
     <string name="downloaded_languages">Gedownloade talen</string>
