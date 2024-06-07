@@ -85,7 +85,7 @@ fun AspectRatioSelection(
     contentPadding: PaddingValues = PaddingValues(
         start = 16.dp,
         top = 4.dp,
-        bottom = 4.dp,
+        bottom = 16.dp,
         end = 16.dp + WindowInsets
             .navigationBars
             .asPaddingValues()
