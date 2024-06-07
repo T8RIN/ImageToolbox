@@ -36,8 +36,6 @@ val Icons.Rounded.Firebase: ImageVector by lazy {
         path(
             fill = SolidColor(Color(color = 0xFFFF9100)),
             stroke = null,
-            fillAlpha = 1f,
-            strokeAlpha = 1f,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
             strokeLineJoin = Miter,
@@ -80,9 +78,13 @@ val Icons.Rounded.Firebase: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFFFFC400)), stroke = null, fillAlpha = 1f, strokeAlpha
-            = 1f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-            strokeLineMiter = 4.0f, pathFillType = NonZero
+            fill = SolidColor(Color(0xFFFFC400)),
+            stroke = null,
+            strokeLineWidth = 0.0f,
+            strokeLineCap = Butt,
+            strokeLineJoin = Miter,
+            strokeLineMiter = 4.0f,
+            pathFillType = NonZero
         ) {
             moveTo(11.7771f, 20.4662f)
             curveTo(8.9925f, 17.8908f, 7.3032f, 14.1632f, 7.4459f, 10.0747f)
@@ -95,9 +97,13 @@ val Icons.Rounded.Firebase: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFFFFC400)), stroke = null, fillAlpha = 1f, strokeAlpha
-            = 1f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-            strokeLineMiter = 4.0f, pathFillType = NonZero
+            fill = SolidColor(Color(0xFFFFC400)),
+            stroke = null,
+            strokeLineWidth = 0.0f,
+            strokeLineCap = Butt,
+            strokeLineJoin = Miter,
+            strokeLineMiter = 4.0f,
+            pathFillType = NonZero
         ) {
             moveTo(11.7772f, 20.4661f)
             curveToRelative(0.6474f, -1.0361f, 1.0399f, -2.2508f, 1.0856f, -3.5595f)
