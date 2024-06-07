@@ -195,7 +195,7 @@ fun ScaleModeSelector(
                         isVertical = false,
                         spanCount = 3
                     ),
-                contentPadding = PaddingValues(1.dp)
+                contentPadding = PaddingValues(2.dp)
             ) {
                 items(entries) {
                     val selected by remember(value, it) {
