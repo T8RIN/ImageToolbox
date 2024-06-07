@@ -17,12 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -30,15 +26,16 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,21 +45,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gigamole.composefadingedges.FadingEdgesGravity
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ScaleColorSpace
 import ru.tech.imageresizershrinker.core.resources.R
@@ -70,18 +62,15 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
-import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ScaleModeSelector(
     modifier: Modifier = Modifier,
@@ -89,7 +78,7 @@ fun ScaleModeSelector(
     shape: Shape = RoundedCornerShape(24.dp),
     enableItemsCardBackground: Boolean = true,
     value: ImageScaleMode,
-    initialShowAll: Boolean = false,
+    showAsColumns: Boolean = false,
     titlePadding: PaddingValues = PaddingValues(top = 8.dp),
     titleArrangement: Arrangement.Horizontal = Arrangement.Center,
     onValueChange: (ImageScaleMode) -> Unit,
@@ -105,9 +94,6 @@ fun ScaleModeSelector(
     val isColorSpaceSelectionVisible = enableItemsCardBackground && value !is ImageScaleMode.Base
     val showInfoSheet = rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
-    var showAll by rememberSaveable(initialShowAll) {
-        mutableStateOf(initialShowAll)
-    }
 
     LaunchedEffect(settingsState) {
         if (value != settingsState.defaultImageScaleMode) {
@@ -130,7 +116,6 @@ fun ScaleModeSelector(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = titleArrangement
         ) {
-            if (!initialShowAll) Spacer(Modifier.weight(1f))
             title()
             Spacer(modifier = Modifier.width(8.dp))
             SupportingButton(
@@ -138,122 +123,103 @@ fun ScaleModeSelector(
                     showInfoSheet.value = true
                 }
             )
-            if (!initialShowAll) {
-                Spacer(Modifier.weight(1f))
-
-                val rotation by animateFloatAsState(
-                    if (showAll) 180f
-                    else 0f
-                )
-                EnhancedIconButton(
-                    forceMinimumInteractiveComponentSize = false,
-                    containerColor = Color.Transparent,
-                    onClick = { showAll = !showAll },
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .size(24.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowDown,
-                        contentDescription = "Expand",
-                        modifier = Modifier.rotate(rotation)
-                    )
-                }
-            }
         }
         Spacer(modifier = Modifier.height(8.dp))
 
-        val count by animateIntAsState(
-            targetValue = if (showAll) entries.size else 8,
-            animationSpec = tween(1000)
-        )
-
-        FlowRow(
-            verticalArrangement = Arrangement.spacedBy(
-                8.dp,
-                Alignment.CenterVertically
-            ),
-            horizontalArrangement = Arrangement.spacedBy(
-                8.dp,
-                Alignment.CenterHorizontally
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .then(
-                    if (enableItemsCardBackground) {
-                        Modifier
-                            .padding(horizontal = 8.dp)
-                            .container(
-                                color = MaterialTheme.colorScheme.surface,
-                                shape = if (isColorSpaceSelectionVisible) ContainerShapeDefaults.topShape
-                                else ContainerShapeDefaults.defaultShape
-                            )
-                            .padding(horizontal = 8.dp, vertical = 12.dp)
-                    } else Modifier.padding(8.dp)
-                )
-        ) {
-            entries.take(count).forEach {
-                val selected by remember(value, it) {
-                    derivedStateOf {
-                        value::class.isInstance(it)
-                    }
-                }
-                EnhancedChip(
-                    onClick = {
-                        onValueChange(it.copy(value.scaleColorSpace))
-                    },
-                    selected = selected,
-                    label = {
-                        Text(text = stringResource(id = it.title))
-                    },
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                    selectedColor = MaterialTheme.colorScheme.outlineVariant(
-                        0.2f,
-                        MaterialTheme.colorScheme.tertiary
-                    ),
-                    selectedContentColor = MaterialTheme.colorScheme.onTertiary,
-                    unselectedContentColor = MaterialTheme.colorScheme.onSurface
-                )
-            }
-            BoxAnimatedVisibility(visible = !showAll) {
-                val density = LocalDensity.current
-                val item = entries.getOrNull(count)
-                val selected by remember(value, item) {
-                    derivedStateOf {
-                        value::class.isInstance(item)
-                    }
-                }
-                var width by remember {
-                    mutableStateOf(72.dp)
-                }
-                EnhancedChip(
-                    onClick = {
-                        showAll = true
-                        item?.copy(value.scaleColorSpace)?.let(onValueChange)
-                    },
-                    selected = selected,
-                    label = {
-                        Text(text = item?.title?.let { stringResource(it) } ?: "")
-                    },
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                    selectedColor = MaterialTheme.colorScheme.outlineVariant(
-                        0.2f,
-                        MaterialTheme.colorScheme.tertiary
-                    ),
-                    selectedContentColor = MaterialTheme.colorScheme.onTertiary,
-                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier
-                        .onSizeChanged {
-                            with(density) {
-                                width = it.width.toDp()
-                            }
-                        }
-                        .fadingEdges(
-                            scrollableState = null,
-                            length = width / 1.5f,
-                            gravity = FadingEdgesGravity.End
+        val chipsModifier = Modifier
+            .fillMaxWidth()
+            .then(
+                if (enableItemsCardBackground) {
+                    Modifier
+                        .padding(horizontal = 8.dp)
+                        .container(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = if (isColorSpaceSelectionVisible) ContainerShapeDefaults.topShape
+                            else ContainerShapeDefaults.defaultShape
                         )
-                )
+                        .padding(horizontal = 8.dp, vertical = 12.dp)
+                } else Modifier.padding(8.dp)
+            )
+
+        if (showAsColumns) {
+            FlowRow(
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp,
+                    Alignment.CenterVertically
+                ),
+                horizontalArrangement = Arrangement.spacedBy(
+                    8.dp,
+                    Alignment.CenterHorizontally
+                ),
+                modifier = chipsModifier
+            ) {
+                entries.forEach {
+                    val selected by remember(value, it) {
+                        derivedStateOf {
+                            value::class.isInstance(it)
+                        }
+                    }
+                    EnhancedChip(
+                        onClick = {
+                            onValueChange(it.copy(value.scaleColorSpace))
+                        },
+                        selected = selected,
+                        label = {
+                            Text(text = stringResource(it.title))
+                        },
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+                        selectedColor = MaterialTheme.colorScheme.outlineVariant(
+                            0.2f,
+                            MaterialTheme.colorScheme.tertiary
+                        ),
+                        selectedContentColor = MaterialTheme.colorScheme.onTertiary,
+                        unselectedContentColor = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+        } else {
+            val state = rememberLazyStaggeredGridState()
+            LazyHorizontalStaggeredGrid(
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 8.dp,
+                    alignment = Alignment.CenterVertically
+                ),
+                state = state,
+                horizontalItemSpacing = 8.dp,
+                rows = StaggeredGridCells.Adaptive(30.dp),
+                modifier = Modifier
+                    .heightIn(max = 160.dp)
+                    .then(chipsModifier)
+                    .fadingEdges(
+                        scrollableState = state,
+                        isVertical = false,
+                        spanCount = 3
+                    ),
+                contentPadding = PaddingValues(1.dp)
+            ) {
+                items(entries) {
+                    val selected by remember(value, it) {
+                        derivedStateOf {
+                            value::class.isInstance(it)
+                        }
+                    }
+                    EnhancedChip(
+                        onClick = {
+                            onValueChange(it.copy(value.scaleColorSpace))
+                        },
+                        selected = selected,
+                        label = {
+                            Text(text = stringResource(id = it.title))
+                        },
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+                        selectedColor = MaterialTheme.colorScheme.outlineVariant(
+                            0.2f,
+                            MaterialTheme.colorScheme.tertiary
+                        ),
+                        selectedContentColor = MaterialTheme.colorScheme.onTertiary,
+                        unselectedContentColor = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
 
