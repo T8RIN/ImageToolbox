@@ -62,7 +62,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,7 +73,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -82,7 +80,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
@@ -91,7 +88,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.model.SettingsGro
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -105,11 +101,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.SearchBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchSettingsDelegate
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchableSettingItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingGroupItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
-import java.util.Locale
 
 
 @Composable
@@ -139,43 +135,14 @@ fun SettingsContent(
     }
     var showSearch by rememberSaveable { mutableStateOf(false) }
 
-    val context = LocalContext.current
     var settings: List<Pair<SettingsGroup, Setting>>? by remember { mutableStateOf(null) }
     var loading by remember { mutableStateOf(false) }
-    LaunchedEffect(searchKeyword) {
-        delay(150)
-        loading = searchKeyword.isNotEmpty()
-        settings = searchKeyword.takeIf { it.trim().isNotEmpty() }?.let {
-            val newList = mutableListOf<Pair<Pair<SettingsGroup, Setting>, Int>>()
-            initialSettingGroups.forEach { group ->
-                group.settingsList.forEach { setting ->
-                    val keywords = mutableListOf<String>().apply {
-                        add(context.getString(group.titleId))
-                        add(context.getString(setting.title))
-                        add(context.getStringLocalized(group.titleId, Locale.ENGLISH))
-                        add(context.getStringLocalized(setting.title, Locale.ENGLISH))
-                        setting.subtitle?.let {
-                            add(context.getString(it))
-                            add(context.getStringLocalized(it, Locale.ENGLISH))
-                        }
-                    }
-
-                    val substringStart = keywords
-                        .joinToString()
-                        .indexOf(
-                            string = searchKeyword,
-                            ignoreCase = true
-                        ).takeIf { it != -1 }
-
-                    substringStart?.plus(searchKeyword.length)?.let { substringEnd ->
-                        newList.add(group to setting to (substringEnd - substringStart))
-                    }
-                }
-            }
-            newList.sortedBy { it.second }.map { it.first }
-        }
-        loading = false
-    }
+    SearchSettingsDelegate(
+        searchKeyword = searchKeyword,
+        onLoadingChange = { loading = it },
+        onGetSettingsList = { settings = it },
+        initialSettingGroups = initialSettingGroups
+    )
 
     val padding = WindowInsets.navigationBars
         .asPaddingValues()
