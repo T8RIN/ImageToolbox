@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.root.presentation
 import android.content.ClipData
 import android.content.res.Configuration
 import android.os.Build
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
@@ -64,6 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.saver.EnhancedAutoSaverInit
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -103,19 +103,7 @@ fun RootContent(
         getEmojiColorTuple = viewModel::getColorTupleFromEmoji
     )
 
-    val isSecureMode = settingsState.isSecureMode
-    LaunchedEffect(isSecureMode) {
-        if (isSecureMode) {
-            context.window.setFlags(
-                WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE
-            )
-        } else {
-            context.window.clearFlags(
-                WindowManager.LayoutParams.FLAG_SECURE
-            )
-        }
-    }
+    SecureModeHandler()
 
     val editPresetsController = rememberEditPresetsController()
 

@@ -19,11 +19,9 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
@@ -47,6 +45,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostS
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
+import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRoot
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerViewModel
@@ -73,19 +72,7 @@ class MediaPickerActivity : M3Activity() {
                 getEmojiColorTuple = viewModel::getColorTupleFromEmoji
             )
 
-            val isSecureMode = settingsState.isSecureMode
-            LaunchedEffect(isSecureMode) {
-                if (isSecureMode) {
-                    window.setFlags(
-                        WindowManager.LayoutParams.FLAG_SECURE,
-                        WindowManager.LayoutParams.FLAG_SECURE
-                    )
-                } else {
-                    window.clearFlags(
-                        WindowManager.LayoutParams.FLAG_SECURE
-                    )
-                }
-            }
+            SecureModeHandler()
 
             CompositionLocalProvider(
                 LocalSettingsState provides settingsState,

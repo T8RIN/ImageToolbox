@@ -22,7 +22,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -56,7 +55,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -98,6 +96,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -137,19 +136,7 @@ class CrashActivity : CrashHandler() {
 
             val settingsState = getSettingsState()
 
-            val isSecureMode = settingsState.isSecureMode
-            LaunchedEffect(isSecureMode) {
-                if (isSecureMode) {
-                    window.setFlags(
-                        WindowManager.LayoutParams.FLAG_SECURE,
-                        WindowManager.LayoutParams.FLAG_SECURE
-                    )
-                } else {
-                    window.clearFlags(
-                        WindowManager.LayoutParams.FLAG_SECURE
-                    )
-                }
-            }
+            SecureModeHandler()
 
             CompositionLocalProvider(
                 LocalSettingsState provides settingsState.toUiState(
