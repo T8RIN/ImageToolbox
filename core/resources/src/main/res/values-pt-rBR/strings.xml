@@ -1190,4 +1190,7 @@
     <string name="ewa_lanczos_sharp_sub">Variante de média ponderada elíptica (EWA) do filtro Lanczos Sharp para obter resultados nítidos com o mínimo de artefatos</string>
     <string name="ewa_lanczos_4_sharpest">Lanczos 4 Sharpest EWA</string>
     <string name="ewa_lanczos_4_sharpest_sub">Variante da média ponderada elíptica (EWA) do filtro Lanczos 4 Sharpest para reamostragem de imagens extremamente nítidas</string>
+    <string name="format_conversion_sub">Converta lotes de imagens de um formato para outro</string>
+    <string name="dismiss_forever">Dispensar definitivamente</string>
+    <string name="format_conversion">Conversão de formato</string>
 </resources>
