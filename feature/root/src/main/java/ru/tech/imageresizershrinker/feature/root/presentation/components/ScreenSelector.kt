@@ -24,50 +24,52 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavTransitionQueueing
 import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.pop
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.NavigationTransition
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentScreen
-import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsScreen
-import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
-import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
-import ru.tech.imageresizershrinker.feature.compare.presentation.CompareScreen
-import ru.tech.imageresizershrinker.feature.convert.presentation.ConvertScreen
-import ru.tech.imageresizershrinker.feature.crop.presentation.CropScreen
-import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifScreen
-import ru.tech.imageresizershrinker.feature.document_scanner.presentation.DocumentScannerScreen
-import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
-import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggScreen
-import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundScreen
-import ru.tech.imageresizershrinker.feature.filters.presentation.FiltersScreen
-import ru.tech.imageresizershrinker.feature.generate_palette.presentation.GeneratePaletteScreen
-import ru.tech.imageresizershrinker.feature.gif_tools.presentation.GifToolsScreen
-import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.GradientMakerScreen
-import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewScreen
-import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingScreen
-import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.JxlToolsScreen
-import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeScreen
-import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetImageScreen
-import ru.tech.imageresizershrinker.feature.main.presentation.MainScreen
-import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsScreen
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageScreen
-import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextScreen
-import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.navigateNew
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.safePop
+import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
+import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeContent
+import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
+import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
+import ru.tech.imageresizershrinker.feature.crop.presentation.CropContent
+import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifContent
+import ru.tech.imageresizershrinker.feature.document_scanner.presentation.DocumentScannerContent
+import ru.tech.imageresizershrinker.feature.draw.presentation.DrawContent
+import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggContent
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundContent
+import ru.tech.imageresizershrinker.feature.filters.presentation.FiltersContent
+import ru.tech.imageresizershrinker.feature.format_conversion.presentation.FormatConversionContent
+import ru.tech.imageresizershrinker.feature.generate_palette.presentation.GeneratePaletteContent
+import ru.tech.imageresizershrinker.feature.gif_tools.presentation.GifToolsContent
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.GradientMakerContent
+import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewContent
+import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingContent
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.JxlToolsContent
+import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeContent
+import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetImageContent
+import ru.tech.imageresizershrinker.feature.main.presentation.MainContent
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsContent
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageContent
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextContent
+import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertContent
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
-import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeScreen
-import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsScreen
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
-import ru.tech.imageresizershrinker.feature.svg.presentation.SvgScreen
-import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingScreen
-import ru.tech.imageresizershrinker.feature.zip.presentation.ZipScreen
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeContent
+import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditContent
+import ru.tech.imageresizershrinker.feature.svg_maker.presentation.SvgMakerContent
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingContent
+import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
 
 @Composable
 internal fun ScreenSelector(
-    viewModel: RootViewModel
+    viewModel: RootViewModel,
+    onRegisterScreenOpen: (Screen) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val navController = viewModel.navController
@@ -80,13 +82,16 @@ internal fun ScreenSelector(
     )
     val onGoBack: () -> Unit = {
         viewModel.updateUris(null)
-        navController.apply {
-            if (backstack.entries.size > 1) pop()
-        }
+        navController.safePop()
         scope.launch {
             delay(350L) //delay for screen anim
             themeState.updateColorTuple(appColorTuple)
         }
+    }
+
+    val onNavigate: (Screen) -> Unit = { destination ->
+        navController.navigate(destination)
+        onRegisterScreenOpen(destination)
     }
 
     AnimatedNavHost(
@@ -96,115 +101,113 @@ internal fun ScreenSelector(
     ) { screen ->
         when (screen) {
             is Screen.Settings -> {
-                SettingsScreen(
+                SettingsContent(
                     onTryGetUpdate = viewModel::tryGetUpdate,
                     updateAvailable = viewModel.updateAvailable,
                     onGoBack = onGoBack,
                     onNavigateToEasterEgg = {
-                        if (navController.backstack.entries.lastOrNull()?.destination != Screen.EasterEgg) {
-                            navController.navigate(Screen.EasterEgg)
+                        navController.navigateNew(Screen.EasterEgg).also {
+                            if (it) onRegisterScreenOpen(Screen.EasterEgg)
                         }
                     },
                     onNavigateToSettings = {
-                        if (navController.backstack.entries.lastOrNull()?.destination !is Screen.Settings) {
-                            navController.navigate(Screen.Settings)
-                            return@SettingsScreen true
-                        } else return@SettingsScreen false
+                        navController.navigateNew(Screen.Settings).also {
+                            if (it) onRegisterScreenOpen(Screen.Settings)
+                        }
                     }
                 )
             }
 
             is Screen.EasterEgg -> {
-                EasterEggScreen(onGoBack = onGoBack)
+                EasterEggContent(onGoBack = onGoBack)
             }
 
             is Screen.Main -> {
-                MainScreen(
+                MainContent(
                     onTryGetUpdate = viewModel::tryGetUpdate,
                     updateAvailable = viewModel.updateAvailable,
                     updateUris = viewModel::updateUris,
                     onNavigateToSettings = {
-                        if (navController.backstack.entries.lastOrNull()?.destination !is Screen.Settings) {
-                            navController.navigate(Screen.Settings)
-                            return@MainScreen true
-                        } else return@MainScreen false
+                        navController.navigateNew(Screen.Settings).also {
+                            if (it) onRegisterScreenOpen(Screen.Settings)
+                        }
                     },
-                    onNavigateToScreenWithPopUpTo = { navigable ->
+                    onNavigateToScreenWithPopUpTo = { destination ->
                         navController.popUpTo { it == Screen.Main }
-                        navController.navigate(navigable)
+                        onNavigate(destination)
                     },
                     onNavigateToEasterEgg = {
-                        if (navController.backstack.entries.lastOrNull()?.destination != Screen.EasterEgg) {
-                            navController.navigate(Screen.EasterEgg)
+                        navController.navigateNew(Screen.EasterEgg).also {
+                            if (it) onRegisterScreenOpen(Screen.EasterEgg)
                         }
                     }
                 )
             }
 
             is Screen.SingleEdit -> {
-                SingleEditScreen(
+                SingleEditContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.ResizeAndConvert -> {
-                ResizeAndConvertScreen(
+                ResizeAndConvertContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.DeleteExif -> {
-                DeleteExifScreen(
+                DeleteExifContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.ResizeByBytes -> {
-                BytesResizeScreen(
+                BytesResizeContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.Crop -> {
-                CropScreen(
+                CropContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.PickColorFromImage -> {
-                PickColorFromImageScreen(
+                PickColorFromImageContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.ImagePreview -> {
-                ImagePreviewScreen(
+                ImagePreviewContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.GeneratePalette -> {
-                GeneratePaletteScreen(
+                GeneratePaletteContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.Compare -> {
-                CompareScreen(
+                CompareContent(
                     comparableUris = screen.uris
                         ?.takeIf { it.size == 2 }
                         ?.let { it[0] to it[1] },
@@ -213,144 +216,144 @@ internal fun ScreenSelector(
             }
 
             is Screen.LoadNetImage -> {
-                LoadNetImageScreen(
+                LoadNetImageContent(
                     url = screen.url,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.Filter -> {
-                FiltersScreen(
+                FiltersContent(
                     type = screen.type,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.LimitResize -> {
-                LimitsResizeScreen(
+                LimitsResizeContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.Draw -> {
-                DrawScreen(
+                DrawContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.Cipher -> {
-                FileCipherScreen(
+                CipherContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.EraseBackground -> {
-                EraseBackgroundScreen(
+                EraseBackgroundContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.ImageStitching -> {
-                ImageStitchingScreen(
+                ImageStitchingContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.PdfTools -> {
-                PdfToolsScreen(
+                PdfToolsContent(
                     type = screen.type,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.RecognizeText -> {
-                RecognizeTextScreen(
+                RecognizeTextContent(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.GradientMaker -> {
-                GradientMakerScreen(
+                GradientMakerContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.Watermarking -> {
-                WatermarkingScreen(
+                WatermarkingContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
             is Screen.GifTools -> {
-                GifToolsScreen(
+                GifToolsContent(
                     typeState = screen.type,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.ApngTools -> {
-                ApngToolsScreen(
+                ApngToolsContent(
                     typeState = screen.type,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.Zip -> {
-                ZipScreen(
+                ZipContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack
                 )
             }
 
             is Screen.JxlTools -> {
-                JxlToolsScreen(
+                JxlToolsContent(
                     typeState = screen.type,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.Svg -> {
-                SvgScreen(
+            is Screen.SvgMaker -> {
+                SvgMakerContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.Convert -> {
-                ConvertScreen(
+            is Screen.FormatConversion -> {
+                FormatConversionContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
-                    onNavigate = navController::navigate
+                    onNavigate = onNavigate
                 )
             }
 
-            Screen.DocumentScanner -> {
-                DocumentScannerScreen(onGoBack = onGoBack)
+            is Screen.DocumentScanner -> {
+                DocumentScannerContent(onGoBack = onGoBack)
             }
 
             is Screen.ScanQrCode -> {
-                ScanQrCodeScreen(
+                ScanQrCodeContent(
                     qrCodeContent = screen.qrCodeContent,
                     onGoBack = onGoBack
                 )
             }
         }
     }
-    ScreenBasedMaxBrightnessEnforcement(navController.currentScreen())
+    ScreenBasedMaxBrightnessEnforcement(navController.currentDestination())
 }

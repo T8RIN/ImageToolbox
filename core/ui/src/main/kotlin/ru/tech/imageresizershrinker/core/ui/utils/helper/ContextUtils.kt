@@ -131,16 +131,16 @@ object ContextUtils {
         intent: Intent?,
         onStart: () -> Unit,
         onColdStart: () -> Unit,
-        showToast: (message: String, icon: ImageVector) -> Unit,
-        navigate: (Screen) -> Unit,
+        onShowToast: (message: String, icon: ImageVector) -> Unit,
+        onNavigate: (Screen) -> Unit,
         onGetUris: (List<Uri>) -> Unit,
         onHasExtraImageType: (String) -> Unit,
-        notHasUris: Boolean,
+        isHasUris: Boolean,
         onWantGithubReview: () -> Unit,
-        openEditInsteadOfPreview: Boolean
+        isOpenEditInsteadOfPreview: Boolean
     ) {
         onStart()
-        if (intent?.type != null && notHasUris) onColdStart()
+        if (intent?.type != null && !isHasUris) onColdStart()
 
         if (intent?.action == Intent.ACTION_BUG_REPORT) {
             onWantGithubReview()
@@ -161,17 +161,17 @@ object ContextUtils {
                         val uris =
                             clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
 
-                        if (openEditInsteadOfPreview) {
+                        if (isOpenEditInsteadOfPreview) {
                             onGetUris(uris)
                         } else {
-                            navigate(Screen.ImagePreview(uris))
+                            onNavigate(Screen.ImagePreview(uris))
                         }
                     }
 
                     Intent.ACTION_SEND -> {
                         intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
                             if (intent.getStringExtra("screen") == Screen.PickColorFromImage::class.simpleName) {
-                                navigate(Screen.PickColorFromImage(it))
+                                onNavigate(Screen.PickColorFromImage(it))
                             } else {
                                 if (intent.type?.contains("gif") == true) {
                                     onHasExtraImageType("gif")
@@ -211,7 +211,7 @@ object ContextUtils {
                     val uri = intent.data ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
                     uri?.let {
                         if (intent.action == Intent.ACTION_VIEW) {
-                            navigate(Screen.PdfTools(Screen.PdfTools.Type.Preview(it)))
+                            onNavigate(Screen.PdfTools(Screen.PdfTools.Type.Preview(it)))
                         } else {
                             onHasExtraImageType("pdf")
                             onGetUris(listOf(uri))
@@ -224,7 +224,7 @@ object ContextUtils {
                     when (intent.action) {
                         Intent.ACTION_SEND_MULTIPLE -> {
                             intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                                navigate(Screen.Zip(it))
+                                onNavigate(Screen.Zip(it))
                             }
                         }
 
@@ -236,13 +236,13 @@ object ContextUtils {
                         }
 
                         else -> null
-                    } ?: showToast(
+                    } ?: onShowToast(
                         getString(R.string.unsupported_type, intent.type),
                         Icons.Rounded.ErrorOutline
                     )
                 }
             } else Unit
-        }.getOrNull() ?: showToast(
+        }.getOrNull() ?: onShowToast(
             getString(R.string.something_went_wrong),
             Icons.Rounded.ErrorOutline
         )

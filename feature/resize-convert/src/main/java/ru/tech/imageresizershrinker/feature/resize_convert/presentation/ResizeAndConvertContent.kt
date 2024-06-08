@@ -15,10 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.single_edit.presentation
+package ru.tech.imageresizershrinker.feature.resize_convert.presentation
 
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -51,7 +58,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -61,9 +68,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageExtraTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
+import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PresetSelector
@@ -74,33 +81,32 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSe
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EditExifSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.CropEditOption
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.DrawEditOption
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.EraseBackgroundEditOption
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.FilterEditOption
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.SingleEditViewModel
+import ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel.ResizeAndConvertViewModel
 
 @Composable
-fun SingleEditContent(
-    uriState: Uri?,
+fun ResizeAndConvertContent(
+    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: SingleEditViewModel = hiltViewModel(),
+    viewModel: ResizeAndConvertViewModel = hiltViewModel()
 ) {
-    val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current as ComponentActivity
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
+
+    val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
@@ -112,19 +118,14 @@ fun SingleEditContent(
     }
 
     LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.setUri(it)
-            viewModel.decodeBitmapByUri(
-                uri = it,
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+        uriState?.takeIf { it.isNotEmpty() }?.let {
+            viewModel.updateUris(it) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
-
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) {
@@ -133,26 +134,16 @@ fun SingleEditContent(
         }
     }
 
-    var showResetDialog by rememberSaveable { mutableStateOf(false) }
-    var showOriginal by rememberSaveable { mutableStateOf(false) }
-    var showExitDialog by rememberSaveable { mutableStateOf(false) }
-
-    val imageInfo = viewModel.imageInfo
-
     val pickImageLauncher =
         rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it)
-                viewModel.decodeBitmapByUri(
-                    uri = it,
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+            mode = localImagePickerMode(Picker.Multiple)
+        ) { list ->
+            list.takeIf { it.isNotEmpty() }?.let {
+                viewModel.updateUris(list) {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
-                )
+                }
             }
         }
 
@@ -160,28 +151,43 @@ fun SingleEditContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = !uriState.isNullOrEmpty()
     )
 
-    val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmap(it) { saveResult ->
-            context.parseSaveResult(
-                saveResult = saveResult,
-                onSuccess = showConfetti,
+    val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmaps(it) { results ->
+            context.parseSaveResults(
+                scope = scope,
+                results = results,
                 toastHostState = toastHostState,
-                scope = scope
+                isOverwritten = settingsState.overwriteFiles,
+                showConfetti = showConfetti
             )
         }
     }
 
+    var showResetDialog by rememberSaveable { mutableStateOf(false) }
+    var showOriginal by rememberSaveable { mutableStateOf(false) }
+
+    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
+
+    val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
+
     val isPortrait by isPortraitOrientationAsState()
+
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
+    val onBack = {
+        if (viewModel.haveChanges) showExitDialog = true
+        else onGoBack()
+    }
 
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
 
     CompareSheet(
-        data = viewModel.initialBitmap to viewModel.previewBitmap,
+        data = viewModel.bitmap to viewModel.previewBitmap,
         visible = showCompareSheet
     )
 
@@ -190,41 +196,16 @@ fun SingleEditContent(
         visible = showZoomSheet
     )
 
-    val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
-        else onGoBack()
-    }
-
-    var showCropper by rememberSaveable { mutableStateOf(false) }
-    var showFiltering by rememberSaveable { mutableStateOf(false) }
-    var showDrawing by rememberSaveable { mutableStateOf(false) }
-    var showEraseBackground by rememberSaveable { mutableStateOf(false) }
-
     AdaptiveLayoutScreen(
         title = {
             TopAppBarTitle(
-                title = stringResource(R.string.single_edit),
+                title = stringResource(R.string.resize_and_convert),
                 input = viewModel.bitmap,
                 isLoading = viewModel.isImageLoading,
                 size = viewModel.imageInfo.sizeInBytes.toLong()
             )
         },
         onGoBack = onBack,
-        topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) {
-                TopAppBarEmoji()
-            }
-            CompareButton(
-                onClick = { showCompareSheet.value = true },
-                visible = viewModel.previewBitmap != null
-                        && viewModel.bitmap != null
-                        && viewModel.shouldShowPreview
-            )
-            ZoomButton(
-                onClick = { showZoomSheet.value = true },
-                visible = viewModel.previewBitmap != null && viewModel.shouldShowPreview
-            )
-        },
         actions = {
             var editSheetData by remember {
                 mutableStateOf(listOf<Uri>())
@@ -232,7 +213,7 @@ fun SingleEditContent(
             ShareButton(
                 enabled = viewModel.bitmap != null,
                 onShare = {
-                    viewModel.shareBitmap(showConfetti)
+                    viewModel.shareBitmaps(showConfetti)
                 },
                 onCopy = { manager ->
                     viewModel.cacheCurrentImage { uri ->
@@ -241,8 +222,8 @@ fun SingleEditContent(
                     }
                 },
                 onEdit = {
-                    viewModel.cacheCurrentImage { uri ->
-                        editSheetData = listOf(uri)
+                    viewModel.cacheImages {
+                        editSheetData = it
                     }
                 }
             )
@@ -302,34 +283,65 @@ fun SingleEditContent(
                 imageInside = isPortrait,
                 showOriginal = showOriginal,
                 previewBitmap = viewModel.previewBitmap,
-                originalBitmap = viewModel.initialBitmap,
+                originalBitmap = viewModel.bitmap,
                 isLoading = viewModel.isImageLoading,
                 shouldShowPreview = viewModel.shouldShowPreview
             )
         },
         controls = {
-            val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
-            ImageTransformBar(
-                onEditExif = { showEditExifDialog.value = true },
-                imageFormat = viewModel.imageInfo.imageFormat,
-                onRotateLeft = viewModel::rotateBitmapLeft,
-                onFlip = viewModel::flipImage,
-                onRotateRight = viewModel::rotateBitmapRight
+            val imageInfo = viewModel.imageInfo
+            ImageCounter(
+                imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                onRepick = {
+                    showPickImageFromUrisSheet.value = true
+                }
             )
+            AnimatedContent(
+                targetState = viewModel.uris?.size == 1
+            ) { oneUri ->
+                if (oneUri) {
+                    ImageTransformBar(
+                        onEditExif = { showEditExifDialog.value = true },
+                        onRotateLeft = viewModel::rotateLeft,
+                        onFlip = viewModel::flip,
+                        imageFormat = viewModel.imageInfo.imageFormat,
+                        onRotateRight = viewModel::rotateRight
+                    )
+                } else {
+                    LaunchedEffect(Unit) {
+                        showEditExifDialog.value = false
+                        viewModel.updateExif(null)
+                    }
+                    ImageTransformBar(
+                        onRotateLeft = viewModel::rotateLeft,
+                        onFlip = viewModel::flip,
+                        onRotateRight = viewModel::rotateRight
+                    )
+                }
+            }
             Spacer(Modifier.size(8.dp))
-            ImageExtraTransformBar(
-                onCrop = { showCropper = true },
-                onFilter = { showFiltering = true },
-                onDraw = { showDrawing = true },
-                onEraseBackground = { showEraseBackground = true }
-            )
-            Spacer(Modifier.size(16.dp))
             PresetSelector(
                 value = viewModel.presetSelected,
                 includeTelegramOption = true,
-                onValueChange = viewModel::setPreset
+                onValueChange = {
+                    viewModel.updatePreset(it)
+                }
             )
             Spacer(Modifier.size(8.dp))
+            AnimatedVisibility(
+                visible = viewModel.uris?.size != 1,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                Column {
+                    SaveExifWidget(
+                        imageFormat = viewModel.imageInfo.imageFormat,
+                        checked = viewModel.keepExif,
+                        onCheckedChange = viewModel::setKeepExif
+                    )
+                    Spacer(Modifier.size(8.dp))
+                }
+            }
             ResizeImageField(
                 imageInfo = imageInfo,
                 originalSize = viewModel.originalSize,
@@ -337,9 +349,9 @@ fun SingleEditContent(
                 onWidthChange = viewModel::updateWidth,
                 showWarning = viewModel.showWarning
             )
-            if (imageInfo.imageFormat.canChangeCompressionValue) Spacer(
-                Modifier.height(8.dp)
-            )
+            if (imageInfo.imageFormat.canChangeCompressionValue) {
+                Spacer(Modifier.height(8.dp))
+            }
             QualitySelector(
                 imageFormat = imageInfo.imageFormat,
                 enabled = viewModel.bitmap != null,
@@ -362,55 +374,91 @@ fun SingleEditContent(
                 value = imageInfo.imageScaleMode,
                 onValueChange = viewModel::setImageScaleMode
             )
-
-            EditExifSheet(
-                visible = showEditExifDialog,
-                exif = viewModel.exif,
-                onClearExif = viewModel::clearExif,
-                onUpdateTag = viewModel::updateExifByTag,
-                onRemoveTag = viewModel::removeExifTag
-            )
         },
-        buttons = {
+        buttons = { actions ->
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.uri == Uri.EMPTY) to isPortrait,
+                targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
-                    saveBitmap(null)
+                    saveBitmaps(null)
                 },
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },
                 actions = {
-                    if (isPortrait) it()
+                    if (isPortrait) actions()
                 }
             )
             if (showFolderSelectionDialog) {
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = saveBitmap
+                    onSaveRequest = saveBitmaps
                 )
             }
         },
+        topAppBarPersistentActions = {
+            if (viewModel.bitmap == null) TopAppBarEmoji()
+            CompareButton(
+                onClick = { showCompareSheet.value = true },
+                visible = viewModel.previewBitmap != null
+                        && viewModel.bitmap != null
+                        && viewModel.shouldShowPreview
+            )
+            ZoomButton(
+                onClick = { showZoomSheet.value = true },
+                visible = viewModel.previewBitmap != null && viewModel.shouldShowPreview
+            )
+        },
         canShowScreenData = viewModel.bitmap != null,
+        forceImagePreviewToMax = showOriginal,
         noDataControls = {
             if (!viewModel.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
-        forceImagePreviewToMax = showOriginal,
         isPortrait = isPortrait
     )
 
     ResetDialog(
         visible = showResetDialog,
         onDismiss = { showResetDialog = false },
-        onReset = {
-            viewModel.resetValues(true)
-        }
+        onReset = viewModel::resetValues
+    )
+
+    PickImageFromUrisSheet(
+        transformations = listOf(
+            viewModel.imageInfoTransformationFactory(
+                imageInfo = viewModel.imageInfo,
+                preset = viewModel.presetSelected
+            )
+        ),
+        visible = showPickImageFromUrisSheet,
+        uris = viewModel.uris,
+        selectedUri = viewModel.selectedUri,
+        onUriPicked = { uri ->
+            try {
+                viewModel.setBitmap(uri = uri)
+            } catch (e: Exception) {
+                scope.launch {
+                    toastHostState.showError(context, e)
+                }
+            }
+        },
+        onUriRemoved = { uri ->
+            viewModel.updateUrisSilently(removedUri = uri)
+        },
+        columns = if (isPortrait) 2 else 4,
+    )
+
+    EditExifSheet(
+        visible = showEditExifDialog,
+        exif = viewModel.exif,
+        onClearExif = viewModel::clearExif,
+        onUpdateTag = viewModel::updateExifByTag,
+        onRemoveTag = viewModel::removeExifTag
     )
 
     ExitWithoutSavingDialog(
@@ -420,80 +468,10 @@ fun SingleEditContent(
     )
 
     if (viewModel.isSaving) {
-        LoadingDialog(onCancelLoading = viewModel::cancelSaving)
+        LoadingDialog(
+            done = viewModel.done,
+            left = viewModel.uris?.size ?: 1,
+            onCancelLoading = viewModel::cancelSaving
+        )
     }
-
-    CropEditOption(
-        visible = showCropper,
-        onDismiss = { showCropper = false },
-        useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmapAfterEditing,
-        cropProperties = viewModel.cropProperties,
-        setCropAspectRatio = viewModel::setCropAspectRatio,
-        setCropMask = viewModel::setCropMask,
-        selectedAspectRatio = viewModel.selectedAspectRatio,
-        loadImage = viewModel::loadImage
-    )
-
-    FilterEditOption(
-        visible = showFiltering,
-        onDismiss = {
-            showFiltering = false
-            viewModel.clearFilterList()
-        },
-        useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
-        onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
-        },
-        onRequestMappingFilters = viewModel::mapFilters,
-        filterList = viewModel.filterList,
-        updateOrder = viewModel::updateOrder,
-        updateFilter = viewModel::updateFilter,
-        removeAt = viewModel::removeFilterAtIndex,
-        addFilter = viewModel::addFilter
-    )
-
-    DrawEditOption(
-        onRequestFiltering = viewModel::filter,
-        visible = showDrawing,
-        onDismiss = {
-            showDrawing = false
-            viewModel.clearDrawing()
-        },
-        useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
-        onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
-            viewModel.clearDrawing()
-        },
-        undo = viewModel::undoDraw,
-        redo = viewModel::redoDraw,
-        paths = viewModel.drawPaths,
-        lastPaths = viewModel.drawLastPaths,
-        undonePaths = viewModel.drawUndonePaths,
-        addPath = viewModel::addPathToDrawList
-    )
-
-    EraseBackgroundEditOption(
-        visible = showEraseBackground,
-        onDismiss = {
-            showEraseBackground = false
-            viewModel.clearErasing()
-        },
-        useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
-        onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
-        },
-        clearErasing = viewModel::clearErasing,
-        undo = viewModel::undoErase,
-        redo = viewModel::redoErase,
-        paths = viewModel.erasePaths,
-        lastPaths = viewModel.eraseLastPaths,
-        undonePaths = viewModel.eraseUndonePaths,
-        addPath = viewModel::addPathToEraseList,
-        autoBackgroundRemover = viewModel.getBackgroundRemover()
-    )
 }

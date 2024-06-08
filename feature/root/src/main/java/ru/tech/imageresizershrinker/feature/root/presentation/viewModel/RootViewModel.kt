@@ -85,8 +85,8 @@ class RootViewModel @Inject constructor(
 
     private val _cancelledUpdate = mutableStateOf(false)
 
-    private val _shouldShowDialog = mutableStateOf(true)
-    val shouldShowDialog by _shouldShowDialog
+    private val _shouldShowExitDialog = mutableStateOf(true)
+    val shouldShowDialog by _shouldShowExitDialog
 
     private val _tag = mutableStateOf("")
     val tag by _tag
@@ -128,19 +128,19 @@ class RootViewModel @Inject constructor(
     }
 
     fun tryGetUpdate(
-        newRequest: Boolean = false,
-        installedFromMarket: Boolean,
+        isNewRequest: Boolean = false,
+        isInstalledFromMarket: Boolean,
         onNoUpdates: () -> Unit = {}
     ) {
-        if (settingsState.appOpenCount < 2 && !newRequest) return
+        if (settingsState.appOpenCount < 2 && !isNewRequest) return
 
         val showDialog = settingsState.showUpdateDialogOnStartup
-        if (installedFromMarket) {
+        if (isInstalledFromMarket) {
             if (showDialog) {
-                _showUpdateDialog.value = newRequest
+                _showUpdateDialog.value = isNewRequest
             }
         } else {
-            if (!_cancelledUpdate.value || newRequest) {
+            if (!_cancelledUpdate.value || isNewRequest) {
                 viewModelScope.launch {
                     checkForUpdates(showDialog, onNoUpdates)
                 }
@@ -298,21 +298,22 @@ class RootViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             toastHostState.showToast(
-                message = message, icon = icon
+                message = message,
+                icon = icon
             )
         }
     }
 
-    fun shouldShowExitDialog(b: Boolean) {
-        _shouldShowDialog.value = b
+    fun cancelShowingExitDialog() {
+        _shouldShowExitDialog.update { false }
     }
 
     fun toggleAllowBetas(installedFromMarket: Boolean) {
         viewModelScope.launch {
             settingsManager.toggleAllowBetas()
             tryGetUpdate(
-                newRequest = true,
-                installedFromMarket = installedFromMarket
+                isNewRequest = true,
+                isInstalledFromMarket = installedFromMarket
             )
         }
     }

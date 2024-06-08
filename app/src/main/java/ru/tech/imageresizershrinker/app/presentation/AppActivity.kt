@@ -22,6 +22,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
+import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
@@ -50,18 +51,19 @@ class AppActivity : M3Activity() {
 
     private fun parseImage(intent: Intent?) {
         parseImageFromIntent(
+            intent = intent,
             onStart = viewModel::hideSelectDialog,
             onHasExtraImageType = viewModel::updateExtraImageType,
-            onColdStart = {
-                viewModel.shouldShowExitDialog(false)
-            },
+            onColdStart = viewModel::cancelShowingExitDialog,
             onGetUris = viewModel::updateUris,
-            showToast = viewModel::showToast,
-            navigate = viewModel.navController::navigate,
-            notHasUris = viewModel.uris.isNullOrEmpty(),
-            intent = intent,
+            onShowToast = viewModel::showToast,
+            onNavigate = { screen ->
+                GlobalExceptionHandler.registerScreenOpen(screen)
+                viewModel.navController.navigate(screen)
+            },
+            isHasUris = !viewModel.uris.isNullOrEmpty(),
             onWantGithubReview = viewModel::onWantGithubReview,
-            openEditInsteadOfPreview = viewModel.settingsState.openEditInsteadOfPreview
+            isOpenEditInsteadOfPreview = viewModel.settingsState.openEditInsteadOfPreview
         )
     }
 }

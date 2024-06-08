@@ -90,7 +90,7 @@ internal fun List<Uri>.screenList(
             listOf(
                 Screen.SingleEdit(uris.firstOrNull()),
                 Screen.ResizeAndConvert(uris),
-                Screen.Convert(uris),
+                Screen.FormatConversion(uris),
                 Screen.ResizeByBytes(uris),
                 Screen.Crop(uris.firstOrNull()),
                 Screen.Filter(
@@ -121,7 +121,7 @@ internal fun List<Uri>.screenList(
                 Screen.JxlTools(
                     Screen.JxlTools.Type.ImageToJxl(uris)
                 ),
-                Screen.Svg(uris),
+                Screen.SvgMaker(uris),
                 Screen.Zip(uris),
                 Screen.DeleteExif(uris),
                 Screen.LimitResize(uris)
@@ -151,7 +151,7 @@ internal fun List<Uri>.screenList(
             mutableListOf(
                 Screen.ResizeAndConvert(uris),
                 Screen.ResizeByBytes(uris),
-                Screen.Convert(uris),
+                Screen.FormatConversion(uris),
                 Screen.Filter(
                     type = Screen.Filter.Type.Basic(uris)
                 )
@@ -169,7 +169,7 @@ internal fun List<Uri>.screenList(
                 add(Screen.ImagePreview(uris))
                 add(Screen.LimitResize(uris))
                 add(Screen.Zip(uris))
-                add(Screen.Svg(uris))
+                add(Screen.SvgMaker(uris))
 
                 var haveJpeg = false
                 var haveJxl = false

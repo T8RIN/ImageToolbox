@@ -52,8 +52,8 @@ dependencies {
     implementation(projects.feature.jxlTools)
     implementation(projects.feature.settings)
     implementation(projects.feature.easterEgg)
-    implementation(projects.feature.svg)
-    implementation(projects.feature.convert)
+    implementation(projects.feature.svgMaker)
+    implementation(projects.feature.formatConversion)
     implementation(projects.feature.documentScanner)
     implementation(projects.feature.scanQrCode)
 }

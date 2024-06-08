@@ -30,8 +30,6 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olshevski.navigation.reimagined.navController
-import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -77,9 +75,8 @@ class DrawViewModel @Inject constructor(
     private val _colorPickerBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val colorPickerBitmap by _colorPickerBitmap
 
-    private val navController = navController<DrawBehavior>(DrawBehavior.None)
-
-    val drawBehavior get() = navController.backstack.entries.last().destination
+    private val _drawBehavior: MutableState<DrawBehavior> = mutableStateOf(DrawBehavior.None)
+    val drawBehavior: DrawBehavior by _drawBehavior
 
     private val _uri = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
@@ -184,9 +181,9 @@ class DrawViewModel @Inject constructor(
 
             _uri.value = uri
             if (drawBehavior !is DrawBehavior.Image) {
-                navController.navigate(
+                _drawBehavior.update {
                     DrawBehavior.Image(calculateScreenOrientationBasedOnUri(uri))
-                )
+                }
             }
             imageGetter.getImageAsync(
                 uri = uri.toString(),
@@ -222,7 +219,9 @@ class DrawViewModel @Inject constructor(
         _lastPaths.value = listOf()
         _undonePaths.value = listOf()
         _bitmap.value = null
-        navController.navigate(DrawBehavior.None)
+        _drawBehavior.update {
+            DrawBehavior.None
+        }
         _uri.value = Uri.EMPTY
         _backgroundColor.value = Color.Transparent
         registerChangesCleared()
@@ -236,7 +235,7 @@ class DrawViewModel @Inject constructor(
         val width = reqWidth.takeIf { it > 0 } ?: 1
         val height = reqHeight.takeIf { it > 0 } ?: 1
         val imageRatio = width / height.toFloat()
-        navController.navigate(
+        _drawBehavior.update {
             DrawBehavior.Background(
                 orientation = if (imageRatio <= 1f) {
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -247,7 +246,7 @@ class DrawViewModel @Inject constructor(
                 height = height,
                 color = color.toArgb()
             )
-        )
+        }
         _backgroundColor.value = color
     }
 

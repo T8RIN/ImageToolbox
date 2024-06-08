@@ -29,7 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +42,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
@@ -60,6 +58,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
@@ -89,23 +88,11 @@ fun RootContent(
     var randomEmojiKey by remember {
         mutableIntStateOf(0)
     }
-    val backstack = viewModel.navController.backstack.entries
-    LaunchedEffect(backstack) {
+
+    val currentDestination = viewModel.navController.currentDestination()
+    LaunchedEffect(currentDestination) {
         delay(200L) // Delay for transition
         randomEmojiKey++
-    }
-
-    val currentDestination by remember(backstack) {
-        derivedStateOf {
-            backstack.lastOrNull()
-        }
-    }
-    LaunchedEffect(currentDestination) {
-        currentDestination?.takeIf {
-            viewModel.navController.backstack.action == NavAction.Navigate
-        }?.destination?.let {
-            GlobalExceptionHandler.registerScreenOpen(it)
-        }
     }
 
     val settingsState = viewModel.settingsState.toUiState(
@@ -187,7 +174,10 @@ fun RootContent(
             }
 
             Surface(Modifier.fillMaxSize()) {
-                ScreenSelector(viewModel)
+                ScreenSelector(
+                    viewModel = viewModel,
+                    onRegisterScreenOpen = GlobalExceptionHandler.Companion::registerScreenOpen
+                )
 
                 EditPresetsSheet(
                     editPresetsState = editPresetsState,
@@ -201,6 +191,7 @@ fun RootContent(
                     visible = showSelectSheet.value,
                     onDismiss = { showSelectSheet.value = it },
                     onNavigate = { screen ->
+                        GlobalExceptionHandler.registerScreenOpen(screen)
                         viewModel.navController.navigate(screen)
                         showSelectSheet.value = false
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -233,7 +224,7 @@ fun RootContent(
 
             SideEffect {
                 viewModel.tryGetUpdate(
-                    installedFromMarket = context.isInstalledFromPlayStore()
+                    isInstalledFromMarket = context.isInstalledFromPlayStore()
                 )
             }
 

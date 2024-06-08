@@ -103,8 +103,8 @@ sealed class Screen(
             is SingleEdit -> "Single_Edit"
             is Watermarking -> "Watermarking"
             is Zip -> "Zip"
-            is Svg -> "Svg"
-            is Convert -> "Convert"
+            is SvgMaker -> "Svg"
+            is FormatConversion -> "Convert"
             is DocumentScanner -> "Document_Scanner"
             is ScanQrCode -> "QR_Code"
         }
@@ -139,8 +139,8 @@ sealed class Screen(
             is ResizeByBytes -> Icons.Rounded.ImageWeight
             is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
             is Zip -> Icons.Outlined.FolderZip
-            is Svg -> Icons.Outlined.Svg
-            is Convert -> Icons.Outlined.ImageConvert
+            is SvgMaker -> Icons.Outlined.Svg
+            is FormatConversion -> Icons.Outlined.ImageConvert
             is DocumentScanner -> Icons.Outlined.DocumentScanner
             is ScanQrCode -> Icons.Outlined.QrCode
         }
@@ -580,7 +580,7 @@ sealed class Screen(
         }
     }
 
-    data class Svg(
+    data class SvgMaker(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 24,
@@ -588,12 +588,12 @@ sealed class Screen(
         subtitle = R.string.images_to_svg_sub
     )
 
-    data class Convert(
+    data class FormatConversion(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 25,
-        title = R.string.convert,
-        subtitle = R.string.convert_sub
+        title = R.string.format_conversion,
+        subtitle = R.string.format_conversion_sub
     )
 
     data object DocumentScanner : Screen(
@@ -616,7 +616,7 @@ sealed class Screen(
                 listOf(
                     SingleEdit(),
                     ResizeAndConvert(),
-                    Convert(),
+                    FormatConversion(),
                     Crop(),
                     ResizeByBytes(),
                     LimitResize(),
@@ -643,7 +643,7 @@ sealed class Screen(
                     RecognizeText(),
                     Compare(),
                     ImagePreview(),
-                    Svg(),
+                    SvgMaker(),
                     GeneratePalette(),
                     LoadNetImage(),
                 ) to Triple(
