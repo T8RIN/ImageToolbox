@@ -78,15 +78,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ScaleModeSelector(
+    value: ImageScaleMode,
+    onValueChange: (ImageScaleMode) -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Unspecified,
     shape: Shape = RoundedCornerShape(24.dp),
     enableItemsCardBackground: Boolean = true,
-    value: ImageScaleMode,
     showAsColumns: Boolean = false,
     titlePadding: PaddingValues = PaddingValues(top = 8.dp),
     titleArrangement: Arrangement.Horizontal = Arrangement.Center,
-    onValueChange: (ImageScaleMode) -> Unit,
     entries: List<ImageScaleMode> = ImageScaleMode.defaultEntries(),
     title: @Composable RowScope.() -> Unit = {
         val scope = rememberCoroutineScope()
