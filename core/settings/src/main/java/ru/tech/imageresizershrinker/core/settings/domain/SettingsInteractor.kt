@@ -23,10 +23,9 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
-interface SettingsInteractor {
+interface SettingsInteractor : SimpleSettingInteractor {
 
     suspend fun toggleAddSequenceNumber()
 
@@ -128,8 +127,6 @@ interface SettingsInteractor {
 
     suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)
 
-    suspend fun toggleMagnifierEnabled()
-
     suspend fun toggleExifWidgetInitialState()
 
     suspend fun setInitialOCRLanguageCodes(list: List<String>)
@@ -170,12 +167,14 @@ interface SettingsInteractor {
 
     suspend fun setDefaultDrawLineWidth(value: Float)
 
-    suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
-
     suspend fun toggleOpenEditInsteadOfPreview()
 
     suspend fun toggleCanEnterPresetsByTextField()
 
     suspend fun adjustPerformance(performanceClass: PerformanceClass)
+
+    suspend fun registerDonateDialogOpen()
+
+    suspend fun setNotShowDonateDialogAgain()
 
 }

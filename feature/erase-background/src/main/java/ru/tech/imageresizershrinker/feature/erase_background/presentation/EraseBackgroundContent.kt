@@ -105,8 +105,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -542,7 +542,7 @@ fun EraseBackgroundContent(
                 onCheckedChange = { viewModel.setTrimImage(it) },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
-            val settingsInteractor = LocalSettingsInteractor.current
+            val settingsInteractor = LocalSimpleSettingInteractor.current
             PreferenceRowSwitch(
                 modifier = Modifier
                     .fillMaxWidth()

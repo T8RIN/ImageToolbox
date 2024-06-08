@@ -1211,4 +1211,5 @@
     <string name="haasn_soft_sub">A resampling filter designed by Haasn for smooth and artifact-free image scaling</string>
     <string name="format_conversion">Format Conversion</string>
     <string name="format_conversion_sub">Convert batch of images from one format to another</string>
+    <string name="dismiss_forever">Dismiss Forever</string>
 </resources>

@@ -115,7 +115,8 @@ data class UiSettingsState(
     val defaultDrawLineWidth: Float,
     val oneTimeSaveLocations: List<OneTimeSaveLocation>,
     val openEditInsteadOfPreview: Boolean,
-    val canEnterPresetsByTextField: Boolean
+    val canEnterPresetsByTextField: Boolean,
+    val donateDialogOpenCount: Int?
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -268,7 +269,8 @@ fun SettingsState.toUiState(
         defaultDrawLineWidth = defaultDrawLineWidth,
         oneTimeSaveLocations = oneTimeSaveLocations,
         openEditInsteadOfPreview = openEditInsteadOfPreview,
-        canEnterPresetsByTextField = canEnterPresetsByTextField
+        canEnterPresetsByTextField = canEnterPresetsByTextField,
+        donateDialogOpenCount = donateDialogOpenCount.takeIf { it >= 0 }
     )
 }
 

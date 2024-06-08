@@ -65,6 +65,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_H
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_LINE_WIDTH
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DONATE_DIALOG_OPEN_COUNT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAG_HANDLE_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAW_APPBAR_SHADOWS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAW_BUTTON_SHADOWS
@@ -240,7 +241,8 @@ internal class AndroidSettingsManager @Inject constructor(
             openEditInsteadOfPreview = prefs[OPEN_EDIT_INSTEAD_OF_PREVIEW]
                 ?: default.openEditInsteadOfPreview,
             canEnterPresetsByTextField = prefs[CAN_ENTER_PRESETS_BY_TEXT_FIELD]
-                ?: default.canEnterPresetsByTextField
+                ?: default.canEnterPresetsByTextField,
+            donateDialogOpenCount = prefs[DONATE_DIALOG_OPEN_COUNT] ?: default.donateDialogOpenCount
         )
     }
 
@@ -859,6 +861,22 @@ internal class AndroidSettingsManager @Inject constructor(
                     it[DRAW_APPBAR_SHADOWS] = true
                 }
             }
+        }
+    }
+
+    override suspend fun registerDonateDialogOpen() {
+        dataStore.edit {
+            val value = it[DONATE_DIALOG_OPEN_COUNT] ?: default.donateDialogOpenCount
+
+            if (value != -1) {
+                it[DONATE_DIALOG_OPEN_COUNT] = value + 1
+            }
+        }
+    }
+
+    override suspend fun setNotShowDonateDialogAgain() {
+        dataStore.edit {
+            it[DONATE_DIALOG_OPEN_COUNT] = -1
         }
     }
 

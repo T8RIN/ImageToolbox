@@ -89,7 +89,8 @@ data class SettingsState(
     val defaultDrawLineWidth: Float,
     val oneTimeSaveLocations: List<OneTimeSaveLocation>,
     val openEditInsteadOfPreview: Boolean,
-    val canEnterPresetsByTextField: Boolean
+    val canEnterPresetsByTextField: Boolean,
+    val donateDialogOpenCount: Int
 ) {
 
     companion object {
@@ -162,7 +163,8 @@ data class SettingsState(
                 defaultDrawLineWidth = 20f,
                 oneTimeSaveLocations = emptyList(),
                 openEditInsteadOfPreview = false,
-                canEnterPresetsByTextField = false
+                canEnterPresetsByTextField = false,
+                donateDialogOpenCount = 0
             )
         }
     }

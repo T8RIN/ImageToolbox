@@ -93,8 +93,8 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
@@ -200,7 +200,7 @@ fun PickColorFromImageContent(
     }
 
     val magnifierButton = @Composable {
-        val settingsInteractor = LocalSettingsInteractor.current
+        val settingsInteractor = LocalSimpleSettingInteractor.current
         EnhancedIconButton(
             containerColor = takeColorFromScheme {
                 if (settingsState.magnifierEnabled) {

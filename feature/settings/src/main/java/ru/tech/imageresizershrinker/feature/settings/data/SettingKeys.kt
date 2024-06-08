@@ -92,4 +92,5 @@ internal object SettingKeys {
     val ONE_TIME_SAVE_LOCATIONS = stringPreferencesKey("ONE_TIME_SAVE_LOCATIONS")
     val OPEN_EDIT_INSTEAD_OF_PREVIEW = booleanPreferencesKey("OPEN_EDIT_INSTEAD_OF_PREVIEW")
     val CAN_ENTER_PRESETS_BY_TEXT_FIELD = booleanPreferencesKey("CAN_ENTER_PRESETS_BY_TEXT_FIELD")
+    val DONATE_DIALOG_OPEN_COUNT = intPreferencesKey("DONATE_DIALOG_OPEN_COUNT")
 }

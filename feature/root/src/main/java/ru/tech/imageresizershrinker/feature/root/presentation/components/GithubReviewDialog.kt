@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 @Composable
 internal fun GithubReviewDialog(
     onDismiss: () -> Unit,
-    showNotShowAgainButton: Boolean,
+    isNotShowAgainButtonVisible: Boolean,
     onNotShowAgain: () -> Unit
 ) {
     val linkHandler = LocalUriHandler.current
@@ -55,7 +55,7 @@ internal fun GithubReviewDialog(
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
-                    if (showNotShowAgainButton) onNotShowAgain()
+                    if (isNotShowAgainButtonVisible) onNotShowAgain()
 
                     onDismiss()
                 }

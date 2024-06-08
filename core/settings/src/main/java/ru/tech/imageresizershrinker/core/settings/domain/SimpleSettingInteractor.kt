@@ -15,17 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.settings.presentation.provider
+package ru.tech.imageresizershrinker.core.settings.domain
 
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.mutableStateOf
-import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingInteractor
-import ru.tech.imageresizershrinker.core.settings.presentation.model.UiSettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 
-val LocalSettingsState =
-    compositionLocalOf<UiSettingsState> { error("UiSettingsState not present") }
+interface SimpleSettingInteractor {
 
-val LocalSimpleSettingInteractor =
-    compositionLocalOf<SimpleSettingInteractor> { error("SettingsInteractor not present") }
+    suspend fun toggleMagnifierEnabled()
 
-val LocalEditPresetsState = compositionLocalOf { mutableStateOf(false) }
+    suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
+
+}

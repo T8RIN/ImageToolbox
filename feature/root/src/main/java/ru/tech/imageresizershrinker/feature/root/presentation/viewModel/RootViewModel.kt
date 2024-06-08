@@ -344,4 +344,16 @@ class RootViewModel @Inject constructor(
         }
     }
 
+    fun registerDonateDialogOpen() {
+        viewModelScope.launch {
+            settingsManager.registerDonateDialogOpen()
+        }
+    }
+
+    fun notShowDonateDialogAgain() {
+        viewModelScope.launch {
+            settingsManager.setNotShowDonateDialogAgain()
+        }
+    }
+
 }

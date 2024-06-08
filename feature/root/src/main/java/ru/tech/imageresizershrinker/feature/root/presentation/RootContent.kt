@@ -49,8 +49,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavorit
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
@@ -73,6 +73,7 @@ import ru.tech.imageresizershrinker.feature.root.presentation.components.GithubR
 import ru.tech.imageresizershrinker.feature.root.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.DonateDialog
 
 @Composable
 fun RootContent(
@@ -119,7 +120,7 @@ fun RootContent(
     CompositionLocalProvider(
         LocalToastHostState provides viewModel.toastHostState,
         LocalSettingsState provides settingsState,
-        LocalSettingsInteractor provides viewModel.getSettingsInteractor(),
+        LocalSimpleSettingInteractor provides viewModel.getSettingsInteractor(),
         LocalEditPresetsState provides editPresetsState,
         LocalConfettiHostState provides rememberConfettiHostState(),
         LocalImageLoader provides viewModel.imageLoader,
@@ -234,6 +235,11 @@ fun RootContent(
                 adjustPerformance = viewModel::adjustPerformance
             )
 
+            DonateDialog(
+                onRegisterDonateDialogOpen = viewModel::registerDonateDialogOpen,
+                onNotShowDonateDialogAgain = viewModel::notShowDonateDialogAgain
+            )
+            
             PermissionDialog()
 
             if (viewModel.showGithubReviewSheet) {
@@ -242,7 +248,7 @@ fun RootContent(
                     onNotShowAgain = {
                         ReviewHandler.notShowReviewAgain(context)
                     },
-                    showNotShowAgainButton = ReviewHandler.showNotShowAgainButton
+                    isNotShowAgainButtonVisible = ReviewHandler.showNotShowAgainButton
                 )
             }
         }

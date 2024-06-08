@@ -71,8 +71,8 @@ import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -204,7 +204,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         size = data.size + 1,
                         forceDefault = isDragged
                     )
-                    val settingsInteractor = LocalSettingsInteractor.current
+                    val settingsInteractor = LocalSimpleSettingInteractor.current
                     val canDeleteItem by remember(item, settingsState) {
                         derivedStateOf {
                             item != null && item in settingsState.oneTimeSaveLocations

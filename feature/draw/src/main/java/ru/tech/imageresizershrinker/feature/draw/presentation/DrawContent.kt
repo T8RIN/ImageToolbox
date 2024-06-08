@@ -126,8 +126,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
@@ -442,7 +442,7 @@ fun DrawContent(
                 }
             }.value
         )
-        val settingsInteractor = LocalSettingsInteractor.current
+        val settingsInteractor = LocalSimpleSettingInteractor.current
         PreferenceRowSwitch(
             modifier = Modifier
                 .fillMaxWidth()
