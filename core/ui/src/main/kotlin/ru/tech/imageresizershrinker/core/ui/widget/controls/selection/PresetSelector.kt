@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
@@ -92,7 +92,7 @@ fun PresetSelector(
     onValueChange: (Preset) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val editPresetsState = LocalEditPresetsState.current
+    val editPresetsController = LocalEditPresetsController.current
     val data by remember(settingsState.presets, value) {
         derivedStateOf {
             settingsState.presets.let {
@@ -261,7 +261,7 @@ fun PresetSelector(
                 EnhancedIconButton(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    onClick = { editPresetsState.value = true },
+                    onClick = editPresetsController::open,
                     modifier = Modifier
                         .padding(16.dp)
                         .align(Alignment.CenterEnd)

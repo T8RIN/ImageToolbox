@@ -41,7 +41,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,12 +66,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun EditPresetsSheet(
-    editPresetsState: MutableState<Boolean>,
-    updatePresets: (List<Int>) -> Unit
+    visible: Boolean,
+    onDismiss: () -> Unit,
+    onUpdatePresets: (List<Int>) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     SimpleSheet(
-        visible = editPresetsState,
+        visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.presets),
@@ -103,7 +106,7 @@ internal fun EditPresetsSheet(
                         list.forEach {
                             EnhancedChip(
                                 onClick = {
-                                    updatePresets(list - it)
+                                    onUpdatePresets(list - it)
                                 },
                                 selected = false,
                                 selectedColor = MaterialTheme.colorScheme.primary,
@@ -182,7 +185,7 @@ internal fun EditPresetsSheet(
                                         ),
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                         onClick = {
-                                            updatePresets(
+                                            onUpdatePresets(
                                                 list + (value.toIntOrNull() ?: 0)
                                             )
                                             expanded = false
@@ -199,7 +202,7 @@ internal fun EditPresetsSheet(
         },
         confirmButton = {
             EnhancedButton(
-                onClick = { editPresetsState.value = false },
+                onClick = onDismiss,
                 borderColor = MaterialTheme.colorScheme.outlineVariant(),
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
             ) {

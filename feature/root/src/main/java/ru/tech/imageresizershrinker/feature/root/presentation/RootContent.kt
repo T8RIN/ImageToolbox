@@ -48,9 +48,10 @@ import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberEditPresetsController
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
@@ -84,7 +85,6 @@ fun RootContent(
     val context = LocalContext.current as ComponentActivity
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
-    val editPresetsState = rememberSaveable { mutableStateOf(false) }
 
     var randomEmojiKey by remember {
         mutableIntStateOf(0)
@@ -117,11 +117,13 @@ fun RootContent(
         }
     }
 
+    val editPresetsController = rememberEditPresetsController()
+
     CompositionLocalProvider(
         LocalToastHostState provides viewModel.toastHostState,
         LocalSettingsState provides settingsState,
         LocalSimpleSettingInteractor provides viewModel.getSettingsInteractor(),
-        LocalEditPresetsState provides editPresetsState,
+        LocalEditPresetsController provides editPresetsController,
         LocalConfettiHostState provides rememberConfettiHostState(),
         LocalImageLoader provides viewModel.imageLoader,
         LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength),
@@ -181,8 +183,9 @@ fun RootContent(
                 )
 
                 EditPresetsSheet(
-                    editPresetsState = editPresetsState,
-                    updatePresets = viewModel::setPresets
+                    visible = editPresetsController.isVisible,
+                    onDismiss = editPresetsController::close,
+                    onUpdatePresets = viewModel::setPresets
                 )
 
                 val clipboardManager = LocalClipboardManager.current.nativeClipboard
@@ -239,7 +242,7 @@ fun RootContent(
                 onRegisterDonateDialogOpen = viewModel::registerDonateDialogOpen,
                 onNotShowDonateDialogAgain = viewModel::notShowDonateDialogAgain
             )
-            
+
             PermissionDialog()
 
             if (viewModel.showGithubReviewSheet) {

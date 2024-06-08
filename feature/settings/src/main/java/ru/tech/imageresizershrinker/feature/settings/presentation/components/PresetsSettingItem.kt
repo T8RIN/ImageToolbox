@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -37,13 +37,11 @@ fun PresetsSettingItem(
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
-    val editPresetsState = LocalEditPresetsState.current
+    val editPresetsController = LocalEditPresetsController.current
     val settingsState = LocalSettingsState.current
     PreferenceItem(
         shape = shape,
-        onClick = {
-            editPresetsState.value = true
-        },
+        onClick = editPresetsController::open,
         title = stringResource(R.string.values),
         subtitle = settingsState.presets.joinToString(", "),
         startIcon = Icons.Outlined.Numbers,
