@@ -23,7 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 
 @Composable
 fun OriginalImagePreviewAlphaSelector(

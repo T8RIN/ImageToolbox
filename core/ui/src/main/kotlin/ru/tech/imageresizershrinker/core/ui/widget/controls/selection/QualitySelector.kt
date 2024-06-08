@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.controls
+package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.QualityHigh
 import ru.tech.imageresizershrinker.core.resources.icons.QualityLow
 import ru.tech.imageresizershrinker.core.resources.icons.QualityMedium
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
