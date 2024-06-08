@@ -38,6 +38,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 
@@ -56,6 +57,7 @@ fun SearchBar(
             windowInfo.isWindowFocused
         }.collect { isWindowFocused ->
             if (isWindowFocused) {
+                delay(500)
                 focusRequester.requestFocus()
             }
         }
@@ -72,10 +74,8 @@ fun SearchBar(
             onDone = { localFocusManager.clearFocus() }
         ),
         singleLine = true,
-        cursorBrush = SolidColor(MaterialTheme.colorScheme.tertiary),
-        onValueChange = {
-            onValueChange(it)
-        }
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+        onValueChange = onValueChange
     )
     if (searchString.isEmpty()) {
         Text(
