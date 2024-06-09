@@ -61,7 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
@@ -112,7 +112,7 @@ fun RootContent(
         LocalEditPresetsController provides editPresetsController,
         LocalConfettiHostState provides rememberConfettiHostState(),
         LocalImageLoader provides viewModel.imageLoader,
-        LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength),
+        LocalHapticFeedback provides rememberCustomHapticFeedback(viewModel.settingsState.hapticsStrength),
         LocalFavoriteFiltersInteractor provides viewModel.favoriteFiltersInteractor
     ) {
         SecureModeHandler()

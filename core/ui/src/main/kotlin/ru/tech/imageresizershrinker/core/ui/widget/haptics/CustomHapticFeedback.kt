@@ -56,7 +56,7 @@ private fun Context.isTouchExplorationEnabled(): Boolean {
 
 
 @Composable
-fun customHapticFeedback(hapticsStrength: Int): HapticFeedback {
+fun rememberCustomHapticFeedback(hapticsStrength: Int): HapticFeedback {
     val view = LocalView.current
 
     val haptics by remember(hapticsStrength) {

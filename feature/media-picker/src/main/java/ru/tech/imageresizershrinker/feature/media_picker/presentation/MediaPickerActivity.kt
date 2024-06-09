@@ -44,7 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRoot
@@ -76,7 +76,7 @@ class MediaPickerActivity : M3Activity() {
                 LocalSettingsState provides settingsState,
                 LocalConfettiHostState provides rememberConfettiHostState(),
                 LocalImageLoader provides viewModel.imageLoader,
-                LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength),
+                LocalHapticFeedback provides rememberCustomHapticFeedback(settingsState.hapticsStrength),
                 LocalConfettiHostState provides rememberConfettiHostState(),
             ) {
                 SecureModeHandler()

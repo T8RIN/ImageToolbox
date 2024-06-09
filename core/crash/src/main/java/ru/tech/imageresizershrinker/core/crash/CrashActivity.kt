@@ -94,7 +94,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
@@ -142,7 +142,7 @@ class CrashActivity : CrashHandler() {
                     allIconShapes = IconShapeDefaults.shapes,
                     getEmojiColorTuple = ::getColorTupleFromEmoji
                 ),
-                LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength)
+                LocalHapticFeedback provides rememberCustomHapticFeedback(settingsState.hapticsStrength)
             ) {
                 SecureModeHandler()
 
