@@ -72,8 +72,6 @@ class MediaPickerActivity : M3Activity() {
                 getEmojiColorTuple = viewModel::getColorTupleFromEmoji
             )
 
-            SecureModeHandler()
-
             CompositionLocalProvider(
                 LocalSettingsState provides settingsState,
                 LocalConfettiHostState provides rememberConfettiHostState(),
@@ -81,6 +79,8 @@ class MediaPickerActivity : M3Activity() {
                 LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength),
                 LocalConfettiHostState provides rememberConfettiHostState(),
             ) {
+                SecureModeHandler()
+
                 ImageToolboxTheme {
                     val dynamicTheme = LocalDynamicThemeState.current
                     MediaPickerRoot(

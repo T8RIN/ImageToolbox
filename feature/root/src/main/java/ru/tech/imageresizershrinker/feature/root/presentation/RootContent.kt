@@ -103,8 +103,6 @@ fun RootContent(
         getEmojiColorTuple = viewModel::getColorTupleFromEmoji
     )
 
-    SecureModeHandler()
-
     val editPresetsController = rememberEditPresetsController()
 
     CompositionLocalProvider(
@@ -117,6 +115,8 @@ fun RootContent(
         LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength),
         LocalFavoriteFiltersInteractor provides viewModel.favoriteFiltersInteractor
     ) {
+        SecureModeHandler()
+
         val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
             mutableStateOf(viewModel.showSelectDialog)
         }

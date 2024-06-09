@@ -136,8 +136,6 @@ class CrashActivity : CrashHandler() {
 
             val settingsState = getSettingsState()
 
-            SecureModeHandler()
-
             CompositionLocalProvider(
                 LocalSettingsState provides settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
@@ -146,6 +144,8 @@ class CrashActivity : CrashHandler() {
                 ),
                 LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength)
             ) {
+                SecureModeHandler()
+
                 ImageToolboxTheme {
                     Surface(
                         modifier = Modifier.fillMaxSize()
