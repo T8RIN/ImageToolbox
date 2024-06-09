@@ -56,4 +56,5 @@ dependencies {
     implementation(projects.feature.formatConversion)
     implementation(projects.feature.documentScanner)
     implementation(projects.feature.scanQrCode)
+    implementation(projects.feature.imageStacking)
 }

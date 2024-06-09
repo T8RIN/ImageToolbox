@@ -62,6 +62,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Jpg
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.core.resources.icons.Stack
 import ru.tech.imageresizershrinker.core.resources.icons.Svg
 import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.Transparency
@@ -107,6 +108,7 @@ sealed class Screen(
             is FormatConversion -> "Convert"
             is DocumentScanner -> "Document_Scanner"
             is ScanQrCode -> "QR_Code"
+            is ImageStacking -> "Image_Stacking"
         }
 
     val icon: ImageVector?
@@ -143,6 +145,7 @@ sealed class Screen(
             is FormatConversion -> Icons.Outlined.ImageConvert
             is DocumentScanner -> Icons.Outlined.DocumentScanner
             is ScanQrCode -> Icons.Outlined.QrCode
+            is ImageStacking -> Icons.Outlined.Stack
         }
 
     data object Settings : Screen(
@@ -610,6 +613,14 @@ sealed class Screen(
         subtitle = R.string.qr_code_sub
     )
 
+    data class ImageStacking(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 28,
+        title = R.string.image_stacking,
+        subtitle = R.string.image_stacking_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -630,6 +641,7 @@ sealed class Screen(
                     Draw(),
                     EraseBackground(),
                     ImageStitching(),
+                    ImageStacking(),
                     Watermarking(),
                     GradientMaker(),
                     DeleteExif(),
@@ -671,6 +683,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 42
+        const val FEATURES_COUNT = 43
     }
 }

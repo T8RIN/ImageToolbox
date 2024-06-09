@@ -96,6 +96,7 @@ include(":feature:svg-maker")
 include(":feature:format-conversion")
 include(":feature:document-scanner")
 include(":feature:scan-qr-code")
+include(":feature:image-stacking")
 
 include(":feature:root")
 

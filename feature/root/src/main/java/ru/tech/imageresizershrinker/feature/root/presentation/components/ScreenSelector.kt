@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.feature.generate_palette.presentation.Genera
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.GifToolsContent
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.GradientMakerContent
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewContent
+import ru.tech.imageresizershrinker.feature.image_stacking.presentation.ImageStackingContent
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingContent
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.JxlToolsContent
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeContent
@@ -351,6 +352,14 @@ internal fun ScreenSelector(
                 ScanQrCodeContent(
                     qrCodeContent = screen.qrCodeContent,
                     onGoBack = onGoBack
+                )
+            }
+
+            is Screen.ImageStacking -> {
+                ImageStackingContent(
+                    uriState = screen.uris,
+                    onGoBack = onGoBack,
+                    onNavigate = onNavigate
                 )
             }
         }
