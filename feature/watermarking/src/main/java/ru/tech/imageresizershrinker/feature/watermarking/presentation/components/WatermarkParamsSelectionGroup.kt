@@ -21,16 +21,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TextRotationAngleup
@@ -39,7 +35,6 @@ import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,20 +44,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
-import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
-import ru.tech.imageresizershrinker.core.ui.utils.helper.entries
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BlendingModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontResSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
@@ -164,70 +155,14 @@ fun WatermarkParamsSelectionGroup(
                     color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Column(
-                    modifier = Modifier.container(
-                        shape = RoundedCornerShape(20.dp),
-                        color = MaterialTheme.colorScheme.surface
-                    )
-                ) {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        text = stringResource(R.string.overlay_mode),
-                        modifier = Modifier.padding(top = 8.dp, start = 16.dp, bottom = 8.dp)
-                    )
-                    val listState = rememberLazyListState()
-                    val modes: List<BlendingMode> = remember {
-                        mutableListOf<BlendingMode>().apply {
-                            add(BlendingMode.SrcOver)
-                            addAll(
-                                BlendingMode
-                                    .entries
-                                    .toList() - listOf(
-                                    BlendingMode.SrcOver,
-                                    BlendingMode.Clear,
-                                    BlendingMode.Src,
-                                    BlendingMode.Dst
-                                ).toSet()
-                            )
-                        }
+                BlendingModeSelector(
+                    value = value.overlayMode,
+                    onValueChange = {
+                        onValueChange(
+                            value.copy(overlayMode = it)
+                        )
                     }
-                    LazyRow(
-                        state = listState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fadingEdges(listState),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        contentPadding = PaddingValues(8.dp)
-                    ) {
-                        items(modes) {
-                            val selected by remember(it, value) {
-                                derivedStateOf {
-                                    value.overlayMode == it
-                                }
-                            }
-                            EnhancedChip(
-                                selected = selected,
-                                onClick = {
-                                    onValueChange(
-                                        value.copy(overlayMode = it)
-                                    )
-                                },
-                                selectedColor = MaterialTheme.colorScheme.tertiary,
-                                contentPadding = PaddingValues(
-                                    horizontal = 12.dp,
-                                    vertical = 8.dp
-                                ),
-                                modifier = Modifier.height(36.dp)
-                            ) {
-                                AutoSizeText(
-                                    text = it.toString(),
-                                    maxLines = 1
-                                )
-                            }
-                        }
-                    }
-                }
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 AnimatedVisibility(visible = value.watermarkingType is WatermarkingType.Text) {
                     val type = value.watermarkingType as? WatermarkingType.Text

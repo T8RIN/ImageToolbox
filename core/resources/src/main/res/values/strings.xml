@@ -1214,4 +1214,5 @@
     <string name="dismiss_forever">Dismiss Forever</string>
     <string name="image_stacking">Image Stacking</string>
     <string name="image_stacking_sub">Stack images on top of each other with choosen blend modes</string>
+    <string name="add_image">Add Image</string>
 </resources>

@@ -27,6 +27,12 @@ import ru.tech.imageresizershrinker.core.data.image.utils.toPorterDuffMode
 import ru.tech.imageresizershrinker.core.data.utils.getSuitableConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageWithSize
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.withSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.ImageStacker
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
@@ -35,6 +41,7 @@ import javax.inject.Inject
 
 internal class AndroidImageStacker @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageStacker<Bitmap> {
 
@@ -43,7 +50,7 @@ internal class AndroidImageStacker @Inject constructor(
         stackingParams: StackingParams,
         onProgress: (Int) -> Unit
     ): Bitmap = withContext(defaultDispatcher) {
-        val resultSize = stackingParams.imageSize
+        val resultSize = stackingParams.size
             ?: imageGetter.getImage(
                 data = stackImages.firstOrNull()?.uri ?: "",
                 originalSize = true
@@ -69,10 +76,40 @@ internal class AndroidImageStacker @Inject constructor(
                 canvas.drawBitmap(it, 0f, 0f, paint)
             }
 
-            onProgress((index + 1) * 100 / stackImages.size)
+            onProgress(index + 1)
         }
 
         outputBitmap
+    }
+
+    override suspend fun stackImagesPreview(
+        stackImages: List<StackImage>,
+        stackingParams: StackingParams,
+        imageFormat: ImageFormat,
+        quality: Quality,
+        onGetByteCount: (Int) -> Unit
+    ): ImageWithSize<Bitmap?> = withContext(defaultDispatcher) {
+        stackImages(
+            stackImages = stackImages,
+            stackingParams = stackingParams,
+            onProgress = {}
+        ).let { image ->
+            val imageSize = IntegerSize(
+                width = image.width,
+                height = image.height
+            )
+            return@let imagePreviewCreator.createPreview(
+                image = image,
+                imageInfo = ImageInfo(
+                    width = imageSize.width,
+                    height = imageSize.height,
+                    imageFormat = imageFormat,
+                    quality = quality
+                ),
+                transformations = emptyList(),
+                onGetByteCount = onGetByteCount
+            ) withSize imageSize
+        }
     }
 
 }

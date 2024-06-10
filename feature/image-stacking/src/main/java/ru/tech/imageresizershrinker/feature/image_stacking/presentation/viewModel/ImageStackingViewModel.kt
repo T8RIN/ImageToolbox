@@ -107,16 +107,18 @@ class ImageStackingViewModel @Inject constructor(
             _isImageLoading.value = true
             stackImages.takeIf { it.isNotEmpty() }?.let {
                 registerChanges()
-                imageStacker.stackImages(
+                imageStacker.stackImagesPreview(
                     stackImages = stackImages,
                     stackingParams = stackingParams,
-                    onProgress = {}
-                )
-//                .let { (image, size) ->
-//                    TODO()
-//                    _previewBitmap.value = image
-//                    _imageSize.value = size
-//                }
+                    imageFormat = imageInfo.imageFormat,
+                    quality = imageInfo.quality,
+                    onGetByteCount = {
+                        _imageByteSize.update { it }
+                    }
+                ).let { (image, size) ->
+                    _previewBitmap.value = image
+                    _imageSize.value = size
+                }
             }
             _isImageLoading.value = false
         }
@@ -250,6 +252,38 @@ class ImageStackingViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
+    }
+
+    fun updateParams(
+        newParams: StackingParams
+    ) {
+        _stackingParams.update { newParams }
+        calculatePreview()
+    }
+
+    fun updateStackImage(
+        value: StackImage,
+        index: Int,
+        showError: (Throwable) -> Unit
+    ) {
+        val list = stackImages.toMutableList()
+        runCatching {
+            list[index] = value
+            _stackImages.update { list }
+        }.onFailure { throwable ->
+            showError(throwable)
+        }
+        calculatePreview()
+    }
+
+    fun reorderUris(uris: List<Uri>) {
+        _stackImages.update { stack ->
+            val stackOrder = uris.map { it.toString() }
+            val data = stack.associateBy { it.uri }
+            val leftStack = stack.filter { it.uri !in stackOrder }
+            (leftStack + stackOrder.mapNotNull { data[it] }).distinct()
+        }
+        calculatePreview()
     }
 
 }

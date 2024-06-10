@@ -20,12 +20,12 @@ package ru.tech.imageresizershrinker.feature.image_stacking.domain
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 data class StackingParams(
-    val imageSize: IntegerSize?
+    val size: IntegerSize?
 ) {
 
     companion object {
         val Default by lazy {
-            StackingParams(imageSize = null)
+            StackingParams(size = null)
         }
     }
 

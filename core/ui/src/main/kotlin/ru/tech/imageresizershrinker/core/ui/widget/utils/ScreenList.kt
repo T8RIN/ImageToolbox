@@ -166,6 +166,7 @@ internal fun List<Uri>.screenList(
                         Screen.GifTools.Type.ImageToGif(uris)
                     )
                 )
+                add(Screen.ImageStacking(uris))
                 add(Screen.ImagePreview(uris))
                 add(Screen.LimitResize(uris))
                 add(Screen.Zip(uris))

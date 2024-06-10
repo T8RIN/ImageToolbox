@@ -87,7 +87,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun ImageReorderCarousel(
     images: List<Uri>?,
-    onReorder: (List<Uri>?) -> Unit,
+    onReorder: (List<Uri>) -> Unit,
     modifier: Modifier = Modifier
         .container(RoundedCornerShape(24.dp)),
     onNeedToAddImage: () -> Unit,

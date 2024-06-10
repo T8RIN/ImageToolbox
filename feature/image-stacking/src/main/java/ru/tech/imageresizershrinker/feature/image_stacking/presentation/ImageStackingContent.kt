@@ -21,9 +21,18 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,15 +40,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -50,8 +62,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -59,12 +73,18 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSe
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
+import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackImageItem
+import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackingParamsSelector
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewModel.ImageStackingViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -233,7 +253,75 @@ fun ImageStackingContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
+                ImageReorderCarousel(
+                    images = remember(viewModel.stackImages) {
+                        derivedStateOf {
+                            viewModel.stackImages.map { it.uri.toUri() }
+                        }
+                    }.value,
+                    onReorder = viewModel::reorderUris,
+                    onNeedToAddImage = addImages,
+                    onNeedToRemoveImageAt = viewModel::removeImageAt
+                )
+                StackingParamsSelector(
+                    value = viewModel.stackingParams,
+                    onValueChange = viewModel::updateParams
+                )
+                Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
+                    TitleItem(
+                        text = stringResource(
+                            R.string.images,
+                            viewModel.stackImages.size
+                        )
+                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(
+                            8.dp
+                        ),
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        viewModel.stackImages.forEachIndexed { index, stackImage ->
+                            StackImageItem(
+                                backgroundColor = MaterialTheme.colorScheme.surface,
+                                stackImage = stackImage,
+                                index = index,
+                                onStackImageChange = { image: StackImage ->
+                                    viewModel.updateStackImage(
+                                        value = image,
+                                        index = index,
+                                        showError = {
+                                            scope.launch {
+                                                toastHostState.showError(
+                                                    context = context,
+                                                    error = it
+                                                )
+                                            }
+                                        }
+                                    )
+                                },
+                                isRemoveVisible = viewModel.stackImages.size > 2,
+                                onRemove = {
+                                    viewModel.removeImageAt(index)
+                                }
+                            )
+                        }
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.mixedContainer,
+                            onClick = addImages,
+                            modifier = Modifier.padding(
+                                horizontal = 16.dp
+                            )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.AddCircleOutline,
+                                contentDescription = stringResource(R.string.add_image)
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(id = R.string.add_image))
+                        }
+                    }
+                }
                 QualitySelector(
                     imageFormat = viewModel.imageInfo.imageFormat,
                     enabled = viewModel.stackImages.isNotEmpty(),

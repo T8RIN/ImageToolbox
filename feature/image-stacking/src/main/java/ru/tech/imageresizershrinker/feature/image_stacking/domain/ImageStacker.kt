@@ -17,6 +17,10 @@
 
 package ru.tech.imageresizershrinker.feature.image_stacking.domain
 
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageWithSize
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+
 interface ImageStacker<I> {
 
     suspend fun stackImages(
@@ -24,5 +28,13 @@ interface ImageStacker<I> {
         stackingParams: StackingParams,
         onProgress: (Int) -> Unit
     ): I
+
+    suspend fun stackImagesPreview(
+        stackImages: List<StackImage>,
+        stackingParams: StackingParams,
+        imageFormat: ImageFormat,
+        quality: Quality,
+        onGetByteCount: (Int) -> Unit
+    ): ImageWithSize<I?>
 
 }
