@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class EqualizeHistogramAdaptiveLABFilter(
-    override val value: Pair<Int, Int> = 3 to 3
+    override val value: Triple<Int, Int, Int> = Triple(3, 3, 128)
 ) : Transformation<Bitmap>, Filter.EqualizeHistogramAdaptiveLAB<Bitmap> {
 
     override val cacheKey: String
@@ -36,7 +36,8 @@ internal class EqualizeHistogramAdaptiveLABFilter(
     ): Bitmap = Aire.equalizeHistAdaptiveLAB(
         bitmap = input,
         gridSizeHorizontal = value.first,
-        gridSizeVertical = value.second
+        gridSizeVertical = value.second,
+        binsCount = value.third
     )
 
 }

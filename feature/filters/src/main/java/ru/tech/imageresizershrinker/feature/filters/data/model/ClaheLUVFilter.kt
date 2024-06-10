@@ -21,10 +21,11 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ClaheLUVFilter(
-    override val value: Triple<Float, Int, Int> = Triple(0.5f, 8, 8)
+    override val value: ClaheParams = ClaheParams.Default
 ) : Transformation<Bitmap>, Filter.ClaheLUV<Bitmap> {
 
     override val cacheKey: String
@@ -35,9 +36,10 @@ internal class ClaheLUVFilter(
         size: IntegerSize
     ): Bitmap = Aire.claheLUV(
         bitmap = input,
-        threshold = value.first,
-        gridSizeHorizontal = value.second,
-        gridSizeVertical = value.third
+        threshold = value.threshold,
+        gridSizeHorizontal = value.gridSizeHorizontal,
+        gridSizeVertical = value.gridSizeVertical,
+        binsCount = value.binsCount
     )
 
 }

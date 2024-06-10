@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
@@ -255,6 +256,15 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 ).joinToString(PROPERTIES_SEPARATOR)
             }
 
+            is ClaheParams -> {
+                ClaheParams::class.simpleName!! to listOf(
+                    threshold,
+                    gridSizeHorizontal,
+                    gridSizeVertical,
+                    binsCount
+                ).joinToString(PROPERTIES_SEPARATOR)
+            }
+
             else -> null
         }
     }
@@ -377,6 +387,18 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                     frequencyY = frequencyY.toFloat(),
                     amplitudeX = amplitudeX.toFloat(),
                     amplitudeY = amplitudeY.toFloat()
+                )
+            }
+
+            name == ClaheParams::class.simpleName -> {
+                val (threshold, gridSizeHorizontal, gridSizeVertical, binsCount) = value.split(
+                    PROPERTIES_SEPARATOR
+                )
+                ClaheParams(
+                    threshold = threshold.toFloat(),
+                    gridSizeHorizontal = gridSizeHorizontal.toInt(),
+                    gridSizeVertical = gridSizeVertical.toInt(),
+                    binsCount = binsCount.toInt()
                 )
             }
 

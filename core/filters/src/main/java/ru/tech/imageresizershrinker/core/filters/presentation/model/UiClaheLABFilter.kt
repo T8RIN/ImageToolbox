@@ -18,18 +18,20 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
+import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiClaheLABFilter(
-    override val value: Triple<Float, Int, Int> = Triple(0.5f, 8, 8)
-) : UiFilter<Triple<Float, Int, Int>>(
+    override val value: ClaheParams = ClaheParams.Default
+) : UiFilter<ClaheParams>(
     title = R.string.clahe_lab,
     paramsInfo = listOf(
         FilterParam(R.string.threshold, -10f..10f, 2),
         FilterParam(R.string.grid_size_x, 1f..100f, 0),
-        FilterParam(R.string.grid_size_y, 1f..100f, 0)
+        FilterParam(R.string.grid_size_y, 1f..100f, 0),
+        FilterParam(R.string.bins_count, 2f..256f, 0)
     ),
     value = value
 ), Filter.ClaheLAB<Bitmap>

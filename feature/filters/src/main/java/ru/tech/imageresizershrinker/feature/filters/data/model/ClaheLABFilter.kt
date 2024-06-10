@@ -21,10 +21,11 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ClaheLABFilter(
-    override val value: Triple<Float, Int, Int> = Triple(0.5f, 8, 8)
+    override val value: ClaheParams = ClaheParams.Default
 ) : Transformation<Bitmap>, Filter.ClaheLAB<Bitmap> {
 
     override val cacheKey: String
@@ -35,9 +36,10 @@ internal class ClaheLABFilter(
         size: IntegerSize
     ): Bitmap = Aire.claheLAB(
         bitmap = input,
-        threshold = value.first,
-        gridSizeHorizontal = value.second,
-        gridSizeVertical = value.third
+        threshold = value.threshold,
+        gridSizeHorizontal = value.gridSizeHorizontal,
+        gridSizeVertical = value.gridSizeVertical,
+        binsCount = value.binsCount
     )
 
 }

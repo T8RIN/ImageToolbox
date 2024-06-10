@@ -15,19 +15,26 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.core.filters.domain.model
 
-import android.graphics.Bitmap
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.resources.R
+data class ClaheParams(
+    val threshold: Float,
+    val gridSizeHorizontal: Int,
+    val gridSizeVertical: Int,
+    val binsCount: Int
+) {
 
-class UiEqualizeHistogramHSVFilter(
-    override val value: Int = 128
-) : UiFilter<Int>(
-    title = R.string.equalize_histogram_hsv,
-    value = value,
-    paramsInfo = listOf(
-        FilterParam(R.string.bins_count, 2f..256f, 0)
-    )
-), Filter.EqualizeHistogramHSV<Bitmap>
+    companion object {
+
+        val Default by lazy {
+            ClaheParams(
+                threshold = 0.5f,
+                gridSizeHorizontal = 8,
+                gridSizeVertical = 8,
+                binsCount = 128
+            )
+        }
+
+    }
+
+}

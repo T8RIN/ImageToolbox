@@ -47,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
@@ -1049,6 +1050,68 @@ internal fun <T> FilterItemContent(
                                 3 -> anchorY
                                 4 -> strength
                                 else -> angle
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                }
+            }
+
+            is ClaheParams -> {
+                val threshold: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.threshold) }
+                val gridSizeHorizontal: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.gridSizeHorizontal.toFloat()) }
+                val gridSizeVertical: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.gridSizeVertical.toFloat()) }
+                val binsCount: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.binsCount.toFloat()) }
+
+                LaunchedEffect(
+                    threshold.value,
+                    gridSizeHorizontal.value,
+                    gridSizeVertical.value,
+                    binsCount.value
+                ) {
+                    onFilterChange(
+                        ClaheParams(
+                            threshold = threshold.value,
+                            gridSizeHorizontal = gridSizeHorizontal.value.toInt(),
+                            gridSizeVertical = gridSizeVertical.value.toInt(),
+                            binsCount = binsCount.value.toInt()
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> threshold
+                                1 -> gridSizeHorizontal
+                                2 -> gridSizeVertical
+                                else -> binsCount
                             } to filterParam
                         }
                     }

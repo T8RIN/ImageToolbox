@@ -188,14 +188,14 @@ interface Filter<Image, Value> {
     interface FastGaussianBlur3D<Image> : Filter<Image, Float>
     interface FastGaussianBlur4D<Image> : Filter<Image, Float>
     interface EqualizeHistogram<Image> : SimpleFilter<Image>
-    interface EqualizeHistogramHSV<Image> : SimpleFilter<Image>
+    interface EqualizeHistogramHSV<Image> : Filter<Image, Int>
     interface EqualizeHistogramPixelation<Image> : Filter<Image, Pair<Int, Int>>
     interface EqualizeHistogramAdaptive<Image> : Filter<Image, Pair<Int, Int>>
-    interface EqualizeHistogramAdaptiveLUV<Image> : Filter<Image, Pair<Int, Int>>
-    interface EqualizeHistogramAdaptiveLAB<Image> : Filter<Image, Pair<Int, Int>>
+    interface EqualizeHistogramAdaptiveLUV<Image> : Filter<Image, Triple<Int, Int, Int>>
+    interface EqualizeHistogramAdaptiveLAB<Image> : Filter<Image, Triple<Int, Int, Int>>
     interface Clahe<Image> : Filter<Image, Triple<Float, Int, Int>>
-    interface ClaheLUV<Image> : Filter<Image, Triple<Float, Int, Int>>
-    interface ClaheLAB<Image> : Filter<Image, Triple<Float, Int, Int>>
+    interface ClaheLUV<Image> : Filter<Image, ClaheParams>
+    interface ClaheLAB<Image> : Filter<Image, ClaheParams>
     interface CropToContent<Image, Color : Any> : Filter<Image, Pair<Float, Color>>
 }
 

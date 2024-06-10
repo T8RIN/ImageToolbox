@@ -23,12 +23,13 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiEqualizeHistogramAdaptiveLABFilter(
-    override val value: Pair<Int, Int> = 3 to 3
-) : UiFilter<Pair<Int, Int>>(
+    override val value: Triple<Int, Int, Int> = Triple(3, 3, 128)
+) : UiFilter<Triple<Int, Int, Int>>(
     title = R.string.equalize_histogram_adaptive_lab,
     paramsInfo = listOf(
         FilterParam(R.string.grid_size_x, 1f..100f, 0),
-        FilterParam(R.string.grid_size_y, 1f..100f, 0)
+        FilterParam(R.string.grid_size_y, 1f..100f, 0),
+        FilterParam(R.string.bins_count, 2f..256f, 0)
     ),
     value = value
 ), Filter.EqualizeHistogramAdaptiveLAB<Bitmap>

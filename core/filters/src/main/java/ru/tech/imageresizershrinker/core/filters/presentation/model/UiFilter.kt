@@ -109,8 +109,7 @@ sealed class UiFilter<T>(
                     UiRedSwirlFilter(),
                     UiDigitalCodeFilter(),
                     UiOldTvFilter(),
-                    UiEqualizeHistogramFilter(),
-                    UiEqualizeHistogramHSVFilter()
+                    UiEqualizeHistogramFilter()
                 ),
                 listOf(
                     UiHueFilter(),
@@ -146,6 +145,7 @@ sealed class UiFilter<T>(
                     UiEqualizeHistogramAdaptiveFilter(),
                     UiEqualizeHistogramAdaptiveLUVFilter(),
                     UiEqualizeHistogramAdaptiveLABFilter(),
+                    UiEqualizeHistogramHSVFilter(),
                     UiClaheFilter(),
                     UiClaheLABFilter(),
                     UiClaheLUVFilter(),

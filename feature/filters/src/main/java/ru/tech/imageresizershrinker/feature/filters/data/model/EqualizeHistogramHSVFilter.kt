@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class EqualizeHistogramHSVFilter(
-    override val value: Unit = Unit
+    override val value: Int = 128
 ) : Transformation<Bitmap>, Filter.EqualizeHistogramHSV<Bitmap> {
 
     override val cacheKey: String
@@ -34,7 +34,8 @@ internal class EqualizeHistogramHSVFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.equalizeHistHSV(
-        bitmap = input
+        bitmap = input,
+        binsCount = value
     )
 
 }
