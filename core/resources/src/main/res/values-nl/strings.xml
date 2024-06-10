@@ -1194,4 +1194,7 @@
     <string name="haasn_soft_sub">Een door Haasn ontworpen resamplingfilter voor een soepele en artefactvrije beeldschaling</string>
     <string name="format_conversion_sub">Reeks afbeeldingen van het ene formaat naar het andere omzetten</string>
     <string name="dismiss_forever">Voor altijd afwijzen</string>
+    <string name="add_image">Afbeelding toevoegen</string>
+    <string name="image_stacking">Afbeeldingen stapelen</string>
+    <string name="image_stacking_sub">Stapel afbeeldingen op elkaar met gekozen mengmodi</string>
 </resources>
