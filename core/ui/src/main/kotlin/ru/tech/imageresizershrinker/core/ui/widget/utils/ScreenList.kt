@@ -103,6 +103,7 @@ internal fun List<Uri>.screenList(
                     type = Screen.Filter.Type.Masking(uris.firstOrNull())
                 ),
                 Screen.ImageStitching(uris),
+                Screen.ImageStacking(uris),
                 Screen.Watermarking(uris),
                 Screen.GradientMaker(uris),
                 Screen.PdfTools(
