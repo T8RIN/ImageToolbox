@@ -609,7 +609,7 @@
     <string name="repeat_watermark">Повтор водяного знака</string>
     <string name="offset_x">Смещение Х</string>
     <string name="watermarking_image_sub">Это изображение будет использоваться в качестве шаблона для водяного знака</string>
-    <string name="watermarking">Наложение водяного знака</string>
+    <string name="watermarking">Водяной знак</string>
     <string name="repeat_watermark_sub">Накладывает водяной знак на все изображение вместо заданной точки</string>
     <string name="watermarking_sub">Наложите водяные знаки на изображения в виде текста или других изображений</string>
     <string name="offset_y">Смещение У</string>
