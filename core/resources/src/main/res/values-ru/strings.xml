@@ -1191,4 +1191,10 @@
     <string name="ewa_lanczos_soft_sub">Вариант фильтра Ланцош Мягкий с эллиптическим взвешенным средним (EWA) для более плавного ресемплинга изображений</string>
     <string name="haasn_soft">Хаасн Мягкий</string>
     <string name="haasn_soft_sub">Фильтр ресемплинга, разработанный Хаасн для плавного масштабирования изображений без артефактов</string>
+    <string name="format_conversion">Конвертация формата</string>
+    <string name="dismiss_forever">Не показывать</string>
+    <string name="image_stacking_sub">Накладывайте изображения друг на друга с выбранными режимами смешивания</string>
+    <string name="add_image">Добавить изображение</string>
+    <string name="format_conversion_sub">Конвертируйте набор изображений из одного формата в другой</string>
+    <string name="image_stacking">Наложение изображений</string>
 </resources>
