@@ -294,6 +294,7 @@ or click one of the badges below.
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
+- Image Stacking
 - Background Removal
   - By drawing
   - Automatically
