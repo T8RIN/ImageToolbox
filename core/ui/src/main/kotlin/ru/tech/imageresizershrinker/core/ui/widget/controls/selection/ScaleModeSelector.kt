@@ -345,7 +345,11 @@ fun ScaleModeSelector(
 fun ImageScaleMode.Companion.defaultEntries(): List<ImageScaleMode> {
     val context = LocalContext.current
     return remember {
-        listOf(ImageScaleMode.Base) + entries.sortedBy { context.getString(it.title) }
+        listOf(ImageScaleMode.Base) + simpleEntries.sortedBy {
+            context.getString(it.title)
+        } + complexEntries.sortedBy {
+            context.getString(it.title)
+        }
     }
 }
 

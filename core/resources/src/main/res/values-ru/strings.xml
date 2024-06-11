@@ -1183,8 +1183,8 @@
     <string name="ginseng_sub">Фильтр ресемплинга, разработанный для высококачественной обработки изображений с хорошим балансом резкости и плавности</string>
     <string name="ewa_ginseng">Женьшень EWA</string>
     <string name="ewa_ginseng_sub">Вариант фильтра Женьшень с эллиптическим взвешенным средним (EWA) для улучшенного качества изображения</string>
-    <string name="ewa_lanczos_sharp">Ланцош Шарп EWA</string>
-    <string name="ewa_lanczos_sharp_sub">Вариант фильтра Ланцош Шарп с эллиптическим взвешенным средним (EWA) для достижения резких результатов с минимальными артефактами</string>
+    <string name="ewa_lanczos_sharp">Ланцош Резкий EWA</string>
+    <string name="ewa_lanczos_sharp_sub">Вариант фильтра Ланцош Резкий с эллиптическим взвешенным средним (EWA) для достижения резких результатов с минимальными артефактами</string>
     <string name="ewa_lanczos_4_sharpest">Ланцош 4 Самый Резкий EWA</string>
     <string name="ewa_lanczos_4_sharpest_sub">Вариант фильтра Ланцош 4 Самый Резкий с эллиптическим взвешенным средним (EWA) для крайне резкого ресемплинга изображений</string>
     <string name="ewa_lanczos_soft">Ланцош Мягкий EWA</string>

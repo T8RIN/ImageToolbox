@@ -433,7 +433,13 @@ sealed class ImageScaleMode(val value: Int) {
         val Default = Bilinear()
 
         val entries by lazy {
+            simpleEntries + complexEntries
+        }
+
+        val simpleEntries by lazy {
             listOf(
+                EwaQuadric(),
+                Quadric(),
                 Bilinear(),
                 Nearest(),
                 Cubic(),
@@ -441,43 +447,46 @@ sealed class ImageScaleMode(val value: Int) {
                 Catmull(),
                 Hermite(),
                 BSpline(),
-                Hann(),
                 Bicubic(),
-                Hamming(),
-                Hanning(),
-                Blackman(),
-                Welch(),
-                Quadric(),
-                Gaussian(),
-                Sphinx(),
-                Bartlett(),
-                Robidoux(),
-                RobidouxSharp(),
-                Spline16(),
-                Spline36(),
-                Spline64(),
-                Kaiser(),
-                BartlettHann(),
                 Box(),
-                Bohman(),
                 Lanczos2(),
                 Lanczos3(),
                 Lanczos4(),
                 Lanczos2Jinc(),
                 Lanczos3Jinc(),
                 Lanczos4Jinc(),
+                Hamming(),
+                Hanning(),
                 EwaHanning(),
                 EwaRobidoux(),
-                EwaBlackman(),
-                EwaQuadric(),
-                EwaRobidouxSharp(),
-                EwaLanczos3Jinc(),
-                Ginseng(),
-                EwaGinseng(),
+                Robidoux(),
+                RobidouxSharp(),
                 EwaLanczosSharp(),
                 EwaLanczos4Sharpest(),
                 EwaLanczosSoft(),
+                EwaRobidouxSharp(),
+                EwaLanczos3Jinc(),
+            )
+        }
+
+        val complexEntries by lazy {
+            listOf(
+                Blackman(),
+                Welch(),
+                Gaussian(),
+                Sphinx(),
+                Bartlett(),
+                Spline16(),
+                Spline36(),
+                Spline64(),
+                Kaiser(),
+                BartlettHann(),
+                Bohman(),
+                EwaBlackman(),
+                Ginseng(),
+                EwaGinseng(),
                 HaasnSoft(),
+                Hann(),
             )
         }
 
