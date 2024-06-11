@@ -1085,9 +1085,9 @@
     <string name="equalize_histogram_adaptive">Адаптивное выравнивание гистограммы</string>
     <string name="equalize_histogram_adaptive_luv">Адаптивное выравнивание гистограммы LUV</string>
     <string name="equalize_histogram_adaptive_lab">Адаптивное выравнивание гистограммы LAB</string>
-    <string name="clahe">КЛАЭ</string>
-    <string name="clahe_lab">КЛАЭ LAB</string>
-    <string name="clahe_luv">КЛАЭ LUV</string>
+    <string name="clahe">Клахе</string>
+    <string name="clahe_lab">Клахе LAB</string>
+    <string name="clahe_luv">Клахе LUV</string>
     <string name="crop_to_content">Обрезать по содержимому</string>
     <string name="frame_color">Цвет рамки</string>
     <string name="color_to_ignore">Цвет для игнорирования</string>
@@ -1197,4 +1197,9 @@
     <string name="add_image">Добавить изображение</string>
     <string name="format_conversion_sub">Конвертируйте набор изображений из одного формата в другой</string>
     <string name="image_stacking">Наложение изображений</string>
+    <string name="bins_count">Количество ячеек</string>
+    <string name="clahe_hsl">Клахе HSL</string>
+    <string name="clahe_hsv">Клахе HSV</string>
+    <string name="equalize_histogram_adaptive_hsl">Адаптивное выравнивание гистограммы HSL</string>
+    <string name="equalize_histogram_adaptive_hsv">Адаптивное выравнивание гистограммы HSV</string>
 </resources>
