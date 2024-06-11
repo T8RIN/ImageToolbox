@@ -101,7 +101,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 170 various filters)
+- Applying filter chains (More than 180 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -275,9 +275,13 @@ or click one of the badges below.
   - [x] Equalize Histogram Adaptive
   - [x] Equalize Histogram Adaptive LUV
   - [x] Equalize Histogram Adaptive LAB
+  - [x] Equalize Histogram Adaptive HSV
+  - [x] Equalize Histogram Adaptive HSL
   - [x] Clahe
   - [x] Clahe LUV
   - [x] Clahe LAB
+  - [x] Clahe HSL
+  - [x] Clahe HSV
   - [x] Crop To Content
 
   </details>
