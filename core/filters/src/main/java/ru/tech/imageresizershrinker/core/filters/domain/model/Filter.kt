@@ -197,6 +197,10 @@ interface Filter<Image, Value> {
     interface ClaheLUV<Image> : Filter<Image, ClaheParams>
     interface ClaheLAB<Image> : Filter<Image, ClaheParams>
     interface CropToContent<Image, Color : Any> : Filter<Image, Pair<Float, Color>>
+    interface ClaheHSL<Image> : Filter<Image, ClaheParams>
+    interface ClaheHSV<Image> : Filter<Image, ClaheParams>
+    interface EqualizeHistogramAdaptiveHSV<Image> : Filter<Image, Triple<Int, Int, Int>>
+    interface EqualizeHistogramAdaptiveHSL<Image> : Filter<Image, Triple<Int, Int, Int>>
 }
 
 interface SimpleFilter<Image> : Filter<Image, Unit>

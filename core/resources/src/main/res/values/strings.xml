@@ -1213,7 +1213,11 @@
     <string name="format_conversion_sub">Convert batch of images from one format to another</string>
     <string name="dismiss_forever">Dismiss Forever</string>
     <string name="image_stacking">Image Stacking</string>
-    <string name="image_stacking_sub">Stack images on top of each other with choosen blend modes</string>
+    <string name="image_stacking_sub">Stack images on top of each other with chosen blend modes</string>
     <string name="add_image">Add Image</string>
     <string name="bins_count">Bins count</string>
+    <string name="clahe_hsl">Clahe HSL</string>
+    <string name="clahe_hsv">Clahe HSV</string>
+    <string name="equalize_histogram_adaptive_hsl">Equalize Histogram Adaptive HSL</string>
+    <string name="equalize_histogram_adaptive_hsv">Equalize Histogram Adaptive HSV</string>
 </resources>

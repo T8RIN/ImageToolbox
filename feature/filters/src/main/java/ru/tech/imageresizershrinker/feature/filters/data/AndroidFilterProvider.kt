@@ -49,6 +49,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.CaramelDarknessFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.CircleBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CirclePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheHSLFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheHSVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLABFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLUVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CodaChromeFilter
@@ -83,6 +85,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedDiamondPi
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveHSLFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveHSVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveLABFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveLUVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramFilter
@@ -385,6 +389,10 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.ClaheLUV -> ClaheLUVFilter(value)
             is Filter.ClaheLAB -> ClaheLABFilter(value)
             is Filter.CropToContent<*, *> -> CropToContentFilter(value.cast())
+            is Filter.ClaheHSL -> ClaheHSLFilter(value)
+            is Filter.ClaheHSV -> ClaheHSVFilter(value)
+            is Filter.EqualizeHistogramAdaptiveHSL -> EqualizeHistogramAdaptiveHSLFilter(value)
+            is Filter.EqualizeHistogramAdaptiveHSV -> EqualizeHistogramAdaptiveHSVFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
