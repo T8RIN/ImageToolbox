@@ -1197,4 +1197,9 @@
     <string name="add_image">Afbeelding toevoegen</string>
     <string name="image_stacking">Afbeeldingen stapelen</string>
     <string name="image_stacking_sub">Stapel afbeeldingen op elkaar met gekozen mengmodi</string>
+    <string name="equalize_histogram_adaptive_hsl">Histogram egaliseren - Adaptieve HSL</string>
+    <string name="bins_count">Aantal bins</string>
+    <string name="clahe_hsl">Clahe HSL</string>
+    <string name="clahe_hsv">Clahe HSV</string>
+    <string name="equalize_histogram_adaptive_hsv">Histogram egaliseren - Adaptieve HSV</string>
 </resources>
