@@ -230,14 +230,13 @@ fun FiltersContent(
         } else onGoBack()
     }
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
-
-    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
+    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
 
     val isPortrait by isPortraitOrientationAsState()
 
     val focus = LocalFocusManager.current
-    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
 
     var showOriginal by remember { mutableStateOf(false) }
     var imageState by rememberImageState()
@@ -255,7 +254,7 @@ fun FiltersContent(
         }
     }
 
-    val showReorderSheet = rememberSaveable { mutableStateOf(false) }
+    var showReorderSheet by rememberSaveable { mutableStateOf(false) }
     val actions: @Composable RowScope.() -> Unit = {
         Spacer(modifier = Modifier.width(8.dp))
         if (viewModel.bitmap != null) {
@@ -303,7 +302,7 @@ fun FiltersContent(
             )
         }
         CompareButton(
-            onClick = { showCompareSheet.value = true },
+            onClick = { showCompareSheet = true },
             visible = viewModel.previewBitmap != null
         )
         if (viewModel.bitmap != null && (viewModel.basicFilterState.filters.size >= 2 || viewModel.maskingFilterState.masks.size >= 2)) {
@@ -311,7 +310,7 @@ fun FiltersContent(
                 containerColor = Color.Transparent,
                 contentColor = LocalContentColor.current,
                 enableAutoShadowAndBorder = false,
-                onClick = { showReorderSheet.value = true }
+                onClick = { showReorderSheet = true }
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Tune,
@@ -468,7 +467,7 @@ fun FiltersContent(
                         ImageCounter(
                             imageCount = viewModel.basicFilterState.uris?.size?.takeIf { it > 1 },
                             onRepick = {
-                                showPickImageFromUrisSheet.value = true
+                                showPickImageFromUrisSheet = true
                             }
                         )
                         AnimatedContent(
@@ -506,7 +505,7 @@ fun FiltersContent(
                                                     )
                                                 },
                                                 onLongPress = {
-                                                    showReorderSheet.value = true
+                                                    showReorderSheet = true
                                                 },
                                                 showDragHandle = false,
                                                 onRemove = {
@@ -608,7 +607,7 @@ fun FiltersContent(
                                                     )
                                                 },
                                                 onLongPress = {
-                                                    showReorderSheet.value = true
+                                                    showReorderSheet = true
                                                 },
                                                 showDragHandle = false,
                                                 onRemove = {
@@ -729,11 +728,14 @@ fun FiltersContent(
         }
     }
 
-    val showColorPicker = remember { mutableStateOf(false) }
-    var tempColor by remember { mutableStateOf(Color.Black) }
+    var showColorPicker by rememberSaveable { mutableStateOf(false) }
+    var tempColor by rememberSaveable(showColorPicker) { mutableStateOf(Color.Black) }
 
     PickColorFromImageSheet(
         visible = showColorPicker,
+        onDismiss = {
+            showColorPicker = false
+        },
         bitmap = viewModel.previewBitmap,
         onColorChange = { tempColor = it },
         color = tempColor
@@ -741,12 +743,18 @@ fun FiltersContent(
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
     CompareSheet(
         data = viewModel.bitmap to viewModel.previewBitmap,
-        visible = showCompareSheet
+        visible = showCompareSheet,
+        onDismiss = {
+            showCompareSheet = false
+        }
     )
 
     var tempSelectionUris by rememberSaveable {
@@ -858,7 +866,7 @@ fun FiltersContent(
                                 contentColor = LocalContentColor.current,
                                 enableAutoShadowAndBorder = false,
                                 onClick = {
-                                    showColorPicker.value = true
+                                    showColorPicker = true
                                 },
                                 enabled = viewModel.previewBitmap != null
                             ) {
@@ -868,7 +876,7 @@ fun FiltersContent(
                                 )
                             }
                             ZoomButton(
-                                onClick = { showZoomSheet.value = true },
+                                onClick = { showZoomSheet = true },
                                 visible = viewModel.bitmap != null,
                             )
                         }
@@ -1066,6 +1074,9 @@ fun FiltersContent(
                                             )
                                         ),
                                         visible = showPickImageFromUrisSheet,
+                                        onDismiss = {
+                                            showPickImageFromUrisSheet = false
+                                        },
                                         uris = viewModel.basicFilterState.uris,
                                         selectedUri = viewModel.basicFilterState.selectedUri,
                                         onUriPicked = { uri ->
@@ -1112,6 +1123,9 @@ fun FiltersContent(
                 FilterReorderSheet(
                     filterList = viewModel.basicFilterState.filters,
                     visible = showReorderSheet,
+                    onDismiss = {
+                        showReorderSheet = false
+                    },
                     updateOrder = viewModel::updateFiltersOrder
                 )
             } else if (viewModel.filterType is Screen.Filter.Type.Masking) {
@@ -1128,6 +1142,9 @@ fun FiltersContent(
                 MaskReorderSheet(
                     maskList = viewModel.maskingFilterState.masks,
                     visible = showReorderSheet,
+                    onDismiss = {
+                        showReorderSheet = false
+                    },
                     updateOrder = viewModel::updateMasksOrder
                 )
             }

@@ -39,7 +39,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -69,7 +68,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @ExperimentalMaterial3Api
 @Composable
 fun ColorTuplePicker(
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     colorTuple: ColorTuple,
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
@@ -110,8 +110,8 @@ fun ColorTuplePicker(
         isInvertColors = settingsState.isInvertThemeColors
     )
 
-    LaunchedEffect(visible.value) {
-        if (!visible.value) {
+    LaunchedEffect(visible) {
+        if (!visible) {
             delay(1000)
             primary = colorTuple.primary.toArgb()
             secondary = colorTuple.secondary?.toArgb()
@@ -127,6 +127,9 @@ fun ColorTuplePicker(
 
     SimpleSheet(
         visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         title = {
             TitleItem(
                 text = title,
@@ -277,7 +280,7 @@ fun ColorTuplePicker(
                             Color(surface)
                         )
                     )
-                    visible.value = false
+                    onDismiss()
                 }
             ) {
                 AutoSizeText(stringResource(R.string.save))

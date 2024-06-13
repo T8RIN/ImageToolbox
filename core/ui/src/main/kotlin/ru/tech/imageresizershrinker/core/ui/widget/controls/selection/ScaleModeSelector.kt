@@ -47,6 +47,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -119,7 +120,7 @@ fun ScaleModeSelector(
     }
 ) {
     val isColorSpaceSelectionVisible = enableItemsCardBackground && value !is ImageScaleMode.Base
-    val showInfoSheet = rememberSaveable { mutableStateOf(false) }
+    var showInfoSheet by rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
 
     LaunchedEffect(settingsState) {
@@ -147,7 +148,7 @@ fun ScaleModeSelector(
             Spacer(modifier = Modifier.width(8.dp))
             SupportingButton(
                 onClick = {
-                    showInfoSheet.value = true
+                    showInfoSheet = true
                 }
             )
         }
@@ -327,13 +328,16 @@ fun ScaleModeSelector(
             }
         },
         visible = showInfoSheet,
+        onDismiss = {
+            showInfoSheet = it
+        },
         title = {
             TitleItem(text = stringResource(R.string.scale_mode))
         },
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { showInfoSheet.value = false }
+                onClick = { showInfoSheet = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

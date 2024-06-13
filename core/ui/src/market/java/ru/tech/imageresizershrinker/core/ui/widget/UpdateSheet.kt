@@ -37,7 +37,6 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,15 +64,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun UpdateSheet(
     changelog: String,
     tag: String,
-    visible: MutableState<Boolean>
+    visible: Boolean,
+    onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
 
     if (context.isInstalledFromPlayStore()) {
-        LaunchedEffect(visible.value) {
-            if (visible.value) {
+        LaunchedEffect(visible) {
+            if (visible) {
                 val appUpdateManager = AppUpdateManagerFactory.create(context)
 
                 val appUpdateInfoTask = appUpdateManager.appUpdateInfo
@@ -100,8 +100,10 @@ fun UpdateSheet(
         }
     } else {
         SimpleSheet(
-            endConfirmButtonPadding = 0.dp,
             visible = visible,
+            onDismiss = {
+                if (!it) onDismiss()
+            },
             title = {},
             dragHandle = {
                 SimpleDragHandle {

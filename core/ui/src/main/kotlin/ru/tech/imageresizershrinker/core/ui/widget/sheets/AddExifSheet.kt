@@ -101,7 +101,6 @@ fun AddExifSheet(
         }
     }
     SimpleSheet(
-        nestedScrollEnabled = false,
         visible = visible,
         onDismiss = onDismiss,
         dragHandle = {

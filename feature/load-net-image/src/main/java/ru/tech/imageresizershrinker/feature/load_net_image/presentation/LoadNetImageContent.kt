@@ -139,11 +139,14 @@ fun LoadNetImageContent(
 
     var link by rememberSaveable(url) { mutableStateOf(url) }
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
         data = viewModel.bitmap,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
     var wantToEdit by rememberSaveable { mutableStateOf(false) }
@@ -200,7 +203,7 @@ fun LoadNetImageContent(
                 TopAppBarEmoji()
             } else {
                 ZoomButton(
-                    onClick = { showZoomSheet.value = true },
+                    onClick = { showZoomSheet = true },
                     visible = viewModel.bitmap != null,
                 )
             }

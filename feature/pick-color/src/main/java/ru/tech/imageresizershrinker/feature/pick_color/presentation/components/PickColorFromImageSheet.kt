@@ -39,7 +39,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,7 +73,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 
 @Composable
 fun PickColorFromImageSheet(
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     bitmap: Bitmap?,
     onColorChange: (Color) -> Unit,
     color: Color
@@ -236,6 +236,9 @@ fun PickColorFromImageSheet(
                 drawStroke = false
             )
         },
-        visible = visible
+        visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        }
     )
 }

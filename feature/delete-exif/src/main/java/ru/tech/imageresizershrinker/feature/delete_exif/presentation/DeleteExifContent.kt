@@ -150,15 +150,18 @@ fun DeleteExifContent(
         }
     }
 
-    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
     AdaptiveLayoutScreen(
@@ -213,7 +216,7 @@ fun DeleteExifContent(
                 )
             }
             ZoomButton(
-                onClick = { showZoomSheet.value = true },
+                onClick = { showZoomSheet = true },
                 visible = viewModel.bitmap != null,
             )
         },
@@ -248,7 +251,7 @@ fun DeleteExifContent(
             ImageCounter(
                 imageCount = viewModel.uris?.size?.takeIf { it > 1 },
                 onRepick = {
-                    showPickImageFromUrisSheet.value = true
+                    showPickImageFromUrisSheet = true
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -318,6 +321,9 @@ fun DeleteExifContent(
             )
         ),
         visible = showPickImageFromUrisSheet,
+        onDismiss = {
+            showPickImageFromUrisSheet = false
+        },
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->

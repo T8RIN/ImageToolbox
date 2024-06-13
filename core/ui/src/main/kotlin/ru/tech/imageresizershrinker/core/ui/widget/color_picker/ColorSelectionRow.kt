@@ -75,7 +75,7 @@ fun ColorSelectionRow(
     onValueChange: (Color) -> Unit
 ) {
     var customColor by remember { mutableStateOf<Color?>(null) }
-    val showColorPicker = remember { mutableStateOf(false) }
+    var showColorPicker by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
 
     LaunchedEffect(value) {
@@ -115,7 +115,7 @@ fun ColorSelectionRow(
                     .transparencyChecker()
                     .background(background, CircleShape)
                     .clickable {
-                        showColorPicker.value = true
+                        showColorPicker = true
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -166,7 +166,7 @@ fun ColorSelectionRow(
             )
         }
     }
-    var tempColor by remember(showColorPicker.value) {
+    var tempColor by remember(showColorPicker) {
         mutableIntStateOf(customColor?.toArgb() ?: 0)
     }
     SimpleSheet(
@@ -196,6 +196,9 @@ fun ColorSelectionRow(
             }
         },
         visible = showColorPicker,
+        onDismiss = {
+            showColorPicker = it
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.color),
@@ -208,7 +211,7 @@ fun ColorSelectionRow(
                 onClick = {
                     onValueChange(Color(tempColor))
                     customColor = Color(tempColor)
-                    showColorPicker.value = false
+                    showColorPicker = false
                 }
             ) {
                 AutoSizeText(stringResource(R.string.ok))

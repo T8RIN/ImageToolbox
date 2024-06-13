@@ -37,7 +37,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -68,11 +67,11 @@ fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
     cancelable: Boolean = true,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: (Boolean) -> Unit,
     sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
-    var showSheet by visible
 
     val autoElevation by animateDpAsState(
         if (settingsState.drawContainerShadows) 16.dp
@@ -107,8 +106,8 @@ fun SimpleSheet(
             initialSwipeOffset = Offset.Zero
         }
 
-        LaunchedEffect(showSheet) {
-            if (!showSheet) {
+        LaunchedEffect(visible) {
+            if (!visible) {
                 delay(300L)
                 clean()
             }
@@ -141,10 +140,10 @@ fun SimpleSheet(
                 .clip(shape)
                 .animateContentSize(),
             elevation = 0.dp,
-            visible = showSheet,
-            onVisibleChange = { showSheet = it },
+            visible = visible,
+            onVisibleChange = onDismiss,
             content = {
-                if (showSheet) {
+                if (visible) {
                     PredictiveBackHandler { progress ->
                         try {
                             progress.collect { event ->
@@ -158,7 +157,7 @@ fun SimpleSheet(
                                 animatedShape = RoundedCornerShape(28.dp)
                                 animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
                             }
-                            showSheet = false
+                            onDismiss(false)
                         } catch (e: CancellationException) {
                             clean()
                         }
@@ -172,18 +171,18 @@ fun SimpleSheet(
 
 @Composable
 fun SimpleSheet(
-    nestedScrollEnabled: Boolean = false,
+    nestedScrollEnabled: Boolean,
     cancelable: Boolean = true,
     confirmButton: @Composable RowScope.() -> Unit,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     title: @Composable () -> Unit,
     endConfirmButtonPadding: Dp = 16.dp,
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: (Boolean) -> Unit,
     enableBackHandler: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
-    var showSheet by visible
 
     val autoElevation by animateDpAsState(
         if (settingsState.drawContainerShadows) 16.dp
@@ -219,8 +218,8 @@ fun SimpleSheet(
             initialSwipeOffset = Offset.Zero
         }
 
-        LaunchedEffect(showSheet) {
-            if (!showSheet) {
+        LaunchedEffect(visible) {
+            if (!visible) {
                 delay(300L)
                 clean()
             }
@@ -253,10 +252,10 @@ fun SimpleSheet(
                 .clip(shape)
                 .animateContentSize(),
             elevation = 0.dp,
-            visible = showSheet,
-            onVisibleChange = { showSheet = it },
+            visible = visible,
+            onVisibleChange = onDismiss,
             content = {
-                if (showSheet && enableBackHandler) {
+                if (visible && enableBackHandler) {
                     PredictiveBackHandler { progress ->
                         try {
                             progress.collect { event ->
@@ -270,7 +269,7 @@ fun SimpleSheet(
                                 animatedShape = RoundedCornerShape(28.dp)
                                 animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
                             }
-                            showSheet = false
+                            onDismiss(false)
                         } catch (e: CancellationException) {
                             clean()
                         }

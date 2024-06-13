@@ -286,7 +286,7 @@ fun DrawContent(
             }
         }.value
 
-    val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
+    var showPickColorSheet by rememberSaveable { mutableStateOf(false) }
 
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
@@ -342,7 +342,7 @@ fun DrawContent(
         OpenColorPickerCard(
             onOpen = {
                 viewModel.openColorPicker()
-                showPickColorSheet.value = true
+                showPickColorSheet = true
             }
         )
         AnimatedVisibility(
@@ -1072,6 +1072,9 @@ fun DrawContent(
     var colorPickerColor by rememberSaveable { mutableStateOf(Color.Black) }
     PickColorFromImageSheet(
         visible = showPickColorSheet,
+        onDismiss = {
+            showPickColorSheet = false
+        },
         bitmap = viewModel.colorPickerBitmap,
         onColorChange = { colorPickerColor = it },
         color = colorPickerColor

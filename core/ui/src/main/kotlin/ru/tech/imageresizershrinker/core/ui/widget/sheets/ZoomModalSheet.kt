@@ -38,7 +38,6 @@ import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -69,11 +68,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun ZoomModalSheet(
     data: Any?,
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     transformations: List<Transformation> = emptyList()
 ) {
-    var showSheet by visible
-
     val sheetContent: @Composable ColumnScope.() -> Unit = {
         val zoomState = rememberZoomState(maxScale = 15f)
         var aspectRatio by remember(data) {
@@ -145,9 +143,7 @@ fun ZoomModalSheet(
                 Spacer(Modifier.weight(1f))
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = {
-                        showSheet = false
-                    },
+                    onClick = onDismiss,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
                     AutoSizeText(stringResource(R.string.close))
@@ -160,6 +156,9 @@ fun ZoomModalSheet(
         SimpleSheet(
             sheetContent = sheetContent,
             visible = visible,
+            onDismiss = {
+                if (!it) onDismiss()
+            },
             dragHandle = {
                 SimpleDragHandle(
                     color = Color.Transparent,

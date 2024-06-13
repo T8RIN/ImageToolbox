@@ -37,13 +37,17 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun UpdateSheet(
     changelog: String,
     tag: String,
-    visible: MutableState<Boolean>
+    visible: Boolean,
+    onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
 
     SimpleSheet(
         endConfirmButtonPadding = 0.dp,
         visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         title = {},
         dragHandle = {
             SimpleDragHandle {

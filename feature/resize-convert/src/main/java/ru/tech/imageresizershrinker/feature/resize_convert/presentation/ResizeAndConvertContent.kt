@@ -169,9 +169,9 @@ fun ResizeAndConvertContent(
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
 
-    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
 
-    val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
+    var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -182,18 +182,23 @@ fun ResizeAndConvertContent(
         else onGoBack()
     }
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
-
-    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
+    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
 
     CompareSheet(
         data = viewModel.bitmap to viewModel.previewBitmap,
-        visible = showCompareSheet
+        visible = showCompareSheet,
+        onDismiss = {
+            showCompareSheet = false
+        }
     )
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
     AdaptiveLayoutScreen(
@@ -293,7 +298,7 @@ fun ResizeAndConvertContent(
             ImageCounter(
                 imageCount = viewModel.uris?.size?.takeIf { it > 1 },
                 onRepick = {
-                    showPickImageFromUrisSheet.value = true
+                    showPickImageFromUrisSheet = true
                 }
             )
             AnimatedContent(
@@ -301,7 +306,7 @@ fun ResizeAndConvertContent(
             ) { oneUri ->
                 if (oneUri) {
                     ImageTransformBar(
-                        onEditExif = { showEditExifDialog.value = true },
+                        onEditExif = { showEditExifDialog = true },
                         onRotateLeft = viewModel::rotateLeft,
                         onFlip = viewModel::flip,
                         imageFormat = viewModel.imageInfo.imageFormat,
@@ -309,7 +314,7 @@ fun ResizeAndConvertContent(
                     )
                 } else {
                     LaunchedEffect(Unit) {
-                        showEditExifDialog.value = false
+                        showEditExifDialog = false
                         viewModel.updateExif(null)
                     }
                     ImageTransformBar(
@@ -402,13 +407,13 @@ fun ResizeAndConvertContent(
         topAppBarPersistentActions = {
             if (viewModel.bitmap == null) TopAppBarEmoji()
             CompareButton(
-                onClick = { showCompareSheet.value = true },
+                onClick = { showCompareSheet = true },
                 visible = viewModel.previewBitmap != null
                         && viewModel.bitmap != null
                         && viewModel.shouldShowPreview
             )
             ZoomButton(
-                onClick = { showZoomSheet.value = true },
+                onClick = { showZoomSheet = true },
                 visible = viewModel.previewBitmap != null && viewModel.shouldShowPreview
             )
         },
@@ -436,6 +441,9 @@ fun ResizeAndConvertContent(
             )
         ),
         visible = showPickImageFromUrisSheet,
+        onDismiss = {
+            showPickImageFromUrisSheet = false
+        },
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
@@ -455,6 +463,9 @@ fun ResizeAndConvertContent(
 
     EditExifSheet(
         visible = showEditExifDialog,
+        onDismiss = {
+            showEditExifDialog = false
+        },
         exif = viewModel.exif,
         onClearExif = viewModel::clearExif,
         onUpdateTag = viewModel::updateExifByTag,

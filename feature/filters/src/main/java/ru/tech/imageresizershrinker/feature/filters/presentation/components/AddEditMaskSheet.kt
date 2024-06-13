@@ -153,7 +153,7 @@ fun AddEditMaskSheet(
 
         var showExitDialog by remember { mutableStateOf(false) }
 
-        val showReorderSheet = rememberSaveable { mutableStateOf(false) }
+        var showReorderSheet by rememberSaveable { mutableStateOf(false) }
 
         val settingsState = LocalSettingsState.current
         var isEraserOn by rememberSaveable { mutableStateOf(false) }
@@ -510,7 +510,7 @@ fun AddEditMaskSheet(
                                                     )
                                                 },
                                                 onLongPress = {
-                                                    showReorderSheet.value = true
+                                                    showReorderSheet = true
                                                 },
                                                 showDragHandle = false,
                                                 onRemove = {
@@ -554,6 +554,9 @@ fun AddEditMaskSheet(
         FilterReorderSheet(
             filterList = viewModel.filterList,
             visible = showReorderSheet,
+            onDismiss = {
+                showReorderSheet = false
+            },
             updateOrder = viewModel::updateFiltersOrder
         )
 

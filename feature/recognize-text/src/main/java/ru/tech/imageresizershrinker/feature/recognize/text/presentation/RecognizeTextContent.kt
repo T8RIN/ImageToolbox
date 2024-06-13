@@ -197,7 +197,7 @@ fun RecognizeTextContent(
         }
     }
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     var showCropper by rememberSaveable { mutableStateOf(false) }
 
@@ -225,7 +225,7 @@ fun RecognizeTextContent(
         topAppBarPersistentActions = {
             if (viewModel.uri == null) TopAppBarEmoji()
             ZoomButton(
-                onClick = { showZoomSheet.value = true },
+                onClick = { showZoomSheet = true },
                 visible = viewModel.uri != null,
             )
         },
@@ -355,6 +355,9 @@ fun RecognizeTextContent(
     ZoomModalSheet(
         data = viewModel.uri,
         visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        },
         transformations = viewModel.getTransformations()
     )
 

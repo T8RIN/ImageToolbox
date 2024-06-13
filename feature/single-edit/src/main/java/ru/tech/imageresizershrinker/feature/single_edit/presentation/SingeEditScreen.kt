@@ -176,18 +176,23 @@ fun SingleEditContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
-
-    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
+    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
 
     CompareSheet(
         data = viewModel.initialBitmap to viewModel.previewBitmap,
-        visible = showCompareSheet
+        visible = showCompareSheet,
+        onDismiss = {
+            showCompareSheet = false
+        }
     )
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
     val onBack = {
@@ -215,13 +220,13 @@ fun SingleEditContent(
                 TopAppBarEmoji()
             }
             CompareButton(
-                onClick = { showCompareSheet.value = true },
+                onClick = { showCompareSheet = true },
                 visible = viewModel.previewBitmap != null
                         && viewModel.bitmap != null
                         && viewModel.shouldShowPreview
             )
             ZoomButton(
-                onClick = { showZoomSheet.value = true },
+                onClick = { showZoomSheet = true },
                 visible = viewModel.previewBitmap != null && viewModel.shouldShowPreview
             )
         },
@@ -308,9 +313,9 @@ fun SingleEditContent(
             )
         },
         controls = {
-            val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
+            var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
             ImageTransformBar(
-                onEditExif = { showEditExifDialog.value = true },
+                onEditExif = { showEditExifDialog = true },
                 imageFormat = viewModel.imageInfo.imageFormat,
                 onRotateLeft = viewModel::rotateBitmapLeft,
                 onFlip = viewModel::flipImage,
@@ -365,6 +370,9 @@ fun SingleEditContent(
 
             EditExifSheet(
                 visible = showEditExifDialog,
+                onDismiss = {
+                    showEditExifDialog = false
+                },
                 exif = viewModel.exif,
                 onClearExif = viewModel::clearExif,
                 onUpdateTag = viewModel::updateExifByTag,

@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.sheets
 import android.net.Uri
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,7 +39,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,10 +57,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PickImageFromUrisSheet(
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     transformations: List<Transformation>,
     uris: List<Uri>?,
     selectedUri: Uri?,
@@ -71,7 +69,7 @@ fun PickImageFromUrisSheet(
     onUriPicked: (Uri) -> Unit
 ) {
     val hasUris = uris.notNullAnd { it.size >= 2 }
-    if (!hasUris) visible.value = false
+    if (!hasUris) onDismiss()
 
     SimpleSheet(
         sheetContent = {
@@ -118,7 +116,7 @@ fun PickImageFromUrisSheet(
                                         .clip(RoundedCornerShape(pictureShape))
                                         .clickable {
                                             onUriPicked(uri)
-                                            visible.value = false
+                                            onDismiss()
                                         }
                                         .padding(padding)
                                         .clip(RoundedCornerShape(pictureShape)),
@@ -154,9 +152,7 @@ fun PickImageFromUrisSheet(
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    visible.value = false
-                },
+                onClick = onDismiss,
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }
@@ -167,6 +163,9 @@ fun PickImageFromUrisSheet(
                 icon = Icons.Rounded.PhotoLibrary
             )
         },
-        visible = visible
+        visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        }
     )
 }

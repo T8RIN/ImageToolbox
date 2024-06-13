@@ -27,9 +27,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,7 +57,7 @@ fun PaletteStyleSelection(
 ) {
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
-    val showPaletteStyleSelectionSheet = rememberSaveable { mutableStateOf(false) }
+    var showPaletteStyleSelectionSheet by rememberSaveable { mutableStateOf(false) }
     PreferenceItem(
         title = stringResource(R.string.palette_style),
         subtitle = remember(settingsState.themeStyle) {
@@ -69,12 +71,15 @@ fun PaletteStyleSelection(
         startIcon = Icons.Rounded.Swatch,
         endIcon = Icons.Rounded.MiniEdit,
         onClick = {
-            showPaletteStyleSelectionSheet.value = true
+            showPaletteStyleSelectionSheet = true
         }
     )
 
     SimpleSheet(
         visible = showPaletteStyleSelectionSheet,
+        onDismiss = {
+            showPaletteStyleSelectionSheet = it
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.palette_style),
@@ -83,7 +88,7 @@ fun PaletteStyleSelection(
         },
         confirmButton = {
             EnhancedButton(
-                onClick = { showPaletteStyleSelectionSheet.value = false }
+                onClick = { showPaletteStyleSelectionSheet = false }
             ) {
                 Text(text = stringResource(R.string.close))
             }

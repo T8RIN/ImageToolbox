@@ -170,11 +170,14 @@ fun ImageStitchingContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
     AdaptiveLayoutScreen(
@@ -227,7 +230,7 @@ fun ImageStitchingContent(
                 }
             )
             ZoomButton(
-                onClick = { showZoomSheet.value = true },
+                onClick = { showZoomSheet = true },
                 visible = viewModel.previewBitmap != null,
             )
         },

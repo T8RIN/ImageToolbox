@@ -40,7 +40,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -71,7 +70,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun EditExifSheet(
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     exif: ExifInterface?,
     onClearExif: () -> Unit,
     onUpdateTag: (MetadataTag, String) -> Unit,
@@ -85,11 +85,9 @@ fun EditExifSheet(
     }
 
     SimpleSheet(
-        nestedScrollEnabled = false,
-        endConfirmButtonPadding = 0.dp,
         confirmButton = {
             EnhancedButton(
-                onClick = { visible.value = false }
+                onClick = onDismiss
             ) {
                 AutoSizeText(stringResource(R.string.ok))
             }
@@ -136,7 +134,10 @@ fun EditExifSheet(
                 }
             }
         },
-        visible = visible
+        visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        }
     ) {
         val data by remember(exifMap) {
             derivedStateOf {

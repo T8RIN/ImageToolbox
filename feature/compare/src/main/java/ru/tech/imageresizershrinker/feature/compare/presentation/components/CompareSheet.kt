@@ -31,7 +31,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -64,11 +63,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun CompareSheet(
     data: Pair<Bitmap?, Bitmap?>?,
-    visible: MutableState<Boolean>
+    visible: Boolean,
+    onDismiss: () -> Unit
 ) {
-    var showSheet by visible
-
-    var progress by rememberSaveable(showSheet) { mutableFloatStateOf(50f) }
+    var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
 
     if (data != null) {
         SimpleSheet(
@@ -125,9 +123,7 @@ fun CompareSheet(
                         Spacer(Modifier.weight(1f))
                         EnhancedButton(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = {
-                                showSheet = false
-                            },
+                            onClick = onDismiss,
                             modifier = Modifier.padding(horizontal = 16.dp)
                         ) {
                             AutoSizeText(stringResource(R.string.close))
@@ -136,6 +132,9 @@ fun CompareSheet(
                 }
             },
             visible = visible,
+            onDismiss = {
+                if (!it) onDismiss()
+            },
             dragHandle = {
                 SimpleDragHandle(
                     color = Color.Transparent,
@@ -150,12 +149,11 @@ fun CompareSheet(
 fun CompareSheet(
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     shape: Shape = RoundedCornerShape(4.dp)
 ) {
-    var showSheet by visible
-
-    var progress by rememberSaveable(showSheet) { mutableFloatStateOf(50f) }
+    var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
 
     SimpleSheet(
         sheetContent = {
@@ -205,9 +203,7 @@ fun CompareSheet(
                     Spacer(Modifier.weight(1f))
                     EnhancedButton(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
-                            showSheet = false
-                        },
+                        onClick = onDismiss,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         AutoSizeText(stringResource(R.string.close))
@@ -216,6 +212,9 @@ fun CompareSheet(
             }
         },
         visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         dragHandle = {
             SimpleDragHandle(
                 color = Color.Transparent,

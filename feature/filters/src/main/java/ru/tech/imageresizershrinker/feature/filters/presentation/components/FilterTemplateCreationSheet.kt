@@ -119,7 +119,7 @@ internal fun FilterTemplateCreationSheet(
 
         var showExitDialog by remember { mutableStateOf(false) }
 
-        val showReorderSheet = rememberSaveable { mutableStateOf(false) }
+        var showReorderSheet by rememberSaveable { mutableStateOf(false) }
 
         val canSave = viewModel.filterList.isNotEmpty()
 
@@ -309,7 +309,7 @@ internal fun FilterTemplateCreationSheet(
                                                         )
                                                     },
                                                     onLongPress = {
-                                                        showReorderSheet.value = true
+                                                        showReorderSheet = true
                                                     },
                                                     showDragHandle = false,
                                                     onRemove = {
@@ -357,6 +357,9 @@ internal fun FilterTemplateCreationSheet(
         FilterReorderSheet(
             filterList = viewModel.filterList,
             visible = showReorderSheet,
+            onDismiss = {
+                showReorderSheet = false
+            },
             updateOrder = viewModel::updateFiltersOrder
         )
 

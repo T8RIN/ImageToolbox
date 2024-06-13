@@ -191,16 +191,17 @@ fun GeneratePaletteContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
         data = viewModel.bitmap,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
-    val showColorPickerSheet = rememberSaveable {
-        mutableStateOf(false)
-    }
+    var showColorPickerSheet by rememberSaveable { mutableStateOf(false) }
 
     val preferences: @Composable () -> Unit = {
         val preference1 = @Composable {
@@ -284,7 +285,7 @@ fun GeneratePaletteContent(
         },
         actions = {
             ZoomButton(
-                onClick = { showZoomSheet.value = true },
+                onClick = { showZoomSheet = true },
                 visible = viewModel.bitmap != null,
             )
             if (viewModel.uri != null) {
@@ -293,7 +294,7 @@ fun GeneratePaletteContent(
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
                     onClick = {
-                        showColorPickerSheet.value = true
+                        showColorPickerSheet = true
                     }
                 ) {
                     Icon(
@@ -349,6 +350,9 @@ fun GeneratePaletteContent(
     }
     PickColorFromImageSheet(
         visible = showColorPickerSheet,
+        onDismiss = {
+            showColorPickerSheet = false
+        },
         bitmap = viewModel.bitmap,
         onColorChange = {
             colorPickerValue = it

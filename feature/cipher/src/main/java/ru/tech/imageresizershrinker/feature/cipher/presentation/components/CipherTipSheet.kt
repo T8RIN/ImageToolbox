@@ -31,7 +31,6 @@ import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -49,7 +48,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun CipherTipSheet(
-    visible: MutableState<Boolean>
+    visible: Boolean,
+    onDismiss: () -> Unit
 ) {
     SimpleSheet(
         sheetContent = {
@@ -137,6 +137,9 @@ fun CipherTipSheet(
             }
         },
         visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.cipher),
@@ -146,10 +149,10 @@ fun CipherTipSheet(
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { visible.value = false }
+                onClick = onDismiss
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }
-        },
+        }
     )
 }

@@ -130,7 +130,7 @@ fun DrawEditOption(
             )
         }
 
-        val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
+        var showPickColorSheet by rememberSaveable { mutableStateOf(false) }
 
         var isEraserOn by rememberSaveable { mutableStateOf(false) }
 
@@ -222,7 +222,7 @@ fun DrawEditOption(
                 if (!useScaffold) secondaryControls()
                 OpenColorPickerCard(
                     onOpen = {
-                        showPickColorSheet.value = true
+                        showPickColorSheet = true
                     }
                 )
                 AnimatedVisibility(
@@ -421,6 +421,9 @@ fun DrawEditOption(
         }
         PickColorFromImageSheet(
             visible = showPickColorSheet,
+            onDismiss = {
+                showPickColorSheet = false
+            },
             bitmap = stateBitmap,
             onColorChange = { color = it },
             color = color

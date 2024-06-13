@@ -159,7 +159,7 @@ fun CipherContent(
     val confettiHostState = LocalConfettiHostState.current
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
-    val showTip = rememberSaveable { mutableStateOf(false) }
+    var showTip by rememberSaveable { mutableStateOf(false) }
 
     var key by rememberSaveable { mutableStateOf("") }
 
@@ -366,7 +366,7 @@ fun CipherContent(
                                             EnhancedIconButton(
                                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                                 onClick = {
-                                                    showTip.value = true
+                                                    showTip = true
                                                 }
                                             ) {
                                                 Icon(
@@ -790,7 +790,12 @@ fun CipherContent(
         visible = showExitDialog
     )
 
-    CipherTipSheet(visible = showTip)
+    CipherTipSheet(
+        visible = showTip,
+        onDismiss = {
+            showTip = false
+        }
+    )
 
     BackHandler(onBack = onBack)
 

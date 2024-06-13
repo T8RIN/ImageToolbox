@@ -77,7 +77,7 @@ fun ResizeTypeSelector(
     value: ResizeType,
     onValueChange: (ResizeType) -> Unit
 ) {
-    val state = rememberSaveable { mutableStateOf(false) }
+    var isSheetVisible by rememberSaveable { mutableStateOf(false) }
     var canvasColor by rememberSaveable {
         mutableStateOf(Color.Transparent)
     }
@@ -124,7 +124,7 @@ fun ResizeTypeSelector(
                         Spacer(modifier = Modifier.width(8.dp))
                         SupportingButton(
                             onClick = {
-                                state.value = true
+                                isSheetVisible = true
                             }
                         )
                     }
@@ -282,14 +282,17 @@ fun ResizeTypeSelector(
                 }
             }
         },
-        visible = state,
+        visible = isSheetVisible,
+        onDismiss = {
+            isSheetVisible = it
+        },
         title = {
             TitleItem(text = stringResource(R.string.resize_type))
         },
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { state.value = false }
+                onClick = { isSheetVisible = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

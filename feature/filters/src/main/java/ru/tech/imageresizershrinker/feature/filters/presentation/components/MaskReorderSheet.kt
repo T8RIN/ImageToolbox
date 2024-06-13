@@ -30,7 +30,6 @@ import androidx.compose.material.icons.rounded.Reorder
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,14 +50,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun MaskReorderSheet(
     maskList: List<UiFilterMask>,
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     updateOrder: (List<UiFilterMask>) -> Unit
 ) {
     SimpleSheet(
         sheetContent = {
-            if (maskList.size < 2) {
-                visible.value = false
-            }
+            if (maskList.size < 2) onDismiss()
+
             Box {
                 val data = remember { mutableStateOf(maskList) }
                 val state = rememberReorderableLazyListState(
@@ -103,6 +102,9 @@ fun MaskReorderSheet(
             }
         },
         visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.reorder),
@@ -112,7 +114,7 @@ fun MaskReorderSheet(
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { visible.value = false }
+                onClick = onDismiss
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

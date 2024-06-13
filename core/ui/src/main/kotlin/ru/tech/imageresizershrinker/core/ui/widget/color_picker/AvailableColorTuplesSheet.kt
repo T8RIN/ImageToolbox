@@ -57,7 +57,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -103,7 +102,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AvailableColorTuplesSheet(
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     colorTupleList: List<ColorTuple>,
     currentColorTuple: ColorTuple,
     openColorPicker: () -> Unit,
@@ -115,12 +115,14 @@ fun AvailableColorTuplesSheet(
     onToggleUseEmojiAsPrimaryColor: () -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
 ) {
-    val showEditColorPicker = rememberSaveable { mutableStateOf(false) }
+    var showEditColorPicker by rememberSaveable { mutableStateOf(false) }
 
     val settingsState = LocalSettingsState.current
     SimpleSheet(
         visible = visible,
-        endConfirmButtonPadding = 0.dp,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         dragHandle = {
             SimpleDragHandle {
                 Row(
@@ -235,7 +237,7 @@ fun AvailableColorTuplesSheet(
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
-                        showEditColorPicker.value = true
+                        showEditColorPicker = true
                     }
                 ) {
                     Icon(
@@ -311,7 +313,7 @@ fun AvailableColorTuplesSheet(
                 val defList = ColorTupleDefaults.defaultColorTuples
                 val density = LocalDensity.current
                 val cellSize = 60.dp
-                LaunchedEffect(visible.value, isPickersEnabled) {
+                LaunchedEffect(visible, isPickersEnabled) {
                     delay(100) // delay for sheet init
                     if (currentColorTuple in defList) {
                         listState.scrollTo(defList.indexOf(currentColorTuple) * with(density) { cellSize.roundToPx() })
@@ -479,9 +481,7 @@ fun AvailableColorTuplesSheet(
         },
         confirmButton = {
             EnhancedButton(
-                onClick = {
-                    visible.value = false
-                }
+                onClick = onDismiss
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }
@@ -489,6 +489,9 @@ fun AvailableColorTuplesSheet(
     )
     ColorTuplePicker(
         visible = showEditColorPicker,
+        onDismiss = {
+            showEditColorPicker = false
+        },
         colorTuple = currentColorTuple,
         onColorChange = {
             onUpdateColorTuples(colorTupleList + it - currentColorTuple)
@@ -497,9 +500,7 @@ fun AvailableColorTuplesSheet(
     )
     colorPicker(onUpdateColorTuples)
 
-    if (settingsState.isDynamicColors) {
-        visible.value = false
-    }
+    if (settingsState.isDynamicColors) onDismiss()
 }
 
 @Composable

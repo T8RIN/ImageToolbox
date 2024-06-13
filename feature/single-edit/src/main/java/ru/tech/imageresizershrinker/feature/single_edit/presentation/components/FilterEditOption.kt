@@ -115,12 +115,12 @@ fun FilterEditOption(
         val scaffoldState = rememberBottomSheetScaffoldState()
 
         var showFilterSheet by rememberSaveable { mutableStateOf(false) }
-        val showReorderSheet = rememberSaveable { mutableStateOf(false) }
+        var showReorderSheet by rememberSaveable { mutableStateOf(false) }
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
 
-        val showColorPicker = remember { mutableStateOf(false) }
-        var tempColor by remember { mutableStateOf(Color.Black) }
+        var showColorPicker by rememberSaveable { mutableStateOf(false) }
+        var tempColor by rememberSaveable(showColorPicker) { mutableStateOf(Color.Black) }
 
         LaunchedEffect(visible) {
             if (visible && filterList.isEmpty()) {
@@ -162,7 +162,7 @@ fun FilterEditOption(
                                         }
                                     },
                                     onLongPress = {
-                                        showReorderSheet.value = true
+                                        showReorderSheet = true
                                     },
                                     backgroundColor = MaterialTheme.colorScheme.surface,
                                     showDragHandle = false,
@@ -219,7 +219,7 @@ fun FilterEditOption(
                         contentColor = LocalContentColor.current,
                         enableAutoShadowAndBorder = false,
                         onClick = {
-                            showColorPicker.value = true
+                            showColorPicker = true
                         },
                     ) {
                         Icon(
@@ -318,11 +318,17 @@ fun FilterEditOption(
         FilterReorderSheet(
             filterList = filterList,
             visible = showReorderSheet,
+            onDismiss = {
+                showReorderSheet = false
+            },
             updateOrder = updateOrder
         )
 
         PickColorFromImageSheet(
             visible = showColorPicker,
+            onDismiss = {
+                showColorPicker = false
+            },
             bitmap = stateBitmap,
             onColorChange = { tempColor = it },
             color = tempColor

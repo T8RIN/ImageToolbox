@@ -199,9 +199,9 @@ fun GradientMakerContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
 
-    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
@@ -272,7 +272,7 @@ fun GradientMakerContent(
                 TopAppBarEmoji()
             }
             CompareButton(
-                onClick = { showCompareSheet.value = true },
+                onClick = { showCompareSheet = true },
                 visible = viewModel.brush != null && allowPickingImage == true && viewModel.selectedUri != Uri.EMPTY
             )
         },
@@ -298,7 +298,7 @@ fun GradientMakerContent(
             ImageCounter(
                 imageCount = viewModel.uris.size.takeIf { it > 1 },
                 onRepick = {
-                    showPickImageFromUrisSheet.value = true
+                    showPickImageFromUrisSheet = true
                 }
             )
             AnimatedContent(
@@ -473,6 +473,9 @@ fun GradientMakerContent(
             }
         }.value,
         visible = showPickImageFromUrisSheet,
+        onDismiss = {
+            showPickImageFromUrisSheet = false
+        },
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
@@ -524,6 +527,9 @@ fun GradientMakerContent(
             )
         },
         visible = showCompareSheet,
+        onDismiss = {
+            showCompareSheet = false
+        },
         shape = MaterialTheme.shapes.medium
     )
 

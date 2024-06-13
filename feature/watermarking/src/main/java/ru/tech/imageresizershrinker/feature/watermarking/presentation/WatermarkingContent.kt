@@ -156,11 +156,11 @@ fun WatermarkingContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
-    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
-    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
+    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
@@ -179,11 +179,11 @@ fun WatermarkingContent(
         topAppBarPersistentActions = {
             if (viewModel.previewBitmap == null) TopAppBarEmoji()
             CompareButton(
-                onClick = { showCompareSheet.value = true },
+                onClick = { showCompareSheet = true },
                 visible = viewModel.previewBitmap != null && viewModel.internalBitmap != null
             )
             ZoomButton(
-                onClick = { showZoomSheet.value = true },
+                onClick = { showZoomSheet = true },
                 visible = viewModel.previewBitmap != null
             )
         },
@@ -260,7 +260,7 @@ fun WatermarkingContent(
             ImageCounter(
                 imageCount = viewModel.uris.size.takeIf { it > 1 },
                 onRepick = {
-                    showPickImageFromUrisSheet.value = true
+                    showPickImageFromUrisSheet = true
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -344,6 +344,9 @@ fun WatermarkingContent(
     PickImageFromUrisSheet(
         transformations = transformations,
         visible = showPickImageFromUrisSheet,
+        onDismiss = {
+            showPickImageFromUrisSheet = false
+        },
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
@@ -371,13 +374,19 @@ fun WatermarkingContent(
 
     CompareSheet(
         data = viewModel.internalBitmap to viewModel.previewBitmap,
-        visible = showCompareSheet
+        visible = showCompareSheet,
+        onDismiss = {
+            showCompareSheet = false
+        }
     )
 
     ZoomModalSheet(
         data = viewModel.selectedUri,
         visible = showZoomSheet,
-        transformations = transformations
+        transformations = transformations,
+        onDismiss = {
+            showZoomSheet = false
+        }
     )
 
     if (viewModel.isSaving) {

@@ -237,26 +237,29 @@ fun PdfToolsContent(
     )
 
     var tempSelectionUri by rememberSaveable { mutableStateOf<Uri?>(null) }
-    val showSelectionPdfPicker = rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(showSelectionPdfPicker.value) {
-        if (!showSelectionPdfPicker.value) tempSelectionUri = null
+    var showSelectionPdfPicker by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(showSelectionPdfPicker) {
+        if (!showSelectionPdfPicker) tempSelectionUri = null
     }
     val selectionPdfPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.let {
                 tempSelectionUri = it
-                showSelectionPdfPicker.value = true
+                showSelectionPdfPicker = true
             }
         }
     )
 
     SimpleSheet(
         visible = showSelectionPdfPicker,
+        onDismiss = {
+            showSelectionPdfPicker = it
+        },
         confirmButton = {
             EnhancedButton(
                 onClick = {
-                    showSelectionPdfPicker.value = false
+                    showSelectionPdfPicker = false
                 },
                 containerColor = MaterialTheme.colorScheme.secondaryContainer
             ) {
@@ -264,7 +267,7 @@ fun PdfToolsContent(
             }
         },
         sheetContent = {
-            if (tempSelectionUri == null) showSelectionPdfPicker.value = false
+            if (tempSelectionUri == null) showSelectionPdfPicker = false
 
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(250.dp),
@@ -279,7 +282,7 @@ fun PdfToolsContent(
                     PreviewPdfPreference(
                         onClick = {
                             viewModel.setPdfPreview(tempSelectionUri)
-                            showSelectionPdfPicker.value = false
+                            showSelectionPdfPicker = false
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -288,7 +291,7 @@ fun PdfToolsContent(
                     PdfToImagesPreference(
                         onClick = {
                             viewModel.setPdfToImagesUri(tempSelectionUri)
-                            showSelectionPdfPicker.value = false
+                            showSelectionPdfPicker = false
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
