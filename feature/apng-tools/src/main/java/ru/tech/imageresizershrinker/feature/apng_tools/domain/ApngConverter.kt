@@ -32,8 +32,9 @@ interface ApngConverter {
     suspend fun createApngFromImageUris(
         imageUris: List<String>,
         params: ApngParams,
+        onError: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray
+    ): ByteArray?
 
     suspend fun convertApngToJxl(
         apngUris: List<String>,

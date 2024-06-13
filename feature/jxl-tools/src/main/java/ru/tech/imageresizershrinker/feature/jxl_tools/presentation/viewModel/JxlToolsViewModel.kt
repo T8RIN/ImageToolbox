@@ -301,7 +301,7 @@ class JxlToolsViewModel @Inject constructor(
                                     )
                                 )
                             },
-                        ).also { jxlBytes ->
+                        )?.also { jxlBytes ->
                             val result = fileController.save(
                                 saveTarget = JxlSaveTarget("", jxlBytes),
                                 keepOriginalMetadata = true,
@@ -449,7 +449,7 @@ class JxlToolsViewModel @Inject constructor(
                                 savingJob?.cancel()
                                 onError(it)
                             }
-                        ).also { byteArray ->
+                        )?.also { byteArray ->
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()

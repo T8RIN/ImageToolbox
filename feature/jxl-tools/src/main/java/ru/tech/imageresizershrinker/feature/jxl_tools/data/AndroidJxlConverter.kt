@@ -89,18 +89,23 @@ internal class AndroidJxlConverter @Inject constructor(
         params: AnimatedJxlParams,
         onError: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray = withContext(defaultDispatcher) {
+    ): ByteArray? = withContext(defaultDispatcher) {
         val jxlQuality = params.quality as? Quality.Jxl
 
         if (jxlQuality == null) {
             onError(IllegalArgumentException("Quality Must be Jxl"))
-            return@withContext ByteArray(0)
+            return@withContext null
         }
 
         runCatching {
             val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
                 IntegerSize(width, height)
             }
+            if (size.width <= 0 || size.height <= 0) {
+                onError(IllegalArgumentException("Width and height must be > 0"))
+                return@withContext null
+            }
+
             val (quality, compressionOption) = if (params.isLossy) {
                 params.quality.qualityValue to JxlCompressionOption.LOSSY
             } else 100 to JxlCompressionOption.LOSSLESS
@@ -148,8 +153,8 @@ internal class AndroidJxlConverter @Inject constructor(
             encoder.encode()
         }.onFailure {
             onError(it)
-            return@withContext ByteArray(0)
-        }.getOrNull() ?: ByteArray(0)
+            return@withContext null
+        }.getOrNull()
     }
 
     override fun extractFramesFromJxl(

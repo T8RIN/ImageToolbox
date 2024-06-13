@@ -35,8 +35,9 @@ interface GifConverter {
     suspend fun createGifFromImageUris(
         imageUris: List<String>,
         params: GifParams,
+        onError: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray
+    ): ByteArray?
 
     suspend fun convertGifToJxl(
         gifUris: List<String>,

@@ -30,9 +30,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.image.model.withSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.ImageStacker
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
@@ -48,8 +46,9 @@ internal class AndroidImageStacker @Inject constructor(
     override suspend fun stackImages(
         stackImages: List<StackImage>,
         stackingParams: StackingParams,
+        onError: (Throwable) -> Unit,
         onProgress: (Int) -> Unit
-    ): Bitmap = withContext(defaultDispatcher) {
+    ): Bitmap? = withContext(defaultDispatcher) {
         val resultSize = stackingParams.size
             ?: imageGetter.getImage(
                 data = stackImages.firstOrNull()?.uri ?: "",
@@ -57,6 +56,11 @@ internal class AndroidImageStacker @Inject constructor(
             )?.let {
                 IntegerSize(it.width, it.height)
             } ?: IntegerSize(0, 0)
+
+        if (resultSize.width <= 0 || resultSize.height <= 0) {
+            onError(IllegalArgumentException("Width and height must be > 0"))
+            return@withContext null
+        }
 
         val outputBitmap = Bitmap.createBitmap(
             resultSize.width,
@@ -88,12 +92,13 @@ internal class AndroidImageStacker @Inject constructor(
         imageFormat: ImageFormat,
         quality: Quality,
         onGetByteCount: (Int) -> Unit
-    ): ImageWithSize<Bitmap?> = withContext(defaultDispatcher) {
+    ): Bitmap? = withContext(defaultDispatcher) {
         stackImages(
             stackImages = stackImages,
             stackingParams = stackingParams,
-            onProgress = {}
-        ).let { image ->
+            onProgress = {},
+            onError = {}
+        )?.let { image ->
             val imageSize = IntegerSize(
                 width = image.width,
                 height = image.height
@@ -108,7 +113,7 @@ internal class AndroidImageStacker @Inject constructor(
                 ),
                 transformations = emptyList(),
                 onGetByteCount = onGetByteCount
-            ) withSize imageSize
+            )
         }
     }
 

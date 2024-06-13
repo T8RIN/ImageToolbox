@@ -41,7 +41,7 @@ interface JxlConverter {
         params: AnimatedJxlParams,
         onError: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray
+    ): ByteArray?
 
     fun extractFramesFromJxl(
         jxlUri: String,

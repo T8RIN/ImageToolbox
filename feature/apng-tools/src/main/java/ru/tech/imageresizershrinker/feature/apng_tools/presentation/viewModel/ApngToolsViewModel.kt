@@ -263,8 +263,11 @@ class ApngToolsViewModel @Inject constructor(
                             params = params,
                             onProgress = {
                                 _done.update { it + 1 }
+                            },
+                            onError = {
+                                onResult(listOf(SaveResult.Error.Exception(it)))
                             }
-                        ).also {
+                        )?.also {
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()
@@ -413,8 +416,9 @@ class ApngToolsViewModel @Inject constructor(
                             params = params,
                             onProgress = {
                                 _done.update { it + 1 }
-                            }
-                        ).also { byteArray ->
+                            },
+                            onError = {}
+                        )?.also { byteArray ->
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()

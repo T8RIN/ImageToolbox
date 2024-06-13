@@ -34,7 +34,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -68,13 +67,6 @@ class ImageStackingViewModel @Inject constructor(
             calculatePreview()
         }
     }
-
-    fun removeUri(
-        stackImage: StackImage
-    ) = _stackImages.update { it - stackImage }
-
-    private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))
-    val imageSize by _imageSize
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -115,9 +107,8 @@ class ImageStackingViewModel @Inject constructor(
                     onGetByteCount = {
                         _imageByteSize.update { it }
                     }
-                ).let { (image, size) ->
+                ).let { image ->
                     _previewBitmap.value = image
-                    _imageSize.value = size
                 }
             }
             _isImageLoading.value = false
@@ -138,10 +129,13 @@ class ImageStackingViewModel @Inject constructor(
             imageStacker.stackImages(
                 stackImages = stackImages,
                 stackingParams = stackingParams,
+                onError = {
+                    onComplete(SaveResult.Error.Exception(it))
+                },
                 onProgress = {
                     _done.value = it
                 }
-            ).let { image ->
+            )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,
                     width = image.width,
@@ -178,8 +172,9 @@ class ImageStackingViewModel @Inject constructor(
                 stackingParams = stackingParams,
                 onProgress = {
                     _done.value = it
-                }
-            ).let { image ->
+                },
+                onError = {}
+            )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,
                     width = image.width,
@@ -234,8 +229,9 @@ class ImageStackingViewModel @Inject constructor(
                 stackingParams = stackingParams,
                 onProgress = {
                     _done.value = it
-                }
-            ).let { image ->
+                },
+                onError = {}
+            )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,
                     width = image.width,
