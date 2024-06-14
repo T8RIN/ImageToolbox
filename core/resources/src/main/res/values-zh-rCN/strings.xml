@@ -1104,7 +1104,7 @@
     <string name="delete_template">删除模板</string>
     <string name="filter_preview">滤镜预览</string>
     <string name="qr_code">二维码</string>
-    <string name="qr_code_sub">扫描二维码并获取其内容，或粘贴字符串以生成新的 二维码</string>
+    <string name="qr_code_sub">扫描二维码并获取其内容，或粘贴字符串以生成新的二维码</string>
     <string name="code_content">代码内容</string>
     <string name="scan_qr_code_to_replace_content">扫描二维码以替换字段中的内容，或输入内容以生成新的二维码</string>
     <string name="qr_description">QR 说明</string>
@@ -1197,4 +1197,12 @@
     <string name="ewa_lanczos_4_sharpest_sub">Lanczos 4 Sharpest 滤镜的椭圆加权平均 (EWA) 变体，用于对图像进行极其清晰的重采样</string>
     <string name="haasn_soft_sub">由 Haasn 设计的重采样滤镜，可实现平滑、无伪影的图像缩放</string>
     <string name="ewa_robidoux_sub">用于高质量重采样的 Robidoux 滤镜椭圆加权平均（EWA）变体</string>
+    <string name="clahe_hsv">Clahe HSV</string>
+    <string name="clahe_hsl">Clahe HSL</string>
+    <string name="bins_count">箱数</string>
+    <string name="egde_mode">边缘模式</string>
+    <string name="clip">剪切</string>
+    <string name="wrap">缠绕</string>
+    <string name="equalize_histogram_adaptive_hsl">均衡直方图自适应 HSL</string>
+    <string name="equalize_histogram_adaptive_hsv">均衡直方图自适应 HSV</string>
 </resources>
