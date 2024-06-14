@@ -93,7 +93,7 @@
     <string name="pick_images">Chọn hình ảnh</string>
     <string name="settings">Cài đặt</string>
     <string name="night_mode">Chế độ ban đêm</string>
-    <string name="dark">Tối tăm</string>
+    <string name="dark">Tối</string>
     <string name="light">Ánh sáng</string>
     <string name="system">Hệ thống</string>
     <string name="dynamic_colors">Màu sắc năng động</string>
@@ -113,7 +113,7 @@
     <string name="pick_accent_color">Chủ đề ứng dụng sẽ dựa trên màu sắc mà bạn sẽ chọn</string>
     <string name="about_app">Giới thiệu về ứng dụng</string>
     <string name="no_updates">Không tìm thấy bản cập nhật nào</string>
-    <string name="issue_tracker">Người tìm bệnh</string>
+    <string name="issue_tracker">Theo dõi vấn đề</string>
     <string name="issue_tracker_sub">Gửi báo cáo lỗi và yêu cầu tính năng tại đây</string>
     <string name="help_translate">Giúp dịch</string>
     <string name="donation_sub">Ứng dụng này hoàn toàn miễn phí, nhưng nếu bạn muốn hỗ trợ phát triển dự án, bạn có thể bấm vào đây</string>
@@ -160,7 +160,7 @@
     <string name="add_file_size_sub">Nếu được bật, hãy thêm chiều rộng và chiều cao của hình ảnh đã lưu vào tên của tệp đầu ra</string>
     <string name="image_preview">Xem trước hình ảnh</string>
     <string name="image_preview_sub">Xem trước mọi loại hình ảnh: GIF, SVG, v.v.</string>
-    <string name="image_source">nguồn hình ảnh</string>
+    <string name="image_source">Nguồn hình ảnh</string>
     <string name="photo_picker">bộ chọn ảnh</string>
     <string name="gallery_picker">Phòng trưng bày</string>
     <string name="photo_picker_sub">Trình chọn ảnh hiện đại của Android xuất hiện ở cuối màn hình, chỉ có thể hoạt động trên Android 12+ và cũng có vấn đề với việc nhận siêu dữ liệu EXIF</string>
@@ -317,7 +317,7 @@
     <string name="suffix">Hậu tố</string>
     <string name="free">Miễn phí</string>
     <string name="emoji_as_color_scheme_sub">Sử dụng màu chính của biểu tượng cảm xúc làm bảng màu ứng dụng thay vì màu được xác định thủ công</string>
-    <string name="tg_chat">Trò chuyện điện tín</string>
+    <string name="tg_chat">Trò chuyện Telegram</string>
     <string name="tg_chat_sub">Thảo luận về ứng dụng và nhận phản hồi từ những người dùng khác. Bạn cũng có thể nhận được các bản cập nhật beta và thông tin chi tiết tại đây.</string>
     <string name="aspect_ratio">tỷ lệ khung hình</string>
     <string name="image_crop_mask_sub">Sử dụng loại mặt nạ này để tạo mặt nạ từ hình ảnh đã cho, lưu ý rằng nó PHẢI có kênh alpha</string>
