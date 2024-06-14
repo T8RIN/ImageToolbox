@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
@@ -610,6 +611,76 @@ internal fun <T> FilterItemContent(
                             }
                         }
                     }
+
+                    value.first is Number && value.second is Number && value.third is BlurEdgeMode -> {
+                        val sliderState1: MutableState<Float> =
+                            remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                        val sliderState2: MutableState<Float> =
+                            remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
+                        var edgeMode by remember(value) { mutableStateOf(value.third as BlurEdgeMode) }
+
+                        LaunchedEffect(
+                            sliderState1.value,
+                            sliderState2.value,
+                            edgeMode
+                        ) {
+                            onFilterChange(
+                                Triple(sliderState1.value, sliderState2.value, edgeMode)
+                            )
+                        }
+
+                        val paramsInfo by remember(filter) {
+                            derivedStateOf {
+                                filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                                    if (filterParam.title == null || index > 1) return@mapIndexedNotNull null
+                                    when (index) {
+                                        0 -> sliderState1
+                                        else -> sliderState2
+                                    } to filterParam
+                                }
+                            }
+                        }
+
+                        Column(
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+                            paramsInfo.forEach { (state, info) ->
+                                val (title, valueRange, roundTo) = info
+                                EnhancedSliderItem(
+                                    enabled = !previewOnly,
+                                    value = state.value,
+                                    title = stringResource(title!!),
+                                    valueRange = valueRange,
+                                    onValueChange = {
+                                        state.value = it
+                                    },
+                                    internalStateTransformation = {
+                                        it.roundTo(roundTo)
+                                    },
+                                    behaveAsContainer = false
+                                )
+                            }
+                        }
+                        filter.paramsInfo[2].takeIf { it.title != null }
+                            ?.let { (title, _, _) ->
+                                Text(
+                                    text = stringResource(title!!),
+                                    modifier = Modifier.padding(
+                                        top = 8.dp,
+                                        start = 12.dp,
+                                        end = 12.dp,
+                                    )
+                                )
+                                ToggleGroupButton(
+                                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    items = BlurEdgeMode.entries.map { it.translatedName },
+                                    selectedIndex = BlurEdgeMode.entries.indexOf(edgeMode),
+                                    indexChanged = {
+                                        edgeMode = BlurEdgeMode.entries[it]
+                                    }
+                                )
+                            }
+                    }
                 }
             }
 
@@ -1141,6 +1212,15 @@ internal fun <T> FilterItemContent(
         }
     }
 }
+
+private val BlurEdgeMode.translatedName: String
+    @Composable
+    get() = when (this) {
+        BlurEdgeMode.Clamp -> stringResource(R.string.tile_mode_clamp)
+        BlurEdgeMode.Clip -> stringResource(R.string.clip)
+        BlurEdgeMode.Wrap -> stringResource(R.string.wrap)
+        BlurEdgeMode.Reflect -> stringResource(R.string.tile_mode_mirror)
+    }
 
 private val FadeSide.translatedName: String
     @Composable

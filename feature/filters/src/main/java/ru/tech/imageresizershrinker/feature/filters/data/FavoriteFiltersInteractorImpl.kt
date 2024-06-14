@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
+import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
@@ -414,6 +415,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             is Float -> toString()
             is Color -> toArgb().toString()
             is Boolean -> toString()
+            is BlurEdgeMode -> name
             else -> ""
         }
     }
@@ -424,6 +426,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             Float::class.simpleName!! -> toFloat()
             Color::class.simpleName!! -> Color(toInt())
             Boolean::class.simpleName!! -> toBoolean()
+            BlurEdgeMode::class.simpleName!! -> BlurEdgeMode.valueOf(this)
             else -> ""
         }
     }

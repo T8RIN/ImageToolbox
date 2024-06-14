@@ -39,7 +39,7 @@ interface Filter<Image, Value> {
     interface FalseColor<Image, Color> : Filter<Image, Pair<Color, Color>>
     interface FastBlur<Image> : Filter<Image, Pair<Float, Int>>
     interface Gamma<Image> : Filter<Image, Float>
-    interface GaussianBlur<Image> : Filter<Image, Pair<Float, Float>>
+    interface GaussianBlur<Image> : Filter<Image, Triple<Float, Float, BlurEdgeMode>>
     interface GlassSphereRefraction<Image> : Filter<Image, Pair<Float, Float>>
     interface Halftone<Image> : Filter<Image, Float>
     interface Haze<Image> : Filter<Image, Pair<Float, Float>>

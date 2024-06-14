@@ -1220,4 +1220,7 @@
     <string name="clahe_hsv">Clahe HSV</string>
     <string name="equalize_histogram_adaptive_hsl">Equalize Histogram Adaptive HSL</string>
     <string name="equalize_histogram_adaptive_hsv">Equalize Histogram Adaptive HSV</string>
+    <string name="egde_mode">Edge Mode</string>
+    <string name="clip">Clip</string>
+    <string name="wrap">Wrap</string>
 </resources>

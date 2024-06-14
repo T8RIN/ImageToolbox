@@ -19,13 +19,15 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.EdgeMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 internal class GaussianBlurFilter(
-    override val value: Pair<Float, Float> = 25f to 10f,
+    override val value: Triple<Float, Float, BlurEdgeMode> = Triple(25f, 10f, BlurEdgeMode.Clamp),
 ) : Transformation<Bitmap>, Filter.GaussianBlur<Bitmap> {
 
     override val cacheKey: String
@@ -37,7 +39,15 @@ internal class GaussianBlurFilter(
     ): Bitmap = Aire.gaussianBlur(
         bitmap = input,
         kernelSize = 2 * value.first.toInt() + 1,
-        sigma = value.second
+        sigma = value.second,
+        edgeMode = value.third.toEdgeMode()
     )
 
+}
+
+private fun BlurEdgeMode.toEdgeMode(): EdgeMode = when (this) {
+    BlurEdgeMode.Clamp -> EdgeMode.CLAMP
+    BlurEdgeMode.Clip -> EdgeMode.KERNEL_CLIP
+    BlurEdgeMode.Wrap -> EdgeMode.WRAP
+    BlurEdgeMode.Reflect -> EdgeMode.REFLECT
 }
