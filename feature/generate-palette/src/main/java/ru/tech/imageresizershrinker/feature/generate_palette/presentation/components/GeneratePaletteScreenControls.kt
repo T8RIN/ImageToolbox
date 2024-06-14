@@ -248,7 +248,7 @@ internal fun GeneratePaletteScreenControls(
                             EnhancedChip(
                                 selected = it == paletteStyle,
                                 onClick = { paletteStyle = it },
-                                selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+                                selectedColor = MaterialTheme.colorScheme.secondary,
                                 contentPadding = PaddingValues(
                                     horizontal = 12.dp,
                                     vertical = 8.dp
