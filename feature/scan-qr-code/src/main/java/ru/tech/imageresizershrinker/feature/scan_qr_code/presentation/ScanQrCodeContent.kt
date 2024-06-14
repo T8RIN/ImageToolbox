@@ -75,6 +75,9 @@ import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.QrCode
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
@@ -86,9 +89,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
@@ -144,6 +150,14 @@ fun ScanQrCodeContent(
 
     var qrDescription by rememberSaveable {
         mutableStateOf("")
+    }
+
+    val settingsState = LocalSettingsState.current
+    var qrDescriptionFont by rememberSaveable(
+        inputs = arrayOf(settingsState.font),
+        stateSaver = UiFontFamily.Saver
+    ) {
+        mutableStateOf(settingsState.font)
     }
 
     val captureController = rememberCaptureController()
@@ -219,12 +233,16 @@ fun ScanQrCodeContent(
                         )
 
                         BoxAnimatedVisibility(visible = qrDescription.isNotEmpty() && qrContent.isNotEmpty()) {
-                            Text(
-                                text = qrDescription,
-                                style = MaterialTheme.typography.headlineSmall,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.width(targetSize)
-                            )
+                            MaterialTheme(
+                                typography = Typography(qrDescriptionFont)
+                            ) {
+                                Text(
+                                    text = qrDescription,
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.width(targetSize)
+                                )
+                            }
                         }
                     }
 
@@ -385,7 +403,12 @@ fun ScanQrCodeContent(
                     Spacer(modifier = Modifier.height(8.dp))
                     RoundedTextField(
                         modifier = Modifier
-                            .container(shape = RoundedCornerShape(24.dp))
+                            .container(
+                                shape = animateShape(
+                                    if (qrDescription.isNotEmpty()) ContainerShapeDefaults.topShape
+                                    else ContainerShapeDefaults.defaultShape
+                                )
+                            )
                             .padding(8.dp),
                         value = qrDescription,
                         onValueChange = {
@@ -396,6 +419,15 @@ fun ScanQrCodeContent(
                             Text(stringResource(id = R.string.qr_description))
                         }
                     )
+                    BoxAnimatedVisibility(visible = qrDescription.isNotEmpty()) {
+                        FontSelector(
+                            font = qrDescriptionFont,
+                            onValueChange = { qrDescriptionFont = it },
+                            color = Color.Unspecified,
+                            shape = ContainerShapeDefaults.bottomShape,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }

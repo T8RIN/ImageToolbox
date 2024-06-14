@@ -20,6 +20,7 @@
 package ru.tech.imageresizershrinker.core.settings.presentation.model
 
 import android.os.Build
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -281,6 +282,15 @@ sealed class UiFontFamily(
                 System
             ).sortedBy { it.name }
         }
+
+        val Saver: Saver<UiFontFamily, Int> = Saver(
+            save = {
+                it.asDomain().ordinal
+            },
+            restore = {
+                DomainFontFamily.fromOrdinal(it).toUiFont()
+            }
+        )
     }
 }
 
