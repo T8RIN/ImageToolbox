@@ -43,7 +43,7 @@ class ImageToolboxLibraryComposePlugin : Plugin<Project> {
             tasks.withType<KotlinCompile> {
                 compilerOptions.freeCompilerArgs.addAll(
                     "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:strongSkipping=true",
                 )
             }
         }
