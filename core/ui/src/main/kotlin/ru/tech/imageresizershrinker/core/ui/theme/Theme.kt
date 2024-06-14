@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.theme
 
 import androidx.compose.runtime.Composable
+import com.t8rin.dynamic.theme.ColorBlindType
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
@@ -39,6 +40,7 @@ fun ImageToolboxTheme(
                 darkTheme = settingsState.isNightMode
             )
         ),
+        colorBlindType = ColorBlindType.Tritanomaly,
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = dynamicColor,
         amoledMode = amoledMode,
