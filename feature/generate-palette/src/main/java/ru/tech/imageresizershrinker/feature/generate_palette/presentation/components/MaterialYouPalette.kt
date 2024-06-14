@@ -105,7 +105,7 @@ internal fun MaterialYouPalette(
 
     EnhancedButton(
         onClick = {
-            val light = getColorScheme(
+            val light = context.getColorScheme(
                 isDarkTheme = false,
                 amoledMode = false,
                 colorTuple = ColorTuple(keyColor),
@@ -115,7 +115,7 @@ internal fun MaterialYouPalette(
                 isInvertColors = isInvertColors
             ).asCodeString(false)
 
-            val dark = getColorScheme(
+            val dark = context.getColorScheme(
                 isDarkTheme = true,
                 amoledMode = false,
                 colorTuple = ColorTuple(keyColor),
