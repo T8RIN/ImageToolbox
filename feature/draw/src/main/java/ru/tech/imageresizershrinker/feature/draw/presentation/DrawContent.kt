@@ -711,7 +711,7 @@ fun DrawContent(
     ) { drawBehavior ->
         if (drawBehavior is DrawBehavior.None) {
             Box(Modifier.fillMaxSize()) {
-                val showBackgroundDrawingSetup = rememberSaveable { mutableStateOf(false) }
+                var showBackgroundDrawingSetup by rememberSaveable { mutableStateOf(false) }
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -752,7 +752,7 @@ fun DrawContent(
                         }
                         item {
                             PreferenceItem(
-                                onClick = { showBackgroundDrawingSetup.value = true },
+                                onClick = { showBackgroundDrawingSetup = true },
                                 startIcon = Icons.Outlined.FormatPaint,
                                 title = stringResource(R.string.draw_on_background),
                                 subtitle = stringResource(R.string.draw_on_background_sub),
@@ -789,10 +789,10 @@ fun DrawContent(
                 }
 
                 val density = LocalDensity.current
-                var height by remember(showBackgroundDrawingSetup.value, configuration) {
+                var height by remember(showBackgroundDrawingSetup, configuration) {
                     mutableIntStateOf(with(density) { configuration.screenHeightDp.dp.roundToPx() })
                 }
-                var width by remember(showBackgroundDrawingSetup.value, configuration) {
+                var width by remember(showBackgroundDrawingSetup, configuration) {
                     mutableIntStateOf(with(density) { configuration.screenWidthDp.dp.roundToPx() })
                 }
                 var sheetBackgroundColor by remember { mutableStateOf(Color.White) }
@@ -807,7 +807,7 @@ fun DrawContent(
                         EnhancedButton(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             onClick = {
-                                showBackgroundDrawingSetup.value = false
+                                showBackgroundDrawingSetup = false
                                 viewModel.startDrawOnBackground(
                                     reqWidth = width,
                                     reqHeight = height,
@@ -876,7 +876,10 @@ fun DrawContent(
                             }
                         }
                     },
-                    visible = showBackgroundDrawingSetup
+                    visible = showBackgroundDrawingSetup,
+                    onDismiss = {
+                        showBackgroundDrawingSetup = it
+                    }
                 )
             }
         } else {

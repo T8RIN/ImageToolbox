@@ -38,6 +38,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Shape
@@ -76,7 +77,7 @@ fun ScreenOrderSettingItem(
             }.takeIf { it.isNotEmpty() } ?: Screen.entries
         }
     }
-    val showArrangementSheet = rememberSaveable { mutableStateOf(false) }
+    var showArrangementSheet by rememberSaveable { mutableStateOf(false) }
 
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
@@ -86,7 +87,7 @@ fun ScreenOrderSettingItem(
         shape = shape,
         modifier = modifier,
         onClick = {
-            showArrangementSheet.value = true
+            showArrangementSheet = true
         },
         onDisabledClick = {
             scope.launch {
@@ -105,6 +106,9 @@ fun ScreenOrderSettingItem(
 
     SimpleSheet(
         visible = showArrangementSheet,
+        onDismiss = {
+            showArrangementSheet = it
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.order),
@@ -114,7 +118,7 @@ fun ScreenOrderSettingItem(
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { showArrangementSheet.value = false }
+                onClick = { showArrangementSheet = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

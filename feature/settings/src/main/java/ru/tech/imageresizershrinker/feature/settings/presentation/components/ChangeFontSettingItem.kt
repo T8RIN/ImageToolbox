@@ -21,8 +21,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
@@ -45,10 +47,11 @@ fun ChangeFontSettingItem(
         .padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    val showFontSheet = rememberSaveable { mutableStateOf(false) }
+    var showFontSheet by rememberSaveable { mutableStateOf(false) }
+
     PreferenceItem(
         shape = shape,
-        onClick = { showFontSheet.value = true },
+        onClick = { showFontSheet = true },
         title = stringResource(R.string.font),
         subtitle = settingsState.font.name ?: stringResource(R.string.system),
         startIcon = Icons.Rounded.FontFamily,
@@ -57,6 +60,9 @@ fun ChangeFontSettingItem(
     )
     PickFontFamilySheet(
         visible = showFontSheet,
+        onDismiss = {
+            showFontSheet = false
+        },
         onFontSelected = onFontSelected
     )
 }

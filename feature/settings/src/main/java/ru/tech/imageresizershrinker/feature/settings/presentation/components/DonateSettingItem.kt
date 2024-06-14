@@ -22,8 +22,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
@@ -41,7 +43,8 @@ fun DonateSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
-    val showDonateSheet = rememberSaveable { mutableStateOf(false) }
+    var showDonateSheet by rememberSaveable { mutableStateOf(false) }
+
     PreferenceItem(
         modifier = Modifier
             .pulsate(
@@ -56,8 +59,11 @@ fun DonateSettingItem(
         subtitle = stringResource(R.string.donation_sub),
         startIcon = Icons.Outlined.Payments,
         onClick = {
-            showDonateSheet.value = true
+            showDonateSheet = true
         }
     )
-    DonateSheet(showDonateSheet)
+    DonateSheet(
+        visible = showDonateSheet,
+        onDismiss = { showDonateSheet = false }
+    )
 }

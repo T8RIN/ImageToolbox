@@ -23,7 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Payments
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.resources.R
@@ -35,10 +34,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun DonateSheet(
-    visible: MutableState<Boolean>
+    visible: Boolean,
+    onDismiss: () -> Unit
 ) {
     SimpleSheet(
         visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.donation),
@@ -48,7 +51,7 @@ fun DonateSheet(
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { visible.value = false },
+                onClick = onDismiss,
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

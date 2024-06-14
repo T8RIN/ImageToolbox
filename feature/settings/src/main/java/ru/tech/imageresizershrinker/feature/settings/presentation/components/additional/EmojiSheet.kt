@@ -46,7 +46,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -85,12 +84,12 @@ fun EmojiSheet(
     emojiWithCategories: ImmutableList<EmojiData>,
     allEmojis: ImmutableList<Uri>,
     onEmojiPicked: (Int) -> Unit,
-    visible: MutableState<Boolean>
+    visible: Boolean,
+    onDismiss: () -> Unit
 ) {
-    var showSheet by visible
     val state = rememberLazyGridState()
 
-    LaunchedEffect(showSheet) {
+    LaunchedEffect(visible) {
         delay(200)
         if (selectedEmojiIndex >= 0) {
             state.animateScrollToItem(selectedEmojiIndex)
@@ -126,7 +125,7 @@ fun EmojiSheet(
                 }
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = { showSheet = false }
+                    onClick = onDismiss
                 ) {
                     AutoSizeText(stringResource(R.string.close))
                 }
@@ -138,7 +137,10 @@ fun EmojiSheet(
                 icon = Icons.Outlined.Face5
             )
         },
-        visible = visible
+        visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        }
     ) {
         val alphaState by remember(emojiEnabled) {
             derivedStateOf {

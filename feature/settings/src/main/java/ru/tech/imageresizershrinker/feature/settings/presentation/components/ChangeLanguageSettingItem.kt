@@ -38,10 +38,11 @@ import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -68,7 +69,7 @@ fun ChangeLanguageSettingItem(
     shape: Shape = RoundedCornerShape(16.dp)
 ) {
     val context = LocalContext.current
-    val showEmbeddedLanguagePicker = rememberSaveable { mutableStateOf(false) }
+    var showEmbeddedLanguagePicker by rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
         PreferenceItem(
             shape = shape,
@@ -89,10 +90,10 @@ fun ChangeLanguageSettingItem(
                             )
                         )
                     }.onFailure {
-                        showEmbeddedLanguagePicker.value = true
+                        showEmbeddedLanguagePicker = true
                     }
                 } else {
-                    showEmbeddedLanguagePicker.value = true
+                    showEmbeddedLanguagePicker = true
                 }
             }
         )
@@ -113,7 +114,10 @@ fun ChangeLanguageSettingItem(
             }
             AppCompatDelegate.setApplicationLocales(locale)
         },
-        visible = showEmbeddedLanguagePicker
+        visible = showEmbeddedLanguagePicker,
+        onDismiss = {
+            showEmbeddedLanguagePicker = false
+        }
     )
 }
 
@@ -122,9 +126,13 @@ private fun PickLanguageSheet(
     entries: Map<String, String>,
     selected: String,
     onSelect: (String) -> Unit,
-    visible: MutableState<Boolean>
+    visible: Boolean,
+    onDismiss: () -> Unit
 ) {
     SimpleSheet(
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         title = {
             TitleItem(
                 text = stringResource(R.string.language),
@@ -181,9 +189,7 @@ private fun PickLanguageSheet(
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    visible.value = false
-                }
+                onClick = onDismiss
             ) {
                 AutoSizeText(stringResource(R.string.cancel))
             }

@@ -762,17 +762,17 @@ fun FiltersContent(
             null
         )
     }
-    val showSelectionFilterPicker =
-        rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(showSelectionFilterPicker.value) {
-        if (!showSelectionFilterPicker.value) tempSelectionUris = null
+    var showSelectionFilterPicker by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(showSelectionFilterPicker) {
+        if (!showSelectionFilterPicker) tempSelectionUris = null
     }
     val selectionFilterPicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.let {
             tempSelectionUris = it
-            showSelectionFilterPicker.value = true
+            showSelectionFilterPicker = true
         }
     }
 
@@ -1002,10 +1002,13 @@ fun FiltersContent(
 
                             SimpleSheet(
                                 visible = showSelectionFilterPicker,
+                                onDismiss = {
+                                    showSelectionFilterPicker = it
+                                },
                                 confirmButton = {
                                     EnhancedButton(
                                         onClick = {
-                                            showSelectionFilterPicker.value = false
+                                            showSelectionFilterPicker = false
                                         },
                                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                                     ) {
@@ -1014,7 +1017,7 @@ fun FiltersContent(
                                 },
                                 sheetContent = {
                                     if (tempSelectionUris == null) {
-                                        showSelectionFilterPicker.value = false
+                                        showSelectionFilterPicker = false
                                     }
 
                                     LazyVerticalStaggeredGrid(
@@ -1030,7 +1033,7 @@ fun FiltersContent(
                                             BasicFilterPreference(
                                                 onClick = {
                                                     viewModel.setBasicFilter(tempSelectionUris)
-                                                    showSelectionFilterPicker.value = false
+                                                    showSelectionFilterPicker = false
                                                 },
                                                 modifier = Modifier.fillMaxWidth()
                                             )
@@ -1039,7 +1042,7 @@ fun FiltersContent(
                                             MaskFilterPreference(
                                                 onClick = {
                                                     viewModel.setMaskFilter(tempSelectionUris?.firstOrNull())
-                                                    showSelectionFilterPicker.value = false
+                                                    showSelectionFilterPicker = false
                                                 },
                                                 modifier = Modifier.fillMaxWidth()
                                             )

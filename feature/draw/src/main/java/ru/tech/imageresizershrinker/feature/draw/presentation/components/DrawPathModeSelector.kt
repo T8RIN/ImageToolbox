@@ -44,9 +44,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -89,7 +91,7 @@ fun DrawPathModeSelector(
     onValueChange: (DrawPathMode) -> Unit,
     containerColor: Color = Color.Unspecified
 ) {
-    val state = rememberSaveable { mutableStateOf(false) }
+    var isSheetVisible by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(value, values) {
         if (values.find { it::class.isInstance(value) } == null) {
@@ -117,7 +119,7 @@ fun DrawPathModeSelector(
                 Spacer(modifier = Modifier.width(8.dp))
                 SupportingButton(
                     onClick = {
-                        state.value = true
+                        isSheetVisible = true
                     }
                 )
             },
@@ -326,14 +328,17 @@ fun DrawPathModeSelector(
                 }
             }
         },
-        visible = state,
+        visible = isSheetVisible,
+        onDismiss = {
+            isSheetVisible = it
+        },
         title = {
             TitleItem(text = stringResource(R.string.draw_path_mode))
         },
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { state.value = false }
+                onClick = { isSheetVisible = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

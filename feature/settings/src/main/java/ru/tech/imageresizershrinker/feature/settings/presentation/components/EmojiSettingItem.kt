@@ -69,14 +69,15 @@ fun EmojiSettingItem(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
-    val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
+    var showEmojiDialog by rememberSaveable { mutableStateOf(false) }
+
     PreferenceRow(
         modifier = modifier,
         shape = shape,
         title = stringResource(R.string.emoji),
         subtitle = stringResource(R.string.emoji_sub),
         onClick = {
-            showEmojiDialog.value = true
+            showEmojiDialog = true
         },
         startIcon = Icons.Outlined.Cool,
         enabled = !settingsState.useRandomEmojis,
@@ -145,7 +146,10 @@ fun EmojiSettingItem(
         emojiWithCategories = Emoji.allIconsCategorized(),
         allEmojis = Emoji.allIcons(),
         onEmojiPicked = updateEmoji,
-        visible = showEmojiDialog
+        visible = showEmojiDialog,
+        onDismiss = {
+            showEmojiDialog = false
+        }
     )
 
     if (showShoeDescriptionDialog.isNotEmpty()) {

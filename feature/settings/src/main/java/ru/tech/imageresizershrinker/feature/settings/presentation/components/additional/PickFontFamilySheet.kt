@@ -25,7 +25,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,11 +38,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun PickFontFamilySheet(
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     onFontSelected: (UiFontFamily) -> Unit
 ) {
     SimpleSheet(
         visible = visible,
+        onDismiss = {
+            if (!it) onDismiss()
+        },
         sheetContent = {
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(250.dp),
@@ -66,7 +69,7 @@ fun PickFontFamilySheet(
         },
         confirmButton = {
             EnhancedButton(
-                onClick = { visible.value = false }
+                onClick = onDismiss
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

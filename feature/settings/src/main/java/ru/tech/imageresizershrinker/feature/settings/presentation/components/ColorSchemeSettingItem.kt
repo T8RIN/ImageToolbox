@@ -30,10 +30,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -79,7 +81,7 @@ fun ColorSchemeSettingItem(
     val settingsState = LocalSettingsState.current
     val enabled = !settingsState.isDynamicColors
 
-    val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
+    var showPickColorSheet by rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
         modifier = modifier,
         enabled = enabled,
@@ -88,7 +90,7 @@ fun ColorSchemeSettingItem(
         startIcon = Icons.Outlined.Theme,
         subtitle = stringResource(R.string.pick_accent_color),
         onClick = {
-            showPickColorSheet.value = true
+            showPickColorSheet = true
         },
         onDisabledClick = {
             scope.launch {
@@ -152,7 +154,7 @@ fun ColorSchemeSettingItem(
             }
         }
     )
-    val showColorPicker = rememberSaveable { mutableStateOf(false) }
+    var showColorPicker by rememberSaveable { mutableStateOf(false) }
     AvailableColorTuplesSheet(
         visible = showPickColorSheet,
         colorTupleList = settingsState.colorTupleList,
@@ -165,12 +167,15 @@ fun ColorSchemeSettingItem(
         onThemeStyleSelected = { setThemeStyle(it.ordinal) },
         updateThemeContrast = updateThemeContrast,
         openColorPicker = {
-            showColorPicker.value = true
+            showColorPicker = true
         },
         colorPicker = { onUpdateColorTuples ->
             ColorTuplePicker(
                 visible = showColorPicker,
                 colorTuple = settingsState.appColorTuple,
+                onDismiss = {
+                    showColorPicker = false
+                },
                 onColorChange = {
                     updateColorTuple(it)
                     onUpdateColorTuples(settingsState.colorTupleList + it)
@@ -181,6 +186,9 @@ fun ColorSchemeSettingItem(
             updateColorTuples(it)
         },
         onToggleUseEmojiAsPrimaryColor = onToggleUseEmojiAsPrimaryColor,
+        onDismiss = {
+            showPickColorSheet = false
+        },
         onPickTheme = { updateColorTuple(it) }
     )
 }

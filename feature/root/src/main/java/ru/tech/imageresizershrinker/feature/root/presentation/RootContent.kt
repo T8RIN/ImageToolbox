@@ -117,10 +117,10 @@ fun RootContent(
     ) {
         SecureModeHandler()
 
-        val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
+        var showSelectSheet by rememberSaveable(viewModel.showSelectDialog) {
             mutableStateOf(viewModel.showSelectDialog)
         }
-        val showUpdateSheet = rememberSaveable(viewModel.showUpdateDialog) {
+        var showUpdateSheet by rememberSaveable(viewModel.showUpdateDialog) {
             mutableStateOf(viewModel.showUpdateDialog)
         }
         LaunchedEffect(settingsState) {
@@ -128,15 +128,15 @@ fun RootContent(
             GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectAnalytics)
         }
 
-        LaunchedEffect(showSelectSheet.value) {
-            if (!showSelectSheet.value) {
+        LaunchedEffect(showSelectSheet) {
+            if (!showSelectSheet) {
                 delay(600)
                 viewModel.hideSelectDialog()
                 viewModel.updateUris(null)
             }
         }
-        LaunchedEffect(showUpdateSheet.value) {
-            if (!showUpdateSheet.value) {
+        LaunchedEffect(showUpdateSheet) {
+            if (!showUpdateSheet) {
                 delay(600)
                 viewModel.cancelledUpdate()
             }
@@ -180,12 +180,12 @@ fun RootContent(
                 ProcessImagesPreferenceSheet(
                     uris = viewModel.uris ?: emptyList(),
                     extraImageType = viewModel.extraImageType,
-                    visible = showSelectSheet.value,
-                    onDismiss = { showSelectSheet.value = it },
+                    visible = showSelectSheet,
+                    onDismiss = { showSelectSheet = it },
                     onNavigate = { screen ->
                         GlobalExceptionHandler.registerScreenOpen(screen)
                         viewModel.navController.navigate(screen)
-                        showSelectSheet.value = false
+                        showSelectSheet = false
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             clipboardManager.clearPrimaryClip()
                         } else {
@@ -205,7 +205,10 @@ fun RootContent(
             UpdateSheet(
                 tag = viewModel.tag,
                 changelog = viewModel.changelog,
-                visible = showUpdateSheet
+                visible = showUpdateSheet,
+                onDismiss = {
+                    showUpdateSheet = false
+                }
             )
 
             ConfettiHost()

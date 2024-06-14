@@ -23,8 +23,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
@@ -41,7 +43,8 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 fun AuthorSettingItem(
     shape: Shape = ContainerShapeDefaults.topShape
 ) {
-    val showAuthorSheet = rememberSaveable { mutableStateOf(false) }
+    var showAuthorSheet by rememberSaveable { mutableStateOf(false) }
+
     PreferenceRow(
         modifier = Modifier.padding(horizontal = 8.dp),
         color = MaterialTheme.colorScheme.secondaryContainer,
@@ -62,7 +65,10 @@ fun AuthorSettingItem(
                 contentDescription = null
             )
         },
-        onClick = { showAuthorSheet.value = true }
+        onClick = { showAuthorSheet = true }
     )
-    AuthorLinksSheet(showAuthorSheet)
+    AuthorLinksSheet(
+        visible = showAuthorSheet,
+        onDismiss = { showAuthorSheet = false }
+    )
 }
