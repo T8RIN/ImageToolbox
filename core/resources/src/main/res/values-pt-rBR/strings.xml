@@ -1193,4 +1193,12 @@
     <string name="format_conversion_sub">Converta lotes de imagens de um formato para outro</string>
     <string name="dismiss_forever">Dispensar definitivamente</string>
     <string name="format_conversion">Conversão de formato</string>
+    <string name="image_stacking">Empilhamento de imagens</string>
+    <string name="image_stacking_sub">Empilhe imagens umas sobre as outras com os modos de mesclagem escolhidos</string>
+    <string name="add_image">Adicionar imagem</string>
+    <string name="clahe_hsv">Clahe HSV</string>
+    <string name="equalize_histogram_adaptive_hsl">Equalizar histograma HSL adaptativo</string>
+    <string name="equalize_histogram_adaptive_hsv">Equalizar histograma HSV adaptativo</string>
+    <string name="bins_count">Contagem de posições</string>
+    <string name="clahe_hsl">Clahe HSL</string>
 </resources>
