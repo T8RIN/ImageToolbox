@@ -1201,4 +1201,7 @@
     <string name="equalize_histogram_adaptive_hsv">Equalizar histograma HSV adaptativo</string>
     <string name="bins_count">Contagem de posições</string>
     <string name="clahe_hsl">Clahe HSL</string>
+    <string name="wrap">Envolver</string>
+    <string name="clip">Cortar</string>
+    <string name="egde_mode">Modo de borda</string>
 </resources>
