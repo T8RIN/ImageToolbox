@@ -58,6 +58,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.APP_OPEN_C
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CAN_ENTER_PRESETS_BY_TEXT_FIELD
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COLOR_BLIND_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_HARMONIZATION_LEVEL
@@ -242,7 +243,12 @@ internal class AndroidSettingsManager @Inject constructor(
                 ?: default.openEditInsteadOfPreview,
             canEnterPresetsByTextField = prefs[CAN_ENTER_PRESETS_BY_TEXT_FIELD]
                 ?: default.canEnterPresetsByTextField,
-            donateDialogOpenCount = prefs[DONATE_DIALOG_OPEN_COUNT] ?: default.donateDialogOpenCount
+            donateDialogOpenCount = prefs[DONATE_DIALOG_OPEN_COUNT]
+                ?: default.donateDialogOpenCount,
+            colorBlindType = prefs[COLOR_BLIND_TYPE]?.let {
+                if (it < 0) null
+                else it
+            } ?: default.colorBlindType
         )
     }
 
@@ -877,6 +883,12 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setNotShowDonateDialogAgain() {
         dataStore.edit {
             it[DONATE_DIALOG_OPEN_COUNT] = -1
+        }
+    }
+
+    override suspend fun setColorBlindType(value: Int?) {
+        dataStore.edit {
+            it[COLOR_BLIND_TYPE] = value ?: -1
         }
     }
 

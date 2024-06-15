@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.t8rin.dynamic.theme.ColorBlindType
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
 import kotlinx.collections.immutable.ImmutableList
@@ -116,7 +117,8 @@ data class UiSettingsState(
     val oneTimeSaveLocations: List<OneTimeSaveLocation>,
     val openEditInsteadOfPreview: Boolean,
     val canEnterPresetsByTextField: Boolean,
-    val donateDialogOpenCount: Int?
+    val donateDialogOpenCount: Int?,
+    val colorBlindType: ColorBlindType?
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -270,7 +272,14 @@ fun SettingsState.toUiState(
         oneTimeSaveLocations = oneTimeSaveLocations,
         openEditInsteadOfPreview = openEditInsteadOfPreview,
         canEnterPresetsByTextField = canEnterPresetsByTextField,
-        donateDialogOpenCount = donateDialogOpenCount.takeIf { it >= 0 }
+        donateDialogOpenCount = donateDialogOpenCount.takeIf { it >= 0 },
+        colorBlindType = remember(colorBlindType) {
+            derivedStateOf {
+                colorBlindType?.let {
+                    ColorBlindType.entries.getOrNull(it)
+                }
+            }
+        }.value,
     )
 }
 

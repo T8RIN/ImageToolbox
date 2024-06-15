@@ -90,7 +90,8 @@ data class SettingsState(
     val oneTimeSaveLocations: List<OneTimeSaveLocation>,
     val openEditInsteadOfPreview: Boolean,
     val canEnterPresetsByTextField: Boolean,
-    val donateDialogOpenCount: Int
+    val donateDialogOpenCount: Int,
+    val colorBlindType: Int?
 ) {
 
     companion object {
@@ -164,7 +165,8 @@ data class SettingsState(
                 oneTimeSaveLocations = emptyList(),
                 openEditInsteadOfPreview = false,
                 canEnterPresetsByTextField = false,
-                donateDialogOpenCount = 0
+                donateDialogOpenCount = 0,
+                colorBlindType = null
             )
         }
     }

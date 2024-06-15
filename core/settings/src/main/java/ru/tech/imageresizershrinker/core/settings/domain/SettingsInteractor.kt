@@ -177,4 +177,6 @@ interface SettingsInteractor : SimpleSettingInteractor {
 
     suspend fun setNotShowDonateDialogAgain()
 
+    suspend fun setColorBlindType(value: Int?)
+
 }
