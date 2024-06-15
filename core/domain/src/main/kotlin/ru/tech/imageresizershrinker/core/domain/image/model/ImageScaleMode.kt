@@ -22,13 +22,14 @@ sealed interface ScaleColorSpace {
     data object LAB : ScaleColorSpace
     data object LUV : ScaleColorSpace
     data object Linear : ScaleColorSpace
+    data object Sigmoidal : ScaleColorSpace
 
     companion object {
         val Default = Linear
 
         val entries by lazy {
             listOf(
-                Linear, LAB, SRGB, LUV
+                Linear, LAB, SRGB, LUV, Sigmoidal
             )
         }
     }

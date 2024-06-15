@@ -1235,4 +1235,5 @@
     <string name="achromatopsia_sub">Complete color blindness, seeing only shades of gray</string>
     <string name="not_use_color_blind_scheme">Do not use Color Blind scheme</string>
     <string name="not_use_color_blind_scheme_sub">Colors will be exactly as set in the theme</string>
+    <string name="sigmoidal">Sigmoidal</string>
 </resources>
