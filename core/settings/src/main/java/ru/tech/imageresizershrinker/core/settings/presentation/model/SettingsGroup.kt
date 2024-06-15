@@ -79,6 +79,7 @@ sealed class SettingsGroup(
         icon = Icons.TwoTone.Palette,
         titleId = R.string.secondary_customization,
         settingsList = listOf(
+            Setting.ColorBlindScheme,
             Setting.BorderThickness,
             Setting.SwitchType,
             Setting.DragHandleWidth,

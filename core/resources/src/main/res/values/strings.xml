@@ -1223,4 +1223,16 @@
     <string name="egde_mode">Edge Mode</string>
     <string name="clip">Clip</string>
     <string name="wrap">Wrap</string>
+    <string name="color_blind_scheme">Color Blind Scheme</string>
+    <string name="color_blind_scheme_sub">Select mode to adapt theme colors for given color blindness variant</string>
+    <string name="protanomaly_sub">Difficulty distinguishing between red and green hues</string>
+    <string name="deuteranomaly_sub">Difficulty distinguishing between green and red hues</string>
+    <string name="tritanomaly_sub">Difficulty distinguishing between blue and yellow hues</string>
+    <string name="protanopia_sub">Inability to perceive red hues</string>
+    <string name="deuteranopia_sub">Inability to perceive green hues</string>
+    <string name="tritanopia_sub">Inability to perceive blue hues</string>
+    <string name="achromatomaly_sub">Reduced sensitivity to all colors</string>
+    <string name="achromatopsia_sub">Complete color blindness, seeing only shades of gray</string>
+    <string name="not_use_color_blind_scheme">Do not use Color BLind scheme</string>
+    <string name="not_use_color_blind_scheme_sub">Colors will be exactly as set in the theme</string>
 </resources>

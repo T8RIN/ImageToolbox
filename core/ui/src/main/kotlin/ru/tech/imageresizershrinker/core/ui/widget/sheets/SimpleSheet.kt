@@ -423,9 +423,14 @@ fun SimpleSheet(
                             ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        title()
-                        if (enableBottomContentWeight) {
-                            Spacer(modifier = Modifier.weight(1f))
+                        Row(
+                            modifier = Modifier.then(
+                                if (enableBottomContentWeight) {
+                                    Modifier.weight(1f)
+                                } else Modifier
+                            )
+                        ) {
+                            title()
                         }
                         confirmButton()
                     }

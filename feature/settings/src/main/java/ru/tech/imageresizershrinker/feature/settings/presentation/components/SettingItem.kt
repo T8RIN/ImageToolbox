@@ -581,6 +581,10 @@ internal fun SettingItem(
             Setting.CanEnterPresetsByTextField -> {
                 CanEnterPresetsByTextFieldSettingItem(onClick = viewModel::toggleCanEnterPresetsByTextField)
             }
+
+            Setting.ColorBlindScheme -> {
+                ColorBlindSchemeSettingItem(onValueChange = viewModel::setColorBlindScheme)
+            }
         }
     }
 }

@@ -542,4 +542,10 @@ class SettingsViewModel @Inject constructor(
             settingsManager.toggleCanEnterPresetsByTextField()
         }
     }
+
+    fun setColorBlindScheme(value: Int?) {
+        viewModelScope.launch {
+            settingsManager.setColorBlindType(value)
+        }
+    }
 }

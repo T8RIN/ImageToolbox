@@ -387,4 +387,9 @@ sealed class Setting(
         title = R.string.allow_enter_by_text_field,
         subtitle = R.string.allow_enter_by_text_field_sub
     )
+
+    data object ColorBlindScheme : Setting(
+        title = R.string.color_blind_scheme,
+        subtitle = R.string.color_blind_scheme_sub
+    )
 }

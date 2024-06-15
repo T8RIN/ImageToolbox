@@ -1202,4 +1202,17 @@
     <string name="clahe_hsv">Клахе HSV</string>
     <string name="equalize_histogram_adaptive_hsl">Адаптивное выравнивание гистограммы HSL</string>
     <string name="equalize_histogram_adaptive_hsv">Адаптивное выравнивание гистограммы HSV</string>
+    <string name="egde_mode">Режим краев</string>
+    <string name="clip">Обрезка</string>
+    <string name="wrap">Обтекание</string>
+    <string name="color_blind_scheme">Схема для дальтоников</string>
+    <string name="color_blind_scheme_sub">Выберите режим для адаптации цветов темы для данного варианта дальтонизма</string>
+    <string name="protanomaly_sub">Трудности в различении красных и зеленых оттенков</string>
+    <string name="deuteranomaly_sub">Трудности в различении зеленых и красных оттенков</string>
+    <string name="tritanomaly_sub">Трудности в различении синих и желтых оттенков</string>
+    <string name="protanopia_sub">Неспособность воспринимать красные оттенки</string>
+    <string name="deuteranopia_sub">Неспособность воспринимать зеленые оттенки</string>
+    <string name="tritanopia_sub">Неспособность воспринимать синие оттенки</string>
+    <string name="achromatomaly_sub">Сниженная чувствительность ко всем цветам</string>
+    <string name="achromatopsia_sub">Полная цветовая слепота, восприятие только оттенков серого</string>
 </resources>
