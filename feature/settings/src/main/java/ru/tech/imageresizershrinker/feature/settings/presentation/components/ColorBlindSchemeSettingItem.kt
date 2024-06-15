@@ -127,6 +127,7 @@ private fun ColorBlindTypeSelectionItem(
     val settingsState = LocalSettingsState.current
     val selected = settingsState.colorBlindType == type
 
+
     PreferenceItem(
         onClick = onClick,
         title = type?.localizedTitle ?: stringResource(R.string.not_use_color_blind_scheme),
