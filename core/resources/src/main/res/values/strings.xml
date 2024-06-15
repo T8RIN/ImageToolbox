@@ -1233,6 +1233,6 @@
     <string name="tritanopia_sub">Inability to perceive blue hues</string>
     <string name="achromatomaly_sub">Reduced sensitivity to all colors</string>
     <string name="achromatopsia_sub">Complete color blindness, seeing only shades of gray</string>
-    <string name="not_use_color_blind_scheme">Do not use Color BLind scheme</string>
+    <string name="not_use_color_blind_scheme">Do not use Color Blind scheme</string>
     <string name="not_use_color_blind_scheme_sub">Colors will be exactly as set in the theme</string>
 </resources>
