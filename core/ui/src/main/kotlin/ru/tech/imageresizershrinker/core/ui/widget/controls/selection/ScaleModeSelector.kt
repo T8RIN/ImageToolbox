@@ -365,6 +365,7 @@ private val ScaleColorSpace.title: String
         is ScaleColorSpace.LAB -> "LAB"
         is ScaleColorSpace.LUV -> "LUV"
         is ScaleColorSpace.Sigmoidal -> stringResource(R.string.sigmoidal)
+        ScaleColorSpace.XYZ -> "XYZ"
     }
 
 private val ImageScaleMode.title: Int

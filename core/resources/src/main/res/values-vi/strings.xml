@@ -285,7 +285,7 @@
 \nXin lưu ý: bộ nhớ không phải là nơi lưu trữ.</string>
     <string name="compatibility_sub">Xin lưu ý rằng khả năng tương thích với các phần mềm hoặc dịch vụ mã hóa tệp khác không được đảm bảo. Cách xử lý khóa hoặc cấu hình mật mã hơi khác một chút có thể gây ra sự không tương thích.</string>
     <string name="invalid_password_or_not_encrypted">Mật khẩu không hợp lệ hoặc tập tin đã chọn không được mã hóa</string>
-    <string name="image_size_warning">Cố gắng lưu hình ảnh với chiều rộng và chiều cao nhất định có thể gây ra lỗi OOM. Bạn phải tự chịu rủi ro khi làm điều này và đừng nói rằng tôi chưa từng
+    <string name="image_size_warning">Cố gắng lưu hình ảnh với chiều rộng và chiều cao nhất định có thể gây ra lỗi OOM. Bạn phải tự chịu rủi ro khi làm điều này và đừng nói rằng tôi chưa từng</string>
     <string name="cache">Bộ đệm</string>
     <string name="cache_size">Kích thước bộ đệm</string>
     <string name="found_s">Đã tìm thấy %1$s</string>
@@ -355,7 +355,7 @@
     <string name="pipette">Pipet</string>
     <string name="draw_mode">Chế độ vẽ</string>
     <string name="create_issue">Tạo vấn đề</string>
-    <string name="something_went_wrong_emphasis">Rất tiếc... Đã xảy ra lỗi. Bạn có thể viết thư cho tôi bằng các tùy chọn bên dưới và tôi sẽ cố gắng tìm giải pháp</string>
+    <string name="something_went_wrong_emphasis">Rất tiếc… Đã xảy ra lỗi. Bạn có thể viết thư cho tôi bằng các tùy chọn bên dưới và tôi sẽ cố gắng tìm giải pháp</string>
     <string name="resize_and_convert">Thay đổi kích thước và chuyển đổi</string>
     <string name="resize_and_convert_sub">Thay đổi kích thước của hình ảnh nhất định hoặc chuyển đổi chúng sang các định dạng khác. Siêu dữ liệu EXIF cũng có thể được chỉnh sửa tại đây nếu chọn một hình ảnh.</string>
     <string name="max_colors_count">Số màu tối đa</string>
