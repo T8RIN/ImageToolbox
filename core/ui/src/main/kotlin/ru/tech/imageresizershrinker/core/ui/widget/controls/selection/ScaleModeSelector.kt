@@ -280,7 +280,10 @@ fun ScaleModeSelector(
                 },
                 buttonIcon = {},
                 itemContent = {
-                    Text(items[it].title)
+                    AutoSizeText(
+                        text = items[it].title,
+                        maxLines = 1
+                    )
                 },
                 indexChanged = {
                     onValueChange(
@@ -366,9 +369,9 @@ private val ScaleColorSpace.title: String
         is ScaleColorSpace.LUV -> "LUV"
         is ScaleColorSpace.Sigmoidal -> stringResource(R.string.sigmoidal)
         is ScaleColorSpace.XYZ -> "XYZ"
-        is ScaleColorSpace.F32Gamma22 -> "F32 ${stringResource(R.string.gamma)} 2.2"
-        is ScaleColorSpace.F32Gamma28 -> "F32 ${stringResource(R.string.gamma)} 2.8"
-        is ScaleColorSpace.F32Rec709 -> "F32 Rec.709"
+        is ScaleColorSpace.F32Gamma22 -> "${stringResource(R.string.gamma)} 2.2"
+        is ScaleColorSpace.F32Gamma28 -> "${stringResource(R.string.gamma)} 2.8"
+        is ScaleColorSpace.F32Rec709 -> "Rec.709"
         is ScaleColorSpace.F32sRGB -> "F32 sRGB"
     }
 
