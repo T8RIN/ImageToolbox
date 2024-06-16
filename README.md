@@ -383,6 +383,10 @@ or click one of the badges below.
     - Lanczos 4 Sharpest EWA
     - Lanczos Soft EWA
     - Haasn Soft
+    - Lagrange 2
+    - Lagrange 3
+    - Lanczos 6
+    - Lanczos 6 Jinc
 - GIF conversion
   - GIF to images
   - Images to GIF
