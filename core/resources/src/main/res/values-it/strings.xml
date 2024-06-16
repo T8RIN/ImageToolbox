@@ -825,7 +825,7 @@
     <string name="apng_type_to_jxl">Da APNG a JXL</string>
     <string name="jxl_type_to_images">Da JXL a Immagini</string>
     <string name="jxl_type_to_images_sub">Converti l\'animazione JXL in un gruppo di immagini</string>
-    <string name="jxl_type_to_jxl">Da Immagini a JXL</string>
+    <string name="jxl_type_to_jxl">Immagini in JXL</string>
     <string name="jxl_type_to_jxl_sub">Converti un gruppo di immagini in un\'animazione JXL</string>
     <string name="behavior">Comportamento</string>
     <string name="skip_file_picking">Salta Selezione File</string>
@@ -833,4 +833,15 @@
     <string name="generate_previews">Genera Anteprime</string>
     <string name="gif_type_to_jxl_sub">Converti immagini GIF in animazioni JXL</string>
     <string name="apng_type_to_jxl_sub">Converti immagini APNG in animazioni JXL</string>
+    <string name="sorting">Ordinamento</string>
+    <string name="sort_by_date">Ordina Per Data</string>
+    <string name="sort_by_name">Ordina Per Nome</string>
+    <string name="sort_by_name_reversed">Ordina Per Nome (Invertito)</string>
+    <string name="sort_by_date_reversed">Ordina Per Data (Invertito)</string>
+    <string name="no_permissions">Nessun Permesso</string>
+    <string name="select_jxl_image_to_start">Scegli l\'immagine JXL per iniziare</string>
+    <string name="header_today">Oggi</string>
+    <string name="header_yesterday">Ieri</string>
+    <string name="request">Richiesta</string>
+    <string name="images_to_svg">Immagini in Svg</string>
 </resources>
