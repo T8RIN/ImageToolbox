@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Image Toolbox</string>
-    <string name="app_launcher_name" translatable="false">Image Toolbox</string>
-    <string name="file_provider" translatable="false">ru.tech.imageresizershrinker.fileprovider</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Đã xảy ra lỗi: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -65,7 +62,6 @@
     <string name="no_palette">Không thể tạo bảng màu cho hình ảnh đã cho</string>
     <string name="original">Bản gốc</string>
     <string name="folder">Thư mục đầu ra</string>
-    <string name="default_folder" translatable="false">Documents/ResizedImages</string>
     <string name="def">Mặc định</string>
     <string name="custom">Tùy chỉnh</string>
     <string name="unspecified">Không xác định</string>
@@ -98,8 +94,6 @@
     <string name="cannot_change_palette_while_dynamic_colors_applied">Không thể thay đổi cách phối màu của ứng dụng khi bật màu động</string>
     <string name="pick_accent_color">Chủ đề ứng dụng sẽ dựa trên màu đã chọn</string>
     <string name="about_app">Giới thiệu về ứng dụng</string>
-    <string name="app_developer" translatable="false">Malik Mukhametzyanov</string>
-    <string name="app_developer_nick" translatable="false">T8RIN</string>
     <string name="no_updates">Không tìm thấy bản cập nhật nào</string>
     <string name="issue_tracker">Trình theo dõi vấn đề</string>
     <string name="issue_tracker_sub">Gửi báo cáo lỗi và yêu cầu tính năng tại đây</string>
@@ -109,10 +103,7 @@
     <string name="search_here">Tìm kiếm ở đây</string>
     <string name="dynamic_colors_sub">Nếu được bật thì màu ứng dụng sẽ được áp dụng giống màu hình nền</string>
     <string name="failed_to_save">Không lưu được %d hình ảnh</string>
-    <string name="telegram" translatable="false">Telegram</string>
     <string name="email">Email</string>
-    <string name="github" translatable="false">GitHub</string>
-    <string name="developer_email" translatable="false">t8rin@bk.ru</string>
     <string name="primary">Sơ cấp</string>
     <string name="tertiary">Cao cấp</string>
     <string name="secondary">Trung cấp</string>
@@ -228,7 +219,6 @@
     <string name="refractive_index">Chỉ số khúc xạ</string>
     <string name="glass_sphere_refraction">Khúc xạ cầu thủy tinh</string>
     <string name="color_matrix">Ma trận màu</string>
-    <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Độ trong suốt</string>
     <string name="limits_resize">Giới hạn thay đổi kích thước</string>
     <string name="limits_resize_sub">Thay đổi kích thước hình ảnh đã chọn để tuân theo giới hạn chiều rộng và chiều cao nhất định trong khi lưu tỷ lệ khung hình</string>
@@ -296,7 +286,6 @@
     <string name="group_options_by_type">Nhóm tùy chọn theo loại</string>
     <string name="group_options_by_type_sub">Nhóm các tùy chọn trên màn hình chính theo loại thay vì sắp xếp danh sách tùy chỉnh</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Không thể thay đổi cách sắp xếp khi nhóm tùy chọn được bật</string>
-    <string name="default_prefix" translatable="false">ResizedImage</string>
     <string name="edit_screenshot">Chỉnh sửa ảnh chụp màn hình</string>
     <string name="secondary_customization">Tùy chỉnh phụ</string>
     <string name="screenshot">Ảnh chụp màn hình</string>
@@ -359,8 +348,6 @@
     <string name="resize_and_convert">Thay đổi kích thước và chuyển đổi</string>
     <string name="resize_and_convert_sub">Thay đổi kích thước của hình ảnh nhất định hoặc chuyển đổi chúng sang các định dạng khác. Siêu dữ liệu EXIF cũng có thể được chỉnh sửa tại đây nếu chọn một hình ảnh.</string>
     <string name="max_colors_count">Số màu tối đa</string>
-    <string name="firebase" translatable="false">Firebase</string>
-    <string name="crashlytics" translatable="false">Crashlytics</string>
     <string name="crashlytics_sub">Điều này cho phép ứng dụng thu thập báo cáo sự cố theo cách thủ công</string>
     <string name="analytics">Phân tích</string>
     <string name="analytics_sub">Cho phép thu thập số liệu thống kê sử dụng ứng dụng ẩn danh</string>
@@ -378,8 +365,6 @@
     <string name="brush_softness">Độ mềm của cọ</string>
     <string name="crop_description">Hình ảnh sẽ được cắt ở giữa theo kích thước đã nhập. Canvas sẽ được mở rộng với màu nền nhất định nếu hình ảnh nhỏ hơn kích thước đã nhập.</string>
     <string name="donation">Quyên góp</string>
-    <string name="bitcoin" translatable="false">Bitcoin</string>
-    <string name="usdt" translatable="false">USDT</string>
     <string name="image_stitching">Ghép ảnh</string>
     <string name="image_stitching_sub">Kết hợp các hình ảnh đã cho để có được một hình ảnh lớn</string>
     <string name="pick_at_least_two_images">Chọn ít nhất 2 hình ảnh</string>
@@ -450,8 +435,6 @@
     <string name="add_mask">Thêm mặt nạ</string>
     <string name="mask_indexed">Mặt nạ %d</string>
     <string name="mask_color">Màu mặt nạ</string>
-    <string name="ton_space" translatable="false">TON Space</string>
-    <string name="ton" translatable="false">TON</string>
     <string name="mask_preview">Xem trước mặt nạ</string>
     <string name="mask_preview_sub">Mặt nạ lọc đã vẽ sẽ được hiển thị để hiển thị cho bạn kết quả gần đúng</string>
     <string name="inverse_fill_type">Đảo ngược kiểu lấp đầy</string>
@@ -575,7 +558,6 @@
     <string name="magnifier_sub">Bật kính lúp ở đầu ngón tay trong chế độ vẽ để có khả năng truy cập tốt hơn</string>
     <string name="force_exif_widget_inital_value">Buộc giá trị ban đầu</string>
     <string name="force_exif_widget_inital_value_sub">Buộc kiểm tra tiện ích Exif ban đầu</string>
-    <string name="exif" translatable="false">EXIF</string>
     <string name="allow_multiple_languages">Cho phép nhiều ngôn ngữ</string>
     <string name="slide">Trượt</string>
     <string name="side_by_side">Bên cạnh nhau</string>
@@ -800,7 +782,6 @@
     <string name="cannot_change_image_format">Không thể thay đổi định dạng hình ảnh khi bật tùy chọn ghi đè tệp</string>
     <string name="emoji_as_color_scheme">Biểu tượng cảm xúc dưới dạng bảng màu</string>
     <string name="emoji_as_color_scheme_sub">Sử dụng màu chính của biểu tượng cảm xúc làm bảng màu ứng dụng thay vì màu được xác định thủ công</string>
-    <string name="material_you" translatable="false">Material You</string>
     <string name="material_you_sub">Tạo bảng màu Material You từ hình ảnh</string>
     <string name="dark_colors">Màu tối</string>
     <string name="dark_colors_sub">Sử dụng bảng màu của chế độ ban đêm thay vì biến thể sáng</string>
