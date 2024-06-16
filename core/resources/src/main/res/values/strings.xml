@@ -1236,4 +1236,12 @@
     <string name="not_use_color_blind_scheme">Do not use Color Blind scheme</string>
     <string name="not_use_color_blind_scheme_sub">Colors will be exactly as set in the theme</string>
     <string name="sigmoidal">Sigmoidal</string>
+    <string name="lagrange_2">Lagrange 2</string>
+    <string name="lagrange_2_sub">A Lagrange interpolation filter of order 2, suitable for high-quality image scaling with smooth transitions</string>
+    <string name="lagrange_3">Lagrange 3</string>
+    <string name="lagrange_3_sub">A Lagrange interpolation filter of order 3, offering better accuracy and smoother results for image scaling</string>
+    <string name="lanczos_6">Lanczos 6</string>
+    <string name="lanczos_6_sub">A Lanczos resampling filter with a higher order of 6, providing sharper and more accurate image scaling</string>
+    <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
+    <string name="lanczos_6_jinc_sub">A variant of the Lanczos 6 filter using a Jinc function for improved image resampling quality</string>
 </resources>

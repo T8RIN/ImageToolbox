@@ -424,6 +424,10 @@ private val ImageScaleMode.title: Int
         is ImageScaleMode.EwaLanczos4Sharpest -> R.string.ewa_lanczos_4_sharpest
         is ImageScaleMode.EwaLanczosSoft -> R.string.ewa_lanczos_soft
         is ImageScaleMode.HaasnSoft -> R.string.haasn_soft
+        is ImageScaleMode.Lagrange2 -> R.string.lagrange_2
+        is ImageScaleMode.Lagrange3 -> R.string.lagrange_3
+        is ImageScaleMode.Lanczos6 -> R.string.lanczos_6
+        is ImageScaleMode.Lanczos6Jinc -> R.string.lanczos_6_jinc
     }
 
 private val ImageScaleMode.subtitle: Int
@@ -475,4 +479,8 @@ private val ImageScaleMode.subtitle: Int
         is ImageScaleMode.EwaLanczos4Sharpest -> R.string.ewa_lanczos_4_sharpest_sub
         is ImageScaleMode.EwaLanczosSoft -> R.string.ewa_lanczos_soft_sub
         is ImageScaleMode.HaasnSoft -> R.string.haasn_soft_sub
+        is ImageScaleMode.Lagrange2 -> R.string.lagrange_2_sub
+        is ImageScaleMode.Lagrange3 -> R.string.lagrange_3_sub
+        is ImageScaleMode.Lanczos6 -> R.string.lanczos_6_sub
+        is ImageScaleMode.Lanczos6Jinc -> R.string.lanczos_6_jinc_sub
     }

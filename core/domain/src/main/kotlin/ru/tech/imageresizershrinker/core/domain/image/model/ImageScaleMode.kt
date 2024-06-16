@@ -435,6 +435,38 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = HaasnSoft(scaleColorSpace)
     }
 
+    class Lagrange2(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(44) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lagrange2(scaleColorSpace)
+    }
+
+    class Lagrange3(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(45) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lagrange3(scaleColorSpace)
+    }
+
+    class Lanczos6(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(46) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos6(scaleColorSpace)
+    }
+
+    class Lanczos6Jinc(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(47) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Lanczos6Jinc(scaleColorSpace)
+    }
+
     companion object {
         val Default = Bilinear()
 
@@ -472,6 +504,10 @@ sealed class ImageScaleMode(val value: Int) {
                 EwaLanczosSoft(),
                 EwaRobidouxSharp(),
                 EwaLanczos3Jinc(),
+                Lagrange2(),
+                Lagrange3(),
+                Lanczos6(),
+                Lanczos6Jinc(),
             )
         }
 

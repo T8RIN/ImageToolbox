@@ -1215,4 +1215,12 @@
     <string name="tritanopia_sub">Неспособность воспринимать синие оттенки</string>
     <string name="achromatomaly_sub">Сниженная чувствительность ко всем цветам</string>
     <string name="achromatopsia_sub">Полная цветовая слепота, восприятие только оттенков серого</string>
+    <string name="lagrange_2">Лагранж 2</string>
+    <string name="lagrange_2_sub">Интерполяционный фильтр Лагранжа порядка 2, подходящий для высококачественного масштабирования изображений с плавными переходами</string>
+    <string name="lagrange_3">Лагранж 3</string>
+    <string name="lagrange_3_sub">Интерполяционный фильтр Лагранжа порядка 3, обеспечивающий лучшую точность и более плавные результаты при масштабировании изображений</string>
+    <string name="lanczos_6">Ланцош 6</string>
+    <string name="lanczos_6_sub">Фильтр ресемплинга Ланцоша с более высоким порядком 6, обеспечивающий более резкое и точное масштабирование изображений</string>
+    <string name="lanczos_6_jinc">Ланцош 6 Jinc</string>
+    <string name="lanczos_6_jinc_sub">Вариант фильтра Ланцоша 6, использующий функцию Jinc для улучшения качества ресемплинга изображений</string>
 </resources>
