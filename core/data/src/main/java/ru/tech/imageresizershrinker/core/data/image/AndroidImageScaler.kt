@@ -305,6 +305,10 @@ internal class AndroidImageScaler @Inject constructor(
         ScaleColorSpace.LUV -> AireScaleColorSpace.LUV
         ScaleColorSpace.Sigmoidal -> AireScaleColorSpace.SIGMOIDAL
         ScaleColorSpace.XYZ -> AireScaleColorSpace.XYZ
+        ScaleColorSpace.F32Gamma22 -> AireScaleColorSpace.LINEAR_F32_GAMMA_2_2
+        ScaleColorSpace.F32Gamma28 -> AireScaleColorSpace.LINEAR_F32_GAMMA_2_8
+        ScaleColorSpace.F32Rec709 -> AireScaleColorSpace.LINEAR_F32_REC709
+        ScaleColorSpace.F32sRGB -> AireScaleColorSpace.LINEAR_F32_SRGB
     }
 
     private suspend fun flexibleResize(

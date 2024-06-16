@@ -361,11 +361,15 @@ private val ScaleColorSpace.title: String
     @Composable
     get() = when (this) {
         is ScaleColorSpace.Linear -> stringResource(R.string.linear)
-        is ScaleColorSpace.SRGB -> "SRGB"
+        is ScaleColorSpace.SRGB -> "sRGB"
         is ScaleColorSpace.LAB -> "LAB"
         is ScaleColorSpace.LUV -> "LUV"
         is ScaleColorSpace.Sigmoidal -> stringResource(R.string.sigmoidal)
-        ScaleColorSpace.XYZ -> "XYZ"
+        is ScaleColorSpace.XYZ -> "XYZ"
+        is ScaleColorSpace.F32Gamma22 -> "F32 ${stringResource(R.string.gamma)} 2.2"
+        is ScaleColorSpace.F32Gamma28 -> "F32 ${stringResource(R.string.gamma)} 2.8"
+        is ScaleColorSpace.F32Rec709 -> "F32 Rec.709"
+        is ScaleColorSpace.F32sRGB -> "F32 sRGB"
     }
 
 private val ImageScaleMode.title: Int
