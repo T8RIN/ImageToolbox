@@ -249,6 +249,9 @@ internal class AndroidImageScaler @Inject constructor(
     }
 
     private fun ImageScaleMode.toResizeFunction(): ResizeFunction = when (this) {
+        ImageScaleMode.NotPresent,
+        ImageScaleMode.Base -> ResizeFunction.Bilinear
+
         is ImageScaleMode.Bilinear -> ResizeFunction.Bilinear
         is ImageScaleMode.Nearest -> ResizeFunction.Nearest
         is ImageScaleMode.Cubic -> ResizeFunction.Cubic
@@ -293,10 +296,6 @@ internal class AndroidImageScaler @Inject constructor(
         is ImageScaleMode.EwaLanczos4Sharpest -> ResizeFunction.EwaLanczos4Sharpest
         is ImageScaleMode.EwaLanczosSoft -> ResizeFunction.EwaLanczosSoft
         is ImageScaleMode.HaasnSoft -> ResizeFunction.HaasnSoft
-
-        ImageScaleMode.NotPresent,
-        ImageScaleMode.Base -> ResizeFunction.Bilinear
-
         is ImageScaleMode.Lagrange2 -> ResizeFunction.Lagrange2
         is ImageScaleMode.Lagrange3 -> ResizeFunction.Lagrange3
         is ImageScaleMode.Lanczos6 -> ResizeFunction.Lanczos6
