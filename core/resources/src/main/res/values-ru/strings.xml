@@ -1223,4 +1223,7 @@
     <string name="lanczos_6_sub">Фильтр ресемплинга Ланцоша с более высоким порядком 6, обеспечивающий более резкое и точное масштабирование изображений</string>
     <string name="lanczos_6_jinc">Ланцош 6 Jinc</string>
     <string name="lanczos_6_jinc_sub">Вариант фильтра Ланцоша 6, использующий функцию Jinc для улучшения качества ресемплинга изображений</string>
+    <string name="not_use_color_blind_scheme">Не использовать схему дальтонизма</string>
+    <string name="sigmoidal">Сигмоидальный</string>
+    <string name="not_use_color_blind_scheme_sub">Цвета будут такими же как в теме</string>
 </resources>
