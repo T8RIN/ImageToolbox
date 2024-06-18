@@ -1204,4 +1204,25 @@
     <string name="wrap">Envolver</string>
     <string name="clip">Cortar</string>
     <string name="egde_mode">Modo de borda</string>
+    <string name="color_blind_scheme">Esquema para daltônicos</string>
+    <string name="protanopia_sub">Incapacidade de perceber tons de vermelho</string>
+    <string name="deuteranopia_sub">Incapacidade de perceber tons de verde</string>
+    <string name="tritanopia_sub">Incapacidade de perceber tons de azul</string>
+    <string name="achromatomaly_sub">Sensibilidade reduzida a todas as cores</string>
+    <string name="color_blind_scheme_sub">Selecione o modo para adaptar as cores do tema para uma determinada variante de daltonismo</string>
+    <string name="protanomaly_sub">Dificuldade em distinguir entre tons de vermelho e verde</string>
+    <string name="not_use_color_blind_scheme_sub">As cores serão exatamente como definidas no tema</string>
+    <string name="deuteranomaly_sub">Dificuldade em distinguir entre tons de verde e vermelho</string>
+    <string name="tritanomaly_sub">Dificuldade em distinguir entre tons de azul e amarelo</string>
+    <string name="achromatopsia_sub">Completa cegueira de cores, vendo apenas tons de cinza</string>
+    <string name="not_use_color_blind_scheme">Não usar esquema daltônico</string>
+    <string name="lagrange_2">Lagrange 2</string>
+    <string name="sigmoidal">Sigmoidal</string>
+    <string name="lagrange_2_sub">Um filtro de interpolação Lagrange de ordem 2, adequado para escalonamento de imagens de alta qualidade com transições suaves</string>
+    <string name="lanczos_6">Lanczos 6</string>
+    <string name="lanczos_6_jinc_sub">Uma variante do filtro Lanczos 6 usando uma função Jinc para melhorar a qualidade da reamostragem de imagens</string>
+    <string name="lagrange_3">Lagrange 3</string>
+    <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
+    <string name="lagrange_3_sub">Um filtro de interpolação Lagrange de ordem 3, que oferece melhor precisão e resultados mais suaves para o dimensionamento de imagens</string>
+    <string name="lanczos_6_sub">Um filtro de reamostragem Lanczos com uma ordem superior a 6, proporcionando uma escala de imagem mais nítida e precisa</string>
 </resources>
