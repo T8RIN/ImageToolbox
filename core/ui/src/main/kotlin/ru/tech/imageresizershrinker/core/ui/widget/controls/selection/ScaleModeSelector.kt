@@ -373,6 +373,7 @@ private val ScaleColorSpace.title: String
         is ScaleColorSpace.F32Gamma28 -> "${stringResource(R.string.gamma)} 2.8"
         is ScaleColorSpace.F32Rec709 -> "Rec.709"
         is ScaleColorSpace.F32sRGB -> "F32 sRGB"
+        is ScaleColorSpace.LCH -> "LCH"
     }
 
 private val ImageScaleMode.title: Int
