@@ -61,15 +61,18 @@ sealed class ImageScaleMode(val value: Int) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is ImageScaleMode) return false
 
-        other as ImageScaleMode
+        if (value != other.value) return false
+        if (scaleColorSpace != other.scaleColorSpace) return false
 
-        return scaleColorSpace == other.scaleColorSpace
+        return true
     }
 
     override fun hashCode(): Int {
-        return scaleColorSpace.hashCode()
+        var result = value
+        result = 31 * result + scaleColorSpace.hashCode()
+        return result
     }
 
     object NotPresent : ImageScaleMode(-2) {
