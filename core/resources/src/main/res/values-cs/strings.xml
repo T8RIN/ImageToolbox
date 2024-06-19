@@ -866,7 +866,6 @@
     <string name="tag_copyright">Autorská práva</string>
     <string name="tag_exif_version">Verze Exif</string>
     <string name="tag_flashpix_version">Verze Flashpix</string>
-    <string name="tag_pixel_x_dimension"></string>
     <string name="tag_user_comment">Uživatelský komentář</string>
     <string name="tag_related_sound_file">Související zvukový soubor</string>
     <string name="pixel_switch">Pixel</string>
