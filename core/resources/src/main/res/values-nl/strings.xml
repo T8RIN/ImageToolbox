@@ -1205,4 +1205,25 @@
     <string name="wrap">Wikkelen</string>
     <string name="egde_mode">Edge-modus</string>
     <string name="clip">Knippen</string>
+    <string name="color_blind_scheme">Schema voor kleurblindheid</string>
+    <string name="protanopia_sub">Onvermogen om rode tinten waar te nemen</string>
+    <string name="deuteranopia_sub">Onvermogen om groene tinten waar te nemen</string>
+    <string name="not_use_color_blind_scheme">Geen schema voor kleurblindheid gebruiken</string>
+    <string name="sigmoidal">Sigmoidal</string>
+    <string name="lagrange_3">Lagrange 3</string>
+    <string name="lagrange_3_sub">Een 3e orde Lagrange interpolatiefilter, met betere nauwkeurigheid en vloeiendere resultaten voor beeldschaling</string>
+    <string name="lanczos_6_sub">Een 6e orde Lanczos-resamplingfilter, voor scherpere en nauwkeurigere beeldschaling</string>
+    <string name="tritanomaly_sub">Moeite met onderscheid tussen blauwe en gele tinten</string>
+    <string name="tritanopia_sub">Onvermogen om blauwe tinten waar te nemen</string>
+    <string name="achromatomaly_sub">Verminderde gevoeligheid voor alle kleuren</string>
+    <string name="achromatopsia_sub">Volledige kleurenblindheid met alleen grijstinten</string>
+    <string name="not_use_color_blind_scheme_sub">Kleuren zijn precies zoals vastgelegd in het thema</string>
+    <string name="lagrange_2">Lagrange 2</string>
+    <string name="lagrange_2_sub">Een 2e orde Lagrange interpolatiefilter, geschikt voor hoogwaardige beeldschaling met vloeiende overgangen</string>
+    <string name="lanczos_6">Lanczos 6</string>
+    <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
+    <string name="lanczos_6_jinc_sub">Een variant van het Lanczos 6-filter met behulp van een Jinc-functie voor verbeterde beeldresamplingkwaliteit</string>
+    <string name="deuteranomaly_sub">Moeite met onderscheid tussen groene en rode tinten</string>
+    <string name="protanomaly_sub">Moeite met onderscheid tussen rode en groene tinten</string>
+    <string name="color_blind_scheme_sub">Selecteer modus om themakleuren aan te passen voor een bepaalde variant in kleurblindheid</string>
 </resources>

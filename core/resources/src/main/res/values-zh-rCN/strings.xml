@@ -1205,4 +1205,25 @@
     <string name="wrap">缠绕</string>
     <string name="equalize_histogram_adaptive_hsl">均衡直方图自适应 HSL</string>
     <string name="equalize_histogram_adaptive_hsv">均衡直方图自适应 HSV</string>
+    <string name="color_blind_scheme">色盲方案</string>
+    <string name="color_blind_scheme_sub">选择模式，为特定色盲变体调整主题颜色</string>
+    <string name="protanomaly_sub">难以区分红色和绿色色调</string>
+    <string name="deuteranomaly_sub">难以区分绿色和红色色调</string>
+    <string name="tritanomaly_sub">难以区分蓝色和黄色色调</string>
+    <string name="lagrange_2">拉格朗日 2</string>
+    <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
+    <string name="lagrange_2_sub">阶数为 2 的拉格朗日插值滤波器，适用于平滑过渡的高质量图像缩放</string>
+    <string name="lagrange_3">拉格朗日 3</string>
+    <string name="lanczos_6_sub">阶数为 6 的 Lanczos 重采样滤波器，可提供更清晰、更准确的图像缩放效果</string>
+    <string name="lanczos_6">Lanczos 6</string>
+    <string name="lanczos_6_jinc_sub">使用 Jinc 函数改进图像重采样质量的Lanczos 6 滤波器变体</string>
+    <string name="protanopia_sub">无法感知红色色调</string>
+    <string name="deuteranopia_sub">无法感知绿色色调</string>
+    <string name="tritanopia_sub">无法感知蓝色色调</string>
+    <string name="achromatopsia_sub">完全色盲，只能看到灰色阴影</string>
+    <string name="achromatomaly_sub">对所有颜色的敏感度降低</string>
+    <string name="not_use_color_blind_scheme">不要使用色盲方案</string>
+    <string name="not_use_color_blind_scheme_sub">颜色将与主题中的设置完全一致</string>
+    <string name="sigmoidal">乙字形</string>
+    <string name="lagrange_3_sub">阶数为 3 的拉格朗日插值滤波器，可为图像缩放提供更高的精度和更平滑的结果</string>
 </resources>
