@@ -387,6 +387,18 @@ or click one of the badges below.
     - Lagrange 3
     - Lanczos 6
     - Lanczos 6 Jinc
+  - Different Scale Color Spaces
+    - Linear
+    - sRGB
+    - LAB
+    - LUV
+    - Sigmoidal
+    - XYZ
+    - F32 Gamma 2.2
+    - F32 Gamma 2.8
+    - F32 Rec.709
+    - F32 sRGB
+    - LCH
 - GIF conversion
   - GIF to images
   - Images to GIF
