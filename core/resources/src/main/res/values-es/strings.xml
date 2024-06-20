@@ -805,4 +805,13 @@
     <string name="zip_sub">Cree un archivo Zip a partir de archivos o imágenes determinados</string>
     <string name="drag_handle_width">Ancho del mango de arrastre</string>
     <string name="festive">Festivo</string>
+    <string name="rain">Lluvia</string>
+    <string name="corners">Esquinas</string>
+    <string name="jxl_tools">Herramientas JXL</string>
+    <string name="jxl_tools_sub">Realiza transcodificaciones JXL ~ JPEG sin pérdidas de calidad, o convierte animaciones GIF/APNG a JXL</string>
+    <string name="jxl_type_to_jpeg">JXL a JPEG</string>
+    <string name="jxl_type_to_jpeg_sub">Realiza transcodificaciones sin perdida de JXL a JPEG</string>
+    <string name="jpeg_type_to_jxl_sub">Realiza transcodificaciones sin perdida de JPEG a JXL</string>
+    <string name="jpeg_type_to_jxl">JPEG a JXL</string>
+    <string name="select_jxl_image_to_start">Elija la imagen JXL para empezar</string>
 </resources>
