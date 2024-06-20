@@ -187,7 +187,13 @@ fun RootContent(
                         viewModel.navController.navigate(screen)
                         showSelectSheet = false
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            clipboardManager.clearPrimaryClip()
+                            runCatching {
+                                clipboardManager.clearPrimaryClip()
+                            }.onFailure {
+                                clipboardManager.setPrimaryClip(
+                                    ClipData.newPlainText(null, "")
+                                )
+                            }
                         } else {
                             clipboardManager.setPrimaryClip(
                                 ClipData.newPlainText(null, "")
