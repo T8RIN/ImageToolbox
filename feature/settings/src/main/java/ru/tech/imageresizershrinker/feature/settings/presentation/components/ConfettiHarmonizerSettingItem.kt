@@ -23,18 +23,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -53,15 +48,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
@@ -105,32 +97,18 @@ fun ConfettiHarmonizerSettingItem(
                         if (enabled) 1f
                         else 0.5f
                     ).value
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally
+                )
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                IconShapeContainer(
-                    enabled = true,
-                    content = {
-                        Icon(
-                            imageVector = Icons.Outlined.ColorLens,
-                            contentDescription = null
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = stringResource(R.string.harmonization_color),
-                    style = LocalTextStyle.current.copy(lineHeight = 18.sp),
-                    fontWeight = FontWeight.Medium
-                )
-            }
+            TitleItem(
+                modifier = Modifier.padding(
+                    top = 12.dp,
+                    end = 12.dp,
+                    bottom = 16.dp,
+                    start = 12.dp
+                ),
+                text = stringResource(R.string.harmonization_color),
+                icon = Icons.Outlined.ColorLens
+            )
 
             FlowRow(
                 verticalArrangement = Arrangement.spacedBy(
