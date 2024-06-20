@@ -801,7 +801,8 @@
     <string name="apng_type_to_image_sub">Convierta un archivo APNG en un lote de imágenes</string>
     <string name="apng_type_to_apng_sub">Convertir lotes de imágenes a archivos APNG</string>
     <string name="select_apng_image_to_start">Elija la imagen APNG para comenzar</string>
-    <string name="zip">Cremallera</string>
+    <string name="zip">Comprimir</string>
     <string name="zip_sub">Cree un archivo Zip a partir de archivos o imágenes determinados</string>
     <string name="drag_handle_width">Ancho del mango de arrastre</string>
+    <string name="festive">Festivo</string>
 </resources>
