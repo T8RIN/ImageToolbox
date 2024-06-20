@@ -36,12 +36,12 @@ sealed interface ScaleColorSpace {
         val entries by lazy {
             listOf(
                 Linear,
-                LAB,
                 SRGB,
+                F32sRGB,
+                XYZ,
+                LAB,
                 LUV,
                 Sigmoidal,
-                XYZ,
-                F32sRGB,
                 F32Rec709,
                 F32Gamma22,
                 F32Gamma28,
