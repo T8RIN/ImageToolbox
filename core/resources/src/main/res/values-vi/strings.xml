@@ -353,7 +353,7 @@
     <string name="analytics_sub">Cho phép thu thập số liệu thống kê sử dụng ứng dụng ẩn danh</string>
     <string name="jxl_sub">Định dạng JXL không được Android hỗ trợ chính thức nên có thể có gì đó không hoạt động. Việc lưu sẽ chỉ hoạt động nếu bạn chọn thư mục đầu ra tùy chỉnh. Đây là phiên bản thử nghiệm, các lỗi ở đây sẽ không được sửa trừ khi google bổ sung thêm hỗ trợ JXL. Phiên bản này có thể xem được hình ảnh JXL</string>
     <string name="image_exif_warning">Hiện tại, định dạng %1$s chỉ cho phép đọc siêu dữ liệu EXIF trên Android. Hình ảnh đầu ra sẽ không có siêu dữ liệu nào khi được lưu.</string>
-    <string name="effort">Nỗ lực</string>
+    <string name="effort">Lực nén</string>
     <string name="effort_sub">Giá trị %1$d có nghĩa là nén nhanh, dẫn đến kích thước tệp tương đối lớn. %2$d có nghĩa là nén chậm hơn, dẫn đến tệp nhỏ hơn.</string>
     <string name="wait">Đợi</string>
     <string name="saving_almost_complete">Việc lưu gần như hoàn tất. Việc hủy bây giờ sẽ yêu cầu lưu lại.</string>
@@ -1217,4 +1217,8 @@
     <string name="not_use_color_blind_scheme">Không sử dụng sơ đồ mù màu</string>
     <string name="not_use_color_blind_scheme_sub">Màu sắc sẽ chính xác như được đặt trong chủ đề</string>
     <string name="sigmoidal">Sigmoidal</string>
+    <string name="lagrange_2_sub">Bộ lọc nội suy Lagrange bậc 2, thích hợp cho việc chia tỷ lệ hình ảnh chất lượng cao với các chuyển tiếp mượt mà</string>
+    <string name="lagrange_3_sub">Bộ lọc nội suy Lagrange bậc 3, mang lại độ chính xác cao hơn và kết quả mượt mà hơn cho việc chia tỷ lệ hình ảnh</string>
+    <string name="lanczos_6_sub">Bộ lọc lấy mẫu lại Lanczos với bậc 6 cao hơn, mang lại tỷ lệ hình ảnh sắc nét và chính xác hơn</string>
+    <string name="lanczos_6_jinc_sub">Một biến thể của bộ lọc Lanczos 6 sử dụng chức năng Jinc để cải thiện chất lượng lấy mẫu lại hình ảnh</string>
 </resources>
