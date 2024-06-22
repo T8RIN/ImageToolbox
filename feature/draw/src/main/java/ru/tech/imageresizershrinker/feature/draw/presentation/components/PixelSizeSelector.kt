@@ -50,6 +50,9 @@ fun PixelSizeSelector(
             ),
         icon = Icons.Rounded.Cube,
         valueRange = 10f..75f,
+        internalStateTransformation = {
+            it.roundToTwoDigits()
+        },
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },
