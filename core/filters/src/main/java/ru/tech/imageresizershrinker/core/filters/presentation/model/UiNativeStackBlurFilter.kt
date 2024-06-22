@@ -30,7 +30,7 @@ class UiNativeStackBlurFilter(
     paramsInfo = listOf(
         FilterParam(
             title = null,
-            valueRange = 3f..200f,
+            valueRange = 3f..250f,
             roundTo = 0
         )
     )

@@ -26,5 +26,5 @@ class UiFastGaussianBlur2DFilter(
 ) : UiFilter<Float>(
     title = R.string.fast_gaussian_blur_2d,
     value = value,
-    valueRange = 1f..100f
+    valueRange = 1f..300f
 ), Filter.FastGaussianBlur2D<Bitmap>
