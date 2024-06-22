@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
@@ -162,11 +162,10 @@ fun CropEditOption(
                         }
                     },
                     title = {
-                        Marquee {
-                            Text(
-                                text = stringResource(R.string.crop),
-                            )
-                        }
+                        Text(
+                            text = stringResource(R.string.crop),
+                            modifier = Modifier.marquee()
+                        )
                     }
                 )
             }

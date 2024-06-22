@@ -101,6 +101,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeViewModel
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
@@ -267,7 +268,8 @@ fun ScanQrCodeContent(
         title = {
             Text(
                 text = stringResource(R.string.qr_code),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.marquee()
             )
         },
         onGoBack = onGoBack,

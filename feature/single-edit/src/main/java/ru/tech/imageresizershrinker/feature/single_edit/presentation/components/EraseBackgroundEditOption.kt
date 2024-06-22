@@ -83,7 +83,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
@@ -344,11 +344,10 @@ fun EraseBackgroundEditOption(
                         }
                     },
                     title = {
-                        Marquee {
-                            Text(
-                                text = stringResource(R.string.erase_background),
-                            )
-                        }
+                        Text(
+                            text = stringResource(R.string.erase_background),
+                            modifier = Modifier.marquee()
+                        )
                     }
                 )
             }

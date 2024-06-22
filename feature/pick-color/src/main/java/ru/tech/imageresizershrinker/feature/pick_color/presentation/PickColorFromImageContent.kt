@@ -119,7 +119,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.PickColorViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -260,9 +260,10 @@ fun PickColorFromImageContent(
                             }
                         },
                         title = {
-                            Marquee {
-                                Text(stringResource(R.string.pick_color))
-                            }
+                            Text(
+                                text = stringResource(R.string.pick_color),
+                                modifier = Modifier.marquee()
+                            )
                         },
                         actions = {
                             if (viewModel.bitmap == null) {

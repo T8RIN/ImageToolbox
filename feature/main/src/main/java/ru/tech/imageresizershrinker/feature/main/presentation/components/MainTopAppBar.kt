@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 
 @Composable
 internal fun MainTopAppBar(
@@ -74,37 +74,36 @@ internal fun MainTopAppBar(
         type = EnhancedTopAppBarType.Large,
         title = {
             LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
-                Marquee {
-                    val titleText = remember {
-                        "${Screen.FEATURES_COUNT}".plus(
-                            if (BuildConfig.FLAVOR == "market") {
-                                AppVersionPreRelease
-                            } else {
-                                " ${BuildConfig.FLAVOR.uppercase()} $AppVersionPreRelease"
-                            }
-                        )
-                    }
+                val titleText = remember {
+                    "${Screen.FEATURES_COUNT}".plus(
+                        if (BuildConfig.FLAVOR == "market") {
+                            AppVersionPreRelease
+                        } else {
+                            " ${BuildConfig.FLAVOR.uppercase()} $AppVersionPreRelease"
+                        }
+                    )
+                }
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(stringResource(R.string.app_name))
-                        Badge(
-                            content = {
-                                Text(titleText)
-                            },
-                            containerColor = MaterialTheme.colorScheme.tertiary,
-                            contentColor = MaterialTheme.colorScheme.onTertiary,
-                            modifier = Modifier
-                                .padding(horizontal = 2.dp)
-                                .padding(bottom = 12.dp)
-                                .scaleOnTap {
-                                    onShowSnowfall()
-                                }
-                        )
-                        Spacer(Modifier.width(12.dp))
-                        TopAppBarEmoji()
-                    }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.marquee()
+                ) {
+                    Text(stringResource(R.string.app_name))
+                    Badge(
+                        content = {
+                            Text(titleText)
+                        },
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.onTertiary,
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp)
+                            .padding(bottom = 12.dp)
+                            .scaleOnTap {
+                                onShowSnowfall()
+                            }
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    TopAppBarEmoji()
                 }
             }
         },

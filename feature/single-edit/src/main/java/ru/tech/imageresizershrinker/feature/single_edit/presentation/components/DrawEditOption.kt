@@ -84,7 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientati
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.coerceIn
@@ -369,11 +369,10 @@ fun DrawEditOption(
                         }
                     },
                     title = {
-                        Marquee {
-                            Text(
-                                text = stringResource(R.string.draw),
-                            )
-                        }
+                        Text(
+                            text = stringResource(R.string.draw),
+                            modifier = Modifier.marquee()
+                        )
                     }
                 )
             }

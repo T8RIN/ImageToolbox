@@ -167,9 +167,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -539,9 +539,10 @@ fun DrawContent(
             if (drawBehavior !is DrawBehavior.None) {
                 EnhancedTopAppBar(
                     title = {
-                        Marquee {
-                            Text(stringResource(R.string.draw))
-                        }
+                        Text(
+                            text = stringResource(R.string.draw),
+                            modifier = Modifier.marquee()
+                        )
                     },
                     actions = {
                         if (portrait) {
@@ -633,9 +634,10 @@ fun DrawContent(
                     type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
                     title = {
-                        Marquee {
-                            Text(stringResource(R.string.draw))
-                        }
+                        Text(
+                            text = stringResource(R.string.draw),
+                            modifier = Modifier.marquee()
+                        )
                     },
                     navigationIcon = {
                         EnhancedIconButton(

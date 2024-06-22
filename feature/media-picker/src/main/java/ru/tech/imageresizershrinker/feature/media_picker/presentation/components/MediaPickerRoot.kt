@@ -61,7 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.MediaPickerActivity
 
@@ -100,9 +100,10 @@ internal fun MediaPickerActivity.MediaPickerRoot(
         topBar = {
             EnhancedTopAppBar(
                 title = {
-                    Marquee {
-                        Text(text = title)
-                    }
+                    Text(
+                        text = title,
+                        modifier = Modifier.marquee()
+                    )
                 },
                 navigationIcon = {
                     EnhancedIconButton(

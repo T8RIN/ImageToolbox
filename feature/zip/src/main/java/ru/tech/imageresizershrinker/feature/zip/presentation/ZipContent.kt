@@ -90,6 +90,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -163,7 +164,10 @@ fun ZipContent(
 
     AdaptiveLayoutScreen(
         title = {
-            Text(stringResource(R.string.zip))
+            Text(
+                text = stringResource(R.string.zip),
+                modifier = Modifier.marquee()
+            )
         },
         topAppBarPersistentActions = {
             TopAppBarEmoji()

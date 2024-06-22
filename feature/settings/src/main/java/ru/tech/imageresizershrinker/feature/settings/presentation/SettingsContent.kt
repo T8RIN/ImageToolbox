@@ -99,8 +99,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.SearchBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchSettingsDelegate
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchableSettingItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingGroupItem
@@ -188,20 +188,19 @@ fun SettingsContent(
                     targetState = showSearch
                 ) { searching ->
                     if (!searching) {
-                        Marquee {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.settings),
-                                    style = if (!isStandaloneScreen) {
-                                        MaterialTheme.typography.titleLarge
-                                    } else LocalTextStyle.current
-                                )
-                                if (isStandaloneScreen) {
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    TopAppBarEmoji()
-                                }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.marquee()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.settings),
+                                style = if (!isStandaloneScreen) {
+                                    MaterialTheme.typography.titleLarge
+                                } else LocalTextStyle.current
+                            )
+                            if (isStandaloneScreen) {
+                                Spacer(modifier = Modifier.width(8.dp))
+                                TopAppBarEmoji()
                             }
                         }
                     } else {

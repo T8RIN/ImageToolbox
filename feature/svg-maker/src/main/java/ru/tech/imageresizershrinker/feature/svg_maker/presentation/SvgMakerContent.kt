@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.components.SvgParamsSelector
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel.SvgMakerViewModel
@@ -129,7 +130,10 @@ fun SvgMakerContent(
 
     AdaptiveLayoutScreen(
         title = {
-            Text(stringResource(R.string.images_to_svg))
+            Text(
+                text = stringResource(R.string.images_to_svg),
+                modifier = Modifier.marquee()
+            )
         },
         topAppBarPersistentActions = {
             if (isPortrait) {

@@ -139,7 +139,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
@@ -362,9 +362,10 @@ fun EraseBackgroundContent(
                     type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
                     title = {
-                        Marquee {
-                            Text(stringResource(R.string.background_remover))
-                        }
+                        Text(
+                            text = stringResource(R.string.background_remover),
+                            modifier = Modifier.marquee()
+                        )
                     },
                     navigationIcon = {
                         EnhancedIconButton(
@@ -386,9 +387,10 @@ fun EraseBackgroundContent(
             } else {
                 EnhancedTopAppBar(
                     title = {
-                        Marquee {
-                            Text(stringResource(R.string.background_remover))
-                        }
+                        Text(
+                            text = stringResource(R.string.background_remover),
+                            modifier = Modifier.marquee()
+                        )
                     },
                     actions = {
                         if (portrait) {

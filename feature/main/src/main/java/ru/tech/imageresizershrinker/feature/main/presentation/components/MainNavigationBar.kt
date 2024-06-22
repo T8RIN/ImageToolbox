@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 
 @Composable
 internal fun MainNavigationBar(
@@ -78,7 +79,10 @@ internal fun MainNavigationBar(
                     }
                 },
                 label = {
-                    Text(stringResource(data.first))
+                    Text(
+                        text = stringResource(data.first),
+                        modifier = Modifier.marquee()
+                    )
                 }
             )
         }

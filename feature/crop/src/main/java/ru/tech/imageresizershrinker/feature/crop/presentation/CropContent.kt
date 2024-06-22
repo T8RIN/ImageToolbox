@@ -119,7 +119,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
@@ -276,9 +276,10 @@ fun CropContent(
                         type = EnhancedTopAppBarType.Large,
                         scrollBehavior = scrollBehavior,
                         title = {
-                            Marquee {
-                                Text(stringResource(R.string.crop))
-                            }
+                            Text(
+                                text = stringResource(R.string.crop),
+                                modifier = Modifier.marquee()
+                            )
                         },
                         navigationIcon = {
                             EnhancedIconButton(
@@ -300,9 +301,10 @@ fun CropContent(
                 } else {
                     EnhancedTopAppBar(
                         title = {
-                            Marquee {
-                                Text(stringResource(R.string.crop))
-                            }
+                            Text(
+                                text = stringResource(R.string.crop),
+                                modifier = Modifier.marquee()
+                            )
                         },
                         navigationIcon = {
                             EnhancedIconButton(

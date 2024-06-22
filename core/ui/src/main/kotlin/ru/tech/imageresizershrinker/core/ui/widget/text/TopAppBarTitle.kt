@@ -23,6 +23,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
@@ -35,54 +36,54 @@ fun <T : Any> TopAppBarTitle(
     size: Long?,
     updateOnSizeChange: Boolean = true
 ) {
-    Marquee {
-        if (updateOnSizeChange) {
-            AnimatedContent(
-                targetState = Triple(
-                    input,
-                    isLoading,
-                    size
-                ),
-                transitionSpec = { fadeIn() togetherWith fadeOut() }
-            ) { (inp, loading, size) ->
-                if (loading) {
-                    Text(
-                        stringResource(R.string.loading)
-                    )
-                } else if (inp == null || size == null || size <= 0) {
-                    AnimatedContent(targetState = title) {
-                        Text(it)
-                    }
-                } else {
-                    Text(
-                        stringResource(
-                            R.string.size,
-                            readableByteCount(size)
-                        )
-                    )
+    if (updateOnSizeChange) {
+        AnimatedContent(
+            targetState = Triple(
+                input,
+                isLoading,
+                size
+            ),
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            modifier = Modifier.marquee()
+        ) { (inp, loading, size) ->
+            if (loading) {
+                Text(
+                    stringResource(R.string.loading)
+                )
+            } else if (inp == null || size == null || size <= 0) {
+                AnimatedContent(targetState = title) {
+                    Text(it)
                 }
+            } else {
+                Text(
+                    stringResource(
+                        R.string.size,
+                        readableByteCount(size)
+                    )
+                )
             }
-        } else {
-            AnimatedContent(
-                targetState = input to isLoading,
-                transitionSpec = { fadeIn() togetherWith fadeOut() }
-            ) { (inp, loading) ->
-                if (loading) {
-                    Text(
-                        stringResource(R.string.loading)
-                    )
-                } else if (inp == null || size == null || size <= 0) {
-                    AnimatedContent(targetState = title) {
-                        Text(it)
-                    }
-                } else {
-                    Text(
-                        stringResource(
-                            R.string.size,
-                            readableByteCount(size)
-                        )
-                    )
+        }
+    } else {
+        AnimatedContent(
+            targetState = input to isLoading,
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            modifier = Modifier.marquee()
+        ) { (inp, loading) ->
+            if (loading) {
+                Text(
+                    stringResource(R.string.loading)
+                )
+            } else if (inp == null || size == null || size <= 0) {
+                AnimatedContent(targetState = title) {
+                    Text(it)
                 }
+            } else {
+                Text(
+                    stringResource(
+                        R.string.size,
+                        readableByteCount(size)
+                    )
+                )
             }
         }
     }

@@ -70,7 +70,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
@@ -131,11 +130,7 @@ fun AdaptiveLayoutScreen(
                 EnhancedTopAppBar(
                     type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
-                    title = {
-                        Marquee {
-                            title()
-                        }
-                    },
+                    title = title,
                     navigationIcon = {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
@@ -257,12 +252,5 @@ fun AdaptiveLayoutScreen(
 
             BackHandler { onGoBack() }
         }
-    }
-}
-
-@Composable
-fun BoxWrapper(content: @Composable () -> Unit) {
-    Box {
-        content()
     }
 }

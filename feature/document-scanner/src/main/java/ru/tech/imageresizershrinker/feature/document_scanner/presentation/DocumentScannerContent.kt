@@ -86,6 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel.DocumentScannerViewModel
 
 
@@ -162,7 +163,10 @@ fun DocumentScannerContent(
 
     AdaptiveLayoutScreen(
         title = {
-            Text(stringResource(R.string.document_scanner))
+            Text(
+                text = stringResource(R.string.document_scanner),
+                modifier = Modifier.marquee()
+            )
         },
         topAppBarPersistentActions = {
             TopAppBarEmoji()

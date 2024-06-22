@@ -79,7 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -120,14 +120,12 @@ fun EasterEggContent(
     ) {
         EnhancedTopAppBar(
             title = {
-                Marquee {
-                    Row {
-                        emojiData.forEach { emoji ->
-                            EmojiItem(
-                                emoji = emoji,
-                                fontScale = 1f
-                            )
-                        }
+                Row(modifier = Modifier.marquee()) {
+                    emojiData.forEach { emoji ->
+                        EmojiItem(
+                            emoji = emoji,
+                            fontScale = 1f
+                        )
                     }
                 }
             },

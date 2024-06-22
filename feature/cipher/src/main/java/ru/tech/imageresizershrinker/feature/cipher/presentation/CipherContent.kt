@@ -131,8 +131,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.cipher.presentation.components.CipherTipSheet
 import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.CipherViewModel
 import java.security.InvalidKeyException
@@ -229,23 +229,22 @@ fun CipherContent(
                         type = EnhancedTopAppBarType.Large,
                         scrollBehavior = scrollBehavior,
                         title = {
-                            Marquee {
-                                AnimatedContent(
-                                    targetState = viewModel.uri to viewModel.isEncrypt,
-                                    transitionSpec = { fadeIn() togetherWith fadeOut() }
-                                ) { (uri, isEncrypt) ->
-                                    Text(
-                                        if (uri == null) {
-                                            stringResource(R.string.cipher)
-                                        } else {
-                                            listOf(
-                                                stringResource(R.string.encryption),
-                                                stringResource(R.string.decryption)
-                                            )[if (isEncrypt) 0 else 1]
-                                        },
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
+                            AnimatedContent(
+                                targetState = viewModel.uri to viewModel.isEncrypt,
+                                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                                modifier = Modifier.marquee()
+                            ) { (uri, isEncrypt) ->
+                                Text(
+                                    if (uri == null) {
+                                        stringResource(R.string.cipher)
+                                    } else {
+                                        listOf(
+                                            stringResource(R.string.encryption),
+                                            stringResource(R.string.decryption)
+                                        )[if (isEncrypt) 0 else 1]
+                                    },
+                                    textAlign = TextAlign.Center
+                                )
                             }
                         },
                         navigationIcon = {

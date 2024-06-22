@@ -144,9 +144,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
@@ -814,27 +814,28 @@ fun FiltersContent(
                                         UiFilter.groupedEntries.flatten().size.toString()
                                     }
                                 }
-                                Marquee {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Text(
-                                            text = stringResource(R.string.filter)
-                                        )
-                                        Badge(
-                                            content = {
-                                                Text(
-                                                    text = text
-                                                )
-                                            },
-                                            containerColor = MaterialTheme.colorScheme.tertiary,
-                                            contentColor = MaterialTheme.colorScheme.onTertiary,
-                                            modifier = Modifier
-                                                .padding(horizontal = 2.dp)
-                                                .padding(bottom = 12.dp)
-                                                .scaleOnTap {
-                                                    showConfetti()
-                                                }
-                                        )
-                                    }
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.marquee()
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.filter)
+                                    )
+                                    Badge(
+                                        content = {
+                                            Text(
+                                                text = text
+                                            )
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.tertiary,
+                                        contentColor = MaterialTheme.colorScheme.onTertiary,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .padding(bottom = 12.dp)
+                                            .scaleOnTap {
+                                                showConfetti()
+                                            }
+                                    )
                                 }
                             } else {
                                 TopAppBarTitle(

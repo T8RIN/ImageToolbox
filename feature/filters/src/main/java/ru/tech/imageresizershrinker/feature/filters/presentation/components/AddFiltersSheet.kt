@@ -156,9 +156,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
@@ -947,16 +947,15 @@ fun AddFiltersSheet(
                             }
                         },
                         title = {
-                            Marquee {
-                                Text(
-                                    text = stringResource(
-                                        id = previewSheetData?.let {
-                                            if (it.size == 1) it.first().title
-                                            else R.string.filter_preview
-                                        } ?: R.string.filter_preview
-                                    )
-                                )
-                            }
+                            Text(
+                                text = stringResource(
+                                    id = previewSheetData?.let {
+                                        if (it.size == 1) it.first().title
+                                        else R.string.filter_preview
+                                    } ?: R.string.filter_preview
+                                ),
+                                modifier = Modifier.marquee()
+                            )
                         }
                     )
                 }

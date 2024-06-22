@@ -87,7 +87,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -193,12 +193,11 @@ fun ImagePreviewContent(
                     type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
                     title = {
-                        Marquee {
-                            Text(
-                                stringResource(R.string.image_preview),
-                                textAlign = TextAlign.Center
-                            )
-                        }
+                        Text(
+                            text = stringResource(R.string.image_preview),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.marquee()
+                        )
                     },
                     navigationIcon = {
                         EnhancedIconButton(

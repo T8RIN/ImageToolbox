@@ -86,8 +86,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet
@@ -254,11 +254,10 @@ fun FilterEditOption(
                         }
                     },
                     title = {
-                        Marquee {
-                            Text(
-                                text = stringResource(R.string.filter),
-                            )
-                        }
+                        Text(
+                            text = stringResource(R.string.filter),
+                            modifier = Modifier.marquee()
+                        )
                     }
                 )
             }
