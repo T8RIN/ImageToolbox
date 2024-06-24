@@ -54,7 +54,7 @@ reorderable = "0.9.6"
 reviewKtx = "2.0.1"
 splashScreen = "1.2.0-alpha01"
 
-espresso = "3.5.1"
+espresso = "3.6.0"
 ksp = "1.9.24-1.0.20"
 
 androidx-test-ext-junit = "1.1.5"
