@@ -9,11 +9,11 @@ versionCode = "143"
 jvmTarget = "17"
 compose-compiler = "1.5.14"
 
-imageToolboxLibs = "1.7.6"
+imageToolboxLibs = "1.7.8"
 
 avifCoderCoil = "1.7.5"
 avifCoder = "1.7.5"
-aire = "0.12.10"
+aire = "0.13.3"
 jxlCoderCoil = "2.2.0"
 jxlCoder = "2.2.0"
 
