@@ -2,7 +2,6 @@
 </br>
 <img src="./fastlane/metadata/android/en-US/images/logo/logo.png" width="200" />
 
-
 </div>
 
 <h1 align="center">Image Toolbox</h1>
