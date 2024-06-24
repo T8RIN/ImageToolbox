@@ -35,7 +35,7 @@ internal class TentBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.tentBlur(
         bitmap = input,
-        kernelSize = value.toInt()
+        radius = value.toInt()
     )
 
 }

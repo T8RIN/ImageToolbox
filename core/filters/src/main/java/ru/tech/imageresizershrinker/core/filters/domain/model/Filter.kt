@@ -21,23 +21,23 @@ package ru.tech.imageresizershrinker.core.filters.domain.model
 interface Filter<Image, Value> {
     val value: Value
 
-    interface BilaterialBlur<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface BilaterialBlur<Image> : TripleFilter<Image, Float, Float, Float>
     interface BlackAndWhite<Image> : SimpleFilter<Image>
     interface BoxBlur<Image> : Filter<Image, Float>
     interface Brightness<Image> : Filter<Image, Float>
-    interface BulgeDistortion<Image> : Filter<Image, Pair<Float, Float>>
+    interface BulgeDistortion<Image> : PairFilter<Image, Float, Float>
     interface CGAColorSpace<Image> : SimpleFilter<Image>
     interface ColorBalance<Image> : Filter<Image, FloatArray>
-    interface Color<Image, Color : Any> : Filter<Image, FilterValueWrapper<Color>>
+    interface Color<Image, Color : Any> : WrapperFilter<Image, Color>
     interface ColorMatrix4x4<Image> : Filter<Image, FloatArray>
     interface Contrast<Image> : Filter<Image, Float>
     interface Convolution3x3<Image> : Filter<Image, FloatArray>
-    interface Crosshatch<Image> : Filter<Image, Pair<Float, Float>>
+    interface Crosshatch<Image> : PairFilter<Image, Float, Float>
     interface Dilation<Image> : Filter<Image, Float>
     interface Emboss<Image> : Filter<Image, Float>
     interface Exposure<Image> : Filter<Image, Float>
-    interface FalseColor<Image, Color> : Filter<Image, Pair<Color, Color>>
-    interface FastBlur<Image> : Filter<Image, Pair<Float, Int>>
+    interface FalseColor<Image, Color> : PairFilter<Image, Color, Color>
+    interface FastBlur<Image> : PairFilter<Image, Float, Int>
     interface Gamma<Image> : Filter<Image, Float>
     interface GaussianBlur<Image> : Filter<Image, Triple<Float, Float, BlurEdgeMode>>
     interface GlassSphereRefraction<Image> : Filter<Image, Pair<Float, Float>>
@@ -53,7 +53,7 @@ interface Filter<Image, Value> {
     interface NonMaximumSuppression<Image> : SimpleFilter<Image>
     interface Opacity<Image> : Filter<Image, Float>
     interface Posterize<Image> : Filter<Image, Float>
-    interface RGB<Image, Color : Any> : Filter<Image, FilterValueWrapper<Color>>
+    interface RGB<Image, Color : Any> : WrapperFilter<Image, Color>
     interface Saturation<Image> : Filter<Image, Float>
     interface Sepia<Image> : SimpleFilter<Image>
     interface Sharpen<Image> : Filter<Image, Float>
@@ -184,8 +184,8 @@ interface Filter<Image, Value> {
     interface LinearTiltShift<Image> : Filter<Image, LinearTiltShiftParams>
     interface MotionBlur<Image> : Filter<Image, MotionBlurParams>
     interface Convex<Image> : Filter<Image, Float>
-    interface FastGaussianBlur2D<Image> : Filter<Image, Float>
-    interface FastGaussianBlur3D<Image> : Filter<Image, Float>
+    interface FastGaussianBlur2D<Image> : Filter<Image, Pair<Float, BlurEdgeMode>>
+    interface FastGaussianBlur3D<Image> : Filter<Image, Pair<Float, BlurEdgeMode>>
     interface FastGaussianBlur4D<Image> : Filter<Image, Float>
     interface EqualizeHistogram<Image> : SimpleFilter<Image>
     interface EqualizeHistogramHSV<Image> : Filter<Image, Int>
@@ -196,7 +196,7 @@ interface Filter<Image, Value> {
     interface Clahe<Image> : Filter<Image, Triple<Float, Int, Int>>
     interface ClaheLUV<Image> : Filter<Image, ClaheParams>
     interface ClaheLAB<Image> : Filter<Image, ClaheParams>
-    interface CropToContent<Image, Color : Any> : Filter<Image, Pair<Float, Color>>
+    interface CropToContent<Image, Color : Any> : PairFilter<Image, Float, Color>
     interface ClaheHSL<Image> : Filter<Image, ClaheParams>
     interface ClaheHSV<Image> : Filter<Image, ClaheParams>
     interface EqualizeHistogramAdaptiveHSV<Image> : Filter<Image, Triple<Int, Int, Int>>
@@ -204,3 +204,6 @@ interface Filter<Image, Value> {
 }
 
 interface SimpleFilter<Image> : Filter<Image, Unit>
+interface PairFilter<Image, Value1, Value2> : Filter<Image, Pair<Value1, Value2>>
+interface TripleFilter<Image, Value1, Value2, Value3> : Filter<Image, Triple<Value1, Value2, Value3>>
+interface WrapperFilter<Image, Wrapped : Any> : Filter<Image, FilterValueWrapper<Wrapped>>

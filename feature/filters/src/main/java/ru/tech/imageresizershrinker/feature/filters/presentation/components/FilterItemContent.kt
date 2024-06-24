@@ -398,6 +398,54 @@ internal fun <T> FilterItemContent(
                                 )
                             }
                     }
+
+                    value.first is Number && value.second is BlurEdgeMode -> {
+                        var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                        var edgeMode by remember(value) { mutableStateOf(value.second as BlurEdgeMode) }
+
+                        EnhancedSliderItem(
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    start = 8.dp,
+                                    end = 8.dp
+                                ),
+                            enabled = !previewOnly,
+                            value = sliderState1,
+                            title = filter.paramsInfo[0].title?.let {
+                                stringResource(it)
+                            } ?: "",
+                            onValueChange = {
+                                sliderState1 = it
+                                onFilterChange(sliderState1 to edgeMode)
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
+                            },
+                            valueRange = filter.paramsInfo[0].valueRange,
+                            behaveAsContainer = false
+                        )
+                        filter.paramsInfo[1].takeIf { it.title != null }
+                            ?.let { (title, _, _) ->
+                                Text(
+                                    text = stringResource(title!!),
+                                    modifier = Modifier.padding(
+                                        top = 8.dp,
+                                        start = 12.dp,
+                                        end = 12.dp,
+                                    )
+                                )
+                                ToggleGroupButton(
+                                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    items = BlurEdgeMode.entries.map { it.translatedName },
+                                    selectedIndex = BlurEdgeMode.entries.indexOf(edgeMode),
+                                    indexChanged = {
+                                        edgeMode = BlurEdgeMode.entries[it]
+                                        onFilterChange(sliderState1 to edgeMode)
+                                    }
+                                )
+                            }
+                    }
                 }
             }
 

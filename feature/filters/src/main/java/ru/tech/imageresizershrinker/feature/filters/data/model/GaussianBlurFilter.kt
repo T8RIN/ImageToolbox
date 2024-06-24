@@ -19,11 +19,11 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
-import com.awxkee.aire.EdgeMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 
 
 internal class GaussianBlurFilter(
@@ -43,11 +43,4 @@ internal class GaussianBlurFilter(
         edgeMode = value.third.toEdgeMode()
     )
 
-}
-
-private fun BlurEdgeMode.toEdgeMode(): EdgeMode = when (this) {
-    BlurEdgeMode.Clamp -> EdgeMode.CLAMP
-    BlurEdgeMode.Clip -> EdgeMode.KERNEL_CLIP
-    BlurEdgeMode.Wrap -> EdgeMode.WRAP
-    BlurEdgeMode.Reflect -> EdgeMode.REFLECT
 }

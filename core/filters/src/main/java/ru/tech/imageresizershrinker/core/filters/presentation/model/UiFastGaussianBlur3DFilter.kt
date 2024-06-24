@@ -18,13 +18,25 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
+import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiFastGaussianBlur3DFilter(
-    override val value: Float = 25f
-) : UiFilter<Float>(
+    override val value: Pair<Float, BlurEdgeMode> = 25f to BlurEdgeMode.Clamp
+) : UiFilter<Pair<Float, BlurEdgeMode>>(
     title = R.string.fast_gaussian_blur_3d,
     value = value,
-    valueRange = 1f..500f
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.radius,
+            valueRange = 1f..500f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.egde_mode,
+            valueRange = 0f..0f
+        )
+    )
 ), Filter.FastGaussianBlur3D<Bitmap>
