@@ -44,7 +44,7 @@ dependencies {
 
     api(libs.tesseract)
 
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
 
     implementation(libs.imageToolboxLibs)
 

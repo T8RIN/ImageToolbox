@@ -153,7 +153,7 @@
     <string name="gamma">伽馬</string>
     <string name="highlights_shadows">高亮與陰影</string>
     <string name="fit">適合</string>
-    <string name="add_filter">新增過濾器</string>
+    <string name="add_filter">新增濾鏡</string>
     <string name="color_filter">色彩過濾器</string>
     <string name="white_balance">白平衡</string>
     <string name="temperature">色溫</string>
@@ -168,10 +168,10 @@
     <string name="load_image_from_net_sub">從網際網路載入任何圖片以預覽、縮放、編輯與儲存，如果您想要的話。</string>
     <string name="image_link">圖片連結</string>
     <string name="explicit_description">強制任何圖片輸出為指定寬度與高度的圖片 - 可能會改變寬高比</string>
-    <string name="filter">過濾器</string>
+    <string name="filter">濾鏡</string>
     <string name="saturation">飽和度</string>
-    <string name="filter_sub">應用任何過濾器至選取的圖片</string>
-    <string name="filters">過濾器</string>
+    <string name="filter_sub">應用任何濾鏡至選取的圖片</string>
+    <string name="filters">濾鏡</string>
     <string name="flexible_description">使用長邊為準由指定的寬度或高度調整圖片尺寸，所有的尺寸計算將在儲存之後完成 - 維持寬高比例</string>
     <string name="no_image">沒有圖片</string>
     <string name="fill">填滿</string>
@@ -995,4 +995,23 @@
     <string name="tag_max_aperture_value">最大光圈值</string>
     <string name="tag_standard_output_sensitivity">標準輸出靈敏度</string>
     <string name="tag_subject_distance">拍攝距離</string>
+    <string name="document_scanner">文件掃描器</string>
+    <string name="document_scanner_sub">掃描文件並創建PDF或圖像</string>
+    <string name="start_scanning">開始掃描</string>
+    <string name="save_as_pdf">保存為PDF</string>
+    <string name="share_as_pdf">以PDF分享</string>
+    <string name="antialias">抗鋸齒</string>
+    <string name="add_image">新增圖像</string>
+    <string name="save_as_qr_code_image">保存為QR Code</string>
+    <string name="delete_template">刪除模板</string>
+    <string name="scanned_qr_code_isnt_filter_template">掃描的QR Code不是有效的濾鏡模板</string>
+    <string name="scan_qr_code">掃描QR Code</string>
+    <string name="create_template">建立模板</string>
+    <string name="template_name">模板名稱</string>
+    <string name="template_filter">濾鏡模板</string>
+    <string name="create_new">新建</string>
+    <string name="save_as_file">保存為文件</string>
+    <string name="delete_template_warn">您將刪除此模板。此操作無法復原</string>
+    <string name="filter_preview">濾鏡預覽</string>
+    <string name="qr_code">QR Code</string>
 </resources>
