@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
@@ -425,7 +426,7 @@ internal fun <T> FilterItemContent(
                             valueRange = filter.paramsInfo[0].valueRange,
                             behaveAsContainer = false
                         )
-                        filter.paramsInfo[1].takeIf { it.title != null }
+                        filter.paramsInfo[1].takeIf { it.title != null && filter is Filter.GaussianBlur<*> }
                             ?.let { (title, _, _) ->
                                 Text(
                                     text = stringResource(title!!),
@@ -709,7 +710,7 @@ internal fun <T> FilterItemContent(
                                 )
                             }
                         }
-                        filter.paramsInfo[2].takeIf { it.title != null }
+                        filter.paramsInfo[2].takeIf { it.title != null && filter is Filter.GaussianBlur<*> }
                             ?.let { (title, _, _) ->
                                 Text(
                                     text = stringResource(title!!),
