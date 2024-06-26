@@ -40,11 +40,13 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 import ru.tech.imageresizershrinker.feature.filters.di.FilterInteractorDataStore
 import javax.inject.Inject
@@ -266,6 +268,15 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 ).joinToString(PROPERTIES_SEPARATOR)
             }
 
+            is LinearGaussianParams -> {
+                LinearGaussianParams::class.simpleName!! to listOf(
+                    kernelSize,
+                    sigma,
+                    edgeMode.name,
+                    transferFunction.name
+                ).joinToString(PROPERTIES_SEPARATOR)
+            }
+
             else -> null
         }
     }
@@ -403,6 +414,18 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                 )
             }
 
+            name == LinearGaussianParams::class.simpleName -> {
+                val (kernelSize, sigma, edgeModeName, transferFunctionName) = value.split(
+                    PROPERTIES_SEPARATOR
+                )
+                LinearGaussianParams(
+                    kernelSize = kernelSize.toInt(),
+                    sigma = sigma.toFloat(),
+                    edgeMode = BlurEdgeMode.valueOf(edgeModeName),
+                    transferFunction = TransferFunc.valueOf(transferFunctionName)
+                )
+            }
+
             else -> null
         }
     }
@@ -416,6 +439,8 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             is Color -> toArgb().toString()
             is Boolean -> toString()
             is BlurEdgeMode -> name
+            is TransferFunc -> name
+            is FadeSide -> name
             else -> ""
         }
     }
@@ -427,6 +452,8 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             Color::class.simpleName!! -> Color(toInt())
             Boolean::class.simpleName!! -> toBoolean()
             BlurEdgeMode::class.simpleName!! -> BlurEdgeMode.valueOf(this)
+            TransferFunc::class.simpleName!! -> TransferFunc.valueOf(this)
+            FadeSide::class.simpleName!! -> FadeSide.valueOf(this)
             else -> ""
         }
     }

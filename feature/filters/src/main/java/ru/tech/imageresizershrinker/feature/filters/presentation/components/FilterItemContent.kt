@@ -53,11 +53,13 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
@@ -426,26 +428,19 @@ internal fun <T> FilterItemContent(
                             valueRange = filter.paramsInfo[0].valueRange,
                             behaveAsContainer = false
                         )
-                        filter.paramsInfo[1].takeIf { it.title != null && filter is Filter.GaussianBlur<*> }
-                            ?.let { (title, _, _) ->
-                                Text(
-                                    text = stringResource(title!!),
-                                    modifier = Modifier.padding(
-                                        top = 8.dp,
-                                        start = 12.dp,
-                                        end = 12.dp,
-                                    )
-                                )
-                                ToggleGroupButton(
-                                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                    items = BlurEdgeMode.entries.map { it.translatedName },
-                                    selectedIndex = BlurEdgeMode.entries.indexOf(edgeMode),
-                                    indexChanged = {
-                                        edgeMode = BlurEdgeMode.entries[it]
-                                        onFilterChange(sliderState1 to edgeMode)
-                                    }
-                                )
-                            }
+                        filter.paramsInfo[1].takeIf {
+                            it.title != null
+                        }?.let { (title, _, _) ->
+                            EdgeModeSelector(
+                                title = title,
+                                filter = filter,
+                                value = edgeMode,
+                                onValueChange = {
+                                    edgeMode = it
+                                    onFilterChange(sliderState1 to edgeMode)
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -710,25 +705,14 @@ internal fun <T> FilterItemContent(
                                 )
                             }
                         }
-                        filter.paramsInfo[2].takeIf { it.title != null && filter is Filter.GaussianBlur<*> }
-                            ?.let { (title, _, _) ->
-                                Text(
-                                    text = stringResource(title!!),
-                                    modifier = Modifier.padding(
-                                        top = 8.dp,
-                                        start = 12.dp,
-                                        end = 12.dp,
-                                    )
-                                )
-                                ToggleGroupButton(
-                                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                    items = BlurEdgeMode.entries.map { it.translatedName },
-                                    selectedIndex = BlurEdgeMode.entries.indexOf(edgeMode),
-                                    indexChanged = {
-                                        edgeMode = BlurEdgeMode.entries[it]
-                                    }
-                                )
-                            }
+                        filter.paramsInfo[2].takeIf { it.title != null }?.let { (title, _, _) ->
+                            EdgeModeSelector(
+                                title = title,
+                                filter = filter,
+                                value = edgeMode,
+                                onValueChange = { edgeMode = it }
+                            )
+                        }
                     }
                 }
             }
@@ -1258,9 +1242,159 @@ internal fun <T> FilterItemContent(
                     }
                 }
             }
+
+            is LinearGaussianParams -> {
+                val kernelSize: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.kernelSize.toFloat()) }
+                val sigma: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.sigma) }
+                val edgeMode: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.edgeMode.ordinal.toFloat()) }
+                val transferFunction: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.transferFunction.ordinal.toFloat()) }
+
+                LaunchedEffect(
+                    kernelSize.value,
+                    sigma.value,
+                    edgeMode.value,
+                    transferFunction.value
+                ) {
+                    onFilterChange(
+                        LinearGaussianParams(
+                            kernelSize = kernelSize.value.toInt(),
+                            sigma = sigma.value,
+                            edgeMode = BlurEdgeMode.entries[edgeMode.value.toInt()],
+                            transferFunction = TransferFunc.entries[transferFunction.value.toInt()]
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> kernelSize
+                                1 -> sigma
+                                2 -> edgeMode
+                                else -> transferFunction
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.take(2).forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                    paramsInfo[2].let { (state, info) ->
+                        EdgeModeSelector(
+                            title = info.title!!,
+                            filter = filter,
+                            value = BlurEdgeMode.entries[state.value.toInt()],
+                            onValueChange = { state.value = it.ordinal.toFloat() }
+                        )
+                    }
+                    paramsInfo[3].let { (state, info) ->
+                        TransferFuncSelector(
+                            title = info.title!!,
+                            filter = filter,
+                            value = TransferFunc.entries[state.value.toInt()],
+                            onValueChange = { state.value = it.ordinal.toFloat() }
+                        )
+                    }
+                }
+            }
         }
     }
 }
+
+@Composable
+private fun <T> EdgeModeSelector(
+    title: Int?,
+    filter: UiFilter<T>,
+    value: BlurEdgeMode,
+    onValueChange: (BlurEdgeMode) -> Unit
+) {
+    Text(
+        text = stringResource(title!!),
+        modifier = Modifier.padding(
+            top = 8.dp,
+            start = 12.dp,
+            end = 12.dp,
+        )
+    )
+    val entries by remember(filter) {
+        derivedStateOf {
+            BlurEdgeMode.entries.let {
+                if (filter !is Filter.GaussianBlur<*>) it - BlurEdgeMode.Clip
+                else it
+            }
+        }
+    }
+    ToggleGroupButton(
+        inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        items = entries.map { it.translatedName },
+        selectedIndex = entries.indexOf(value),
+        indexChanged = {
+            onValueChange(entries[it])
+        }
+    )
+}
+
+@Composable
+private fun <T> TransferFuncSelector(
+    title: Int?,
+    filter: UiFilter<T>,
+    value: TransferFunc,
+    onValueChange: (TransferFunc) -> Unit
+) {
+    Text(
+        text = stringResource(title!!),
+        modifier = Modifier.padding(
+            top = 8.dp,
+            start = 12.dp,
+            end = 12.dp,
+        )
+    )
+    val entries by remember(filter) {
+        derivedStateOf {
+            TransferFunc.entries
+        }
+    }
+    ToggleGroupButton(
+        inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        items = entries.map { it.translatedName },
+        selectedIndex = entries.indexOf(value),
+        indexChanged = {
+            onValueChange(entries[it])
+        }
+    )
+}
+
+private val TransferFunc.translatedName: String
+    @Composable
+    get() = when (this) {
+        TransferFunc.SRGB -> "sRGB"
+        TransferFunc.REC709 -> "Rec.709"
+        TransferFunc.GAMMA2P2 -> "${stringResource(R.string.gamma)} 2.2"
+        TransferFunc.GAMMA2P8 -> "${stringResource(R.string.gamma)} 2.8"
+    }
 
 private val BlurEdgeMode.translatedName: String
     @Composable
