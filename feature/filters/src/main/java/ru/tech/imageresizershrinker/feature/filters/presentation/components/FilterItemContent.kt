@@ -442,6 +442,47 @@ internal fun <T> FilterItemContent(
                             )
                         }
                     }
+
+                    value.first is Number && value.second is TransferFunc -> {
+                        var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                        var transferFunction by remember(value) { mutableStateOf(value.second as TransferFunc) }
+
+                        EnhancedSliderItem(
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    start = 8.dp,
+                                    end = 8.dp
+                                ),
+                            enabled = !previewOnly,
+                            value = sliderState1,
+                            title = filter.paramsInfo[0].title?.let {
+                                stringResource(it)
+                            } ?: "",
+                            onValueChange = {
+                                sliderState1 = it
+                                onFilterChange(sliderState1 to transferFunction)
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
+                            },
+                            valueRange = filter.paramsInfo[0].valueRange,
+                            behaveAsContainer = false
+                        )
+                        filter.paramsInfo[1].takeIf {
+                            it.title != null
+                        }?.let { (title, _, _) ->
+                            TransferFuncSelector(
+                                title = title,
+                                filter = filter,
+                                value = transferFunction,
+                                onValueChange = {
+                                    transferFunction = it
+                                    onFilterChange(sliderState1 to transferFunction)
+                                }
+                            )
+                        }
+                    }
                 }
             }
 
@@ -704,6 +745,62 @@ internal fun <T> FilterItemContent(
                                     behaveAsContainer = false
                                 )
                             }
+                        }
+                        filter.paramsInfo[2].takeIf { it.title != null }?.let { (title, _, _) ->
+                            EdgeModeSelector(
+                                title = title,
+                                filter = filter,
+                                value = edgeMode,
+                                onValueChange = { edgeMode = it }
+                            )
+                        }
+                    }
+
+                    value.first is Number && value.second is TransferFunc && value.third is BlurEdgeMode -> {
+                        var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                        var transferFunction by remember(value) { mutableStateOf(value.second as TransferFunc) }
+                        var edgeMode by remember(value) { mutableStateOf(value.third as BlurEdgeMode) }
+
+                        LaunchedEffect(
+                            sliderState1,
+                            transferFunction,
+                            edgeMode
+                        ) {
+                            onFilterChange(
+                                Triple(sliderState1, transferFunction, edgeMode)
+                            )
+                        }
+
+                        EnhancedSliderItem(
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    start = 8.dp,
+                                    end = 8.dp
+                                ),
+                            enabled = !previewOnly,
+                            value = sliderState1,
+                            title = filter.paramsInfo[0].title?.let {
+                                stringResource(it)
+                            } ?: "",
+                            onValueChange = {
+                                sliderState1 = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
+                            },
+                            valueRange = filter.paramsInfo[0].valueRange,
+                            behaveAsContainer = false
+                        )
+                        filter.paramsInfo[1].takeIf {
+                            it.title != null
+                        }?.let { (title, _, _) ->
+                            TransferFuncSelector(
+                                title = title,
+                                filter = filter,
+                                value = transferFunction,
+                                onValueChange = { transferFunction = it }
+                            )
                         }
                         filter.paramsInfo[2].takeIf { it.title != null }?.let { (title, _, _) ->
                             EdgeModeSelector(
