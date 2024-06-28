@@ -107,6 +107,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.FractalGlassFilte
 import ru.tech.imageresizershrinker.feature.filters.data.model.FuturisticGradientFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GammaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GaussianBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.GaussianBoxBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlassSphereRefractionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GoldenHourFilter
@@ -127,6 +128,13 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LaplacianFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LavenderDreamFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LeftToRightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LemonadeLightFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearBoxBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearFastGaussianFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearFastGaussianNextFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearGaussianBoxBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearGaussianFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearStackBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearTentBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LinearTiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LogarithmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LookupFilter
@@ -393,6 +401,14 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.ClaheHSV -> ClaheHSVFilter(value)
             is Filter.EqualizeHistogramAdaptiveHSL -> EqualizeHistogramAdaptiveHSLFilter(value)
             is Filter.EqualizeHistogramAdaptiveHSV -> EqualizeHistogramAdaptiveHSVFilter(value)
+            is Filter.LinearBoxBlur -> LinearBoxBlurFilter(value)
+            is Filter.LinearStackBlur -> LinearStackBlurFilter(value)
+            is Filter.LinearTentBlur -> LinearTentBlurFilter(value)
+            is Filter.LinearGaussianBoxBlur -> LinearGaussianBoxBlurFilter(value)
+            is Filter.GaussianBoxBlur -> GaussianBoxBlurFilter(value)
+            is Filter.LinearFastGaussianNext -> LinearFastGaussianNextFilter(value)
+            is Filter.LinearFastGaussian -> LinearFastGaussianFilter(value)
+            is Filter.LinearGaussian -> LinearGaussianFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

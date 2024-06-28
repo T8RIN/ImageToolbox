@@ -1203,7 +1203,7 @@
     <string name="clahe_hsl">Clahe HSL</string>
     <string name="wrap">Envolver</string>
     <string name="clip">Cortar</string>
-    <string name="egde_mode">Modo de borda</string>
+    <string name="edge_mode">Modo de borda</string>
     <string name="color_blind_scheme">Esquema para daltônicos</string>
     <string name="protanopia_sub">Incapacidade de perceber tons de vermelho</string>
     <string name="deuteranopia_sub">Incapacidade de perceber tons de verde</string>

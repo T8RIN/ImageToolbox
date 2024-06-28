@@ -22,4 +22,15 @@ data class LinearGaussianParams(
     val sigma: Float,
     val edgeMode: BlurEdgeMode,
     val transferFunction: TransferFunc
-)
+) {
+    companion object {
+        val Default by lazy {
+            LinearGaussianParams(
+                kernelSize = 50,
+                sigma = 10f,
+                edgeMode = BlurEdgeMode.Clamp,
+                transferFunction = TransferFunc.SRGB
+            )
+        }
+    }
+}

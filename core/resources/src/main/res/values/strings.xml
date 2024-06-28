@@ -1220,7 +1220,7 @@
     <string name="clahe_hsv">Clahe HSV</string>
     <string name="equalize_histogram_adaptive_hsl">Equalize Histogram Adaptive HSL</string>
     <string name="equalize_histogram_adaptive_hsv">Equalize Histogram Adaptive HSV</string>
-    <string name="egde_mode">Edge Mode</string>
+    <string name="edge_mode">Edge Mode</string>
     <string name="clip">Clip</string>
     <string name="wrap">Wrap</string>
     <string name="color_blind_scheme">Color Blind Scheme</string>
@@ -1244,4 +1244,11 @@
     <string name="lanczos_6_sub">A Lanczos resampling filter with a higher order of 6, providing sharper and more accurate image scaling</string>
     <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
     <string name="lanczos_6_jinc_sub">A variant of the Lanczos 6 filter using a Jinc function for improved image resampling quality</string>
+    <string name="linear_box_blur">Linear Box Blur</string>
+    <string name="linear_tent_blur">Linear Tent Blur</string>
+    <string name="linear_gaussian_box_blur">Linear Gaussian Box Blur</string>
+    <string name="linear_stack_blur">Linear Stack Blur</string>
+    <string name="gaussian_box_blur">Gaussian Box Blur</string>
+    <string name="linear_fast_gaussian_next">Linear Fast Gaussian Next</string>
+    <string name="linear_fast_gaussian">Linear Fast Gaussian</string>
 </resources>

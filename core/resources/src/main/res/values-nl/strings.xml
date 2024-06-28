@@ -1203,7 +1203,7 @@
     <string name="clahe_hsv">Clahe HSV</string>
     <string name="equalize_histogram_adaptive_hsv">Histogram egaliseren - Adaptieve HSV</string>
     <string name="wrap">Wikkelen</string>
-    <string name="egde_mode">Edge-modus</string>
+    <string name="edge_mode">Edge-modus</string>
     <string name="clip">Knippen</string>
     <string name="color_blind_scheme">Schema voor kleurblindheid</string>
     <string name="protanopia_sub">Onvermogen om rode tinten waar te nemen</string>

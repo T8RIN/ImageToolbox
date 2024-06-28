@@ -35,7 +35,7 @@ class UiFastGaussianBlur3DFilter(
             roundTo = 0
         ),
         FilterParam(
-            title = R.string.egde_mode,
+            title = R.string.edge_mode,
             valueRange = 0f..0f
         )
     )

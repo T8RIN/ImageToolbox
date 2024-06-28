@@ -1201,7 +1201,7 @@
     <string name="clahe_hsv">Clahe HSV</string>
     <string name="equalize_histogram_adaptive_hsl">Cân bằng biểu đồ HSL thích ứng</string>
     <string name="equalize_histogram_adaptive_hsv">Cân bằng biểu đồ HSV thích ứng</string>
-    <string name="egde_mode">Chế độ cạnh</string>
+    <string name="edge_mode">Chế độ cạnh</string>
     <string name="clip">Đoạn phim</string>
     <string name="wrap">Cuộn</string>
     <string name="color_blind_scheme">Sơ đồ mù màu</string>

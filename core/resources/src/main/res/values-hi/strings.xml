@@ -1212,7 +1212,7 @@
     <string name="add_image">छवि जोड़ें</string>
     <string name="equalize_histogram_adaptive_hsl">इक्वलाइज़ हिस्टोग्राम एडेप्टिव HSL</string>
     <string name="equalize_histogram_adaptive_hsv">समान हिस्टोग्राम अनुकूली HSV</string>
-    <string name="egde_mode">एज मोड</string>
+    <string name="edge_mode">एज मोड</string>
     <string name="clip">क्लिप</string>
     <string name="wrap">लपेटें</string>
     <string name="tritanomaly_sub">नीले और पीले रंग के बीच अंतर करने में कठिनाई</string>

@@ -204,7 +204,15 @@ sealed class UiFilter<T>(
                     UiBokehFilter(),
                     UiFastGaussianBlur2DFilter(),
                     UiFastGaussianBlur3DFilter(),
-                    UiFastGaussianBlur4DFilter()
+                    UiFastGaussianBlur4DFilter(),
+                    UiLinearBoxBlurFilter(),
+                    UiLinearTentBlurFilter(),
+                    UiLinearGaussianBoxBlurFilter(),
+                    UiLinearStackBlurFilter(),
+                    UiGaussianBoxBlurFilter(),
+                    UiLinearFastGaussianNextFilter(),
+                    UiLinearFastGaussianFilter(),
+                    UiLinearGaussianFilter()
                 ),
                 listOf(
                     UiCrystallizeFilter(),

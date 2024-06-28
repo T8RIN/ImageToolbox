@@ -1202,7 +1202,7 @@
     <string name="clahe_hsv">Клахе HSV</string>
     <string name="equalize_histogram_adaptive_hsl">Адаптивное выравнивание гистограммы HSL</string>
     <string name="equalize_histogram_adaptive_hsv">Адаптивное выравнивание гистограммы HSV</string>
-    <string name="egde_mode">Режим краев</string>
+    <string name="edge_mode">Режим краев</string>
     <string name="clip">Обрезка</string>
     <string name="wrap">Обтекание</string>
     <string name="color_blind_scheme">Схема для дальтоников</string>

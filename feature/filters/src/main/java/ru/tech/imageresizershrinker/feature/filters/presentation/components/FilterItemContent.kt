@@ -56,11 +56,11 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -75,8 +75,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import kotlin.math.absoluteValue
-import kotlin.math.pow
-import kotlin.math.roundToInt
 
 @Composable
 internal fun <T> FilterItemContent(
@@ -1510,15 +1508,3 @@ private val FadeSide.translatedName: String
         FadeSide.Top -> stringResource(R.string.top)
         FadeSide.Bottom -> stringResource(R.string.bottom)
     }
-
-private fun roundToNearestOdd(
-    number: Float
-): Float = number.roundToInt().let {
-    if (it % 2 != 0) it
-    else it + 1
-}.toFloat()
-
-private fun Float.roundTo(
-    digits: Int
-): Float = if (digits == NEAREST_ODD_ROUNDING) roundToNearestOdd(this)
-else (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))

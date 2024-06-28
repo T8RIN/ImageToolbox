@@ -41,7 +41,7 @@ class UiGaussianBlurFilter(
             valueRange = 1f..100f
         ),
         FilterParam(
-            title = R.string.egde_mode,
+            title = R.string.edge_mode,
             valueRange = 0f..0f
         )
     )

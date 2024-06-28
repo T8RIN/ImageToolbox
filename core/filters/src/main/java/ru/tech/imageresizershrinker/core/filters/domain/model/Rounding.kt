@@ -17,4 +17,19 @@
 
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
+import kotlin.math.pow
+import kotlin.math.roundToInt
+
 const val NEAREST_ODD_ROUNDING = -3
+
+fun roundToNearestOdd(
+    number: Float
+): Float = number.roundToInt().let {
+    if (it % 2 != 0) it
+    else it + 1
+}.toFloat()
+
+fun Float.roundTo(
+    digits: Int
+): Float = if (digits == NEAREST_ODD_ROUNDING) roundToNearestOdd(this)
+else (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))

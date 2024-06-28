@@ -1200,7 +1200,7 @@
     <string name="clahe_hsv">Clahe HSV</string>
     <string name="clahe_hsl">Clahe HSL</string>
     <string name="bins_count">箱数</string>
-    <string name="egde_mode">边缘模式</string>
+    <string name="edge_mode">边缘模式</string>
     <string name="clip">剪切</string>
     <string name="wrap">缠绕</string>
     <string name="equalize_histogram_adaptive_hsl">均衡直方图自适应 HSL</string>
