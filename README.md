@@ -1,4 +1,3 @@
-![image](https://github.com/T8RIN/ImageToolbox/assets/52178347/feb8e777-780b-4890-845b-6b16cb3f5414)<div align="center">
 </br>
 <img src="./fastlane/metadata/android/en-US/images/logo/logo.png" width="200" />
 
