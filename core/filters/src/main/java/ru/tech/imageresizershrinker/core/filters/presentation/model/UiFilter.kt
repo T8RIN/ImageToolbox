@@ -284,6 +284,7 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = sealedValues.first {
     else callBy(emptyMap())
 }
 
+
 infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam(
     title = this,
     valueRange = valueRange
