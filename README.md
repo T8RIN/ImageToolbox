@@ -1,4 +1,4 @@
-<div align="center">
+![image](https://github.com/T8RIN/ImageToolbox/assets/52178347/feb8e777-780b-4890-845b-6b16cb3f5414)<div align="center">
 </br>
 <img src="./fastlane/metadata/android/en-US/images/logo/logo.png" width="200" />
 
@@ -283,6 +283,14 @@ or click one of the badges below.
   - [x] Clahe HSL
   - [x] Clahe HSV
   - [x] Crop To Content
+  - [x] Linear Box Blur
+  - [x] Linear Tent Blur
+  - [x] Linear Gaussian Box Blur
+  - [x] Linear Stack Blur
+  - [x] Gaussian Box Blur
+  - [x] Linear Fast Gaussian Next
+  - [x] LinearFast Gaussian
+  - [x] Linear Gaussian
 
   </details>
 - Custom Filters Creation by Template filters
