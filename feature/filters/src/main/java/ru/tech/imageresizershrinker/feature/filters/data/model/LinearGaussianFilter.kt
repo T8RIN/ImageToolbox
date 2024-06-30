@@ -23,6 +23,8 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.filters.domain.model.roundTo
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
@@ -38,7 +40,7 @@ internal class LinearGaussianFilter(
         size: IntegerSize
     ): Bitmap = Aire.linearGaussianBlur(
         bitmap = input,
-        kernelSize = value.kernelSize,
+        kernelSize = value.kernelSize.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
         sigma = value.sigma,
         edgeMode = value.edgeMode.toEdgeMode(),
         transferFunction = value.transferFunction.toFunc()

@@ -23,12 +23,12 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiEqualizeHistogramPixelationFilter(
-    override val value: Pair<Int, Int> = 8 to 8
+    override val value: Pair<Int, Int> = 50 to 50
 ) : UiFilter<Pair<Int, Int>>(
     title = R.string.equalize_histogram_pixelation,
     paramsInfo = listOf(
-        FilterParam(R.string.grid_size_x, 1f..100f, 0),
-        FilterParam(R.string.grid_size_y, 1f..100f, 0)
+        FilterParam(R.string.grid_size_x, 1f..200f, 0),
+        FilterParam(R.string.grid_size_y, 1f..200f, 0)
     ),
     value = value
 ), Filter.EqualizeHistogramPixelation<Bitmap>

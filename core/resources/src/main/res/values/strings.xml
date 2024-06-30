@@ -1251,4 +1251,5 @@
     <string name="gaussian_box_blur">Gaussian Box Blur</string>
     <string name="linear_fast_gaussian_next">Linear Fast Gaussian Next</string>
     <string name="linear_fast_gaussian">Linear Fast Gaussian</string>
+    <string name="linear_gaussian">Linear Gaussian</string>
 </resources>

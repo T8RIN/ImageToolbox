@@ -21,18 +21,19 @@ import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiLinearGaussianFilter(
     override val value: LinearGaussianParams = LinearGaussianParams.Default
 ) : UiFilter<LinearGaussianParams>(
-    title = R.string.linear_fast_gaussian,
+    title = R.string.linear_gaussian,
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.size,
+            title = R.string.strength,
             valueRange = 3f..600f,
-            roundTo = 0
+            roundTo = NEAREST_ODD_ROUNDING
         ),
         FilterParam(
             title = R.string.sigma,
