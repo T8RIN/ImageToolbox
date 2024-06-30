@@ -79,7 +79,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamil
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.QrCode
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
@@ -99,6 +98,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
