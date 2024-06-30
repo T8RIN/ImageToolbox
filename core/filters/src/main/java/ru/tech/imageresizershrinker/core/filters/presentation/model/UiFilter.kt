@@ -159,6 +159,8 @@ sealed class UiFilter<T>(
                     UiDragoFilter()
                 ),
                 listOf(
+                    UiNoiseFilter(),
+                    UiAnisotropicDiffusionFilter(),
                     UiSharpenFilter(),
                     UiUnsharpFilter(),
                     UiGrainFilter(),
@@ -235,8 +237,6 @@ sealed class UiFilter<T>(
                     UiPerlinDistortionFilter(),
                     UiAnaglyphFilter(),
                     UiHorizontalWindStaggerFilter(),
-                    UiNoiseFilter(),
-                    UiAnisotropicDiffusionFilter(),
                     UiSwirlDistortionFilter(),
                     UiBulgeDistortionFilter(),
                     UiSphereRefractionFilter(),
