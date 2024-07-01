@@ -23,6 +23,12 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 interface ImageStacker<I> {
 
     suspend fun stackImages(
+        images: List<Any?>,
+        stackingParams: StackingParams,
+        onProgress: (Int) -> Unit
+    ): I?
+
+    suspend fun stackImages(
         stackImages: List<StackImage>,
         stackingParams: StackingParams,
         onError: (Throwable) -> Unit,
