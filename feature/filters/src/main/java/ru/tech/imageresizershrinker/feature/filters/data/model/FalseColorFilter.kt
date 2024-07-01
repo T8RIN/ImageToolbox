@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFalseColorFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -33,7 +32,7 @@ internal class FalseColorFilter(
         blue = 0.0f,
         alpha = 1.0f
     ) to Color(red = 0.914f, green = 0.118f, blue = 0.388f, alpha = 1.0f),
-) : GPUFilterTransformation(context), Filter.FalseColor<Bitmap, Color> {
+) : GPUFilterTransformation(context), Filter.FalseColor<Color> {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

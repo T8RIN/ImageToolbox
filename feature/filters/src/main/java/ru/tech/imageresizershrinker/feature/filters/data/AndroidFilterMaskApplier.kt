@@ -49,14 +49,14 @@ internal class AndroidFilterMaskApplier @Inject constructor(
 ) : FilterMaskApplier<Bitmap, Path, Color> {
 
     override suspend fun filterByMask(
-        filterMask: FilterMask<Bitmap, Path, Color>,
+        filterMask: FilterMask<Path, Color>,
         imageUri: String,
     ): Bitmap? = imageGetter.getImage(uri = imageUri)?.let {
         filterByMask(filterMask = filterMask, image = it.image)
     }
 
     override suspend fun filterByMask(
-        filterMask: FilterMask<Bitmap, Path, Color>,
+        filterMask: FilterMask<Path, Color>,
         image: Bitmap,
     ): Bitmap? {
         if (filterMask.filters.isEmpty()) return image
@@ -72,7 +72,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
         )
         return filteredBitmap?.let {
             image.let { bitmap ->
-                if (filterMask.filters.any { it is Filter.RemoveColor<*, *> }) {
+                if (filterMask.filters.any { it is Filter.RemoveColor<*> }) {
                     bitmap.clipBitmap(
                         pathPaints = filterMask.maskPaints,
                         inverse = !filterMask.isInverseFillType
@@ -179,16 +179,16 @@ internal class AndroidFilterMaskApplier @Inject constructor(
     }
 
     override suspend fun filterByMasks(
-        filterMasks: List<FilterMask<Bitmap, Path, Color>>,
+        filterMasks: List<FilterMask<Path, Color>>,
         imageUri: String,
     ): Bitmap? = imageGetter.getImage(uri = imageUri)?.let {
         filterByMasks(filterMasks, it.image)
     }
 
     override suspend fun filterByMasks(
-        filterMasks: List<FilterMask<Bitmap, Path, Color>>,
+        filterMasks: List<FilterMask<Path, Color>>,
         image: Bitmap,
-    ): Bitmap? = filterMasks.fold<FilterMask<Bitmap, Path, Color>, Bitmap?>(
+    ): Bitmap? = filterMasks.fold<FilterMask<Path, Color>, Bitmap?>(
         initial = image,
         operation = { bmp, mask ->
             bmp?.let {

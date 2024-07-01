@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -28,4 +27,4 @@ class UiSaturationFilter(
     title = R.string.saturation,
     value = value,
     valueRange = 0f..2f
-), Filter.Saturation<Bitmap>
+), Filter.Saturation

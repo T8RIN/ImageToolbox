@@ -308,7 +308,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
     ): List<Transformation<Bitmap>> = when (drawMode) {
         is DrawMode.PathEffect.PrivacyBlur -> {
             listOf(
-                object : Filter.StackBlur<Bitmap> {
+                object : Filter.StackBlur {
                     override val value: Pair<Float, Int>
                         get() = when {
                             drawMode.blurRadius < 10 -> 0.8f
@@ -321,7 +321,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
         is DrawMode.PathEffect.Pixelation -> {
             listOf(
-                object : Filter.StackBlur<Bitmap> {
+                object : Filter.StackBlur {
                     override val value: Pair<Float, Int>
                         get() = when {
                             drawMode.pixelSize < 10 -> 0.8f
@@ -329,7 +329,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             else -> 0.3f
                         } to 20
                 },
-                object : Filter.Pixelation<Bitmap> {
+                object : Filter.Pixelation {
                     override val value: Float
                         get() = drawMode.pixelSize
                 }

@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ProtanopiaFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Protanopia<Bitmap> {
+) : Transformation<Bitmap>, Filter.Protanopia{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

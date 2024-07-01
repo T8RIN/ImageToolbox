@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageWeakPixelInclusionFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -27,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class WeakPixelFilter(
     private val context: Context,
     override val value: Unit = Unit,
-) : GPUFilterTransformation(context), Filter.WeakPixel<Bitmap> {
+) : GPUFilterTransformation(context), Filter.WeakPixel {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

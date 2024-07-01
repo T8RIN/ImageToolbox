@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
@@ -35,4 +34,4 @@ class UiWaterEffectFilter(
         FilterParam(R.string.amplitude_x, -4f..4f, 2),
         FilterParam(R.string.amplitude_y, -4f..4f, 2)
     )
-), Filter.WaterEffect<Bitmap>
+), Filter.WaterEffect

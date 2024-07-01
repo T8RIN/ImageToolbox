@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class CrystallizeFilter(
     override val value: Pair<Float, Color> = 1f to Color.Transparent
-) : Transformation<Bitmap>, Filter.Crystallize<Bitmap, Color> {
+) : Transformation<Bitmap>, Filter.Crystallize<Color> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

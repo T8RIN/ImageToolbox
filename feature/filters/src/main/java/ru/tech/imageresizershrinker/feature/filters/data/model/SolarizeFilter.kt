@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class SolarizeFilter(
     private val context: Context,
     override val value: Float = 0.5f,
-) : GPUFilterTransformation(context), Filter.Solarize<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Solarize{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

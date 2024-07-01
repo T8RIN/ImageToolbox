@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class BilaterialBlurFilter(
     override val value: Triple<Float, Float, Float> = Triple(10f, 3f, 12f)
-) : Transformation<Bitmap>, Filter.BilaterialBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.BilaterialBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

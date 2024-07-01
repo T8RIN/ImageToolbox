@@ -21,19 +21,16 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
-import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
+import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.filters.domain.model.roundTo
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
-internal class LinearFastGaussianNextFilter(
-    override val value: Triple<Int, TransferFunc, BlurEdgeMode> = Triple(
-        first = 25,
-        second = TransferFunc.SRGB,
-        third = BlurEdgeMode.Clamp
-    )
-) : Transformation<Bitmap>, Filter.LinearFastGaussianNext<Bitmap> {
+internal class LinearGaussianBlurFilter(
+    override val value: LinearGaussianParams = LinearGaussianParams.Default
+) : Transformation<Bitmap>, Filter.LinearGaussianBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -41,11 +38,12 @@ internal class LinearFastGaussianNextFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.linearFastGaussianNext(
+    ): Bitmap = Aire.linearGaussianBlur(
         bitmap = input,
-        radius = value.first,
-        transferFunction = value.second.toFunc(),
-        edgeMode = value.third.toEdgeMode()
+        kernelSize = value.kernelSize.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
+        sigma = value.sigma,
+        edgeMode = value.edgeMode.toEdgeMode(),
+        transferFunction = value.transferFunction.toFunc()
     )
 
 }

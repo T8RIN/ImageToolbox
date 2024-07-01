@@ -73,6 +73,6 @@ internal interface FilterModule {
     @Binds
     fun favoriteFiltersInteractor(
         interactor: FavoriteFiltersInteractorImpl
-    ): FavoriteFiltersInteractor<Bitmap>
+    ): FavoriteFiltersInteractor
 
 }

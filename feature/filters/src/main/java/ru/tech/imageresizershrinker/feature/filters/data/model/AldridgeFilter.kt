@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class AldridgeFilter(
     override val value: Pair<Float, Float> = 1f to 0.025f
-) : Transformation<Bitmap>, Filter.Aldridge<Bitmap> {
+) : Transformation<Bitmap>, Filter.Aldridge {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

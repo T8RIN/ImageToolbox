@@ -17,11 +17,10 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiEqualizeHistogramFilter : UiFilter<Unit>(
     title = R.string.equalize_histogram,
     value = Unit
-), Filter.EqualizeHistogram<Bitmap>
+), Filter.EqualizeHistogram

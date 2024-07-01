@@ -33,7 +33,7 @@ internal class ReplaceColorFilter(
         second = Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f),
         third = Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f)
     ),
-) : Filter.ReplaceColor<Bitmap, Color>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.ReplaceColor<Color> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -31,4 +30,4 @@ class UiToonFilter(
         R.string.threshold paramTo 0f..5f,
         R.string.quantizationLevels paramTo 0f..100f
     )
-), Filter.Toon<Bitmap>
+), Filter.Toon

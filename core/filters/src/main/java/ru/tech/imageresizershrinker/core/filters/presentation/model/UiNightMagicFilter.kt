@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiNightMagicFilter : UiFilter<Unit>(
     title = R.string.night_magic,
     value = Unit
-), Filter.NightMagic<Bitmap>
+), Filter.NightMagic

@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.DitherTool
 
 internal class RandomDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Filter.RandomDithering<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.RandomDithering {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

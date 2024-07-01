@@ -129,10 +129,10 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LavenderDreamFilt
 import ru.tech.imageresizershrinker.feature.filters.data.model.LeftToRightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LemonadeLightFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LinearBoxBlurFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.LinearFastGaussianFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.LinearFastGaussianNextFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearFastGaussianBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearFastGaussianBlurNextFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearGaussianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LinearGaussianBoxBlurFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.LinearGaussianFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LinearStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LinearTentBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LinearTiltShiftFilter
@@ -218,7 +218,7 @@ internal class AndroidFilterProvider @Inject constructor(
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
-        filter: Filter<Bitmap, *>
+        filter: Filter<*>
     ): Transformation<Bitmap> = filter.run {
         when (this) {
             is Filter.BilaterialBlur -> BilaterialBlurFilter(value)
@@ -229,7 +229,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.CGAColorSpace -> CGAColorSpaceFilter(context)
             is Filter.CirclePixelation -> CirclePixelationFilter(value)
             is Filter.ColorBalance -> ColorBalanceFilter(context, value)
-            is Filter.Color<*, *> -> ColorFilter(value.cast())
+            is Filter.Color<*> -> ColorFilter(value.cast())
             is Filter.ColorMatrix4x4 -> ColorMatrix4x4Filter(context, value)
             is Filter.Contrast -> ContrastFilter(value)
             is Filter.Convolution3x3 -> Convolution3x3Filter(context, value)
@@ -241,7 +241,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.EnhancedDiamondPixelation -> EnhancedDiamondPixelationFilter(value)
             is Filter.EnhancedPixelation -> EnhancedPixelationFilter(value)
             is Filter.Exposure -> ExposureFilter(context, value)
-            is Filter.FalseColor<*, *> -> FalseColorFilter(context, value.cast())
+            is Filter.FalseColor<*> -> FalseColorFilter(context, value.cast())
             is Filter.FastBlur -> FastBlurFilter(value)
             is Filter.Gamma -> GammaFilter(value)
             is Filter.GaussianBlur -> GaussianBlurFilter(value)
@@ -253,15 +253,15 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Kuwahara -> KuwaharaFilter(context, value)
             is Filter.Laplacian -> LaplacianFilter(context)
             is Filter.Lookup -> LookupFilter(context, value)
-            is Filter.Monochrome<*, *> -> MonochromeFilter(value.cast())
+            is Filter.Monochrome<*> -> MonochromeFilter(value.cast())
             is Filter.Negative -> NegativeFilter(context)
             is Filter.NonMaximumSuppression -> NonMaximumSuppressionFilter(context)
             is Filter.Opacity -> OpacityFilter(context, value)
             is Filter.Pixelation -> PixelationFilter(value)
             is Filter.Posterize -> PosterizeFilter(context, value)
-            is Filter.RemoveColor<*, *> -> RemoveColorFilter(value.cast())
-            is Filter.ReplaceColor<*, *> -> ReplaceColorFilter(value.cast())
-            is Filter.RGB<*, *> -> RGBFilter(context, value.cast())
+            is Filter.RemoveColor<*> -> RemoveColorFilter(value.cast())
+            is Filter.ReplaceColor<*> -> ReplaceColorFilter(value.cast())
+            is Filter.RGB<*> -> RGBFilter(context, value.cast())
             is Filter.Saturation -> SaturationFilter(value)
             is Filter.Sepia -> SepiaFilter(value)
             is Filter.Sharpen -> SharpenFilter(value)
@@ -271,11 +271,11 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Solarize -> SolarizeFilter(context, value)
             is Filter.SphereRefraction -> SphereRefractionFilter(context, value)
             is Filter.StackBlur -> StackBlurFilter(value)
-            is Filter.StrokePixelation<*, *> -> StrokePixelationFilter(value.cast())
+            is Filter.StrokePixelation<*> -> StrokePixelationFilter(value.cast())
             is Filter.SwirlDistortion -> SwirlDistortionFilter(context, value)
             is Filter.Toon -> ToonFilter(context, value)
             is Filter.Vibrance -> VibranceFilter(value)
-            is Filter.Vignette<*, *> -> VignetteFilter(context, value.cast())
+            is Filter.Vignette<*> -> VignetteFilter(context, value.cast())
             is Filter.WeakPixel -> WeakPixelFilter(context)
             is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)
             is Filter.ZoomBlur -> ZoomBlurFilter(context, value)
@@ -306,12 +306,12 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.SideFade -> SideFadeFilter(value)
             is Filter.Erode -> ErodeFilter(value)
             is Filter.AnisotropicDiffusion -> AnisotropicDiffusionFilter(value)
-            is Filter.HorizontalWindStagger<*, *> -> HorizontalWindStaggerFilter(value.cast())
+            is Filter.HorizontalWindStagger<*> -> HorizontalWindStaggerFilter(value.cast())
             is Filter.FastBilaterialBlur -> FastBilaterialBlurFilter(value)
             is Filter.PoissonBlur -> PoissonBlurFilter(value)
             is Filter.LogarithmicToneMapping -> LogarithmicToneMappingFilter(value)
             is Filter.AcesFilmicToneMapping -> AcesFilmicToneMappingFilter(value)
-            is Filter.Crystallize<*, *> -> CrystallizeFilter(value.cast())
+            is Filter.Crystallize<*> -> CrystallizeFilter(value.cast())
             is Filter.FractalGlass -> FractalGlassFilter(value)
             is Filter.Marble -> MarbleFilter(value)
             is Filter.Oil -> OilFilter(value)
@@ -368,7 +368,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RedSwirl -> RedSwirlFilter(value)
             is Filter.DigitalCode -> DigitalCodeFilter(value)
             is Filter.Bokeh -> BokehFilter(value)
-            is Filter.Neon<*, *> -> NeonFilter(context, value.cast())
+            is Filter.Neon<*> -> NeonFilter(context, value.cast())
             is Filter.OldTv -> OldTvFilter(context, value)
             is Filter.ShuffleBlur -> ShuffleBlurFilter(value)
             is Filter.Mobius -> MobiusFilter(value)
@@ -396,7 +396,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Clahe -> ClaheFilter(value)
             is Filter.ClaheLUV -> ClaheLUVFilter(value)
             is Filter.ClaheLAB -> ClaheLABFilter(value)
-            is Filter.CropToContent<*, *> -> CropToContentFilter(value.cast())
+            is Filter.CropToContent<*> -> CropToContentFilter(value.cast())
             is Filter.ClaheHSL -> ClaheHSLFilter(value)
             is Filter.ClaheHSV -> ClaheHSVFilter(value)
             is Filter.EqualizeHistogramAdaptiveHSL -> EqualizeHistogramAdaptiveHSLFilter(value)
@@ -406,9 +406,9 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.LinearTentBlur -> LinearTentBlurFilter(value)
             is Filter.LinearGaussianBoxBlur -> LinearGaussianBoxBlurFilter(value)
             is Filter.GaussianBoxBlur -> GaussianBoxBlurFilter(value)
-            is Filter.LinearFastGaussianNext -> LinearFastGaussianNextFilter(value)
-            is Filter.LinearFastGaussian -> LinearFastGaussianFilter(value)
-            is Filter.LinearGaussian -> LinearGaussianFilter(value)
+            is Filter.LinearFastGaussianBlurNext -> LinearFastGaussianBlurNextFilter(value)
+            is Filter.LinearFastGaussianBlur -> LinearFastGaussianBlurFilter(value)
+            is Filter.LinearGaussianBlur -> LinearGaussianBlurFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

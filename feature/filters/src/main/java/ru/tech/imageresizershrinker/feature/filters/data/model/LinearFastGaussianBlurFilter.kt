@@ -27,13 +27,13 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
-internal class LinearFastGaussianFilter(
+internal class LinearFastGaussianBlurFilter(
     override val value: Triple<Int, TransferFunc, BlurEdgeMode> = Triple(
         first = 25,
         second = TransferFunc.SRGB,
         third = BlurEdgeMode.Clamp
     )
-) : Transformation<Bitmap>, Filter.LinearFastGaussian<Bitmap> {
+) : Transformation<Bitmap>, Filter.LinearFastGaussianBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

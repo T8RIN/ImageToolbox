@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
@@ -30,4 +29,4 @@ class UiRGBFilter(
 ) : UiFilter<FilterValueWrapper<Color>>(
     title = R.string.rgb_filter,
     value = value,
-), Filter.RGB<Bitmap, Color>
+), Filter.RGB<Color>

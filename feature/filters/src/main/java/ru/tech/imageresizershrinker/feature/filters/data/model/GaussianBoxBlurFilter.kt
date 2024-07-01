@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class GaussianBoxBlurFilter(
     override val value: Int = 25
-) : Transformation<Bitmap>, Filter.GaussianBoxBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.GaussianBoxBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

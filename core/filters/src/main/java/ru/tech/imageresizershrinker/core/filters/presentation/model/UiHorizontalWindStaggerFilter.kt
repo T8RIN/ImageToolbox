@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
@@ -44,4 +43,4 @@ class UiHorizontalWindStaggerFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.HorizontalWindStagger<Bitmap, Color>
+), Filter.HorizontalWindStagger<Color>

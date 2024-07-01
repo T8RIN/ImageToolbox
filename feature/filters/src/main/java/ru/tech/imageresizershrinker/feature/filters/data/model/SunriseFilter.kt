@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SunriseFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Sunrise<Bitmap> {
+) : Transformation<Bitmap>, Filter.Sunrise {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

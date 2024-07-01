@@ -17,11 +17,10 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiAchromatomalyFilter : UiFilter<Unit>(
     title = R.string.achromatomaly,
     value = Unit
-), Filter.Achromatomaly<Bitmap>
+), Filter.Achromatomaly

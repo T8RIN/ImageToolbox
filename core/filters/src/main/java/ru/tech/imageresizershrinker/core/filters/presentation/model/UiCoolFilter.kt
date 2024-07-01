@@ -17,11 +17,10 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiCoolFilter : UiFilter<Unit>(
     title = R.string.cool,
     value = Unit
-), Filter.Cool<Bitmap>
+), Filter.Cool

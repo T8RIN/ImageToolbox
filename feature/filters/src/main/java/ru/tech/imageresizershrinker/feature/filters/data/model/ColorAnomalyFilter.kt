@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ColorAnomalyFilter(
     override val value: Float = 0.56f
-) : Transformation<Bitmap>, Filter.ColorAnomaly<Bitmap> {
+) : Transformation<Bitmap>, Filter.ColorAnomaly {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

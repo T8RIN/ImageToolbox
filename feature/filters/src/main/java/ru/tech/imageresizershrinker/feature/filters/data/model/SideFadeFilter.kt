@@ -36,7 +36,7 @@ import kotlin.math.roundToInt
 
 internal class SideFadeFilter(
     override val value: SideFadeParams = SideFadeParams.Relative(FadeSide.Start, 0.5f),
-) : Transformation<Bitmap>, Filter.SideFade<Bitmap> {
+) : Transformation<Bitmap>, Filter.SideFade {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

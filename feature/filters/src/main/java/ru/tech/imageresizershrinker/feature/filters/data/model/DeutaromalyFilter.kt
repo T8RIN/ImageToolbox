@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class DeutaromalyFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Deutaromaly<Bitmap> {
+) : Transformation<Bitmap>, Filter.Deutaromaly{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

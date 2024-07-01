@@ -190,7 +190,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         _previewData.update { data?.let { listOf(it) } }
     }
 
-    fun setPreviewData(data: List<Filter<Bitmap, *>>) {
+    fun setPreviewData(data: List<Filter<*>>) {
         _previewData.update { data.map { it.toUiFilter() } }
     }
 
@@ -308,7 +308,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         }
     }
 
-    fun createTemplateFilename(templateFilter: TemplateFilter<Bitmap>): String {
+    fun createTemplateFilename(templateFilter: TemplateFilter): String {
         val timeStamp = SimpleDateFormat(
             "yyyy-MM-dd_HH-mm-ss",
             Locale.getDefault()

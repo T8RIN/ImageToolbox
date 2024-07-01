@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 
 internal class GaussianBlurFilter(
     override val value: Triple<Float, Float, BlurEdgeMode> = Triple(25f, 10f, BlurEdgeMode.Clamp),
-) : Transformation<Bitmap>, Filter.GaussianBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.GaussianBlur{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

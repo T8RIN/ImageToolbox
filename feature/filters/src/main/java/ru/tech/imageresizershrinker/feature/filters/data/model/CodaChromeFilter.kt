@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class CodaChromeFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.CodaChrome<Bitmap> {
+) : Transformation<Bitmap>, Filter.CodaChrome {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

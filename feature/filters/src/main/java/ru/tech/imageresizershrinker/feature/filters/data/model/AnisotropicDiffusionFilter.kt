@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class AnisotropicDiffusionFilter(
     override val value: Triple<Int, Float, Float> = Triple(20, 0.6f, 0.5f)
-) : Transformation<Bitmap>, Filter.AnisotropicDiffusion<Bitmap> {
+) : Transformation<Bitmap>, Filter.AnisotropicDiffusion {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

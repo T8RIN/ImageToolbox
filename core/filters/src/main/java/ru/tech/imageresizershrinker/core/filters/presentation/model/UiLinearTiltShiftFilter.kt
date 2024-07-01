@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
@@ -36,4 +35,4 @@ class UiLinearTiltShiftFilter(
         FilterParam(R.string.size, 0f..1f, 2),
         FilterParam(R.string.angle, 0f..360f, 0)
     )
-), Filter.LinearTiltShift<Bitmap>
+), Filter.LinearTiltShift

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -31,4 +30,4 @@ class UiDilationFilter(
     paramsInfo = listOf(
         FilterParam(null, 1f..15f, 0)
     )
-), Filter.Dilation<Bitmap>
+), Filter.Dilation

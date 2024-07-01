@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -29,4 +28,4 @@ class UiLookupFilter(
     title = R.string.lookup,
     value = value,
     valueRange = -10f..10f
-), Filter.Lookup<Bitmap>
+), Filter.Lookup

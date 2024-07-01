@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.PointF
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -29,7 +28,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class VignetteFilter(
     private val context: Context,
     override val value: Triple<Float, Float, Color> = Triple(0.3f, 0.75f, Color.Black)
-) : GPUFilterTransformation(context), Filter.Vignette<Bitmap, Color> {
+) : GPUFilterTransformation(context), Filter.Vignette<Color> {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

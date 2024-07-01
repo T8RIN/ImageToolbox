@@ -15,35 +15,39 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
-import com.awxkee.aire.Aire
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
-import ru.tech.imageresizershrinker.core.filters.domain.model.roundTo
-import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
-import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
+import ru.tech.imageresizershrinker.core.resources.R
 
-internal class LinearGaussianFilter(
+class UiLinearGaussianBlurFilter(
     override val value: LinearGaussianParams = LinearGaussianParams.Default
-) : Transformation<Bitmap>, Filter.LinearGaussian<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.linearGaussianBlur(
-        bitmap = input,
-        kernelSize = value.kernelSize.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
-        sigma = value.sigma,
-        edgeMode = value.edgeMode.toEdgeMode(),
-        transferFunction = value.transferFunction.toFunc()
+) : UiFilter<LinearGaussianParams>(
+    title = R.string.linear_gaussian_blur,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.strength,
+            valueRange = 3f..600f,
+            roundTo = NEAREST_ODD_ROUNDING
+        ),
+        FilterParam(
+            title = R.string.sigma,
+            valueRange = 1f..50f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.edge_mode,
+            valueRange = 0f..0f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.tag_transfer_function,
+            valueRange = 0f..0f,
+            roundTo = 0
+        )
     )
-
-}
+), Filter.LinearGaussianBlur

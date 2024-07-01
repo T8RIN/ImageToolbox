@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class CropToContentFilter(
     override val value: Pair<Float, Color> = 0f to Color.Black
-) : Transformation<Bitmap>, Filter.CropToContent<Bitmap, Color> {
+) : Transformation<Bitmap>, Filter.CropToContent<Color> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

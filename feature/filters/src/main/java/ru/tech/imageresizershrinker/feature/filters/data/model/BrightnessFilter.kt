@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class BrightnessFilter(
     override val value: Float = 0.5f,
-) : Transformation<Bitmap>, Filter.Brightness<Bitmap> {
+) : Transformation<Bitmap>, Filter.Brightness {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

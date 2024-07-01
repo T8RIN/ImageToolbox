@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -32,4 +31,4 @@ class UiHazeFilter(
         R.string.distance paramTo -0.3f..0.3f,
         R.string.slope paramTo -0.3f..0.3f
     )
-), Filter.Haze<Bitmap>
+), Filter.Haze

@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -29,4 +28,4 @@ class UiVibranceFilter(
     title = R.string.vibrance,
     value = value,
     valueRange = -5f..5f
-), Filter.Vibrance<Bitmap>
+), Filter.Vibrance

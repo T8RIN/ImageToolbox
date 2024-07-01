@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -32,4 +31,4 @@ class UiWhiteBalanceFilter(
         FilterParam(R.string.temperature, 1000f..10000f, 0),
         FilterParam(R.string.tint, -100f..100f, 2)
     )
-), Filter.WhiteBalance<Bitmap>
+), Filter.WhiteBalance

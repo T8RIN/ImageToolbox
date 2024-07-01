@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -31,4 +30,4 @@ class UiHighlightsAndShadowsFilter(
         R.string.highlights paramTo 0f..1f,
         R.string.shadows paramTo 0f..1f
     )
-), Filter.HighlightsAndShadows<Bitmap>
+), Filter.HighlightsAndShadows

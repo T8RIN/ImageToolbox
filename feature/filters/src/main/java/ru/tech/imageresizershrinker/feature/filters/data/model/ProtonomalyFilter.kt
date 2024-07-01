@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ProtonomalyFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Protonomaly<Bitmap> {
+) : Transformation<Bitmap>, Filter.Protonomaly {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

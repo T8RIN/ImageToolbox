@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class PoissonBlurFilter(
     override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.PoissonBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.PoissonBlur {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

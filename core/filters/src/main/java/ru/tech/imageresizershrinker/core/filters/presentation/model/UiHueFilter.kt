@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -28,4 +27,4 @@ class UiHueFilter(
     title = R.string.hue,
     value = value,
     valueRange = 0f..255f
-), Filter.Hue<Bitmap>
+), Filter.Hue

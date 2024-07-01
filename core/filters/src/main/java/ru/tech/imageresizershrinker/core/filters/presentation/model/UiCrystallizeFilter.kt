@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
@@ -31,4 +30,4 @@ class UiCrystallizeFilter(
         R.string.amount paramTo 0.01f..2f,
         R.string.stroke_color paramTo 0f..0f
     )
-), Filter.Crystallize<Bitmap, Color>
+), Filter.Crystallize<Color>

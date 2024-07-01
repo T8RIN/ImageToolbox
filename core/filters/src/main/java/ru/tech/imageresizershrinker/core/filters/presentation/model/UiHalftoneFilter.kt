@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -31,4 +30,4 @@ class UiHalftoneFilter(
     paramsInfo = listOf(
         FilterParam(valueRange = 0.001f..0.02f, roundTo = 4)
     )
-), Filter.Halftone<Bitmap>
+), Filter.Halftone

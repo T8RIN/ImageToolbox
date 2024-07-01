@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageRGBFilter
@@ -30,7 +29,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 internal class RGBFilter(
     private val context: Context,
     override val value: FilterValueWrapper<Color> = Color.Green.wrap(),
-) : GPUFilterTransformation(context), Filter.RGB<Bitmap, Color> {
+) : GPUFilterTransformation(context), Filter.RGB<Color> {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

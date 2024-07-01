@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class EqualizeHistogramAdaptiveHSLFilter(
     override val value: Triple<Int, Int, Int> = Triple(3, 3, 128)
-) : Transformation<Bitmap>, Filter.EqualizeHistogramAdaptiveHSL<Bitmap> {
+) : Transformation<Bitmap>, Filter.EqualizeHistogramAdaptiveHSL{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

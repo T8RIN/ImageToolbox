@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class FuturisticGradientFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.FuturisticGradient<Bitmap> {
+) : Transformation<Bitmap>, Filter.FuturisticGradient {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

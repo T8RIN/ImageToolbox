@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class LavenderDreamFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.LavenderDream<Bitmap> {
+) : Transformation<Bitmap>, Filter.LavenderDream {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

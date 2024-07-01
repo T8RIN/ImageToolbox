@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiDigitalCodeFilter : UiFilter<Unit>(
     title = R.string.digital_code,
     value = Unit
-), Filter.DigitalCode<Bitmap>
+), Filter.DigitalCode

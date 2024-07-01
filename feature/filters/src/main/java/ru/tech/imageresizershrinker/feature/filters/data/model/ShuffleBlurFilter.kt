@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ShuffleBlurFilter(
     override val value: Pair<Int, Float> = 35 to 1f
-) : Transformation<Bitmap>, Filter.ShuffleBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.ShuffleBlur {
 
     private val radiusMapping = listOf(0f, RAD_1) + List(200) {
         RAD_2 + STEP * it

@@ -15,39 +15,37 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
-import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
+import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
-class UiLinearFastGaussianNextFilter(
+internal class LinearFastGaussianBlurNextFilter(
     override val value: Triple<Int, TransferFunc, BlurEdgeMode> = Triple(
         first = 25,
         second = TransferFunc.SRGB,
         third = BlurEdgeMode.Clamp
     )
-) : UiFilter<Triple<Int, TransferFunc, BlurEdgeMode>>(
-    title = R.string.linear_fast_gaussian_next,
-    value = value,
-    paramsInfo = listOf(
-        FilterParam(
-            title = R.string.radius,
-            valueRange = 1f..300f,
-            roundTo = 0
-        ),
-        FilterParam(
-            title = R.string.tag_transfer_function,
-            valueRange = 0f..0f,
-            roundTo = 0
-        ),
-        FilterParam(
-            title = R.string.edge_mode,
-            valueRange = 0f..0f,
-            roundTo = 0
-        )
+) : Transformation<Bitmap>, Filter.LinearFastGaussianBlurNext {
+
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap = Aire.linearFastGaussianNext(
+        bitmap = input,
+        radius = value.first,
+        transferFunction = value.second.toFunc(),
+        edgeMode = value.third.toEdgeMode()
     )
-), Filter.LinearFastGaussianNext<Bitmap>
+
+}

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
@@ -38,4 +37,4 @@ class UiStrokePixelationFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.StrokePixelation<Bitmap, Color>
+), Filter.StrokePixelation<Color>

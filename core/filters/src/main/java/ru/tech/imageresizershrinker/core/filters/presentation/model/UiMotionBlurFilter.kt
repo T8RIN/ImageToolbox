@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
@@ -36,4 +35,4 @@ class UiMotionBlurFilter(
         FilterParam(R.string.strength, 0f..3f, 2),
         FilterParam(R.string.angle, 0f..360f, 0)
     )
-), Filter.MotionBlur<Bitmap>
+), Filter.MotionBlur

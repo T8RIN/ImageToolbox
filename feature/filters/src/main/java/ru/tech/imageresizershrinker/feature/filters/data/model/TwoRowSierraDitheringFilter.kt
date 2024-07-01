@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.DitherTool
 
 internal class TwoRowSierraDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Filter.TwoRowSierraDithering<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.TwoRowSierraDithering {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

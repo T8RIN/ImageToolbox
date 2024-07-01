@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class CoolFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Cool<Bitmap> {
+) : Transformation<Bitmap>, Filter.Cool{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

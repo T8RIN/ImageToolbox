@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiSoftSpringLightFilter : UiFilter<Unit>(
     title = R.string.soft_spring_light,
     value = Unit
-), Filter.SoftSpringLight<Bitmap>
+), Filter.SoftSpringLight

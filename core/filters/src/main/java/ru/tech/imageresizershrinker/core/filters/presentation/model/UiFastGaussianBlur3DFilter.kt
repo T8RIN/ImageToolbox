@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
@@ -39,4 +38,4 @@ class UiFastGaussianBlur3DFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.FastGaussianBlur3D<Bitmap>
+), Filter.FastGaussianBlur3D

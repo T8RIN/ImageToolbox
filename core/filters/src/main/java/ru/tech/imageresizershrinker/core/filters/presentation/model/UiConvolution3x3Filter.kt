@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -33,4 +32,4 @@ class UiConvolution3x3Filter(
     title = R.string.convolution3x3,
     value = value,
     valueRange = 3f..3f
-), Filter.Convolution3x3<Bitmap>
+), Filter.Convolution3x3

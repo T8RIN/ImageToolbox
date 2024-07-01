@@ -29,7 +29,7 @@ internal class ColorMatrix3x3Filter(
         0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 1.0f,
     ),
-) : Transformation<Bitmap>, Filter.ColorMatrix3x3<Bitmap> {
+) : Transformation<Bitmap>, Filter.ColorMatrix3x3 {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

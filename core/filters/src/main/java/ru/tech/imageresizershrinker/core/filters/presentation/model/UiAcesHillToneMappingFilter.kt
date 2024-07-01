@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -27,4 +26,4 @@ class UiAcesHillToneMappingFilter(
     title = R.string.aces_hill_tone_mapping,
     value = value,
     valueRange = -4f..4f
-), Filter.AcesHillToneMapping<Bitmap>
+), Filter.AcesHillToneMapping

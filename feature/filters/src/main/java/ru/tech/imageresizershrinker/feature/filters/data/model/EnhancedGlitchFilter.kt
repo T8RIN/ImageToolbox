@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 
 internal class EnhancedGlitchFilter(
     override val value: GlitchParams = GlitchParams()
-) : Transformation<Bitmap>, Filter.EnhancedGlitch<Bitmap> {
+) : Transformation<Bitmap>, Filter.EnhancedGlitch{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

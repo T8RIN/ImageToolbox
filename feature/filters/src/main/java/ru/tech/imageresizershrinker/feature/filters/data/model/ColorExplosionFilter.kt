@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ColorExplosionFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.ColorExplosion<Bitmap> {
+) : Transformation<Bitmap>, Filter.ColorExplosion {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

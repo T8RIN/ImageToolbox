@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class EqualizeHistogramFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.EqualizeHistogram<Bitmap> {
+) : Transformation<Bitmap>, Filter.EqualizeHistogram {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

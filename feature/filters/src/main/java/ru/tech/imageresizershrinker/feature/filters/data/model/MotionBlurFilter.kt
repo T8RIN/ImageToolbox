@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 
 internal class MotionBlurFilter(
     override val value: MotionBlurParams = MotionBlurParams.Default,
-) : Transformation<Bitmap>, Filter.MotionBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.MotionBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

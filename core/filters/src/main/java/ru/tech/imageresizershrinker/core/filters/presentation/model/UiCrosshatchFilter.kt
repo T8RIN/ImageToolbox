@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -32,4 +31,4 @@ class UiCrosshatchFilter(
         FilterParam(title = R.string.spacing, valueRange = 0.001f..0.05f, roundTo = 4),
         FilterParam(title = R.string.line_width, valueRange = 0.001f..0.02f, roundTo = 4)
     )
-), Filter.Crosshatch<Bitmap>
+), Filter.Crosshatch

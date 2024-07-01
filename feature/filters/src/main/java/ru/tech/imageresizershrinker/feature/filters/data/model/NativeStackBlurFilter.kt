@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class NativeStackBlurFilter(
     override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.NativeStackBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.NativeStackBlur{
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

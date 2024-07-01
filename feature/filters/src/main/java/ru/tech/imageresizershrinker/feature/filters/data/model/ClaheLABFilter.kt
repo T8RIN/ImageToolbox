@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ClaheLABFilter(
     override val value: ClaheParams = ClaheParams.Default
-) : Transformation<Bitmap>, Filter.ClaheLAB<Bitmap> {
+) : Transformation<Bitmap>, Filter.ClaheLAB {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
 internal class LinearGaussianBoxBlurFilter(
     override val value: Pair<Int, TransferFunc> = 25 to TransferFunc.SRGB
-) : Transformation<Bitmap>, Filter.LinearGaussianBoxBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.LinearGaussianBoxBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

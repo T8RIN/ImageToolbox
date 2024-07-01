@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
@@ -40,4 +39,4 @@ class UiLinearStackBlurFilter(
             roundTo = 0
         )
     )
-), Filter.LinearStackBlur<Bitmap>
+), Filter.LinearStackBlur

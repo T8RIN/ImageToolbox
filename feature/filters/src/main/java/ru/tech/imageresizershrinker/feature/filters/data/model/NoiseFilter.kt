@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class NoiseFilter(
     override val value: Float = 128f
-) : Transformation<Bitmap>, Filter.Noise<Bitmap> {
+) : Transformation<Bitmap>, Filter.Noise{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

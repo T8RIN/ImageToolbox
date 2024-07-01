@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class CrosshatchFilter(
     private val context: Context,
     override val value: Pair<Float, Float> = 0.01f to 0.003f,
-) : GPUFilterTransformation(context), Filter.Crosshatch<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Crosshatch{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

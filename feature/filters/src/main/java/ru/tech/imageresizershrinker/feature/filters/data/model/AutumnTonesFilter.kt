@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class AutumnTonesFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.AutumnTones<Bitmap> {
+) : Transformation<Bitmap>, Filter.AutumnTones {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

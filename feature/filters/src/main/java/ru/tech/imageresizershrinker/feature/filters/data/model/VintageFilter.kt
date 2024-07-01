@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class VintageFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Vintage<Bitmap> {
+) : Transformation<Bitmap>, Filter.Vintage{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

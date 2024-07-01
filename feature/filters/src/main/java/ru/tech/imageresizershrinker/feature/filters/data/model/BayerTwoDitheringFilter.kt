@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.DitherTool
 
 internal class BayerTwoDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Filter.BayerTwoDithering<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.BayerTwoDithering {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

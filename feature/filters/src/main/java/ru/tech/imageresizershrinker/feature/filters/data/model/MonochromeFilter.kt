@@ -32,7 +32,7 @@ internal class MonochromeFilter(
         blue = 0.3f,
         alpha = 1.0f
     ),
-) : Transformation<Bitmap>, Filter.Monochrome<Bitmap, Color> {
+) : Transformation<Bitmap>, Filter.Monochrome<Color> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

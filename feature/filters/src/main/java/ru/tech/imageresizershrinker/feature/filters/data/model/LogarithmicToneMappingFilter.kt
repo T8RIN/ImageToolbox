@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class LogarithmicToneMappingFilter(
     override val value: Float = 1f,
-) : Transformation<Bitmap>, Filter.LogarithmicToneMapping<Bitmap> {
+) : Transformation<Bitmap>, Filter.LogarithmicToneMapping {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

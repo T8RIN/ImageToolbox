@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -28,4 +27,4 @@ class UiSharpenFilter(
     title = R.string.sharpen,
     value = value,
     valueRange = -1f..1f
-), Filter.Sharpen<Bitmap>
+), Filter.Sharpen

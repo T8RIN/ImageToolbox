@@ -17,21 +17,20 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiLinearFastGaussianFilter(
+class UiLinearFastGaussianBlurNextFilter(
     override val value: Triple<Int, TransferFunc, BlurEdgeMode> = Triple(
         first = 25,
         second = TransferFunc.SRGB,
         third = BlurEdgeMode.Clamp
     )
 ) : UiFilter<Triple<Int, TransferFunc, BlurEdgeMode>>(
-    title = R.string.linear_fast_gaussian,
+    title = R.string.linear_fast_gaussian_blur_next,
     value = value,
     paramsInfo = listOf(
         FilterParam(
@@ -50,4 +49,4 @@ class UiLinearFastGaussianFilter(
             roundTo = 0
         )
     )
-), Filter.LinearFastGaussian<Bitmap>
+), Filter.LinearFastGaussianBlurNext

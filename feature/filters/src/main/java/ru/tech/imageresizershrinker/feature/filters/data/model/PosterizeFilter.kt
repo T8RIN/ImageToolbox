@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class PosterizeFilter(
     private val context: Context,
     override val value: Float = 5f,
-) : GPUFilterTransformation(context), Filter.Posterize<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Posterize{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

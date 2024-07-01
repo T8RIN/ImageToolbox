@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
@@ -33,4 +32,4 @@ class UiFalseColorFilter(
 ) : UiFilter<Pair<Color, Color>>(
     title = R.string.false_color,
     value = value,
-), Filter.FalseColor<Bitmap, Color>
+), Filter.FalseColor<Color>

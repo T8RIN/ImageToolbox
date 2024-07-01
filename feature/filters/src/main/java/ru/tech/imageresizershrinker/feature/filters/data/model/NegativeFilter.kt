@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class NegativeFilter(
     private val context: Context,
     override val value: Unit = Unit,
-) : GPUFilterTransformation(context), Filter.Negative<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Negative{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

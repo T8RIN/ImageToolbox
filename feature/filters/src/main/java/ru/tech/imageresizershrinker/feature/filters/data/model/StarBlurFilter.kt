@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class StarBlurFilter(
     override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.StarBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.StarBlur{
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

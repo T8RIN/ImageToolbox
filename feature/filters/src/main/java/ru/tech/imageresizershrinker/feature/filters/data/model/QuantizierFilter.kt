@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class QuantizierFilter(
     override val value: Float = 256f
-) : Transformation<Bitmap>, Filter.Quantizier<Bitmap> {
+) : Transformation<Bitmap>, Filter.Quantizier {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

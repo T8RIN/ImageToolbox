@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -30,4 +29,4 @@ class UiFractalGlassFilter(
         R.string.strength paramTo 0f..1f,
         R.string.amplitude paramTo 0f..1f
     )
-), Filter.FractalGlass<Bitmap>
+), Filter.FractalGlass

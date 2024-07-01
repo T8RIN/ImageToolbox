@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiCaramelDarknessFilter : UiFilter<Unit>(
     title = R.string.caramel_darkness,
     value = Unit
-), Filter.CaramelDarkness<Bitmap>
+), Filter.CaramelDarkness

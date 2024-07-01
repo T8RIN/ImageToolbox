@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
 
-import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -49,7 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun FilterSelectionBar(
-    addedFilters: List<Filter<Bitmap, *>>,
+    addedFilters: List<Filter<*>>,
     onContrastClick: () -> Unit,
     onThresholdClick: () -> Unit,
     onSharpnessClick: () -> Unit,
@@ -59,9 +58,9 @@ fun FilterSelectionBar(
     val (hasContrast, hasSharpness, hasThreshold) = remember(addedFilters) {
         derivedStateOf {
             Triple(
-                addedFilters.filterIsInstance<Filter.Contrast<Bitmap>>().isNotEmpty(),
-                addedFilters.filterIsInstance<Filter.Sharpen<Bitmap>>().isNotEmpty(),
-                addedFilters.filterIsInstance<Filter.Threshold<Bitmap>>().isNotEmpty()
+                addedFilters.filterIsInstance<Filter.Contrast>().isNotEmpty(),
+                addedFilters.filterIsInstance<Filter.Sharpen>().isNotEmpty(),
+                addedFilters.filterIsInstance<Filter.Threshold>().isNotEmpty()
             )
         }
     }.value

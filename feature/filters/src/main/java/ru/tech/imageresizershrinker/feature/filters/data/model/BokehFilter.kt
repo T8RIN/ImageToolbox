@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaled
 
 internal class BokehFilter(
     override val value: BokehParams = BokehParams.Default
-) : Transformation<Bitmap>, Filter.Bokeh<Bitmap> {
+) : Transformation<Bitmap>, Filter.Bokeh {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

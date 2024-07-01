@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class EnhancedDiamondPixelationFilter(
     override val value: Float = 48f,
-) : Filter.EnhancedDiamondPixelation<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.EnhancedDiamondPixelation {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

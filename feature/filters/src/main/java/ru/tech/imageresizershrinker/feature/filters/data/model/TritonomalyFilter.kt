@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class TritonomalyFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Tritonomaly<Bitmap> {
+) : Transformation<Bitmap>, Filter.Tritonomaly {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

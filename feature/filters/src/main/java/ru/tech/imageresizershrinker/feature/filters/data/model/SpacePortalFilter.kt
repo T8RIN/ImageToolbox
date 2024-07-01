@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SpacePortalFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.SpacePortal<Bitmap> {
+) : Transformation<Bitmap>, Filter.SpacePortal {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

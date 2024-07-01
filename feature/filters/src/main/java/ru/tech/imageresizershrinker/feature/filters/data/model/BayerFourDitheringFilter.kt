@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.DitherTool
 
 internal class BayerFourDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Filter.BayerFourDithering<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.BayerFourDithering {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

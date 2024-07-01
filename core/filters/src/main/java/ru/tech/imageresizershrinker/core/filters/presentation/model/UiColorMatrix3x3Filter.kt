@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -31,4 +30,4 @@ class UiColorMatrix3x3Filter(
     title = R.string.color_matrix_3x3,
     value = value,
     valueRange = 3f..3f
-), Filter.ColorMatrix3x3<Bitmap>
+), Filter.ColorMatrix3x3

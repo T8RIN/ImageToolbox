@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
@@ -36,4 +35,4 @@ class UiEnhancedGlitchFilter(
         FilterParam(R.string.corruption_shift_x, -1f..1f, 2),
         FilterParam(R.string.corruption_shift_y, -1f..1f, 2)
     )
-), Filter.EnhancedGlitch<Bitmap>
+), Filter.EnhancedGlitch

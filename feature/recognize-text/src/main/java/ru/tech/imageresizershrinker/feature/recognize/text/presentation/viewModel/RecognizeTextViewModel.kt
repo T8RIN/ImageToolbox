@@ -115,7 +115,7 @@ class RecognizeTextViewModel @Inject constructor(
         thresholdFilterInstance
     )
 
-    private val _filtersAdded: MutableState<List<Filter<Bitmap, *>>> = mutableStateOf(emptyList())
+    private val _filtersAdded: MutableState<List<Filter<*>>> = mutableStateOf(emptyList())
     val filtersAdded by _filtersAdded
 
     private val internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)

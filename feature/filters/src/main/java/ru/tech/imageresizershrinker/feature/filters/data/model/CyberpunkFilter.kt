@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class CyberpunkFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Cyberpunk<Bitmap> {
+) : Transformation<Bitmap>, Filter.Cyberpunk{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

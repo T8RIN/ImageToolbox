@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiHotSummerFilter : UiFilter<Unit>(
     title = R.string.hot_summer,
     value = Unit
-), Filter.HotSummer<Bitmap>
+), Filter.HotSummer

@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class SobelEdgeDetectionFilter(
     private val context: Context,
     override val value: Float = 1f,
-) : GPUFilterTransformation(context), Filter.SobelEdgeDetection<Bitmap> {
+) : GPUFilterTransformation(context), Filter.SobelEdgeDetection{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

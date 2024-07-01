@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class EmbossFilter(
     override val value: Float = 1f,
-) : Transformation<Bitmap>, Filter.Emboss<Bitmap> {
+) : Transformation<Bitmap>, Filter.Emboss{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

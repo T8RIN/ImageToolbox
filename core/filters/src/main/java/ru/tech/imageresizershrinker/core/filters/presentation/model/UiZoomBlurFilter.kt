@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -33,4 +32,4 @@ class UiZoomBlurFilter(
         FilterParam(R.string.blur_center_y, 0f..1f, 2),
         FilterParam(R.string.blur_size, 0f..10f, 2)
     )
-), Filter.ZoomBlur<Bitmap>
+), Filter.ZoomBlur

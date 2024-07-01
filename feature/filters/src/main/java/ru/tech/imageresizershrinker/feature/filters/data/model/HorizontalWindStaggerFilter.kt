@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class HorizontalWindStaggerFilter(
     override val value: Triple<Float, Int, Color> = Triple(0.2f, 90, Color.Black)
-) : Transformation<Bitmap>, Filter.HorizontalWindStagger<Bitmap, Color> {
+) : Transformation<Bitmap>, Filter.HorizontalWindStagger<Color> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

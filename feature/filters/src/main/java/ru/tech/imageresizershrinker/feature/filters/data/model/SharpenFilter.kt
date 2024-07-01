@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SharpenFilter(
     override val value: Float = 1f,
-) : Transformation<Bitmap>, Filter.Sharpen<Bitmap> {
+) : Transformation<Bitmap>, Filter.Sharpen {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
@@ -44,4 +43,4 @@ class UiBokehFilter(
             valueRange = 0.01f..1f
         )
     )
-), Filter.Bokeh<Bitmap>
+), Filter.Bokeh

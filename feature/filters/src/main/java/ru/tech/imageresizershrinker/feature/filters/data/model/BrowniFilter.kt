@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class BrowniFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Browni<Bitmap> {
+) : Transformation<Bitmap>, Filter.Browni {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

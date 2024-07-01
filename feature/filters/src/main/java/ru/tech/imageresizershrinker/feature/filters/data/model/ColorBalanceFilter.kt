@@ -31,7 +31,7 @@ internal class ColorBalanceFilter(
         0.0f, 0.0f, 0.0f,
         0.0f, 0.0f, 0.0f
     ),
-) : GPUFilterTransformation(context), Filter.ColorBalance<Bitmap> {
+) : GPUFilterTransformation(context), Filter.ColorBalance{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

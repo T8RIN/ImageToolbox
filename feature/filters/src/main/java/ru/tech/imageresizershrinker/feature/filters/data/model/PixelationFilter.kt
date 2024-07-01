@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class PixelationFilter(
     override val value: Float = 25f,
-) : Filter.Pixelation<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.Pixelation {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 

@@ -20,8 +20,8 @@ package ru.tech.imageresizershrinker.feature.filters.domain
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 
-interface FilterMask<Image, Path, Color> {
+interface FilterMask<Path, Color> {
     val maskPaints: List<PathPaint<Path, Color>>
-    val filters: List<Filter<Image, *>>
+    val filters: List<Filter<*>>
     val isInverseFillType: Boolean
 }

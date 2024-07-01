@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class UchimuraFilter(
     override val value: Float = 1f
-) : Transformation<Bitmap>, Filter.Uchimura<Bitmap> {
+) : Transformation<Bitmap>, Filter.Uchimura{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

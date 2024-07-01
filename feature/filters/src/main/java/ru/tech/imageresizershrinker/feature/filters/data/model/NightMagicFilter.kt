@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class NightMagicFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.NightMagic<Bitmap> {
+) : Transformation<Bitmap>, Filter.NightMagic {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

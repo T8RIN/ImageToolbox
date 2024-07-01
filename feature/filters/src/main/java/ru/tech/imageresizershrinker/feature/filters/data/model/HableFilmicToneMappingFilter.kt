@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class HableFilmicToneMappingFilter(
     override val value: Float = 1f,
-) : Transformation<Bitmap>, Filter.HableFilmicToneMapping<Bitmap> {
+) : Transformation<Bitmap>, Filter.HableFilmicToneMapping {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

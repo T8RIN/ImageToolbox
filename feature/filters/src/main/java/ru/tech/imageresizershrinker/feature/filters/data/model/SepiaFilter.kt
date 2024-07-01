@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SepiaFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Sepia<Bitmap> {
+) : Transformation<Bitmap>, Filter.Sepia {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

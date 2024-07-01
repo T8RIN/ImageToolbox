@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -31,4 +30,4 @@ class UiKuwaharaFilter(
     paramsInfo = listOf(
         FilterParam(null, 0f..10f, 0)
     )
-), Filter.Kuwahara<Bitmap>
+), Filter.Kuwahara

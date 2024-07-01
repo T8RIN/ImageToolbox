@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 interface FilterProvider<Image> {
 
     fun filterToTransformation(
-        filter: Filter<Image, *>
+        filter: Filter<*>
     ): Transformation<Image>
 
 }

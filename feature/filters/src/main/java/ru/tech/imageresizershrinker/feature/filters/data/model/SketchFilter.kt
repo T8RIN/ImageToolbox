@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SketchFilter(
     override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
+) : Transformation<Bitmap>, Filter.Sketch {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class OpacityFilter(
     private val context: Context,
     override val value: Float = 0.5f,
-) : GPUFilterTransformation(context), Filter.Opacity<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Opacity{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class HighlightsAndShadowsFilter(
     private val context: Context,
     override val value: Pair<Float, Float> = 0f to 1f,
-) : GPUFilterTransformation(context), Filter.HighlightsAndShadows<Bitmap> {
+) : GPUFilterTransformation(context), Filter.HighlightsAndShadows{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

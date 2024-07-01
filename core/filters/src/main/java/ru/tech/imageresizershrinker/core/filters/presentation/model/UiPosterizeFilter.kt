@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -32,4 +31,4 @@ class UiPosterizeFilter(
     paramsInfo = listOf(
         FilterParam(null, 1f..40f, 0)
     )
-), Filter.Posterize<Bitmap>
+), Filter.Posterize

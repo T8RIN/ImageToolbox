@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class GoldenHourFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.GoldenHour<Bitmap> {
+) : Transformation<Bitmap>, Filter.GoldenHour {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

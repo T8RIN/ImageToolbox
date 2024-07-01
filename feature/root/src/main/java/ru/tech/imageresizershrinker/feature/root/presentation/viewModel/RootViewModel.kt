@@ -56,7 +56,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 @HiltViewModel
 class RootViewModel @Inject constructor(
     val imageLoader: ImageLoader,
-    val favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>,
+    val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     fileController: FileController,

@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class HueFilter(
     private val context: Context,
     override val value: Float = 90f,
-) : GPUFilterTransformation(context), Filter.Hue<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Hue{
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

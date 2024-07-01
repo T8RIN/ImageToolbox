@@ -116,7 +116,7 @@ internal class AndroidImageCombiner @Inject constructor(
                 combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
                     ?.let {
                         val space = combiningParams.spacing.absoluteValue
-                        val bottomFilter = object : Filter.SideFade<Bitmap> {
+                        val bottomFilter = object : Filter.SideFade {
                             override val value: SideFadeParams
                                 get() = SideFadeParams.Absolute(
                                     side = if (isHorizontal) {
@@ -125,7 +125,7 @@ internal class AndroidImageCombiner @Inject constructor(
                                     size = space
                                 )
                         }
-                        val topFilter = object : Filter.SideFade<Bitmap> {
+                        val topFilter = object : Filter.SideFade {
                             override val value: SideFadeParams
                                 get() = SideFadeParams.Absolute(
                                     side = if (isHorizontal) {

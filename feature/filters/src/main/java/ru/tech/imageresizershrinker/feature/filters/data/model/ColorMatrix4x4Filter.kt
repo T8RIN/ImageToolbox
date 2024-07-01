@@ -32,7 +32,7 @@ internal class ColorMatrix4x4Filter(
         0.0f, 0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 0.0f, 1.0f
     ),
-) : GPUFilterTransformation(context), Filter.ColorMatrix4x4<Bitmap> {
+) : GPUFilterTransformation(context), Filter.ColorMatrix4x4{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

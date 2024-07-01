@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiRedSwirlFilter : UiFilter<Unit>(
     title = R.string.red_swirl,
     value = Unit
-), Filter.RedSwirl<Bitmap>
+), Filter.RedSwirl

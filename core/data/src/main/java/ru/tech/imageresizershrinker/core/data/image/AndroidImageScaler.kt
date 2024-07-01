@@ -170,7 +170,7 @@ internal class AndroidImageScaler @Inject constructor(
             },
             transformations = listOf(
                 filterProvider.filterToTransformation(
-                    object : Filter.StackBlur<Bitmap> {
+                    object : Filter.StackBlur {
                         override val value: Pair<Float, Int>
                             get() = 0.5f to blurRadius
                     }

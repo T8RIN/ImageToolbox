@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class PolaroidFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Polaroid<Bitmap> {
+) : Transformation<Bitmap>, Filter.Polaroid {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -17,38 +17,36 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
+import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiLinearGaussianFilter(
-    override val value: LinearGaussianParams = LinearGaussianParams.Default
-) : UiFilter<LinearGaussianParams>(
-    title = R.string.linear_gaussian,
+class UiLinearFastGaussianBlurFilter(
+    override val value: Triple<Int, TransferFunc, BlurEdgeMode> = Triple(
+        first = 25,
+        second = TransferFunc.SRGB,
+        third = BlurEdgeMode.Clamp
+    )
+) : UiFilter<Triple<Int, TransferFunc, BlurEdgeMode>>(
+    title = R.string.linear_fast_gaussian_blur,
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.strength,
-            valueRange = 3f..600f,
-            roundTo = NEAREST_ODD_ROUNDING
-        ),
-        FilterParam(
-            title = R.string.sigma,
-            valueRange = 1f..50f,
-            roundTo = 2
-        ),
-        FilterParam(
-            title = R.string.edge_mode,
-            valueRange = 0f..0f,
+            title = R.string.radius,
+            valueRange = 1f..300f,
             roundTo = 0
         ),
         FilterParam(
             title = R.string.tag_transfer_function,
             valueRange = 0f..0f,
             roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.edge_mode,
+            valueRange = 0f..0f,
+            roundTo = 0
         )
     )
-), Filter.LinearGaussian<Bitmap>
+), Filter.LinearFastGaussianBlur

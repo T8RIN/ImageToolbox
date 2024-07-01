@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class DehazeFilter(
     override val value: Pair<Int, Float> = 17 to 0.45f
-) : Transformation<Bitmap>, Filter.Dehaze<Bitmap> {
+) : Transformation<Bitmap>, Filter.Dehaze{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

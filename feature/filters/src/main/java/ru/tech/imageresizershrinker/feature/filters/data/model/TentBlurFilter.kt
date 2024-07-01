@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class TentBlurFilter(
     override val value: Float = 15f
-) : Transformation<Bitmap>, Filter.TentBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.TentBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

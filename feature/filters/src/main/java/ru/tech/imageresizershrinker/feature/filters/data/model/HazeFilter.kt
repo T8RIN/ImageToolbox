@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageHazeFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -27,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class HazeFilter(
     private val context: Context,
     override val value: Pair<Float, Float> = 0.2f to 0f,
-) : GPUFilterTransformation(context), Filter.Haze<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Haze {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

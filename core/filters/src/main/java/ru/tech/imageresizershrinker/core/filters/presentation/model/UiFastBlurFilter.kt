@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -32,4 +31,4 @@ class UiFastBlurFilter(
         FilterParam(R.string.scale, 0.1f..1f, 2),
         FilterParam(R.string.radius, 0f..100f, 0)
     )
-), Filter.FastBlur<Bitmap>
+), Filter.FastBlur

@@ -20,7 +20,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.datastore.core.DataStore
@@ -56,13 +55,13 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     @FilterInteractorDataStore private val dataStore: DataStore<Preferences>,
     private val fileController: FileController
-) : FavoriteFiltersInteractor<Bitmap> {
+) : FavoriteFiltersInteractor {
 
-    override fun getFavoriteFilters(): Flow<List<Filter<Bitmap, *>>> = dataStore.data.map { prefs ->
+    override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
         prefs[FAVORITE_FILTERS]?.toFiltersList(false) ?: emptyList()
     }
 
-    override suspend fun toggleFavorite(filter: Filter<Bitmap, *>) {
+    override suspend fun toggleFavorite(filter: Filter<*>) {
         val currentFilters = getFavoriteFilters().first()
         if (currentFilters.filterIsInstance(filter::class.java).isEmpty()) {
             dataStore.edit { prefs ->
@@ -79,7 +78,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         }
     }
 
-    override fun getTemplateFilters(): Flow<List<TemplateFilter<Bitmap>>> =
+    override fun getTemplateFilters(): Flow<List<TemplateFilter>> =
         dataStore.data.map { prefs ->
             prefs[TEMPLATE_FILTERS]?.takeIf { it.isNotEmpty() }?.toTemplateFiltersList()
                 ?: emptyList()
@@ -119,7 +118,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         )
     }
 
-    override suspend fun removeTemplateFilter(templateFilter: TemplateFilter<Bitmap>) {
+    override suspend fun removeTemplateFilter(templateFilter: TemplateFilter) {
         val currentFilters = getTemplateFilters().first()
         dataStore.edit { prefs ->
             prefs[TEMPLATE_FILTERS] = currentFilters.filter {
@@ -129,10 +128,10 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
     }
 
     override suspend fun convertTemplateFilterToString(
-        templateFilter: TemplateFilter<Bitmap>
+        templateFilter: TemplateFilter
     ): String = "$LINK_HEADER${listOf(templateFilter).toDatastoreString()}"
 
-    override suspend fun addTemplateFilter(templateFilter: TemplateFilter<Bitmap>) {
+    override suspend fun addTemplateFilter(templateFilter: TemplateFilter) {
         val currentFilters = getTemplateFilters().first()
         dataStore.edit { prefs ->
             prefs[TEMPLATE_FILTERS] = currentFilters.let { filters ->
@@ -146,7 +145,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         }
     }
 
-    private fun List<Filter<Bitmap, *>>.toDatastoreString(
+    private fun List<Filter<*>>.toDatastoreString(
         includeValue: Boolean = false
     ): String = joinToString(separator = FILTERS_SEPARATOR) { filter ->
         filter::class.qualifiedName!!.replace(
@@ -460,7 +459,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
     private fun String.toFiltersList(
         includeValue: Boolean
-    ): List<Filter<Bitmap, *>> = split(FILTERS_SEPARATOR).mapNotNull { line ->
+    ): List<Filter<*>> = split(FILTERS_SEPARATOR).mapNotNull { line ->
         if (line.trim().isEmpty()) return@mapNotNull null
 
         val (name, value) = if (includeValue) {
@@ -478,7 +477,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
                     PACKAGE,
                     context.applicationInfo.packageName
                 )
-            ) as Class<Filter<Bitmap, *>>
+            ) as Class<Filter<*>>
             filterClass.kotlin.primaryConstructor?.run {
                 try {
                     if (includeValue && value != null) {
@@ -491,7 +490,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         }.getOrNull()
     }
 
-    private fun String.toTemplateFiltersList(): List<TemplateFilter<Bitmap>> =
+    private fun String.toTemplateFiltersList(): List<TemplateFilter> =
         split(TEMPLATES_SEPARATOR).map {
             val splitData = it.split(TEMPLATE_CONTENT_SEPARATOR)
             val name = splitData[0]
@@ -503,7 +502,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             )
         }
 
-    private fun List<TemplateFilter<Bitmap>>.toDatastoreString(): String =
+    private fun List<TemplateFilter>.toDatastoreString(): String =
         joinToString(separator = TEMPLATES_SEPARATOR) {
             it.name + TEMPLATE_CONTENT_SEPARATOR + it.filters.toDatastoreString(true)
         }

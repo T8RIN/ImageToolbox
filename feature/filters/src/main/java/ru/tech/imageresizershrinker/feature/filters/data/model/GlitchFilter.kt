@@ -28,7 +28,7 @@ import java.io.ByteArrayOutputStream
 
 internal class GlitchFilter(
     override val value: Triple<Float, Float, Float> = Triple(20f, 15f, 9f),
-) : Transformation<Bitmap>, Filter.Glitch<Bitmap> {
+) : Transformation<Bitmap>, Filter.Glitch {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class CGAColorSpaceFilter(
     private val context: Context,
     override val value: Unit = Unit,
-) : GPUFilterTransformation(context), Filter.CGAColorSpace<Bitmap> {
+) : GPUFilterTransformation(context), Filter.CGAColorSpace{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

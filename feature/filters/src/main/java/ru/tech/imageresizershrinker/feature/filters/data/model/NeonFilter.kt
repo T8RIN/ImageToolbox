@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 internal class NeonFilter(
     private val context: Context,
     override val value: Triple<Float, Float, Color> = Triple(1f, 0.26f, Color.Magenta)
-) : Filter.Neon<Bitmap, Color>, ChainTransformation<Bitmap> {
+) : ChainTransformation<Bitmap>, Filter.Neon<Color> {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

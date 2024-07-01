@@ -103,7 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 internal fun FilterTemplateInfoSheet(
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
-    templateFilter: TemplateFilter<Bitmap>,
+    templateFilter: TemplateFilter,
     onShareImage: (Bitmap) -> Unit,
     onSaveImage: (Bitmap) -> Unit,
     onSaveFile: (fileUri: Uri, content: String) -> Unit,
@@ -428,7 +428,7 @@ internal fun FilterTemplateInfoSheet(
 internal fun TemplateFilterPreviewItem(
     modifier: Modifier,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
-    templateFilter: TemplateFilter<Bitmap>
+    templateFilter: TemplateFilter
 ) {
     val context = LocalContext.current
     val model = remember(templateFilter) {

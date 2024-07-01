@@ -27,7 +27,7 @@ import kotlin.math.roundToInt
 
 internal class LinearTiltShiftFilter(
     override val value: LinearTiltShiftParams = LinearTiltShiftParams.Default
-) : Transformation<Bitmap>, Filter.LinearTiltShift<Bitmap> {
+) : Transformation<Bitmap>, Filter.LinearTiltShift{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

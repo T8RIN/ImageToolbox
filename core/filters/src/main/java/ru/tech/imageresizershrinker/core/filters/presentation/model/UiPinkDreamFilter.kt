@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiPinkDreamFilter : UiFilter<Unit>(
     title = R.string.pink_dream,
     value = Unit
-), Filter.PinkDream<Bitmap>
+), Filter.PinkDream

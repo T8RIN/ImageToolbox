@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class AcesFilmicToneMappingFilter(
     override val value: Float = 1f,
-) : Transformation<Bitmap>, Filter.AcesFilmicToneMapping<Bitmap> {
+) : Transformation<Bitmap>, Filter.AcesFilmicToneMapping {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

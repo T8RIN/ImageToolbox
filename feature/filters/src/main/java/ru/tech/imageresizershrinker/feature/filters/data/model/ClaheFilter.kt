@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ClaheFilter(
     override val value: Triple<Float, Int, Int> = Triple(0.5f, 8, 8)
-) : Transformation<Bitmap>, Filter.Clahe<Bitmap> {
+) : Transformation<Bitmap>, Filter.Clahe{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

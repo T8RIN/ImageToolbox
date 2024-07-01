@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class RemoveColorFilter(
     override val value: Pair<Float, Color> = 0f to Color(0xFF000000),
-) : Filter.RemoveColor<Bitmap, Color>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.RemoveColor<Color> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 

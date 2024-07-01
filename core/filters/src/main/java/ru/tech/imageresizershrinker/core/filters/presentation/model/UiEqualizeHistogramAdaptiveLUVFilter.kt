@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -32,4 +31,4 @@ class UiEqualizeHistogramAdaptiveLUVFilter(
         FilterParam(R.string.bins_count, 2f..256f, 0)
     ),
     value = value
-), Filter.EqualizeHistogramAdaptiveLUV<Bitmap>
+), Filter.EqualizeHistogramAdaptiveLUV

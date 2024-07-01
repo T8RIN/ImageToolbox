@@ -17,16 +17,16 @@
 
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
-data class TemplateFilter<Image>(
+data class TemplateFilter(
     val name: String,
-    val filters: List<Filter<Image, *>>
+    val filters: List<Filter<*>>
 ) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as TemplateFilter<*>
+        other as TemplateFilter
 
         if (other.name != name) return false
         if (other.filters.size != filters.size) return false

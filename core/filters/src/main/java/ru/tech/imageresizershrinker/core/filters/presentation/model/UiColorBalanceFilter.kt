@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -33,4 +32,4 @@ class UiColorBalanceFilter(
     title = R.string.color_balance,
     value = value,
     valueRange = 3f..3f
-), Filter.ColorBalance<Bitmap>
+), Filter.ColorBalance

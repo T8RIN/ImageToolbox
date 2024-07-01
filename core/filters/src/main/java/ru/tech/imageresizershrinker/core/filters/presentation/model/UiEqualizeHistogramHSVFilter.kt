@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -30,4 +29,4 @@ class UiEqualizeHistogramHSVFilter(
     paramsInfo = listOf(
         FilterParam(R.string.bins_count, 2f..256f, 0)
     )
-), Filter.EqualizeHistogramHSV<Bitmap>
+), Filter.EqualizeHistogramHSV

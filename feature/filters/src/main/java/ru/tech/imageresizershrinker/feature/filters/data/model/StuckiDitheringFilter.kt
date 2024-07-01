@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.DitherTool
 
 internal class StuckiDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Filter.StuckiDithering<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.StuckiDithering {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

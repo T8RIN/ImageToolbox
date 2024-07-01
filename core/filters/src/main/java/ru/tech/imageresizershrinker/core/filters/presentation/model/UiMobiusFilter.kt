@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -41,4 +40,4 @@ class UiMobiusFilter(
             valueRange = -2f..2f
         )
     )
-), Filter.Mobius<Bitmap>
+), Filter.Mobius

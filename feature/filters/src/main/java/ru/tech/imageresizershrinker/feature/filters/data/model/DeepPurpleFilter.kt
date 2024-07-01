@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class DeepPurpleFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.DeepPurple<Bitmap> {
+) : Transformation<Bitmap>, Filter.DeepPurple {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

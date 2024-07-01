@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -72,7 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 
 @Composable
 internal fun TemplateFilterSelectionItem(
-    templateFilter: TemplateFilter<Bitmap>,
+    templateFilter: TemplateFilter,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,

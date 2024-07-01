@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class RingBlurFilter(
     override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.RingBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.RingBlur{
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

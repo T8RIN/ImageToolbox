@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class ToonFilter(
     private val context: Context,
     override val value: Pair<Float, Float> = 0.2f to 10f,
-) : GPUFilterTransformation(context), Filter.Toon<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Toon{
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

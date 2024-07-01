@@ -1437,8 +1437,8 @@ private fun <T> EdgeModeSelector(
     val entries by remember(filter) {
         derivedStateOf {
             BlurEdgeMode.entries.let {
-                if (filter !is Filter.GaussianBlur<*>) it - BlurEdgeMode.Clip
-                else it
+                if (filter is Filter.GaussianBlur || filter is Filter.LinearGaussianBlur) it
+                else it - BlurEdgeMode.Clip
             }
         }
     }

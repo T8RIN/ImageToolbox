@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class EnhancedCirclePixelationFilter(
     override val value: Float = 32f,
-) : Filter.EnhancedCirclePixelation<Bitmap>, Transformation<Bitmap> {
+) : Transformation<Bitmap>, Filter.EnhancedCirclePixelation {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 

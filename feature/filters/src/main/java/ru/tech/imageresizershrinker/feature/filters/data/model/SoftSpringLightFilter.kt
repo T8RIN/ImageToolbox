@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SoftSpringLightFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.SoftSpringLight<Bitmap> {
+) : Transformation<Bitmap>, Filter.SoftSpringLight{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 
 internal class WaterEffectFilter(
     override val value: WaterParams = WaterParams()
-) : Transformation<Bitmap>, Filter.WaterEffect<Bitmap> {
+) : Transformation<Bitmap>, Filter.WaterEffect{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

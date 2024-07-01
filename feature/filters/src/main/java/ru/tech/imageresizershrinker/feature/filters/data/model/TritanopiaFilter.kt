@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class TritanopiaFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Tritanopia<Bitmap> {
+) : Transformation<Bitmap>, Filter.Tritanopia {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

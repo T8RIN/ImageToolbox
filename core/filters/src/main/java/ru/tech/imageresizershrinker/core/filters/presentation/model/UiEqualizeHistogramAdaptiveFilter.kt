@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
@@ -31,4 +30,4 @@ class UiEqualizeHistogramAdaptiveFilter(
         FilterParam(R.string.grid_size_y, 1f..100f, 0)
     ),
     value = value
-), Filter.EqualizeHistogramAdaptive<Bitmap>
+), Filter.EqualizeHistogramAdaptive

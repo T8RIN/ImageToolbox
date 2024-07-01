@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class UnsharpFilter(
     override val value: Float = 0.5f,
-) : Transformation<Bitmap>, Filter.Unsharp<Bitmap> {
+) : Transformation<Bitmap>, Filter.Unsharp{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

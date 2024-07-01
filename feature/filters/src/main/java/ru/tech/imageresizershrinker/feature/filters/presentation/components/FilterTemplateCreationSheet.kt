@@ -104,7 +104,7 @@ import javax.inject.Inject
 internal fun FilterTemplateCreationSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    initialTemplateFilter: TemplateFilter<Bitmap>? = null
+    initialTemplateFilter: TemplateFilter? = null
 ) {
     ScopedViewModelContainer<FilterTemplateCreationSheetViewModel> { disposable ->
         val viewModel = this
@@ -374,7 +374,7 @@ internal fun FilterTemplateCreationSheet(
 @HiltViewModel
 private class FilterTemplateCreationSheetViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>,
+    private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
@@ -448,7 +448,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
         updatePreview()
     }
 
-    fun saveTemplate(initialTemplateFilter: TemplateFilter<Bitmap>?) {
+    fun saveTemplate(initialTemplateFilter: TemplateFilter?) {
         viewModelScope.launch {
             if (initialTemplateFilter != null) {
                 favoriteFiltersInteractor.removeTemplateFilter(initialTemplateFilter)
@@ -469,7 +469,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
 
     private var isInitialValueSetAlready: Boolean = false
 
-    fun setInitialTemplateFilter(filter: TemplateFilter<Bitmap>) {
+    fun setInitialTemplateFilter(filter: TemplateFilter) {
         if (templateName.isEmpty() && filterList.isEmpty() && !isInitialValueSetAlready) {
             _templateName.update { filter.name }
             _filterList.update { filter.filters.map { it.toUiFilter() } }

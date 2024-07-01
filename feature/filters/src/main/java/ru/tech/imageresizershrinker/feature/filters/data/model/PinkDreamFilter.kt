@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class PinkDreamFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.PinkDream<Bitmap> {
+) : Transformation<Bitmap>, Filter.PinkDream {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

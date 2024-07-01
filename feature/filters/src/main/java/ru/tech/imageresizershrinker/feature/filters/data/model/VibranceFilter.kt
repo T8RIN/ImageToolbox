@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class VibranceFilter(
     override val value: Float = 3f,
-) : Transformation<Bitmap>, Filter.Vibrance<Bitmap> {
+) : Transformation<Bitmap>, Filter.Vibrance{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class GrainFilter(
     override val value: Float = 0.75f
-) : Transformation<Bitmap>, Filter.Grain<Bitmap> {
+) : Transformation<Bitmap>, Filter.Grain{
 
     override val cacheKey: String
         get() = value.hashCode().toString()

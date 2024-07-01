@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.annotation.StringRes
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.coroutineScope
@@ -30,7 +29,7 @@ sealed class UiFilter<T>(
     @StringRes val title: Int,
     val paramsInfo: List<FilterParam> = listOf(),
     override val value: T
-) : Filter<Bitmap, T> {
+) : Filter<T> {
 
     constructor(
         @StringRes title: Int,
@@ -211,9 +210,9 @@ sealed class UiFilter<T>(
                     UiLinearGaussianBoxBlurFilter(),
                     UiLinearStackBlurFilter(),
                     UiGaussianBoxBlurFilter(),
-                    UiLinearFastGaussianNextFilter(),
-                    UiLinearFastGaussianFilter(),
-                    UiLinearGaussianFilter()
+                    UiLinearFastGaussianBlurNextFilter(),
+                    UiLinearFastGaussianBlurFilter(),
+                    UiLinearGaussianBlurFilter()
                 ),
                 listOf(
                     UiCrystallizeFilter(),
@@ -277,7 +276,7 @@ sealed class UiFilter<T>(
 
 private val sealedValues = UiFilter::class.sealedSubclasses
 
-fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = sealedValues.first {
+fun Filter<*>.toUiFilter(): UiFilter<*> = sealedValues.first {
     it.java.isAssignableFrom(this::class.java)
 }.primaryConstructor!!.run {
     if (parameters.isNotEmpty()) callBy(mapOf(parameters[0] to value))

@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ConvexFilter(
     override val value: Float = 3f,
-) : Transformation<Bitmap>, Filter.Convex<Bitmap> {
+) : Transformation<Bitmap>, Filter.Convex {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

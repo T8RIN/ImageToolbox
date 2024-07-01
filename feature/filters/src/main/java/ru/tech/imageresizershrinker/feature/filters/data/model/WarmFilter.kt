@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class WarmFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Warm<Bitmap> {
+) : Transformation<Bitmap>, Filter.Warm {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

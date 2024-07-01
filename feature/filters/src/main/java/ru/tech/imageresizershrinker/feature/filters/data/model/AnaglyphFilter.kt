@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.Glitcher
 
 internal class AnaglyphFilter(
     override val value: Float = 20f
-) : Transformation<Bitmap>, Filter.Anaglyph<Bitmap> {
+) : Transformation<Bitmap>, Filter.Anaglyph {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

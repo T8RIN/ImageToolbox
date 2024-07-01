@@ -27,7 +27,7 @@ import kotlin.math.roundToInt
 
 internal class RadialTiltShiftFilter(
     override val value: RadialTiltShiftParams = RadialTiltShiftParams.Default
-) : Transformation<Bitmap>, Filter.RadialTiltShift<Bitmap> {
+) : Transformation<Bitmap>, Filter.RadialTiltShift {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

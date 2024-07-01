@@ -20,22 +20,22 @@ package ru.tech.imageresizershrinker.feature.filters.domain
 interface FilterMaskApplier<Image, Path, Color> {
 
     suspend fun filterByMask(
-        filterMask: FilterMask<Image, Path, Color>,
+        filterMask: FilterMask<Path, Color>,
         imageUri: String
     ): Image?
 
     suspend fun filterByMask(
-        filterMask: FilterMask<Image, Path, Color>,
+        filterMask: FilterMask<Path, Color>,
         image: Image
     ): Image?
 
     suspend fun filterByMasks(
-        filterMasks: List<FilterMask<Image, Path, Color>>,
+        filterMasks: List<FilterMask<Path, Color>>,
         imageUri: String
     ): Image?
 
     suspend fun filterByMasks(
-        filterMasks: List<FilterMask<Image, Path, Color>>,
+        filterMasks: List<FilterMask<Path, Color>>,
         image: Image
     ): Image?
 

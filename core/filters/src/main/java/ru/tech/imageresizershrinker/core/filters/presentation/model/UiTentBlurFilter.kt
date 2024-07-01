@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
@@ -35,4 +34,4 @@ class UiTentBlurFilter(
             roundTo = NEAREST_ODD_ROUNDING
         )
     )
-), Filter.TentBlur<Bitmap>
+), Filter.TentBlur

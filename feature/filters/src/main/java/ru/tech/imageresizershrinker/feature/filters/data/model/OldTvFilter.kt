@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class OldTvFilter(
     private val context: Context,
     override val value: Unit
-) : Filter.OldTv<Bitmap>, ChainTransformation<Bitmap> {
+) : ChainTransformation<Bitmap>, Filter.OldTv {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

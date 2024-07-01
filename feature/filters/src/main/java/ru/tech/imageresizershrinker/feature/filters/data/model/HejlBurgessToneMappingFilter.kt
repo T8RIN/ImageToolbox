@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class HejlBurgessToneMappingFilter(
     override val value: Float = 1f,
-) : Transformation<Bitmap>, Filter.HejlBurgessToneMapping<Bitmap> {
+) : Transformation<Bitmap>, Filter.HejlBurgessToneMapping {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()
