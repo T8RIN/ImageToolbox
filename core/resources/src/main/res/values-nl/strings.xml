@@ -1227,11 +1227,8 @@
     <string name="protanomaly_sub">Moeite met onderscheid tussen rode en groene tinten</string>
     <string name="color_blind_scheme_sub">Selecteer modus om themakleuren aan te passen voor een bepaalde variant in kleurblindheid</string>
     <string name="linear_gaussian_box_blur">Lineaire Gaussbox-vervaging</string>
-    <string name="linear_gaussian">Lineaire Gaussian</string>
-    <string name="linear_fast_gaussian">Lineaire snelle Gaussian</string>
     <string name="linear_tent_blur">Lineaire tent-vervaging</string>
     <string name="linear_box_blur">Lineaire box-vervaging</string>
     <string name="linear_stack_blur">Lineaire gestapelde vervaging</string>
-    <string name="linear_fast_gaussian_next">Lineaire snelle Gaussiaanse Next</string>
     <string name="gaussian_box_blur">Gaussiaanse box-vervaging</string>
 </resources>
