@@ -1226,4 +1226,15 @@
     <string name="not_use_color_blind_scheme">Не использовать схему дальтонизма</string>
     <string name="sigmoidal">Сигм.</string>
     <string name="not_use_color_blind_scheme_sub">Цвета будут такими же как в теме</string>
+    <string name="linear_box_blur">Линейное размытие прямоугольником</string>
+    <string name="linear_tent_blur">Линейное размытие тентом</string>
+    <string name="linear_gaussian_box_blur">Линейное размытие прямоугольником по Гауссу</string>
+    <string name="linear_stack_blur">Линейное размытие стеком</string>
+    <string name="gaussian_box_blur">Размытие прямоугольником по Гауссу</string>
+    <string name="linear_fast_gaussian_blur_next">Следующее быстрое линейное размытие по Гауссу</string>
+    <string name="linear_fast_gaussian_blur">Линейное быстрое размытие по Гауссу</string>
+    <string name="draw_filter_sub">Выберите один фильтр, чтобы использовать его в качестве краски</string>
+    <string name="linear_gaussian_blur">Линейное размытие по Гауссу</string>
+    <string name="replace_filter">Заменить фильтр</string>
+    <string name="pick_filter_info">Выберите фильтр ниже, чтобы использовать его в качестве кисти в своем наброске</string>
 </resources>
