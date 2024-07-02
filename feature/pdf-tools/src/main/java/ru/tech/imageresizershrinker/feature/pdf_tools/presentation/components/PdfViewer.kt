@@ -553,8 +553,7 @@ private fun PdfPage(
             shape = RectangleShape,
             contentScale = contentScale,
             showTransparencyChecker = false,
-            manualImageRequest = request,
-            model = bitmap
+            model = request
         )
         AnimatedVisibility(
             visible = selectionEnabled,

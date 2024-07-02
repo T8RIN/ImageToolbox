@@ -47,18 +47,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
@@ -256,10 +260,14 @@ fun DocumentScannerContent(
                         shape = CircleShape,
                         color = MaterialTheme.colorScheme.surfaceContainerLow
                     )
-                    .padding(vertical = 6.dp),
+                    .padding(6.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val density = LocalDensity.current
+                var height by remember {
+                    mutableStateOf(0.dp)
+                }
                 EnhancedButton(
                     onClick = {
                         viewModel.sharePdf(showConfetti)
@@ -270,14 +278,26 @@ fun DocumentScannerContent(
                         bottom = 8.dp,
                         start = 12.dp,
                         end = 20.dp
-                    )
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .onSizeChanged {
+                            height = max(height, with(density) { it.height.toDp() })
+                        }
+                        .then(
+                            if (height > 0.dp) Modifier.height(height)
+                            else Modifier
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Share,
                         contentDescription = stringResource(R.string.share_as_pdf)
                     )
                     Spacer(Modifier.width(8.dp))
-                    AutoSizeText(text = stringResource(id = R.string.share_as_pdf))
+                    AutoSizeText(
+                        text = stringResource(id = R.string.share_as_pdf),
+                        maxLines = 2
+                    )
                 }
                 Spacer(Modifier.width(8.dp))
                 EnhancedButton(
@@ -289,18 +309,30 @@ fun DocumentScannerContent(
                         bottom = 8.dp,
                         start = 16.dp,
                         end = 20.dp
-                    )
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .onSizeChanged {
+                            height = max(height, with(density) { it.height.toDp() })
+                        }
+                        .then(
+                            if (height > 0.dp) Modifier.height(height)
+                            else Modifier
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.PictureAsPdf,
                         contentDescription = stringResource(R.string.save_as_pdf)
                     )
                     Spacer(Modifier.width(8.dp))
-                    AutoSizeText(text = stringResource(id = R.string.save_as_pdf))
+                    AutoSizeText(
+                        text = stringResource(id = R.string.save_as_pdf),
+                        maxLines = 2
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
-            Column(
+            Row(
                 modifier = Modifier
                     .padding(8.dp)
                     .container(
@@ -308,26 +340,23 @@ fun DocumentScannerContent(
                         resultPadding = 0.dp,
                         shape = RoundedCornerShape(16.dp)
                     )
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.options_below_is_for_images),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.SemiBold,
-                        lineHeight = 14.sp,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.options_below_is_for_images),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold,
+                    lineHeight = 14.sp,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                )
             }
             if (viewModel.imageFormat.canChangeCompressionValue) {
                 Spacer(Modifier.height(8.dp))

@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -51,7 +52,6 @@ fun Picture(
     modifier: Modifier = Modifier,
     model: Any?,
     transformations: List<Transformation> = emptyList(),
-    manualImageRequest: ImageRequest? = null,
     manualImageLoader: ImageLoader? = null,
     contentDescription: String? = null,
     shape: Shape = RectangleShape,
@@ -81,12 +81,16 @@ fun Picture(
 
     val imageLoader = manualImageLoader ?: LocalImageLoader.current
 
-    val request = manualImageRequest ?: ImageRequest.Builder(context)
-        .data(model)
-        .crossfade(crossfadeEnabled)
-        .allowHardware(allowHardware)
-        .transformations(transformations)
-        .build()
+    val request = if (model !is ImageRequest) {
+        remember(context, model, crossfadeEnabled, allowHardware, transformations) {
+            ImageRequest.Builder(context)
+                .data(model)
+                .crossfade(crossfadeEnabled)
+                .allowHardware(allowHardware)
+                .transformations(transformations)
+                .build()
+        }
+    } else model
 
     SubcomposeAsyncImage(
         model = request,

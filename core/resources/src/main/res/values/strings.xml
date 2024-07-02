@@ -1254,4 +1254,5 @@
     <string name="linear_gaussian_blur">Linear Gaussian Blur</string>
     <string name="draw_filter_sub">Choose one filter to use it as paint</string>
     <string name="replace_filter">Replace Filter</string>
+    <string name="pick_filter_info">Pick filter below to use it as brush in your drawing</string>
 </resources>

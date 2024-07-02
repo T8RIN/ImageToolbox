@@ -25,6 +25,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,6 +37,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.AutoFixNormal
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
@@ -340,10 +342,11 @@ fun DrawModeSelector(
                 mutableStateOf(false)
             }
             AnimatedContent(targetState = filter != null) { notNull ->
-                if (notNull && filter != null) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                ) {
+                    if (notNull && filter != null) {
                         FilterItem(
                             filter = filter!!,
                             showDragHandle = false,
@@ -358,19 +361,14 @@ fun DrawModeSelector(
                                 )
                             },
                             backgroundColor = MaterialTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(16.dp),
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .padding(bottom = 8.dp)
+                            shape = RoundedCornerShape(16.dp)
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
                         EnhancedButton(
                             containerColor = MaterialTheme.colorScheme.mixedContainer,
                             onClick = {
                                 showFilterSelection = true
-                            },
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .padding(bottom = 8.dp)
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.AutoFixNormal,
@@ -379,16 +377,41 @@ fun DrawModeSelector(
                             Spacer(Modifier.width(8.dp))
                             Text(stringResource(id = R.string.replace_filter))
                         }
+                        Spacer(modifier = Modifier.height(8.dp))
+                    } else {
+                        Row(
+                            modifier = Modifier
+                                .container(
+                                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                    resultPadding = 0.dp,
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Info,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = stringResource(R.string.pick_filter_info),
+                                fontSize = 12.sp,
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.SemiBold,
+                                lineHeight = 14.sp,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        AddFilterButton(
+                            onClick = {
+                                showFilterSelection = true
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
-                } else {
-                    AddFilterButton(
-                        onClick = {
-                            showFilterSelection = true
-                        },
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .padding(bottom = 8.dp)
-                    )
                 }
                 AddFiltersSheet(
                     visible = showFilterSelection,

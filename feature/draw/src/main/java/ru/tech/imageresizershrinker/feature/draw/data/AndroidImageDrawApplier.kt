@@ -336,6 +336,10 @@ internal class AndroidImageDrawApplier @Inject constructor(
             )
         }
 
+        is DrawMode.PathEffect.Custom -> drawMode.filter?.let {
+            listOf(it)
+        } ?: emptyList()
+
         else -> emptyList()
     }.map {
         filterProvider.filterToTransformation(it)

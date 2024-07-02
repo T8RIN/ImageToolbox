@@ -32,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,8 +41,10 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import coil.request.ImageRequest
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import kotlin.math.roundToInt
@@ -87,8 +90,15 @@ internal fun UrisCarousel(uris: List<Uri>) {
             var aspectRatio by rememberSaveable {
                 mutableFloatStateOf(0.5f)
             }
+            val context = LocalContext.current
             Picture(
-                model = uri,
+                model = remember(context, uri) {
+                    ImageRequest.Builder(context)
+                        .data(uri)
+                        .size(1000)
+                        .crossfade(true)
+                        .build()
+                },
                 onSuccess = {
                     aspectRatio = it.result.drawable.safeAspectRatio
                 },
