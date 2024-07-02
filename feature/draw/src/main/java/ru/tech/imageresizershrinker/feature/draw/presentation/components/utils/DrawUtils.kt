@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.applyCanvas
 import coil.request.ImageRequest
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
@@ -77,11 +78,10 @@ fun ImageBitmap.clipBitmap(
 
 fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     val image = this.asAndroidBitmap()
-    val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
-    val canvas = Canvas(finalBitmap)
-    canvas.drawBitmap(image, Matrix(), null)
-    canvas.drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
-    return finalBitmap.asImageBitmap()
+    return Bitmap.createBitmap(image.width, image.height, image.config).applyCanvas {
+        drawBitmap(image, Matrix(), null)
+        drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
+    }.asImageBitmap()
 }
 
 @Composable
