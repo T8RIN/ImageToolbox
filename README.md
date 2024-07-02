@@ -319,6 +319,9 @@ or click one of the badges below.
   - Highlighter
   - Privacy Blur
   - Pixelation Paint
+  - Text
+  - Image Brush
+  - Filter Brush
   - Pointing Arrow
   - Line
   - Double Pointing Arrow
@@ -335,8 +338,6 @@ or click one of the badges below.
   - Polygon
   - Star
   - Lasso
-  - Text
-  - Image Brush
 - Image Resizing
   - Width changing
   - Height changing

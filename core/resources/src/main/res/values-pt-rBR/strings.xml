@@ -1225,4 +1225,5 @@
     <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
     <string name="lagrange_3_sub">Um filtro de interpolação Lagrange de ordem 3, que oferece melhor precisão e resultados mais suaves para o dimensionamento de imagens</string>
     <string name="lanczos_6_sub">Um filtro de reamostragem Lanczos com uma ordem superior a 6, proporcionando uma escala de imagem mais nítida e precisa</string>
+    <string name="linear_box_blur">Desfoque de caixa linear</string>
 </resources>
