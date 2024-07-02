@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.presentation.components
+package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -62,7 +62,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -82,8 +81,6 @@ fun <T> FilterItem(
     backgroundColor: Color = Color.Unspecified,
     shape: Shape = MaterialTheme.shapes.extraLarge
 ) {
-    val settingsState = LocalSettingsState.current
-
     var isControlsExpanded by rememberSaveable {
         mutableStateOf(true)
     }
@@ -212,7 +209,7 @@ fun <T> FilterItem(
                 Box(
                     modifier = Modifier
                         .height(if (filter.value is Unit) 32.dp else 64.dp)
-                        .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                        .width(1.dp)
                         .background(MaterialTheme.colorScheme.outlineVariant())
                         .padding(start = 20.dp)
                 )

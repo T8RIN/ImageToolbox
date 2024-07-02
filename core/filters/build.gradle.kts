@@ -18,6 +18,7 @@
 plugins {
     alias(libs.plugins.image.toolbox.library)
     alias(libs.plugins.image.toolbox.compose)
+    alias(libs.plugins.image.toolbox.hilt)
 }
 
 android.namespace = "ru.tech.imageresizershrinker.core.filters"

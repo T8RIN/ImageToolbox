@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.presentation.components
+package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -68,7 +68,6 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkRemove
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -90,7 +89,6 @@ internal fun FilterSelectionItem(
     modifier: Modifier
 ) {
     val haptics = LocalHapticFeedback.current
-    val settingsState = LocalSettingsState.current
 
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -179,11 +177,7 @@ internal fun FilterSelectionItem(
                 Box(
                     modifier = Modifier
                         .height(36.dp)
-                        .width(
-                            settingsState.borderWidth.coerceAtLeast(
-                                0.25.dp
-                            )
-                        )
+                        .width(1.dp)
                         .background(MaterialTheme.colorScheme.outlineVariant())
                 )
             }

@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiStackBlurFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
@@ -271,6 +272,12 @@ fun BitmapDrawer(
                             value = drawMode.pixelSize
                         )
                     )
+                }
+
+                is DrawMode.PathEffect.Custom -> {
+                    drawMode.filter?.let {
+                        listOf(it.toUiFilter())
+                    } ?: emptyList()
                 }
 
                 else -> emptyList()

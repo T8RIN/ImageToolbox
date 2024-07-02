@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.presentation.components
+package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -323,10 +323,10 @@ private class AddFiltersSheetViewModel @Inject constructor(
 fun AddFiltersSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
-    canAddTemplates: Boolean = true,
     previewBitmap: Bitmap?,
     onFilterPicked: (UiFilter<*>) -> Unit,
-    onFilterPickedWithParams: (UiFilter<*>) -> Unit
+    onFilterPickedWithParams: (UiFilter<*>) -> Unit,
+    canAddTemplates: Boolean = true
 ) {
     ScopedViewModelContainer<AddFiltersSheetViewModel> { disposable ->
         val viewModel = this

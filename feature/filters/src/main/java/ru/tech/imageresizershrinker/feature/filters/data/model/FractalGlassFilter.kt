@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class FractalGlassFilter(
     override val value: Pair<Float, Float> = 0.02f to 0.02f
-) : Transformation<Bitmap>, Filter.FractalGlass{
+) : Transformation<Bitmap>, Filter.FractalGlass {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class GrayscaleFilter(
     override val value: Triple<Float, Float, Float> = Triple(0.299f, 0.587f, 0.114f)
-) : Transformation<Bitmap>, Filter.Grayscale{
+) : Transformation<Bitmap>, Filter.Grayscale {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

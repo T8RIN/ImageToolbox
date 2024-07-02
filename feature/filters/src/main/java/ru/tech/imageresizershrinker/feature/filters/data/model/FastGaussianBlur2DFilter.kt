@@ -28,7 +28,7 @@ import kotlin.math.roundToInt
 
 internal class FastGaussianBlur2DFilter(
     override val value: Pair<Float, BlurEdgeMode> = 25f to BlurEdgeMode.Clamp
-) : Transformation<Bitmap>, Filter.FastGaussianBlur2D{
+) : Transformation<Bitmap>, Filter.FastGaussianBlur2D {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class OrangeHazeFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.OrangeHaze{
+) : Transformation<Bitmap>, Filter.OrangeHaze {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

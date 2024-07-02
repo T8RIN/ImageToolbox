@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.DitherTool
 
 internal class FloydSteinbergDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Transformation<Bitmap>,  Filter.FloydSteinbergDithering {
+) : Transformation<Bitmap>, Filter.FloydSteinbergDithering {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

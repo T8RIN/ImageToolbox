@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class CaramelDarknessFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.CaramelDarkness{
+) : Transformation<Bitmap>, Filter.CaramelDarkness {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

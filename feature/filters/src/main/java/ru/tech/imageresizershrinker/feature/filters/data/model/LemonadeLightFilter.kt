@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class LemonadeLightFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.LemonadeLight{
+) : Transformation<Bitmap>, Filter.LemonadeLight {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

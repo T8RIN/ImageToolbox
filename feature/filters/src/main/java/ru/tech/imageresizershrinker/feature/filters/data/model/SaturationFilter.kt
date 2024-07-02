@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SaturationFilter(
     override val value: Float = 2f,
-) : Transformation<Bitmap>, Filter.Saturation{
+) : Transformation<Bitmap>, Filter.Saturation {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

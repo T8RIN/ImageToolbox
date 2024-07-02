@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class DragoFilter(
     override val value: Pair<Float, Float> = 1f to 250f
-) : Transformation<Bitmap>, Filter.Drago{
+) : Transformation<Bitmap>, Filter.Drago {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

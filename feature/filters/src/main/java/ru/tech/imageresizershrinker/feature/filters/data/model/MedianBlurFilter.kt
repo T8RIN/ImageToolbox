@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaled
 
 internal class MedianBlurFilter(
     override val value: Pair<Float, Int> = 0.5f to 10
-) : Transformation<Bitmap>, Filter.MedianBlur{
+) : Transformation<Bitmap>, Filter.MedianBlur {
 
     override val cacheKey: String
         get() = value.hashCode()

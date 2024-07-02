@@ -73,6 +73,9 @@ import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
@@ -88,9 +91,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ThresholdFilter(
     override val value: Float = 128f
-) : Transformation<Bitmap>, Filter.Threshold{
+) : Transformation<Bitmap>, Filter.Threshold {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

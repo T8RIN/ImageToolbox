@@ -26,7 +26,7 @@ import kotlin.math.roundToInt
 
 internal class FastGaussianBlur4DFilter(
     override val value: Float = 25f
-) : Transformation<Bitmap>, Filter.FastGaussianBlur4D{
+) : Transformation<Bitmap>, Filter.FastGaussianBlur4D {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

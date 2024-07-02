@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class RedSwirlFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.RedSwirl{
+) : Transformation<Bitmap>, Filter.RedSwirl {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

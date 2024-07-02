@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ErodeFilter(
     override val value: Float = 5f
-) : Transformation<Bitmap>, Filter.Erode{
+) : Transformation<Bitmap>, Filter.Erode {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

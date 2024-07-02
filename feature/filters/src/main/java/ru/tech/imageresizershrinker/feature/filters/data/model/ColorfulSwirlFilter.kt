@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ColorfulSwirlFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.ColorfulSwirl{
+) : Transformation<Bitmap>, Filter.ColorfulSwirl {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

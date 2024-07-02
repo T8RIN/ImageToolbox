@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class PastelFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Pastel{
+) : Transformation<Bitmap>, Filter.Pastel {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

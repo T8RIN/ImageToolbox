@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorMatrixFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -32,7 +31,7 @@ internal class ColorMatrix4x4Filter(
         0.0f, 0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 0.0f, 1.0f
     ),
-) : GPUFilterTransformation(context), Filter.ColorMatrix4x4{
+) : GPUFilterTransformation(context), Filter.ColorMatrix4x4 {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

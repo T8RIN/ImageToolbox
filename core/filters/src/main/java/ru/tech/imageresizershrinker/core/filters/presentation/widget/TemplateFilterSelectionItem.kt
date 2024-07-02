@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.presentation.components
+package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -60,7 +60,6 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -79,8 +78,6 @@ internal fun TemplateFilterSelectionItem(
     shape: Shape,
     modifier: Modifier
 ) {
-    val settingsState = LocalSettingsState.current
-
     val context = LocalContext.current
     val model = remember(templateFilter) {
         if (onRequestFilterMapping != null) {
@@ -166,11 +163,7 @@ internal fun TemplateFilterSelectionItem(
                 Box(
                     modifier = Modifier
                         .height(36.dp)
-                        .width(
-                            settingsState.borderWidth.coerceAtLeast(
-                                0.25.dp
-                            )
-                        )
+                        .width(1.dp)
                         .background(MaterialTheme.colorScheme.outlineVariant())
                 )
             }

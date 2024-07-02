@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageGlassSphereFilter
@@ -28,7 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class GlassSphereRefractionFilter(
     private val context: Context,
     override val value: Pair<Float, Float> = 0.25f to 0.71f,
-) : GPUFilterTransformation(context), Filter.GlassSphereRefraction{
+) : GPUFilterTransformation(context), Filter.GlassSphereRefraction {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

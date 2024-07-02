@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class OilFilter(
     override val value: Pair<Int, Float> = 4 to 1f
-) : Transformation<Bitmap>, Filter.Oil{
+) : Transformation<Bitmap>, Filter.Oil {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

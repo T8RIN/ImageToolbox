@@ -32,7 +32,7 @@ internal class Convolution3x3Filter(
         0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 0.0f
     ),
-) : Transformation<Bitmap>, Filter.Convolution3x3{
+) : Transformation<Bitmap>, Filter.Convolution3x3 {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

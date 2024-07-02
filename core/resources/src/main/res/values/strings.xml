@@ -1252,4 +1252,6 @@
     <string name="linear_fast_gaussian_blur_next">Linear Fast Gaussian Blur Next</string>
     <string name="linear_fast_gaussian_blur">Linear Fast Gaussian Blur</string>
     <string name="linear_gaussian_blur">Linear Gaussian Blur</string>
+    <string name="draw_filter_sub">Choose one filter to use it as paint</string>
+    <string name="replace_filter">Replace Filter</string>
 </resources>

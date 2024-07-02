@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class DigitalCodeFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.DigitalCode{
+) : Transformation<Bitmap>, Filter.DigitalCode {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

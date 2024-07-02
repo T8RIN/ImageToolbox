@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ContrastFilter(
     override val value: Float = 2f,
-) : Transformation<Bitmap>, Filter.Contrast{
+) : Transformation<Bitmap>, Filter.Contrast {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

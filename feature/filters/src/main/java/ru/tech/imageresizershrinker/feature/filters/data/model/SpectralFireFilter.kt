@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SpectralFireFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.SpectralFire{
+) : Transformation<Bitmap>, Filter.SpectralFire {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

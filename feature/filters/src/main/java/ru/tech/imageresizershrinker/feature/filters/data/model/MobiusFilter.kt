@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class MobiusFilter(
     override val value: Triple<Float, Float, Float> = Triple(1f, 0.9f, 1f)
-) : Transformation<Bitmap>, Filter.Mobius{
+) : Transformation<Bitmap>, Filter.Mobius {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

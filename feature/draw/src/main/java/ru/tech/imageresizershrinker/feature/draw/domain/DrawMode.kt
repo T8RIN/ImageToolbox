@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.draw.domain
 
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+
 sealed class DrawMode(open val ordinal: Int) {
     data object Neon : DrawMode(2)
     data object Highlighter : DrawMode(3)
@@ -30,6 +32,10 @@ sealed class DrawMode(open val ordinal: Int) {
         data class Pixelation(
             val pixelSize: Float = 35f
         ) : PathEffect(4)
+
+        data class Custom(
+            val filter: Filter<*>? = null
+        ) : PathEffect(5)
     }
 
     data class Text(
@@ -53,7 +59,8 @@ sealed class DrawMode(open val ordinal: Int) {
                 Highlighter,
                 PathEffect.PrivacyBlur(),
                 PathEffect.Pixelation(),
-                Image()
+                Image(),
+                PathEffect.Custom()
             )
         }
 

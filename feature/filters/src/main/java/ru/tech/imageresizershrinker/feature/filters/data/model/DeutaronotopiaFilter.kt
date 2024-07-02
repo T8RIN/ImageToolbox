@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class DeutaronotopiaFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Deutaronotopia{
+) : Transformation<Bitmap>, Filter.Deutaronotopia {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

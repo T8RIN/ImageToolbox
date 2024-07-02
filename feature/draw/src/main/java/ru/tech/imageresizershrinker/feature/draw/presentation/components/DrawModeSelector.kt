@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -33,7 +34,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.rounded.AutoFixNormal
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material.icons.rounded.TextFormat
@@ -42,8 +45,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -55,10 +60,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
+import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.resources.icons.Highlighter
 import ru.tech.imageresizershrinker.core.resources.icons.Laser
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
@@ -123,6 +133,7 @@ fun DrawModeSelector(
                 onValueChange(DrawMode.entries[it])
             }
         )
+
         AnimatedVisibility(
             visible = value is DrawMode.PathEffect.PrivacyBlur,
             enter = fadeIn() + expandVertically(),
@@ -138,6 +149,7 @@ fun DrawModeSelector(
                 color = MaterialTheme.colorScheme.surface
             )
         }
+
         AnimatedVisibility(
             visible = value is DrawMode.PathEffect.Pixelation,
             enter = fadeIn() + expandVertically(),
@@ -152,6 +164,7 @@ fun DrawModeSelector(
                 color = MaterialTheme.colorScheme.surface
             )
         }
+
         AnimatedVisibility(
             visible = value is DrawMode.Text,
             enter = fadeIn() + expandVertically(),
@@ -312,6 +325,90 @@ fun DrawModeSelector(
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
+
+        AnimatedVisibility(
+            visible = value is DrawMode.PathEffect.Custom,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            val filter by remember(value) {
+                derivedStateOf {
+                    (value as? DrawMode.PathEffect.Custom)?.filter?.toUiFilter()
+                }
+            }
+            var showFilterSelection by rememberSaveable {
+                mutableStateOf(false)
+            }
+            AnimatedContent(targetState = filter != null) { notNull ->
+                if (notNull && filter != null) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        FilterItem(
+                            filter = filter!!,
+                            showDragHandle = false,
+                            onRemove = {
+                                onValueChange(
+                                    DrawMode.PathEffect.Custom()
+                                )
+                            },
+                            onFilterChange = { value ->
+                                onValueChange(
+                                    DrawMode.PathEffect.Custom(filter!!.copy(value))
+                                )
+                            },
+                            backgroundColor = MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(16.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .padding(bottom = 8.dp)
+                        )
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.mixedContainer,
+                            onClick = {
+                                showFilterSelection = true
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .padding(bottom = 8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.AutoFixNormal,
+                                contentDescription = stringResource(R.string.replace_filter)
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(id = R.string.replace_filter))
+                        }
+                    }
+                } else {
+                    AddFilterButton(
+                        onClick = {
+                            showFilterSelection = true
+                        },
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .padding(bottom = 8.dp)
+                    )
+                }
+                AddFiltersSheet(
+                    visible = showFilterSelection,
+                    onVisibleChange = {
+                        showFilterSelection = it
+                    },
+                    previewBitmap = null,
+                    onFilterPicked = {
+                        onValueChange(
+                            DrawMode.PathEffect.Custom(it.newInstance())
+                        )
+                    },
+                    onFilterPickedWithParams = {
+                        onValueChange(
+                            DrawMode.PathEffect.Custom(it)
+                        )
+                    }
+                )
+            }
+        }
     }
     SimpleSheet(
         sheetContent = {
@@ -374,6 +471,7 @@ private fun DrawMode.getSubtitle(): Int = when (this) {
     is DrawMode.PathEffect.Pixelation -> R.string.pixelation_sub
     is DrawMode.Text -> R.string.draw_text_sub
     is DrawMode.Image -> R.string.draw_mode_image_sub
+    is DrawMode.PathEffect.Custom -> R.string.draw_filter_sub
 }
 
 private fun DrawMode.getTitle(): Int = when (this) {
@@ -384,6 +482,7 @@ private fun DrawMode.getTitle(): Int = when (this) {
     is DrawMode.PathEffect.Pixelation -> R.string.pixelation
     is DrawMode.Text -> R.string.text
     is DrawMode.Image -> R.string.image
+    is DrawMode.PathEffect.Custom -> R.string.filter
 }
 
 private fun DrawMode.getIcon(): ImageVector = when (this) {
@@ -394,4 +493,5 @@ private fun DrawMode.getIcon(): ImageVector = when (this) {
     is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
     is DrawMode.Text -> Icons.Rounded.TextFormat
     is DrawMode.Image -> Icons.Outlined.Image
+    is DrawMode.PathEffect.Custom -> Icons.Outlined.AutoFixHigh
 }

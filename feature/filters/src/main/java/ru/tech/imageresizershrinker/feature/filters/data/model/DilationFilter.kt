@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class DilationFilter(
     override val value: Float = 5f
-) : Transformation<Bitmap>, Filter.Dilation{
+) : Transformation<Bitmap>, Filter.Dilation {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

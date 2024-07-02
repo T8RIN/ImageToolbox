@@ -99,6 +99,10 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
@@ -152,11 +156,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddEditMaskSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFilterButton
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterPreference
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskFilterPreference
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet

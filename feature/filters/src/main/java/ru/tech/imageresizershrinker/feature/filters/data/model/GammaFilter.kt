@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class GammaFilter(
     override val value: Float = 1.5f,
-) : Transformation<Bitmap>, Filter.Gamma{
+) : Transformation<Bitmap>, Filter.Gamma {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

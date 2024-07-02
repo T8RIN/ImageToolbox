@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class PerlinDistortionFilter(
     override val value: Triple<Float, Float, Float> = Triple(0.02f, 1f, 1f)
-) : Transformation<Bitmap>, Filter.PerlinDistortion{
+) : Transformation<Bitmap>, Filter.PerlinDistortion {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

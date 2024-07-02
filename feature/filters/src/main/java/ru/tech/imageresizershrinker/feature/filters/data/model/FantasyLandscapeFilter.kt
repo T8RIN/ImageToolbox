@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class FantasyLandscapeFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.FantasyLandscape{
+) : Transformation<Bitmap>, Filter.FantasyLandscape {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
