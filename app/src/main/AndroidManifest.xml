@@ -27,6 +27,9 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false" />
 
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
