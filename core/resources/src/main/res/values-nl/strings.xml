@@ -96,7 +96,7 @@
     <string name="monochrome">Monochroom</string>
     <string name="line_width">Lijnbreedte</string>
     <string name="sobel_edge">Sobel rand</string>
-    <string name="blur">Vervagen</string>
+    <string name="blur">Vervaging</string>
     <string name="halftone">Halftoon</string>
     <string name="swirl">Wervelen</string>
     <string name="bulge">Uitstulping</string>
@@ -111,7 +111,7 @@
     <string name="edit_screenshot">Schermopname bewerken</string>
     <string name="erase_background">Achtergrond wissen</string>
     <string name="restore_background">Achtergrond herstellen</string>
-    <string name="blur_radius">Vervagen straal</string>
+    <string name="blur_radius">Vervaging radius</string>
     <string name="pipette">Pipet</string>
     <string name="draw_mode">Tekenmodus</string>
     <string name="create_issue">Probleem maken</string>
@@ -152,8 +152,8 @@
     <string name="copy_as_compose_code">Kopieer als Jetpack Compose-code</string>
     <string name="ring_blur">Ringvervaging</string>
     <string name="cross_blur">Kruisvervaging</string>
-    <string name="circle_blur">Cirkel vervagen</string>
-    <string name="star_blur">Sterren vervagen</string>
+    <string name="circle_blur">Cirkelvervaging</string>
+    <string name="star_blur">Stervervaging</string>
     <string name="linear_tilt_shift">Lineaire tilt-shift</string>
     <string name="by_bytes_resize_sub">Pas het formaat van een afbeelding aan volgens de opgegeven grootte in KB</string>
     <string name="compare">Vergelijken</string>
@@ -256,7 +256,7 @@
     <string name="spacing">Spatiëring</string>
     <string name="cga_colorspace">CGA-kleurruimte</string>
     <string name="gaussian_blur">Gaussiaanse vervaging</string>
-    <string name="box_blur">Vak vervagen</string>
+    <string name="box_blur">Vak-vervaging</string>
     <string name="bilaterial_blur">Bilaterale vervaging</string>
     <string name="emboss">Embosseren</string>
     <string name="laplacian">Laplaciaans</string>
@@ -272,7 +272,7 @@
     <string name="color_matrix">Kleurmatrix</string>
     <string name="opacity">Dekking</string>
     <string name="limits_resize">Grootte van limieten wijzigen</string>
-    <string name="blur_center_x">Midden vervagen x</string>
+    <string name="blur_center_x">Vervaging midden x</string>
     <string name="limits_resize_sub">Pas het formaat van geselecteerde afbeeldingen aan om de gegeven breedte- en hoogtelimieten te volgen, terwijl de beeldverhouding behouden blijft</string>
     <string name="threshold">Drempelwaarde</string>
     <string name="quantizationLevels">Kwantiseringsniveaus</string>
@@ -288,7 +288,7 @@
     <string name="second_color">Tweede kleur</string>
     <string name="reorder">Opnieuw ordenen</string>
     <string name="blur_size">Vervagingsgrootte</string>
-    <string name="blur_center_y">Midden y vervagen</string>
+    <string name="blur_center_y">Vervaging midden y</string>
     <string name="zoom_blur">Zoomvervaging</string>
     <string name="color_balance">Kleur balans</string>
     <string name="luminance_threshold">Luminantiedrempel</string>
@@ -416,7 +416,7 @@
     <string name="scale_small_images_to_large_sub">Kleine afbeeldingen worden, indien ingeschakeld, geschaald naar de grootste in de reeks</string>
     <string name="images_order">Afbeeldingen bestellen</string>
     <string name="regular">Normaal</string>
-    <string name="blur_edges">Randen vervagen</string>
+    <string name="blur_edges">Vervaging randen</string>
     <string name="blur_edges_sub">Tekent vage randen onder de originele afbeelding om de ruimtes eromheen te vullen in plaats van één kleur, indien ingeschakeld</string>
     <string name="pixelation">Pixelvorming</string>
     <string name="enhanced_pixelation">Verbeterde pixelvorming</string>
@@ -1228,7 +1228,13 @@
     <string name="color_blind_scheme_sub">Selecteer modus om themakleuren aan te passen voor een bepaalde variant in kleurblindheid</string>
     <string name="linear_gaussian_box_blur">Lineaire Gaussbox-vervaging</string>
     <string name="linear_tent_blur">Lineaire tent-vervaging</string>
-    <string name="linear_box_blur">Lineaire box-vervaging</string>
+    <string name="linear_box_blur">Lineaire vak-vervaging</string>
     <string name="linear_stack_blur">Lineaire gestapelde vervaging</string>
-    <string name="gaussian_box_blur">Gaussiaanse box-vervaging</string>
+    <string name="gaussian_box_blur">Gaussiaanse vak-vervaging</string>
+    <string name="replace_filter">Filter vervangen</string>
+    <string name="linear_fast_gaussian_blur_next">Lineaire snelle Gaussiaanse vervaging Next</string>
+    <string name="linear_fast_gaussian_blur">Lineaire snelle Gaussiaanse vervaging</string>
+    <string name="linear_gaussian_blur">Lineaire Gaussiaanse vervaging</string>
+    <string name="draw_filter_sub">Kies een filter om als verf te gebruiken</string>
+    <string name="pick_filter_info">Kies hieronder het filter om het als penseel in je tekening te gebruiken</string>
 </resources>
