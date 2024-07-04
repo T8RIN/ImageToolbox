@@ -86,7 +86,7 @@ class WatermarkingViewModel @Inject constructor(
     private val _watermarkParams = mutableStateOf(WatermarkParams.Default)
     val watermarkParams by _watermarkParams
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    private val _imageFormat = mutableStateOf(ImageFormat.Default)
     val imageFormat by _imageFormat
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)

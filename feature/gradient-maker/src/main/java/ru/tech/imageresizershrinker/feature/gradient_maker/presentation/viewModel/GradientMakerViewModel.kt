@@ -96,7 +96,7 @@ class GradientMakerViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    private val _imageFormat = mutableStateOf(ImageFormat.Default)
     val imageFormat by _imageFormat
 
     private val _gradientSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(1000, 1000))

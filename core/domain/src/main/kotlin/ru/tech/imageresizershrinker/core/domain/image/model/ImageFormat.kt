@@ -206,6 +206,31 @@ sealed class ImageFormat(
         )
     }
 
+    sealed class Jpeg2000(
+        title: String,
+        extension: String
+    ) : ImageFormat(
+        title = title,
+        extension = extension,
+        mimeType = "image/jp2",
+        canChangeCompressionValue = true,
+        compressionTypes = listOf(
+            CompressionType.Quality(20..100)
+        )
+    ) {
+
+        data object Jp2 : Jpeg2000(
+            title = "JP2",
+            extension = "jp2"
+        )
+
+        data object J2k : Jpeg2000(
+            title = "J2K",
+            extension = "j2k"
+        )
+
+    }
+
     companion object {
         sealed class CompressionType(
             open val compressionRange: IntRange = 0..100
@@ -219,10 +244,12 @@ sealed class ImageFormat(
             ) : CompressionType(compressionRange)
         }
 
-        fun Default(): ImageFormat = Jpg
+        val Default: ImageFormat by lazy { Jpg }
 
         operator fun get(typeString: String?): ImageFormat = when {
-            typeString == null -> Default()
+            typeString == null -> Default
+            typeString.contains("jp2") -> Jpeg2000.Jp2
+            typeString.contains("j2k") -> Jpeg2000.J2k
             typeString.contains("jxl") -> Jxl.Lossless
             typeString.contains("png") -> Png.Lossless
             typeString.contains("bmp") -> Bmp
@@ -232,7 +259,7 @@ sealed class ImageFormat(
             typeString.contains("avif") -> Avif.Lossless
             typeString.contains("heif") -> Heif.Lossless
             typeString.contains("heic") -> Heic.Lossless
-            else -> Default()
+            else -> Default
         }
 
         val highLevelFormats by lazy {
@@ -264,7 +291,9 @@ sealed class ImageFormat(
                 Heif.Lossless,
                 Heif.Lossy,
                 Jxl.Lossless,
-                Jxl.Lossy
+                Jxl.Lossy,
+                Jpeg2000.Jp2,
+                Jpeg2000.J2k
             )
         }
     }

@@ -231,7 +231,7 @@ class FilterViewModel @Inject constructor(
                 it.copy(
                     width = size?.first ?: 0,
                     height = size?.second ?: 0,
-                    imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default()
+                    imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default
                 )
             }
             updatePreview()

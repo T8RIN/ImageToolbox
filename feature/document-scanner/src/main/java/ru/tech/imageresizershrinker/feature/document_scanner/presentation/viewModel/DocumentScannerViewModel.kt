@@ -64,7 +64,7 @@ class DocumentScannerViewModel @Inject constructor(
     private val _uris = mutableStateOf<List<Uri>>(emptyList())
     val uris by _uris
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    private val _imageFormat = mutableStateOf(ImageFormat.Default)
     val imageFormat by _imageFormat
 
     private val _quality = mutableStateOf<Quality>(Quality.Base())

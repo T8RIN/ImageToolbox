@@ -101,7 +101,7 @@ class BytesResizeViewModel @Inject constructor(
     private val _maxBytes: MutableState<Long> = mutableLongStateOf(0L)
     val maxBytes by _maxBytes
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    private val _imageFormat = mutableStateOf(ImageFormat.Default)
     val imageFormat by _imageFormat
 
     fun setImageFormat(imageFormat: ImageFormat) {

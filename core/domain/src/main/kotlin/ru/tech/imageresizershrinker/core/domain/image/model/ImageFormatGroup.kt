@@ -80,6 +80,14 @@ sealed class ImageFormatGroup(
         )
     )
 
+    data object Jpeg2000 : ImageFormatGroup(
+        title = "JPEG 2000",
+        formats = listOf(
+            ImageFormat.Jpeg2000.Jp2,
+            ImageFormat.Jpeg2000.J2k
+        )
+    )
+
     data class Custom(
         override val title: String,
         override val formats: List<ImageFormat>
@@ -87,7 +95,7 @@ sealed class ImageFormatGroup(
 
     companion object {
         val entries by lazy {
-            listOf(Jpg, Png, Webp, Avif, Heic, Jxl, Bmp)
+            listOf(Jpg, Png, Webp, Avif, Heic, Jxl, Bmp, Jpeg2000)
         }
 
         val alphaContainedEntries
@@ -96,7 +104,8 @@ sealed class ImageFormatGroup(
                 Webp,
                 Avif,
                 Heic,
-                Jxl
+                Jxl,
+                Jpeg2000
             )
 
         val highLevelFormats by lazy {

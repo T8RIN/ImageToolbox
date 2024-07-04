@@ -29,6 +29,7 @@ import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
+import com.gemalto.jp2.JP2Encoder
 import com.radzivon.bartoshyk.avif.coder.AvifSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
@@ -65,6 +66,8 @@ internal abstract class SimpleCompressor {
             ImageFormat.Jxl.Lossy -> JxlLossy
             ImageFormat.Png.Lossy -> PngLossy
             ImageFormat.Jpegli -> Jpegli
+            ImageFormat.Jpeg2000.J2k -> J2k
+            ImageFormat.Jpeg2000.Jp2 -> Jp2
         }
 
     }
@@ -452,6 +455,30 @@ internal abstract class SimpleCompressor {
                 decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
             )
         }
+
+    }
+
+    data object Jp2 : SimpleCompressor() {
+
+        override suspend fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray = JP2Encoder(image)
+            .setOutputFormat(JP2Encoder.FORMAT_JP2)
+            .setVisualQuality(quality.qualityValue.toFloat())
+            .encode()
+
+    }
+
+    data object J2k : SimpleCompressor() {
+
+        override suspend fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray = JP2Encoder(image)
+            .setOutputFormat(JP2Encoder.FORMAT_J2K)
+            .setVisualQuality(quality.qualityValue.toFloat())
+            .encode()
 
     }
 

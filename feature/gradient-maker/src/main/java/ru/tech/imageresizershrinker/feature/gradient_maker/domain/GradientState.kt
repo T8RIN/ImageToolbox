@@ -34,5 +34,6 @@ interface GradientState<Brush, Size, Color, TileMode, Offset> {
     var linearGradientAngle: Float
 
     var centerFriction: Offset
+
     var radiusFriction: Float
 }

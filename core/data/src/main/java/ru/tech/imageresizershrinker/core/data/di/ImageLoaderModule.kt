@@ -29,6 +29,7 @@ import coil.imageLoader
 import coil.util.DebugLogger
 import coil.util.Logger
 import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
+import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.github.awxkee.avifcoil.decoder.HeifDecoder
 import dagger.Module
 import dagger.Provides
@@ -78,6 +79,7 @@ internal object ImageLoaderModule {
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
             add(AnimatedJxlDecoder.Factory(context))
+            add(Jpeg2000Decoder.Factory(context))
 
             if (BuildConfig.DEBUG) add(interceptor)
         }

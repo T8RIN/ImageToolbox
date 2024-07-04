@@ -93,7 +93,7 @@ class DrawViewModel @Inject constructor(
     val havePaths: Boolean
         get() = paths.isNotEmpty() || lastPaths.isNotEmpty() || undonePaths.isNotEmpty()
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    private val _imageFormat = mutableStateOf(ImageFormat.Default)
     val imageFormat by _imageFormat
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)

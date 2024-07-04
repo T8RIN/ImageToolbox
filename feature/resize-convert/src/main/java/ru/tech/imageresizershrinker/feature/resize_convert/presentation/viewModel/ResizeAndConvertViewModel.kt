@@ -204,7 +204,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             height = _originalSize.value?.height ?: 0,
             imageFormat = if (saveFormat) {
                 imageInfo.imageFormat
-            } else ImageFormat.Default(),
+            } else ImageFormat.Default,
             originalUri = selectedUri?.toString()
         )
         debouncedImageCalculation {

@@ -21,7 +21,7 @@ data class ImageInfo(
     val width: Int = 0,
     val height: Int = 0,
     val quality: Quality = Quality.Base(),
-    val imageFormat: ImageFormat = ImageFormat.Default(),
+    val imageFormat: ImageFormat = ImageFormat.Default,
     val resizeType: ResizeType = ResizeType.Explicit,
     val rotationDegrees: Float = 0f,
     val isFlipped: Boolean = false,
