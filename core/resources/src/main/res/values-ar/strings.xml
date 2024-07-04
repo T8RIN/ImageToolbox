@@ -587,8 +587,8 @@
     <string name="full_filter_sub">قم بتطبيق أي سلاسل تصفية على صور معينة أو صورة واحدة</string>
     <string name="pdf_tools_sub">العمل مع ملفات PDF: معاينة، تحويل إلى مجموعة من الصور أو إنشاء واحدة من صور معينة</string>
     <string name="preview_pdf">معاينة PDF</string>
-    <string name="pdf_to_images">قوات الدفاع الشعبي إلى الصور</string>
-    <string name="images_to_pdf">الصور إلى PDF</string>
+    <string name="pdf_to_images">PDF إلى صور</string>
+    <string name="images_to_pdf">صور إلى PDF</string>
     <string name="preview_pdf_sub">معاينة PDF بسيطة</string>
     <string name="pdf_to_images_sub">تحويل PDF إلى صور بتنسيق الإخراج المحدد</string>
     <string name="images_to_pdf_sub">حزم الصور المعطاة في ملف PDF الناتج</string>
@@ -778,7 +778,7 @@
     <string name="attention">انتباه</string>
     <string name="fading_edges">حواف باهتة</string>
     <string name="invert_colors">عكس الألوان</string>
-    <string name="exit">مخرج</string>
+    <string name="exit">مغادرة</string>
     <string name="preview_closing">إذا تركت المعاينة الآن، فسوف تحتاج إلى إضافة الصور مرة أخرى</string>
     <string name="lasso">لاسو</string>
     <string name="lasso_sub">رسم مسارًا مغلقًا ومملوءًا بمسار معين</string>
