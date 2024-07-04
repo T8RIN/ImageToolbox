@@ -466,6 +466,7 @@ or click one of the badges below.
     - MozJpeg
     - Jpegli
     - JXL
+    - JP2
     - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
     - Telegram sticker PNG format
 - Files to Zip
