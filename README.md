@@ -467,7 +467,10 @@ or click one of the badges below.
     - Jpegli
     - JXL
     - JP2
-    - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
+    - J2K
+    - TIFF
+    - TIF
+    - SVG and GIF to static raster images
     - Telegram sticker PNG format
 - Files to Zip
 - Comparing images
