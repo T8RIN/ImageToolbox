@@ -36,6 +36,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import org.beyka.tiffbitmapfactory.TiffDecoder
 import oupson.apng.coil.AnimatedPngDecoder
 import ru.tech.imageresizershrinker.core.data.coil.TimeMeasureInterceptor
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -80,6 +81,7 @@ internal object ImageLoaderModule {
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
             add(AnimatedJxlDecoder.Factory(context))
             add(Jpeg2000Decoder.Factory(context))
+            add(TiffDecoder.Factory(context))
 
             if (BuildConfig.DEBUG) add(interceptor)
         }

@@ -33,10 +33,16 @@ import com.gemalto.jp2.JP2Encoder
 import com.radzivon.bartoshyk.avif.coder.AvifSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
+import org.beyka.tiffbitmapfactory.CompressionScheme
+import org.beyka.tiffbitmapfactory.Orientation
+import org.beyka.tiffbitmapfactory.TiffSaver
+import org.beyka.tiffbitmapfactory.TiffSaver.SaveOptions
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.nio.ByteBuffer
+
 
 internal abstract class SimpleCompressor {
 
@@ -68,6 +74,8 @@ internal abstract class SimpleCompressor {
             ImageFormat.Jpegli -> Jpegli
             ImageFormat.Jpeg2000.J2k -> J2k
             ImageFormat.Jpeg2000.Jp2 -> Jp2
+            ImageFormat.Tif,
+            ImageFormat.Tiff -> Tiff(context)
         }
 
     }
@@ -480,6 +488,27 @@ internal abstract class SimpleCompressor {
             .setVisualQuality(quality.qualityValue.toFloat())
             .encode()
 
+    }
+
+    data class Tiff(
+        private val context: Context
+    ) : SimpleCompressor() {
+
+        override suspend fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray {
+            val file = File(context.cacheDir, "temp")
+            val options = SaveOptions().apply {
+                compressionScheme = CompressionScheme.entries[quality.qualityValue - 1]
+                orientation = Orientation.TOP_LEFT
+                author = "t8rin"
+                copyright = "Some copyright"
+            }
+            TiffSaver.saveBitmap(file, image, options)
+
+            return file.readBytes()
+        }
     }
 
 }

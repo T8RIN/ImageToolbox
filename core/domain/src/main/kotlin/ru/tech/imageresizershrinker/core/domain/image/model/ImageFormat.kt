@@ -231,6 +231,26 @@ sealed class ImageFormat(
 
     }
 
+    data object Tiff : ImageFormat(
+        title = "TIFF",
+        extension = "tiff",
+        mimeType = "image/tiff",
+        canChangeCompressionValue = true,
+        compressionTypes = listOf(
+            CompressionType.Quality(1..9)
+        )
+    )
+
+    data object Tif : ImageFormat(
+        title = "TIF",
+        extension = "tif",
+        mimeType = "image/tiff",
+        canChangeCompressionValue = true,
+        compressionTypes = listOf(
+            CompressionType.Quality(1..9)
+        )
+    )
+
     companion object {
         sealed class CompressionType(
             open val compressionRange: IntRange = 0..100
@@ -248,6 +268,8 @@ sealed class ImageFormat(
 
         operator fun get(typeString: String?): ImageFormat = when {
             typeString == null -> Default
+            typeString.contains("tiff") -> Tiff
+            typeString.contains("tif") -> Tif
             typeString.contains("jp2") -> Jpeg2000.Jp2
             typeString.contains("j2k") -> Jpeg2000.J2k
             typeString.contains("jxl") -> Jxl.Lossless
@@ -292,6 +314,8 @@ sealed class ImageFormat(
                 Heif.Lossy,
                 Jxl.Lossless,
                 Jxl.Lossy,
+                Tif,
+                Tiff,
                 Jpeg2000.Jp2,
                 Jpeg2000.J2k
             )

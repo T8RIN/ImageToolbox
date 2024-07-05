@@ -88,6 +88,14 @@ sealed class ImageFormatGroup(
         )
     )
 
+    data object Tiff : ImageFormatGroup(
+        title = "TIFF",
+        formats = listOf(
+            ImageFormat.Tif,
+            ImageFormat.Tiff
+        )
+    )
+
     data class Custom(
         override val title: String,
         override val formats: List<ImageFormat>
@@ -95,7 +103,7 @@ sealed class ImageFormatGroup(
 
     companion object {
         val entries by lazy {
-            listOf(Jpg, Png, Webp, Avif, Heic, Jxl, Bmp, Jpeg2000)
+            listOf(Jpg, Png, Webp, Avif, Heic, Jxl, Bmp, Jpeg2000, Tiff)
         }
 
         val alphaContainedEntries
