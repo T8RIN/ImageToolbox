@@ -1264,4 +1264,5 @@
     <string name="right_top">Right Top</string>
     <string name="right_bottom">Right Bottom</string>
     <string name="left_bottom">Left Bottom</string>
+    <string name="tiff_compression_scheme">TIFF Compression Scheme</string>
 </resources>

@@ -58,8 +58,7 @@ sealed class Quality(
                 val value = this as? Tiff
                     ?: return Tiff()
                 value.copy(
-                    compressionScheme = value.compressionScheme.coerceIn(0..8),
-                    orientation = value.orientation.coerceIn(0..7)
+                    compressionScheme = value.compressionScheme.coerceIn(0..9)
                 )
             }
 
@@ -94,10 +93,7 @@ sealed class Quality(
     ) : Quality(compressionLevel)
 
     data class Tiff(
-        val compressionScheme: Int = 0,
-        val orientation: Int = 0,
-        val author: String = "",
-        val copyright: String = ""
+        val compressionScheme: Int = 0
     ) : Quality(compressionScheme)
 
     data class Base(
