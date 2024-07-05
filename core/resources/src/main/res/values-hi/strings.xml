@@ -1226,4 +1226,15 @@
     <string name="bins_count">डिब्बों की संख्या</string>
     <string name="clahe_hsl">क्लेहे HSL</string>
     <string name="clahe_hsv">क्लेहे HSV</string>
+    <string name="linear_box_blur">रैखिक बॉक्स धुंधलापन</string>
+    <string name="linear_tent_blur">रैखिक तम्बू धुंधलापन</string>
+    <string name="linear_gaussian_box_blur">रैखिक गाऊसी बॉक्स धुंधलापन</string>
+    <string name="linear_stack_blur">रैखिक स्टैक धुंधलापन</string>
+    <string name="gaussian_box_blur">गॉसियन बॉक्स धुंधलापन</string>
+    <string name="pick_filter_info">अपने ड्राइंग में ब्रश के रूप में उपयोग करने के लिए नीचे फ़िल्टर चुनें</string>
+    <string name="linear_fast_gaussian_blur_next">रैखिक तेज़ गाऊसी धुंधलापन अगला</string>
+    <string name="linear_fast_gaussian_blur">रैखिक तेज़ गाऊसी धुंधलापन</string>
+    <string name="linear_gaussian_blur">रैखिक गाऊसी धुंधलापन</string>
+    <string name="draw_filter_sub">पेंट के रूप में उपयोग करने के लिए एक फ़िल्टर चुनें</string>
+    <string name="replace_filter">फ़िल्टर बदलें</string>
 </resources>
