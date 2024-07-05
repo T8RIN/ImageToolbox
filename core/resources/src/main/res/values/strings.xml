@@ -1255,4 +1255,13 @@
     <string name="draw_filter_sub">Choose one filter to use it as paint</string>
     <string name="replace_filter">Replace Filter</string>
     <string name="pick_filter_info">Pick filter below to use it as brush in your drawing</string>
+    <string name="author">Author</string>
+    <string name="top_left">Top Left</string>
+    <string name="top_right">Top Right</string>
+    <string name="bottom_right">Bottom Right</string>
+    <string name="bottom_left">Bottom Left</string>
+    <string name="left_top">Left Top</string>
+    <string name="right_top">Right Top</string>
+    <string name="right_bottom">Right Bottom</string>
+    <string name="left_bottom">Left Bottom</string>
 </resources>

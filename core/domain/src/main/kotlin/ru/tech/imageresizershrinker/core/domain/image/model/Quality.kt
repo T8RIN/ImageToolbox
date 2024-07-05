@@ -53,6 +53,16 @@ sealed class Quality(
                 )
             }
 
+            is ImageFormat.Tif,
+            is ImageFormat.Tiff -> {
+                val value = this as? Tiff
+                    ?: return Tiff()
+                value.copy(
+                    compressionScheme = value.compressionScheme.coerceIn(0..8),
+                    orientation = value.orientation.coerceIn(0..7)
+                )
+            }
+
             else -> {
                 Base(qualityValue.coerceIn(0..100))
             }
@@ -82,6 +92,13 @@ sealed class Quality(
         @IntRange(from = 0, to = 9)
         val compressionLevel: Int = 7,
     ) : Quality(compressionLevel)
+
+    data class Tiff(
+        val compressionScheme: Int = 0,
+        val orientation: Int = 0,
+        val author: String = "",
+        val copyright: String = ""
+    ) : Quality(compressionScheme)
 
     data class Base(
         override val qualityValue: Int = 100

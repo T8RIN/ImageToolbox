@@ -498,12 +498,14 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
+            val tiffQuality = quality as? Quality.Tiff ?: Quality.Tiff(quality.qualityValue)
+
             val file = File(context.cacheDir, "temp")
             val options = SaveOptions().apply {
-                compressionScheme = CompressionScheme.entries[quality.qualityValue - 1]
-                orientation = Orientation.TOP_LEFT
-                author = "t8rin"
-                copyright = "Some copyright"
+                compressionScheme = CompressionScheme.entries[tiffQuality.compressionScheme]
+                orientation = Orientation.entries[tiffQuality.orientation]
+                author = tiffQuality.author
+                copyright = tiffQuality.copyright
             }
             TiffSaver.saveBitmap(file, image, options)
 

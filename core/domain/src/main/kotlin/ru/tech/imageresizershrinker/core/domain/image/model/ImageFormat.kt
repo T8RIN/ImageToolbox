@@ -236,9 +236,7 @@ sealed class ImageFormat(
         extension = "tiff",
         mimeType = "image/tiff",
         canChangeCompressionValue = true,
-        compressionTypes = listOf(
-            CompressionType.Quality(1..9)
-        )
+        compressionTypes = emptyList()
     )
 
     data object Tif : ImageFormat(
@@ -246,9 +244,7 @@ sealed class ImageFormat(
         extension = "tif",
         mimeType = "image/tiff",
         canChangeCompressionValue = true,
-        compressionTypes = listOf(
-            CompressionType.Quality(1..9)
-        )
+        compressionTypes = emptyList()
     )
 
     companion object {

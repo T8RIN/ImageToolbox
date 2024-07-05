@@ -31,6 +31,9 @@ import coil.request.ImageRequest
 import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
+import org.beyka.tiffbitmapfactory.CompressionScheme
+import org.beyka.tiffbitmapfactory.Orientation
+import org.beyka.tiffbitmapfactory.TiffBitmapFactory
 import ru.tech.imageresizershrinker.core.data.utils.toBitmap
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -38,10 +41,12 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import java.util.Locale
 import javax.inject.Inject
+
 
 internal class AndroidImageGetter @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -61,14 +66,35 @@ internal class AndroidImageGetter @Inject constructor(
 
             val fd = context.contentResolver.openFileDescriptor(newUri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-            fd?.close()
+
+            val extension = getExtension(uri)
+
+            val options = TiffBitmapFactory.Options()
+            val isTiff = extension?.contains("tif") == true
+
+            if (isTiff) {
+                options.inJustDecodeBounds = true
+                fd?.let {
+                    TiffBitmapFactory.decodeFileDescriptor(fd.fd, options)
+                    fd.close()
+                }
+            }
+
             ImageData(
                 image = bitmap,
                 imageInfo = ImageInfo(
                     width = bitmap.width,
                     height = bitmap.height,
                     imageFormat = ImageFormat[getExtension(uri)],
-                    originalUri = uri
+                    originalUri = uri,
+                    quality = if (isTiff) {
+                        Quality.Tiff(
+                            author = options.outAuthor,
+                            copyright = options.outCopyright,
+                            compressionScheme = CompressionScheme.entries.indexOfFirst { it == options.outCompressionScheme },
+                            orientation = Orientation.entries.indexOfFirst { it == options.outImageOrientation }
+                        )
+                    } else Quality.Base()
                 ),
                 metadata = exif
             )
@@ -153,14 +179,35 @@ internal class AndroidImageGetter @Inject constructor(
                 val newUri = uri.toUri().tryGetLocation(context)
                 val fd = context.contentResolver.openFileDescriptor(newUri, "r")
                 val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-                fd?.close()
+
+                val extension = getExtension(uri)
+
+                val options = TiffBitmapFactory.Options()
+                val isTiff = extension?.contains("tif") == true
+
+                if (isTiff) {
+                    options.inJustDecodeBounds = true
+                    fd?.let {
+                        TiffBitmapFactory.decodeFileDescriptor(fd.fd, options)
+                        fd.close()
+                    }
+                }
+
                 ImageData(
                     image = bitmap,
                     imageInfo = ImageInfo(
                         width = bitmap.width,
                         height = bitmap.height,
                         imageFormat = ImageFormat[getExtension(uri)],
-                        originalUri = uri
+                        originalUri = uri,
+                        quality = if (isTiff) {
+                            Quality.Tiff(
+                                author = options.outAuthor,
+                                copyright = options.outCopyright,
+                                compressionScheme = CompressionScheme.entries.indexOfFirst { it == options.outCompressionScheme },
+                                orientation = Orientation.entries.indexOfFirst { it == options.outImageOrientation }
+                            )
+                        } else Quality.Base()
                     ),
                     metadata = exif
                 )
@@ -209,14 +256,35 @@ internal class AndroidImageGetter @Inject constructor(
                             val newUri = uri.toUri().tryGetLocation(context)
                             val fd = context.contentResolver.openFileDescriptor(newUri, "r")
                             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-                            fd?.close()
+
+                            val extension = getExtension(uri)
+
+                            val options = TiffBitmapFactory.Options()
+                            val isTiff = extension?.contains("tif") == true
+
+                            if (isTiff) {
+                                options.inJustDecodeBounds = true
+                                fd?.let {
+                                    TiffBitmapFactory.decodeFileDescriptor(fd.fd, options)
+                                    fd.close()
+                                }
+                            }
+
                             ImageData(
                                 image = bitmap,
                                 imageInfo = ImageInfo(
                                     width = bitmap.width,
                                     height = bitmap.height,
                                     imageFormat = ImageFormat[getExtension(uri)],
-                                    originalUri = uri
+                                    originalUri = uri,
+                                    quality = if (isTiff) {
+                                        Quality.Tiff(
+                                            author = options.outAuthor,
+                                            copyright = options.outCopyright,
+                                            compressionScheme = CompressionScheme.entries.indexOfFirst { it == options.outCompressionScheme },
+                                            orientation = Orientation.entries.indexOfFirst { it == options.outImageOrientation }
+                                        )
+                                    } else Quality.Base()
                                 ),
                                 metadata = exif
                             )

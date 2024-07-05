@@ -113,6 +113,13 @@ android {
         jniLibs {
             pickFirsts.add("lib/*/libcoder.so")
         }
+        resources {
+            excludes += "META-INF/"
+            excludes += "kotlin/"
+            excludes += "org/"
+            excludes += ".properties"
+            excludes += ".bin"
+        }
     }
 }
 

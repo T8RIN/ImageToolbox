@@ -23,7 +23,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -47,6 +49,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.beyka.tiffbitmapfactory.CompressionScheme
+import org.beyka.tiffbitmapfactory.Orientation
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.resources.R
@@ -55,7 +59,9 @@ import ru.tech.imageresizershrinker.core.resources.icons.QualityLow
 import ru.tech.imageresizershrinker.core.resources.icons.QualityMedium
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 
 @Composable
 fun QualitySelector(
@@ -113,6 +119,7 @@ fun QualitySelector(
                                     is Quality.Jxl -> quality.effort
                                     is Quality.PngLossy -> quality.compressionLevel
                                     is Quality.Heif -> quality.effort
+                                    is Quality.Tiff -> quality.qualityValue
                                 }
                             }
 
@@ -136,6 +143,7 @@ fun QualitySelector(
                                             is Quality.Jxl -> quality.copy(effort = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                             is Quality.Heif -> quality.copy(effort = it.toInt())
+                                            is Quality.Tiff -> quality.copy(orientation = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )
                                 }
@@ -147,6 +155,7 @@ fun QualitySelector(
                                             is Quality.Jxl -> quality.copy(qualityValue = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                             is Quality.Heif -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )
                                 }
@@ -264,6 +273,112 @@ fun QualitySelector(
                         behaveAsContainer = false
                     )
                 }
+                AnimatedVisibility(imageFormat is ImageFormat.Tiff || imageFormat is ImageFormat.Tif) {
+                    val tiffQuality = quality as? Quality.Tiff
+                    Column {
+                        val compressionItems = remember {
+                            CompressionScheme.entries
+                        }
+                        ToggleGroupButton(
+                            itemCount = compressionItems.size,
+                            itemContent = {
+                                Text(compressionItems[it].title)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp)
+                                .container(
+                                    shape = RoundedCornerShape(20.dp),
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                                .padding(4.dp),
+                            title = {
+                                Text(
+                                    text = stringResource(R.string.tag_compression),
+                                    modifier = Modifier.padding(vertical = 4.dp)
+                                )
+                            },
+                            selectedIndex = tiffQuality?.compressionScheme ?: 0,
+                            indexChanged = {
+                                tiffQuality?.copy(
+                                    compressionScheme = it
+                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            },
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        val orientationItems = remember {
+                            Orientation.entries
+                        }
+                        ToggleGroupButton(
+                            itemCount = orientationItems.size,
+                            itemContent = {
+                                Text(orientationItems[it].title)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp)
+                                .container(
+                                    shape = RoundedCornerShape(20.dp),
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                                .padding(4.dp),
+                            title = {
+                                Text(
+                                    text = stringResource(R.string.image_orientation),
+                                    modifier = Modifier.padding(vertical = 4.dp)
+                                )
+                            },
+                            selectedIndex = tiffQuality?.orientation ?: 0,
+                            indexChanged = {
+                                tiffQuality?.copy(
+                                    orientation = it
+                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            },
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        RoundedTextField(
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .container(
+                                    shape = ContainerShapeDefaults.centerShape,
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                                .padding(8.dp),
+                            value = tiffQuality?.author ?: "",
+                            singleLine = false,
+                            onValueChange = {
+                                tiffQuality?.copy(
+                                    author = it
+                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            },
+                            label = {
+                                Text(stringResource(R.string.author))
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        RoundedTextField(
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .container(
+                                    shape = ContainerShapeDefaults.bottomShape,
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                                .padding(8.dp),
+                            value = tiffQuality?.copyright ?: "",
+                            singleLine = false,
+                            onValueChange = {
+                                tiffQuality?.copy(
+                                    copyright = it
+                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            },
+                            label = {
+                                Text(stringResource(R.string.tag_copyright))
+                            }
+                        )
+                    }
+                }
             }
         }
     }
@@ -278,6 +393,28 @@ private fun ImageFormat.isMidQuality(quality: Int): Boolean {
     val range = compressionTypes[0].compressionRange.run { endInclusive - start }
     return quality > range * (2 / 5f)
 }
+
+private val Orientation.title: String
+    @Composable
+    get() = when (this) {
+        Orientation.TOP_LEFT -> stringResource(R.string.top_left)
+        Orientation.TOP_RIGHT -> stringResource(R.string.top_right)
+        Orientation.BOT_RIGHT -> stringResource(R.string.bottom_right)
+        Orientation.BOT_LEFT -> stringResource(R.string.bottom_left)
+        Orientation.LEFT_TOP -> stringResource(R.string.left_top)
+        Orientation.RIGHT_TOP -> stringResource(R.string.right_top)
+        Orientation.RIGHT_BOT -> stringResource(R.string.right_bottom)
+        Orientation.LEFT_BOT -> stringResource(R.string.left_bottom)
+        Orientation.UNAVAILABLE -> stringResource(R.string.unspecified)
+    }
+
+private val CompressionScheme.title: String
+    get() = when (this) {
+        CompressionScheme.CCITTRLE -> "RLE"
+        CompressionScheme.CCITTFAX3 -> "FAX 3"
+        CompressionScheme.CCITTFAX4 -> "FAX 4"
+        else -> this.name
+    }
 
 private val Quality.Channels.title
     @Composable
