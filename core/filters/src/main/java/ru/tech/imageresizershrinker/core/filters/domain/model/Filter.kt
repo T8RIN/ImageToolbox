@@ -209,6 +209,8 @@ interface Filter<Value> {
     interface LinearFastGaussianBlurNext : TripleFilter<Int, TransferFunc, BlurEdgeMode>
     interface LinearFastGaussianBlur : TripleFilter<Int, TransferFunc, BlurEdgeMode>
     interface LinearGaussianBlur : Filter<LinearGaussianParams>
+    interface LowPoly : PairFilter<Int, Boolean>
+    interface SandPainting : PairFilter<Int, Int>
 }
 
 interface SimpleFilter : Filter<Unit>

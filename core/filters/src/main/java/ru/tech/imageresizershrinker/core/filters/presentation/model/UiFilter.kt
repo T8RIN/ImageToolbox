@@ -223,7 +223,9 @@ sealed class UiFilter<T>(
                     UiEnhancedDiamondPixelationFilter(),
                     UiCirclePixelationFilter(),
                     UiEnhancedCirclePixelationFilter(),
-                    UiStrokePixelationFilter()
+                    UiStrokePixelationFilter(),
+                    UiLowPolyFilter(),
+                    UiSandPaintingFilter()
                 ),
                 listOf(
                     UiEnhancedGlitchFilter(),

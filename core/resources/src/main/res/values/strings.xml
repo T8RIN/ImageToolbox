@@ -1256,4 +1256,6 @@
     <string name="replace_filter">Replace Filter</string>
     <string name="pick_filter_info">Pick filter below to use it as brush in your drawing</string>
     <string name="tiff_compression_scheme">TIFF Compression Scheme</string>
+    <string name="low_poly">Low Poly</string>
+    <string name="sand_painting">Sand Painting</string>
 </resources>

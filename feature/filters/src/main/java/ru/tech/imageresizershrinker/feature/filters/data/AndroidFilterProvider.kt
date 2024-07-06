@@ -138,6 +138,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LinearTentBlurFil
 import ru.tech.imageresizershrinker.feature.filters.data.model.LinearTiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LogarithmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LookupFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LowPolyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MarbleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
@@ -173,6 +174,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.RedSwirlFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RemoveColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ReplaceColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RingBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.SandPaintingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SharpenFilter
@@ -409,6 +411,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.LinearFastGaussianBlurNext -> LinearFastGaussianBlurNextFilter(value)
             is Filter.LinearFastGaussianBlur -> LinearFastGaussianBlurFilter(value)
             is Filter.LinearGaussianBlur -> LinearGaussianBlurFilter(value)
+            is Filter.LowPoly -> LowPolyFilter(value)
+            is Filter.SandPainting -> SandPaintingFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
