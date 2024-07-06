@@ -101,7 +101,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 180 various filters)
+- Applying filter chains (More than 190 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -291,6 +291,8 @@ or click one of the badges below.
     - [x] Linear Fast Gaussian Next
     - [x] LinearFast Gaussian
     - [x] Linear Gaussian
+    - [x] Low Poly
+    - [x] Sand Painting
 
   </details>
 - Custom Filters Creation by Template filters
