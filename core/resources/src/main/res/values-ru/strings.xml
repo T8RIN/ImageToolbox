@@ -1237,4 +1237,7 @@
     <string name="linear_gaussian_blur">Линейное размытие по Гауссу</string>
     <string name="replace_filter">Заменить фильтр</string>
     <string name="pick_filter_info">Выберите фильтр ниже, чтобы использовать его в качестве кисти в своем наброске</string>
+    <string name="tiff_compression_scheme">Схема компрессии TIFF</string>
+    <string name="low_poly">Низкая полигональность</string>
+    <string name="sand_painting">Рисование песком</string>
 </resources>
