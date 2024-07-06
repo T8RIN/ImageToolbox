@@ -1237,4 +1237,7 @@
     <string name="linear_gaussian_blur">Lineaire Gaussiaanse vervaging</string>
     <string name="draw_filter_sub">Kies een filter om als verf te gebruiken</string>
     <string name="pick_filter_info">Kies hieronder het filter om het als penseel in je tekening te gebruiken</string>
+    <string name="tiff_compression_scheme">TIFF-compressiemethode</string>
+    <string name="sand_painting">Zandschildering</string>
+    <string name="low_poly">Low Poly</string>
 </resources>
