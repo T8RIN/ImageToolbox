@@ -1237,4 +1237,5 @@
     <string name="draw_filter_sub">选择一个滤镜，将其作为颜料使用</string>
     <string name="replace_filter">替换滤镜</string>
     <string name="pick_filter_info">选择以下滤镜，将其用作绘图中的笔刷</string>
+    <string name="tiff_compression_scheme">TIFF 压缩方案</string>
 </resources>
