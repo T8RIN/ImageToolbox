@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
@@ -66,6 +67,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilte
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiRGBFilter
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toColor
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
@@ -89,7 +92,7 @@ internal fun <T> FilterItemContent(
         when (val value = filter.value) {
             is FilterValueWrapper<*> -> {
                 when (val wrapped = (filter.value as FilterValueWrapper<*>).wrapped) {
-                    is Color -> {
+                    is ColorModel -> {
                         Box(
                             modifier = Modifier.padding(
                                 start = 16.dp,
@@ -98,7 +101,9 @@ internal fun <T> FilterItemContent(
                             )
                         ) {
                             ColorSelectionRow(
-                                value = wrapped,
+                                value = remember(wrapped) {
+                                    wrapped.toColor()
+                                },
                                 defaultColors = remember(filter) {
                                     derivedStateOf {
                                         ColorSelectionRowDefaults.colorList.map {
@@ -110,7 +115,7 @@ internal fun <T> FilterItemContent(
                                 allowAlpha = filter !is UiRGBFilter,
                                 allowScroll = !previewOnly,
                                 onValueChange = {
-                                    onFilterChange(it.wrap())
+                                    onFilterChange(it.toModel().wrap())
                                 }
                             )
                         }
@@ -242,7 +247,7 @@ internal fun <T> FilterItemContent(
                         }
                     }
 
-                    value.first is Color && value.second is Color -> {
+                    value.first is ColorModel && value.second is ColorModel -> {
                         Box(
                             modifier = Modifier.padding(
                                 start = 16.dp,
@@ -250,8 +255,8 @@ internal fun <T> FilterItemContent(
                                 end = 16.dp
                             )
                         ) {
-                            var color1 by remember(value) { mutableStateOf(value.first as Color) }
-                            var color2 by remember(value) { mutableStateOf(value.second as Color) }
+                            var color1 by remember(value) { mutableStateOf((value.first as ColorModel).toColor()) }
+                            var color2 by remember(value) { mutableStateOf((value.second as ColorModel).toColor()) }
 
                             Column {
                                 Text(
@@ -268,7 +273,7 @@ internal fun <T> FilterItemContent(
                                     allowScroll = !previewOnly,
                                     onValueChange = { color ->
                                         color1 = color
-                                        onFilterChange(color1 to color2)
+                                        onFilterChange(color1.toModel() to color2.toModel())
                                     }
                                 )
                                 Spacer(Modifier.height(8.dp))
@@ -286,16 +291,16 @@ internal fun <T> FilterItemContent(
                                     allowScroll = !previewOnly,
                                     onValueChange = { color ->
                                         color2 = color
-                                        onFilterChange(color1 to color2)
+                                        onFilterChange(color1.toModel() to color2.toModel())
                                     }
                                 )
                             }
                         }
                     }
 
-                    value.first is Float && value.second is Color -> {
+                    value.first is Float && value.second is ColorModel -> {
                         var sliderState1 by remember { mutableFloatStateOf((value.first as Number).toFloat()) }
-                        var color1 by remember(value) { mutableStateOf(value.second as Color) }
+                        var color1 by remember(value) { mutableStateOf((value.second as ColorModel).toColor()) }
 
                         EnhancedSliderItem(
                             modifier = Modifier
@@ -311,7 +316,7 @@ internal fun <T> FilterItemContent(
                             } ?: "",
                             onValueChange = {
                                 sliderState1 = it
-                                onFilterChange(sliderState1 to color1)
+                                onFilterChange(sliderState1 to color1.toModel())
                             },
                             internalStateTransformation = {
                                 it.roundTo(filter.paramsInfo[0].roundTo)
@@ -342,7 +347,7 @@ internal fun <T> FilterItemContent(
                                     allowAlpha = true,
                                     onValueChange = { color ->
                                         color1 = color
-                                        onFilterChange(sliderState1 to color1)
+                                        onFilterChange(sliderState1 to color1.toModel())
                                     }
                                 )
                             }
@@ -543,12 +548,12 @@ internal fun <T> FilterItemContent(
                         }
                     }
 
-                    value.first is Number && value.second is Number && value.third is Color -> {
+                    value.first is Number && value.second is Number && value.third is ColorModel -> {
                         val sliderState1: MutableState<Float> =
                             remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
                         val sliderState2: MutableState<Float> =
                             remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
-                        var color3 by remember(value) { mutableStateOf(value.third as Color) }
+                        var color3 by remember(value) { mutableStateOf((value.third as ColorModel).toColor()) }
 
                         LaunchedEffect(
                             sliderState1.value,
@@ -556,7 +561,7 @@ internal fun <T> FilterItemContent(
                             color3
                         ) {
                             onFilterChange(
-                                Triple(sliderState1.value, sliderState2.value, color3)
+                                Triple(sliderState1.value, sliderState2.value, color3.toModel())
                             )
                         }
 
@@ -607,10 +612,10 @@ internal fun <T> FilterItemContent(
                         )
                     }
 
-                    value.first is Number && value.second is Color && value.third is Color -> {
+                    value.first is Number && value.second is ColorModel && value.third is ColorModel -> {
                         var sliderState1 by remember { mutableFloatStateOf((value.first as Number).toFloat()) }
-                        var color1 by remember(value) { mutableStateOf(value.second as Color) }
-                        var color2 by remember(value) { mutableStateOf(value.third as Color) }
+                        var color1 by remember(value) { mutableStateOf((value.second as ColorModel).toColor()) }
+                        var color2 by remember(value) { mutableStateOf((value.third as ColorModel).toColor()) }
 
                         EnhancedSliderItem(
                             modifier = Modifier
@@ -626,7 +631,13 @@ internal fun <T> FilterItemContent(
                             } ?: "",
                             onValueChange = {
                                 sliderState1 = it
-                                onFilterChange(Triple(sliderState1, color1, color2))
+                                onFilterChange(
+                                    Triple(
+                                        sliderState1,
+                                        color1.toModel(),
+                                        color2.toModel()
+                                    )
+                                )
                             },
                             internalStateTransformation = {
                                 it.roundTo(filter.paramsInfo[0].roundTo)
@@ -660,8 +671,8 @@ internal fun <T> FilterItemContent(
                                         onFilterChange(
                                             Triple(
                                                 sliderState1,
-                                                color1,
-                                                color2
+                                                color1.toModel(),
+                                                color2.toModel()
                                             )
                                         )
                                     }
@@ -685,8 +696,8 @@ internal fun <T> FilterItemContent(
                                         onFilterChange(
                                             Triple(
                                                 sliderState1,
-                                                color1,
-                                                color2
+                                                color1.toModel(),
+                                                color2.toModel()
                                             )
                                         )
                                     }

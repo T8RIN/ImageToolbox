@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+
 
 interface Filter<Value> {
     val value: Value
@@ -28,7 +30,7 @@ interface Filter<Value> {
     interface BulgeDistortion : PairFilter<Float, Float>
     interface CGAColorSpace : SimpleFilter
     interface ColorBalance : Filter<FloatArray>
-    interface Color<Color : Any> : WrapperFilter<Color>
+    interface Color : WrapperFilter<ColorModel>
     interface ColorMatrix4x4 : Filter<FloatArray>
     interface Contrast : Filter<Float>
     interface Convolution3x3 : Filter<FloatArray>
@@ -36,7 +38,7 @@ interface Filter<Value> {
     interface Dilation : Filter<Float>
     interface Emboss : Filter<Float>
     interface Exposure : Filter<Float>
-    interface FalseColor<Color> : PairFilter<Color, Color>
+    interface FalseColor : PairFilter<ColorModel, ColorModel>
     interface FastBlur : PairFilter<Float, Int>
     interface Gamma : Filter<Float>
     interface GaussianBlur : TripleFilter<Float, Float, BlurEdgeMode>
@@ -48,12 +50,12 @@ interface Filter<Value> {
     interface Kuwahara : Filter<Float>
     interface Laplacian : SimpleFilter
     interface Lookup : Filter<Float>
-    interface Monochrome<Color> : PairFilter<Float, Color>
+    interface Monochrome : PairFilter<Float, ColorModel>
     interface Negative : SimpleFilter
     interface NonMaximumSuppression : SimpleFilter
     interface Opacity : Filter<Float>
     interface Posterize : Filter<Float>
-    interface RGB<Color : Any> : WrapperFilter<Color>
+    interface RGB : WrapperFilter<ColorModel>
     interface Saturation : Filter<Float>
     interface Sepia : SimpleFilter
     interface Sharpen : Filter<Float>
@@ -66,19 +68,19 @@ interface Filter<Value> {
     interface SwirlDistortion : PairFilter<Float, Float>
     interface Toon : PairFilter<Float, Float>
     interface Vibrance : Filter<Float>
-    interface Vignette<Color> : TripleFilter<Float, Float, Color>
+    interface Vignette : TripleFilter<Float, Float, ColorModel>
     interface WeakPixel : SimpleFilter
     interface WhiteBalance : PairFilter<Float, Float>
     interface ZoomBlur : TripleFilter<Float, Float, Float>
     interface Pixelation : Filter<Float>
     interface EnhancedPixelation : Filter<Float>
-    interface StrokePixelation<Color> : PairFilter<Float, Color>
+    interface StrokePixelation : PairFilter<Float, ColorModel>
     interface CirclePixelation : Filter<Float>
     interface DiamondPixelation : Filter<Float>
     interface EnhancedCirclePixelation : Filter<Float>
     interface EnhancedDiamondPixelation : Filter<Float>
-    interface ReplaceColor<Color> : TripleFilter<Float, Color, Color>
-    interface RemoveColor<Color> : PairFilter<Float, Color>
+    interface ReplaceColor : TripleFilter<Float, ColorModel, ColorModel>
+    interface RemoveColor : PairFilter<Float, ColorModel>
     interface SideFade : Filter<SideFadeParams>
     interface BayerTwoDithering : PairFilter<Float, Boolean>
     interface BayerThreeDithering : PairFilter<Float, Boolean>
@@ -106,12 +108,12 @@ interface Filter<Value> {
     interface TentBlur : Filter<Float>
     interface Erode : Filter<Float>
     interface AnisotropicDiffusion : TripleFilter<Int, Float, Float>
-    interface HorizontalWindStagger<Color> : TripleFilter<Float, Int, Color>
+    interface HorizontalWindStagger : TripleFilter<Float, Int, ColorModel>
     interface FastBilaterialBlur : PairFilter<Float, Float>
     interface PoissonBlur : Filter<Float>
     interface LogarithmicToneMapping : Filter<Float>
     interface AcesFilmicToneMapping : Filter<Float>
-    interface Crystallize<Color> : PairFilter<Float, Color>
+    interface Crystallize : PairFilter<Float, ColorModel>
     interface FractalGlass : PairFilter<Float, Float>
     interface Marble : TripleFilter<Float, Float, Float>
     interface Oil : PairFilter<Int, Float>
@@ -168,7 +170,7 @@ interface Filter<Value> {
     interface RedSwirl : SimpleFilter
     interface DigitalCode : SimpleFilter
     interface Bokeh : Filter<BokehParams>
-    interface Neon<Color : Any> : TripleFilter<Float, Float, Color>
+    interface Neon : TripleFilter<Float, Float, ColorModel>
     interface OldTv : SimpleFilter
     interface ShuffleBlur : PairFilter<Int, Float>
     interface Mobius : TripleFilter<Float, Float, Float>
@@ -196,7 +198,7 @@ interface Filter<Value> {
     interface Clahe : TripleFilter<Float, Int, Int>
     interface ClaheLUV : Filter<ClaheParams>
     interface ClaheLAB : Filter<ClaheParams>
-    interface CropToContent<Color : Any> : PairFilter<Float, Color>
+    interface CropToContent : PairFilter<Float, ColorModel>
     interface ClaheHSL : Filter<ClaheParams>
     interface ClaheHSV : Filter<ClaheParams>
     interface EqualizeHistogramAdaptiveHSV : TripleFilter<Int, Int, Int>

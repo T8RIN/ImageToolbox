@@ -21,17 +21,18 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.Paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 import ru.tech.imageresizershrinker.feature.filters.data.utils.Pixelate
 import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class StrokePixelationFilter(
-    override val value: Pair<Float, Color> = 20f to Color.Black,
-) : Transformation<Bitmap>, Filter.StrokePixelation<Color> {
+    override val value: Pair<Float, ColorModel> = 20f to Color.Black.toModel(),
+) : Transformation<Bitmap>, Filter.StrokePixelation {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
@@ -70,7 +71,7 @@ internal class StrokePixelationFilter(
                 it.height,
                 it.config
             ).applyCanvas {
-                drawColor(value.second.toArgb())
+                drawColor(value.second.colorInt)
                 drawBitmap(it, Matrix(), Paint())
             }
         }

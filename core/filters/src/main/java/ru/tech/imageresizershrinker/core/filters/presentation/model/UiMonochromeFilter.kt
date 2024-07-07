@@ -18,18 +18,20 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 class UiMonochromeFilter(
-    override val value: Pair<Float, Color> = 1f to Color(
+    override val value: Pair<Float, ColorModel> = 1f to Color(
         red = 0.6f,
         green = 0.45f,
         blue = 0.3f,
         alpha = 1.0f
-    ),
-) : UiFilter<Pair<Float, Color>>(
+    ).toModel()
+) : UiFilter<Pair<Float, ColorModel>>(
     title = R.string.monochrome,
     value = value,
     paramsInfo = listOf(
@@ -43,4 +45,4 @@ class UiMonochromeFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.Monochrome<Color>
+), Filter.Monochrome

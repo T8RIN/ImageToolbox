@@ -15,20 +15,30 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+@file:Suppress("NOTHING_TO_INLINE")
+
+package ru.tech.imageresizershrinker.feature.filters.data.utils
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
-import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
-import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
+internal object ColorUtils {
 
-class UiColorFilter(
-    override val value: FilterValueWrapper<ColorModel> = Color.Yellow.copy(0.3f).toModel().wrap(),
-) : UiFilter<FilterValueWrapper<ColorModel>>(
-    title = R.string.color_filter,
-    value = value
-), Filter.Color
+    inline fun ColorModel.toColor() = Color(colorInt)
+
+    inline fun Color.toModel() = ColorModel(toArgb())
+
+    inline val ColorModel.red: Float
+        get() = toColor().red
+
+    inline val ColorModel.green: Float
+        get() = toColor().green
+
+    inline val ColorModel.blue: Float
+        get() = toColor().blue
+
+    inline val ColorModel.alpha: Float
+        get() = toColor().alpha
+
+}

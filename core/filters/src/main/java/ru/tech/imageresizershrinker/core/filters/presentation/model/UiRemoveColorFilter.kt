@@ -18,13 +18,15 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 class UiRemoveColorFilter(
-    override val value: Pair<Float, Color> = 0f to Color(0xFF000000),
-) : UiFilter<Pair<Float, Color>>(
+    override val value: Pair<Float, ColorModel> = 0f to Color(0xFF000000).toModel(),
+) : UiFilter<Pair<Float, ColorModel>>(
     title = R.string.remove_color,
     value = value,
     paramsInfo = listOf(
@@ -37,4 +39,4 @@ class UiRemoveColorFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.RemoveColor<Color>
+), Filter.RemoveColor

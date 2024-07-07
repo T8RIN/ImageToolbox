@@ -19,15 +19,16 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 internal class CrystallizeFilter(
-    override val value: Pair<Float, Color> = 1f to Color.Transparent
-) : Transformation<Bitmap>, Filter.Crystallize<Color> {
+    override val value: Pair<Float, ColorModel> = 1f to Color.Transparent.toModel()
+) : Transformation<Bitmap>, Filter.Crystallize {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -38,7 +39,7 @@ internal class CrystallizeFilter(
     ): Bitmap = Aire.crystallize(
         bitmap = input,
         numClusters = (input.width * input.height * 0.01f * value.first).toInt(),
-        strokeColor = value.second.toArgb()
+        strokeColor = value.second.colorInt
     )
 
 }

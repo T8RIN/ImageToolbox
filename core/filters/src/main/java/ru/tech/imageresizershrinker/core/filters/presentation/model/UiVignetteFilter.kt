@@ -18,13 +18,19 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 
 class UiVignetteFilter(
-    override val value: Triple<Float, Float, Color> = Triple(0.3f, 0.75f, Color.Black),
-) : UiFilter<Triple<Float, Float, Color>>(
+    override val value: Triple<Float, Float, ColorModel> = Triple(
+        first = 0.3f,
+        second = 0.75f,
+        third = Color.Black.toModel()
+    ),
+) : UiFilter<Triple<Float, Float, ColorModel>>(
     title = R.string.vignette,
     value = value,
     paramsInfo = listOf(
@@ -32,4 +38,4 @@ class UiVignetteFilter(
         R.string.end paramTo -2f..2f,
         R.string.color paramTo 0f..0f
     )
-), Filter.Vignette<Color>
+), Filter.Vignette

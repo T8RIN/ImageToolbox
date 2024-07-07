@@ -19,15 +19,16 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 internal class CropToContentFilter(
-    override val value: Pair<Float, Color> = 0f to Color.Black
-) : Transformation<Bitmap>, Filter.CropToContent<Color> {
+    override val value: Pair<Float, ColorModel> = 0f to Color.Black.toModel()
+) : Transformation<Bitmap>, Filter.CropToContent {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -37,7 +38,7 @@ internal class CropToContentFilter(
         size: IntegerSize
     ): Bitmap = GPUImageNativeLibrary.cropToContent(
         bitmap = input,
-        colorToIgnore = value.second.toArgb(),
+        colorToIgnore = value.second.colorInt,
         tolerance = value.first
     ) ?: input
 

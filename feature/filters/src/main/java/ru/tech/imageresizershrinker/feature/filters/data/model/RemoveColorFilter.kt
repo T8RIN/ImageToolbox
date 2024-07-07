@@ -19,13 +19,15 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 internal class RemoveColorFilter(
-    override val value: Pair<Float, Color> = 0f to Color(0xFF000000),
-) : Transformation<Bitmap>, Filter.RemoveColor<Color> {
+    override val value: Pair<Float, ColorModel> = 0f to Color(0xFF000000).toModel(),
+) : Transformation<Bitmap>, Filter.RemoveColor {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
@@ -36,7 +38,7 @@ internal class RemoveColorFilter(
         value = Triple(
             first = value.first,
             second = value.second,
-            third = Color.Transparent
+            third = Color.Transparent.toModel()
         )
     ).transform(input, size)
 }

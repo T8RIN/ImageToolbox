@@ -18,18 +18,20 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 
 class UiReplaceColorFilter(
-    override val value: Triple<Float, Color, Color> = Triple(
+    override val value: Triple<Float, ColorModel, ColorModel> = Triple(
         first = 0f,
-        second = Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f),
-        third = Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f)
+        second = Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f).toModel(),
+        third = Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f).toModel()
     ),
-) : UiFilter<Triple<Float, Color, Color>>(
+) : UiFilter<Triple<Float, ColorModel, ColorModel>>(
     title = R.string.replace_color,
     value = value,
     paramsInfo = listOf(
@@ -46,4 +48,4 @@ class UiReplaceColorFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.ReplaceColor<Color>
+), Filter.ReplaceColor

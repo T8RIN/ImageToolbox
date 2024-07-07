@@ -22,13 +22,22 @@ import android.graphics.PointF
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageVignetteFilter
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.blue
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.green
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.red
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 
 internal class VignetteFilter(
     private val context: Context,
-    override val value: Triple<Float, Float, Color> = Triple(0.3f, 0.75f, Color.Black)
-) : GPUFilterTransformation(context), Filter.Vignette<Color> {
+    override val value: Triple<Float, Float, ColorModel> = Triple(
+        first = 0.3f,
+        second = 0.75f,
+        third = Color.Black.toModel()
+    )
+) : GPUFilterTransformation(context), Filter.Vignette {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

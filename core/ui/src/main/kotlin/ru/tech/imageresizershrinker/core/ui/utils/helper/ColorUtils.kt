@@ -15,10 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 
 fun Color.toHex(): String =
     String.format("#%08X", (0xFFFFFFFF and this.toArgb().toLong())).replace("#FF", "#")
+
+inline fun ColorModel.toColor() = Color(colorInt)
+
+inline fun Color.toModel() = ColorModel(toArgb())
+
+inline val ColorModel.red: Float
+    get() = toColor().red
+
+inline val ColorModel.green: Float
+    get() = toColor().green
+
+inline val ColorModel.blue: Float
+    get() = toColor().blue
+
+inline val ColorModel.alpha: Float
+    get() = toColor().alpha

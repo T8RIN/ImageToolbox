@@ -20,19 +20,24 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.blue
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.green
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.red
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 
 internal class MonochromeFilter(
-    override val value: Pair<Float, Color> = 1f to Color(
+    override val value: Pair<Float, ColorModel> = 1f to Color(
         red = 0.6f,
         green = 0.45f,
         blue = 0.3f,
         alpha = 1.0f
-    ),
-) : Transformation<Bitmap>, Filter.Monochrome<Color> {
+    ).toModel(),
+) : Transformation<Bitmap>, Filter.Monochrome {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -20,8 +20,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.content.Context
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -30,6 +28,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
@@ -165,7 +164,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             is FloatArray -> FloatArray::class.simpleName!! to joinToString(separator = PROPERTIES_SEPARATOR) { it.toString() }
             is FilterValueWrapper<*> -> {
                 when (wrapped) {
-                    is Color -> "${FilterValueWrapper::class.simpleName!!}{${Color::class.simpleName}}" to (wrapped as Color).toArgb()
+                    is ColorModel -> "${FilterValueWrapper::class.simpleName!!}{${ColorModel::class.simpleName}}" to (wrapped as ColorModel).colorInt
                         .toString()
 
                     else -> null
@@ -295,7 +294,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
 
             "${FilterValueWrapper::class.simpleName}{" in name -> {
                 when (name.getTypeFromBraces()) {
-                    Color::class.simpleName -> FilterValueWrapper(Color(value.toInt()))
+                    ColorModel::class.simpleName -> FilterValueWrapper(ColorModel(value.toInt()))
                     else -> null
                 }
             }
@@ -435,7 +434,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         return when (this) {
             is Int -> toString()
             is Float -> toString()
-            is Color -> toArgb().toString()
+            is ColorModel -> colorInt.toString()
             is Boolean -> toString()
             is BlurEdgeMode -> name
             is TransferFunc -> name
@@ -448,7 +447,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         return when (type) {
             Int::class.simpleName!! -> toInt()
             Float::class.simpleName!! -> toFloat()
-            Color::class.simpleName!! -> Color(toInt())
+            ColorModel::class.simpleName!! -> ColorModel(toInt())
             Boolean::class.simpleName!! -> toBoolean()
             BlurEdgeMode::class.simpleName!! -> BlurEdgeMode.valueOf(this)
             TransferFunc::class.simpleName!! -> TransferFunc.valueOf(this)

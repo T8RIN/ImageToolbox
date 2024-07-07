@@ -20,27 +20,34 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toColor
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 
 internal class ReplaceColorFilter(
-    override val value: Triple<Float, Color, Color> = Triple(
+    override val value: Triple<Float, ColorModel, ColorModel> = Triple(
         first = 0f,
-        second = Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f),
-        third = Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f)
+        second = Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f).toModel(),
+        third = Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f).toModel()
     ),
-) : Transformation<Bitmap>, Filter.ReplaceColor<Color> {
+) : Transformation<Bitmap>, Filter.ReplaceColor {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.replaceColor(value.second, value.third, value.first)
+    ): Bitmap = input.replaceColor(
+        fromColor = value.second.toColor(),
+        targetColor = value.third.toColor(),
+        tolerance = value.first
+    )
 }
 
 

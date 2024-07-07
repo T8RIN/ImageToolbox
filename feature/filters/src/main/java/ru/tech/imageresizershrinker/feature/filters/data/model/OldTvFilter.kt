@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.transformation.ChainTransformation
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 internal class OldTvFilter(
     private val context: Context,
@@ -35,7 +36,7 @@ internal class OldTvFilter(
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
         GrainFilter(0.36f),
         HazeFilter(context, 0f to 0.3f),
-        MonochromeFilter(1f to Color(0xFF1C3A00))
+        MonochromeFilter(1f to Color(0xFF1C3A00).toModel())
     )
 
 }

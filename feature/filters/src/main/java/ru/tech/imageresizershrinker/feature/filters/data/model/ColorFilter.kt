@@ -19,18 +19,20 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 
 internal class ColorFilter(
-    override val value: FilterValueWrapper<Color> = Color.Yellow.copy(0.3f).wrap(),
-) : Transformation<Bitmap>, Filter.Color<Color> {
+    override val value: FilterValueWrapper<ColorModel> = Color.Yellow.copy(0.3f).toModel().wrap(),
+) : Transformation<Bitmap>, Filter.Color {
+
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
@@ -38,7 +40,7 @@ internal class ColorFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = input.copy(input.config, true).applyCanvas {
-        drawColor(value.wrapped.toArgb())
+        drawColor(value.wrapped.colorInt)
     }
 
 }

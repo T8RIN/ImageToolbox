@@ -21,18 +21,23 @@ import android.content.Context
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFalseColorFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.blue
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.green
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.red
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 
 internal class FalseColorFilter(
     private val context: Context,
-    override val value: Pair<Color, Color> = Color(
+    override val value: Pair<ColorModel, ColorModel> = Color(
         red = 1.0f,
         green = 0.596f,
         blue = 0.0f,
         alpha = 1.0f
-    ) to Color(red = 0.914f, green = 0.118f, blue = 0.388f, alpha = 1.0f),
-) : GPUFilterTransformation(context), Filter.FalseColor<Color> {
+    ).toModel() to Color(red = 0.914f, green = 0.118f, blue = 0.388f, alpha = 1.0f).toModel(),
+) : GPUFilterTransformation(context), Filter.FalseColor {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

@@ -72,7 +72,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
         )
         return filteredBitmap?.let {
             image.let { bitmap ->
-                if (filterMask.filters.any { it is Filter.RemoveColor<*> }) {
+                if (filterMask.filters.any { it is Filter.RemoveColor }) {
                     bitmap.clipBitmap(
                         pathPaints = filterMask.maskPaints,
                         inverse = !filterMask.isInverseFillType

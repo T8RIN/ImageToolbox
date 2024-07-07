@@ -19,15 +19,20 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 internal class HorizontalWindStaggerFilter(
-    override val value: Triple<Float, Int, Color> = Triple(0.2f, 90, Color.Black)
-) : Transformation<Bitmap>, Filter.HorizontalWindStagger<Color> {
+    override val value: Triple<Float, Int, ColorModel> = Triple(
+        first = 0.2f,
+        second = 90,
+        third = Color.Black.toModel()
+    )
+) : Transformation<Bitmap>, Filter.HorizontalWindStagger {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -39,7 +44,7 @@ internal class HorizontalWindStaggerFilter(
         bitmap = input,
         windStrength = value.first,
         streamsCount = value.second,
-        clearColor = value.third.toArgb()
+        clearColor = value.third.colorInt
     )
 
 }

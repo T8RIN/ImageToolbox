@@ -18,13 +18,19 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 class UiHorizontalWindStaggerFilter(
-    override val value: Triple<Float, Int, Color> = Triple(0.2f, 90, Color.Black)
-) : UiFilter<Triple<Float, Int, Color>>(
+    override val value: Triple<Float, Int, ColorModel> = Triple(
+        first = 0.2f,
+        second = 90,
+        third = Color.Black.toModel()
+    )
+) : UiFilter<Triple<Float, Int, ColorModel>>(
     title = R.string.horizontal_wind_stagger,
     value = value,
     paramsInfo = listOf(
@@ -43,4 +49,4 @@ class UiHorizontalWindStaggerFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.HorizontalWindStagger<Color>
+), Filter.HorizontalWindStagger

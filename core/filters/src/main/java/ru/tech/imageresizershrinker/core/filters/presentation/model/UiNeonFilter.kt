@@ -18,13 +18,19 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 class UiNeonFilter(
-    override val value: Triple<Float, Float, Color> = Triple(1f, 0.26f, Color.Magenta),
-) : UiFilter<Triple<Float, Float, Color>>(
+    override val value: Triple<Float, Float, ColorModel> = Triple(
+        first = 1f,
+        second = 0.26f,
+        third = Color.Magenta.toModel()
+    )
+) : UiFilter<Triple<Float, Float, ColorModel>>(
     title = R.string.neon,
     value = value,
     paramsInfo = listOf(
@@ -42,4 +48,4 @@ class UiNeonFilter(
             valueRange = 0f..0f
         )
     )
-), Filter.Neon<Color>
+), Filter.Neon
