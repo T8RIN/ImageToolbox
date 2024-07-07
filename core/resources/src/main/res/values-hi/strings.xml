@@ -1237,4 +1237,7 @@
     <string name="linear_gaussian_blur">रैखिक गाऊसी धुंधलापन</string>
     <string name="draw_filter_sub">पेंट के रूप में उपयोग करने के लिए एक फ़िल्टर चुनें</string>
     <string name="replace_filter">फ़िल्टर बदलें</string>
+    <string name="tiff_compression_scheme">TIFF संपीड़न योजना</string>
+    <string name="low_poly">निम्न पाली</string>
+    <string name="sand_painting">रेत चित्रकारी</string>
 </resources>
