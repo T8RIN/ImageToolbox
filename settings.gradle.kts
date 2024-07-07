@@ -17,6 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:image-splitting")
+
+
 pluginManagement {
     repositories {
         includeBuild("build-logic")

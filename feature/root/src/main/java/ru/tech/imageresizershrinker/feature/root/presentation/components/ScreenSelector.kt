@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditC
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.SvgMakerContent
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingContent
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
+import ru.tech.imageresizershrinker.image_splitting.presentation.ImageSplitterContent
 
 @Composable
 internal fun ScreenSelector(
@@ -358,6 +359,14 @@ internal fun ScreenSelector(
             is Screen.ImageStacking -> {
                 ImageStackingContent(
                     uriState = screen.uris,
+                    onGoBack = onGoBack,
+                    onNavigate = onNavigate
+                )
+            }
+
+            is Screen.ImageSplitting -> {
+                ImageSplitterContent(
+                    uriState = screen.uri,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )

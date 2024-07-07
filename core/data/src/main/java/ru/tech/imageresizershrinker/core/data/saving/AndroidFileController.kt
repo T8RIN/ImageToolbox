@@ -263,7 +263,10 @@ internal class AndroidFileController @Inject constructor(
                     initialExif = saveTarget.metadata as ExifInterface?
 
                     saveTarget.copy(
-                        filename = constructImageFilename(saveTarget)
+                        filename = constructImageFilename(
+                            saveTarget = saveTarget,
+                            forceNotAddSizeInFilename = saveTarget.imageInfo.height <= 0 || saveTarget.imageInfo.width <= 0
+                        )
                     )
                 } else saveTarget
 

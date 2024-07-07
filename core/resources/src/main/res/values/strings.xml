@@ -1258,4 +1258,6 @@
     <string name="tiff_compression_scheme">TIFF Compression Scheme</string>
     <string name="low_poly">Low Poly</string>
     <string name="sand_painting">Sand Painting</string>
+    <string name="image_splitting">Image Splitting</string>
+    <string name="image_splitting_sub">Split single image for rows or columns</string>
 </resources>

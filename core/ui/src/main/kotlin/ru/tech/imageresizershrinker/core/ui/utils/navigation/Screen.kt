@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.Colorize
+import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.FilterHdr
@@ -109,6 +110,7 @@ sealed class Screen(
             is DocumentScanner -> "Document_Scanner"
             is ScanQrCode -> "QR_Code"
             is ImageStacking -> "Image_Stacking"
+            is ImageSplitting -> "Image_Splitting"
         }
 
     val icon: ImageVector?
@@ -146,6 +148,7 @@ sealed class Screen(
             is DocumentScanner -> Icons.Outlined.DocumentScanner
             is ScanQrCode -> Icons.Outlined.QrCode
             is ImageStacking -> Icons.Outlined.Stack
+            is ImageSplitting -> Icons.Outlined.ContentCut
         }
 
     data object Settings : Screen(
@@ -621,6 +624,14 @@ sealed class Screen(
         subtitle = R.string.image_stacking_sub
     )
 
+    data class ImageSplitting(
+        val uri: Uri? = null
+    ) : Screen(
+        id = 29,
+        title = R.string.image_splitting,
+        subtitle = R.string.image_splitting_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -642,6 +653,7 @@ sealed class Screen(
                     EraseBackground(),
                     ImageStitching(),
                     ImageStacking(),
+                    ImageSplitting(),
                     Watermarking(),
                     GradientMaker(),
                     DeleteExif(),
@@ -683,6 +695,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 43
+        const val FEATURES_COUNT = 44
     }
 }

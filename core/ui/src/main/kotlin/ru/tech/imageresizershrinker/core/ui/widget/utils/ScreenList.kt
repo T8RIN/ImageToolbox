@@ -104,6 +104,7 @@ internal fun List<Uri>.screenList(
                 ),
                 Screen.ImageStitching(uris),
                 Screen.ImageStacking(uris),
+                Screen.ImageSplitting(uris.firstOrNull()),
                 Screen.Watermarking(uris),
                 Screen.GradientMaker(uris),
                 Screen.PdfTools(

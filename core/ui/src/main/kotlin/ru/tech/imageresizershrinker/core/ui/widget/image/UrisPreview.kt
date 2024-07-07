@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -65,8 +66,9 @@ fun UrisPreview(
     modifier: Modifier = Modifier,
     uris: List<Uri>,
     isPortrait: Boolean,
-    onRemoveUri: (Uri) -> Unit,
-    onAddUris: () -> Unit,
+    onRemoveUri: ((Uri) -> Unit)?,
+    onAddUris: (() -> Unit)?,
+    isAddUrisVisible: Boolean = true,
     addUrisContent: @Composable BoxScope.(width: Dp) -> Unit = { width ->
         Icon(
             imageVector = Icons.AutoMirrored.Rounded.NoteAdd,
@@ -95,7 +97,7 @@ fun UrisPreview(
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) { index ->
             val uri = uris.getOrNull(index)
-            if (uri != null) {
+            if (uri != null && uri != Uri.EMPTY) {
                 Box(
                     modifier = Modifier.container(
                         shape = RoundedCornerShape(4.dp),
@@ -135,28 +137,30 @@ fun UrisPreview(
                                 .padding(8.dp)
                                 .align(Alignment.TopStart)
                         )
-                        Icon(
-                            imageVector = Icons.Rounded.RemoveCircleOutline,
-                            contentDescription = stringResource(R.string.remove),
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .clip(CircleShape)
-                                .background(
-                                    Color.Black.copy(
-                                        animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value
+                        if (onRemoveUri != null) {
+                            Icon(
+                                imageVector = Icons.Rounded.RemoveCircleOutline,
+                                contentDescription = stringResource(R.string.remove),
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        Color.Black.copy(
+                                            animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value
+                                        )
                                     )
-                                )
-                                .clickable(
-                                    enabled = uris.size > 1
-                                ) {
-                                    onRemoveUri(uri)
-                                }
-                                .padding(4.dp)
-                                .align(Alignment.TopEnd),
-                            tint = Color.White.copy(
-                                animateFloatAsState(if (uris.size > 1) 0.7f else 0f).value
-                            ),
-                        )
+                                    .clickable(
+                                        enabled = uris.size > 1
+                                    ) {
+                                        onRemoveUri(uri)
+                                    }
+                                    .padding(4.dp)
+                                    .align(Alignment.TopEnd),
+                                tint = Color.White.copy(
+                                    animateFloatAsState(if (uris.size > 1) 0.7f else 0f).value
+                                ),
+                            )
+                        }
                         val filename by remember(uri) {
                             derivedStateOf {
                                 context.getFilename(uri)
@@ -181,23 +185,29 @@ fun UrisPreview(
                     }
                 }
             } else {
-                Box(
-                    modifier = Modifier
-                        .container(
-                            shape = RoundedCornerShape(4.dp),
-                            resultPadding = 0.dp,
-                            color = MaterialTheme.colorScheme.surfaceContainerHigh
-                        )
-                        .width(width)
-                        .aspectRatio(1f)
-                        .clickable {
-                            onAddUris()
-                        },
-                    contentAlignment = Alignment.Center,
-                    content = {
-                        addUrisContent(width)
-                    }
-                )
+                AnimatedVisibility(visible = isAddUrisVisible) {
+                    Box(
+                        modifier = Modifier
+                            .container(
+                                shape = RoundedCornerShape(4.dp),
+                                resultPadding = 0.dp,
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh
+                            )
+                            .width(width)
+                            .aspectRatio(1f)
+                            .then(
+                                if (onAddUris != null) {
+                                    Modifier.clickable {
+                                        onAddUris()
+                                    }
+                                } else Modifier
+                            ),
+                        contentAlignment = Alignment.Center,
+                        content = {
+                            addUrisContent(width)
+                        }
+                    )
+                }
             }
         }
     }

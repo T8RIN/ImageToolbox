@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -87,7 +86,6 @@ import ru.tech.imageresizershrinker.feature.image_stacking.presentation.componen
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackingParamsSelector
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewModel.ImageStackingViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageStackingContent(
     uriState: List<Uri>?,
