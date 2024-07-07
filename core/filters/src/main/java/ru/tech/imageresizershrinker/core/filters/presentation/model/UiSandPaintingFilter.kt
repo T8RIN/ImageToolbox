@@ -29,7 +29,7 @@ class UiSandPaintingFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.strength,
-            valueRange = 50f..100000f,
+            valueRange = 50f..50000f,
             roundTo = 0
         ),
         FilterParam(
