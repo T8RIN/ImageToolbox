@@ -309,6 +309,7 @@ or click one of the badges below.
 - Loading images from internet
 - Image Stitching
 - Image Stacking
+- Image Splitting
 - Background Removal
     - By drawing
     - Automatically
