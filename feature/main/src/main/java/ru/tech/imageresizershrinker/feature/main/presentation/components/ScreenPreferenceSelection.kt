@@ -63,8 +63,8 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -83,7 +83,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberClipboardData
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
@@ -108,9 +107,6 @@ internal fun RowScope.ScreenPreferenceSelection(
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val canSearchScreens = settingsState.screensSearchEnabled
 
-    val compactHeight =
-        LocalWindowSizeClass.current.heightSizeClass == WindowHeightSizeClass.Compact
-
     AnimatedContent(
         modifier = Modifier
             .weight(1f)
@@ -126,8 +122,43 @@ internal fun RowScope.ScreenPreferenceSelection(
             ) {
                 val clipboardData by rememberClipboardData()
                 val allowAutoPaste = settingsState.allowAutoClipboardPaste
-                val showClipButton = clipboardData.isNotEmpty() || !allowAutoPaste
+                val showClipButton =
+                    (clipboardData.isNotEmpty() && allowAutoPaste) || !allowAutoPaste
                 val showSearchButton = !showScreenSearch && canSearchScreens
+
+                val layoutDirection = LocalLayoutDirection.current
+                val navBarsPadding = WindowInsets
+                    .navigationBars
+                    .asPaddingValues()
+                    .calculateBottomPadding()
+
+                val contentPadding by remember(
+                    isGrid, navBarsPadding,
+                    showClipButton, showSearchButton,
+                    isSheetSlideable, layoutDirection,
+                    cutout, showNavRail
+                ) {
+                    derivedStateOf {
+                        PaddingValues(
+                            bottom = 12.dp + if (isGrid) {
+                                navBarsPadding
+                            } else {
+                                0.dp
+                            } + if (showClipButton && showSearchButton) {
+                                76.dp + 48.dp
+                            } else if (showClipButton || showSearchButton) {
+                                76.dp
+                            } else 0.dp,
+                            top = 12.dp,
+                            end = 12.dp + if (isSheetSlideable) {
+                                cutout.calculateEndPadding(layoutDirection)
+                            } else 0.dp,
+                            start = 12.dp + if (!showNavRail) {
+                                cutout.calculateStartPadding(layoutDirection)
+                            } else 0.dp
+                        )
+                    }
+                }
 
                 LazyVerticalStaggeredGrid(
                     reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
@@ -135,36 +166,10 @@ internal fun RowScope.ScreenPreferenceSelection(
                     columns = StaggeredGridCells.Adaptive(220.dp),
                     verticalItemSpacing = 12.dp,
                     horizontalArrangement = Arrangement.spacedBy(
-                        12.dp,
-                        Alignment.CenterHorizontally
+                        space = 12.dp,
+                        alignment = Alignment.CenterHorizontally
                     ),
-                    contentPadding = PaddingValues(
-                        bottom = 12.dp + if (isGrid) {
-                            WindowInsets
-                                .navigationBars
-                                .asPaddingValues()
-                                .calculateBottomPadding() + if (!compactHeight) {
-                                128.dp
-                            } else 0.dp
-                        } else {
-                            0.dp
-                        } + showClipButton.let {
-                            if (it) 76.dp else 0.dp
-                        } + showSearchButton.let {
-                            if (it && showClipButton) 48.dp else if (!showClipButton) 76.dp else 0.dp
-                        },
-                        top = 12.dp,
-                        end = 12.dp + if (isSheetSlideable) {
-                            cutout.calculateEndPadding(
-                                LocalLayoutDirection.current
-                            )
-                        } else 0.dp,
-                        start = 12.dp + if (!showNavRail) {
-                            cutout.calculateStartPadding(
-                                LocalLayoutDirection.current
-                            )
-                        } else 0.dp
-                    ),
+                    contentPadding = contentPadding,
                     content = {
                         items(currentScreenList) { screen ->
                             val interactionSource = remember {
