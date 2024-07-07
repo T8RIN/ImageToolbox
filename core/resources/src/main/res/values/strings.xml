@@ -1259,5 +1259,5 @@
     <string name="low_poly">Low Poly</string>
     <string name="sand_painting">Sand Painting</string>
     <string name="image_splitting">Image Splitting</string>
-    <string name="image_splitting_sub">Split single image for rows or columns</string>
+    <string name="image_splitting_sub">Split single image by rows or columns</string>
 </resources>
