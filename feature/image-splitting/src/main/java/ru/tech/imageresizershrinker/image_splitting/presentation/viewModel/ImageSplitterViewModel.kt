@@ -28,7 +28,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -46,7 +45,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ImageSplitterViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageSplitter: ImageSplitter<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
@@ -89,9 +87,11 @@ class ImageSplitterViewModel @Inject constructor(
     }
 
     fun updateParams(params: SplitParams) {
-        _params.update { params }
-        registerChanges()
-        updateUris()
+        if (params != this.params) {
+            _params.update { params }
+            registerChanges()
+            updateUris()
+        }
     }
 
     private var savingJob: Job? by smartJob {

@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.image_splitting.presentation
 
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -163,6 +164,9 @@ fun ImageSplitterContent(
                 uris = viewModel.uris.ifEmpty {
                     listOf(Uri.EMPTY, Uri.EMPTY)
                 },
+                modifier = Modifier
+                    .animateContentSize()
+                    .padding(2.dp),
                 isPortrait = true,
                 onRemoveUri = null,
                 onAddUris = null,

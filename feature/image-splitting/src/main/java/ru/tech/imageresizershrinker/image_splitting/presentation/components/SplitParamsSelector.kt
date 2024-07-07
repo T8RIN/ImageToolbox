@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.image_splitting.presentation.components
 
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +24,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.ViewColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,12 +40,15 @@ import ru.tech.imageresizershrinker.image_splitting.domain.SplitParams
 import kotlin.math.roundToInt
 
 @Composable
-internal fun ColumnScope.SplitParamsSelector(
+internal fun SplitParamsSelector(
     value: SplitParams,
     onValueChange: (SplitParams) -> Unit
 ) {
+    var rowsCount by remember {
+        mutableIntStateOf(value.rowsCount)
+    }
     EnhancedSliderItem(
-        value = value.rowsCount,
+        value = rowsCount,
         title = stringResource(R.string.rows_count),
         sliderModifier = Modifier
             .padding(
@@ -52,8 +58,8 @@ internal fun ColumnScope.SplitParamsSelector(
                 bottom = 10.dp
             ),
         icon = Icons.Rounded.TableRows,
-        valueRange = 2f..20f,
-        steps = 17,
+        valueRange = 1f..20f,
+        steps = 18,
         internalStateTransformation = {
             it.roundToInt()
         },
@@ -61,13 +67,17 @@ internal fun ColumnScope.SplitParamsSelector(
             onValueChange(
                 value.copy(rowsCount = it.roundToInt())
             )
+            rowsCount = it.roundToInt()
         },
         onValueChange = {},
         shape = ContainerShapeDefaults.topShape
     )
-    Spacer(Modifier.height(3.dp))
+    Spacer(Modifier.height(4.dp))
+    var columnsCount by remember {
+        mutableIntStateOf(value.columnsCount)
+    }
     EnhancedSliderItem(
-        value = value.columnsCount,
+        value = columnsCount,
         title = stringResource(R.string.columns_count),
         sliderModifier = Modifier
             .padding(
@@ -76,9 +86,9 @@ internal fun ColumnScope.SplitParamsSelector(
                 end = 12.dp,
                 bottom = 10.dp
             ),
-        steps = 17,
+        steps = 18,
         icon = Icons.Rounded.ViewColumn,
-        valueRange = 2f..20f,
+        valueRange = 1f..20f,
         internalStateTransformation = {
             it.roundToInt()
         },
@@ -86,6 +96,7 @@ internal fun ColumnScope.SplitParamsSelector(
             onValueChange(
                 value.copy(columnsCount = it.roundToInt())
             )
+            columnsCount = it.roundToInt()
         },
         onValueChange = {},
         shape = ContainerShapeDefaults.bottomShape

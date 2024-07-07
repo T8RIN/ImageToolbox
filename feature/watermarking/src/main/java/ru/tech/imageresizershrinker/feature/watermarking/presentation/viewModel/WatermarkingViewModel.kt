@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -86,8 +87,11 @@ class WatermarkingViewModel @Inject constructor(
     private val _watermarkParams = mutableStateOf(WatermarkParams.Default)
     val watermarkParams by _watermarkParams
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default)
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default)
     val imageFormat by _imageFormat
+
+    private val _quality: MutableState<Quality> = mutableStateOf(Quality.Base())
+    val quality by _quality
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
@@ -139,7 +143,8 @@ class WatermarkingViewModel @Inject constructor(
                     val imageInfo = ImageInfo(
                         imageFormat = imageFormat,
                         width = localBitmap.width,
-                        height = localBitmap.height
+                        height = localBitmap.height,
+                        quality = quality
                     )
 
                     results.add(
@@ -198,7 +203,8 @@ class WatermarkingViewModel @Inject constructor(
                         it to ImageInfo(
                             width = it.width,
                             height = it.height,
-                            imageFormat = imageFormat
+                            imageFormat = imageFormat,
+                            quality = quality
                         )
                     }
                 },
@@ -222,6 +228,11 @@ class WatermarkingViewModel @Inject constructor(
         savingJob = null
         _isSaving.value = false
         _left.value = -1
+    }
+
+    fun setQuality(quality: Quality) {
+        _quality.update { quality }
+        registerChanges()
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
@@ -292,9 +303,9 @@ class WatermarkingViewModel @Inject constructor(
     fun getWatermarkTransformation(): Transformation {
         return GenericTransformation<Bitmap>(watermarkParams) { input, size ->
             imageScaler.scaleImage(
-                getWatermarkedBitmap(input) ?: input,
-                size.width,
-                size.height,
+                image = getWatermarkedBitmap(input) ?: input,
+                width = size.width,
+                height = size.height,
                 resizeType = ResizeType.Flexible
             )
         }.toCoil()
@@ -312,7 +323,8 @@ class WatermarkingViewModel @Inject constructor(
                 it to ImageInfo(
                     width = it.width,
                     height = it.height,
-                    imageFormat = imageFormat
+                    imageFormat = imageFormat,
+                    quality = quality
                 )
             }?.let { (image, imageInfo) ->
                 shareProvider.cacheImage(
@@ -342,7 +354,8 @@ class WatermarkingViewModel @Inject constructor(
                     it to ImageInfo(
                         width = it.width,
                         height = it.height,
-                        imageFormat = imageFormat
+                        imageFormat = imageFormat,
+                        quality = quality
                     )
                 }?.let { (image, imageInfo) ->
                     shareProvider.cacheImage(
