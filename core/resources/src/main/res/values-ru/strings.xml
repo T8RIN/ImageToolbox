@@ -1240,4 +1240,5 @@
     <string name="tiff_compression_scheme">Схема компрессии TIFF</string>
     <string name="low_poly">Низкая полигональность</string>
     <string name="sand_painting">Рисование песком</string>
+    <string name="image_splitting">Разделение изображения</string>
 </resources>
