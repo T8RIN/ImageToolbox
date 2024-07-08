@@ -1240,4 +1240,6 @@
     <string name="tiff_compression_scheme">TIFF 压缩方案</string>
     <string name="low_poly">低聚合</string>
     <string name="sand_painting">沙画</string>
+    <string name="image_splitting">图片分割</string>
+    <string name="image_splitting_sub">按行或列分割单张图片</string>
 </resources>
