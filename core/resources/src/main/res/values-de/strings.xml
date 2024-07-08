@@ -1039,4 +1039,5 @@
     <string name="qr_code">QR-Code</string>
     <string name="code_content">Code-Inhalt</string>
     <string name="qr_description">QR-Beschreibung</string>
+    <string name="convert_sub">Konvertieren von mehrere Bildern in ein bestimmtes Format</string>
 </resources>

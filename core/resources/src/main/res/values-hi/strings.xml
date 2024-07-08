@@ -1240,4 +1240,6 @@
     <string name="tiff_compression_scheme">TIFF संपीड़न योजना</string>
     <string name="low_poly">निम्न पाली</string>
     <string name="sand_painting">रेत चित्रकारी</string>
+    <string name="image_splitting">छवि विभाजन</string>
+    <string name="image_splitting_sub">एकल छवि को पंक्तियों या स्तंभों द्वारा विभाजित करें</string>
 </resources>
