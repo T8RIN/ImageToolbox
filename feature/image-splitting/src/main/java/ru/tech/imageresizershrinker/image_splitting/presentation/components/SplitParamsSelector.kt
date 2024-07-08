@@ -47,6 +47,7 @@ internal fun SplitParamsSelector(
     var rowsCount by remember {
         mutableIntStateOf(value.rowsCount)
     }
+
     EnhancedSliderItem(
         value = rowsCount,
         title = stringResource(R.string.rows_count),
@@ -73,9 +74,11 @@ internal fun SplitParamsSelector(
         shape = ContainerShapeDefaults.topShape
     )
     Spacer(Modifier.height(4.dp))
+
     var columnsCount by remember {
         mutableIntStateOf(value.columnsCount)
     }
+
     EnhancedSliderItem(
         value = columnsCount,
         title = stringResource(R.string.columns_count),
