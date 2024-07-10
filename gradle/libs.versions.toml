@@ -64,7 +64,7 @@ androidxMacroBenchmark = "1.3.0-beta01"
 quickieBundled = "1.10.0"
 quickieFoss = "1.11.0"
 
-material = "1.13.0-alpha03"
+material = "1.13.0-alpha04"
 
 documentScanner = "1.3.7"
 mlkitDocumentScanner = "16.0.0-beta1"
