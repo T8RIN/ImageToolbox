@@ -898,4 +898,12 @@
     <string name="convert_sub">تحويل دفعات الصور إلى تنسيق معين</string>
     <string name="add_new_folder">إضافة مجلد جديد</string>
     <string name="tag_compression">الضغط</string>
+    <string name="tag_photometric_interpretation">التفسير الضوئي</string>
+    <string name="tag_samples_per_pixel">عينات لكل بكسل</string>
+    <string name="tag_planar_configuration">التكوين المستوي</string>
+    <string name="tag_y_cb_cr_sub_sampling">Y Cb Cr أخذ العينات الفرعية</string>
+    <string name="tag_y_cb_cr_positioning">Y Cb Cr لتحديد المواقع</string>
+    <string name="tag_x_resolution">القرار العاشر</string>
+    <string name="tag_y_resolution">القرار ص</string>
+    <string name="tag_bits_per_sample">بت لكل عينة</string>
 </resources>

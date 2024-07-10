@@ -1240,4 +1240,6 @@
     <string name="tiff_compression_scheme">TIFF-compressiemethode</string>
     <string name="sand_painting">Zandschildering</string>
     <string name="low_poly">Low Poly</string>
+    <string name="image_splitting">Afbeelding splitsen</string>
+    <string name="image_splitting_sub">Splits een enkele afbeelding in rijen en kolommen</string>
 </resources>
