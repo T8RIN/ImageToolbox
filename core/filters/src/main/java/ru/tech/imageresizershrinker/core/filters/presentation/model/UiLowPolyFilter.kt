@@ -22,14 +22,14 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiLowPolyFilter(
-    override val value: Pair<Int, Boolean> = 1000 to true
+    override val value: Pair<Int, Boolean> = 2000 to true
 ) : UiFilter<Pair<Int, Boolean>>(
     title = R.string.low_poly,
     value = value,
     paramsInfo = listOf(
         FilterParam(
             title = R.string.strength,
-            valueRange = 50f..15000f,
+            valueRange = 50f..25000f,
             roundTo = 0
         ),
         FilterParam(

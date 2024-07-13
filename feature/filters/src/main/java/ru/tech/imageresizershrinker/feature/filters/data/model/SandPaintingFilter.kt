@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SandPaintingFilter(
-    override val value: Pair<Int, Int> = 50 to 1000
+    override val value: Pair<Int, Int> = 50 to 2000
 ) : Transformation<Bitmap>, Filter.SandPainting {
 
     override val cacheKey: String

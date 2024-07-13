@@ -22,7 +22,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiSandPaintingFilter(
-    override val value: Pair<Int, Int> = 1000 to 50
+    override val value: Pair<Int, Int> = 2000 to 50
 ) : UiFilter<Pair<Int, Int>>(
     title = R.string.sand_painting,
     value = value,
