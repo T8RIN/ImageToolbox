@@ -29,7 +29,7 @@ class UiLowPolyFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.strength,
-            valueRange = 50f..25000f,
+            valueRange = 50f..30000f,
             roundTo = 0
         ),
         FilterParam(
