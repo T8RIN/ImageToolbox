@@ -842,11 +842,11 @@
     <string name="sort_by_name">Classer par Nom</string>
     <string name="sort_by_name_reversed">Classer par Nom (inverse)</string>
     <string name="harmonization_color">Harmonisation de la Couleur</string>
-    <string name="channels_configuration">Configuration des chaînes</string>
-    <string name="embedded_picker_sub">Utilisez le sélecteur d\'Image Toolbox à la place de ceux du système par défaut</string>
+    <string name="channels_configuration">Configuration des Canaux</string>
+    <string name="embedded_picker_sub">Utilisez le sélecteur d\'Image Toolbox a la place de celui prédéfinis par le système</string>
     <string name="pick_multiple_media">Sélectionner plusieurs médias</string>
     <string name="try_again">Réessayer</string>
-    <string name="show_settings_in_landscape">Montrer les paramètres dans le paysage</string>
+    <string name="show_settings_in_landscape">Afficher les Paramètres en Mode Paysage</string>
     <string name="fullscreen_settings">Paramètres du plein écran</string>
     <string name="pick_single_media">Sélectionner un média</string>
     <string name="pick">Sélectionner</string>
@@ -858,11 +858,11 @@
     <string name="no_permissions">Pas de permissions</string>
     <string name="request">Requête</string>
     <string name="lstm_network">Réseau LSTM</string>
-    <string name="auto_paste">Auto Collage</string>
+    <string name="auto_paste">Collage automatique</string>
     <string name="auto_paste_sub">Permettez à l\'application de coller automatiquement les données depuis le presse-papiers, elles vont apparaître sur l\'écran principal et vous pourrez les éditer.</string>
-    <string name="skip_file_picking">Passer la sélection du fichier</string>
-    <string name="lossy_compression">Compression à perte</string>
-    <string name="lossy_compression_sub">Utilisez la compression à perte pour réduire la taille du fichier contrairement à celle sans perte</string>
+    <string name="skip_file_picking">Passer la Sélection du Fichier</string>
+    <string name="lossy_compression">Compression avec Pertes</string>
+    <string name="lossy_compression_sub">Utilise la compression avec perte pour réduire la taille du fichier au lieu de la compression sans perte</string>
     <string name="images_to_svg">Images en Svg</string>
     <string name="images_to_svg_sub">Tracer les images fournies en images SVG</string>
     <string name="min_color_ratio">Ratio colorimétrique minimum</string>
@@ -878,8 +878,15 @@
     <string name="harmonization_level">Niveau d\'harmonisation</string>
     <string name="convert">Convertir</string>
     <string name="downscale_image_sub">L’image sera réduite à des dimensions inférieures avant le traitement, ce qui aide l’outil à travailler plus rapidement et en toute sécurité</string>
-    <string name="downscale_image">Réduire l\'image</string>
+    <string name="downscale_image">Image réduite</string>
     <string name="lines_threshold">Seuil des lignes</string>
     <string name="quadratic_threshold">Seuil quadratique</string>
     <string name="coordinates_rounding_tolerance">Tolérance d’arrondissement des coordonnées</string>
+    <string name="add_new_folder">Ajouter un Nouveau Dossier</string>
+    <string name="tag_compression">Compression</string>
+    <string name="tag_datetime">Date Heure</string>
+    <string name="tag_image_description">Description de l\'Image</string>
+    <string name="tag_artist">Artiste</string>
+    <string name="tag_copyright">Droit d\'auteur</string>
+    <string name="speed_sub">Contrôle la vitesse de décodage de l’image résultante, cela devrait aider à ouvrir l’image résultante plus rapidement, la valeur de %1$d signifie le décodage le plus lent, tandis que %2$d - le plus rapide, ce paramètre peut augmenter la taille de l’image de sortie</string>
 </resources>
