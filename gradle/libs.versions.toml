@@ -11,11 +11,9 @@ compose-compiler = "1.5.14"
 
 imageToolboxLibs = "2.0.2"
 
-avifCoderCoil = "1.7.5"
 avifCoder = "1.7.5"
-aire = "0.13.3"
-jxlCoderCoil = "2.2.0"
-jxlCoder = "2.2.0"
+aire = "0.13.4"
+jxlCoder = "2.3.0"
 
 tesseract = "4.7.0"
 composeVersion = "1.7.0-beta05"
@@ -90,7 +88,7 @@ androidx-material3 = { module = "androidx.compose.material3:material3", version.
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
-avif-coder-coil = { module = "com.github.awxkee:avif-coder-coil", version.ref = "avifCoderCoil" }
+avif-coder-coil = { module = "com.github.awxkee:avif-coder-coil", version.ref = "avifCoder" }
 compose = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "shadowGadgets" }
 datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "androidx-datastorePreferencesAndroid" }
 fadingEdges = { module = "com.github.t8rin:ComposeFadingEdges", version.ref = "fadingEdges" }
@@ -106,7 +104,7 @@ coilGif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 coilSvg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
-jxl-coder-coil = { module = "io.github.awxkee:jxl-coder-coil", version.ref = "jxlCoderCoil" }
+jxl-coder-coil = { module = "io.github.awxkee:jxl-coder-coil", version.ref = "jxlCoder" }
 jxl-coder = { module = "io.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
