@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.crop.presentation.components
+package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -24,6 +24,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -50,6 +51,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,9 +69,9 @@ import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
+import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -78,9 +80,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import kotlin.math.abs
 
 @Composable
-fun AspectRatioSelection(
+fun AspectRatioSelector(
     modifier: Modifier = Modifier,
-    selectedAspectRatio: DomainAspectRatio = DomainAspectRatio.Free,
+    selectedAspectRatio: DomainAspectRatio? = DomainAspectRatio.Free,
     unselectedCardColor: Color = MaterialTheme.colorScheme.surfaceContainerLowest,
     contentPadding: PaddingValues = PaddingValues(
         start = 16.dp,
@@ -91,12 +93,20 @@ fun AspectRatioSelection(
             .asPaddingValues()
             .calculateEndPadding(LocalLayoutDirection.current)
     ),
+    title: @Composable ColumnScope.() -> Unit = {
+        Text(
+            text = stringResource(id = R.string.aspect_ratio),
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+            fontWeight = FontWeight.Medium
+        )
+    },
     enableFadingEdges: Boolean = true,
     onAspectRatioChange: (DomainAspectRatio, AspectRatio) -> Unit,
     color: Color = Color.Unspecified,
-    shape: Shape = RoundedCornerShape(24.dp)
+    shape: Shape = RoundedCornerShape(24.dp),
+    aspectRatios: List<DomainAspectRatio> = aspectRatios()
 ) {
-    val aspectRatios = aspectRatios()
 
     val focus = LocalFocusManager.current
     Column(
@@ -104,7 +114,8 @@ fun AspectRatioSelection(
         modifier = modifier
             .container(
                 color = color,
-                shape = shape
+                shape = shape,
+                resultPadding = 0.dp
             )
             .pointerInput(Unit) {
                 detectTapGestures {
@@ -112,12 +123,7 @@ fun AspectRatioSelection(
                 }
             }
     ) {
-        Text(
-            text = stringResource(id = R.string.aspect_ratio),
-            modifier = Modifier
-                .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
-            fontWeight = FontWeight.Medium
-        )
+        title()
         val listState = rememberLazyListState()
         LazyRow(
             state = listState,
@@ -243,10 +249,10 @@ fun AspectRatioSelection(
                     )
             ) {
                 var tempWidth by remember {
-                    mutableStateOf(selectedAspectRatio.widthProportion.toString())
+                    mutableStateOf(selectedAspectRatio?.widthProportion?.toString() ?: "1")
                 }
                 var tempHeight by remember {
-                    mutableStateOf(selectedAspectRatio.heightProportion.toString())
+                    mutableStateOf(selectedAspectRatio?.heightProportion?.toString() ?: "1")
                 }
                 RoundedTextField(
                     value = tempWidth,
@@ -361,4 +367,15 @@ fun DomainAspectRatio.toCropAspectRatio(
             aspectRatio = AspectRatio(value)
         )
     }
+}
+
+val DomainAspectRatio.Companion.Saver by lazy {
+    Saver<DomainAspectRatio?, String>(
+        save = {
+            it?.asString()
+        },
+        restore = {
+            DomainAspectRatio.fromString(it)
+        }
+    )
 }

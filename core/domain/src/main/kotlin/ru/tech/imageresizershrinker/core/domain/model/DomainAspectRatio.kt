@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.settings.domain.model
+package ru.tech.imageresizershrinker.core.domain.model
 
 sealed class DomainAspectRatio(
     open val widthProportion: Float,
@@ -67,5 +67,26 @@ sealed class DomainAspectRatio(
                 Numeric(widthProportion = 2f, heightProportion = 1f)
             )
         }
+
+        fun fromString(value: String): DomainAspectRatio? = when {
+            value == Free::class.simpleName -> Free
+            value == Original::class.simpleName -> Original
+            value.contains(Custom::class.simpleName!!) -> {
+                val (w, h) = value.split("|")[1].split(":").map { it.toFloat() }
+                Custom(w, h)
+            }
+
+            value.contains(Numeric::class.simpleName!!) -> {
+                val (w, h) = value.split("|")[1].split(":").map { it.toFloat() }
+                Numeric(w, h)
+            }
+
+            else -> null
+        }
+    }
+
+    fun asString(): String = when {
+        this is Custom || this is Numeric -> "${this::class.simpleName}|${widthProportion}:${heightProportion}"
+        else -> this::class.simpleName!!
     }
 }

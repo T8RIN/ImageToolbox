@@ -15,16 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.crop.presentation.components
+package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 
 @Composable
 fun aspectRatios() = remember {
-    derivedStateOf {
-        DomainAspectRatio.defaultList
-    }
-}.value
+    DomainAspectRatio.defaultList
+}

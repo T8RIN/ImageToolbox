@@ -189,10 +189,6 @@ fun ImageFormatSelector(
                             horizontalArrangement = Arrangement.spacedBy(
                                 8.dp,
                                 Alignment.CenterHorizontally
-                            ),
-                            modifier = Modifier.container(
-                                color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                                resultPadding = 8.dp
                             )
                         ) {
                             items.forEach {

@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.settings.domain.model
 import android.os.Build
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 
 data class SettingsState(
     val nightMode: NightMode,
