@@ -183,12 +183,18 @@ fun PresetSelector(
                                 }
                             }.value,
                             onAspectRatioChange = { domainAspectRatio, _ ->
-                                onValueChange(
-                                    Preset.AspectRatio(
-                                        ratio = domainAspectRatio.value,
-                                        isFit = (value as? Preset.AspectRatio)?.isFit ?: false
+                                if (value is Preset.AspectRatio) {
+                                    onValueChange(
+                                        value.copy(ratio = domainAspectRatio.value)
                                     )
-                                )
+                                } else {
+                                    onValueChange(
+                                        Preset.AspectRatio(
+                                            ratio = domainAspectRatio.value,
+                                            isFit = false
+                                        )
+                                    )
+                                }
                             },
                             title = {},
                             aspectRatios = aspectRatios,
@@ -203,12 +209,18 @@ fun PresetSelector(
                             subtitle = stringResource(R.string.fit_to_bounds_sub),
                             checked = (value as? Preset.AspectRatio)?.isFit ?: false,
                             onClick = {
-                                onValueChange(
-                                    Preset.AspectRatio(
-                                        ratio = (value as? Preset.AspectRatio)?.ratio ?: 1f,
-                                        isFit = it
+                                if (value is Preset.AspectRatio) {
+                                    onValueChange(
+                                        value.copy(isFit = it)
                                     )
-                                )
+                                } else {
+                                    onValueChange(
+                                        Preset.AspectRatio(
+                                            ratio = 1f,
+                                            isFit = it
+                                        )
+                                    )
+                                }
                             },
                             startIcon = Icons.Outlined.FitScreen,
                             shape = ContainerShapeDefaults.bottomShape,
