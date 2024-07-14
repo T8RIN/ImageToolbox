@@ -25,6 +25,7 @@ import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
@@ -41,7 +42,8 @@ class ImageInfoTransformation @AssistedInject constructor(
     @Assisted private val transformations: List<Transformation<Bitmap>>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : CoilTransformation, Transformation<Bitmap> {
 
     override val cacheKey: String
@@ -64,41 +66,47 @@ class ImageInfoTransformation @AssistedInject constructor(
             imageScaleMode = ImageScaleMode.NotPresent
         )
 
-        val info = if (!preset.isEmpty()) {
-            imageTransformer.applyPresetBy(
-                image = transformedInput,
-                preset = preset,
-                currentInfo = imageInfo.copy(
-                    originalUri = null
-                )
-            ).let {
-                if (it.quality != imageInfo.quality) {
-                    it.copy(quality = imageInfo.quality)
-                } else it
-            }
-        } else {
-            imageInfo
-        }.run {
-            val presetValue = preset.value()
-            copy(
-                originalUri = null,
-                resizeType = resizeType.withOriginalSizeIfCrop(
-                    if (presetValue != null) {
-                        if (presetValue > 100) {
-                            IntegerSize(
-                                (transformedInput.width.toFloat() / (presetValue / 100f)).roundToInt(),
-                                (transformedInput.height.toFloat() / (presetValue / 100f)).roundToInt()
-                            )
-                        } else {
-                            IntegerSize(
-                                transformedInput.width,
-                                transformedInput.height
-                            )
-                        }
-                    } else IntegerSize(width, height)
+        val originalUri = if (preset is Preset.AspectRatio) {
+            shareProvider.cacheImage(
+                image = input,
+                imageInfo = ImageInfo(
+                    width = input.width,
+                    height = input.height
                 )
             )
-        }
+        } else null
+
+        val presetValue = preset.value()
+        val presetInfo = imageTransformer.applyPresetBy(
+            image = transformedInput,
+            preset = preset,
+            currentInfo = imageInfo.copy(
+                originalUri = originalUri
+            )
+        )
+
+        val info = presetInfo.copy(
+            originalUri = originalUri,
+            resizeType = presetInfo.resizeType.withOriginalSizeIfCrop(
+                if (presetValue != null) {
+                    if (presetValue > 100) {
+                        IntegerSize(
+                            (transformedInput.width.toFloat() / (presetValue / 100f)).roundToInt(),
+                            (transformedInput.height.toFloat() / (presetValue / 100f)).roundToInt()
+                        )
+                    } else {
+                        IntegerSize(
+                            transformedInput.width,
+                            transformedInput.height
+                        )
+                    }
+                } else {
+                    if (preset is Preset.AspectRatio) IntegerSize(input.width, input.height)
+                    else IntegerSize(presetInfo.width, presetInfo.height)
+                }
+            )
+        )
+
         return imagePreviewCreator.createPreview(
             image = transformedInput,
             imageInfo = info,

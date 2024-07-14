@@ -93,7 +93,7 @@ internal class AndroidImageTransformer @Inject constructor(
         preset: Preset,
         currentInfo: ImageInfo
     ): ImageInfo = withContext(defaultDispatcher) {
-        if (image == null) return@withContext currentInfo
+        if (image == null || preset is Preset.None) return@withContext currentInfo
 
         val size = currentInfo.originalUri?.let {
             imageLoader.execute(
@@ -154,7 +154,7 @@ internal class AndroidImageTransformer @Inject constructor(
                 )
             }
 
-            is Preset.None -> currentInfo
+            Preset.None -> currentInfo
         }
     }
 
