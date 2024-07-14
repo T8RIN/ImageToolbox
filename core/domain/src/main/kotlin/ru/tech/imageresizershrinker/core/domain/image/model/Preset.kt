@@ -25,11 +25,17 @@ sealed class Preset {
 
     data class Percentage(val value: Int) : Preset()
 
+    data class AspectRatio(val ratio: Float) : Preset()
+
     fun isTelegram(): Boolean = this is Telegram
 
     fun value(): Int? = (this as? Percentage)?.value
 
+    fun ratio(): Float? = (this as? AspectRatio)?.ratio
+
     fun isEmpty(): Boolean = this is None
+
+    fun isAspectRatio(): Boolean = this is AspectRatio
 
     companion object {
         val Original by lazy {

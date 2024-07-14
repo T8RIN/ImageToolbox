@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 
 internal class AndroidImageTransformer @Inject constructor(
@@ -128,6 +129,27 @@ internal class AndroidImageTransformer @Inject constructor(
                 width = calcWidth().calc(preset.value),
                 height = calcHeight().calc(preset.value),
             )
+
+            is Preset.AspectRatio -> {
+                val originalWidth = size.width.toFloat()
+                val originalHeight = size.height.toFloat()
+
+                val newWidth: Float
+                val newHeight: Float
+
+                if (preset.ratio > originalWidth / originalHeight) {
+                    newWidth = originalHeight * preset.ratio
+                    newHeight = originalHeight
+                } else {
+                    newWidth = originalWidth
+                    newHeight = originalWidth / preset.ratio
+                }
+
+                currentInfo.copy(
+                    width = newWidth.roundToInt(),
+                    height = newHeight.roundToInt()
+                )
+            }
 
             is Preset.None -> currentInfo
         }

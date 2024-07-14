@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -38,6 +39,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.AspectRatio
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -61,6 +63,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
@@ -71,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.OOMWarning
+import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -86,7 +90,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 @Composable
 fun PresetSelector(
     value: Preset,
-    includeTelegramOption: Boolean,
+    includeTelegramOption: Boolean = false,
+    includeAspectRatioOption: Boolean = false,
     isBytesResize: Boolean = false,
     showWarning: Boolean = false,
     onValueChange: (Preset) -> Unit
@@ -156,6 +161,37 @@ fun PresetSelector(
                 }
                 Spacer(Modifier.height(8.dp))
 
+                AnimatedVisibility(visible = value is Preset.AspectRatio && includeAspectRatioOption) {
+                    val aspectRatios = remember {
+                        DomainAspectRatio.defaultList.drop(3)
+                    }
+
+                    AspectRatioSelector(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                            .padding(bottom = 8.dp),
+                        contentPadding = PaddingValues(4.dp),
+                        selectedAspectRatio = remember(value, aspectRatios) {
+                            derivedStateOf {
+                                aspectRatios.firstOrNull {
+                                    it.value == value.ratio()
+                                }
+                            }
+                        }.value,
+                        onAspectRatioChange = { domainAspectRatio, _ ->
+                            onValueChange(
+                                Preset.AspectRatio(domainAspectRatio.value)
+                            )
+                        },
+                        title = {},
+                        aspectRatios = aspectRatios,
+                        shape = RoundedCornerShape(18.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                        unselectedCardColor = MaterialTheme.colorScheme.surface
+                    )
+                }
+
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -183,6 +219,24 @@ fun PresetSelector(
                                     Icon(
                                         imageVector = Icons.Rounded.Telegram,
                                         contentDescription = stringResource(R.string.telegram)
+                                    )
+                                }
+                            }
+                        }
+                        if (includeAspectRatioOption) {
+                            item {
+                                val selected = value.isAspectRatio()
+                                EnhancedChip(
+                                    selected = selected,
+                                    onClick = {
+                                        onValueChange(Preset.AspectRatio(1f))
+                                    },
+                                    selectedColor = MaterialTheme.colorScheme.primary,
+                                    shape = MaterialTheme.shapes.medium
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.AspectRatio,
+                                        contentDescription = stringResource(R.string.aspect_ratio)
                                     )
                                 }
                             }

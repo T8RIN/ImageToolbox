@@ -332,6 +332,7 @@ fun SingleEditContent(
             PresetSelector(
                 value = viewModel.presetSelected,
                 includeTelegramOption = true,
+                includeAspectRatioOption = true,
                 onValueChange = viewModel::setPreset
             )
             Spacer(Modifier.size(8.dp))

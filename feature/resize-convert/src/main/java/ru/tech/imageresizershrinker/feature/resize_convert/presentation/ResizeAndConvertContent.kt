@@ -328,9 +328,8 @@ fun ResizeAndConvertContent(
             PresetSelector(
                 value = viewModel.presetSelected,
                 includeTelegramOption = true,
-                onValueChange = {
-                    viewModel.updatePreset(it)
-                }
+                includeAspectRatioOption = true,
+                onValueChange = viewModel::updatePreset
             )
             Spacer(Modifier.size(8.dp))
             AnimatedVisibility(
