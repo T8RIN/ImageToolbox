@@ -25,13 +25,14 @@ sealed class Preset {
 
     data class Percentage(val value: Int) : Preset()
 
-    data class AspectRatio(val ratio: Float) : Preset()
+    data class AspectRatio(
+        val ratio: Float,
+        val isFit: Boolean
+    ) : Preset()
 
     fun isTelegram(): Boolean = this is Telegram
 
     fun value(): Int? = (this as? Percentage)?.value
-
-    fun ratio(): Float? = (this as? AspectRatio)?.ratio
 
     fun isEmpty(): Boolean = this is None
 

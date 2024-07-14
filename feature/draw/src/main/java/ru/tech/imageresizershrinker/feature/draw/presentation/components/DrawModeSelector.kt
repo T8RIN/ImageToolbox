@@ -230,7 +230,7 @@ fun DrawModeSelector(
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
                     resultModifier = Modifier.padding(16.dp),
-                    applyHorPadding = false
+                    applyHorizontalPadding = false
                 )
                 Spacer(
                     modifier = Modifier.height(

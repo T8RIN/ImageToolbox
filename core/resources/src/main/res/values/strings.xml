@@ -1260,4 +1260,6 @@
     <string name="sand_painting">Sand Painting</string>
     <string name="image_splitting">Image Splitting</string>
     <string name="image_splitting_sub">Split single image by rows or columns</string>
+    <string name="fit_to_bounds">Fit To Bounds</string>
+    <string name="fit_to_bounds_sub">Combine crop resize mode with this parameter to achieve desired behavior (Crop/Fit to aspect ratio)</string>
 </resources>

@@ -395,7 +395,7 @@ internal fun <T> FilterItemContent(
                                         end = 12.dp,
                                         bottom = 12.dp
                                     ),
-                                    applyHorPadding = false,
+                                    applyHorizontalPadding = false,
                                     startContent = {},
                                     resultModifier = Modifier.padding(
                                         horizontal = 16.dp,

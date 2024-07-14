@@ -203,45 +203,48 @@ fun ResizeTypeSelector(
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
-            UseBlurredBackgroundToggle(
-                modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
-                checked = useBlurredBgInsteadOfColor,
-                onCheckedChange = {
-                    useBlurredBgInsteadOfColor = it
-                    updateResizeType()
-                }
-            )
-        }
-        AnimatedVisibility(
-            visible = value is ResizeType.CenterCrop,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
-                if (!showBlurRadius) {
-                    BackgroundColorSelector(
-                        modifier = Modifier
-                            .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
-                            .container(
-                                shape = RoundedCornerShape(16.dp),
-                                color = MaterialTheme.colorScheme.surface
-                            ),
-                        value = canvasColor,
-                        onColorChange = {
-                            canvasColor = it
-                            updateResizeType()
-                        }
-                    )
-                } else {
-                    BlurRadiusSelector(
-                        modifier = Modifier.padding(bottom = 8.dp, end = 8.dp, start = 8.dp),
-                        value = blurRadius,
-                        color = MaterialTheme.colorScheme.surface,
-                        onValueChange = {
-                            blurRadius = it
-                            updateResizeType()
-                        }
-                    )
+            Column {
+                UseBlurredBackgroundToggle(
+                    modifier = Modifier.padding(
+                        top = 8.dp,
+                        start = 8.dp,
+                        end = 8.dp,
+                        bottom = 4.dp
+                    ),
+                    checked = useBlurredBgInsteadOfColor,
+                    onCheckedChange = {
+                        useBlurredBgInsteadOfColor = it
+                        updateResizeType()
+                    },
+                    shape = ContainerShapeDefaults.topShape
+                )
+                AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
+                    if (showBlurRadius) {
+                        BlurRadiusSelector(
+                            modifier = Modifier.padding(bottom = 8.dp, end = 8.dp, start = 8.dp),
+                            value = blurRadius,
+                            color = MaterialTheme.colorScheme.surface,
+                            onValueChange = {
+                                blurRadius = it
+                                updateResizeType()
+                            },
+                            shape = ContainerShapeDefaults.bottomShape
+                        )
+                    } else {
+                        BackgroundColorSelector(
+                            modifier = Modifier
+                                .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
+                                .container(
+                                    shape = ContainerShapeDefaults.bottomShape,
+                                    color = MaterialTheme.colorScheme.surface
+                                ),
+                            value = canvasColor,
+                            onColorChange = {
+                                canvasColor = it
+                                updateResizeType()
+                            },
+                        )
+                    }
                 }
             }
         }

@@ -44,7 +44,7 @@ fun PreferenceRowSwitch(
     enabled: Boolean = true,
     subtitle: String? = null,
     autoShadowElevation: Dp = 1.dp,
-    applyHorPadding: Boolean = true,
+    applyHorizontalPadding: Boolean = true,
     checked: Boolean,
     color: Color = Color.Unspecified,
     contentColor: Color? = null,
@@ -55,9 +55,9 @@ fun PreferenceRowSwitch(
         vertical = 8.dp
     ),
     drawStartIconContainer: Boolean = false,
-    changeAlphaWhenDisabled: Boolean = true,
     onDisabledClick: (() -> Unit)? = null,
-    onClick: (Boolean) -> Unit
+    onClick: (Boolean) -> Unit,
+    changeAlphaWhenDisabled: Boolean = true,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     PreferenceRow(
@@ -65,7 +65,7 @@ fun PreferenceRowSwitch(
         enabled = enabled,
         modifier = modifier,
         resultModifier = resultModifier,
-        applyHorPadding = applyHorPadding,
+        applyHorizontalPadding = applyHorizontalPadding,
         title = title,
         contentColor = contentColor,
         shape = shape,
@@ -143,7 +143,7 @@ fun PreferenceRowSwitch(
             }
         },
         resultModifier = Modifier.padding(16.dp),
-        applyHorPadding = false,
+        applyHorizontalPadding = false,
         onClick = onClick
     )
 }

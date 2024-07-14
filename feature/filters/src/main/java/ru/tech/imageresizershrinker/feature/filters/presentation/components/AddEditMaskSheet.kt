@@ -471,7 +471,7 @@ fun AddEditMaskSheet(
                             ),
                             color = Color.Unspecified,
                             resultModifier = Modifier.padding(16.dp),
-                            applyHorPadding = false,
+                            applyHorizontalPadding = false,
                             shape = RoundedCornerShape(24.dp),
                             onClick = {
                                 viewModel.toggleIsInverseFillType()

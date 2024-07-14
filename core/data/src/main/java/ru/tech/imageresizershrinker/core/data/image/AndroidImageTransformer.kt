@@ -137,7 +137,10 @@ internal class AndroidImageTransformer @Inject constructor(
                 val newWidth: Float
                 val newHeight: Float
 
-                if (preset.ratio > originalWidth / originalHeight) {
+                val condition = if (preset.isFit) preset.ratio > originalWidth / originalHeight
+                else preset.ratio < originalWidth / originalHeight
+
+                if (condition) {
                     newWidth = originalHeight * preset.ratio
                     newHeight = originalHeight
                 } else {

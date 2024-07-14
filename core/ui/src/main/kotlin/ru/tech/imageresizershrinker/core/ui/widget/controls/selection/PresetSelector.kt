@@ -38,6 +38,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FitScreen
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.AspectRatio
 import androidx.compose.material3.AlertDialog
@@ -75,6 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.OOMWarning
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -82,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
@@ -166,30 +169,53 @@ fun PresetSelector(
                         DomainAspectRatio.defaultList.drop(3)
                     }
 
-                    AspectRatioSelector(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                            .padding(bottom = 8.dp),
-                        contentPadding = PaddingValues(4.dp),
-                        selectedAspectRatio = remember(value, aspectRatios) {
-                            derivedStateOf {
-                                aspectRatios.firstOrNull {
-                                    it.value == value.ratio()
+                    Column(
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ) {
+                        AspectRatioSelector(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentPadding = PaddingValues(8.dp),
+                            selectedAspectRatio = remember(value, aspectRatios) {
+                                derivedStateOf {
+                                    aspectRatios.firstOrNull {
+                                        it.value == (value as? Preset.AspectRatio)?.ratio
+                                    }
                                 }
-                            }
-                        }.value,
-                        onAspectRatioChange = { domainAspectRatio, _ ->
-                            onValueChange(
-                                Preset.AspectRatio(domainAspectRatio.value)
-                            )
-                        },
-                        title = {},
-                        aspectRatios = aspectRatios,
-                        shape = RoundedCornerShape(18.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                        unselectedCardColor = MaterialTheme.colorScheme.surface
-                    )
+                            }.value,
+                            onAspectRatioChange = { domainAspectRatio, _ ->
+                                onValueChange(
+                                    Preset.AspectRatio(
+                                        ratio = domainAspectRatio.value,
+                                        isFit = (value as? Preset.AspectRatio)?.isFit ?: false
+                                    )
+                                )
+                            },
+                            title = {},
+                            aspectRatios = aspectRatios,
+                            shape = ContainerShapeDefaults.topShape,
+                            color = MaterialTheme.colorScheme.surface,
+                            unselectedCardColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        PreferenceRowSwitch(
+                            modifier = Modifier.fillMaxWidth(),
+                            title = stringResource(R.string.fit_to_bounds),
+                            subtitle = stringResource(R.string.fit_to_bounds_sub),
+                            checked = (value as? Preset.AspectRatio)?.isFit ?: false,
+                            onClick = {
+                                onValueChange(
+                                    Preset.AspectRatio(
+                                        ratio = (value as? Preset.AspectRatio)?.ratio ?: 1f,
+                                        isFit = it
+                                    )
+                                )
+                            },
+                            startIcon = Icons.Outlined.FitScreen,
+                            shape = ContainerShapeDefaults.bottomShape,
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
 
                 Box(
@@ -229,7 +255,12 @@ fun PresetSelector(
                                 EnhancedChip(
                                     selected = selected,
                                     onClick = {
-                                        onValueChange(Preset.AspectRatio(1f))
+                                        onValueChange(
+                                            Preset.AspectRatio(
+                                                ratio = 1f,
+                                                isFit = false
+                                            )
+                                        )
                                     },
                                     selectedColor = MaterialTheme.colorScheme.primary,
                                     shape = MaterialTheme.shapes.medium

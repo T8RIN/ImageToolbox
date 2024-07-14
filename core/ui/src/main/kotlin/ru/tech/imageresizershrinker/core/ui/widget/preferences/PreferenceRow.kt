@@ -67,7 +67,7 @@ fun PreferenceRow(
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(16.dp),
     contentColor: Color? = null,
-    applyHorPadding: Boolean = true,
+    applyHorizontalPadding: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     startContent: (@Composable () -> Unit)? = null,
     endContent: (@Composable () -> Unit)? = null,
@@ -101,7 +101,7 @@ fun PreferenceRow(
         Row(
             modifier = modifier
                 .then(
-                    if (applyHorPadding) {
+                    if (applyHorizontalPadding) {
                         Modifier.padding(horizontal = 16.dp)
                     } else Modifier
                 )
@@ -253,7 +253,7 @@ fun PreferenceRow(
                 bottom = 8.dp
             )
         } else Modifier.padding(16.dp),
-        applyHorPadding = false,
+        applyHorizontalPadding = false,
         onClick = onClick
     )
 }
