@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.domain.image.model
 
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Position
 
 sealed class ResizeType {
     data object Explicit : ResizeType()
@@ -30,7 +31,8 @@ sealed class ResizeType {
         val canvasColor: Int? = 0,
         val blurRadius: Int = 35,
         val originalSize: IntegerSize = IntegerSize.Undefined,
-        val scaleFactor: Float = 1f
+        val scaleFactor: Float = 1f,
+        val position: Position = Position.Center
     ) : ResizeType()
 
     fun withOriginalSizeIfCrop(

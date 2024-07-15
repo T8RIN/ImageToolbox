@@ -19,38 +19,22 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Layers
+import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
+import ru.tech.imageresizershrinker.core.domain.model.Position
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.entries
 
 @Composable
-fun BlendingModeSelector(
-    value: BlendingMode,
-    onValueChange: (BlendingMode) -> Unit,
-    entries: List<BlendingMode> = remember {
-        mutableListOf<BlendingMode>().apply {
-            add(BlendingMode.SrcOver)
-            addAll(
-                BlendingMode
-                    .entries
-                    .toList() - listOf(
-                    BlendingMode.SrcOver,
-                    BlendingMode.Clear,
-                    BlendingMode.Src,
-                    BlendingMode.Dst
-                ).toSet()
-            )
-        }
-    },
+fun PositionSelector(
+    value: Position,
+    onValueChange: (Position) -> Unit,
+    entries: List<Position> = Position.entries,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(20.dp),
     color: Color = MaterialTheme.colorScheme.surface
@@ -59,11 +43,26 @@ fun BlendingModeSelector(
         value = value,
         onValueChange = onValueChange,
         entries = entries,
-        title = stringResource(R.string.overlay_mode),
-        titleIcon = Icons.Outlined.Layers,
-        itemContentText = { it.toString() },
+        spanCount = 2,
+        title = stringResource(R.string.position),
+        titleIcon = Icons.Outlined.Place,
+        itemContentText = { it.translatedName },
         modifier = modifier,
         shape = shape,
         color = color
     )
 }
+
+val Position.translatedName: String
+    @Composable
+    get() = when (this) {
+        Position.Center -> stringResource(id = R.string.center)
+        Position.TopLeft -> stringResource(id = R.string.top_left)
+        Position.TopRight -> stringResource(id = R.string.top_right)
+        Position.BottomLeft -> stringResource(id = R.string.bottom_left)
+        Position.BottomRight -> stringResource(id = R.string.bottom_right)
+        Position.TopCenter -> stringResource(id = R.string.top_center)
+        Position.CenterRight -> stringResource(id = R.string.center_right)
+        Position.BottomCenter -> stringResource(id = R.string.bottom_center)
+        Position.CenterLeft -> stringResource(id = R.string.center_left)
+    }

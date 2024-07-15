@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeAnchor
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.model.Position
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
@@ -63,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.UseBlurredBackgroundToggle
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BackgroundColorSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PositionSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -84,16 +86,25 @@ fun ResizeTypeSelector(
     var useBlurredBgInsteadOfColor by rememberSaveable {
         mutableStateOf(true)
     }
-    var blurRadius by remember {
+    var blurRadius by rememberSaveable {
         mutableIntStateOf(35)
     }
+    var position by rememberSaveable {
+        mutableStateOf(Position.Center)
+    }
 
-    val modifiedResizeType by remember(canvasColor, useBlurredBgInsteadOfColor, blurRadius) {
+    val modifiedResizeType by remember(
+        canvasColor,
+        useBlurredBgInsteadOfColor,
+        blurRadius,
+        position
+    ) {
         derivedStateOf {
             ResizeType.CenterCrop(
                 canvasColor = canvasColor.toArgb()
                     .takeIf { !useBlurredBgInsteadOfColor },
-                blurRadius = blurRadius
+                blurRadius = blurRadius,
+                position = position
             )
         }
     }
@@ -203,25 +214,32 @@ fun ResizeTypeSelector(
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
-            Column {
+            Column(
+                modifier = Modifier.padding(8.dp)
+            ) {
+                PositionSelector(
+                    value = position,
+                    onValueChange = {
+                        position = it
+                        updateResizeType()
+                    },
+                    shape = ContainerShapeDefaults.topShape,
+                    color = MaterialTheme.colorScheme.surface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
                 UseBlurredBackgroundToggle(
-                    modifier = Modifier.padding(
-                        top = 8.dp,
-                        start = 8.dp,
-                        end = 8.dp,
-                        bottom = 4.dp
-                    ),
                     checked = useBlurredBgInsteadOfColor,
                     onCheckedChange = {
                         useBlurredBgInsteadOfColor = it
                         updateResizeType()
                     },
-                    shape = ContainerShapeDefaults.topShape
+                    shape = ContainerShapeDefaults.centerShape
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
                     if (showBlurRadius) {
                         BlurRadiusSelector(
-                            modifier = Modifier.padding(bottom = 8.dp, end = 8.dp, start = 8.dp),
+                            modifier = Modifier,
                             value = blurRadius,
                             color = MaterialTheme.colorScheme.surface,
                             onValueChange = {
@@ -233,7 +251,6 @@ fun ResizeTypeSelector(
                     } else {
                         BackgroundColorSelector(
                             modifier = Modifier
-                                .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
                                 .container(
                                     shape = ContainerShapeDefaults.bottomShape,
                                     color = MaterialTheme.colorScheme.surface
@@ -242,7 +259,7 @@ fun ResizeTypeSelector(
                             onColorChange = {
                                 canvasColor = it
                                 updateResizeType()
-                            },
+                            }
                         )
                     }
                 }

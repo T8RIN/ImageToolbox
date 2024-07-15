@@ -1242,4 +1242,13 @@
     <string name="sand_painting">Рисование песком</string>
     <string name="image_splitting">Разделение изображения</string>
     <string name="image_splitting_sub">Разделите изображение по строкам или столбцам</string>
+    <string name="center">Центр</string>
+    <string name="top_left">Верхний левый</string>
+    <string name="top_right">Верхний правый</string>
+    <string name="bottom_left">Нижний левый</string>
+    <string name="bottom_right">Нижний правый</string>
+    <string name="top_center">Верхний центр</string>
+    <string name="center_right">Правый центр</string>
+    <string name="bottom_center">Нижний центр</string>
+    <string name="center_left">Левый центр</string>
 </resources>

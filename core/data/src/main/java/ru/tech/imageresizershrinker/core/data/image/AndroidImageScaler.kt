@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
-import android.graphics.RectF
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.BitmapCompat
@@ -31,6 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.image.utils.drawBitmap
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -203,18 +203,9 @@ internal class AndroidImageScaler @Inject constructor(
                     null
                 )
             }
-            val left = (width - drawImage.width) / 2f
-            val top = (height - drawImage.height) / 2f
             drawBitmap(
-                drawImage,
-                null,
-                RectF(
-                    left,
-                    top,
-                    drawImage.width + left,
-                    drawImage.height + top
-                ),
-                null
+                bitmap = drawImage,
+                position = position
             )
         }
     }

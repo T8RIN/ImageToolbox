@@ -1266,4 +1266,14 @@
     <string name="backup_ocr_models">Backup OCR models</string>
     <string name="import_word">Import</string>
     <string name="export">Export</string>
+    <string name="position">Position</string>
+    <string name="center">Center</string>
+    <string name="top_left">Top Left</string>
+    <string name="top_right">Top Right</string>
+    <string name="bottom_left">Bottom Left</string>
+    <string name="bottom_right">Bottom Right</string>
+    <string name="top_center">Top Center</string>
+    <string name="center_right">Center Right</string>
+    <string name="bottom_center">Bottom Center</string>
+    <string name="center_left">Center Left</string>
 </resources>
