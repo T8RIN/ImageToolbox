@@ -221,7 +221,7 @@
     <string name="no_image">Geen afbeelding</string>
     <string name="image_link">Afbeeldingslink</string>
     <string name="fill">Vullen</string>
-    <string name="fit">Fit</string>
+    <string name="fit">Passend</string>
     <string name="content_scale">Inhoud schaal</string>
     <string name="explicit_description">Forceert elke afbeelding in een afbeelding die wordt gegeven door de parameter Breedte en Hoogte - kan de beeldverhouding veranderen</string>
     <string name="brightness">Helderheid</string>
@@ -1242,4 +1242,20 @@
     <string name="low_poly">Low Poly</string>
     <string name="image_splitting">Afbeelding splitsen</string>
     <string name="image_splitting_sub">Splits een enkele afbeelding in rijen en kolommen</string>
+    <string name="languages_imported">Talen met succes geïmporteerd</string>
+    <string name="backup_ocr_models">Back-up OCR-modellen</string>
+    <string name="import_word">Importeren</string>
+    <string name="export">Exporteren</string>
+    <string name="position">Positie</string>
+    <string name="center">Midden</string>
+    <string name="top_left">Linksboven</string>
+    <string name="fit_to_bounds">Passend binnen begrenzing</string>
+    <string name="fit_to_bounds_sub">Combineer grootte aanpassen met deze parameter om het gewenste gedrag te bereiken (Bijsnijden/Passend in verhouding)</string>
+    <string name="top_right">Rechtsboven</string>
+    <string name="bottom_left">Linksonder</string>
+    <string name="bottom_right">Rechtsonder</string>
+    <string name="top_center">Midden boven</string>
+    <string name="center_right">Midden rechts</string>
+    <string name="bottom_center">Midden onder</string>
+    <string name="center_left">Midden links</string>
 </resources>
