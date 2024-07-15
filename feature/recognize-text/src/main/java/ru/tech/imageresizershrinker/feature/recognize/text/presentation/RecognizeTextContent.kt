@@ -18,6 +18,8 @@
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
@@ -26,6 +28,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
@@ -63,6 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -75,6 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -201,6 +206,60 @@ fun RecognizeTextContent(
 
     var showCropper by rememberSaveable { mutableStateOf(false) }
 
+    val exportLanguagesPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/zip"),
+        onResult = {
+            it?.let { uri ->
+                viewModel.exportLanguagesTo(uri) { result ->
+                    context.parseFileSaveResult(
+                        saveResult = result,
+                        onSuccess = {
+                            confettiHostState.showConfetti()
+                        },
+                        toastHostState = toastHostState,
+                        scope = scope
+                    )
+                }
+            }
+        }
+    )
+
+    val importLanguagesPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = { uri ->
+            uri?.let {
+                viewModel.importLanguagesFrom(
+                    uri = uri,
+                    onSuccess = {
+                        scope.launch {
+                            confettiHostState.showConfetti()
+                        }
+                        scope.launch {
+                            toastHostState.showToast(
+                                message = context.getString(R.string.languages_imported),
+                                icon = Icons.Outlined.Language
+                            )
+                        }
+                        startRecognition()
+                    },
+                    onFailure = {
+                        scope.launch {
+                            toastHostState.showError(context, it)
+                        }
+                    }
+                )
+            }
+        }
+    )
+
+    val onExportLanguages: () -> Unit = {
+        exportLanguagesPicker.launch(viewModel.generateExportFilename())
+    }
+
+    val onImportLanguages: () -> Unit = {
+        importLanguagesPicker.launch(arrayOf("application/zip"))
+    }
+
     AdaptiveLayoutScreen(
         title = {
             AnimatedContent(
@@ -296,10 +355,14 @@ fun RecognizeTextContent(
                     startRecognition()
                 },
                 onDeleteLanguage = { language, types ->
-                    viewModel.deleteLanguage(language, types) {
-                        startRecognition()
-                    }
-                }
+                    viewModel.deleteLanguage(
+                        language = language,
+                        types = types,
+                        onSuccess = startRecognition
+                    )
+                },
+                onImportLanguages = onImportLanguages,
+                onExportLanguages = onExportLanguages
             )
             Spacer(modifier = Modifier.height(8.dp))
             OCRTextPreviewItem(
@@ -418,4 +481,8 @@ fun RecognizeTextContent(
         selectedAspectRatio = viewModel.selectedAspectRatio,
         loadImage = viewModel::loadImage
     )
+
+    if (viewModel.isExporting) {
+        LoadingDialog()
+    }
 }

@@ -61,4 +61,10 @@ interface ImageTextReader<Image> {
         types: List<RecognitionType>
     )
 
+    suspend fun exportLanguagesToZip(): String?
+
+    suspend fun importLanguagesFromUri(
+        zipUri: String
+    ): Result<Any>
+
 }

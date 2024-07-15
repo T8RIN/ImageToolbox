@@ -1262,4 +1262,8 @@
     <string name="image_splitting_sub">Split single image by rows or columns</string>
     <string name="fit_to_bounds">Fit To Bounds</string>
     <string name="fit_to_bounds_sub">Combine crop resize mode with this parameter to achieve desired behavior (Crop/Fit to aspect ratio)</string>
+    <string name="languages_imported">Languages imported successfully</string>
+    <string name="backup_ocr_models">Backup OCR models</string>
+    <string name="import_word">Import</string>
+    <string name="export">Export</string>
 </resources>

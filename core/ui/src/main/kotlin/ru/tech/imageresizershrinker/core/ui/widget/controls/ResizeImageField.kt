@@ -20,7 +20,9 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -48,6 +50,7 @@ fun ResizeImageField(
     Column(
         modifier = Modifier
             .container(shape = RoundedCornerShape(24.dp))
+            .padding(8.dp)
             .animateContentSize()
     ) {
         Row {
@@ -68,9 +71,9 @@ fun ResizeImageField(
                 },
                 shape = RoundedCornerShape(
                     topStart = 12.dp,
-                    topEnd = 4.dp,
+                    topEnd = 6.dp,
                     bottomStart = 12.dp,
-                    bottomEnd = 4.dp
+                    bottomEnd = 6.dp
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
@@ -83,15 +86,9 @@ fun ResizeImageField(
                         )
                     )
                 },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(
-                        start = 8.dp,
-                        top = 8.dp,
-                        bottom = 8.dp,
-                        end = 2.dp
-                    )
+                modifier = Modifier.weight(1f)
             )
+            Spacer(modifier = Modifier.width(4.dp))
             RoundedTextField(
                 value = imageInfo.height.takeIf { it != 0 }
                     .let { it ?: "" }
@@ -112,9 +109,9 @@ fun ResizeImageField(
                 ),
                 shape = RoundedCornerShape(
                     topEnd = 12.dp,
-                    topStart = 4.dp,
+                    topStart = 6.dp,
                     bottomEnd = 12.dp,
-                    bottomStart = 4.dp
+                    bottomStart = 6.dp
                 ),
                 label = {
                     Text(
@@ -125,14 +122,7 @@ fun ResizeImageField(
                         )
                     )
                 },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(
-                        start = 2.dp,
-                        top = 8.dp,
-                        bottom = 8.dp,
-                        end = 8.dp
-                    )
+                modifier = Modifier.weight(1f)
             )
         }
 

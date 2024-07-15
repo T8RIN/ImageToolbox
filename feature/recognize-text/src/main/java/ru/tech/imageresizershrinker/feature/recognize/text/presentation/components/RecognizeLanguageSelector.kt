@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,6 +46,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -56,6 +58,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.UploadFile
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Close
@@ -66,6 +69,7 @@ import androidx.compose.material.icons.rounded.MultipleStop
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -76,6 +80,7 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -90,8 +95,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -103,6 +106,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.DownloadFile
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Green
@@ -137,7 +141,9 @@ fun RecognizeLanguageSelector(
     value: List<OCRLanguage>,
     availableLanguages: List<OCRLanguage>,
     onValueChange: (List<OCRLanguage>, RecognitionType) -> Unit,
-    onDeleteLanguage: (OCRLanguage, List<RecognitionType>) -> Unit
+    onDeleteLanguage: (OCRLanguage, List<RecognitionType>) -> Unit,
+    onImportLanguages: () -> Unit,
+    onExportLanguages: () -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
     val settingsState = LocalSettingsState.current
@@ -443,21 +449,12 @@ fun RecognizeLanguageSelector(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             stickyHeader {
-                                val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-                                val density = LocalDensity.current
-                                PreferenceRowSwitch(
-                                    title = stringResource(R.string.allow_multiple_languages),
-                                    color = animateColorAsState(
-                                        if (allowMultipleLanguagesSelection) MaterialTheme.colorScheme.primaryContainer
-                                        else MaterialTheme.colorScheme.surfaceContainer
-                                    ).value,
+                                Column(
                                     modifier = Modifier
                                         .layout { measurable, constraints ->
                                             val result = measurable.measure(
                                                 constraints.copy(
-                                                    maxWidth = with(density) {
-                                                        screenWidth.roundToPx()
-                                                    }
+                                                    maxWidth = constraints.maxWidth + 32.dp.roundToPx()
                                                 )
                                             )
                                             layout(result.measuredWidth, result.measuredHeight) {
@@ -465,23 +462,29 @@ fun RecognizeLanguageSelector(
                                             }
                                         }
                                         .background(SimpleSheetDefaults.containerColor)
-                                        .padding(
-                                            start = 16.dp,
-                                            top = 20.dp,
-                                            bottom = 8.dp,
-                                            end = 16.dp
-                                        ),
-                                    shape = RoundedCornerShape(28.dp),
-                                    checked = allowMultipleLanguagesSelection,
-                                    startIcon = Icons.Rounded.MultipleStop,
-                                    onClick = {
-                                        if (!it) onValueChange(
-                                            value.take(1),
-                                            currentRecognitionType
-                                        )
-                                        allowMultipleLanguagesSelection = it
-                                    }
-                                )
+                                        .padding(horizontal = 16.dp)
+                                ) {
+                                    Spacer(modifier = Modifier.height(20.dp))
+                                    PreferenceRowSwitch(
+                                        title = stringResource(R.string.allow_multiple_languages),
+                                        color = animateColorAsState(
+                                            if (allowMultipleLanguagesSelection) MaterialTheme.colorScheme.primaryContainer
+                                            else MaterialTheme.colorScheme.surfaceContainer
+                                        ).value,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(28.dp),
+                                        checked = allowMultipleLanguagesSelection,
+                                        startIcon = Icons.Rounded.MultipleStop,
+                                        onClick = {
+                                            if (!it) onValueChange(
+                                                value.take(1),
+                                                currentRecognitionType
+                                            )
+                                            allowMultipleLanguagesSelection = it
+                                        }
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                }
                                 GradientEdge(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -489,6 +492,54 @@ fun RecognizeLanguageSelector(
                                     startColor = SimpleSheetDefaults.containerColor,
                                     endColor = Color.Transparent
                                 )
+                            }
+                            item {
+                                Column(
+                                    modifier = Modifier
+                                        .container(
+                                            shape = RoundedCornerShape(20.dp),
+                                            color = SimpleSheetDefaults.contentContainerColor,
+                                            resultPadding = 0.dp
+                                        )
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = stringResource(R.string.backup_ocr_models),
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        FillableButton(
+                                            onClick = onImportLanguages,
+                                            modifier = Modifier.weight(1f)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.DownloadFile,
+                                                contentDescription = null
+                                            )
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text(text = stringResource(R.string.import_word))
+                                        }
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        FillableButton(
+                                            onClick = onExportLanguages,
+                                            modifier = Modifier.weight(1f)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.UploadFile,
+                                                contentDescription = null
+                                            )
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text(text = stringResource(R.string.export))
+                                        }
+                                    }
+                                }
                             }
                             if (downloadedLanguages.isNotEmpty()) {
                                 item {
@@ -795,5 +846,37 @@ fun RecognizeLanguageSelector(
                 }
             }
         )
+    }
+}
+
+@Composable
+private fun FillableButton(
+    modifier: Modifier,
+    onClick: () -> Unit,
+    content: @Composable RowScope.() -> Unit
+) {
+    val haptics = LocalHapticFeedback.current
+    Row(
+        modifier = modifier
+            .container(
+                color = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
+                shape = ButtonDefaults.shape,
+                resultPadding = 0.dp
+            )
+            .clickable {
+                haptics.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+                onClick()
+            }
+            .padding(ButtonDefaults.ContentPadding),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        CompositionLocalProvider(
+            LocalContentColor provides MaterialTheme.colorScheme.onSecondaryContainer
+        ) {
+            content()
+        }
     }
 }

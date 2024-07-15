@@ -44,6 +44,8 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -62,6 +64,9 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionDat
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitionResult
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 import coil.transform.Transformation as CoilTransformation
 
@@ -75,6 +80,7 @@ class RecognizeTextViewModel @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
+    private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
@@ -144,6 +150,13 @@ class RecognizeTextViewModel @Inject constructor(
         )
     )
     val cropProperties by _cropProperties
+
+    private val _isExporting: MutableState<Boolean> = mutableStateOf(false)
+    val isExporting by _isExporting
+
+    private var languagesJob: Job? by smartJob {
+        _isExporting.update { false }
+    }
 
     val isTextLoading: Boolean
         get() = textLoadingProgress in 0..100
@@ -415,6 +428,48 @@ class RecognizeTextViewModel @Inject constructor(
                 value = it,
                 onComplete = onComplete
             )
+        }
+    }
+
+    fun exportLanguagesTo(
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
+    ) {
+        languagesJob = viewModelScope.launch(ioDispatcher) {
+            _isExporting.value = true
+            imageTextReader.exportLanguagesToZip()?.let { zipUri ->
+                fileController.writeBytes(
+                    uri = uri.toString(),
+                    block = { it.writeBytes(fileController.readBytes(zipUri)) }
+                ).also(onResult).onSuccess(::registerSave)
+                _isExporting.value = false
+            }
+        }
+    }
+
+    fun generateExportFilename(): String {
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date())
+        return "image_toolbox_ocr_languages_$timeStamp.zip"
+    }
+
+    fun importLanguagesFrom(
+        uri: Uri,
+        onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        languagesJob = viewModelScope.launch(ioDispatcher) {
+            _isExporting.value = true
+            imageTextReader.importLanguagesFromUri(uri.toString())
+                .onSuccess {
+                    loadLanguages {
+                        onSuccess()
+                    }
+                }
+                .onFailure(onFailure)
+            _isExporting.value = false
         }
     }
 
