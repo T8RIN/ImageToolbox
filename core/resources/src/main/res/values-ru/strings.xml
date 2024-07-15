@@ -1251,4 +1251,11 @@
     <string name="center_right">Правый центр</string>
     <string name="bottom_center">Нижний центр</string>
     <string name="center_left">Левый центр</string>
+    <string name="import_word">Импорт</string>
+    <string name="fit_to_bounds">Вписать в границы</string>
+    <string name="fit_to_bounds_sub">Объедините режим изменения размера обрезки с этим параметром для достижения желаемого поведения (обрезка/подгонка по соотношению сторон)</string>
+    <string name="languages_imported">Языки успешно импортированы</string>
+    <string name="backup_ocr_models">Резервное копирование моделей OCR</string>
+    <string name="export">Экспорт</string>
+    <string name="position">Расположение</string>
 </resources>
