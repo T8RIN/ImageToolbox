@@ -24,8 +24,8 @@ import android.provider.DocumentsContract
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.coroutineScope
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.SortType
-import ru.tech.imageresizershrinker.core.domain.model.UriModel
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import java.util.LinkedList
@@ -153,8 +153,10 @@ private fun isDirectory(mimeType: String): Boolean {
     return DocumentsContract.Document.MIME_TYPE_DIR == mimeType
 }
 
-fun Uri.toModel() = UriModel(toString())
+fun ImageModel.toUri(): Uri? = when (data) {
+    is Uri -> data as Uri
+    is String -> (data as String).toUri()
+    else -> null
+}
 
-fun UriModel.toUri() = uri.toUri()
-
-fun String.toModel() = UriModel(this)
+fun Any.toImageModel() = ImageModel(this)

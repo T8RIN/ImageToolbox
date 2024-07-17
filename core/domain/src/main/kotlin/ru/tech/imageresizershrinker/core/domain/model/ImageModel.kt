@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.core.domain.model
 
 @JvmInline
-value class UriModel(
-    val uri: String
-) {
-    override fun toString(): String = uri
-}
+value class ImageModel(
+    val data: Any
+)

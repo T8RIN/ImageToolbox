@@ -47,7 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
-import ru.tech.imageresizershrinker.core.domain.model.UriModel
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
@@ -69,6 +69,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiRGBFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toColor
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
@@ -356,9 +357,9 @@ internal fun <T> FilterItemContent(
                         }
                     }
 
-                    value.first is Float && value.second is UriModel -> {
+                    value.first is Float && value.second is ImageModel -> {
                         var sliderState1 by remember { mutableFloatStateOf((value.first as Float).toFloat()) }
-                        var uri1 by remember(value) { mutableStateOf((value.second as UriModel).toString()) }
+                        var uri1 by remember(value) { mutableStateOf((value.second as ImageModel).data) }
 
                         EnhancedSliderItem(
                             modifier = Modifier
@@ -374,7 +375,7 @@ internal fun <T> FilterItemContent(
                             } ?: "",
                             onValueChange = {
                                 sliderState1 = it
-                                onFilterChange(sliderState1 to uri1.toModel())
+                                onFilterChange(sliderState1 to uri1.toImageModel())
                             },
                             internalStateTransformation = {
                                 it.roundTo(filter.paramsInfo[0].roundTo)
@@ -383,16 +384,15 @@ internal fun <T> FilterItemContent(
                             behaveAsContainer = false
                         )
                         ImageSelector(
-                            modifier = Modifier.padding(
-                                start = 16.dp,
-                                top = 16.dp,
-                                end = 16.dp
-                            ),
+                            modifier = Modifier.padding(8.dp),
                             autoShadowElevation = 0.dp,
                             value = uri1,
+                            title = filter.paramsInfo[1].title?.let {
+                                stringResource(it)
+                            } ?: stringResource(R.string.image),
                             onValueChange = {
                                 uri1 = it.toString()
-                                onFilterChange(sliderState1 to uri1.toModel())
+                                onFilterChange(sliderState1 to uri1.toImageModel())
                             },
                             subtitle = null
                         )

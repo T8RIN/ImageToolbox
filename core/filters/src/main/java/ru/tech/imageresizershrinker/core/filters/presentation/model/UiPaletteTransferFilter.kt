@@ -17,15 +17,15 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import ru.tech.imageresizershrinker.core.domain.model.UriModel
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 
 class UiPaletteTransferFilter(
-    override val value: Pair<Float, UriModel> = 1f to "file:///android_asset/svg/emotions/aasparkles.svg".toModel()
-) : UiFilter<Pair<Float, UriModel>>(
+    override val value: Pair<Float, ImageModel> = 1f to "file:///android_asset/svg/emotions/aasparkles.svg".toImageModel()
+) : UiFilter<Pair<Float, ImageModel>>(
     title = R.string.palette_transfer,
     value = value,
     paramsInfo = listOf(

@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 fun ImageSelector(
     value: Any?,
     onValueChange: (Uri) -> Unit,
+    title: String = stringResource(id = R.string.image),
     subtitle: String?,
     modifier: Modifier = Modifier,
     autoShadowElevation: Dp = 1.dp,
@@ -63,7 +64,7 @@ fun ImageSelector(
     }
 
     PreferenceItemOverload(
-        title = stringResource(id = R.string.image),
+        title = title,
         subtitle = subtitle,
         onClick = pickImageLauncher::pickImage,
         autoShadowElevation = autoShadowElevation,
