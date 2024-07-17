@@ -293,6 +293,7 @@ or click one of the badges below.
     - [x] Linear Gaussian
     - [x] Low Poly
     - [x] Sand Painting
+    - [x] Palette Transfer
 
   </details>
 - Custom Filters Creation by Template filters
