@@ -1242,4 +1242,20 @@
     <string name="sand_painting">沙画</string>
     <string name="image_splitting">图片分割</string>
     <string name="image_splitting_sub">按行或列分割单张图片</string>
+    <string name="backup_ocr_models">备份OCR模型</string>
+    <string name="export">导出</string>
+    <string name="position">位置</string>
+    <string name="top_left">左上</string>
+    <string name="top_right">右上</string>
+    <string name="bottom_left">左下</string>
+    <string name="bottom_right">右下</string>
+    <string name="top_center">中上</string>
+    <string name="center_right">右中</string>
+    <string name="bottom_center">中下</string>
+    <string name="center_left">左中</string>
+    <string name="fit_to_bounds_sub">将裁剪调整大小模式与该参数相结合，以实现所需的行为（裁剪/适应宽高比）。</string>
+    <string name="fit_to_bounds">适应边界</string>
+    <string name="import_word">导入</string>
+    <string name="languages_imported">语言导入成功</string>
+    <string name="center">中心</string>
 </resources>

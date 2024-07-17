@@ -804,4 +804,12 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">Lumikha ng Zip file mula sa mga ibinigay na file o larawan</string>
     <string name="drag_handle_width">I-drag ang Lapad ng Handle</string>
+    <string name="confetti_type">Uri ng Confetti</string>
+    <string name="festive">Masigasig</string>
+    <string name="explode">Pasabog</string>
+    <string name="rain">Ulan</string>
+    <string name="corners">Kanto</string>
+    <string name="jxl_tools">Mga Kagamitan para sa JXL</string>
+    <string name="jxl_type_to_jpeg">JXL papuntang JPEG</string>
+    <string name="jxl_tools_sub">Mag-transcode sa pagitan ng JXL at JPEG nang walang pagkabawas sa kalidad, o i-convert ang GIF/APNG papunta sa animasyong JXL</string>
 </resources>
