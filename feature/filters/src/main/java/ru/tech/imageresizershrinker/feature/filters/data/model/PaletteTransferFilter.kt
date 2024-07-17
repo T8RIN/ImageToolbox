@@ -23,15 +23,15 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
-import ru.tech.imageresizershrinker.core.data.utils.toImageModel
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.resources.R
 
 internal class PaletteTransferFilter @AssistedInject constructor(
-    @Assisted override val value: Pair<Float, ImageModel> = 1f to "file:///android_asset/svg/emotions/aasparkles.svg".toImageModel(),
+    @Assisted override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.filter_preview_source_2),
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : Transformation<Bitmap>, Filter.PaletteTransfer {
 
@@ -42,7 +42,10 @@ internal class PaletteTransferFilter @AssistedInject constructor(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val reference = imageGetter.getImage(value.second.data) ?: return input
+        val reference = imageGetter.getImage(
+            data = value.second.data,
+            size = IntegerSize(1000, 1000)
+        ) ?: return input
 
         return GPUImageNativeLibrary.transferPalette(
             source = reference,
@@ -55,7 +58,7 @@ internal class PaletteTransferFilter @AssistedInject constructor(
     interface Factory {
 
         operator fun invoke(
-            @Assisted value: Pair<Float, ImageModel> = 1f to "file:///android_asset/svg/emotions/aasparkles.svg".toImageModel()
+            @Assisted value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.filter_preview_source_2)
         ): PaletteTransferFilter
 
     }

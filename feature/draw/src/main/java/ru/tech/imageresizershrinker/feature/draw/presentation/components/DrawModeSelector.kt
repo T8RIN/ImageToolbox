@@ -418,6 +418,7 @@ fun DrawModeSelector(
                     onVisibleChange = {
                         showFilterSelection = it
                     },
+                    canAddTemplates = false,
                     previewBitmap = null,
                     onFilterPicked = {
                         onValueChange(

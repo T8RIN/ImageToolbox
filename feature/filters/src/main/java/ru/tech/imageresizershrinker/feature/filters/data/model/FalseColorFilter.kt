@@ -31,12 +31,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toMode
 
 internal class FalseColorFilter(
     private val context: Context,
-    override val value: Pair<ColorModel, ColorModel> = Color(
-        red = 1.0f,
-        green = 0.596f,
-        blue = 0.0f,
-        alpha = 1.0f
-    ).toModel() to Color(red = 0.914f, green = 0.118f, blue = 0.388f, alpha = 1.0f).toModel(),
+    override val value: Pair<ColorModel, ColorModel> = Color.Yellow.toModel() to Color.Magenta.toModel(),
 ) : GPUFilterTransformation(context), Filter.FalseColor {
 
     override val cacheKey: String

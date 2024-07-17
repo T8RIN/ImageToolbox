@@ -122,6 +122,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.filterIsNotInstance
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
@@ -346,9 +347,14 @@ fun AddFiltersSheet(
         val templateFilters by LocalFavoriteFiltersInteractor.getTemplateFiltersAsUiState()
 
         val context = LocalContext.current
-        val groupedFilters by remember(context) {
+        val groupedFilters by remember(context, canAddTemplates) {
             derivedStateOf {
-                UiFilter.groupedEntries(context)
+                UiFilter.groupedEntries(context).let { lists ->
+                    if (canAddTemplates) lists
+                    else lists.map {
+                        it.filterIsNotInstance<UiFilter<*>, Filter.PaletteTransfer>()
+                    }
+                }
             }
         }
         val haptics = LocalHapticFeedback.current

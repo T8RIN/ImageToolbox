@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.utils.helper
+package ru.tech.imageresizershrinker.core.domain.utils
 
 object ListUtils {
     fun <T> List<T>.nearestFor(item: T): T? {
@@ -31,5 +31,11 @@ object ListUtils {
                 null
             }
         }
+    }
+
+    inline fun <T, reified R> Iterable<T>.filterIsNotInstance(): List<T> {
+        val destination = mutableListOf<T>()
+        for (element in this) if (element !is R) destination.add(element)
+        return destination
     }
 }

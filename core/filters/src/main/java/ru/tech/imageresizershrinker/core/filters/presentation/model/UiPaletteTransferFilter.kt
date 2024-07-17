@@ -21,10 +21,9 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 
 class UiPaletteTransferFilter(
-    override val value: Pair<Float, ImageModel> = 1f to "file:///android_asset/svg/emotions/aasparkles.svg".toImageModel()
+    override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.filter_preview_source_2)
 ) : UiFilter<Pair<Float, ImageModel>>(
     title = R.string.palette_transfer,
     value = value,

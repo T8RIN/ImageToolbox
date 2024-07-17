@@ -384,8 +384,7 @@ internal fun <T> FilterItemContent(
                             behaveAsContainer = false
                         )
                         ImageSelector(
-                            modifier = Modifier.padding(8.dp),
-                            autoShadowElevation = 0.dp,
+                            modifier = Modifier.padding(16.dp),
                             value = uri1,
                             title = filter.paramsInfo[1].title?.let {
                                 stringResource(it)
