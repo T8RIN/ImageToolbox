@@ -44,7 +44,7 @@ internal class PaletteTransferFilter @AssistedInject constructor(
     ): Bitmap {
         val reference = imageGetter.getImage(value.second.uri)?.image ?: return input
 
-        return GPUImageNativeLibrary.paletteTransfer(
+        return GPUImageNativeLibrary.transferPalette(
             source = reference,
             target = input,
             intensity = value.first
