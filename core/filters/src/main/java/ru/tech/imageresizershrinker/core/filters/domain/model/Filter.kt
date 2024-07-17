@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.UriModel
 
 
 interface Filter<Value> {
@@ -213,6 +214,7 @@ interface Filter<Value> {
     interface LinearGaussianBlur : Filter<LinearGaussianParams>
     interface LowPoly : PairFilter<Int, Boolean>
     interface SandPainting : PairFilter<Int, Int>
+    interface PaletteTransfer : PairFilter<Float, UriModel>
 }
 
 interface SimpleFilter : Filter<Unit>

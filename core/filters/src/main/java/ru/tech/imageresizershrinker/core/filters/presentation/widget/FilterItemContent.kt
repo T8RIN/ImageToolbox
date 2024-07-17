@@ -47,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.UriModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
@@ -75,6 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRo
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import kotlin.math.absoluteValue
@@ -352,6 +354,48 @@ internal fun <T> FilterItemContent(
                                 )
                             }
                         }
+                    }
+
+                    value.first is Float && value.second is UriModel -> {
+                        var sliderState1 by remember { mutableFloatStateOf((value.first as Float).toFloat()) }
+                        var uri1 by remember(value) { mutableStateOf((value.second as UriModel).toString()) }
+
+                        EnhancedSliderItem(
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    start = 8.dp,
+                                    end = 8.dp
+                                ),
+                            enabled = !previewOnly,
+                            value = sliderState1,
+                            title = filter.paramsInfo[0].title?.let {
+                                stringResource(it)
+                            } ?: "",
+                            onValueChange = {
+                                sliderState1 = it
+                                onFilterChange(sliderState1 to uri1.toModel())
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
+                            },
+                            valueRange = filter.paramsInfo[0].valueRange,
+                            behaveAsContainer = false
+                        )
+                        ImageSelector(
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 16.dp,
+                                end = 16.dp
+                            ),
+                            autoShadowElevation = 0.dp,
+                            value = uri1,
+                            onValueChange = {
+                                uri1 = it.toString()
+                                onFilterChange(sliderState1 to uri1.toModel())
+                            },
+                            subtitle = null
+                        )
                     }
 
                     value.first is Number && value.second is Boolean -> {

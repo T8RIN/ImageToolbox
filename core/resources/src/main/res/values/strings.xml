@@ -1276,4 +1276,6 @@
     <string name="center_right">Center Right</string>
     <string name="bottom_center">Bottom Center</string>
     <string name="center_left">Center Left</string>
+    <string name="target_image">Target Image</string>
+    <string name="palette_transfer">Palette Transfer</string>
 </resources>

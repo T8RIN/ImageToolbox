@@ -20,6 +20,8 @@ package ru.tech.imageresizershrinker.core.data.utils
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import androidx.core.net.toUri
+import ru.tech.imageresizershrinker.core.domain.model.UriModel
 
 fun Uri.fileSize(context: Context): Int? {
     runCatching {
@@ -36,3 +38,9 @@ fun Uri.fileSize(context: Context): Int? {
     }
     return null
 }
+
+fun Uri.toModel() = UriModel(toString())
+
+fun UriModel.toUri() = uri.toUri()
+
+fun String.toModel() = UriModel(this)

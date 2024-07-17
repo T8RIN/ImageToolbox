@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
@@ -49,8 +50,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 fun ImageSelector(
     value: Any?,
     onValueChange: (Uri) -> Unit,
-    subtitle: String,
+    subtitle: String?,
     modifier: Modifier = Modifier,
+    autoShadowElevation: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     shape: Shape = RoundedCornerShape(20.dp)
 ) {
@@ -64,6 +66,7 @@ fun ImageSelector(
         title = stringResource(id = R.string.image),
         subtitle = subtitle,
         onClick = pickImageLauncher::pickImage,
+        autoShadowElevation = autoShadowElevation,
         startIcon = {
             Picture(
                 contentScale = ContentScale.Inside,

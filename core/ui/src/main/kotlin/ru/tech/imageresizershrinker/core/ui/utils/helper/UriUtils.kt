@@ -21,9 +21,11 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.provider.DocumentsContract
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.model.SortType
+import ru.tech.imageresizershrinker.core.domain.model.UriModel
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import java.util.LinkedList
@@ -150,3 +152,9 @@ fun List<Uri>.sortedByName(
 private fun isDirectory(mimeType: String): Boolean {
     return DocumentsContract.Document.MIME_TYPE_DIR == mimeType
 }
+
+fun Uri.toModel() = UriModel(toString())
+
+fun UriModel.toUri() = uri.toUri()
+
+fun String.toModel() = UriModel(this)

@@ -155,6 +155,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.OilFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OldTvFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OpacityFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OrangeHazeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.PaletteTransferFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PastelFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PerlinDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PinkDreamFilter
@@ -216,7 +217,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ZoomBlurFilter
 import javax.inject.Inject
 
 internal class AndroidFilterProvider @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val paletteTransferFilterFactory: PaletteTransferFilter.Factory
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
@@ -413,6 +415,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.LinearGaussianBlur -> LinearGaussianBlurFilter(value)
             is Filter.LowPoly -> LowPolyFilter(value)
             is Filter.SandPainting -> SandPaintingFilter(value)
+            is Filter.PaletteTransfer -> paletteTransferFilterFactory(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
