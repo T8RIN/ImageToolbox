@@ -19,10 +19,10 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.trickle.Trickle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -47,7 +47,7 @@ internal class PaletteTransferFilter @AssistedInject constructor(
             size = IntegerSize(1000, 1000)
         ) ?: return input
 
-        return GPUImageNativeLibrary.transferPalette(
+        return Trickle.transferPalette(
             source = reference,
             target = input,
             intensity = value.first

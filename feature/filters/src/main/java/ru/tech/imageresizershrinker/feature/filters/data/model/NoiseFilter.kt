@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
+import com.t8rin.trickle.Trickle
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -33,8 +33,9 @@ internal class NoiseFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.copy(input.config, true).apply {
-        GPUImageNativeLibrary.noise(this, value.toInt())
-    }
+    ): Bitmap = Trickle.noise(
+        input = input,
+        threshold = value.toInt()
+    )
 
 }

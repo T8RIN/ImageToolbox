@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import io.github.xyzxqs.xlowpoly.LowPoly
+import com.t8rin.trickle.Trickle
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -33,7 +33,7 @@ internal class LowPolyFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = LowPoly.lowPoly(
+    ): Bitmap = Trickle.lowPoly(
         input = input,
         alphaOrPointCount = value.first.toFloat(),
         fill = value.second

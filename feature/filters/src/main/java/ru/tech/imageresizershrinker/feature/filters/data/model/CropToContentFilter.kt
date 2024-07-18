@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
+import com.t8rin.trickle.Trickle
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
@@ -36,10 +36,10 @@ internal class CropToContentFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = GPUImageNativeLibrary.cropToContent(
-        bitmap = input,
+    ): Bitmap = Trickle.cropToContent(
+        input = input,
         colorToIgnore = value.second.colorInt,
         tolerance = value.first
-    ) ?: input
+    )
 
 }
