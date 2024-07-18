@@ -215,6 +215,11 @@ interface Filter<Value> {
     interface LowPoly : PairFilter<Int, Boolean>
     interface SandPainting : PairFilter<Int, Int>
     interface PaletteTransfer : PairFilter<Float, ImageModel>
+    interface EnhancedOil : Filter<Float>
+    interface SimpleOldTv : SimpleFilter
+    interface HDR : SimpleFilter
+    interface SimpleSketch : SimpleFilter
+    interface Gotham : SimpleFilter
 }
 
 interface SimpleFilter : Filter<Unit>

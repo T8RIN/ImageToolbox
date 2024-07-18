@@ -108,7 +108,11 @@ sealed class UiFilter<T>(
                     UiRedSwirlFilter(),
                     UiDigitalCodeFilter(),
                     UiOldTvFilter(),
-                    UiEqualizeHistogramFilter()
+                    UiEqualizeHistogramFilter(),
+                    UiSimpleOldTvFilter(),
+                    UiGothamFilter(),
+                    UiHDRFilter(),
+                    UiSimpleSketchFilter()
                 ),
                 listOf(
                     UiHueFilter(),
@@ -167,6 +171,7 @@ sealed class UiFilter<T>(
                     UiGrainFilter(),
                     UiSobelEdgeDetectionFilter(),
                     UiOilFilter(),
+                    UiEnhancedOilFilter(),
                     UiEmbossFilter(),
                     UiVignetteFilter(),
                     UiKuwaharaFilter(),

@@ -83,6 +83,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EmbossFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedCirclePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedDiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedGlitchFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedOilFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveHSLFilter
@@ -111,9 +112,11 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.GaussianBoxBlurFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlassSphereRefractionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GoldenHourFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.GothamFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GrainFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GrayscaleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GreenSunFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.HDRFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HableFilmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HalftoneFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HazeFilter
@@ -183,6 +186,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ShuffleBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SideFadeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SierraLiteDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.SimpleOldTvFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.SimpleSketchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SimpleThresholdDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SketchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SmoothToonFilter
@@ -416,6 +421,11 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.LowPoly -> LowPolyFilter(value)
             is Filter.SandPainting -> SandPaintingFilter(value)
             is Filter.PaletteTransfer -> paletteTransferFilterFactory(value)
+            is Filter.EnhancedOil -> EnhancedOilFilter(value)
+            is Filter.SimpleOldTv -> SimpleOldTvFilter(value)
+            is Filter.HDR -> HDRFilter(value)
+            is Filter.Gotham -> GothamFilter(value)
+            is Filter.SimpleSketch -> SimpleSketchFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

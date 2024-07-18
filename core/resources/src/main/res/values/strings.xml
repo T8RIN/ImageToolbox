@@ -1278,4 +1278,10 @@
     <string name="center_left">Center Left</string>
     <string name="target_image">Target Image</string>
     <string name="palette_transfer">Palette Transfer</string>
+    <string name="enhanced_oil">Enhanced Oil</string>
+    <string name="simple_old_tv">Simple Old TV</string>
+    <string name="hdr">HDR</string>
+    <string name="gotham">Gotham</string>
+    <string name="simple_sketch">Simple Sketch</string>
+    <string name="soft_glow">Soft GLow</string>
 </resources>
