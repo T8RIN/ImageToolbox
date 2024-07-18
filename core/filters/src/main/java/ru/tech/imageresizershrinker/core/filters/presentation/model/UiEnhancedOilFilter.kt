@@ -29,7 +29,7 @@ class UiEnhancedOilFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.strength,
-            valueRange = 1f..30f,
+            valueRange = 1f..25f,
             roundTo = 0
         )
     )
