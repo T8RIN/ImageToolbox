@@ -294,6 +294,11 @@ or click one of the badges below.
     - [x] Low Poly
     - [x] Sand Painting
     - [x] Palette Transfer
+    - [x] Enhanced Oil
+    - [x] Simple Old TV
+    - [x] HDR
+    - [x] Simple Sketch
+    - [x] Gotham
 
   </details>
 - Custom Filters Creation by Template filters
