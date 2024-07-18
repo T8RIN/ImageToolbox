@@ -33,6 +33,13 @@ sealed interface ImageFrames {
         ): List<Int> = framePositions.filter { it - 1 < frameCount }
     }
 
+    fun isEmpty(): Boolean = when (this) {
+        All -> false
+        is ManualSelection -> framePositions.isEmpty()
+    }
+
+    fun isNotEmpty(): Boolean = !isEmpty()
+
     fun getFramePositions(
         frameCount: Int
     ): List<Int>

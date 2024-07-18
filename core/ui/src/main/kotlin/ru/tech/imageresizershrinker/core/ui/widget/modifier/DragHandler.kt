@@ -44,7 +44,10 @@ fun Modifier.dragHandler(
     selectedItems: MutableState<Set<Int>>,
     onSelectionChange: (Set<Int>) -> Unit = {},
     autoScrollSpeed: MutableState<Float>,
-    autoScrollThreshold: Float
+    autoScrollThreshold: Float,
+    onTap: (Int) -> Unit = {},
+    onLongTap: (Int) -> Unit = {},
+    tapEnabled: Boolean = true
 ): Modifier {
     fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
         val find = layoutInfo.visibleItemsInfo.find { itemInfo ->
@@ -55,19 +58,22 @@ fun Modifier.dragHandler(
     }
 
     return this
-        .pointerInput(key) {
+        .pointerInput(key, tapEnabled) {
             detectTapGestures { offset ->
                 lazyGridState
                     .gridItemKeyAtPosition(offset)
                     .makeLog("Logger_TAP")
                     ?.let { key ->
-                        val newItems = if (selectedItems.value.contains(key)) {
-                            selectedItems.value - key
-                        } else {
-                            selectedItems.value + key
+                        if (tapEnabled) {
+                            val newItems = if (selectedItems.value.contains(key)) {
+                                selectedItems.value - key
+                            } else {
+                                selectedItems.value + key
+                            }
+                            selectedItems.update { newItems }
+                            onSelectionChange(newItems)
                         }
-                        selectedItems.update { newItems }
-                        onSelectionChange(newItems)
+                        onTap(key - 1)
                     }
             }
         }
@@ -88,6 +94,7 @@ fun Modifier.dragHandler(
                                 selectedItems.update { newItems }
                                 onSelectionChange(newItems)
                             }
+                            onLongTap(key - 1)
                         }
                 },
                 onDragCancel = {

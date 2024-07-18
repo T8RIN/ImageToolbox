@@ -19,12 +19,14 @@ package ru.tech.imageresizershrinker.feature.image_preview.presentation.viewMode
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
@@ -38,23 +40,51 @@ class ImagePreviewViewModel @Inject constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
+    private val _imageFrames: MutableState<ImageFrames> = mutableStateOf(
+        ImageFrames.ManualSelection(
+            emptyList()
+        )
+    )
+    val imageFrames by _imageFrames
+
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
     }
 
-    fun shareImage(
-        uri: Uri,
+    fun shareImages(
+        uriList: List<Uri>?,
         onComplete: () -> Unit
     ) = viewModelScope.launch(defaultDispatcher) {
-        shareProvider.shareUri(
-            uri = uri.toString(),
-            onComplete = onComplete
-        )
+        uris?.let {
+            shareProvider.shareUris(
+                if (uriList.isNullOrEmpty()) {
+                    getSelectedUris()!!
+                } else {
+                    uriList
+                }.map { it.toString() }
+            )
+            onComplete()
+        }
+    }
+
+    fun getSelectedUris(): List<Uri>? {
+        val targetUris = uris ?: return null
+
+        val positions = imageFrames.getFramePositions(targetUris.size)
+
+        return targetUris.mapIndexedNotNull { index, uri ->
+            if (index + 1 in positions) uri
+            else null
+        }
     }
 
     fun removeUri(
         uri: Uri
     ) = _uris.update { it?.minus(uri) }
+
+    fun updateImageFrames(imageFrames: ImageFrames) {
+        _imageFrames.update { imageFrames }
+    }
 
 }

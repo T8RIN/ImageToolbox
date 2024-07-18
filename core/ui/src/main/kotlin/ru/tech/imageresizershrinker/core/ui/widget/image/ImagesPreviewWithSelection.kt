@@ -31,12 +31,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -57,6 +59,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -83,7 +86,26 @@ fun ImagesPreviewWithSelection(
     onFrameSelectionChange: (ImageFrames) -> Unit,
     isPortrait: Boolean,
     isLoadingImages: Boolean,
-    spacing: Dp = 8.dp
+    spacing: Dp = 8.dp,
+    onError: (String) -> Unit = {},
+    isAutoExpandLayout: Boolean = true,
+    verticalCellSize: Dp = 90.dp,
+    horizontalCellSize: Dp = 120.dp,
+    contentPadding: PaddingValues = PaddingValues(12.dp),
+    isSelectionMode: Boolean = true,
+    isAboveImageScrimEnabled: Boolean = true,
+    onItemClick: (Int) -> Unit = {},
+    onItemLongClick: (Int) -> Unit = {},
+    aboveImageContent: @Composable BoxScope.(index: Int) -> Unit = { index ->
+        Text(
+            text = (index + 1).toString(),
+            color = Color.White,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Medium
+        )
+    },
+    endAdditionalItem: (@Composable LazyGridItemScope.() -> Unit)? = null,
+    isContentAlignToCenter: Boolean = true
 ) {
     val state = rememberLazyGridState()
     val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
@@ -124,28 +146,32 @@ fun ImagesPreviewWithSelection(
         )
     } else {
         Modifier
-    }.layout { measurable, constraints ->
-        val result =
-            measurable.measure(
-                if (isPortrait) {
-                    constraints.copy(
-                        maxWidth = screenWidth.roundToPx()
+    }.then(
+        if (isAutoExpandLayout) {
+            Modifier.layout { measurable, constraints ->
+                val result =
+                    measurable.measure(
+                        if (isPortrait) {
+                            constraints.copy(
+                                maxWidth = screenWidth.roundToPx()
+                            )
+                        } else {
+                            constraints.copy(
+                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                            )
+                        }
                     )
-                } else {
-                    constraints.copy(
-                        maxHeight = constraints.maxHeight + 48.dp.roundToPx()
-                    )
+                layout(result.measuredWidth, result.measuredHeight) {
+                    result.place(0, 0)
                 }
-            )
-        layout(result.measuredWidth, result.measuredHeight) {
-            result.place(0, 0)
-        }
-    }
+            }
+        } else Modifier
+    )
 
     Box(modifier = modifier) {
         if (isPortrait) {
             LazyHorizontalGrid(
-                rows = GridCells.Adaptive(120.dp),
+                rows = GridCells.Adaptive(horizontalCellSize),
                 state = state,
                 modifier = Modifier
                     .fillMaxSize()
@@ -159,17 +185,22 @@ fun ImagesPreviewWithSelection(
                             onFrameSelectionChange(ImageFrames.ManualSelection(it.toList()))
                         },
                         autoScrollSpeed = autoScrollSpeed,
-                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() },
+                        tapEnabled = isSelectionMode,
+                        onTap = onItemClick,
+                        onLongTap = onItemLongClick
                     ),
                 verticalArrangement = Arrangement.spacedBy(
                     space = spacing,
-                    alignment = Alignment.CenterVertically
+                    alignment = if (isContentAlignToCenter) Alignment.CenterVertically
+                    else Alignment.Top
                 ),
                 horizontalArrangement = Arrangement.spacedBy(
                     space = spacing,
-                    alignment = Alignment.CenterHorizontally
+                    alignment = if (isContentAlignToCenter) Alignment.CenterHorizontally
+                    else Alignment.Start
                 ),
-                contentPadding = PaddingValues(12.dp),
+                contentPadding = contentPadding
             ) {
                 itemsIndexed(
                     items = imageUris,
@@ -186,8 +217,17 @@ fun ImagesPreviewWithSelection(
                             .fillMaxSize()
                             .aspectRatio(1f),
                         index = index,
-                        uri = uri
+                        uri = uri,
+                        onError = onError,
+                        isAboveImageScrimEnabled = isAboveImageScrimEnabled,
+                        isSelectionMode = isSelectionMode,
+                        aboveImageContent = aboveImageContent
                     )
+                }
+                endAdditionalItem?.let {
+                    item {
+                        endAdditionalItem()
+                    }
                 }
                 item {
                     AnimatedVisibility(isLoadingImages) {
@@ -204,7 +244,7 @@ fun ImagesPreviewWithSelection(
             }
         } else {
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(90.dp),
+                columns = GridCells.Adaptive(verticalCellSize),
                 state = state,
                 modifier = Modifier
                     .fillMaxSize()
@@ -218,17 +258,22 @@ fun ImagesPreviewWithSelection(
                             onFrameSelectionChange(ImageFrames.ManualSelection(it.toList()))
                         },
                         autoScrollSpeed = autoScrollSpeed,
-                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() },
+                        tapEnabled = isSelectionMode,
+                        onTap = onItemClick,
+                        onLongTap = onItemLongClick
                     ),
                 verticalArrangement = Arrangement.spacedBy(
                     space = spacing,
-                    alignment = Alignment.CenterVertically
+                    alignment = if (isContentAlignToCenter) Alignment.CenterVertically
+                    else Alignment.Top
                 ),
                 horizontalArrangement = Arrangement.spacedBy(
                     space = spacing,
-                    alignment = Alignment.CenterHorizontally
+                    alignment = if (isContentAlignToCenter) Alignment.CenterHorizontally
+                    else Alignment.Start
                 ),
-                contentPadding = PaddingValues(12.dp),
+                contentPadding = contentPadding
             ) {
                 itemsIndexed(
                     items = imageUris,
@@ -245,8 +290,17 @@ fun ImagesPreviewWithSelection(
                             .fillMaxSize()
                             .aspectRatio(1f),
                         index = index,
-                        uri = uri
+                        uri = uri,
+                        onError = onError,
+                        aboveImageContent = aboveImageContent,
+                        isSelectionMode = isSelectionMode,
+                        isAboveImageScrimEnabled = isAboveImageScrimEnabled
                     )
+                }
+                endAdditionalItem?.let {
+                    item {
+                        endAdditionalItem()
+                    }
                 }
                 item {
                     AnimatedVisibility(isLoadingImages) {
@@ -265,12 +319,37 @@ fun ImagesPreviewWithSelection(
     }
 }
 
+val ImageFramesSaver = Saver<ImageFrames, String>(
+    save = {
+        when (it) {
+            is ImageFrames.All -> ImageFrames.All::class.simpleName
+            is ImageFrames.ManualSelection -> it.framePositions.joinToString(",")
+        }
+    },
+    restore = {
+        if (it.startsWith(ImageFrames.All::class.simpleName!!)) {
+            ImageFrames.All
+        } else ImageFrames.ManualSelection(it.split(",").mapNotNull(String::toIntOrNull))
+    }
+)
+
 @Composable
 private fun ImageItem(
     modifier: Modifier,
     uri: String,
     index: Int,
-    selected: Boolean
+    onError: (String) -> Unit,
+    selected: Boolean,
+    isSelectionMode: Boolean,
+    isAboveImageScrimEnabled: Boolean,
+    aboveImageContent: @Composable BoxScope.(index: Int) -> Unit = {
+        Text(
+            text = (index + 1).toString(),
+            color = Color.White,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Medium
+        )
+    }
 ) {
     val transition = updateTransition(selected)
     val padding by transition.animateDp { s ->
@@ -291,7 +370,10 @@ private fun ImageItem(
                 .matchParentSize()
                 .padding(padding)
                 .clip(RoundedCornerShape(corners))
-                .background(Color.White),
+                .background(MaterialTheme.colorScheme.surface),
+            onError = {
+                onError(uri)
+            },
             shape = RectangleShape,
             model = uri
         )
@@ -300,40 +382,41 @@ private fun ImageItem(
                 .fillMaxSize()
                 .padding(padding)
                 .clip(RoundedCornerShape(corners))
-                .background(Color.Black.copy(0.3f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = (index + 1).toString(),
-                color = Color.White,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium
-            )
-        }
+                .then(
+                    if (isAboveImageScrimEnabled) Modifier.background(Color.Black.copy(0.3f))
+                    else Modifier
+                ),
+            contentAlignment = Alignment.Center,
+            content = {
+                aboveImageContent(index)
+            }
+        )
         AnimatedContent(
-            targetState = selected,
+            targetState = selected to isSelectionMode,
             transitionSpec = {
                 fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
             }
-        ) { selected ->
-            if (selected) {
-                Icon(
-                    imageVector = Icons.Filled.CheckCircle,
-                    tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .border(2.dp, bgColor, CircleShape)
-                        .clip(CircleShape)
-                        .background(bgColor)
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Filled.RadioButtonUnchecked,
-                    tint = Color.White.copy(alpha = 0.7f),
-                    contentDescription = null,
-                    modifier = Modifier.padding(6.dp)
-                )
+        ) { (selected, isSelectionMode) ->
+            if (isSelectionMode) {
+                if (selected) {
+                    Icon(
+                        imageVector = Icons.Filled.CheckCircle,
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .border(2.dp, bgColor, CircleShape)
+                            .clip(CircleShape)
+                            .background(bgColor)
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Filled.RadioButtonUnchecked,
+                        tint = Color.White.copy(alpha = 0.7f),
+                        contentDescription = null,
+                        modifier = Modifier.padding(6.dp)
+                    )
+                }
             }
         }
     }

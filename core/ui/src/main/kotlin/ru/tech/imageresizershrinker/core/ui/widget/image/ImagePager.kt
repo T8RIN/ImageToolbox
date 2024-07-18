@@ -115,7 +115,7 @@ fun ImagePager(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f))
+                .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f))
                 .pointerInput(Unit) {
                     detectTapGestures { }
                 }
@@ -123,7 +123,8 @@ fun ImagePager(
             HorizontalPager(
                 state = state,
                 modifier = Modifier.fillMaxSize(),
-                beyondViewportPageCount = 5
+                beyondViewportPageCount = 5,
+                pageSpacing = 16.dp
             ) { page ->
                 Box(
                     modifier = Modifier.fillMaxSize()

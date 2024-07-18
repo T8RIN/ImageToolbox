@@ -180,6 +180,7 @@ class PdfToolsViewModel @Inject constructor(
     }
 
     fun clearType() {
+        registerChangesCleared()
         _pdfType.update { null }
         _pdfPreviewUri.update { null }
         _imagesToPdfState.update { null }
@@ -188,7 +189,6 @@ class PdfToolsViewModel @Inject constructor(
         _showOOMWarning.value = false
         _imageInfo.value = ImageInfo()
         resetCalculatedData()
-        registerChangesCleared()
     }
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
