@@ -37,7 +37,7 @@ internal class ShuffleBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Trickle.shuffle(
+    ): Bitmap = Trickle.shuffleBlur(
         input = input,
         threshold = value.second,
         strength = radiusMapping.getOrNull(value.first) ?: 0f
