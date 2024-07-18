@@ -141,11 +141,11 @@ class ResizeAndConvertViewModel @Inject constructor(
                 val index = uris?.indexOf(removedUri) ?: -1
                 if (index == 0) {
                     uris?.getOrNull(1)?.let {
-                        setBitmap(it)
+                        updateSelectedUri(it)
                     }
                 } else {
                     uris?.getOrNull(index - 1)?.let {
-                        setBitmap(it)
+                        updateSelectedUri(it)
                     }
                 }
             }
@@ -384,7 +384,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(uri: Uri) {
+    fun updateSelectedUri(uri: Uri) {
         _selectedUri.value = uri
         viewModelScope.launch(defaultDispatcher) {
             _isImageLoading.update { true }
@@ -412,6 +412,9 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun updatePreset(preset: Preset) {
         viewModelScope.launch {
+            if (preset is Preset.AspectRatio && preset.ratio != 1f) {
+                _imageInfo.update { it.copy(rotationDegrees = 0f) }
+            }
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
                     image = _bitmap.value,

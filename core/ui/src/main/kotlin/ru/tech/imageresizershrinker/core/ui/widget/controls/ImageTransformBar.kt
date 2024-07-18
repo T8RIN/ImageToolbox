@@ -63,7 +63,8 @@ fun ImageTransformBar(
     onRotateLeft: () -> Unit,
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
-    trailingContent: @Composable () -> Unit = {}
+    canRotate: Boolean = true,
+    trailingContent: @Composable () -> Unit = {},
 ) {
     val shape = RoundedCornerShape(
         animateIntAsState(if (imageFormat?.canWriteExif == false) 20 else 50).value
@@ -114,7 +115,8 @@ fun ImageTransformBar(
 
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = onRotateLeft
+                onClick = onRotateLeft,
+                enabled = canRotate
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.RotateLeft,
@@ -134,7 +136,8 @@ fun ImageTransformBar(
 
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = onRotateRight
+                onClick = onRotateRight,
+                enabled = canRotate
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.RotateRight,

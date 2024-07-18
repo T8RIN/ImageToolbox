@@ -131,8 +131,8 @@ internal class AndroidImageTransformer @Inject constructor(
             )
 
             is Preset.AspectRatio -> {
-                val originalWidth = size.width.toFloat()
-                val originalHeight = size.height.toFloat()
+                val originalWidth = calcWidth().toFloat()
+                val originalHeight = calcHeight().toFloat()
 
                 val newWidth: Float
                 val newHeight: Float

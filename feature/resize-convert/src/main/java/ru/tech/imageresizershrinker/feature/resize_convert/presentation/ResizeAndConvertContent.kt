@@ -50,6 +50,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -83,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -285,6 +287,27 @@ fun ResizeAndConvertContent(
         },
         imagePreview = {
             ImageContainer(
+                modifier = Modifier
+                    .detectSwipes(
+                        onSwipeRight = {
+                            viewModel.uris
+                                ?.indexOf(viewModel.selectedUri ?: Uri.EMPTY)
+                                ?.takeIf { it >= 0 }
+                                ?.let {
+                                    viewModel.uris?.getOrNull(it - 1)
+                                }
+                                ?.let(viewModel::updateSelectedUri)
+                        },
+                        onSwipeLeft = {
+                            viewModel.uris
+                                ?.indexOf(viewModel.selectedUri ?: Uri.EMPTY)
+                                ?.takeIf { it >= 0 }
+                                ?.let {
+                                    viewModel.uris?.getOrNull(it + 1)
+                                }
+                                ?.let(viewModel::updateSelectedUri)
+                        }
+                    ),
                 imageInside = isPortrait,
                 showOriginal = showOriginal,
                 previewBitmap = viewModel.previewBitmap,
@@ -304,13 +327,15 @@ fun ResizeAndConvertContent(
             AnimatedContent(
                 targetState = viewModel.uris?.size == 1
             ) { oneUri ->
+                val preset = viewModel.presetSelected
                 if (oneUri) {
                     ImageTransformBar(
                         onEditExif = { showEditExifDialog = true },
                         onRotateLeft = viewModel::rotateLeft,
                         onFlip = viewModel::flip,
                         imageFormat = viewModel.imageInfo.imageFormat,
-                        onRotateRight = viewModel::rotateRight
+                        onRotateRight = viewModel::rotateRight,
+                        canRotate = !(preset is Preset.AspectRatio && preset.ratio != 1f)
                     )
                 } else {
                     LaunchedEffect(Unit) {
@@ -320,7 +345,8 @@ fun ResizeAndConvertContent(
                     ImageTransformBar(
                         onRotateLeft = viewModel::rotateLeft,
                         onFlip = viewModel::flip,
-                        onRotateRight = viewModel::rotateRight
+                        onRotateRight = viewModel::rotateRight,
+                        canRotate = !(preset is Preset.AspectRatio && preset.ratio != 1f)
                     )
                 }
             }
@@ -447,7 +473,7 @@ fun ResizeAndConvertContent(
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
             try {
-                viewModel.setBitmap(uri = uri)
+                viewModel.updateSelectedUri(uri = uri)
             } catch (e: Exception) {
                 scope.launch {
                     toastHostState.showError(context, e)

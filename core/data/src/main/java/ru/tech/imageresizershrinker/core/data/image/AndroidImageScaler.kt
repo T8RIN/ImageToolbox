@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.BitmapCompat
@@ -45,6 +46,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import javax.inject.Inject
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
 import com.awxkee.aire.ScaleColorSpace as AireScaleColorSpace
@@ -142,47 +144,76 @@ internal class AndroidImageScaler @Inject constructor(
         scaleFactor: Float,
         imageScaleMode: ImageScaleMode
     ): Bitmap = withContext(defaultDispatcher) {
-        val mTargetWidth = (targetWidth / scaleFactor).roundToInt()
-        val mTargetHeight = (targetHeight / scaleFactor).roundToInt()
+        val mTargetWidth = targetWidth
+        val mTargetHeight = targetHeight
+
+        Log.d("COCK", "---------------------------")
+        Log.d(
+            "COCK",
+            "scale $scaleFactor, $targetWidth : $targetHeight -> $mTargetWidth : $mTargetHeight"
+        )
 
         val originalSize = if (!originalSize.isDefined()) {
             IntegerSize(
-                (image.width * scaleFactor).roundToInt(),
-                (image.height * scaleFactor).roundToInt()
+                width = image.width,
+                height = image.height
             )
-        } else originalSize
+        } else {
+            originalSize
+        } * scaleFactor
+
+        Log.d("COCK", "originalSize $originalSize")
 
         if (mTargetWidth == originalSize.width && mTargetHeight == originalSize.height) {
             return@withContext image
         }
 
-        val bitmap = imageTransformer.transform(
-            image = image.let { bitmap ->
-                val xScale: Float = mTargetWidth.toFloat() / originalSize.width
-                val yScale: Float = mTargetHeight.toFloat() / originalSize.height
+        val originalWidth: Int
+        val originalHeight: Int
+
+        val aspect = image.aspectRatio
+        val originalAspect = originalSize.aspectRatio
+
+        if (abs(aspect - originalAspect) > 0.001f) {
+            originalWidth = originalSize.height
+            originalHeight = originalSize.width
+        } else {
+            originalWidth = originalSize.width
+            originalHeight = originalSize.height
+        }
+
+        Log.d(
+            "COCK",
+            "imageAspect $aspect, originalAspect $originalAspect, fakeOriginal - $originalWidth : $originalHeight"
+        )
+
+        val drawImage = createScaledBitmap(
+            image = image,
+            width = originalWidth,
+            height = originalHeight,
+            imageScaleMode = imageScaleMode
+        )
+
+        val blurredBitmap = imageTransformer.transform(
+            image = drawImage.let { bitmap ->
+                val xScale: Float = mTargetWidth.toFloat() / originalWidth
+                val yScale: Float = mTargetHeight.toFloat() / originalHeight
                 val scale = xScale.coerceAtLeast(yScale)
                 createScaledBitmap(
                     image = bitmap,
-                    width = (scale * originalSize.width).toInt(),
-                    height = (scale * originalSize.height).toInt(),
+                    width = (scale * originalWidth).toInt(),
+                    height = (scale * originalHeight).toInt(),
                     imageScaleMode = imageScaleMode
                 )
             },
             transformations = listOf(
                 filterProvider.filterToTransformation(
-                    object : Filter.StackBlur {
-                        override val value: Pair<Float, Int>
-                            get() = 0.5f to blurRadius
+                    object : Filter.NativeStackBlur {
+                        override val value: Float
+                            get() = blurRadius.toFloat() / 1000 * targetWidth
                     }
                 )
             )
-        )
-
-        val drawImage = createScaledBitmap(
-            image = image,
-            width = (originalSize.width * scaleFactor).roundToInt(),
-            height = (originalSize.height * scaleFactor).roundToInt(),
-            imageScaleMode = imageScaleMode
         )
 
         Bitmap.createBitmap(
@@ -195,11 +226,11 @@ internal class AndroidImageScaler @Inject constructor(
             drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
             this@resizeWithCenterCrop.canvasColor?.let {
                 drawColor(it)
-            } ?: bitmap?.let {
+            } ?: blurredBitmap?.let {
                 drawBitmap(
-                    bitmap,
-                    (width - bitmap.width) / 2f,
-                    (height - bitmap.height) / 2f,
+                    blurredBitmap,
+                    (width - blurredBitmap.width) / 2f,
+                    (height - blurredBitmap.height) / 2f,
                     null
                 )
             }

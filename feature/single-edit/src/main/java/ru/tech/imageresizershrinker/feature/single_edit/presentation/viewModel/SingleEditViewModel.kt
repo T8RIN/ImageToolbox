@@ -444,6 +444,9 @@ class SingleEditViewModel @Inject constructor(
 
     fun setPreset(preset: Preset) {
         viewModelScope.launch {
+            if (preset is Preset.AspectRatio && preset.ratio != 1f) {
+                _imageInfo.update { it.copy(rotationDegrees = 0f) }
+            }
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
                     image = bitmap,

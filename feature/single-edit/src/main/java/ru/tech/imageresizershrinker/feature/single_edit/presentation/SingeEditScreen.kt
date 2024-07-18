@@ -43,6 +43,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -314,12 +315,14 @@ fun SingleEditContent(
         },
         controls = {
             var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
+            val preset = viewModel.presetSelected
             ImageTransformBar(
                 onEditExif = { showEditExifDialog = true },
                 imageFormat = viewModel.imageInfo.imageFormat,
                 onRotateLeft = viewModel::rotateBitmapLeft,
                 onFlip = viewModel::flipImage,
-                onRotateRight = viewModel::rotateBitmapRight
+                onRotateRight = viewModel::rotateBitmapRight,
+                canRotate = !(preset is Preset.AspectRatio && preset.ratio != 1f)
             )
             Spacer(Modifier.size(8.dp))
             ImageExtraTransformBar(

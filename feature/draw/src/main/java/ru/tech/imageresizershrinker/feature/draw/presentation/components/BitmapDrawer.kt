@@ -69,8 +69,8 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiNativeStackBlurFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiStackBlurFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -249,24 +249,16 @@ fun BitmapDrawer(
             ): List<UiFilter<*>> = when (drawMode) {
                 is DrawMode.PathEffect.PrivacyBlur -> {
                     listOf(
-                        UiStackBlurFilter(
-                            value = when {
-                                drawMode.blurRadius < 10 -> 0.8f
-                                drawMode.blurRadius < 20 -> 0.5f
-                                else -> 0.3f
-                            } to drawMode.blurRadius
+                        UiNativeStackBlurFilter(
+                            value = drawMode.blurRadius.toFloat()
                         )
                     )
                 }
 
                 is DrawMode.PathEffect.Pixelation -> {
                     listOf(
-                        UiStackBlurFilter(
-                            value = when {
-                                drawMode.pixelSize < 10 -> 0.8f
-                                drawMode.pixelSize < 20 -> 0.5f
-                                else -> 0.3f
-                            } to 20
+                        UiNativeStackBlurFilter(
+                            value = 20f
                         ),
                         UiPixelationFilter(
                             value = drawMode.pixelSize

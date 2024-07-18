@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.ui.transformation
 
 import android.graphics.Bitmap
 import coil.size.Size
+import coil.size.pxOrElse
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -47,7 +48,7 @@ class ImageInfoTransformation @AssistedInject constructor(
 ) : CoilTransformation, Transformation<Bitmap> {
 
     override val cacheKey: String
-        get() = (imageInfo to preset to transformations).hashCode().toString()
+        get() = Triple(imageInfo, preset, transformations).hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
@@ -60,21 +61,19 @@ class ImageInfoTransformation @AssistedInject constructor(
     ): Bitmap {
         val transformedInput = imageScaler.scaleImage(
             image = input,
-            width = imageInfo.width,
-            height = imageInfo.height,
+            width = size.width.pxOrElse { imageInfo.width },
+            height = size.height.pxOrElse { imageInfo.height },
             resizeType = ResizeType.Flexible,
             imageScaleMode = ImageScaleMode.NotPresent
         )
 
-        val originalUri = if (preset is Preset.AspectRatio) {
-            shareProvider.cacheImage(
-                image = input,
-                imageInfo = ImageInfo(
-                    width = input.width,
-                    height = input.height
-                )
+        val originalUri = shareProvider.cacheImage(
+            image = input,
+            imageInfo = ImageInfo(
+                width = input.width,
+                height = input.height
             )
-        } else null
+        )
 
         val presetValue = preset.value()
         val presetInfo = imageTransformer.applyPresetBy(
@@ -101,8 +100,7 @@ class ImageInfoTransformation @AssistedInject constructor(
                         )
                     }
                 } else {
-                    if (preset is Preset.AspectRatio) IntegerSize(input.width, input.height)
-                    else IntegerSize(presetInfo.width, presetInfo.height)
+                    IntegerSize(input.width, input.height)
                 }
             )
         )

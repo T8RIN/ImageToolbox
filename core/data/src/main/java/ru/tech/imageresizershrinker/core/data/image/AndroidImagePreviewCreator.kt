@@ -86,36 +86,22 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             scaleFactor *= 0.85f
         }
 
-        val bytes = if (imageInfo.resizeType is ResizeType.CenterCrop) {
-            compressCenterCrop(
-                scaleFactor = scaleFactor,
-                onImageReadyToCompressInterceptor = {
-                    imageTransformer.transform(
-                        image = it,
-                        transformations = transformations
-                    ) ?: it
-                },
-                image = image,
-                imageInfo = imageInfo.copy(
-                    width = width,
-                    height = height
-                )
-            )
-        } else {
-            imageCompressor.compressAndTransform(
-                image = image,
-                imageInfo = imageInfo.copy(
-                    width = width,
-                    height = height
-                ),
-                onImageReadyToCompressInterceptor = {
-                    imageTransformer.transform(
-                        image = it,
-                        transformations = transformations
-                    ) ?: it
-                }
-            )
-        }
+        val bytes = imageCompressor.compressAndTransform(
+            image = image,
+            imageInfo = imageInfo.copy(
+                width = width,
+                height = height,
+                resizeType = if (imageInfo.resizeType is ResizeType.CenterCrop) {
+                    (imageInfo.resizeType as ResizeType.CenterCrop).copy(scaleFactor = scaleFactor)
+                } else imageInfo.resizeType
+            ),
+            onImageReadyToCompressInterceptor = {
+                imageTransformer.transform(
+                    image = it,
+                    transformations = transformations
+                ) ?: it
+            }
+        )
 
         imageScaler.scaleUntilCanShow(imageGetter.getImage(bytes) ?: image)
     }
@@ -140,36 +126,6 @@ internal class AndroidImagePreviewCreator @Inject constructor(
 
     private fun Bitmap.size(): Int {
         return width * height * configSize
-    }
-
-    private suspend fun compressCenterCrop(
-        scaleFactor: Float,
-        onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
-        image: Bitmap,
-        imageInfo: ImageInfo
-    ): ByteArray = withContext(defaultDispatcher) {
-        val currentImage = imageScaler.scaleImage(
-            image = image,
-            width = (imageInfo.width * scaleFactor).roundToInt(),
-            height = (imageInfo.height * scaleFactor).roundToInt(),
-            resizeType = (imageInfo.resizeType as ResizeType.CenterCrop).copy(scaleFactor = scaleFactor),
-            imageScaleMode = imageInfo.imageScaleMode
-        ).let {
-            imageTransformer.flip(
-                image = it,
-                isFlipped = imageInfo.isFlipped
-            )
-        }.let {
-            onImageReadyToCompressInterceptor(it)
-        }
-
-        runCatching {
-            imageCompressor.compress(
-                image = currentImage,
-                imageFormat = imageInfo.imageFormat,
-                quality = imageInfo.quality
-            )
-        }.getOrNull() ?: ByteArray(0)
     }
 
 }
