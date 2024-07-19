@@ -43,9 +43,13 @@ fun Path.scaleToFitCanvas(
     }.asComposePath()
 }
 
-fun Offset.rotateVector(
+fun Offset.rotate(
     angle: Double
 ): Offset = Offset(
     x = (x * cos(Math.toRadians(angle)) - y * sin(Math.toRadians(angle))).toFloat(),
     y = (x * sin(Math.toRadians(angle)) + y * cos(Math.toRadians(angle))).toFloat()
 )
+
+fun Path.moveTo(offset: Offset) = moveTo(offset.x, offset.y)
+
+fun Path.lineTo(offset: Offset) = lineTo(offset.x, offset.y)

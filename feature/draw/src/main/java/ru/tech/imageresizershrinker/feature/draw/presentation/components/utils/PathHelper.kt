@@ -28,7 +28,7 @@ import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rotateVector
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rotate
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.Pt
 import kotlin.math.abs
@@ -101,8 +101,8 @@ data class PathHelper(
                 val arrowVector = lastPoint - preLastPoint
                 fun drawArrow() {
 
-                    val (rx1, ry1) = arrowVector.rotateVector(150.0)
-                    val (rx2, ry2) = arrowVector.rotateVector(210.0)
+                    val (rx1, ry1) = arrowVector.rotate(150.0)
+                    val (rx2, ry2) = arrowVector.rotate(210.0)
 
 
                     drawPath.apply {
@@ -137,8 +137,8 @@ data class PathHelper(
                 val arrowVector = firstPoint - secondPoint
                 fun drawArrow() {
 
-                    val (rx1, ry1) = arrowVector.rotateVector(150.0)
-                    val (rx2, ry2) = arrowVector.rotateVector(210.0)
+                    val (rx1, ry1) = arrowVector.rotate(150.0)
+                    val (rx2, ry2) = arrowVector.rotate(210.0)
 
 
                     drawPath.apply {
@@ -289,19 +289,40 @@ data class PathHelper(
         }
     }
 
-    fun drawRect() {
+    fun drawRect(
+        rotationDegrees: Int
+    ) {
         if (drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {
             val top = max(drawDownPosition.y, currentDrawPosition.y)
             val left = min(drawDownPosition.x, currentDrawPosition.x)
             val bottom = min(drawDownPosition.y, currentDrawPosition.y)
             val right = max(drawDownPosition.x, currentDrawPosition.x)
 
+            val centerX = (left + right) / 2
+            val centerY = (top + bottom) / 2
+
+            val radians = Math.toRadians(rotationDegrees.toDouble())
+
+            val corners = listOf(
+                Offset(left, top),
+                Offset(right, top),
+                Offset(right, bottom),
+                Offset(left, bottom)
+            )
+
+            val rotatedCorners = corners.map { corner ->
+                val translatedX = corner.x - centerX
+                val translatedY = corner.y - centerY
+                val rotatedX = translatedX * cos(radians) - translatedY * sin(radians)
+                val rotatedY = translatedX * sin(radians) + translatedY * cos(radians)
+                Offset(rotatedX.toFloat() + centerX, rotatedY.toFloat() + centerY)
+            }
+
             val newPath = Path().apply {
-                moveTo(left, top)
-                lineTo(right, top)
-                lineTo(right, bottom)
-                lineTo(left, bottom)
-                lineTo(left, top)
+                moveTo(rotatedCorners[0].x, rotatedCorners[0].y)
+                lineTo(rotatedCorners[1].x, rotatedCorners[1].y)
+                lineTo(rotatedCorners[2].x, rotatedCorners[2].y)
+                lineTo(rotatedCorners[3].x, rotatedCorners[3].y)
                 close()
             }
             onPathChange(newPath)
@@ -360,8 +381,9 @@ data class PathHelper(
             DrawPathMode.Line,
             DrawPathMode.LinePointingArrow -> drawLine()
 
-            DrawPathMode.Rect,
-            DrawPathMode.OutlinedRect -> drawRect()
+            is DrawPathMode.Rect -> drawRect(drawPathMode.rotationDegrees)
+
+            is DrawPathMode.OutlinedRect -> drawRect(drawPathMode.rotationDegrees)
 
             DrawPathMode.Triangle,
             DrawPathMode.OutlinedTriangle -> drawTriangle()

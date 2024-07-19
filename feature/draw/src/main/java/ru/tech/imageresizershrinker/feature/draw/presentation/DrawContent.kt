@@ -432,7 +432,7 @@ fun DrawContent(
                         listOf(
                             DrawPathMode.Free,
                             DrawPathMode.Line,
-                            DrawPathMode.OutlinedRect,
+                            DrawPathMode.OutlinedRect(),
                             DrawPathMode.OutlinedOval,
                             DrawPathMode.OutlinedTriangle,
                             DrawPathMode.OutlinedPolygon(),

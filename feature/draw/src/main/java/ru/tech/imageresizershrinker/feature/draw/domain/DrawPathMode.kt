@@ -26,9 +26,17 @@ sealed class DrawPathMode(open val ordinal: Int) {
     data object LinePointingArrow : DrawPathMode(3)
     data object DoubleLinePointingArrow : DrawPathMode(4)
     data object Lasso : DrawPathMode(5)
-    data object OutlinedRect : DrawPathMode(6)
+
+    data class OutlinedRect(
+        val rotationDegrees: Int = 0
+    ) : DrawPathMode(6)
+
     data object OutlinedOval : DrawPathMode(7)
-    data object Rect : DrawPathMode(8)
+
+    data class Rect(
+        val rotationDegrees: Int = 0
+    ) : DrawPathMode(8)
+
     data object Oval : DrawPathMode(9)
     data object Triangle : DrawPathMode(10)
     data object OutlinedTriangle : DrawPathMode(11)
@@ -63,12 +71,12 @@ sealed class DrawPathMode(open val ordinal: Int) {
         get() = !isFilled
 
     val isFilled: Boolean
-        get() = listOf(Lasso, Rect, Oval, Triangle, Polygon(), Star()).any {
+        get() = listOf(Lasso, Rect(), Oval, Triangle, Polygon(), Star()).any {
             this::class.isInstance(it)
         }
 
     val isSharpEdge: Boolean
-        get() = listOf(OutlinedRect, OutlinedOval, Rect, Oval, Lasso).any {
+        get() = listOf(OutlinedRect(), OutlinedOval, Rect(), Oval, Lasso).any {
             this::class.isInstance(it)
         }
 
@@ -82,12 +90,12 @@ sealed class DrawPathMode(open val ordinal: Int) {
                 LinePointingArrow,
                 DoubleLinePointingArrow,
                 Lasso,
-                OutlinedRect,
+                OutlinedRect(),
                 OutlinedOval,
                 OutlinedTriangle,
                 OutlinedPolygon(),
                 OutlinedStar(),
-                Rect,
+                Rect(),
                 Oval,
                 Triangle,
                 Polygon(),

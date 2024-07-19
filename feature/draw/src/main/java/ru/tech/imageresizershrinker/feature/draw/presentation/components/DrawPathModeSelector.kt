@@ -177,7 +177,7 @@ fun DrawPathModeSelector(
                     },
                     onValueChange = {
                         onValueChange(
-                            value.updatePolygon(rotationDegree = it.toInt())
+                            value.updatePolygon(rotationDegrees = it.toInt())
                         )
                     },
                     color = MaterialTheme.colorScheme.surface,
@@ -243,7 +243,7 @@ fun DrawPathModeSelector(
                     },
                     onValueChange = {
                         onValueChange(
-                            value.updateStar(rotationDegree = it.toInt())
+                            value.updateStar(rotationDegrees = it.toInt())
                         )
                     },
                     color = MaterialTheme.colorScheme.surface,
@@ -288,6 +288,34 @@ fun DrawPathModeSelector(
                         .padding(horizontal = 8.dp),
                     resultModifier = Modifier.padding(16.dp),
                     applyHorizontalPadding = false
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+
+        AnimatedVisibility(
+            visible = value.isRect(),
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                EnhancedSliderItem(
+                    value = value.rotationDegrees(),
+                    title = stringResource(R.string.angle),
+                    valueRange = 0f..360f,
+                    internalStateTransformation = {
+                        it.roundToInt()
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            value.updateRect(rotationDegrees = it.toInt())
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.defaultShape
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -349,6 +377,18 @@ fun DrawPathModeSelector(
 private fun DrawPathMode.saveState(
     value: DrawPathMode
 ): DrawPathMode = when {
+    value is DrawPathMode.Rect && this is DrawPathMode.OutlinedRect -> {
+        copy(
+            rotationDegrees = value.rotationDegrees
+        )
+    }
+
+    value is DrawPathMode.OutlinedRect && this is DrawPathMode.Rect -> {
+        copy(
+            rotationDegrees = value.rotationDegrees
+        )
+    }
+
     value is DrawPathMode.Polygon && this is DrawPathMode.OutlinedPolygon -> {
         copy(
             vertices = value.vertices,
@@ -399,6 +439,8 @@ private fun DrawPathMode.rotationDegrees(): Int = when (this) {
     is DrawPathMode.OutlinedPolygon -> rotationDegrees
     is DrawPathMode.Star -> rotationDegrees
     is DrawPathMode.OutlinedStar -> rotationDegrees
+    is DrawPathMode.Rect -> rotationDegrees
+    is DrawPathMode.OutlinedRect -> rotationDegrees
     else -> 0
 }
 
@@ -418,13 +460,13 @@ private fun DrawPathMode.innerRadiusRatio(): Float = when (this) {
 
 private fun DrawPathMode.updatePolygon(
     vertices: Int? = null,
-    rotationDegree: Int? = null,
+    rotationDegrees: Int? = null,
     isRegular: Boolean? = null
 ) = when (this) {
     is DrawPathMode.Polygon -> {
         copy(
             vertices = vertices ?: this.vertices,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees,
             isRegular = isRegular ?: this.isRegular
         )
     }
@@ -432,7 +474,7 @@ private fun DrawPathMode.updatePolygon(
     is DrawPathMode.OutlinedPolygon -> {
         copy(
             vertices = vertices ?: this.vertices,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees,
             isRegular = isRegular ?: this.isRegular
         )
     }
@@ -443,14 +485,14 @@ private fun DrawPathMode.updatePolygon(
 private fun DrawPathMode.updateStar(
     vertices: Int? = null,
     innerRadiusRatio: Float? = null,
-    rotationDegree: Int? = null,
+    rotationDegrees: Int? = null,
     isRegular: Boolean? = null
 ) = when (this) {
     is DrawPathMode.Star -> {
         copy(
             vertices = vertices ?: this.vertices,
             innerRadiusRatio = innerRadiusRatio ?: this.innerRadiusRatio,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees,
             isRegular = isRegular ?: this.isRegular
         )
     }
@@ -459,13 +501,34 @@ private fun DrawPathMode.updateStar(
         copy(
             vertices = vertices ?: this.vertices,
             innerRadiusRatio = innerRadiusRatio ?: this.innerRadiusRatio,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees,
             isRegular = isRegular ?: this.isRegular
         )
     }
 
     else -> this
 }
+
+private fun DrawPathMode.updateRect(
+    rotationDegrees: Int? = null
+) = when (this) {
+    is DrawPathMode.Rect -> {
+        copy(
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees
+        )
+    }
+
+    is DrawPathMode.OutlinedRect -> {
+        copy(
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees
+        )
+    }
+
+    else -> this
+}
+
+private fun DrawPathMode.isRect(): Boolean =
+    this is DrawPathMode.Rect || this is DrawPathMode.OutlinedRect
 
 private fun DrawPathMode.isPolygon(): Boolean =
     this is DrawPathMode.Polygon || this is DrawPathMode.OutlinedPolygon
@@ -481,9 +544,9 @@ private fun DrawPathMode.getSubtitle(): Int = when (this) {
     DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
     DrawPathMode.PointingArrow -> R.string.arrow_sub
     DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
-    DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
+    is DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
     DrawPathMode.Oval -> R.string.oval_sub
-    DrawPathMode.Rect -> R.string.rect_sub
+    is DrawPathMode.Rect -> R.string.rect_sub
     DrawPathMode.Lasso -> R.string.lasso_sub
     DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle_sub
     DrawPathMode.Triangle -> R.string.triangle_sub
@@ -501,9 +564,9 @@ private fun DrawPathMode.getTitle(): Int = when (this) {
     DrawPathMode.LinePointingArrow -> R.string.line_arrow
     DrawPathMode.PointingArrow -> R.string.arrow
     DrawPathMode.OutlinedOval -> R.string.outlined_oval
-    DrawPathMode.OutlinedRect -> R.string.outlined_rect
+    is DrawPathMode.OutlinedRect -> R.string.outlined_rect
     DrawPathMode.Oval -> R.string.oval
-    DrawPathMode.Rect -> R.string.rect
+    is DrawPathMode.Rect -> R.string.rect
     DrawPathMode.Lasso -> R.string.lasso
     DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle
     DrawPathMode.Triangle -> R.string.triangle
@@ -521,9 +584,9 @@ private fun DrawPathMode.getIcon(): ImageVector = when (this) {
     DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
     DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
     DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
-    DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
+    is DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
     DrawPathMode.Oval -> Icons.Rounded.Circle
-    DrawPathMode.Rect -> Icons.Rounded.Square
+    is DrawPathMode.Rect -> Icons.Rounded.Square
     DrawPathMode.Lasso -> Icons.Rounded.Lasso
     DrawPathMode.Triangle -> Icons.Rounded.Triangle
     DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
