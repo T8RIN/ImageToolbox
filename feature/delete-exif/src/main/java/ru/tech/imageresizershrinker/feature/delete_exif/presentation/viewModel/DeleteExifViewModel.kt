@@ -83,7 +83,7 @@ class DeleteExifViewModel @Inject constructor(
         _uris.value = null
         _uris.value = uris
         uris?.firstOrNull()?.let {
-            setUri(it, onError)
+            updateSelectedUri(it, onError)
         }
     }
 
@@ -171,9 +171,9 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
-    fun setUri(
+    fun updateSelectedUri(
         uri: Uri,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit = {}
     ) = viewModelScope.launch(defaultDispatcher) {
         _isImageLoading.value = true
         _selectedUri.value = uri
@@ -267,6 +267,26 @@ class DeleteExifViewModel @Inject constructor(
             onComplete(list)
             _isSaving.value = false
         }
+    }
+
+    fun selectLeftUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it - 1)
+            }
+            ?.let(::updateSelectedUri)
+    }
+
+    fun selectRightUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it + 1)
+            }
+            ?.let(::updateSelectedUri)
     }
 
 }

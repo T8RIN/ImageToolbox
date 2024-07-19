@@ -426,6 +426,26 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
+    fun selectLeftUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it - 1)
+            }
+            ?.let(::updateSelectedUri)
+    }
+
+    fun selectRightUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it + 1)
+            }
+            ?.let(::updateSelectedUri)
+    }
+
     fun shareBitmaps(onComplete: () -> Unit) {
         savingJob = viewModelScope.launch {
             _isSaving.value = true

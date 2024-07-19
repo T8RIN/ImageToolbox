@@ -73,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -249,6 +250,11 @@ fun WatermarkingContent(
         forceImagePreviewToMax = showOriginal,
         imagePreview = {
             ImageContainer(
+                modifier = Modifier
+                    .detectSwipes(
+                        onSwipeRight = viewModel::selectLeftUri,
+                        onSwipeLeft = viewModel::selectRightUri
+                    ),
                 imageInside = isPortrait,
                 showOriginal = showOriginal,
                 previewBitmap = viewModel.previewBitmap,
@@ -359,7 +365,7 @@ fun WatermarkingContent(
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
-            viewModel.setUri(uri = uri) {
+            viewModel.updateSelectedUri(uri = uri) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }

@@ -289,24 +289,8 @@ fun ResizeAndConvertContent(
             ImageContainer(
                 modifier = Modifier
                     .detectSwipes(
-                        onSwipeRight = {
-                            viewModel.uris
-                                ?.indexOf(viewModel.selectedUri ?: Uri.EMPTY)
-                                ?.takeIf { it >= 0 }
-                                ?.let {
-                                    viewModel.uris?.getOrNull(it - 1)
-                                }
-                                ?.let(viewModel::updateSelectedUri)
-                        },
-                        onSwipeLeft = {
-                            viewModel.uris
-                                ?.indexOf(viewModel.selectedUri ?: Uri.EMPTY)
-                                ?.takeIf { it >= 0 }
-                                ?.let {
-                                    viewModel.uris?.getOrNull(it + 1)
-                                }
-                                ?.let(viewModel::updateSelectedUri)
-                        }
+                        onSwipeRight = viewModel::selectLeftUri,
+                        onSwipeLeft = viewModel::selectRightUri
                     ),
                 imageInside = isPortrait,
                 showOriginal = showOriginal,

@@ -37,7 +37,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -69,7 +68,6 @@ class FilterViewModel @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     val filterProvider: FilterProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
-    private val imageTransformer: ImageTransformer<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
@@ -124,7 +122,7 @@ class FilterViewModel @Inject constructor(
         _basicFilterState.update {
             it.copy(
                 uris = uris,
-                selectedUri = uris?.firstOrNull()?.also(::setBitmap)
+                selectedUri = uris?.firstOrNull()?.also(::updateSelectedUri)
             )
         }
     }
@@ -139,14 +137,14 @@ class FilterViewModel @Inject constructor(
                         _basicFilterState.update { f ->
                             f.copy(selectedUri = it)
                         }
-                        setBitmap(it)
+                        updateSelectedUri(it)
                     }
                 } else {
                     state.uris?.getOrNull(index - 1)?.let {
                         _basicFilterState.update { f ->
                             f.copy(selectedUri = it)
                         }
-                        setBitmap(it)
+                        updateSelectedUri(it)
                     }
                 }
             }
@@ -218,7 +216,7 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(uri: Uri) {
+    fun updateSelectedUri(uri: Uri) {
         viewModelScope.launch(defaultDispatcher) {
             _isImageLoading.update { true }
             val req = imageGetter.getImage(uri = uri.toString())
@@ -436,7 +434,7 @@ class FilterViewModel @Inject constructor(
                 Screen.Filter.Type.Masking(uri)
             } else it
         }
-        uri?.let { setBitmap(it) }
+        uri?.let { updateSelectedUri(it) }
         _maskingFilterState.value = MaskingFilterState(uri)
         updatePreview()
         updateCanSave()
@@ -667,6 +665,26 @@ class FilterViewModel @Inject constructor(
             onComplete(list)
             _isSaving.value = false
         }
+    }
+
+    fun selectLeftUri() {
+        basicFilterState.uris
+            ?.indexOf(basicFilterState.selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                basicFilterState.uris?.getOrNull(it - 1)
+            }
+            ?.let(::updateSelectedUri)
+    }
+
+    fun selectRightUri() {
+        basicFilterState.uris
+            ?.indexOf(basicFilterState.selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                basicFilterState.uris?.getOrNull(it + 1)
+            }
+            ?.let(::updateSelectedUri)
     }
 
 }

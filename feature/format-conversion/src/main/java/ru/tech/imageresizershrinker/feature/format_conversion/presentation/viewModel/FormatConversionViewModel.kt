@@ -128,11 +128,11 @@ class FormatConversionViewModel @Inject constructor(
                 val index = uris?.indexOf(removedUri) ?: -1
                 if (index == 0) {
                     uris?.getOrNull(1)?.let {
-                        setBitmap(it, onError)
+                        updateSelectedUri(it, onError)
                     }
                 } else {
                     uris?.getOrNull(index - 1)?.let {
-                        setBitmap(it, onError)
+                        updateSelectedUri(it, onError)
                     }
                 }
             }
@@ -281,9 +281,9 @@ class FormatConversionViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(
+    fun updateSelectedUri(
         uri: Uri,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit = {}
     ) {
         _selectedUri.value = uri
         viewModelScope.launch(defaultDispatcher) {
@@ -408,6 +408,26 @@ class FormatConversionViewModel @Inject constructor(
             onComplete(list)
             _isSaving.value = false
         }
+    }
+
+    fun selectLeftUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it - 1)
+            }
+            ?.let(::updateSelectedUri)
+    }
+
+    fun selectRightUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it + 1)
+            }
+            ?.let(::updateSelectedUri)
     }
 
 }

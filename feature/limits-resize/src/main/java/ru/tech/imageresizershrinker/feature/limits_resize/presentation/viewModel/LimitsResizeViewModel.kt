@@ -220,7 +220,7 @@ class LimitsResizeViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(uri: Uri) {
+    fun updateSelectedUri(uri: Uri) {
         viewModelScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             updateBitmap(imageGetter.getImage(uri.toString())?.image)
@@ -379,6 +379,26 @@ class LimitsResizeViewModel @Inject constructor(
             onComplete(list)
             _isSaving.value = false
         }
+    }
+
+    fun selectLeftUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it - 1)
+            }
+            ?.let(::updateSelectedUri)
+    }
+
+    fun selectRightUri() {
+        uris
+            ?.indexOf(selectedUri ?: Uri.EMPTY)
+            ?.takeIf { it >= 0 }
+            ?.let {
+                uris?.getOrNull(it + 1)
+            }
+            ?.let(::updateSelectedUri)
     }
 
 }

@@ -246,7 +246,7 @@ class WatermarkingViewModel @Inject constructor(
         checkBitmapAndUpdate()
     }
 
-    fun setUri(
+    fun updateSelectedUri(
         uri: Uri,
         onError: (Throwable) -> Unit = {}
     ) {
@@ -274,9 +274,9 @@ class WatermarkingViewModel @Inject constructor(
             if (selectedUri == removedUri) {
                 val index = uris.indexOf(removedUri)
                 if (index == 0) {
-                    uris.getOrNull(1)?.let(::setUri)
+                    uris.getOrNull(1)?.let(::updateSelectedUri)
                 } else {
-                    uris.getOrNull(index - 1)?.let(::setUri)
+                    uris.getOrNull(index - 1)?.let(::updateSelectedUri)
                 }
             }
             _uris.update {
@@ -292,7 +292,7 @@ class WatermarkingViewModel @Inject constructor(
         onError: (Throwable) -> Unit = {}
     ) {
         _uris.update { uris }
-        uris.firstOrNull()?.let { setUri(it, onError) }
+        uris.firstOrNull()?.let { updateSelectedUri(it, onError) }
     }
 
     fun toggleKeepExif(value: Boolean) {
@@ -370,6 +370,26 @@ class WatermarkingViewModel @Inject constructor(
             onComplete(list)
             _isSaving.value = false
         }
+    }
+
+    fun selectLeftUri() {
+        uris
+            .indexOf(selectedUri)
+            .takeIf { it >= 0 }
+            ?.let {
+                uris.getOrNull(it - 1)
+            }
+            ?.let(::updateSelectedUri)
+    }
+
+    fun selectRightUri() {
+        uris
+            .indexOf(selectedUri)
+            .takeIf { it >= 0 }
+            ?.let {
+                uris.getOrNull(it + 1)
+            }
+            ?.let(::updateSelectedUri)
     }
 
 }

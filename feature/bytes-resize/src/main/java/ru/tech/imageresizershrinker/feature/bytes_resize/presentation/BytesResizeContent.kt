@@ -80,6 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -245,6 +246,11 @@ fun BytesResizeContent(
         },
         imagePreview = {
             ImageContainer(
+                modifier = Modifier
+                    .detectSwipes(
+                        onSwipeRight = viewModel::selectLeftUri,
+                        onSwipeLeft = viewModel::selectRightUri
+                    ),
                 imageInside = isPortrait,
                 showOriginal = false,
                 previewBitmap = viewModel.previewBitmap,
@@ -397,7 +403,7 @@ fun BytesResizeContent(
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
             try {
-                viewModel.setBitmap(uri = uri)
+                viewModel.updateSelectedUri(uri = uri)
             } catch (e: Exception) {
                 scope.launch {
                     toastHostState.showError(context, e)

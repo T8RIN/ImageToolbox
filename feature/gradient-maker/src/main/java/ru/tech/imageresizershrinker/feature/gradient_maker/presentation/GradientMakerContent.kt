@@ -85,6 +85,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSe
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -279,6 +280,10 @@ fun GradientMakerContent(
         imagePreview = {
             Box(
                 modifier = Modifier
+                    .detectSwipes(
+                        onSwipeRight = viewModel::selectLeftUri,
+                        onSwipeLeft = viewModel::selectRightUri
+                    )
                     .container()
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
@@ -479,7 +484,7 @@ fun GradientMakerContent(
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
-            viewModel.setUri(uri = uri) {
+            viewModel.updateSelectedUri(uri = uri) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
