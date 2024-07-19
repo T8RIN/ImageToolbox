@@ -64,7 +64,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         val currentFilters = getFavoriteFilters().first()
         if (currentFilters.filterIsInstance(filter::class.java).isEmpty()) {
             dataStore.edit { prefs ->
-                prefs[FAVORITE_FILTERS] = (currentFilters + filter).toDatastoreString()
+                prefs[FAVORITE_FILTERS] = (listOf(filter) + currentFilters).toDatastoreString()
             }
         } else {
             dataStore.edit { prefs ->
@@ -104,6 +104,12 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
         string: String
     ): Boolean =
         (context.applicationInfo.packageName in string || PACKAGE in string) && "Filter" in string && LINK_HEADER in string
+
+    override suspend fun reorderFavoriteFilters(newOrder: List<Filter<*>>) {
+        dataStore.edit { prefs ->
+            prefs[FAVORITE_FILTERS] = newOrder.toDatastoreString()
+        }
+    }
 
     override suspend fun addTemplateFilterFromUri(
         uri: String,

@@ -25,6 +25,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -96,6 +97,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -111,6 +113,11 @@ import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -123,14 +130,13 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.filterIsNotInstance
+import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.getFavoriteFiltersAsUiState
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.getTemplateFiltersAsUiState
+import ru.tech.imageresizershrinker.core.filters.presentation.utils.collectAsUiState
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
@@ -176,6 +182,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
+    private val favoriteInteractor: FavoriteFiltersInteractor,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
@@ -317,6 +324,62 @@ private class AddFiltersSheetViewModel @Inject constructor(
         return "template(${templateFilter.name})$timeStamp.imtbx_template"
     }
 
+    fun reorderFavoriteFilters(value: List<UiFilter<*>>) {
+        viewModelScope.launch {
+            favoriteInteractor.reorderFavoriteFilters(value)
+        }
+    }
+
+    val favoritesFlow: Flow<List<Filter<*>>>
+        get() = favoriteInteractor.getFavoriteFilters()
+
+    val templatesFlow: Flow<List<TemplateFilter>>
+        get() = favoriteInteractor.getTemplateFilters()
+
+    fun toggleFavorite(filter: UiFilter<*>) {
+        viewModelScope.launch {
+            favoriteInteractor.toggleFavorite(filter)
+        }
+    }
+
+    fun removeTemplateFilter(templateFilter: TemplateFilter) {
+        viewModelScope.launch {
+            favoriteInteractor.removeTemplateFilter(templateFilter)
+        }
+    }
+
+    suspend fun convertTemplateFilterToString(
+        templateFilter: TemplateFilter
+    ): String = favoriteInteractor.convertTemplateFilterToString(templateFilter)
+
+    fun addTemplateFilterFromString(
+        string: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
+            favoriteInteractor.addTemplateFilterFromString(
+                string = string,
+                onSuccess = onSuccess,
+                onError = onError
+            )
+        }
+    }
+
+    fun addTemplateFilterFromUri(
+        uri: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
+            favoriteInteractor.addTemplateFilterFromUri(
+                uri = uri,
+                onSuccess = onSuccess,
+                onError = onError
+            )
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -343,8 +406,8 @@ fun AddFiltersSheet(
         }
         val toastHostState = LocalToastHostState.current
 
-        val favoriteFilters by LocalFavoriteFiltersInteractor.getFavoriteFiltersAsUiState()
-        val templateFilters by LocalFavoriteFiltersInteractor.getTemplateFiltersAsUiState()
+        val favoriteFilters by viewModel.favoritesFlow.collectAsUiState()
+        val templateFilters by viewModel.templatesFlow.collectAsUiState()
 
         val context = LocalContext.current
         val groupedFilters by remember(context, canAddTemplates) {
@@ -510,6 +573,9 @@ fun AddFiltersSheet(
                                             onLongClick = {
                                                 viewModel.setPreviewData(filter)
                                             },
+                                            onOpenPreview = {
+                                                viewModel.setPreviewData(filter)
+                                            },
                                             onClick = {
                                                 onVisibleChange(false)
                                                 onFilterPicked(filter)
@@ -519,6 +585,9 @@ fun AddFiltersSheet(
                                                 index = index,
                                                 size = filtersForSearch.size
                                             ),
+                                            onToggleFavorite = {
+                                                viewModel.toggleFavorite(filter)
+                                            },
                                             modifier = Modifier.animateItem()
                                         )
                                     }
@@ -597,7 +666,10 @@ fun AddFiltersSheet(
                                                     .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
                                                     .fillMaxSize()
                                             )
-                                            FilterTemplateAddingGroup()
+                                            FilterTemplateAddingGroup(
+                                                onAddTemplateFilterFromString = viewModel::addTemplateFilterFromString,
+                                                onAddTemplateFilterFromUri = viewModel::addTemplateFilterFromUri
+                                            )
                                             Spacer(Modifier.weight(1f))
                                         }
                                     } else {
@@ -666,6 +738,8 @@ fun AddFiltersSheet(
                                                             )
                                                         }
                                                     },
+                                                    onConvertTemplateFilterToString = viewModel::convertTemplateFilterToString,
+                                                    onRemoveTemplateFilter = viewModel::removeTemplateFilter,
                                                     onRequestTemplateFilename = {
                                                         viewModel.createTemplateFilename(
                                                             templateFilter
@@ -683,7 +757,10 @@ fun AddFiltersSheet(
                                                 )
                                             }
                                             item {
-                                                FilterTemplateAddingGroup()
+                                                FilterTemplateAddingGroup(
+                                                    onAddTemplateFilterFromString = viewModel::addTemplateFilterFromString,
+                                                    onAddTemplateFilterFromUri = viewModel::addTemplateFilterFromUri
+                                                )
                                             }
                                         }
                                     }
@@ -724,30 +801,79 @@ fun AddFiltersSheet(
                                             Spacer(Modifier.weight(1f))
                                         }
                                     } else {
+                                        val data = remember {
+                                            mutableStateOf(favoriteFilters)
+                                        }
+                                        val state = rememberReorderableLazyListState(
+                                            onMove = { from, to ->
+                                                data.value = data.value.toMutableList().apply {
+                                                    add(to.index, removeAt(from.index))
+                                                }
+                                            },
+                                            onDragEnd = { _, _ ->
+                                                viewModel.reorderFavoriteFilters(data.value)
+                                            }
+                                        )
+                                        LaunchedEffect(favoriteFilters) {
+                                            if (data.value.size != favoriteFilters.size) {
+                                                data.value = favoriteFilters
+                                            }
+                                        }
                                         LazyColumn(
-                                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                                            state = state.listState,
+                                            modifier = Modifier
+                                                .fillMaxHeight()
+                                                .reorderable(state)
+                                                .detectReorderAfterLongPress(state),
+                                            verticalArrangement = Arrangement.spacedBy(
+                                                space = 4.dp,
+                                                alignment = Alignment.CenterVertically
+                                            ),
                                             contentPadding = PaddingValues(16.dp)
                                         ) {
-                                            itemsIndexed(favoriteFilters) { index, filter ->
-                                                FilterSelectionItem(
-                                                    filter = filter,
-                                                    isFavoritePage = true,
-                                                    canOpenPreview = previewBitmap != null,
-                                                    favoriteFilters = favoriteFilters,
-                                                    onLongClick = {
-                                                        viewModel.setPreviewData(filter)
-                                                    },
-                                                    onClick = {
-                                                        onVisibleChange(false)
-                                                        onFilterPicked(filter)
-                                                    },
-                                                    onRequestFilterMapping = onRequestFilterMapping,
-                                                    shape = ContainerShapeDefaults.shapeForIndex(
-                                                        index = index,
-                                                        size = favoriteFilters.size
+                                            itemsIndexed(
+                                                items = data.value,
+                                                key = { _, f -> f.hashCode() }
+                                            ) { index, filter ->
+                                                ReorderableItem(
+                                                    modifier = Modifier.then(
+                                                        if (state.draggingItemKey == null) {
+                                                            Modifier.animateItem()
+                                                        } else Modifier
                                                     ),
-                                                    modifier = Modifier.animateItem()
-                                                )
+                                                    reorderableState = state,
+                                                    key = filter.hashCode()
+                                                ) { isDragging ->
+                                                    FilterSelectionItem(
+                                                        filter = filter,
+                                                        isFavoritePage = true,
+                                                        canOpenPreview = previewBitmap != null,
+                                                        favoriteFilters = favoriteFilters,
+                                                        onLongClick = null,
+                                                        onOpenPreview = {
+                                                            viewModel.setPreviewData(filter)
+                                                        },
+                                                        onClick = {
+                                                            onVisibleChange(false)
+                                                            onFilterPicked(filter)
+                                                        },
+                                                        onRequestFilterMapping = onRequestFilterMapping,
+                                                        shape = ContainerShapeDefaults.shapeForIndex(
+                                                            index = index,
+                                                            size = favoriteFilters.size
+                                                        ),
+                                                        onToggleFavorite = {
+                                                            viewModel.toggleFavorite(filter)
+                                                        },
+                                                        modifier = Modifier
+                                                            .scale(
+                                                                animateFloatAsState(
+                                                                    if (isDragging) 1.05f
+                                                                    else 1f
+                                                                ).value
+                                                            )
+                                                    )
+                                                }
                                             }
                                         }
                                     }
@@ -766,6 +892,9 @@ fun AddFiltersSheet(
                                             onLongClick = {
                                                 viewModel.setPreviewData(filter)
                                             },
+                                            onOpenPreview = {
+                                                viewModel.setPreviewData(filter)
+                                            },
                                             onClick = {
                                                 onVisibleChange(false)
                                                 onFilterPicked(filter)
@@ -775,6 +904,9 @@ fun AddFiltersSheet(
                                                 index = index,
                                                 size = filters.size
                                             ),
+                                            onToggleFavorite = {
+                                                viewModel.toggleFavorite(filter)
+                                            },
                                             isFavoritePage = false,
                                             modifier = Modifier.animateItem()
                                         )

@@ -30,7 +30,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -39,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
@@ -46,14 +46,11 @@ import javax.inject.Inject
 @HiltViewModel
 class ScanQrCodeViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
+    private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
-
-    private val _tempUri: MutableState<Uri?> = mutableStateOf(null)
-    val tempUri by _tempUri
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -144,6 +141,20 @@ class ScanQrCodeViewModel @Inject constructor(
                 }
             }
             _isSaving.value = false
+        }
+    }
+
+    suspend fun addTemplateFilterFromString(
+        string: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) {
+        if (favoriteFiltersInteractor.isValidTemplateFilter(string)) {
+            favoriteFiltersInteractor.addTemplateFilterFromString(
+                string = string,
+                onSuccess = onSuccess,
+                onError = onError
+            )
         }
     }
 

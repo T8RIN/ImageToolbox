@@ -49,4 +49,6 @@ interface FavoriteFiltersInteractor {
 
     fun isValidTemplateFilter(string: String): Boolean
 
+    suspend fun reorderFavoriteFilters(newOrder: List<Filter<*>>)
+
 }

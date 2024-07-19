@@ -65,7 +65,6 @@ import coil.request.ImageRequest
 import coil.transform.Transformation
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkRemove
 import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
@@ -82,8 +81,10 @@ internal fun FilterSelectionItem(
     isFavoritePage: Boolean,
     canOpenPreview: Boolean,
     favoriteFilters: List<UiFilter<*>>,
-    onLongClick: () -> Unit,
+    onLongClick: (() -> Unit)?,
+    onOpenPreview: () -> Unit,
     onClick: () -> Unit,
+    onToggleFavorite: () -> Unit,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
     shape: Shape,
     modifier: Modifier
@@ -124,8 +125,6 @@ internal fun FilterSelectionItem(
         }
     )
 
-    val interactor = LocalFavoriteFiltersInteractor.current
-
     PreferenceItemOverload(
         title = stringResource(filter.title),
         startIcon = {
@@ -153,7 +152,7 @@ internal fun FilterSelectionItem(
                                     haptics.performHapticFeedback(
                                         HapticFeedbackType.LongPress
                                     )
-                                    onLongClick()
+                                    onOpenPreview()
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -184,11 +183,7 @@ internal fun FilterSelectionItem(
         },
         endIcon = {
             IconButton(
-                onClick = {
-                    scope.launch {
-                        interactor.toggleFavorite(filter)
-                    }
-                },
+                onClick = onToggleFavorite,
                 modifier = Modifier.offset(8.dp)
             ) {
                 val inFavorite by remember(favoriteFilters, filter) {

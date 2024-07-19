@@ -73,7 +73,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -124,25 +123,21 @@ fun ScanQrCodeContent(
         qrContent = it
     }
 
-    val interactor = LocalFavoriteFiltersInteractor.current
-
-    LaunchedEffect(qrContent, interactor) {
-        if (interactor.isValidTemplateFilter(qrContent)) {
-            interactor.addTemplateFilterFromString(
-                string = qrContent,
-                onSuccess = { filterName, filtersCount ->
-                    toastHostState.showToast(
-                        message = context.getString(
-                            R.string.added_filter_template,
-                            filterName,
-                            filtersCount
-                        ),
-                        icon = Icons.Outlined.AutoFixHigh
-                    )
-                },
-                onError = {}
-            )
-        }
+    LaunchedEffect(qrContent) {
+        viewModel.addTemplateFilterFromString(
+            string = qrContent,
+            onSuccess = { filterName, filtersCount ->
+                toastHostState.showToast(
+                    message = context.getString(
+                        R.string.added_filter_template,
+                        filterName,
+                        filtersCount
+                    ),
+                    icon = Icons.Outlined.AutoFixHigh
+                )
+            },
+            onError = {}
+        )
     }
 
     var qrImageUri by rememberSaveable {

@@ -44,7 +44,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
@@ -112,8 +111,7 @@ fun RootContent(
         LocalEditPresetsController provides editPresetsController,
         LocalConfettiHostState provides rememberConfettiHostState(),
         LocalImageLoader provides viewModel.imageLoader,
-        LocalHapticFeedback provides rememberCustomHapticFeedback(viewModel.settingsState.hapticsStrength),
-        LocalFavoriteFiltersInteractor provides viewModel.favoriteFiltersInteractor
+        LocalHapticFeedback provides rememberCustomHapticFeedback(viewModel.settingsState.hapticsStrength)
     ) {
         SecureModeHandler()
 

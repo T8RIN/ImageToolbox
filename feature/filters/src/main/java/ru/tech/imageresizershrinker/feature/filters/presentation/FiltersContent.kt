@@ -778,7 +778,9 @@ fun FiltersContent(
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.let {
             tempSelectionUris = it
-            showSelectionFilterPicker = true
+            if (uris.size > 1) {
+                viewModel.setBasicFilter(tempSelectionUris)
+            } else showSelectionFilterPicker = true
         }
     }
 

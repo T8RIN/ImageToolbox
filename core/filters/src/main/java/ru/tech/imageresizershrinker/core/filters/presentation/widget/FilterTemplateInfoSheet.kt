@@ -84,7 +84,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -107,6 +106,8 @@ internal fun FilterTemplateInfoSheet(
     onShareImage: (Bitmap) -> Unit,
     onSaveImage: (Bitmap) -> Unit,
     onSaveFile: (fileUri: Uri, content: String) -> Unit,
+    onConvertTemplateFilterToString: suspend (TemplateFilter) -> String,
+    onRemoveTemplateFilter: (TemplateFilter) -> Unit,
     onShareFile: (content: String) -> Unit,
     onRequestTemplateFilename: () -> String,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?
@@ -134,10 +135,9 @@ internal fun FilterTemplateInfoSheet(
         var filterContent by rememberSaveable {
             mutableStateOf("")
         }
-        val interactor = LocalFavoriteFiltersInteractor.current
         LaunchedEffect(filterContent) {
             if (filterContent.isEmpty()) {
-                filterContent = interactor.convertTemplateFilterToString(templateFilter)
+                filterContent = onConvertTemplateFilterToString(templateFilter)
             }
         }
 
@@ -262,11 +262,9 @@ internal fun FilterTemplateInfoSheet(
                     EnhancedButton(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            scope.launch {
-                                interactor.removeTemplateFilter(templateFilter)
-                                onDismiss(false)
-                                showDeleteDialog = false
-                            }
+                            onRemoveTemplateFilter(templateFilter)
+                            onDismiss(false)
+                            showDeleteDialog = false
                         }
                     ) {
                         Text(stringResource(R.string.delete))

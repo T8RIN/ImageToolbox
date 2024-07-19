@@ -40,7 +40,6 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
@@ -56,7 +55,6 @@ import javax.xml.parsers.DocumentBuilderFactory
 @HiltViewModel
 class RootViewModel @Inject constructor(
     val imageLoader: ImageLoader,
-    val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     fileController: FileController,

@@ -35,7 +35,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,8 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -52,16 +49,61 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
-internal fun FilterTemplateAddingGroup() {
-    val scope = rememberCoroutineScope()
+internal fun FilterTemplateAddingGroup(
+    onAddTemplateFilterFromString: (
+        string: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) -> Unit,
+    onAddTemplateFilterFromUri: (
+        uri: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) -> Unit
+) {
     val toastHostState = LocalToastHostState.current
-    val interactor = LocalFavoriteFiltersInteractor.current
     val context = LocalContext.current
 
+    fun addTemplateFilterFromString(
+        string: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) = onAddTemplateFilterFromString(string, onSuccess, onError)
+
+    fun addTemplateFilterFromUri(
+        uri: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) = onAddTemplateFilterFromUri(uri, onSuccess, onError)
+
     val scanner = rememberQrCodeScanner {
-        scope.launch {
-            interactor.addTemplateFilterFromString(
-                string = it,
+        addTemplateFilterFromString(
+            string = it,
+            onSuccess = { filterName, filtersCount ->
+                toastHostState.showToast(
+                    message = context.getString(
+                        R.string.added_filter_template,
+                        filterName,
+                        filtersCount
+                    ),
+                    icon = Icons.Outlined.AutoFixHigh
+                )
+            },
+            onError = {
+                toastHostState.showToast(
+                    message = context.getString(R.string.scanned_qr_code_isnt_filter_template),
+                    icon = Icons.Rounded.QrCodeScanner
+                )
+            }
+        )
+    }
+
+    val importFromFileLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        uri?.let {
+            addTemplateFilterFromUri(
+                uri = it.toString(),
                 onSuccess = { filterName, filtersCount ->
                     toastHostState.showToast(
                         message = context.getString(
@@ -74,39 +116,11 @@ internal fun FilterTemplateAddingGroup() {
                 },
                 onError = {
                     toastHostState.showToast(
-                        message = context.getString(R.string.scanned_qr_code_isnt_filter_template),
-                        icon = Icons.Rounded.QrCodeScanner
+                        message = context.getString(R.string.opened_file_have_no_filter_template),
+                        icon = Icons.Outlined.AutoFixHigh
                     )
                 }
             )
-        }
-    }
-
-    val importFromFileLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-    ) { uri ->
-        uri?.let {
-            scope.launch {
-                interactor.addTemplateFilterFromUri(
-                    uri = it.toString(),
-                    onSuccess = { filterName, filtersCount ->
-                        toastHostState.showToast(
-                            message = context.getString(
-                                R.string.added_filter_template,
-                                filterName,
-                                filtersCount
-                            ),
-                            icon = Icons.Outlined.AutoFixHigh
-                        )
-                    },
-                    onError = {
-                        toastHostState.showToast(
-                            message = context.getString(R.string.opened_file_have_no_filter_template),
-                            icon = Icons.Outlined.AutoFixHigh
-                        )
-                    }
-                )
-            }
         }
     }
 

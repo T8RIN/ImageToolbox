@@ -19,38 +19,30 @@ package ru.tech.imageresizershrinker.core.filters.presentation.utils
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 
-val LocalFavoriteFiltersInteractor = compositionLocalOf<FavoriteFiltersInteractor> {
-    error("No FavoriteFiltersInteractor<Bitmap> present")
-}
-
 @Composable
-fun ProvidableCompositionLocal<FavoriteFiltersInteractor>.getFavoriteFiltersAsUiState(
-    context: Context = LocalContext.current
-): State<List<UiFilter<*>>> = current.getFavoriteFilters()
+fun Flow<List<Filter<*>>>.collectAsUiState(): State<List<UiFilter<*>>> = this
     .map { list ->
         list.map {
             it.toUiFilter()
-        }.sortedBy {
-            context.getString(it.title)
         }
     }
     .collectAsState(emptyList())
 
+
 @Composable
-fun ProvidableCompositionLocal<FavoriteFiltersInteractor>.getTemplateFiltersAsUiState(
+fun Flow<List<TemplateFilter>>.collectAsUiState(
     context: Context = LocalContext.current
-): State<List<TemplateFilter>> = current.getTemplateFilters()
+): State<List<TemplateFilter>> = this
     .map { list ->
         list.sortedBy { it.name }
     }
