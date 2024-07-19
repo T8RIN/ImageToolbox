@@ -1242,4 +1242,20 @@
     <string name="sand_painting">रेत चित्रकारी</string>
     <string name="image_splitting">छवि विभाजन</string>
     <string name="image_splitting_sub">एकल छवि को पंक्तियों या स्तंभों द्वारा विभाजित करें</string>
+    <string name="fit_to_bounds_sub">वांछित व्यवहार (पहलू अनुपात के अनुसार क्रॉप/समुचित) प्राप्त करने के लिए इस पैरामीटर के साथ क्रॉप आकार मोड को संयोजित करें</string>
+    <string name="export">निर्यात</string>
+    <string name="position">स्थान</string>
+    <string name="center">मध्य</string>
+    <string name="top_left">शीर्ष बाएं</string>
+    <string name="top_right">शीर्ष दाएं</string>
+    <string name="bottom_left">नीचे बाएं</string>
+    <string name="bottom_right">नीचे दाएं</string>
+    <string name="center_right">मध्य दायां</string>
+    <string name="bottom_center">निचला केंद्र</string>
+    <string name="center_left">मध्य बायां</string>
+    <string name="fit_to_bounds">सीमा के समुचित</string>
+    <string name="languages_imported">भाषाएं सफलतापूर्वक आयात की गई</string>
+    <string name="backup_ocr_models">OCR मॉडल का बैकअप लें</string>
+    <string name="import_word">आयात</string>
+    <string name="top_center">शीर्ष केंद्र</string>
 </resources>
