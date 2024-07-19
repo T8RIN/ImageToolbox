@@ -106,7 +106,13 @@ fun RecognizeTextContent(
     onGoBack: () -> Unit,
     viewModel: RecognizeTextViewModel = hiltViewModel()
 ) {
-    val isHaveText = viewModel.recognitionData?.text.notNullAnd { it.isNotEmpty() }
+    val text = viewModel.recognitionData?.text?.takeIf {
+        it.isNotEmpty()
+    }
+    var editedText by rememberSaveable(text, viewModel.isTextLoading) {
+        mutableStateOf(text)
+    }
+    val isHaveText = editedText.notNullAnd { it.isNotEmpty() }
 
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
@@ -180,7 +186,7 @@ fun RecognizeTextContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val copyText: () -> Unit = {
-        viewModel.recognitionData?.text?.let {
+        editedText?.let {
             context.copyToClipboard(
                 label = context.getString(R.string.recognize_text),
                 value = it
@@ -195,7 +201,7 @@ fun RecognizeTextContent(
     }
 
     val shareText: () -> Unit = {
-        viewModel.shareRecognizedText {
+        viewModel.shareText(editedText) {
             scope.launch {
                 confettiHostState.showConfetti()
             }
@@ -315,10 +321,6 @@ fun RecognizeTextContent(
             }
         },
         controls = {
-            val text = viewModel.recognitionData?.text?.takeIf {
-                it.isNotEmpty()
-            } ?: stringResource(R.string.picture_has_no_text)
-
             ImageTransformBar(
                 onRotateLeft = viewModel::rotateBitmapLeft,
                 onFlip = viewModel::flipImage,
@@ -366,7 +368,12 @@ fun RecognizeTextContent(
             )
             Spacer(modifier = Modifier.height(8.dp))
             OCRTextPreviewItem(
-                text = text,
+                text = editedText,
+                onTextEdit = {
+                    if (editedText != null) {
+                        editedText = it
+                    }
+                },
                 isLoading = viewModel.isTextLoading,
                 loadingProgress = viewModel.textLoadingProgress,
                 accuracy = viewModel.recognitionData?.accuracy ?: 0

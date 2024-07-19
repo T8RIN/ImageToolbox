@@ -422,8 +422,11 @@ class RecognizeTextViewModel @Inject constructor(
         _ocrEngineMode.update { mode }
     }
 
-    fun shareRecognizedText(onComplete: () -> Unit) {
-        recognitionData?.text?.let {
+    fun shareText(
+        text: String?,
+        onComplete: () -> Unit
+    ) {
+        text?.let {
             shareProvider.shareText(
                 value = it,
                 onComplete = onComplete
