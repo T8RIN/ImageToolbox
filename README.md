@@ -299,6 +299,7 @@ or click one of the badges below.
     - [x] HDR
     - [x] Simple Sketch
     - [x] Gotham
+    - [x] Color Poster
 
   </details>
 - Custom Filters Creation by Template filters

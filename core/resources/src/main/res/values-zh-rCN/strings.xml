@@ -1258,4 +1258,12 @@
     <string name="import_word">导入</string>
     <string name="languages_imported">语言导入成功</string>
     <string name="center">中心</string>
+    <string name="palette_transfer">调色板转换</string>
+    <string name="enhanced_oil">油画效果增强</string>
+    <string name="target_image">目标图片</string>
+    <string name="simple_old_tv">简易老式电视</string>
+    <string name="hdr">HDR</string>
+    <string name="gotham">哥谭</string>
+    <string name="simple_sketch">简易素描</string>
+    <string name="soft_glow">柔光</string>
 </resources>
