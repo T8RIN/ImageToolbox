@@ -19,15 +19,12 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import com.t8rin.trickle.Trickle
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toColor
 import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 
 internal class ReplaceColorFilter(
@@ -43,37 +40,10 @@ internal class ReplaceColorFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.replaceColor(
-        fromColor = value.second.toColor(),
-        targetColor = value.third.toColor(),
+    ): Bitmap = Trickle.replaceColor(
+        input = input,
+        sourceColor = value.second.colorInt,
+        targetColor = value.third.colorInt,
         tolerance = value.first
     )
-}
-
-
-private fun Bitmap.replaceColor(
-    fromColor: Color,
-    targetColor: Color,
-    tolerance: Float
-): Bitmap {
-    // Source image size
-    val width = width
-    val height = height
-    val pixels = IntArray(width * height)
-    //get pixels
-    getPixels(pixels, 0, width, 0, 0, width, height)
-    for (x in pixels.indices) {
-        pixels[x] = if (Color(pixels[x]).distanceFrom(fromColor) <= tolerance) {
-            targetColor.toArgb()
-        } else pixels[x]
-    }
-    // create result bitmap output
-    val result = Bitmap.createBitmap(width, height, config)
-    //set pixels
-    result.setPixels(pixels, 0, width, 0, 0, width, height)
-    return result
-}
-
-private fun Color.distanceFrom(color: Color): Float {
-    return sqrt((red - color.red).pow(2) + (green - color.green).pow(2) + (blue - color.blue).pow(2))
 }
