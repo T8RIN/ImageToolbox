@@ -220,6 +220,7 @@ interface Filter<Value> {
     interface HDR : SimpleFilter
     interface SimpleSketch : SimpleFilter
     interface Gotham : SimpleFilter
+    interface ColorPoster : PairFilter<Float, ColorModel>
 }
 
 interface SimpleFilter : Filter<Unit>

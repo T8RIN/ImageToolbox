@@ -60,6 +60,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ColorExplosionFil
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorMatrix3x3Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorMatrix4x4Filter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ColorPosterFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorfulSwirlFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ContrastFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ConvexFilter
@@ -426,6 +427,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.HDR -> HDRFilter(value)
             is Filter.Gotham -> GothamFilter(value)
             is Filter.SimpleSketch -> SimpleSketchFilter(value)
+            is Filter.ColorPoster -> ColorPosterFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

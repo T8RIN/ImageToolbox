@@ -38,6 +38,7 @@ dependencies {
     }
     api(libs.jxl.coder)
     api(libs.aire)
+    api(libs.trickle)
 
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)
