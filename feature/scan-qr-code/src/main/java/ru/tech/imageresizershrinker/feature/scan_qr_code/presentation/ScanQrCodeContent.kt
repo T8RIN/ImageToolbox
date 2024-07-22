@@ -117,7 +117,9 @@ fun ScanQrCodeContent(
 
     val scope = rememberCoroutineScope()
 
-    var qrContent by rememberSaveable(qrCodeContent) { mutableStateOf(qrCodeContent ?: "") }
+    var qrContent by rememberSaveable(qrCodeContent) {
+        mutableStateOf(qrCodeContent ?: "")
+    }
 
     val scanner = rememberQrCodeScanner {
         qrContent = it

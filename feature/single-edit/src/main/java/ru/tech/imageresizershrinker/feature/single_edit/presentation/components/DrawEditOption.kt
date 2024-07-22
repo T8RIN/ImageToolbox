@@ -84,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientati
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -92,9 +93,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSelector
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenColorPickerCard
@@ -107,6 +106,10 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun DrawEditOption(
     visible: Boolean,
     onRequestFiltering: suspend (Bitmap, List<UiFilter<*>>) -> Bitmap?,
+    drawMode: DrawMode,
+    onUpdateDrawMode: (DrawMode) -> Unit,
+    drawPathMode: DrawPathMode,
+    onUpdateDrawPathMode: (DrawPathMode) -> Unit,
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,
@@ -136,16 +139,13 @@ fun DrawEditOption(
 
         val settingsState = LocalSettingsState.current
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
-        var drawColor by rememberSaveable { mutableStateOf(Color.Black) }
-        var drawMode by rememberSaveable(stateSaver = DrawModeSaver) { mutableStateOf(DrawMode.Pen) }
+        var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Black) }
+
         var alpha by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
         }
         var brushSoftness by rememberSaveable(drawMode, stateSaver = PtSaver) {
             mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
-        }
-        var drawPathMode by rememberSaveable(stateSaver = DrawPathModeSaver) {
-            mutableStateOf(DrawPathMode.Free)
         }
 
         LaunchedEffect(drawMode, strokeWidth) {
@@ -287,7 +287,7 @@ fun DrawEditOption(
                     ),
                     value = drawMode,
                     strokeWidth = strokeWidth,
-                    onValueChange = { drawMode = it }
+                    onValueChange = onUpdateDrawMode
                 )
                 DrawPathModeSelector(
                     modifier = Modifier.padding(
@@ -296,7 +296,7 @@ fun DrawEditOption(
                         bottom = 16.dp
                     ),
                     value = drawPathMode,
-                    onValueChange = { drawPathMode = it },
+                    onValueChange = onUpdateDrawPathMode,
                     values = remember(drawMode) {
                         derivedStateOf {
                             if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
@@ -415,7 +415,7 @@ fun DrawEditOption(
                 }
             }
         }
-        var color by rememberSaveable {
+        var color by rememberSaveable(stateSaver = ColorSaver) {
             mutableStateOf(Color.Black)
         }
         PickColorFromImageSheet(

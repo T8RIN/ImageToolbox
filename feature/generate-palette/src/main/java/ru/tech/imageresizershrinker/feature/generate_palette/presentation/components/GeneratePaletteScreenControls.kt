@@ -95,6 +95,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.palette_selection.getTitle
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -129,7 +130,7 @@ internal fun GeneratePaletteScreenControls(
                 var contrast by rememberSaveable {
                     mutableFloatStateOf(0f)
                 }
-                var keyColor by rememberSaveable(bitmap) {
+                var keyColor by rememberSaveable(bitmap, stateSaver = ColorSaver) {
                     mutableStateOf(bitmap.extractPrimaryColor())
                 }
                 Spacer(modifier = Modifier.height(16.dp))

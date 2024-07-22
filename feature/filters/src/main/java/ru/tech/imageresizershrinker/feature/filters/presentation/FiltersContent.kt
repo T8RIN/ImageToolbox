@@ -145,6 +145,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -735,7 +736,10 @@ fun FiltersContent(
     }
 
     var showColorPicker by rememberSaveable { mutableStateOf(false) }
-    var tempColor by rememberSaveable(showColorPicker) { mutableStateOf(Color.Black) }
+    var tempColor by rememberSaveable(
+        showColorPicker,
+        stateSaver = ColorSaver
+    ) { mutableStateOf(Color.Black) }
 
     PickColorFromImageSheet(
         visible = showColorPicker,

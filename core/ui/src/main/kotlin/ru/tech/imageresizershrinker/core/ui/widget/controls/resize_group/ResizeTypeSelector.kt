@@ -67,6 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.Background
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PositionSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -80,7 +81,7 @@ fun ResizeTypeSelector(
     onValueChange: (ResizeType) -> Unit
 ) {
     var isSheetVisible by rememberSaveable { mutableStateOf(false) }
-    var canvasColor by rememberSaveable {
+    var canvasColor by rememberSaveable(stateSaver = ColorSaver) {
         mutableStateOf(Color.Transparent)
     }
     var useBlurredBgInsteadOfColor by rememberSaveable {

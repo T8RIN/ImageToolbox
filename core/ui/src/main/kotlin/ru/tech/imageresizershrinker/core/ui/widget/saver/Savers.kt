@@ -15,12 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.draw.presentation.components
+package ru.tech.imageresizershrinker.core.ui.widget.saver
 
 import androidx.compose.runtime.saveable.Saver
-import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.theme.toColor
 
-val DrawPathModeSaver: Saver<DrawPathMode, Int> = Saver(
-    save = { it.ordinal },
-    restore = { DrawPathMode(it) }
+val ColorSaver: Saver<Color, Int> = Saver(
+    save = {
+        it.toArgb()
+    },
+    restore = {
+        it.toColor()
+    }
+)
+
+val DpSaver: Saver<Dp, Float> = Saver(
+    save = {
+        it.value
+    },
+    restore = {
+        it.dp
+    }
 )

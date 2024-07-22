@@ -17,55 +17,55 @@
 
 package ru.tech.imageresizershrinker.feature.draw.domain
 
-sealed class DrawPathMode(open val ordinal: Int) {
+sealed class DrawPathMode {
 
-    data object Free : DrawPathMode(-1)
-    data object Line : DrawPathMode(0)
-    data object PointingArrow : DrawPathMode(1)
-    data object DoublePointingArrow : DrawPathMode(2)
-    data object LinePointingArrow : DrawPathMode(3)
-    data object DoubleLinePointingArrow : DrawPathMode(4)
-    data object Lasso : DrawPathMode(5)
+    data object Free : DrawPathMode()
+    data object Line : DrawPathMode()
+    data object PointingArrow : DrawPathMode()
+    data object DoublePointingArrow : DrawPathMode()
+    data object LinePointingArrow : DrawPathMode()
+    data object DoubleLinePointingArrow : DrawPathMode()
+    data object Lasso : DrawPathMode()
 
     data class OutlinedRect(
         val rotationDegrees: Int = 0
-    ) : DrawPathMode(6)
+    ) : DrawPathMode()
 
-    data object OutlinedOval : DrawPathMode(7)
+    data object OutlinedOval : DrawPathMode()
 
     data class Rect(
         val rotationDegrees: Int = 0
-    ) : DrawPathMode(8)
+    ) : DrawPathMode()
 
-    data object Oval : DrawPathMode(9)
-    data object Triangle : DrawPathMode(10)
-    data object OutlinedTriangle : DrawPathMode(11)
+    data object Oval : DrawPathMode()
+    data object Triangle : DrawPathMode()
+    data object OutlinedTriangle : DrawPathMode()
 
     data class Polygon(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
         val isRegular: Boolean = false
-    ) : DrawPathMode(12)
+    ) : DrawPathMode()
 
     data class OutlinedPolygon(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
         val isRegular: Boolean = false
-    ) : DrawPathMode(13)
+    ) : DrawPathMode()
 
     data class Star(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
         val innerRadiusRatio: Float = 0.5f,
         val isRegular: Boolean = false
-    ) : DrawPathMode(14)
+    ) : DrawPathMode()
 
     data class OutlinedStar(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
         val innerRadiusRatio: Float = 0.5f,
         val isRegular: Boolean = false
-    ) : DrawPathMode(15)
+    ) : DrawPathMode()
 
     val isStroke: Boolean
         get() = !isFilled
@@ -102,9 +102,5 @@ sealed class DrawPathMode(open val ordinal: Int) {
                 Star()
             )
         }
-
-        operator fun invoke(ordinal: Int) = entries.find {
-            it.ordinal == ordinal
-        } ?: Free
     }
 }

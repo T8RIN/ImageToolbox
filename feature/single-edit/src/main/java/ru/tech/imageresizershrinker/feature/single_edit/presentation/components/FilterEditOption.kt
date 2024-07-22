@@ -89,6 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
@@ -120,7 +121,10 @@ fun FilterEditOption(
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
 
         var showColorPicker by rememberSaveable { mutableStateOf(false) }
-        var tempColor by rememberSaveable(showColorPicker) { mutableStateOf(Color.Black) }
+        var tempColor by rememberSaveable(
+            showColorPicker,
+            stateSaver = ColorSaver
+        ) { mutableStateOf(Color.Black) }
 
         LaunchedEffect(visible) {
             if (visible && filterList.isEmpty()) {

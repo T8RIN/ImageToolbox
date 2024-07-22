@@ -61,6 +61,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
@@ -151,6 +153,12 @@ class SingleEditViewModel @Inject constructor(
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
+
+    private val _drawMode: MutableState<DrawMode> = mutableStateOf(DrawMode.Pen)
+    val drawMode: DrawMode by _drawMode
+
+    private val _drawPathMode: MutableState<DrawPathMode> = mutableStateOf(DrawPathMode.Free)
+    val drawPathMode: DrawPathMode by _drawPathMode
 
     private var job: Job? by smartJob {
         _isImageLoading.update { false }
@@ -648,4 +656,11 @@ class SingleEditViewModel @Inject constructor(
         filters: List<UiFilter<*>>
     ): List<Transformation<Bitmap>> = filters.map { filterProvider.filterToTransformation(it) }
 
+    fun updateDrawMode(drawMode: DrawMode) {
+        _drawMode.update { drawMode }
+    }
+
+    fun updateDrawPathMode(drawPathMode: DrawPathMode) {
+        _drawPathMode.update { drawPathMode }
+    }
 }

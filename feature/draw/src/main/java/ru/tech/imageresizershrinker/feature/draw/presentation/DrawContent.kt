@@ -163,6 +163,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
@@ -178,9 +179,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSelector
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenColorPickerCard
@@ -306,21 +305,24 @@ fun DrawContent(
         stateSaver = PtSaver
     ) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
 
-    var drawColor by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(Color.Black) }
-    var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
-    var drawMode by rememberSaveable(
+    var drawColor by rememberSaveable(
         viewModel.drawBehavior,
-        stateSaver = DrawModeSaver
-    ) { mutableStateOf(DrawMode.Pen) }
+        stateSaver = ColorSaver
+    ) { mutableStateOf(Color.Black) }
+
+    var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
+
+    val drawMode = viewModel.drawMode
+
     var alpha by rememberSaveable(viewModel.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
     }
+
     var brushSoftness by rememberSaveable(viewModel.drawBehavior, drawMode, stateSaver = PtSaver) {
         mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
     }
-    var drawPathMode by rememberSaveable(viewModel.drawBehavior, stateSaver = DrawPathModeSaver) {
-        mutableStateOf(DrawPathMode.Free)
-    }
+
+    val drawPathMode = viewModel.drawPathMode
 
     LaunchedEffect(drawMode, strokeWidth) {
         strokeWidth = if (drawMode is DrawMode.Image) {
@@ -414,7 +416,7 @@ fun DrawContent(
             ),
             value = drawMode,
             strokeWidth = strokeWidth,
-            onValueChange = { drawMode = it }
+            onValueChange = viewModel::updateDrawMode
         )
         DrawPathModeSelector(
             modifier = Modifier.padding(
@@ -423,7 +425,7 @@ fun DrawContent(
                 bottom = 16.dp
             ),
             value = drawPathMode,
-            onValueChange = { drawPathMode = it },
+            onValueChange = viewModel::updateDrawPathMode,
             values = remember(drawMode) {
                 derivedStateOf {
                     if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
@@ -1074,7 +1076,7 @@ fun DrawContent(
         )
     }
 
-    var colorPickerColor by rememberSaveable { mutableStateOf(Color.Black) }
+    var colorPickerColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Black) }
     PickColorFromImageSheet(
         visible = showPickColorSheet,
         onDismiss = {

@@ -485,7 +485,11 @@ fun SingleEditContent(
         paths = viewModel.drawPaths,
         lastPaths = viewModel.drawLastPaths,
         undonePaths = viewModel.drawUndonePaths,
-        addPath = viewModel::addPathToDrawList
+        addPath = viewModel::addPathToDrawList,
+        drawMode = viewModel.drawMode,
+        onUpdateDrawMode = viewModel::updateDrawMode,
+        drawPathMode = viewModel.drawPathMode,
+        onUpdateDrawPathMode = viewModel::updateDrawPathMode
     )
 
     EraseBackgroundEditOption(

@@ -64,7 +64,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticF
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
-import ru.tech.imageresizershrinker.core.ui.widget.saver.EnhancedAutoSaverInit
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.feature.root.presentation.components.AppExitDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.EditPresetsSheet
@@ -79,8 +78,6 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 fun RootContent(
     viewModel: RootViewModel
 ) {
-    EnhancedAutoSaverInit()
-
     val context = LocalContext.current as ComponentActivity
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }

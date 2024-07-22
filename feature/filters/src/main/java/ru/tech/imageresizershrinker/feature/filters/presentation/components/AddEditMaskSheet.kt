@@ -122,11 +122,13 @@ import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.model.UiDrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.model.toDomain
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.model.toUi
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.toUiPathPaint
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Inject
@@ -164,8 +166,13 @@ fun AddEditMaskSheet(
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var panEnabled by rememberSaveable { mutableStateOf(false) }
-        var drawPathMode by rememberSaveable(stateSaver = DrawPathModeSaver) {
-            mutableStateOf(DrawPathMode.Free)
+        var drawPathMode by rememberSaveable {
+            mutableStateOf<UiDrawPathMode>(UiDrawPathMode.Free)
+        }
+        val domainDrawPathMode by remember(drawPathMode) {
+            derivedStateOf {
+                drawPathMode.toDomain()
+            }
         }
 
         val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
@@ -241,11 +248,13 @@ fun AddEditMaskSheet(
             val drawPreview: @Composable () -> Unit = {
                 AnimatedContent(
                     targetState = Triple(
-                        remember(viewModel.previewBitmap) {
+                        first = remember(viewModel.previewBitmap) {
                             derivedStateOf {
                                 viewModel.previewBitmap?.asImageBitmap()
                             }
-                        }.value, viewModel.maskPreviewModeEnabled, viewModel.previewLoading
+                        }.value,
+                        second = viewModel.maskPreviewModeEnabled,
+                        third = viewModel.previewLoading
                     ),
                     transitionSpec = { fadeIn() togetherWith fadeOut() },
                     modifier = Modifier
@@ -297,7 +306,7 @@ fun AddEditMaskSheet(
                                 drawing = false
                             },
                             onRequestFiltering = viewModel::filter,
-                            drawPathMode = drawPathMode,
+                            drawPathMode = domainDrawPathMode,
                             backgroundColor = Color.Transparent
                         )
                     }
@@ -438,8 +447,8 @@ fun AddEditMaskSheet(
                                         DrawPathMode.Star()
                                     )
                                 },
-                                value = drawPathMode,
-                                onValueChange = { drawPathMode = it }
+                                value = domainDrawPathMode,
+                                onValueChange = { drawPathMode = it.toUi() }
                             )
                             LineWidthSelector(
                                 modifier = Modifier.padding(

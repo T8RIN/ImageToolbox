@@ -63,9 +63,5 @@ sealed class DrawMode(open val ordinal: Int) {
                 PathEffect.Custom()
             )
         }
-
-        operator fun invoke(ordinal: Int) = entries.find {
-            it.ordinal == ordinal
-        } ?: Pen
     }
 }

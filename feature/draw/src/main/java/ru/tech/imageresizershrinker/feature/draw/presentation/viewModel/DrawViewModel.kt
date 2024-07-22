@@ -49,6 +49,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import javax.inject.Inject
@@ -77,6 +79,12 @@ class DrawViewModel @Inject constructor(
 
     private val _drawBehavior: MutableState<DrawBehavior> = mutableStateOf(DrawBehavior.None)
     val drawBehavior: DrawBehavior by _drawBehavior
+
+    private val _drawMode: MutableState<DrawMode> = mutableStateOf(DrawMode.Pen)
+    val drawMode: DrawMode by _drawMode
+
+    private val _drawPathMode: MutableState<DrawPathMode> = mutableStateOf(DrawPathMode.Free)
+    val drawPathMode: DrawPathMode by _drawPathMode
 
     private val _uri = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
@@ -343,6 +351,14 @@ class DrawViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
+    }
+
+    fun updateDrawMode(drawMode: DrawMode) {
+        _drawMode.update { drawMode }
+    }
+
+    fun updateDrawPathMode(drawPathMode: DrawPathMode) {
+        _drawPathMode.update { drawPathMode }
     }
 
 }
