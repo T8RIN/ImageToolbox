@@ -207,6 +207,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SwirlDistortionFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.TentBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ThresholdFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ToonFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.TriToneFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritonomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TwoRowSierraDitheringFilter
@@ -428,6 +429,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Gotham -> GothamFilter(value)
             is Filter.SimpleSketch -> SimpleSketchFilter(value)
             is Filter.ColorPoster -> ColorPosterFilter(value)
+            is Filter.TriTone -> TriToneFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

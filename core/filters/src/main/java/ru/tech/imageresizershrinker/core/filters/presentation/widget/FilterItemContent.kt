@@ -863,6 +863,94 @@ internal fun <T> FilterItemContent(
                             )
                         }
                     }
+
+                    value.first is ColorModel && value.second is ColorModel && value.third is ColorModel -> {
+                        Box(
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 16.dp,
+                                end = 16.dp
+                            )
+                        ) {
+                            var color1 by remember(value) { mutableStateOf((value.first as ColorModel).toColor()) }
+                            var color2 by remember(value) { mutableStateOf((value.second as ColorModel).toColor()) }
+                            var color3 by remember(value) { mutableStateOf((value.third as ColorModel).toColor()) }
+
+                            Column {
+                                Text(
+                                    text = stringResource(R.string.first_color),
+                                    modifier = Modifier
+                                        .padding(
+                                            bottom = 16.dp,
+                                            top = 16.dp,
+                                            end = 16.dp,
+                                        )
+                                )
+                                ColorSelectionRow(
+                                    value = color1,
+                                    allowScroll = !previewOnly,
+                                    onValueChange = { color ->
+                                        color1 = color
+                                        onFilterChange(
+                                            Triple(
+                                                color1.toModel(),
+                                                color2.toModel(),
+                                                color3.toModel()
+                                            )
+                                        )
+                                    }
+                                )
+                                Spacer(Modifier.height(8.dp))
+                                Text(
+                                    text = stringResource(R.string.second_color),
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            bottom = 16.dp,
+                                            end = 16.dp
+                                        )
+                                )
+                                ColorSelectionRow(
+                                    value = color2,
+                                    allowScroll = !previewOnly,
+                                    onValueChange = { color ->
+                                        color2 = color
+                                        onFilterChange(
+                                            Triple(
+                                                color1.toModel(),
+                                                color2.toModel(),
+                                                color3.toModel()
+                                            )
+                                        )
+                                    }
+                                )
+                                Spacer(Modifier.height(8.dp))
+                                Text(
+                                    text = stringResource(R.string.third_color),
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            bottom = 16.dp,
+                                            end = 16.dp
+                                        )
+                                )
+                                ColorSelectionRow(
+                                    value = color3,
+                                    allowScroll = !previewOnly,
+                                    onValueChange = { color ->
+                                        color3 = color
+                                        onFilterChange(
+                                            Triple(
+                                                color1.toModel(),
+                                                color2.toModel(),
+                                                color3.toModel()
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
             }
 

@@ -221,6 +221,7 @@ interface Filter<Value> {
     interface SimpleSketch : SimpleFilter
     interface Gotham : SimpleFilter
     interface ColorPoster : PairFilter<Float, ColorModel>
+    interface TriTone : TripleFilter<ColorModel, ColorModel, ColorModel>
 }
 
 interface SimpleFilter : Filter<Unit>

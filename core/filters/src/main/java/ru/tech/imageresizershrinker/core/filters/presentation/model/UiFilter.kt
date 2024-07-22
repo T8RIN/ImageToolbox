@@ -130,7 +130,8 @@ sealed class UiFilter<T>(
                     UiColorBalanceFilter(),
                     UiPaletteTransferFilter(),
                     UiPosterizeFilter(),
-                    UiColorPosterFilter()
+                    UiColorPosterFilter(),
+                    UiTriToneFilter()
                 ),
                 listOf(
                     UiBrightnessFilter(),
