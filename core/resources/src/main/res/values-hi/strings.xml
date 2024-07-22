@@ -1258,4 +1258,13 @@
     <string name="backup_ocr_models">OCR मॉडल का बैकअप लें</string>
     <string name="import_word">आयात</string>
     <string name="top_center">शीर्ष केंद्र</string>
+    <string name="color_poster">रंगीन पोस्टर</string>
+    <string name="target_image">लक्ष्य छवि</string>
+    <string name="palette_transfer">पैलेट स्थानांतरण</string>
+    <string name="enhanced_oil">उन्नत तेल</string>
+    <string name="simple_old_tv">सरल पुराना टीवी</string>
+    <string name="hdr">एचडीआर</string>
+    <string name="gotham">गोथम</string>
+    <string name="simple_sketch">सरल रेखाचित्र</string>
+    <string name="soft_glow">हल्की चमक</string>
 </resources>
