@@ -418,6 +418,10 @@ or click one of the badges below.
         - F32 Rec.709
         - F32 sRGB
         - LCH
+        - Oklab SRGB
+        - Oklab Rec.709
+        - Oklab Gamma 2.2
+        - Oklab Gamma 2.8
 - GIF conversion
     - GIF to images
     - Images to GIF
