@@ -643,7 +643,7 @@
     <string name="gray_scale">Серые тона</string>
     <string name="bayer_two_dithering">Дизеринг Байера два на два</string>
     <string name="bayer_three_dithering">Дизеринг Байера три на три</string>
-    <string name="bayer_four_dithering">Дизеринг по Байеру четыре на четыре</string>
+    <string name="bayer_four_dithering">Дизеринг Байера четыре на четыре</string>
     <string name="bayer_eight_dithering">Дизеринг Байера восемь на восемь</string>
     <string name="floyd_steinberg_dithering">Дизеринг Флойда Стейнберга</string>
     <string name="jarvis_judice_ninke_dithering">Дизеринг Джарвиса Джуди Нинке</string>

@@ -18,10 +18,8 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import android.graphics.Matrix
-import android.graphics.Paint
 import androidx.compose.ui.graphics.Color
-import androidx.core.graphics.applyCanvas
+import com.t8rin.trickle.Trickle
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
@@ -66,14 +64,10 @@ internal class StrokePixelationFilter(
                     .build()
             )
         ).let {
-            Bitmap.createBitmap(
-                it.width,
-                it.height,
-                it.config
-            ).applyCanvas {
-                drawColor(value.second.colorInt)
-                drawBitmap(it, Matrix(), Paint())
-            }
+            Trickle.drawColorBehind(
+                input = it,
+                color = value.second.colorInt
+            )
         }
     }
 }

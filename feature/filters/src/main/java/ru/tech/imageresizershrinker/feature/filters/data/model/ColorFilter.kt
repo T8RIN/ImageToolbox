@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import androidx.core.graphics.applyCanvas
+import com.t8rin.trickle.Trickle
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
@@ -39,8 +39,9 @@ internal class ColorFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.copy(input.config, true).applyCanvas {
-        drawColor(value.wrapped.colorInt)
-    }
+    ): Bitmap = Trickle.drawColorAbove(
+        input = input,
+        color = value.wrapped.colorInt
+    )
 
 }
