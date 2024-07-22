@@ -374,6 +374,10 @@ private val ScaleColorSpace.title: String
         is ScaleColorSpace.F32Rec709 -> "Rec.709"
         is ScaleColorSpace.F32sRGB -> "F32 sRGB"
         is ScaleColorSpace.LCH -> "LCH"
+        ScaleColorSpace.OklabGamma22 -> "Oklab G2.2"
+        ScaleColorSpace.OklabGamma28 -> "Oklab G2.8"
+        ScaleColorSpace.OklabRec709 -> "Oklab Rec.709"
+        ScaleColorSpace.OklabSRGB -> "Oklab sRGB"
     }
 
 private val ImageScaleMode.title: Int

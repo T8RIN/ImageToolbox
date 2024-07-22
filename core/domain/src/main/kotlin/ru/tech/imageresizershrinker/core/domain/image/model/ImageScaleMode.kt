@@ -29,6 +29,10 @@ sealed interface ScaleColorSpace {
     data object F32Gamma22 : ScaleColorSpace
     data object F32Gamma28 : ScaleColorSpace
     data object LCH : ScaleColorSpace
+    data object OklabSRGB : ScaleColorSpace
+    data object OklabRec709 : ScaleColorSpace
+    data object OklabGamma22 : ScaleColorSpace
+    data object OklabGamma28 : ScaleColorSpace
 
     companion object {
         val Default = Linear
@@ -45,7 +49,11 @@ sealed interface ScaleColorSpace {
                 F32Rec709,
                 F32Gamma22,
                 F32Gamma28,
-                LCH
+                LCH,
+                OklabSRGB,
+                OklabRec709,
+                OklabGamma22,
+                OklabGamma28
             )
         }
     }

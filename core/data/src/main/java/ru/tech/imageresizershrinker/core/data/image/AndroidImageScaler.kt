@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.BitmapCompat
@@ -144,15 +143,6 @@ internal class AndroidImageScaler @Inject constructor(
         scaleFactor: Float,
         imageScaleMode: ImageScaleMode
     ): Bitmap = withContext(defaultDispatcher) {
-        val mTargetWidth = targetWidth
-        val mTargetHeight = targetHeight
-
-        Log.d("COCK", "---------------------------")
-        Log.d(
-            "COCK",
-            "scale $scaleFactor, $targetWidth : $targetHeight -> $mTargetWidth : $mTargetHeight"
-        )
-
         val originalSize = if (!originalSize.isDefined()) {
             IntegerSize(
                 width = image.width,
@@ -162,9 +152,7 @@ internal class AndroidImageScaler @Inject constructor(
             originalSize
         } * scaleFactor
 
-        Log.d("COCK", "originalSize $originalSize")
-
-        if (mTargetWidth == originalSize.width && mTargetHeight == originalSize.height) {
+        if (targetWidth == originalSize.width && targetHeight == originalSize.height) {
             return@withContext image
         }
 
@@ -182,11 +170,6 @@ internal class AndroidImageScaler @Inject constructor(
             originalHeight = originalSize.height
         }
 
-        Log.d(
-            "COCK",
-            "imageAspect $aspect, originalAspect $originalAspect, fakeOriginal - $originalWidth : $originalHeight"
-        )
-
         val drawImage = createScaledBitmap(
             image = image,
             width = originalWidth,
@@ -196,8 +179,8 @@ internal class AndroidImageScaler @Inject constructor(
 
         val blurredBitmap = imageTransformer.transform(
             image = drawImage.let { bitmap ->
-                val xScale: Float = mTargetWidth.toFloat() / originalWidth
-                val yScale: Float = mTargetHeight.toFloat() / originalHeight
+                val xScale: Float = targetWidth.toFloat() / originalWidth
+                val yScale: Float = targetHeight.toFloat() / originalHeight
                 val scale = xScale.coerceAtLeast(yScale)
                 createScaledBitmap(
                     image = bitmap,
@@ -217,8 +200,8 @@ internal class AndroidImageScaler @Inject constructor(
         )
 
         Bitmap.createBitmap(
-            mTargetWidth,
-            mTargetHeight,
+            targetWidth,
+            targetHeight,
             drawImage.config
         ).apply {
             setHasAlpha(true)
@@ -336,6 +319,10 @@ internal class AndroidImageScaler @Inject constructor(
         ScaleColorSpace.F32Rec709 -> AireScaleColorSpace.LINEAR_F32_REC709
         ScaleColorSpace.F32sRGB -> AireScaleColorSpace.LINEAR_F32_SRGB
         ScaleColorSpace.LCH -> AireScaleColorSpace.LCH
+        ScaleColorSpace.OklabGamma22 -> AireScaleColorSpace.OKLAB_GAMMA_2_2
+        ScaleColorSpace.OklabGamma28 -> AireScaleColorSpace.OKLAB_GAMMA_2_8
+        ScaleColorSpace.OklabRec709 -> AireScaleColorSpace.OKLAB_REC709
+        ScaleColorSpace.OklabSRGB -> AireScaleColorSpace.OKLAB_SRGB
     }
 
     private suspend fun flexibleResize(
