@@ -12,8 +12,8 @@ compose-compiler = "1.5.14"
 imageToolboxLibs = "2.1.4"
 trickle = "1.0.3"
 
-avifCoder = "1.7.5"
-aire = "0.13.4"
+avifCoder = "1.8.0"
+aire = "0.13.6"
 jxlCoder = "2.3.0"
 
 tesseract = "4.7.0"
