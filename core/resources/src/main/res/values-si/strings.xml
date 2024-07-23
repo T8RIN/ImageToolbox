@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
+    <string name="size">ප්‍රමාණය %1$s</string>
+    <string name="loading">මොහොතක් සිටින්න…</string>
+    <string name="image_too_large_preview">ඡායාරූපය විශාල බැවින් පෙරදසුනක් ඉදිරිපත් කිරීමට නොහැක, නමුත් සේව් කිරීම මගින් නැවත උත්සහ කළ හැක</string>
+    <string name="pick_image">පටන් ගැනීමට ඡායාරූපයක් තෝරන්න</string>
+    <string name="width">පළල %1$s</string>
+    <string name="height">උස %1$s</string>
+    <string name="close">වහන්න</string>
+    <string name="stay">ඉන්න</string>
+    <string name="app_closing_sub">ඔයාට ඇප් එක ක්ලෝස් කරන්න ඕනමද ?</string>
+    <string name="reset_image">රූපය යළි පිහිටුවන්න</string>
+    <string name="reset_image_sub">රූප වෙනස් කිරීම් මුල් අගයන් වෙත පෙරළෙනු ඇත</string>
+    <string name="values_reset">අගයන් නිවැරදිව නැවත සකසන්න</string>
+    <string name="reset">යළි පිහිටුවන්න</string>
+    <string name="something_went_wrong">වැරදීමක් සිදුවී ඇත</string>
+    <string name="restart_app">ඇප් එක රීස්ටාට් කරන්න</string>
+    <string name="edit_exif">EXIF සංස්කරණය කරන්න</string>
+    <string name="ok" tools:ignore="ButtonCase,Typos">හරි</string>
+    <string name="no_exif">EXIF දත්ත හමු නොවීය</string>
+    <string name="save">සේව් කරන්න</string>
+    <string name="clear_exif">EXIF ඉවත් කරන්න</string>
+    <string name="resize_type">ප්‍රමාණය වෙනස් කරන්න</string>
+    <string name="quality">ඡායාරූපයේ ගුණාත්මක භාවය</string>
+    <string name="pick_image_alt">ඡායාරූපයක් තෝරන්න</string>
+    <string name="app_closing">ඇප් එක වසා දැමෙමින්</string>
+    <string name="copied">ක්ලිප්බෝඩ් එකට පිටපත් කර ඇත</string>
+    <string name="add_tag">ටැගය එක් කරන්න</string>
+    <string name="clear">හිස් කරන්න</string>
+    <string name="cancel">අවලංගු කරන්න</string>
+    <string name="clear_exif_sub">"සියලුම පින්තූර EXIF දත්ත මැකෙනු ඇත.  මෙම ක්‍රියාව නැවත සිදුකළ නොහැක!"</string>
+</resources>
