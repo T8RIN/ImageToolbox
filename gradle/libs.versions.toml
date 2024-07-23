@@ -3,8 +3,8 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
-versionName = "2.9.1-alpha02"
-versionCode = "146"
+versionName = "2.9.1-alpha03"
+versionCode = "147"
 
 jvmTarget = "17"
 compose-compiler = "1.5.14"
@@ -13,7 +13,7 @@ imageToolboxLibs = "2.1.4"
 trickle = "1.0.6"
 
 avifCoder = "1.8.0"
-aire = "0.13.8"
+aire = "0.13.9"
 jxlCoder = "2.3.0"
 
 tesseract = "4.7.0"
