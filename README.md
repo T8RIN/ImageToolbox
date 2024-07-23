@@ -300,6 +300,10 @@ or click one of the badges below.
     - [x] Simple Sketch
     - [x] Gotham
     - [x] Color Poster
+    - [x] Tri Tone
+    - [x] Clahe Oklch
+    - [x] Clahe Jzazbz
+    - [x] Clahe Oklab
 
   </details>
 - Custom Filters Creation by Template filters
@@ -418,10 +422,14 @@ or click one of the badges below.
         - F32 Rec.709
         - F32 sRGB
         - LCH
-        - Oklab SRGB
+        - Oklab sRGB
         - Oklab Rec.709
         - Oklab Gamma 2.2
         - Oklab Gamma 2.8
+        - Jzazbz sRGB
+        - Jzazbz Rec.709
+        - Jzazbz Gamma 2.2
+        - Jzazbz Gamma 2.8
 - GIF conversion
     - GIF to images
     - Images to GIF
