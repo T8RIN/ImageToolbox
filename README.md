@@ -663,7 +663,7 @@ or click one of the badges below.
   and [JXL Coder](https://github.com/awxkee/jxl-coder) libraries which provide avif, heic, heif and
   jxl support.
 
-- [Aire](https://github.com/awxkee/aire) for creating and applying filters to the images on CPU
+- [Aire](https://github.com/awxkee/aire) and [Trickle](https://github.com/T8RIN/Trickle) for creating and applying filters to the images on CPU
   using native cpp code.
 
 <div align="center">
