@@ -36,6 +36,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridS
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -68,7 +70,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -256,40 +257,26 @@ fun ScaleModeSelector(
             val items = remember {
                 ScaleColorSpace.entries
             }
-            ToggleGroupButton(
-                enabled = true,
-                itemCount = items.size,
-                inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+            DataSelector(
+                value = value.scaleColorSpace,
+                onValueChange = {
+                    onValueChange(
+                        value.copy(it)
+                    )
+                },
+                spanCount = 2,
+                entries = items,
+                title = stringResource(R.string.tag_color_space),
+                titleIcon = Icons.Outlined.ColorLens,
+                itemContentText = {
+                    it.title
+                },
+                color = MaterialTheme.colorScheme.surface,
+                shape = ContainerShapeDefaults.bottomShape,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-                    .container(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = ContainerShapeDefaults.bottomShape
-                    ),
-                title = {
-                    Text(
-                        modifier = Modifier.padding(top = 8.dp),
-                        text = stringResource(R.string.tag_color_space),
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Medium
-                    )
-                },
-                selectedIndex = items.indexOfFirst {
-                    value.scaleColorSpace::class.isInstance(it)
-                },
-                buttonIcon = {},
-                itemContent = {
-                    AutoSizeText(
-                        text = items[it].title,
-                        maxLines = 1
-                    )
-                },
-                indexChanged = {
-                    onValueChange(
-                        value.copy(items[it])
-                    )
-                }
+                    .padding(horizontal = 8.dp),
+                selectedItemColor = MaterialTheme.colorScheme.secondary
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -378,6 +365,10 @@ private val ScaleColorSpace.title: String
         ScaleColorSpace.OklabGamma28 -> "Oklab G2.8"
         ScaleColorSpace.OklabRec709 -> "Oklab Rec.709"
         ScaleColorSpace.OklabSRGB -> "Oklab sRGB"
+        ScaleColorSpace.JzazbzGamma22 -> "Jzazbz ${stringResource(R.string.gamma)} 2.2"
+        ScaleColorSpace.JzazbzGamma28 -> "Jzazbz ${stringResource(R.string.gamma)} 2.8"
+        ScaleColorSpace.JzazbzRec709 -> "Jzazbz Rec.709"
+        ScaleColorSpace.JzazbzSRGB -> "Jzazbz sRGB"
     }
 
 private val ImageScaleMode.title: Int

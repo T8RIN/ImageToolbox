@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toMode
 import kotlin.math.roundToInt
 
 internal class ColorPosterFilter(
-    override val value: Pair<Float, ColorModel> = 0.5f to Color(0xFF4DFFA3).toModel()
+    override val value: Pair<Float, ColorModel> = 0.5f to Color(0xFF4DFFE4).toModel()
 ) : Transformation<Bitmap>, Filter.ColorPoster {
 
     override val cacheKey: String

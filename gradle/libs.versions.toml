@@ -13,7 +13,7 @@ imageToolboxLibs = "2.1.4"
 trickle = "1.0.6"
 
 avifCoder = "1.8.0"
-aire = "0.13.6"
+aire = "0.13.8"
 jxlCoder = "2.3.0"
 
 tesseract = "4.7.0"

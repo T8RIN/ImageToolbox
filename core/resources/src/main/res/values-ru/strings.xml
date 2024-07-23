@@ -1224,7 +1224,7 @@
     <string name="lanczos_6_jinc">Ланцош 6 Jinc</string>
     <string name="lanczos_6_jinc_sub">Вариант фильтра Ланцоша 6, использующий функцию Jinc для улучшения качества ресемплинга изображений</string>
     <string name="not_use_color_blind_scheme">Не использовать схему дальтонизма</string>
-    <string name="sigmoidal">Сигм.</string>
+    <string name="sigmoidal">Сигмоидальное</string>
     <string name="not_use_color_blind_scheme_sub">Цвета будут такими же как в теме</string>
     <string name="linear_box_blur">Линейное размытие прямоугольником</string>
     <string name="linear_tent_blur">Линейное размытие тентом</string>

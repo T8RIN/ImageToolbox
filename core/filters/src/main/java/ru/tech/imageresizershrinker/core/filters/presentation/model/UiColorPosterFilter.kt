@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 class UiColorPosterFilter(
-    override val value: Pair<Float, ColorModel> = 0.5f to Color(0xFF4DFFA3).toModel()
+    override val value: Pair<Float, ColorModel> = 0.5f to Color(0xFF4DFFE4).toModel()
 ) : UiFilter<Pair<Float, ColorModel>>(
     title = R.string.color_poster,
     paramsInfo = listOf(

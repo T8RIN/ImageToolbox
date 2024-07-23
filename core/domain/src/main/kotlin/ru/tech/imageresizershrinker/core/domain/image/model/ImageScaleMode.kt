@@ -33,6 +33,10 @@ sealed interface ScaleColorSpace {
     data object OklabRec709 : ScaleColorSpace
     data object OklabGamma22 : ScaleColorSpace
     data object OklabGamma28 : ScaleColorSpace
+    data object JzazbzSRGB : ScaleColorSpace
+    data object JzazbzRec709 : ScaleColorSpace
+    data object JzazbzGamma22 : ScaleColorSpace
+    data object JzazbzGamma28 : ScaleColorSpace
 
     companion object {
         val Default = Linear
@@ -53,7 +57,11 @@ sealed interface ScaleColorSpace {
                 OklabSRGB,
                 OklabRec709,
                 OklabGamma22,
-                OklabGamma28
+                OklabGamma28,
+                JzazbzSRGB,
+                JzazbzRec709,
+                JzazbzGamma22,
+                JzazbzGamma28
             )
         }
     }

@@ -29,8 +29,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toMode
 internal class TriToneFilter(
     override val value: Triple<ColorModel, ColorModel, ColorModel> = Triple(
         first = Color(0xFFFF003B).toModel(),
-        second = Color(0xFF1DA58A).toModel(),
-        third = Color(0xFFFF9900).toModel()
+        second = Color(0xFF831111).toModel(),
+        third = Color(0xFFFF0099).toModel()
     )
 ) : Transformation<Bitmap>, Filter.TriTone {
 

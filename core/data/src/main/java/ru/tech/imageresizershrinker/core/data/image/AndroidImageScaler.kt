@@ -323,6 +323,10 @@ internal class AndroidImageScaler @Inject constructor(
         ScaleColorSpace.OklabGamma28 -> AireScaleColorSpace.OKLAB_GAMMA_2_8
         ScaleColorSpace.OklabRec709 -> AireScaleColorSpace.OKLAB_REC709
         ScaleColorSpace.OklabSRGB -> AireScaleColorSpace.OKLAB_SRGB
+        ScaleColorSpace.JzazbzGamma22 -> AireScaleColorSpace.JZAZBZ_GAMMA_2_2
+        ScaleColorSpace.JzazbzGamma28 -> AireScaleColorSpace.JZAZBZ_GAMMA_2_8
+        ScaleColorSpace.JzazbzRec709 -> AireScaleColorSpace.JZAZBZ_REC709
+        ScaleColorSpace.JzazbzSRGB -> AireScaleColorSpace.JZAZBZ_SRGB
     }
 
     private suspend fun flexibleResize(

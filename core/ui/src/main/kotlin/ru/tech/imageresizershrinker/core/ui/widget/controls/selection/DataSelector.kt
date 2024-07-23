@@ -67,7 +67,8 @@ fun <T : Any> DataSelector(
     spanCount: Int = 3,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(20.dp),
-    color: Color = MaterialTheme.colorScheme.surface
+    color: Color = MaterialTheme.colorScheme.surface,
+    selectedItemColor: Color = MaterialTheme.colorScheme.tertiary
 ) {
     Column(
         modifier = modifier.container(
@@ -131,7 +132,7 @@ fun <T : Any> DataSelector(
                     onClick = {
                         onValueChange(it)
                     },
-                    selectedColor = MaterialTheme.colorScheme.tertiary,
+                    selectedColor = selectedItemColor,
                     contentPadding = PaddingValues(
                         horizontal = 12.dp,
                         vertical = 8.dp
