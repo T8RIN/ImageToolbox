@@ -222,6 +222,9 @@ interface Filter<Value> {
     interface Gotham : SimpleFilter
     interface ColorPoster : PairFilter<Float, ColorModel>
     interface TriTone : TripleFilter<ColorModel, ColorModel, ColorModel>
+    interface ClaheOklch : Filter<ClaheParams>
+    interface ClaheJzazbz : Filter<ClaheParams>
+    interface ClaheOklab : Filter<ClaheParams>
 }
 
 interface SimpleFilter : Filter<Unit>

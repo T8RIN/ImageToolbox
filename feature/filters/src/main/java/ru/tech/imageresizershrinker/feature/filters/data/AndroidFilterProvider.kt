@@ -51,8 +51,11 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.CirclePixelationF
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheHSLFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheHSVFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheJzazbzFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLABFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLUVFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheOklabFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheOklchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CodaChromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorAnomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorBalanceFilter
@@ -430,6 +433,9 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.SimpleSketch -> SimpleSketchFilter(value)
             is Filter.ColorPoster -> ColorPosterFilter(value)
             is Filter.TriTone -> TriToneFilter(value)
+            is Filter.ClaheOklch -> ClaheOklchFilter(value)
+            is Filter.ClaheOklab -> ClaheOklabFilter(value)
+            is Filter.ClaheJzazbz -> ClaheJzazbzFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

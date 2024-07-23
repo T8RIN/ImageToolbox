@@ -1287,4 +1287,7 @@
     <string name="color_poster">Color Poster</string>
     <string name="tri_tone">Tri Tone</string>
     <string name="third_color">Third color</string>
+    <string name="clahe_oklab">Clahe Oklab</string>
+    <string name="clahe_oklch">Clahe Oklch</string>
+    <string name="clahe_jzazbz">Clahe Jzazbz</string>
 </resources>

@@ -163,7 +163,10 @@ sealed class UiFilter<T>(
                     UiMobiusFilter(),
                     UiAldridgeFilter(),
                     UiUchimuraFilter(),
-                    UiDragoFilter()
+                    UiDragoFilter(),
+                    UiClaheOklabFilter(),
+                    UiClaheOklchFilter(),
+                    UiClaheJzazbzFilter()
                 ),
                 listOf(
                     UiNoiseFilter(),
