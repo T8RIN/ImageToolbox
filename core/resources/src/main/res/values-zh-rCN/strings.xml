@@ -1266,4 +1266,10 @@
     <string name="gotham">哥谭</string>
     <string name="simple_sketch">简易素描</string>
     <string name="soft_glow">柔光</string>
+    <string name="color_poster">彩色海报</string>
+    <string name="third_color">第三色</string>
+    <string name="clahe_oklab">Clahe Oklab</string>
+    <string name="clahe_oklch">Clahe Oklch</string>
+    <string name="tri_tone">三原色</string>
+    <string name="clahe_jzazbz">Clahe Jzazbz</string>
 </resources>
