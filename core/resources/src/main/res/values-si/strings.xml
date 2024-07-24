@@ -30,4 +30,20 @@
     <string name="clear">හිස් කරන්න</string>
     <string name="cancel">අවලංගු කරන්න</string>
     <string name="clear_exif_sub">"සියලුම පින්තූර EXIF දත්ත මැකෙනු ඇත.  මෙම ක්‍රියාව නැවත සිදුකළ නොහැක!"</string>
+    <string name="device_storage">උපාංග ගබඩාව</string>
+    <string name="unspecified">නිශ්චිතව දක්වා නැත</string>
+    <string name="by_bytes_resize">බර අනුව ප්‍රමාණය වෙනස් කරන්න</string>
+    <string name="max_bytes">උපරිම ප්‍රමාණය KB වලින්</string>
+    <string name="by_bytes_resize_sub">KB වලින් ලබා දී ඇති ප්‍රමාණයෙන් රූපයේ ප්‍රමාණය වෙනස් කරන්න</string>
+    <string name="compare">සසඳන්න</string>
+    <string name="compare_sub">ලබා දී ඇති පින්තූර දෙකක් සසඳන්න</string>
+    <string name="pick_two_images">ආරම්භ කිරීමට පින්තූර දෙකක් තෝරන්න</string>
+    <string name="pick_images">පින්තූර තෝරන්න</string>
+    <string name="settings">සැකසුම්</string>
+    <string name="night_mode">අඳුරු තේමාව</string>
+    <string name="light">ලයිට්</string>
+    <string name="dark">ඩාක්</string>
+    <string name="language">භාෂාව</string>
+    <string name="system">පද්ධති</string>
+    <string name="allow_image_monet_sub">ඔන් කර ඇත්නම්, ඔබ සංස්කරණය කිරීමට රූපයක් තෝරන විට, යෙදුම් වර්ණ මෙම රූපයට අනුගත වනු ඇත</string>
 </resources>
