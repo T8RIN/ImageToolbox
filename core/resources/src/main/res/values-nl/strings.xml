@@ -1267,4 +1267,9 @@
     <string name="simple_sketch">Eenvoudige schets</string>
     <string name="soft_glow">Zachte gloed</string>
     <string name="color_poster">Kleurenposter</string>
+    <string name="tri_tone">Driekleur</string>
+    <string name="third_color">Derde kleur</string>
+    <string name="clahe_oklab">Clahe Oklab</string>
+    <string name="clahe_oklch">Clahe Oklch</string>
+    <string name="clahe_jzazbz">Clahe Jzazbz</string>
 </resources>
