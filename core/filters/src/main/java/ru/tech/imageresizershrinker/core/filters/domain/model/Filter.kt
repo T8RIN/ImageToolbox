@@ -225,7 +225,7 @@ interface Filter<Value> {
     interface ClaheOklch : Filter<ClaheParams>
     interface ClaheJzazbz : Filter<ClaheParams>
     interface ClaheOklab : Filter<ClaheParams>
-    interface PolkaDot : PairFilter<Int, Int>
+    interface PolkaDot : TripleFilter<Int, Int, ColorModel>
     interface Clustered2x2Dithering : Filter<Boolean>
     interface Clustered4x4Dithering : Filter<Boolean>
     interface Clustered8x8Dithering : Filter<Boolean>

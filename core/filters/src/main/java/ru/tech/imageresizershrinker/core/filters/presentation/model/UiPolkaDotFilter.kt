@@ -17,13 +17,20 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
+import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 class UiPolkaDotFilter(
-    override val value: Pair<Int, Int> = 10 to 8
-) : UiFilter<Pair<Int, Int>>(
+    override val value: Triple<Int, Int, ColorModel> = Triple(
+        first = 10,
+        second = 8,
+        third = Color.Black.toModel()
+    )
+) : UiFilter<Triple<Int, Int, ColorModel>>(
     title = R.string.polka_dot,
     value = value,
     paramsInfo = listOf(
@@ -36,6 +43,10 @@ class UiPolkaDotFilter(
             title = R.string.spacing,
             valueRange = 1f..40f,
             roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.background_color,
+            valueRange = 0f..0f
         )
     )
 ), Filter.PolkaDot

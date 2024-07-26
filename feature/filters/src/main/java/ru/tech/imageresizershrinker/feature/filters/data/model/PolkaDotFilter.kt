@@ -18,13 +18,21 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.t8rin.trickle.Trickle
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 
 internal class PolkaDotFilter(
-    override val value: Pair<Int, Int> = 10 to 8
+    override val value: Triple<Int, Int, ColorModel> = Triple(
+        first = 10,
+        second = 8,
+        third = Color.Black.toModel()
+    )
 ) : Transformation<Bitmap>, Filter.PolkaDot {
 
     override val cacheKey: String
@@ -33,10 +41,21 @@ internal class PolkaDotFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Trickle.polkaDot(
-        input = input,
-        dotRadius = value.first,
-        spacing = value.second
-    )
+    ): Bitmap = if (value.third.colorInt == Color.Transparent.toArgb()) {
+        Trickle.polkaDot(
+            input = input,
+            dotRadius = value.first,
+            spacing = value.second
+        )
+    } else {
+        Trickle.drawColorBehind(
+            input = Trickle.polkaDot(
+                input = input,
+                dotRadius = value.first,
+                spacing = value.second
+            ),
+            color = value.third.colorInt
+        )
+    }
 
 }
