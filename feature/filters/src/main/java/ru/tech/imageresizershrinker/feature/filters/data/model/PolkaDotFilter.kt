@@ -23,9 +23,9 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-internal class SandPaintingFilter(
-    override val value: Pair<Int, Int> = 2000 to 50
-) : Transformation<Bitmap>, Filter.SandPainting {
+internal class PolkaDotFilter(
+    override val value: Pair<Int, Int> = 10 to 8
+) : Transformation<Bitmap>, Filter.PolkaDot {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -33,10 +33,10 @@ internal class SandPaintingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Trickle.sandPainting(
+    ): Bitmap = Trickle.polkaDot(
         input = input,
-        alphaOrPointCount = value.first.toFloat(),
-        threshold = value.second
+        dotRadius = value.first,
+        spacing = value.second
     )
 
 }

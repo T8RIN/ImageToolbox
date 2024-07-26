@@ -236,7 +236,8 @@ sealed class UiFilter<T>(
                     UiEnhancedCirclePixelationFilter(),
                     UiStrokePixelationFilter(),
                     UiLowPolyFilter(),
-                    UiSandPaintingFilter()
+                    UiSandPaintingFilter(),
+                    UiPolkaDotFilter()
                 ),
                 listOf(
                     UiEnhancedGlitchFilter(),
@@ -273,7 +274,11 @@ sealed class UiFilter<T>(
                     UiLeftToRightDitheringFilter(),
                     UiRandomDitheringFilter(),
                     UiSimpleThresholdDitheringFilter(),
-                    UiQuantizierFilter()
+                    UiQuantizierFilter(),
+                    UiClustered2x2DitheringFilter(),
+                    UiClustered4x4DitheringFilter(),
+                    UiClustered8x8DitheringFilter(),
+                    UiYililomaDitheringFilter()
                 )
             )
         }

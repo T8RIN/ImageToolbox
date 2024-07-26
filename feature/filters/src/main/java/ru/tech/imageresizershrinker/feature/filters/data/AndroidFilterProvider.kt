@@ -56,6 +56,9 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLABFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLUVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheOklabFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheOklchFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered2x2DitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered4x4DitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered8x8DitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CodaChromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorAnomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorBalanceFilter
@@ -169,6 +172,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.PinkDreamFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PoissonBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PolaroidFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.PolkaDotFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PosterizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtonomalyFilter
@@ -223,6 +227,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.WarmFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.WaterEffectFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.WeakPixelFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.WhiteBalanceFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.YililomaDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ZoomBlurFilter
 import javax.inject.Inject
 
@@ -436,6 +441,11 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.ClaheOklch -> ClaheOklchFilter(value)
             is Filter.ClaheOklab -> ClaheOklabFilter(value)
             is Filter.ClaheJzazbz -> ClaheJzazbzFilter(value)
+            is Filter.PolkaDot -> PolkaDotFilter(value)
+            is Filter.Clustered2x2Dithering -> Clustered2x2DitheringFilter(value)
+            is Filter.Clustered4x4Dithering -> Clustered4x4DitheringFilter(value)
+            is Filter.Clustered8x8Dithering -> Clustered8x8DitheringFilter(value)
+            is Filter.YililomaDithering -> YililomaDitheringFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

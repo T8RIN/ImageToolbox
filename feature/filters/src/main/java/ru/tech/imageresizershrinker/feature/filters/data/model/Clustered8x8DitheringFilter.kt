@@ -18,14 +18,15 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.t8rin.trickle.DitheringType
 import com.t8rin.trickle.Trickle
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-internal class SandPaintingFilter(
-    override val value: Pair<Int, Int> = 2000 to 50
-) : Transformation<Bitmap>, Filter.SandPainting {
+internal class Clustered8x8DitheringFilter(
+    override val value: Boolean = false,
+) : Transformation<Bitmap>, Filter.Clustered8x8Dithering {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -33,10 +34,10 @@ internal class SandPaintingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Trickle.sandPainting(
+    ): Bitmap = Trickle.dithering(
         input = input,
-        alphaOrPointCount = value.first.toFloat(),
-        threshold = value.second
+        type = DitheringType.Clustered8x8,
+        isGrayScale = value
     )
 
 }

@@ -15,28 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
-import com.t8rin.trickle.Trickle
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-internal class SandPaintingFilter(
-    override val value: Pair<Int, Int> = 2000 to 50
-) : Transformation<Bitmap>, Filter.SandPainting {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Trickle.sandPainting(
-        input = input,
-        alphaOrPointCount = value.first.toFloat(),
-        threshold = value.second
+class UiClustered2x2DitheringFilter(
+    override val value: Boolean = false,
+) : UiFilter<Boolean>(
+    title = R.string.clustered_2x2_dithering,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.gray_scale,
+            valueRange = 0f..0f,
+            roundTo = 0
+        )
     )
-
-}
+), Filter.Clustered2x2Dithering

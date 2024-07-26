@@ -199,6 +199,31 @@ internal fun <T> FilterItemContent(
                 )
             }
 
+            is Boolean -> {
+                filter.paramsInfo[0].takeIf { it.title != null }
+                    ?.let { (title, _, _) ->
+                        PreferenceRowSwitch(
+                            title = stringResource(id = title!!),
+                            checked = value,
+                            onClick = {
+                                onFilterChange(value)
+                            },
+                            modifier = Modifier.padding(
+                                top = 16.dp,
+                                start = 12.dp,
+                                end = 12.dp,
+                                bottom = 12.dp
+                            ),
+                            applyHorizontalPadding = false,
+                            startContent = {},
+                            resultModifier = Modifier.padding(
+                                horizontal = 16.dp,
+                                vertical = 8.dp
+                            )
+                        )
+                    }
+            }
+
             is Pair<*, *> -> {
                 when {
                     value.first is Number && value.second is Number -> {
