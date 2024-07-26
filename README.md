@@ -304,6 +304,11 @@ or click one of the badges below.
     - [x] Clahe Oklch
     - [x] Clahe Jzazbz
     - [x] Clahe Oklab
+    - [x] Yililoma Dithering
+    - [x] Clustered 2x2 Dithering
+    - [x] Clustered 4x4 Dithering
+    - [x] Clustered8x8 Dithering
+    - [x] Polka Dot
 
   </details>
 - Custom Filters Creation by Template filters
