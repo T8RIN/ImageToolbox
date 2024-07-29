@@ -906,4 +906,13 @@
     <string name="tag_x_resolution">القرار العاشر</string>
     <string name="tag_y_resolution">القرار ص</string>
     <string name="tag_bits_per_sample">بت لكل عينة</string>
+    <string name="tag_datetime">التاريخ والوقت</string>
+    <string name="tag_make">مصنّع</string>
+    <string name="tag_image_description">وصف الصورة</string>
+    <string name="tag_model">نموذج</string>
+    <string name="tag_software">برمجية</string>
+    <string name="tag_copyright">حقوق النشر</string>
+    <string name="tag_artist">فنان</string>
+    <string name="tag_flashpix_version">إصدار Flashpix</string>
+    <string name="tag_exif_version">إصدار Exif</string>
 </resources>
