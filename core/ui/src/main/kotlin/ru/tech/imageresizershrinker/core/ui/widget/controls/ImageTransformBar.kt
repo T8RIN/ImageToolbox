@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -64,7 +65,7 @@ fun ImageTransformBar(
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
     canRotate: Boolean = true,
-    trailingContent: @Composable () -> Unit = {},
+    leadingContent: @Composable RowScope.() -> Unit = {},
 ) {
     val shape = RoundedCornerShape(
         animateIntAsState(if (imageFormat?.canWriteExif == false) 20 else 50).value
@@ -111,7 +112,7 @@ fun ImageTransformBar(
                 }
             }
 
-            trailingContent()
+            leadingContent()
 
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,

@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
+import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.material3.Icon
@@ -61,6 +62,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -167,14 +169,25 @@ fun RecognizeTextContent(
         }
     }
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { list ->
-            list.firstOrNull()?.let {
-                viewModel.updateUri(it, startRecognition)
-            }
+    val imagePickerMode = localImagePickerMode(Picker.Single)
+
+    val pickImageLauncher = rememberImagePicker(
+        mode = imagePickerMode
+    ) { list ->
+        list.firstOrNull()?.let {
+            viewModel.updateUri(it, startRecognition)
         }
+    }
+
+    val captureImageLauncher = rememberImagePicker(
+        mode = ImagePickerMode.CameraCapture
+    ) { list ->
+        list.firstOrNull()?.let {
+            viewModel.updateUri(it, startRecognition)
+        }
+    }
+
+    val captureImage = captureImageLauncher::pickImage
 
     val pickImage = pickImageLauncher::pickImage
 
@@ -326,6 +339,19 @@ fun RecognizeTextContent(
                 onFlip = viewModel::flipImage,
                 onRotateRight = viewModel::rotateBitmapRight
             ) {
+                if (imagePickerMode != ImagePickerMode.CameraCapture) {
+                    EnhancedIconButton(
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        onClick = captureImage
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.CameraAlt,
+                            contentDescription = stringResource(R.string.camera)
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                }
                 EnhancedIconButton(
                     containerColor = MaterialTheme.colorScheme.mixedContainer,
                     contentColor = MaterialTheme.colorScheme.onMixedContainer,
