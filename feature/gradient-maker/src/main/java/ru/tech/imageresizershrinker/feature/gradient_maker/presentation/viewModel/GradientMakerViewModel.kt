@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -102,6 +103,9 @@ class GradientMakerViewModel @Inject constructor(
     private val _gradientSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(1000, 1000))
     val gradientSize by _gradientSize
 
+    private val _quality: MutableState<Quality> = mutableStateOf(Quality.Base())
+    val quality by _quality
+
     suspend fun createGradientBitmap(
         data: Any,
         integerSize: IntegerSize = gradientSize,
@@ -152,7 +156,8 @@ class GradientMakerViewModel @Inject constructor(
                     val imageInfo = ImageInfo(
                         imageFormat = imageFormat,
                         width = localBitmap.width,
-                        height = localBitmap.height
+                        height = localBitmap.height,
+                        quality = quality
                     )
                     onStandaloneGradientSaveResult(
                         fileController.save(
@@ -183,7 +188,8 @@ class GradientMakerViewModel @Inject constructor(
                             imageFormat = imageFormat,
                             width = localBitmap.width,
                             height = localBitmap.height,
-                            originalUri = uri.toString()
+                            originalUri = uri.toString(),
+                            quality = quality
                         )
                         results.add(
                             fileController.save(
@@ -226,7 +232,8 @@ class GradientMakerViewModel @Inject constructor(
                         imageInfo = ImageInfo(
                             imageFormat = imageFormat,
                             width = it.width,
-                            height = it.height
+                            height = it.height,
+                            quality = quality
                         ),
                         onComplete = onComplete
                     )
@@ -244,7 +251,8 @@ class GradientMakerViewModel @Inject constructor(
                             it to ImageInfo(
                                 width = it.width,
                                 height = it.height,
-                                imageFormat = imageFormat
+                                imageFormat = imageFormat,
+                                quality = quality
                             )
                         }
                     },
@@ -426,7 +434,8 @@ class GradientMakerViewModel @Inject constructor(
                     imageInfo = ImageInfo(
                         imageFormat = imageFormat,
                         width = image.width,
-                        height = image.height
+                        height = image.height,
+                        quality = quality
                     )
                 )?.let { uri ->
                     onComplete(uri.toUri())
@@ -453,7 +462,8 @@ class GradientMakerViewModel @Inject constructor(
                     val imageInfo = ImageInfo(
                         imageFormat = imageFormat,
                         width = localBitmap.width,
-                        height = localBitmap.height
+                        height = localBitmap.height,
+                        quality = quality
                     )
                     shareProvider.cacheImage(
                         image = localBitmap,
@@ -472,7 +482,8 @@ class GradientMakerViewModel @Inject constructor(
                             imageFormat = imageFormat,
                             width = localBitmap.width,
                             height = localBitmap.height,
-                            originalUri = uri.toString()
+                            originalUri = uri.toString(),
+                            quality = quality
                         )
 
                         shareProvider.cacheImage(
@@ -509,6 +520,10 @@ class GradientMakerViewModel @Inject constructor(
                 uris.getOrNull(it + 1)
             }
             ?.let(::updateSelectedUri)
+    }
+
+    fun setQuality(quality: Quality) {
+        _quality.update { quality }
     }
 
 }

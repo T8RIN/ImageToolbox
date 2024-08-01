@@ -80,6 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
@@ -354,6 +355,12 @@ fun GradientMakerContent(
                 checked = viewModel.keepExif,
                 imageFormat = viewModel.imageFormat,
                 onCheckedChange = viewModel::toggleKeepExif
+            )
+            Spacer(Modifier.height(8.dp))
+            QualitySelector(
+                imageFormat = viewModel.imageFormat,
+                quality = viewModel.quality,
+                onQualityChange = viewModel::setQuality
             )
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
