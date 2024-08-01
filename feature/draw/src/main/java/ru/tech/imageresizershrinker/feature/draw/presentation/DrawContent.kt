@@ -348,6 +348,17 @@ fun DrawContent(
             }
         )
         AnimatedVisibility(
+            visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            DrawColorSelector(
+                drawColor = drawColor,
+                onColorChange = { drawColor = it },
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        AnimatedVisibility(
             visible = drawPathMode.isStroke,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
@@ -356,7 +367,7 @@ fun DrawContent(
                 modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
-                    top = 16.dp
+                    bottom = 16.dp
                 ),
                 title = if (drawMode is DrawMode.Text) {
                     stringResource(R.string.font_size)
@@ -375,7 +386,7 @@ fun DrawContent(
         ) {
             BrushSoftnessSelector(
                 modifier = Modifier
-                    .padding(top = 16.dp, end = 16.dp, start = 16.dp),
+                    .padding(end = 16.dp, start = 16.dp),
                 value = brushSoftness.value,
                 onValueChange = { brushSoftness = it.pt }
             )
@@ -387,16 +398,6 @@ fun DrawContent(
             )
         } else {
             Spacer(Modifier.height(16.dp))
-        }
-        AnimatedVisibility(
-            visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            DrawColorSelector(
-                drawColor = drawColor,
-                onColorChange = { drawColor = it }
-            )
         }
         AnimatedVisibility(
             visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect,

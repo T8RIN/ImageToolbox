@@ -74,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -184,7 +185,7 @@ fun FullscreenEditOption(
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         ProvideContainerDefaults(
-                                            color = MaterialTheme.colorScheme.surfaceContainerLowest
+                                            color = SimpleSheetDefaults.contentContainerColor
                                         ) {
                                             controls(scaffoldState)
                                         }

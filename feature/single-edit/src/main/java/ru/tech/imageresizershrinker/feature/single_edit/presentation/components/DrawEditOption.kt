@@ -226,6 +226,17 @@ fun DrawEditOption(
                     }
                 )
                 AnimatedVisibility(
+                    visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    DrawColorSelector(
+                        drawColor = drawColor,
+                        onColorChange = { drawColor = it },
+                        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                AnimatedVisibility(
                     visible = drawPathMode.isStroke,
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
@@ -259,16 +270,6 @@ fun DrawEditOption(
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                AnimatedVisibility(
-                    visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
-                    DrawColorSelector(
-                        drawColor = drawColor,
-                        onColorChange = { drawColor = it }
-                    )
-                }
                 AnimatedVisibility(
                     visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect,
                     enter = fadeIn() + expandVertically(),
