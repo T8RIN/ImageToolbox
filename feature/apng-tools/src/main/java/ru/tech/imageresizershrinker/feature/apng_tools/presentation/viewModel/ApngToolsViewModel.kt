@@ -219,7 +219,7 @@ class ApngToolsViewModel @Inject constructor(
                                 data = uri,
                                 originalSize = true
                             )?.let { localBitmap ->
-                                if (done in imageFrames.getFramePositions(convertedImageUris.size + 10)) {
+                                if ((done + 1) in imageFrames.getFramePositions(convertedImageUris.size + 10)) {
                                     val imageInfo = ImageInfo(
                                         imageFormat = imageFormat,
                                         width = localBitmap.width,
