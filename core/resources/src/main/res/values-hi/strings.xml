@@ -1267,4 +1267,14 @@
     <string name="gotham">गोथम</string>
     <string name="simple_sketch">सरल रेखाचित्र</string>
     <string name="soft_glow">हल्की चमक</string>
+    <string name="tri_tone">ट्राई टोन</string>
+    <string name="third_color">तीसरा रंग</string>
+    <string name="clahe_oklab">क्लाहे ओकलैब</string>
+    <string name="clahe_oklch">क्लाहे ओकल्छ</string>
+    <string name="clahe_jzazbz">क्लाहे जज्बज़</string>
+    <string name="clustered_4x4_dithering">क्लस्टर्ड 4x4 डिथरिंग</string>
+    <string name="clustered_8x8_dithering">क्लस्टर्ड 8x8 डिथरिंग</string>
+    <string name="polka_dot">पोल्का डॉट</string>
+    <string name="clustered_2x2_dithering">क्लस्टर्ड 2x2 डिथरिंग</string>
+    <string name="yililoma_dithering">यिलिलोमा डिथरिंग</string>
 </resources>
