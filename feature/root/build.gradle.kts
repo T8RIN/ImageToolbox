@@ -58,4 +58,5 @@ dependencies {
     implementation(projects.feature.scanQrCode)
     implementation(projects.feature.imageStacking)
     implementation(projects.feature.imageSplitting)
+    implementation(projects.feature.colorTools)
 }

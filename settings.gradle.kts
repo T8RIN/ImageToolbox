@@ -17,6 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:color-tools")
+
+
 include(":feature:image-splitting")
 
 

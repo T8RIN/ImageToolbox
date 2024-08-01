@@ -290,7 +290,7 @@ fun ImageStitchingContent(
                 )
                 BackgroundColorSelector(
                     value = Color(viewModel.combiningParams.backgroundColor),
-                    onColorChange = {
+                    onValueChange = {
                         viewModel.updateBackgroundSelector(it.toArgb())
                     },
                     modifier = Modifier.container(

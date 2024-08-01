@@ -41,12 +41,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 @Composable
 fun BackgroundColorSelector(
     value: Color,
-    onColorChange: (Color) -> Unit,
+    onValueChange: (Color) -> Unit,
     modifier: Modifier = Modifier
         .padding(16.dp)
         .container(
             shape = RoundedCornerShape(24.dp)
-        )
+        ),
+    title: String = stringResource(R.string.background_color)
 ) {
     Column(modifier = modifier) {
         Row(
@@ -56,7 +57,7 @@ fun BackgroundColorSelector(
         ) {
             Text(
                 fontWeight = FontWeight.Medium,
-                text = stringResource(R.string.background_color),
+                text = title,
                 modifier = Modifier.padding(top = 16.dp),
                 fontSize = 18.sp
             )
@@ -66,7 +67,7 @@ fun BackgroundColorSelector(
             allowAlpha = true,
             contentPadding = PaddingValues(16.dp),
             value = value,
-            onValueChange = onColorChange
+            onValueChange = onValueChange
         )
     }
 }

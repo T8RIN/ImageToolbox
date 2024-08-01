@@ -70,9 +70,9 @@ fun ColorSelectionRow(
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
     allowAlpha: Boolean = false,
     allowScroll: Boolean = true,
-    contentPadding: PaddingValues = PaddingValues(),
     value: Color,
-    onValueChange: (Color) -> Unit
+    onValueChange: (Color) -> Unit,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     var customColor by remember { mutableStateOf<Color?>(null) }
     var showColorPicker by remember { mutableStateOf(false) }

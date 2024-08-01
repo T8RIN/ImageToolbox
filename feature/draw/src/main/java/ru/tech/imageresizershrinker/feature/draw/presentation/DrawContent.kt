@@ -394,7 +394,7 @@ fun DrawContent(
         if (viewModel.drawBehavior is DrawBehavior.Background) {
             BackgroundColorSelector(
                 value = viewModel.backgroundColor,
-                onColorChange = viewModel::updateBackgroundColor
+                onValueChange = viewModel::updateBackgroundColor
             )
         } else {
             Spacer(Modifier.height(16.dp))
@@ -876,7 +876,7 @@ fun DrawContent(
                                 }
                                 BackgroundColorSelector(
                                     value = sheetBackgroundColor,
-                                    onColorChange = { sheetBackgroundColor = it }
+                                    onValueChange = { sheetBackgroundColor = it }
                                 )
                             }
                         }

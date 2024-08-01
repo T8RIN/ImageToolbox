@@ -257,7 +257,7 @@ fun ResizeTypeSelector(
                                     color = MaterialTheme.colorScheme.surface
                                 ),
                             value = canvasColor,
-                            onColorChange = {
+                            onValueChange = {
                                 canvasColor = it
                                 updateResizeType()
                             }

@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.FilterHdr
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.DocumentScanner
@@ -111,6 +112,7 @@ sealed class Screen(
             is ScanQrCode -> "QR_Code"
             is ImageStacking -> "Image_Stacking"
             is ImageSplitting -> "Image_Splitting"
+            is ColorTools -> "Color_Tools"
         }
 
     val icon: ImageVector?
@@ -149,6 +151,7 @@ sealed class Screen(
             is ScanQrCode -> Icons.Outlined.QrCode
             is ImageStacking -> Icons.Outlined.Stack
             is ImageSplitting -> Icons.Outlined.ContentCut
+            ColorTools -> Icons.Outlined.ColorLens
         }
 
     data object Settings : Screen(
@@ -632,6 +635,12 @@ sealed class Screen(
         subtitle = R.string.image_splitting_sub
     )
 
+    data object ColorTools : Screen(
+        id = 30,
+        title = R.string.color_tools,
+        subtitle = R.string.color_tools_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -679,6 +688,7 @@ sealed class Screen(
                     PdfTools(),
                     DocumentScanner,
                     ScanQrCode(),
+                    ColorTools,
                     GifTools(),
                     JxlTools(),
                     ApngTools(),
@@ -695,6 +705,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 44
+        const val FEATURES_COUNT = 48
     }
 }

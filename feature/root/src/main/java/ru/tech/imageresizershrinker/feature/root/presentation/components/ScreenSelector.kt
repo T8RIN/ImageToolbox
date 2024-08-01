@@ -27,6 +27,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.NavigationTransition
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -371,6 +372,10 @@ internal fun ScreenSelector(
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
+            }
+
+            Screen.ColorTools -> {
+                ColorToolsContent(onGoBack = onGoBack)
             }
         }
     }

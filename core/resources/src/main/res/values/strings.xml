@@ -1297,4 +1297,14 @@
     <string name="yililoma_dithering">Yililoma Dithering</string>
     <string name="no_favorite_options_selected">No favorite options selected, add them in tools page</string>
     <string name="add_favorites">Add Favorites</string>
+    <string name="harmony_complementary">Complementary</string>
+    <string name="harmony_analogous">Analogous</string>
+    <string name="harmony_triadic">Triadic</string>
+    <string name="harmony_split_complementary">Split Complementary</string>
+    <string name="harmony_tetradic">Tetradic</string>
+    <string name="harmony_square">Square</string>
+    <string name="harmony_analogous_complementary">Analogous + Complementary</string>
+    <string name="color_tools">Color Tools</string>
+    <string name="color_tools_sub">Mix, make tones, generate shades and more</string>
+    <string name="color_harmonies">Color Harmonies</string>
 </resources>
