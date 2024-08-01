@@ -486,6 +486,7 @@ fun CipherContent(
                                         EnhancedButton(
                                             enabled = key.isNotEmpty(),
                                             onClick = {
+                                                focus.clearFocus()
                                                 viewModel.startCryptography(
                                                     key = key,
                                                     onFileRequest = { uri ->
