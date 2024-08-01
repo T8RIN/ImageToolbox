@@ -30,6 +30,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
@@ -78,6 +79,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DYNAMIC_CO
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.EMOJI_COUNT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.EXIF_WIDGET_INITIAL_STATE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAB_ALIGNMENT
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAVORITE_SCREENS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FILENAME_SUFFIX
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FONT_SCALE
@@ -128,6 +130,7 @@ internal class AndroidSettingsManager @Inject constructor(
 ) : DispatchersHolder by dispatchersHolder, SettingsManager {
 
     private val default = SettingsState.Default
+    private var currentSettings: SettingsState = default
 
     override suspend fun getSettingsState(): SettingsState = withContext(defaultDispatcher) {
         getSettingsStateFlow().first()
@@ -143,9 +146,9 @@ internal class AndroidSettingsManager @Inject constructor(
             showUpdateDialogOnStartup = prefs[SHOW_UPDATE_DIALOG]
                 ?: default.showUpdateDialogOnStartup,
             selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: default.selectedEmoji,
-            screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
-                it.toInt()
-            } ?: default.screenList,
+            screenList = prefs[SCREEN_ORDER]?.split("/")?.mapNotNull {
+                it.toIntOrNull()
+            }?.takeIf { it.isNotEmpty() } ?: default.screenList,
             emojisCount = prefs[EMOJI_COUNT] ?: default.emojisCount,
             clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
             groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
@@ -248,9 +251,12 @@ internal class AndroidSettingsManager @Inject constructor(
             colorBlindType = prefs[COLOR_BLIND_TYPE]?.let {
                 if (it < 0) null
                 else it
-            } ?: default.colorBlindType
+            } ?: default.colorBlindType,
+            favoriteScreenList = prefs[FAVORITE_SCREENS]?.split("/")?.mapNotNull {
+                it.toIntOrNull()
+            }?.takeIf { it.isNotEmpty() } ?: default.favoriteScreenList,
         )
-    }
+    }.onEach { currentSettings = it }
 
     override suspend fun toggleAddSequenceNumber() {
         dataStore.edit {
@@ -889,6 +895,22 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setColorBlindType(value: Int?) {
         dataStore.edit {
             it[COLOR_BLIND_TYPE] = value ?: -1
+        }
+    }
+
+    override suspend fun toggleFavoriteScreen(screenId: Int) {
+        val current = currentSettings.favoriteScreenList
+        val newScreens = if (screenId in current) {
+            current - screenId
+        } else {
+            current + screenId
+        }
+        setFavoriteScreens(newScreens)
+    }
+
+    private suspend fun setFavoriteScreens(data: List<Int>) {
+        dataStore.edit { prefs ->
+            prefs[FAVORITE_SCREENS] = data.joinToString("/") { it.toString() }
         }
     }
 

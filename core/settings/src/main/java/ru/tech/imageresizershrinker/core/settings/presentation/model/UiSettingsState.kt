@@ -118,7 +118,8 @@ data class UiSettingsState(
     val openEditInsteadOfPreview: Boolean,
     val canEnterPresetsByTextField: Boolean,
     val donateDialogOpenCount: Int?,
-    val colorBlindType: ColorBlindType?
+    val colorBlindType: ColorBlindType?,
+    val favoriteScreenList: List<Int>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -280,6 +281,7 @@ fun SettingsState.toUiState(
                 }
             }
         }.value,
+        favoriteScreenList = favoriteScreenList
     )
 }
 

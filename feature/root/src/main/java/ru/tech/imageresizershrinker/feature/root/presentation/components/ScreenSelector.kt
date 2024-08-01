@@ -142,7 +142,8 @@ internal fun ScreenSelector(
                         navController.navigateNew(Screen.EasterEgg).also {
                             if (it) onRegisterScreenOpen(Screen.EasterEgg)
                         }
-                    }
+                    },
+                    onToggleFavorite = viewModel::toggleFavoriteScreen
                 )
             }
 

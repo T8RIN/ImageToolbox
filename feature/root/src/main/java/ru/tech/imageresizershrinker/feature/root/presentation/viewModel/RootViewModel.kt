@@ -354,4 +354,10 @@ class RootViewModel @Inject constructor(
         }
     }
 
+    fun toggleFavoriteScreen(screen: Screen) {
+        viewModelScope.launch {
+            settingsManager.toggleFavoriteScreen(screen.id)
+        }
+    }
+
 }

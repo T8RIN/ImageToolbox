@@ -1295,4 +1295,6 @@
     <string name="clustered_4x4_dithering">Clustered 4x4 Dithering</string>
     <string name="clustered_8x8_dithering">Clustered 8x8 Dithering</string>
     <string name="yililoma_dithering">Yililoma Dithering</string>
+    <string name="no_favorite_options_selected">No favorite options selected, add them in tools page</string>
+    <string name="add_favorites">Add Favorites</string>
 </resources>

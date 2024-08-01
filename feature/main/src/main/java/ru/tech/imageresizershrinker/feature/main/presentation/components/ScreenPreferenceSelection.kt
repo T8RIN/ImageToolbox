@@ -44,8 +44,10 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.widthIn
@@ -56,11 +58,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.outlined.ContentPasteOff
+import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -79,10 +83,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.getSystemService
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
+import ru.tech.imageresizershrinker.core.resources.icons.BookmarkRemove
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberClipboardData
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
@@ -97,8 +104,10 @@ internal fun RowScope.ScreenPreferenceSelection(
     isGrid: Boolean,
     isSheetSlideable: Boolean,
     onGetClipList: (List<Uri>) -> Unit,
+    onNavigationBarItemChange: (Int) -> Unit,
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     onChangeShowScreenSearch: (Boolean) -> Unit,
+    onToggleFavorite: (Screen) -> Unit,
     showNavRail: Boolean,
 ) {
     val scope = rememberCoroutineScope()
@@ -106,16 +115,24 @@ internal fun RowScope.ScreenPreferenceSelection(
     val settingsState = LocalSettingsState.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val canSearchScreens = settingsState.screensSearchEnabled
+    val isSearching =
+        showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens
 
     AnimatedContent(
         modifier = Modifier
             .weight(1f)
             .widthIn(min = 1.dp),
-        targetState = currentScreenList.isNotEmpty(),
+        targetState = remember(currentScreenList, isSearching, settingsState.favoriteScreenList) {
+            Triple(
+                currentScreenList.isNotEmpty(),
+                isSearching,
+                settingsState.favoriteScreenList.isEmpty()
+            )
+        },
         transitionSpec = {
             fadeIn() togetherWith fadeOut()
         }
-    ) { hasScreens ->
+    ) { (hasScreens, isSearching, noFavs) ->
         if (hasScreens) {
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -193,6 +210,47 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 shape = RoundedCornerShape(cornerSize),
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
+                                endIcon = if (!settingsState.groupOptionsByTypes) {
+                                    {
+                                        IconButton(
+                                            onClick = {
+                                                onToggleFavorite(screen)
+                                            },
+                                            modifier = Modifier.offset(8.dp)
+                                        ) {
+                                            val inFavorite by remember(
+                                                settingsState.favoriteScreenList,
+                                                screen
+                                            ) {
+                                                derivedStateOf {
+                                                    settingsState.favoriteScreenList.find { it == screen.id } != null
+                                                }
+                                            }
+                                            AnimatedContent(
+                                                targetState = inFavorite,
+                                                transitionSpec = {
+                                                    (fadeIn() + scaleIn(initialScale = 0.85f))
+                                                        .togetherWith(
+                                                            fadeOut() + scaleOut(
+                                                                targetScale = 0.85f
+                                                            )
+                                                        )
+                                                }
+                                            ) { isInFavorite ->
+                                                val icon by remember(isInFavorite) {
+                                                    derivedStateOf {
+                                                        if (isInFavorite) Icons.Rounded.BookmarkRemove
+                                                        else Icons.Rounded.BookmarkBorder
+                                                    }
+                                                }
+                                                Icon(
+                                                    imageVector = icon,
+                                                    contentDescription = null
+                                                )
+                                            }
+                                        }
+                                    }
+                                } else null,
                                 startIcon = {
                                     AnimatedContent(
                                         targetState = screen.icon,
@@ -305,32 +363,70 @@ internal fun RowScope.ScreenPreferenceSelection(
                 }
             }
         } else {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Spacer(Modifier.weight(1f))
-                Text(
-                    text = stringResource(R.string.nothing_found_by_search),
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        end = 24.dp,
-                        top = 8.dp,
-                        bottom = 8.dp
+            if (!isSearching && noFavs) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.no_favorite_options_selected),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        )
                     )
-                )
-                Icon(
-                    imageVector = Icons.Rounded.SearchOff,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .weight(2f)
-                        .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                        .fillMaxSize()
-                )
-                Spacer(Modifier.weight(1f))
+                    Icon(
+                        imageVector = Icons.Outlined.BookmarkOff,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .weight(2f)
+                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                            .fillMaxSize()
+                    )
+                    Spacer(Modifier.height(16.dp))
+                    EnhancedButton(
+                        onClick = {
+                            onNavigationBarItemChange(1)
+                        }
+                    ) {
+                        Text(stringResource(R.string.add_favorites))
+                    }
+                    Spacer(Modifier.weight(1f))
+                }
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.nothing_found_by_search),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        )
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.SearchOff,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .weight(2f)
+                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                            .fillMaxSize()
+                    )
+                    Spacer(Modifier.weight(1f))
+                }
             }
         }
     }

@@ -98,7 +98,8 @@ fun MainContent(
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     updateAvailable: Boolean,
-    updateUris: (List<Uri>) -> Unit
+    updateUris: (List<Uri>) -> Unit,
+    onToggleFavorite: (Screen) -> Unit
 ) {
     fun tryGetUpdate(
         newRequest: Boolean,
@@ -203,7 +204,8 @@ fun MainContent(
             },
             updateAvailable = updateAvailable,
             onNavigateToSettings = { onNavigateToSettings() },
-            onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo
+            onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
+            onToggleFavorite = onToggleFavorite
         )
     }
 

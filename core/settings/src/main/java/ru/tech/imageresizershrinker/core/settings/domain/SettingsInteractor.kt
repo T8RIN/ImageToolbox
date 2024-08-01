@@ -179,4 +179,6 @@ interface SettingsInteractor : SimpleSettingInteractor {
 
     suspend fun setColorBlindType(value: Int?)
 
+    suspend fun toggleFavoriteScreen(screenId: Int)
+
 }

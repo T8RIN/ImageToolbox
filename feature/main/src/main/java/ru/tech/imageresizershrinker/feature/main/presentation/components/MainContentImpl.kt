@@ -56,6 +56,7 @@ internal fun MainContentImpl(
     onGetClipList: (List<Uri>) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
+    onToggleFavorite: (Screen) -> Unit,
     onShowSnowfall: () -> Unit,
     onTryGetUpdate: () -> Unit,
     updateAvailable: Boolean
@@ -91,19 +92,28 @@ internal fun MainContentImpl(
                 modifier = Modifier.weight(1f)
             ) {
                 val showNavRail =
-                    isGrid && settingsState.groupOptionsByTypes && screenSearchKeyword.isEmpty() && !sheetExpanded
+                    isGrid && screenSearchKeyword.isEmpty() && !sheetExpanded
 
                 AnimatedVisibility(
                     visible = showNavRail,
                     enter = fadeIn() + expandHorizontally(),
                     exit = fadeOut() + shrinkHorizontally()
                 ) {
-                    MainNavigationRail(
-                        selectedIndex = selectedNavigationItem,
-                        onValueChange = {
-                            selectedNavigationItem = it
-                        }
-                    )
+                    if (settingsState.groupOptionsByTypes) {
+                        MainNavigationRail(
+                            selectedIndex = selectedNavigationItem,
+                            onValueChange = {
+                                selectedNavigationItem = it
+                            }
+                        )
+                    } else {
+                        MainNavigationRailForFavorites(
+                            selectedIndex = selectedNavigationItem,
+                            onValueChange = {
+                                selectedNavigationItem = it
+                            }
+                        )
+                    }
                 }
 
                 ScreenPreferenceSelection(
@@ -117,7 +127,9 @@ internal fun MainContentImpl(
                         showScreenSearch = it
                     },
                     onGetClipList = onGetClipList,
-                    onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo
+                    onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
+                    onNavigationBarItemChange = { selectedNavigationItem = it },
+                    onToggleFavorite = onToggleFavorite
                 )
             }
 
@@ -132,6 +144,11 @@ internal fun MainContentImpl(
                 ) { (groupOptionsByTypes, searching) ->
                     if (groupOptionsByTypes && !searching) {
                         MainNavigationBar(
+                            selectedIndex = selectedNavigationItem,
+                            onValueChange = { selectedNavigationItem = it }
+                        )
+                    } else if (!searching) {
+                        MainNavigationBarForFavorites(
                             selectedIndex = selectedNavigationItem,
                             onValueChange = { selectedNavigationItem = it }
                         )
