@@ -82,7 +82,7 @@ fun Color.applyHarmony(
             hsvToColor((h + 180) % 360, s, v),
             hsvToColor((h + 270) % 360, s, v)
         )
-    }
+    }.map { it.copy(alpha) }
 }
 
 enum class HarmonyType {

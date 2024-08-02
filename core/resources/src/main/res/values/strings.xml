@@ -1307,4 +1307,10 @@
     <string name="color_tools">Color Tools</string>
     <string name="color_tools_sub">Mix, make tones, generate shades and more</string>
     <string name="color_harmonies">Color Harmonies</string>
+    <string name="color_shading">Color Shading</string>
+    <string name="variation">Variation</string>
+    <string name="tints">Tints</string>
+    <string name="tones">Tones</string>
+    <string name="shades">Shades</string>
+    <string name="color_mixing">Color Mixing</string>
 </resources>

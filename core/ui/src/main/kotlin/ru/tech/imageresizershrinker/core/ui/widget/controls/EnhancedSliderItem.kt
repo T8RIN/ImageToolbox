@@ -74,6 +74,8 @@ fun EnhancedSliderItem(
     valueTextTapEnabled: Boolean = true,
     behaveAsContainer: Boolean = true,
     enabled: Boolean = true,
+    titleHorizontalPadding: Dp = if (behaveAsContainer) 16.dp
+    else 6.dp,
     additionalContent: (@Composable () -> Unit)? = null
 ) {
     val internalColor = contentColor
@@ -128,9 +130,8 @@ fun EnhancedSliderItem(
                         modifier = Modifier
                             .padding(
                                 top = topContentPadding,
-                                end = 16.dp,
-                                start = if (behaveAsContainer) 16.dp
-                                else 6.dp
+                                end = titleHorizontalPadding,
+                                start = titleHorizontalPadding
                             )
                             .weight(1f),
                         lineHeight = 18.sp,

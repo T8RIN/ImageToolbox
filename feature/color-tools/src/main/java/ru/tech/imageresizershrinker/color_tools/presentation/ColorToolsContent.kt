@@ -36,6 +36,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.Blender
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.Icon
@@ -45,6 +47,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,6 +63,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHex
 import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHexAlpha
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -68,8 +72,10 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.color_tools.presentation.components.HarmonyType
 import ru.tech.imageresizershrinker.color_tools.presentation.components.applyHarmony
 import ru.tech.imageresizershrinker.color_tools.presentation.components.icon
+import ru.tech.imageresizershrinker.color_tools.presentation.components.mixWith
 import ru.tech.imageresizershrinker.color_tools.presentation.components.title
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.Swatch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
@@ -77,14 +83,18 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAs
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BackgroundColorSelector
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import kotlin.math.roundToInt
 
 @Composable
 fun ColorToolsContent(
@@ -140,6 +150,53 @@ fun ColorToolsContent(
                     selectedColor.applyHarmony(selectedHarmony)
                 }
             }
+            var shadingVariation by rememberSaveable {
+                mutableIntStateOf(5)
+            }
+            val shades by remember(selectedColor, shadingVariation) {
+                derivedStateOf {
+                    selectedColor.mixWith(
+                        color = Color.Black,
+                        variations = shadingVariation,
+                        maxPercent = 0.9f
+                    )
+                }
+            }
+            val tones by remember(selectedColor, shadingVariation) {
+                derivedStateOf {
+                    selectedColor.mixWith(
+                        color = Color(0xff8e918f),
+                        variations = shadingVariation,
+                        maxPercent = 0.9f
+                    )
+                }
+            }
+            val tints by remember(selectedColor, shadingVariation) {
+                derivedStateOf {
+                    selectedColor.mixWith(
+                        color = Color.White,
+                        variations = shadingVariation,
+                        maxPercent = 0.8f
+                    )
+                }
+            }
+            var mixingVariation by rememberSaveable {
+                mutableIntStateOf(5)
+            }
+            var colorToMix by rememberSaveable(
+                stateSaver = ColorSaver
+            ) {
+                mutableStateOf(appColorTuple.tertiary ?: Color.Yellow)
+            }
+            val mixedColors by remember(selectedColor, mixingVariation, colorToMix) {
+                derivedStateOf {
+                    selectedColor.mixWith(
+                        color = colorToMix,
+                        variations = mixingVariation,
+                        maxPercent = 1f
+                    )
+                }
+            }
             if (isPortrait) {
                 Spacer(modifier = Modifier.height(20.dp))
             }
@@ -156,7 +213,143 @@ fun ColorToolsContent(
             Spacer(modifier = Modifier.height(16.dp))
             ExpandableItem(
                 visibleContent = {
-                    TitleItem(text = stringResource(R.string.color_harmonies))
+                    TitleItem(
+                        text = stringResource(R.string.color_mixing),
+                        icon = Icons.Rounded.Blender
+                    )
+                },
+                expandableContent = {
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 8.dp
+                        ),
+                    ) {
+                        BackgroundColorSelector(
+                            value = colorToMix,
+                            onValueChange = { colorToMix = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .container(
+                                    color = MaterialTheme.colorScheme.surface,
+                                    shape = ContainerShapeDefaults.topShape
+                                ),
+                            title = stringResource(R.string.second_color)
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        EnhancedSliderItem(
+                            value = mixingVariation,
+                            title = stringResource(R.string.variation),
+                            valueRange = 2f..15f,
+                            onValueChange = { mixingVariation = it.roundToInt() },
+                            internalStateTransformation = { it.roundToInt() },
+                            shape = ContainerShapeDefaults.bottomShape,
+                            behaveAsContainer = true,
+                            color = MaterialTheme.colorScheme.surface,
+                            steps = 12
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            mixedColors.forEachIndexed { index, color ->
+                                val boxColor by animateColorAsState(color)
+                                val contentColor = boxColor.inverse(
+                                    fraction = { cond ->
+                                        if (cond) 0.8f
+                                        else 0.5f
+                                    },
+                                    darkMode = boxColor.luminance() < 0.3f
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .heightIn(min = 100.dp)
+                                        .fillMaxWidth()
+                                        .clip(
+                                            ContainerShapeDefaults.shapeForIndex(
+                                                index = index,
+                                                size = mixedColors.size
+                                            )
+                                        )
+                                        .transparencyChecker()
+                                        .background(boxColor)
+                                        .clickable {
+                                            context.copyToClipboard(
+                                                label = context.getString(R.string.color),
+                                                value = getFormattedColor(color)
+                                            )
+                                            scope.launch {
+                                                toastHostState.showToast(
+                                                    icon = Icons.Rounded.ContentPaste,
+                                                    message = context.getString(R.string.color_copied)
+                                                )
+                                            }
+                                        }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.ContentCopy,
+                                        contentDescription = stringResource(R.string.edit),
+                                        tint = contentColor,
+                                        modifier = Modifier
+                                            .align(Alignment.TopEnd)
+                                            .padding(4.dp)
+                                            .size(28.dp)
+                                            .background(
+                                                color = boxColor.copy(alpha = 1f),
+                                                shape = RoundedCornerShape(8.dp)
+                                            )
+                                            .padding(2.dp)
+                                    )
+
+                                    Text(
+                                        text = color.toHex(),
+                                        color = contentColor,
+                                        modifier = Modifier
+                                            .align(Alignment.BottomStart)
+                                            .padding(4.dp)
+                                            .background(
+                                                color = boxColor.copy(alpha = 1f),
+                                                shape = RoundedCornerShape(8.dp)
+                                            )
+                                            .padding(horizontal = 4.dp),
+                                        fontSize = 12.sp
+                                    )
+
+                                    val parser = rememberColorParser()
+                                    Text(
+                                        text = remember(color) {
+                                            derivedStateOf {
+                                                parser.parseColorName(color)
+                                            }
+                                        }.value,
+                                        color = contentColor,
+                                        modifier = Modifier
+                                            .align(Alignment.BottomEnd)
+                                            .padding(4.dp)
+                                            .background(
+                                                color = boxColor.copy(alpha = 1f),
+                                                shape = RoundedCornerShape(8.dp)
+                                            )
+                                            .padding(horizontal = 4.dp),
+                                        fontSize = 12.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
+                },
+                initialState = true
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            ExpandableItem(
+                visibleContent = {
+                    TitleItem(
+                        text = stringResource(R.string.color_harmonies),
+                        icon = Icons.Rounded.BarChart
+                    )
                 },
                 expandableContent = {
                     Column(
@@ -211,6 +404,7 @@ fun ColorToolsContent(
                                         .heightIn(min = 120.dp)
                                         .weight(1f)
                                         .clip(RoundedCornerShape(8.dp))
+                                        .transparencyChecker()
                                         .background(boxColor)
                                         .clickable {
                                             context.copyToClipboard(
@@ -245,10 +439,12 @@ fun ColorToolsContent(
                                         color = contentColor,
                                         modifier = Modifier
                                             .align(Alignment.BottomStart)
-                                            .padding(
-                                                vertical = 2.dp,
-                                                horizontal = 6.dp
-                                            ),
+                                            .padding(4.dp)
+                                            .background(
+                                                color = boxColor.copy(alpha = 1f),
+                                                shape = RoundedCornerShape(8.dp)
+                                            )
+                                            .padding(horizontal = 4.dp),
                                         fontSize = 12.sp
                                     )
                                 }
@@ -256,12 +452,122 @@ fun ColorToolsContent(
                         }
                     }
                 },
-                initialState = true
+                initialState = false
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            ExpandableItem(
+                visibleContent = {
+                    TitleItem(
+                        text = stringResource(R.string.color_shading),
+                        icon = Icons.Rounded.Swatch
+                    )
+                },
+                expandableContent = {
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 8.dp
+                        ),
+                    ) {
+                        EnhancedSliderItem(
+                            value = shadingVariation,
+                            title = stringResource(R.string.variation),
+                            valueRange = 2f..15f,
+                            onValueChange = { shadingVariation = it.roundToInt() },
+                            internalStateTransformation = { it.roundToInt() },
+                            behaveAsContainer = true,
+                            color = MaterialTheme.colorScheme.surface,
+                            steps = 12
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            listOf(
+                                tints to R.string.tints,
+                                tones to R.string.tones,
+                                shades to R.string.shades
+                            ).forEach { (data, title) ->
+                                Column(
+                                    modifier = Modifier.weight(1f),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(text = stringResource(title))
+                                    data.forEachIndexed { index, color ->
+                                        val boxColor by animateColorAsState(color)
+                                        val contentColor = boxColor.inverse(
+                                            fraction = { cond ->
+                                                if (cond) 0.8f
+                                                else 0.5f
+                                            },
+                                            darkMode = boxColor.luminance() < 0.3f
+                                        )
+                                        Box(
+                                            modifier = Modifier
+                                                .heightIn(min = 100.dp)
+                                                .fillMaxWidth()
+                                                .clip(
+                                                    ContainerShapeDefaults.shapeForIndex(
+                                                        index = index,
+                                                        size = data.size
+                                                    )
+                                                )
+                                                .transparencyChecker()
+                                                .background(boxColor)
+                                                .clickable {
+                                                    context.copyToClipboard(
+                                                        label = context.getString(R.string.color),
+                                                        value = getFormattedColor(color)
+                                                    )
+                                                    scope.launch {
+                                                        toastHostState.showToast(
+                                                            icon = Icons.Rounded.ContentPaste,
+                                                            message = context.getString(R.string.color_copied)
+                                                        )
+                                                    }
+                                                }
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.ContentCopy,
+                                                contentDescription = stringResource(R.string.edit),
+                                                tint = contentColor,
+                                                modifier = Modifier
+                                                    .align(Alignment.TopEnd)
+                                                    .padding(4.dp)
+                                                    .size(28.dp)
+                                                    .background(
+                                                        color = boxColor.copy(alpha = 1f),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    )
+                                                    .padding(2.dp)
+                                            )
+
+                                            Text(
+                                                text = color.toHex(),
+                                                color = contentColor,
+                                                modifier = Modifier
+                                                    .align(Alignment.BottomStart)
+                                                    .padding(4.dp)
+                                                    .background(
+                                                        color = boxColor.copy(alpha = 1f),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    )
+                                                    .padding(horizontal = 4.dp),
+                                                fontSize = 12.sp
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                initialState = false
             )
         },
-        buttons = { actions ->
-
-        },
+        buttons = {},
         placeImagePreview = false,
         canShowScreenData = true,
         isPortrait = isPortrait

@@ -19,12 +19,12 @@ package ru.tech.imageresizershrinker.color_tools.presentation.components
 
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.ui.theme.blend
-import kotlin.math.roundToInt
 
 fun Color.mixWith(
     color: Color,
-    variations: Int
-): List<Pair<Color, Int>> = List(variations) {
-    val percent = 1f / (it + 1)
-    this.blend(color, percent) to (percent * 100).roundToInt()
+    variations: Int,
+    maxPercent: Float = 1f
+): List<Color> = List(variations) {
+    val percent = it / ((variations + (1f - maxPercent) * 10) - 1)
+    this.blend(color, percent)
 }
