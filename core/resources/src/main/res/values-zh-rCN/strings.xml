@@ -1272,4 +1272,9 @@
     <string name="clahe_oklch">Clahe Oklch</string>
     <string name="tri_tone">三原色</string>
     <string name="clahe_jzazbz">Clahe Jzazbz</string>
+    <string name="polka_dot">波尔卡圆点</string>
+    <string name="clustered_2x2_dithering">集群式 2x2 抖动</string>
+    <string name="clustered_4x4_dithering">集群式 4x4 抖动</string>
+    <string name="clustered_8x8_dithering">集群式 8x8 抖动</string>
+    <string name="yililoma_dithering">Yililoma 抖动</string>
 </resources>
