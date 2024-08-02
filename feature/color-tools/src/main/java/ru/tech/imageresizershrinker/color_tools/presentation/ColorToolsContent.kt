@@ -308,9 +308,7 @@ fun ColorToolsContent(
                         ColorInfoDisplay(
                             value = selectedColor,
                             onValueChange = {
-                                if (it != null) {
-                                    selectedColor = it
-                                }
+                                selectedColor = it ?: Color.Black
                             },
                             onCopy = {
                                 context.copyToClipboard(
