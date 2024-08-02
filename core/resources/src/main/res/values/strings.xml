@@ -1313,4 +1313,7 @@
     <string name="tones">Tones</string>
     <string name="shades">Shades</string>
     <string name="color_mixing">Color Mixing</string>
+    <string name="color_info">Color Info</string>
+    <string name="selected_color">Selected Color</string>
+    <string name="color_to_mix">Color To Mix</string>
 </resources>

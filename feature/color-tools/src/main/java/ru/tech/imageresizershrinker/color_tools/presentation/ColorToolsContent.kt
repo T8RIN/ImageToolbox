@@ -1,5 +1,5 @@
 /*
- * ImageToolbox is an image editor for android
+ * ImageToolbox is an image copyor for android
  * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,6 +40,7 @@ import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Blender
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -69,6 +70,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHexAlpha
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.color_tools.presentation.components.ColorInfoDisplay
 import ru.tech.imageresizershrinker.color_tools.presentation.components.HarmonyType
 import ru.tech.imageresizershrinker.color_tools.presentation.components.applyHarmony
 import ru.tech.imageresizershrinker.color_tools.presentation.components.icon
@@ -142,6 +144,7 @@ fun ColorToolsContent(
         },
         imagePreview = {},
         controls = {
+            val parser = rememberColorParser()
             var selectedHarmony by rememberSaveable {
                 mutableStateOf(HarmonyType.COMPLEMENTARY)
             }
@@ -181,7 +184,7 @@ fun ColorToolsContent(
                 }
             }
             var mixingVariation by rememberSaveable {
-                mutableIntStateOf(5)
+                mutableIntStateOf(3)
             }
             var colorToMix by rememberSaveable(
                 stateSaver = ColorSaver
@@ -208,9 +211,125 @@ fun ColorToolsContent(
                     .container(
                         shape = RoundedCornerShape(20.dp)
                     ),
-                title = stringResource(R.string.first_color)
+                title = stringResource(R.string.selected_color)
             )
             Spacer(modifier = Modifier.height(16.dp))
+            ExpandableItem(
+                visibleContent = {
+                    TitleItem(
+                        text = stringResource(R.string.color_info),
+                        icon = Icons.Rounded.Info
+                    )
+                },
+                expandableContent = {
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 8.dp
+                        ),
+                    ) {
+                        val boxColor by animateColorAsState(selectedColor)
+                        val contentColor = boxColor.inverse(
+                            fraction = { cond ->
+                                if (cond) 0.8f
+                                else 0.5f
+                            },
+                            darkMode = boxColor.luminance() < 0.3f
+                        )
+                        Box(
+                            modifier = Modifier
+                                .heightIn(min = 80.dp)
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(16.dp))
+                                .transparencyChecker()
+                                .background(boxColor)
+                                .clickable {
+                                    context.copyToClipboard(
+                                        label = context.getString(R.string.color),
+                                        value = getFormattedColor(selectedColor)
+                                    )
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            icon = Icons.Rounded.ContentPaste,
+                                            message = context.getString(R.string.color_copied)
+                                        )
+                                    }
+                                }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ContentCopy,
+                                contentDescription = stringResource(R.string.copy),
+                                tint = contentColor,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(4.dp)
+                                    .size(28.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(2.dp)
+                            )
+
+                            Text(
+                                text = selectedColor.toHex(),
+                                color = contentColor,
+                                modifier = Modifier
+                                    .align(Alignment.BottomStart)
+                                    .padding(4.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(horizontal = 4.dp),
+                                fontSize = 12.sp
+                            )
+
+                            Text(
+                                text = remember(selectedColor) {
+                                    derivedStateOf {
+                                        parser.parseColorName(selectedColor)
+                                    }
+                                }.value,
+                                color = contentColor,
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .padding(4.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(horizontal = 4.dp),
+                                fontSize = 12.sp
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        ColorInfoDisplay(
+                            value = selectedColor,
+                            onValueChange = {
+                                if (it != null) {
+                                    selectedColor = it
+                                }
+                            },
+                            onCopy = {
+                                context.copyToClipboard(
+                                    label = context.getString(R.string.color),
+                                    value = it
+                                )
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        icon = Icons.Rounded.ContentPaste,
+                                        message = context.getString(R.string.color_copied)
+                                    )
+                                }
+                            }
+                        )
+                    }
+                },
+                initialState = true
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             ExpandableItem(
                 visibleContent = {
                     TitleItem(
@@ -235,7 +354,7 @@ fun ColorToolsContent(
                                     color = MaterialTheme.colorScheme.surface,
                                     shape = ContainerShapeDefaults.topShape
                                 ),
-                            title = stringResource(R.string.second_color)
+                            title = stringResource(R.string.color_to_mix)
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         EnhancedSliderItem(
@@ -291,7 +410,7 @@ fun ColorToolsContent(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.ContentCopy,
-                                        contentDescription = stringResource(R.string.edit),
+                                        contentDescription = stringResource(R.string.copy),
                                         tint = contentColor,
                                         modifier = Modifier
                                             .align(Alignment.TopEnd)
@@ -318,7 +437,6 @@ fun ColorToolsContent(
                                         fontSize = 12.sp
                                     )
 
-                                    val parser = rememberColorParser()
                                     Text(
                                         text = remember(color) {
                                             derivedStateOf {
@@ -341,7 +459,7 @@ fun ColorToolsContent(
                         }
                     }
                 },
-                initialState = true
+                initialState = false
             )
             Spacer(modifier = Modifier.height(8.dp))
             ExpandableItem(
@@ -390,7 +508,7 @@ fun ColorToolsContent(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            harmonies.forEachIndexed { index, color ->
+                            harmonies.forEach { color ->
                                 val boxColor by animateColorAsState(color)
                                 val contentColor = boxColor.inverse(
                                     fraction = { cond ->
@@ -421,7 +539,7 @@ fun ColorToolsContent(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.ContentCopy,
-                                        contentDescription = stringResource(R.string.edit),
+                                        contentDescription = stringResource(R.string.copy),
                                         tint = contentColor,
                                         modifier = Modifier
                                             .align(Alignment.TopEnd)
@@ -531,7 +649,7 @@ fun ColorToolsContent(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.ContentCopy,
-                                                contentDescription = stringResource(R.string.edit),
+                                                contentDescription = stringResource(R.string.copy),
                                                 tint = contentColor,
                                                 modifier = Modifier
                                                     .align(Alignment.TopEnd)
