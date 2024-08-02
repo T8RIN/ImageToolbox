@@ -69,6 +69,8 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHex
 import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHexAlpha
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.color_tools.presentation.components.ColorInfoDisplay
 import ru.tech.imageresizershrinker.color_tools.presentation.components.HarmonyType
@@ -305,10 +307,18 @@ fun ColorToolsContent(
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))
+                        var wasNull by rememberSaveable {
+                            mutableStateOf(false)
+                        }
+                        var resetJob by remember {
+                            mutableStateOf<Job?>(null)
+                        }
                         ColorInfoDisplay(
                             value = selectedColor,
                             onValueChange = {
-                                selectedColor = it ?: Color.Black
+                                wasNull = it == null
+
+                                selectedColor = it ?: selectedColor
                             },
                             onCopy = {
                                 context.copyToClipboard(
@@ -320,6 +330,18 @@ fun ColorToolsContent(
                                         icon = Icons.Rounded.ContentPaste,
                                         message = context.getString(R.string.color_copied)
                                     )
+                                }
+                            },
+                            onLoseFocus = {
+                                resetJob?.cancel()
+                                resetJob = scope.launch {
+                                    delay(100)
+                                    if (wasNull) {
+                                        val temp = selectedColor
+                                        selectedColor = Color.White
+                                        delay(100)
+                                        selectedColor = temp
+                                    }
                                 }
                             }
                         )

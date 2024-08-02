@@ -30,9 +30,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.smarttoolfactory.colordetector.util.HexUtil
+import com.smarttoolfactory.colorpicker.util.HexVisualTransformation
+import com.smarttoolfactory.colorpicker.util.hexRegexSingleChar
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import kotlin.math.roundToInt
 import android.graphics.Color as AndroidColor
@@ -41,7 +44,8 @@ import android.graphics.Color as AndroidColor
 fun ColorInfoDisplay(
     value: Color,
     onValueChange: (Color?) -> Unit,
-    onCopy: (String) -> Unit
+    onCopy: (String) -> Unit,
+    onLoseFocus: () -> Unit
 ) {
     var hexColor by remember(value) { mutableStateOf(value.toHex()) }
     var rgb by remember(value) { mutableStateOf(value.toRGB()) }
@@ -57,14 +61,28 @@ fun ColorInfoDisplay(
         ) {
             ColorEditableField(
                 label = "HEX",
-                value = hexColor,
+                value = hexColor.removePrefix("#"),
                 onCopy = onCopy,
+                visualTransformation = HexVisualTransformation(false),
                 onValueChange = { newHex ->
-                    hexColor = newHex
-                    val color = newHex.toColor()
-                    onValueChange(color)
+                    if (newHex.length <= 8) {
+                        var validHex = true
+
+                        for (index in newHex.indices) {
+                            validHex =
+                                hexRegexSingleChar.matches(newHex[index].toString())
+                            if (!validHex) break
+                        }
+
+                        if (validHex) {
+                            hexColor = "#${newHex.uppercase()}"
+                            val color = newHex.toColor()
+                            onValueChange(color)
+                        }
+                    }
                 },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onLoseFocus = onLoseFocus
             )
             ColorEditableField(
                 label = "RGB",
@@ -75,7 +93,8 @@ fun ColorInfoDisplay(
                     onValueChange(color)
                 },
                 onCopy = onCopy,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onLoseFocus = onLoseFocus
             )
         }
 
@@ -91,7 +110,8 @@ fun ColorInfoDisplay(
                     onValueChange(color)
                 },
                 onCopy = onCopy,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onLoseFocus = onLoseFocus
             )
             ColorEditableField(
                 label = "HSL",
@@ -102,9 +122,11 @@ fun ColorInfoDisplay(
                     onValueChange(color)
                 },
                 onCopy = onCopy,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onLoseFocus = onLoseFocus
             )
         }
+
         ColorEditableField(
             label = "CMYK",
             value = cmyk,
@@ -114,7 +136,8 @@ fun ColorInfoDisplay(
                 onValueChange(color)
             },
             onCopy = onCopy,
-            modifier = Modifier.fillMaxWidth(1f)
+            modifier = Modifier.fillMaxWidth(),
+            onLoseFocus = onLoseFocus
         )
     }
 }
@@ -123,6 +146,8 @@ fun ColorInfoDisplay(
 private fun ColorEditableField(
     label: String,
     value: String,
+    onLoseFocus: () -> Unit,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit,
     onCopy: (String) -> Unit,
     modifier: Modifier
@@ -130,7 +155,12 @@ private fun ColorEditableField(
     RoundedTextField(
         modifier = modifier,
         value = value,
+        visualTransformation = visualTransformation,
         onValueChange = onValueChange,
+        onLoseFocusTransformation = {
+            onLoseFocus()
+            this
+        },
         label = {
             Text(label)
         },
@@ -170,14 +200,14 @@ fun rgbToColor(rgb: String): Color? {
 fun Color.toHSVString(): String {
     val hsv = FloatArray(3)
     AndroidColor.colorToHSV(this.toArgb(), hsv)
-    return "${hsv[0].roundToInt()}°, ${(hsv[1] * 100).roundToInt()}%, ${(hsv[2] * 100).roundToInt()}%"
+    return "${hsv[0].roundToInt()}, ${(hsv[1] * 100).roundToInt()}, ${(hsv[2] * 100).roundToInt()}"
 }
 
 fun hsvToColor(hsv: String): Color? {
     return try {
         val (h, s, v) = hsv.split(",")
-            .map { it.trim().replace("°", "").replace("%", "").toFloat() / 100 }
-        val colorInt = AndroidColor.HSVToColor(floatArrayOf(h * 360, s, v))
+            .map { it.trim().toInt() }
+        val colorInt = AndroidColor.HSVToColor(floatArrayOf(h.toFloat(), s / 100f, v / 100f))
         Color(colorInt)
     } catch (e: Throwable) {
         null
@@ -187,14 +217,14 @@ fun hsvToColor(hsv: String): Color? {
 fun Color.toHSL(): String {
     val hsl = FloatArray(3)
     ColorUtils.colorToHSL(this.toArgb(), hsl)
-    return "${hsl[0].roundToInt()}°, ${(hsl[1] * 100).roundToInt()}%, ${(hsl[2] * 100).roundToInt()}%"
+    return "${hsl[0].roundToInt()}, ${(hsl[1] * 100).roundToInt()}, ${(hsl[2] * 100).roundToInt()}"
 }
 
 fun hslToColor(hsl: String): Color? {
     return try {
         val (h, s, l) = hsl.split(",")
-            .map { it.trim().replace("°", "").replace("%", "").toFloat() / 100 }
-        val colorInt = ColorUtils.HSLToColor(floatArrayOf(h * 360, s, l))
+            .map { it.trim().toInt() }
+        val colorInt = ColorUtils.HSLToColor(floatArrayOf(h.toFloat(), s / 100f, l / 100f))
         Color(colorInt)
     } catch (e: Throwable) {
         null
@@ -202,19 +232,16 @@ fun hslToColor(hsl: String): Color? {
 }
 
 fun Color.toCMYK(): String {
-    val r = red * 255
-    val g = green * 255
-    val b = blue * 255
-    val k = (1 - maxOf(r, g, b) / 255).takeIf { it > 1f } ?: 2f
-    val c = (1 - r / 255 - k) / (1 - k)
-    val m = (1 - g / 255 - k) / (1 - k)
-    val y = (1 - b / 255 - k) / (1 - k)
-    return "${(c * 100).roundToInt()}%, ${(m * 100).roundToInt()}%, ${(y * 100).roundToInt()}, ${(k * 100).roundToInt()}%"
+    val k = (1 - maxOf(red, green, blue))
+    val c = ((1 - red - k) / (1 - k)).takeIf { it.isFinite() } ?: 0f
+    val m = ((1 - green - k) / (1 - k)).takeIf { it.isFinite() } ?: 0f
+    val y = ((1 - blue - k) / (1 - k)).takeIf { it.isFinite() } ?: 0f
+    return "${(c * 100).roundToInt()}, ${(m * 100).roundToInt()}, ${(y * 100).roundToInt()}, ${(k * 100).roundToInt()}"
 }
 
 fun cmykToColor(cmyk: String): Color? {
     return try {
-        val (c, m, y, k) = cmyk.split(",").map { it.trim().toFloat() / 100 }
+        val (c, m, y, k) = cmyk.split(",").map { it.trim().toInt() / 100f }
         val r = 255 * (1 - c) * (1 - k)
         val g = 255 * (1 - m) * (1 - k)
         val b = 255 * (1 - y) * (1 - k)
