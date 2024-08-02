@@ -1272,4 +1272,9 @@
     <string name="clahe_oklab">Clahe Oklab</string>
     <string name="clahe_oklch">Clahe Oklch</string>
     <string name="clahe_jzazbz">Clahe Jzazbz</string>
+    <string name="clustered_8x8_dithering">Geclusterde 8x8 dithering</string>
+    <string name="yililoma_dithering">Yililoma dithering</string>
+    <string name="polka_dot">Polkadot</string>
+    <string name="clustered_2x2_dithering">Geclusterde 2x2 dithering</string>
+    <string name="clustered_4x4_dithering">Geclusterde 4x4 dithering</string>
 </resources>
