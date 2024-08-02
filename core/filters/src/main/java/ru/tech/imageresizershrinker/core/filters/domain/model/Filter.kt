@@ -230,6 +230,7 @@ interface Filter<Value> {
     interface Clustered4x4Dithering : Filter<Boolean>
     interface Clustered8x8Dithering : Filter<Boolean>
     interface YililomaDithering : Filter<Boolean>
+    interface LUT512x512 : PairFilter<Float, ImageModel>
 }
 
 interface SimpleFilter : Filter<Unit>

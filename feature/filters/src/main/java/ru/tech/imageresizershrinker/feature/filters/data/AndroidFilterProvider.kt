@@ -134,6 +134,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.HotSummerFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HueFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.JarvisJudiceNinkeDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.KuwaharaFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LUT512x512Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LaplacianFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LavenderDreamFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LeftToRightDitheringFilter
@@ -233,7 +234,8 @@ import javax.inject.Inject
 
 internal class AndroidFilterProvider @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val paletteTransferFilterFactory: PaletteTransferFilter.Factory
+    private val paletteTransferFilterFactory: PaletteTransferFilter.Factory,
+    private val lut512x512FilterFactory: LUT512x512Filter.Factory,
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
@@ -446,6 +448,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Clustered4x4Dithering -> Clustered4x4DitheringFilter(value)
             is Filter.Clustered8x8Dithering -> Clustered8x8DitheringFilter(value)
             is Filter.YililomaDithering -> YililomaDitheringFilter(value)
+            is Filter.LUT512x512 -> lut512x512FilterFactory(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

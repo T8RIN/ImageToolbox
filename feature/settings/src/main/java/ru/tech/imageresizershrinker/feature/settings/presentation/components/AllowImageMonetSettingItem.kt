@@ -21,13 +21,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -36,10 +40,23 @@ fun AllowImageMonetSettingItem(
     onClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
+    val toastHostState = LocalToastHostState.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
+
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
+        enabled = !settingsState.isDynamicColors,
+        onDisabledClick = {
+            scope.launch {
+                toastHostState.showToast(
+                    icon = Icons.Outlined.WaterDrop,
+                    message = context.getString(R.string.cannot_use_monet_while_dynamic_colors_applied)
+                )
+            }
+        },
         title = stringResource(R.string.allow_image_monet),
         subtitle = stringResource(R.string.allow_image_monet_sub),
         checked = settingsState.allowChangeColorByImage,

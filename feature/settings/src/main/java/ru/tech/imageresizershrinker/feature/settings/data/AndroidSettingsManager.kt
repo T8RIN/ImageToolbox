@@ -341,6 +341,9 @@ internal class AndroidSettingsManager @Inject constructor(
                 key = DYNAMIC_COLORS,
                 defaultValue = default.isDynamicColors
             )
+            if (it[DYNAMIC_COLORS] == true) {
+                it[ALLOW_IMAGE_MONET] = false
+            }
         }
     }
 

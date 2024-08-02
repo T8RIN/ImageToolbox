@@ -129,7 +129,6 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
-import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.filterIsNotInstance
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -415,7 +414,13 @@ fun AddFiltersSheet(
                 UiFilter.groupedEntries(context).let { lists ->
                     if (canAddTemplates) lists
                     else lists.map {
-                        it.filterIsNotInstance<UiFilter<*>, Filter.PaletteTransfer>()
+                        val destination = mutableListOf<UiFilter<*>>()
+                        for (element in it) {
+                            if (element !is Filter.PaletteTransfer && element !is Filter.LUT512x512) {
+                                destination.add(element)
+                            }
+                        }
+                        destination
                     }
                 }
             }
