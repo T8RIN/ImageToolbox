@@ -101,7 +101,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 200 various filters)
+- Applying filter chains (More than 210 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -309,6 +309,11 @@ or click one of the badges below.
     - [x] Clustered 4x4 Dithering
     - [x] Clustered8x8 Dithering
     - [x] Polka Dot
+    - [x] LUT 512*512
+    - [x] Amatorka
+    - [x] Miss Etikate
+    - [x] Soft Elegance
+    - [x] Soft Elegance Variant
 
   </details>
 - Custom Filters Creation by Template filters
