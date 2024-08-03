@@ -231,6 +231,10 @@ interface Filter<Value> {
     interface Clustered8x8Dithering : Filter<Boolean>
     interface YililomaDithering : Filter<Boolean>
     interface LUT512x512 : PairFilter<Float, ImageModel>
+    interface Amatorka : Filter<Float>
+    interface MissEtikate : Filter<Float>
+    interface SoftElegance : Filter<Float>
+    interface SoftEleganceVariant : Filter<Float>
 }
 
 interface SimpleFilter : Filter<Unit>

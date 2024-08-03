@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.AcesHillToneMappi
 import ru.tech.imageresizershrinker.feature.filters.data.model.AchromatomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AchromatopsiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AldridgeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.AmatorkaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AnaglyphFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AnisotropicDiffusionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AtkinsonDitheringFilter
@@ -152,6 +153,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LowPolyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MarbleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.MissEtikateFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MotionBlurFilter
@@ -201,6 +203,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SimpleThresholdDi
 import ru.tech.imageresizershrinker.feature.filters.data.model.SketchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SmoothToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SobelEdgeDetectionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.SoftEleganceFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.SoftEleganceVariantFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SoftSpringLightFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SolarizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SpacePortalFilter
@@ -235,7 +239,7 @@ import javax.inject.Inject
 internal class AndroidFilterProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val paletteTransferFilterFactory: PaletteTransferFilter.Factory,
-    private val lut512x512FilterFactory: LUT512x512Filter.Factory,
+    private val lut512x512FilterFactory: LUT512x512Filter.Factory
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
@@ -449,6 +453,12 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Clustered8x8Dithering -> Clustered8x8DitheringFilter(value)
             is Filter.YililomaDithering -> YililomaDitheringFilter(value)
             is Filter.LUT512x512 -> lut512x512FilterFactory(value)
+            is Filter.Amatorka -> AmatorkaFilter(value, lut512x512FilterFactory)
+            is Filter.MissEtikate -> MissEtikateFilter(value, lut512x512FilterFactory)
+            is Filter.SoftElegance -> SoftEleganceFilter(value, lut512x512FilterFactory)
+            is Filter.SoftEleganceVariant -> {
+                SoftEleganceVariantFilter(value, lut512x512FilterFactory)
+            }
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

@@ -1319,4 +1319,8 @@
     <string name="cannot_use_monet_while_dynamic_colors_applied">Cannot use monet while dynamic colors are turned on</string>
     <string name="lut512x512">LUT 512x512</string>
     <string name="target_lut_image">Target LUT image</string>
+    <string name="amatorka">Amatorka</string>
+    <string name="miss_etikate">Miss Etikate</string>
+    <string name="soft_elegance">Soft Elegance</string>
+    <string name="soft_elegance_variant">Soft Elegance Variant</string>
 </resources>
