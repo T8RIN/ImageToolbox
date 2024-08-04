@@ -803,7 +803,7 @@
     <string name="apng_type_to_apng_sub">Konvertiere einen Stapel Bilder in eine APNG-Datei</string>
     <string name="zip">Zip</string>
     <string name="zip_sub">Erstelle eine Zip-Datei aus bestimmten Dateien oder Bildern</string>
-    <string name="drag_handle_width">Ziehe die Griffbreite</string>
+    <string name="drag_handle_width">Griffbreite ziehen</string>
     <string name="rain">Regen</string>
     <string name="festive">Festlich</string>
     <string name="explode">Explosion</string>
