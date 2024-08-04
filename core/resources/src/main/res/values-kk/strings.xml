@@ -1649,4 +1649,7 @@
     <string name="base_64_tools"></string>
     <string name="cupertino_switch_sub"></string>
     <string name="tool_exit_confirmation"></string>
+    <string name="soft_glow"></string>
+    <string name="resolution"></string>
+    <string name="downscale_image_sub"></string>
 </resources>
