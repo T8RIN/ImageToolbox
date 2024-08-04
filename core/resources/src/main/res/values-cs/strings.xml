@@ -1650,4 +1650,6 @@
     <string name="ico_size_warning"></string>
     <string name="material_you_slider_sub"></string>
     <string name="compose_switch_sub"></string>
+    <string name="soft_glow"></string>
+    <string name="resolution"></string>
 </resources>
