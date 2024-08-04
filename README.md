@@ -101,7 +101,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 210 various filters)
+- Applying filter chains (More than 220 various filters)
 
   <details>
   <summary>Available filters</summary>
