@@ -1335,4 +1335,6 @@
     <string name="film_stock_50">Film Stock 50</string>
     <string name="foggy_night">Foggy Night</string>
     <string name="kodak">Kodak</string>
+    <string name="save_empty_lut">Get Neutral LUT image</string>
+    <string name="save_empty_lut_sub">First, use your favourite photo editing application to apply a filter to neutral LUT which you can obtain here. For this to work properly each pixel color must not depend on other pixels (e.g. blur will not work). Once ready, use your new LUT image as input for 512*512 LUT filter</string>
 </resources>

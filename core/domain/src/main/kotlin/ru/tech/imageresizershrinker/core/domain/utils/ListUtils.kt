@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.domain.utils
 
+import kotlin.reflect.KClass
+
 object ListUtils {
     fun <T> List<T>.nearestFor(item: T): T? {
         return if (isEmpty()) null
@@ -36,6 +38,12 @@ object ListUtils {
     inline fun <T, reified R> Iterable<T>.filterIsNotInstance(): List<T> {
         val destination = mutableListOf<T>()
         for (element in this) if (element !is R) destination.add(element)
+        return destination
+    }
+
+    inline fun <T> Iterable<T>.filterIsNotInstance(vararg types: KClass<*>): List<T> {
+        val destination = mutableListOf<T>()
+        for (element in this) if (types.all { !it.isInstance(element) }) destination.add(element)
         return destination
     }
 }

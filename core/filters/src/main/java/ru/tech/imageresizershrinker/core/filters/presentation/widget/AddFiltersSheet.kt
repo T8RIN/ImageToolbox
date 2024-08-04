@@ -46,6 +46,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -68,6 +69,7 @@ import androidx.compose.material.icons.rounded.FilterHdr
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Speed
@@ -102,6 +104,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -109,6 +112,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
@@ -121,6 +125,7 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -130,6 +135,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.filterIsNotInstance
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -144,6 +150,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
@@ -151,6 +158,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -159,6 +168,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
@@ -183,6 +193,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteInteractor: FavoriteFiltersInteractor,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
@@ -380,6 +391,68 @@ private class AddFiltersSheetViewModel @Inject constructor(
         }
     }
 
+    fun cacheNeutralLut(onComplete: (Uri) -> Unit) {
+        viewModelScope.launch {
+            imageGetter.getImage(R.drawable.lookup)?.let {
+                shareProvider.cacheImage(
+                    image = it,
+                    imageInfo = ImageInfo(
+                        width = 512,
+                        height = 512,
+                        imageFormat = ImageFormat.Png.Lossless
+                    )
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+        }
+    }
+
+    fun shareNeutralLut(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageGetter.getImage(R.drawable.lookup)?.let {
+                shareProvider.shareImage(
+                    image = it,
+                    imageInfo = ImageInfo(
+                        width = 512,
+                        height = 512,
+                        imageFormat = ImageFormat.Png.Lossless
+                    ),
+                    onComplete = onComplete
+                )
+            }
+        }
+    }
+
+    fun saveNeutralLut(
+        onComplete: (result: SaveResult) -> Unit,
+    ) {
+        viewModelScope.launch {
+            imageGetter.getImage(R.drawable.lookup)?.let { bitmap ->
+                val imageInfo = ImageInfo(
+                    width = 512,
+                    height = 512,
+                    imageFormat = ImageFormat.Png.Lossless
+                )
+                onComplete(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget<ExifInterface>(
+                            imageInfo = imageInfo,
+                            originalUri = "",
+                            sequenceNumber = null,
+                            data = imageCompressor.compress(
+                                image = bitmap,
+                                imageFormat = imageInfo.imageFormat,
+                                quality = Quality.Base()
+                            )
+                        ),
+                        keepOriginalMetadata = false
+                    )
+                )
+            }
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -415,13 +488,12 @@ fun AddFiltersSheet(
                 UiFilter.groupedEntries(context).let { lists ->
                     if (canAddTemplates) lists
                     else lists.map {
-                        val destination = mutableListOf<UiFilter<*>>()
-                        for (element in it) {
-                            if (element !is Filter.PaletteTransfer && element !is Filter.LUT512x512 && element !is Filter.PaletteTransferVariant && element !is Filter.CubeLut) {
-                                destination.add(element)
-                            }
-                        }
-                        destination
+                        it.filterIsNotInstance(
+                            Filter.PaletteTransfer::class,
+                            Filter.LUT512x512::class,
+                            Filter.PaletteTransferVariant::class,
+                            Filter.CubeLut::class
+                        )
                     }
                 }
             }
@@ -431,6 +503,28 @@ fun AddFiltersSheet(
             pageCount = { groupedFilters.size + if (canAddTemplates) 2 else 1 },
             initialPage = 2
         )
+
+        val tabs by remember(canAddTemplates) {
+            derivedStateOf {
+                listOf(
+                    Icons.Rounded.Bookmark to context.getString(R.string.favorite),
+                    Icons.Rounded.Speed to context.getString(R.string.simple_effects),
+                    Icons.Rounded.FormatColorFill to context.getString(R.string.color),
+                    Icons.Rounded.TableChart to context.getString(R.string.lut),
+                    Icons.Rounded.Light to context.getString(R.string.light_aka_illumination),
+                    Icons.Rounded.FilterHdr to context.getString(R.string.effect),
+                    Icons.Rounded.LensBlur to context.getString(R.string.blur),
+                    Icons.Rounded.Cube to context.getString(R.string.pixelation),
+                    Icons.Rounded.Animation to context.getString(R.string.distortion),
+                    Icons.Rounded.EditRoad to context.getString(R.string.dithering)
+                ).let {
+                    if (canAddTemplates) listOf(
+                        Icons.Rounded.Extension to context.getString(R.string.template)
+                    ) + it
+                    else it
+                }
+            }
+        }
 
         var isSearching by rememberSaveable {
             mutableStateOf(false)
@@ -495,25 +589,7 @@ fun AddFiltersSheet(
                                     }
                                 }
                             ) {
-                                listOf(
-                                    Icons.Rounded.Bookmark to stringResource(id = R.string.favorite),
-                                    Icons.Rounded.Speed to stringResource(id = R.string.simple_effects),
-                                    Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
-                                    Icons.Rounded.TableChart to stringResource(id = R.string.lut),
-                                    Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
-                                    Icons.Rounded.FilterHdr to stringResource(R.string.effect),
-                                    Icons.Rounded.LensBlur to stringResource(R.string.blur),
-                                    Icons.Rounded.Cube to stringResource(R.string.pixelation),
-                                    Icons.Rounded.Animation to stringResource(R.string.distortion),
-                                    Icons.Rounded.EditRoad to stringResource(R.string.dithering)
-                                ).let {
-                                    if (canAddTemplates) listOf(
-                                        Icons.Rounded.Extension to stringResource(
-                                            id = R.string.template
-                                        )
-                                    ) + it
-                                    else it
-                                }.forEachIndexed { index, (icon, title) ->
+                                tabs.forEachIndexed { index, (icon, title) ->
                                     val selected = pagerState.currentPage == index
                                     val color by animateColorAsState(
                                         if (selected) {
@@ -891,6 +967,72 @@ fun AddFiltersSheet(
                                     verticalArrangement = Arrangement.spacedBy(4.dp),
                                     contentPadding = PaddingValues(16.dp)
                                 ) {
+                                    if (tabs[page].first == Icons.Rounded.TableChart) {
+                                        item {
+                                            PreferenceItemOverload(
+                                                title = stringResource(R.string.save_empty_lut),
+                                                subtitle = stringResource(R.string.save_empty_lut_sub),
+                                                shape = ContainerShapeDefaults.defaultShape,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(bottom = 8.dp),
+                                                endIcon = {
+                                                    Column(
+                                                        verticalArrangement = Arrangement.Center,
+                                                        horizontalAlignment = Alignment.CenterHorizontally
+                                                    ) {
+                                                        Picture(
+                                                            model = R.drawable.lookup,
+                                                            contentScale = ContentScale.Crop,
+                                                            contentDescription = null,
+                                                            modifier = Modifier
+                                                                .size(48.dp)
+                                                                .scale(1.1f)
+                                                                .clip(MaterialTheme.shapes.extraSmall),
+                                                            shape = MaterialTheme.shapes.extraSmall
+                                                        )
+                                                        Spacer(modifier = Modifier.height(8.dp))
+                                                        Row {
+                                                            ShareButton(
+                                                                onShare = {
+                                                                    viewModel.shareNeutralLut(
+                                                                        showConfetti
+                                                                    )
+                                                                },
+                                                                onCopy = { manager ->
+                                                                    viewModel.cacheNeutralLut { uri ->
+                                                                        manager.setClip(
+                                                                            uri.asClip(context)
+                                                                        )
+                                                                        showConfetti()
+                                                                    }
+                                                                }
+                                                            )
+                                                            EnhancedIconButton(
+                                                                onClick = {
+                                                                    viewModel.saveNeutralLut { saveResult ->
+                                                                        context.parseSaveResult(
+                                                                            saveResult = saveResult,
+                                                                            onSuccess = showConfetti,
+                                                                            toastHostState = toastHostState,
+                                                                            scope = scope
+                                                                        )
+                                                                    }
+                                                                }
+                                                            ) {
+                                                                Icon(
+                                                                    imageVector = Icons.Rounded.Save,
+                                                                    contentDescription = stringResource(
+                                                                        R.string.save
+                                                                    )
+                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            )
+                                        }
+                                    }
                                     itemsIndexed(filters) { index, filter ->
                                         FilterSelectionItem(
                                             filter = filter,
