@@ -1649,4 +1649,7 @@
     <string name="try_again"></string>
     <string name="bottom_center"></string>
     <string name="tool_exit_confirmation"></string>
+    <string name="downscale_image_sub"></string>
+    <string name="soft_glow"></string>
+    <string name="resolution"></string>
 </resources>
