@@ -1317,7 +1317,7 @@
     <string name="selected_color">Selected Color</string>
     <string name="color_to_mix">Color To Mix</string>
     <string name="cannot_use_monet_while_dynamic_colors_applied">Cannot use monet while dynamic colors are turned on</string>
-    <string name="lut512x512">LUT 512x512</string>
+    <string name="lut512x512">512x512 2D LUT</string>
     <string name="target_lut_image">Target LUT image</string>
     <string name="amatorka">Amatorka</string>
     <string name="miss_etikate">Miss Etikate</string>
@@ -1326,4 +1326,13 @@
     <string name="palette_transfer_variant">Palette Transfer Variant</string>
     <string name="cube_lut">3D LUT</string>
     <string name="target_cube_lut_file">Target 3D LUT File (.cube / .CUBE)</string>
+    <string name="lut">LUT</string>
+    <string name="bleach_bypass">Bleach Bypass</string>
+    <string name="candlelight">Candlelight</string>
+    <string name="drop_blues">Drop Blues</string>
+    <string name="edgy_amber">Edgy Amber</string>
+    <string name="fall_colors">Fall Colors</string>
+    <string name="film_stock_50">Film Stock 50</string>
+    <string name="foggy_night">Foggy Night</string>
+    <string name="kodak">Kodak</string>
 </resources>

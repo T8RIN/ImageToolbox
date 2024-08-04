@@ -56,7 +56,8 @@ internal class PaletteTransferVariantFilter @AssistedInject constructor(
         return Aire.copyPalette(
             source = reference,
             destination = input,
-            colorSpace = value.second.toSpace()
+            colorSpace = value.second.toSpace(),
+            intensity = value.first
         )
     }
 

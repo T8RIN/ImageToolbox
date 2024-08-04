@@ -132,14 +132,23 @@ sealed class UiFilter<T>(
                     UiPaletteTransferVariantFilter(),
                     UiPosterizeFilter(),
                     UiColorPosterFilter(),
-                    UiTriToneFilter(),
-
+                    UiTriToneFilter()
+                ),
+                listOf(
                     UiLUT512x512Filter(),
                     UiAmatorkaFilter(),
                     UiMissEtikateFilter(),
                     UiSoftEleganceFilter(),
                     UiSoftEleganceVariantFilter(),
-                    UiCubeLutFilter()
+                    UiCubeLutFilter(),
+                    UiBleachBypassFilter(),
+                    UiCandlelightFilter(),
+                    UiDropBluesFilter(),
+                    UiEdgyAmberFilter(),
+                    UiFallColorsFilter(),
+                    UiFilmStock50Filter(),
+                    UiFoggyNightFilter(),
+                    UiKodakFilter()
                 ),
                 listOf(
                     UiBrightnessFilter(),

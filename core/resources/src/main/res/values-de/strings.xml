@@ -1267,7 +1267,7 @@
     <string name="cannot_use_monet_while_dynamic_colors_applied">Monet kann nicht verwendet werden, wenn die dynamischen Farben aktiviert sind</string>
     <string name="target_lut_image">LUT-Zielbild</string>
     <string name="soft_elegance_variant">Weiche Eleganz Variante</string>
-    <string name="lut512x512">LUT 512x512</string>
+    <string name="lut512x512">512x512 2D LUT</string>
     <string name="amatorka">Amatorka</string>
     <string name="miss_etikate">Miss Etikate</string>
     <string name="soft_elegance">Weiche Eleganz</string>

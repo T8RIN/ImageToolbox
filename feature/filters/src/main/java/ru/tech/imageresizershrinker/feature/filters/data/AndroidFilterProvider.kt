@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.BayerThreeDitheri
 import ru.tech.imageresizershrinker.feature.filters.data.model.BayerTwoDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BlackAndWhiteFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.BleachBypassFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BokehFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BoxBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BrightnessFilter
@@ -46,6 +47,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.BrowniFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BulgeDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BurkesDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CGAColorSpaceFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CandlelightFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CaramelDarknessFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CircleBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CirclePixelationFilter
@@ -87,6 +89,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.DiamondPixelation
 import ru.tech.imageresizershrinker.feature.filters.data.model.DigitalCodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DilationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DragoFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.DropBluesFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EdgyAmberFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ElectricGradientFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EmbossFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedCirclePixelationFilter
@@ -104,6 +108,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogram
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ErodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ExposureFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.FallColorsFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FalseColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FalseFloydSteinbergDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FantasyLandscapeFilter
@@ -112,7 +117,9 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.FastBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FastGaussianBlur2DFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FastGaussianBlur3DFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FastGaussianBlur4DFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.FilmStock50Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FloydSteinbergDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.FoggyNightFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FractalGlassFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FuturisticGradientFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GammaFilter
@@ -135,6 +142,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.HorizontalWindSta
 import ru.tech.imageresizershrinker.feature.filters.data.model.HotSummerFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HueFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.JarvisJudiceNinkeDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.KodakFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.KuwaharaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LUT512x512Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LaplacianFilter
@@ -241,7 +249,7 @@ import javax.inject.Inject
 internal class AndroidFilterProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val paletteTransferFilterFactory: PaletteTransferFilter.Factory,
-    private val lut512x512FilterFactory: LUT512x512Filter.Factory,
+    private val lutFilterFactory: LUT512x512Filter.Factory,
     private val paletteTransferVariantFilterFactory: PaletteTransferVariantFilter.Factory
 ) : FilterProvider<Bitmap> {
 
@@ -455,16 +463,21 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Clustered4x4Dithering -> Clustered4x4DitheringFilter(value)
             is Filter.Clustered8x8Dithering -> Clustered8x8DitheringFilter(value)
             is Filter.YililomaDithering -> YililomaDitheringFilter(value)
-            is Filter.LUT512x512 -> lut512x512FilterFactory(value)
-            is Filter.Amatorka -> AmatorkaFilter(value, lut512x512FilterFactory)
-            is Filter.MissEtikate -> MissEtikateFilter(value, lut512x512FilterFactory)
-            is Filter.SoftElegance -> SoftEleganceFilter(value, lut512x512FilterFactory)
-            is Filter.SoftEleganceVariant -> {
-                SoftEleganceVariantFilter(value, lut512x512FilterFactory)
-            }
-
+            is Filter.LUT512x512 -> lutFilterFactory(value)
+            is Filter.Amatorka -> AmatorkaFilter(value, lutFilterFactory)
+            is Filter.MissEtikate -> MissEtikateFilter(value, lutFilterFactory)
+            is Filter.SoftElegance -> SoftEleganceFilter(value, lutFilterFactory)
+            is Filter.SoftEleganceVariant -> SoftEleganceVariantFilter(value, lutFilterFactory)
             is Filter.PaletteTransferVariant -> paletteTransferVariantFilterFactory(value)
             is Filter.CubeLut -> CubeLutFilter(value, context)
+            is Filter.BleachBypass -> BleachBypassFilter(value, lutFilterFactory)
+            is Filter.Candlelight -> CandlelightFilter(value, lutFilterFactory)
+            is Filter.DropBlues -> DropBluesFilter(value, lutFilterFactory)
+            is Filter.EdgyAmber -> EdgyAmberFilter(value, lutFilterFactory)
+            is Filter.FallColors -> FallColorsFilter(value, lutFilterFactory)
+            is Filter.FilmStock50 -> FilmStock50Filter(value, lutFilterFactory)
+            is Filter.FoggyNight -> FoggyNightFilter(value, lutFilterFactory)
+            is Filter.Kodak -> KodakFilter(value, lutFilterFactory)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

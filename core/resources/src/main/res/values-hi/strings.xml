@@ -1278,7 +1278,7 @@
     <string name="clustered_2x2_dithering">क्लस्टर्ड 2x2 डिथरिंग</string>
     <string name="yililoma_dithering">यिलिलोमा डिथरिंग</string>
     <string name="cannot_use_monet_while_dynamic_colors_applied">डायनामिक रंग चालू होने पर मोनेट का उपयोग नहीं किया जा सकता</string>
-    <string name="lut512x512">एलयूटी 512x512</string>
+    <string name="lut512x512">512x512 2D एलयूटी</string>
     <string name="target_lut_image">लक्ष्य एलयूटी छवि</string>
     <string name="amatorka">अमाटोरका</string>
     <string name="miss_etikate">मिस एटिकेट</string>

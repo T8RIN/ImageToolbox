@@ -71,6 +71,7 @@ import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Speed
+import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -416,7 +417,7 @@ fun AddFiltersSheet(
                     else lists.map {
                         val destination = mutableListOf<UiFilter<*>>()
                         for (element in it) {
-                            if (element !is Filter.PaletteTransfer && element !is Filter.LUT512x512 && element !is Filter.PaletteTransferVariant) {
+                            if (element !is Filter.PaletteTransfer && element !is Filter.LUT512x512 && element !is Filter.PaletteTransferVariant && element !is Filter.CubeLut) {
                                 destination.add(element)
                             }
                         }
@@ -498,6 +499,7 @@ fun AddFiltersSheet(
                                     Icons.Rounded.Bookmark to stringResource(id = R.string.favorite),
                                     Icons.Rounded.Speed to stringResource(id = R.string.simple_effects),
                                     Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
+                                    Icons.Rounded.TableChart to stringResource(id = R.string.lut),
                                     Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
                                     Icons.Rounded.FilterHdr to stringResource(R.string.effect),
                                     Icons.Rounded.LensBlur to stringResource(R.string.blur),

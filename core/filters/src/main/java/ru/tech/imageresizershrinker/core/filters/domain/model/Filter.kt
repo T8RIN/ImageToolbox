@@ -238,6 +238,14 @@ interface Filter<Value> {
     interface SoftEleganceVariant : Filter<Float>
     interface PaletteTransferVariant : TripleFilter<Float, PaletteTransferSpace, ImageModel>
     interface CubeLut : PairFilter<Float, FileModel>
+    interface BleachBypass : Filter<Float>
+    interface Candlelight : Filter<Float>
+    interface DropBlues : Filter<Float>
+    interface EdgyAmber : Filter<Float>
+    interface FallColors : Filter<Float>
+    interface FilmStock50 : Filter<Float>
+    interface FoggyNight : Filter<Float>
+    interface Kodak : Filter<Float>
 }
 
 interface SimpleFilter : Filter<Unit>
