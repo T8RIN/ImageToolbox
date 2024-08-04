@@ -24,6 +24,7 @@ import android.provider.DocumentsContract
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.coroutineScope
+import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
@@ -160,3 +161,5 @@ fun ImageModel.toUri(): Uri? = when (data) {
 }
 
 fun Any.toImageModel() = ImageModel(this)
+
+fun String.toFileModel() = FileModel(this)

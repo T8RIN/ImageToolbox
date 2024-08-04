@@ -1323,4 +1323,7 @@
     <string name="miss_etikate">Miss Etikate</string>
     <string name="soft_elegance">Soft Elegance</string>
     <string name="soft_elegance_variant">Soft Elegance Variant</string>
+    <string name="palette_transfer_variant">Palette Transfer Variant</string>
+    <string name="cube_lut">3D LUT</string>
+    <string name="target_cube_lut_file">Target 3D LUT File (.cube / .CUBE)</string>
 </resources>

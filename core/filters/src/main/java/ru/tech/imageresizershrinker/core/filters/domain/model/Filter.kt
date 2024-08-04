@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 
 
@@ -235,6 +236,8 @@ interface Filter<Value> {
     interface MissEtikate : Filter<Float>
     interface SoftElegance : Filter<Float>
     interface SoftEleganceVariant : Filter<Float>
+    interface PaletteTransferVariant : TripleFilter<Float, PaletteTransferSpace, ImageModel>
+    interface CubeLut : PairFilter<Float, FileModel>
 }
 
 interface SimpleFilter : Filter<Unit>

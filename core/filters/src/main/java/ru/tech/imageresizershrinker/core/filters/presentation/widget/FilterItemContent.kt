@@ -47,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
@@ -58,6 +59,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpace
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
@@ -69,6 +71,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiRGBFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toColor
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toFileModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -77,6 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRo
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FileSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -422,6 +426,46 @@ internal fun <T> FilterItemContent(
                         )
                     }
 
+                    value.first is Float && value.second is FileModel -> {
+                        var sliderState1 by remember { mutableFloatStateOf((value.first as Float).toFloat()) }
+                        var uri1 by remember(value) { mutableStateOf((value.second as FileModel).uri) }
+
+                        EnhancedSliderItem(
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    start = 8.dp,
+                                    end = 8.dp
+                                ),
+                            enabled = !previewOnly,
+                            value = sliderState1,
+                            title = filter.paramsInfo[0].title?.let {
+                                stringResource(it)
+                            } ?: "",
+                            onValueChange = {
+                                sliderState1 = it
+                                onFilterChange(sliderState1 to uri1.toFileModel())
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
+                            },
+                            valueRange = filter.paramsInfo[0].valueRange,
+                            behaveAsContainer = false
+                        )
+                        FileSelector(
+                            modifier = Modifier.padding(16.dp),
+                            value = uri1,
+                            title = filter.paramsInfo[1].title?.let {
+                                stringResource(it)
+                            } ?: stringResource(R.string.pick_file),
+                            onValueChange = {
+                                uri1 = it.toString()
+                                onFilterChange(sliderState1 to uri1.toFileModel())
+                            },
+                            subtitle = null
+                        )
+                    }
+
                     value.first is Number && value.second is Boolean -> {
                         var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
                         var booleanState2 by remember(value) { mutableStateOf(value.second as Boolean) }
@@ -559,6 +603,87 @@ internal fun <T> FilterItemContent(
 
             is Triple<*, *, *> -> {
                 when {
+                    value.first is Float && value.second is PaletteTransferSpace && value.third is ImageModel -> {
+                        var sliderState1 by remember { mutableFloatStateOf((value.first as Float).toFloat()) }
+                        var colorSpace1 by remember { mutableStateOf((value.second as PaletteTransferSpace)) }
+                        var uri1 by remember(value) { mutableStateOf((value.third as ImageModel).data) }
+
+                        EnhancedSliderItem(
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    start = 8.dp,
+                                    end = 8.dp
+                                ),
+                            enabled = !previewOnly,
+                            value = sliderState1,
+                            title = filter.paramsInfo[0].title?.let {
+                                stringResource(it)
+                            } ?: "",
+                            onValueChange = {
+                                sliderState1 = it
+                                onFilterChange(
+                                    Triple(
+                                        sliderState1,
+                                        colorSpace1,
+                                        uri1.toImageModel()
+                                    )
+                                )
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
+                            },
+                            valueRange = filter.paramsInfo[0].valueRange,
+                            behaveAsContainer = false
+                        )
+                        Text(
+                            text = stringResource(filter.paramsInfo[1].title!!),
+                            modifier = Modifier.padding(
+                                top = 8.dp,
+                                start = 12.dp,
+                                end = 12.dp,
+                            )
+                        )
+                        val entries by remember(filter) {
+                            derivedStateOf {
+                                PaletteTransferSpace.entries
+                            }
+                        }
+                        ToggleGroupButton(
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            items = entries.map { it.translatedName },
+                            selectedIndex = entries.indexOf(colorSpace1),
+                            indexChanged = {
+                                colorSpace1 = entries[it]
+                                onFilterChange(
+                                    Triple(
+                                        sliderState1,
+                                        colorSpace1,
+                                        uri1.toImageModel()
+                                    )
+                                )
+                            }
+                        )
+                        ImageSelector(
+                            modifier = Modifier.padding(16.dp),
+                            value = uri1,
+                            title = filter.paramsInfo[2].title?.let {
+                                stringResource(it)
+                            } ?: stringResource(R.string.image),
+                            onValueChange = {
+                                uri1 = it.toString()
+                                onFilterChange(
+                                    Triple(
+                                        sliderState1,
+                                        colorSpace1,
+                                        uri1.toImageModel()
+                                    )
+                                )
+                            },
+                            subtitle = null
+                        )
+                    }
+
                     value.first is Number && value.second is Number && value.third is Number -> {
                         val sliderState1: MutableState<Float> =
                             remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
@@ -1648,6 +1773,15 @@ private fun <T> TransferFuncSelector(
         }
     )
 }
+
+private val PaletteTransferSpace.translatedName: String
+    @Composable
+    get() = when (this) {
+        PaletteTransferSpace.LALPHABETA -> "Lαβ"
+        PaletteTransferSpace.LAB -> "LAB"
+        PaletteTransferSpace.OKLAB -> "OKLAB"
+        PaletteTransferSpace.LUV -> "LUV"
+    }
 
 private val TransferFunc.translatedName: String
     @Composable

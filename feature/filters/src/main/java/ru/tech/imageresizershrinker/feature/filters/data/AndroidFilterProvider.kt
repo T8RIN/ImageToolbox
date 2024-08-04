@@ -77,6 +77,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.CropToContentFilt
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrossBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrosshatchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrystallizeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CubeLutFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CyberpunkFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DeepPurpleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DehazeFilter
@@ -169,6 +170,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.OldTvFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OpacityFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OrangeHazeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PaletteTransferFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.PaletteTransferVariantFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PastelFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PerlinDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PinkDreamFilter
@@ -239,7 +241,8 @@ import javax.inject.Inject
 internal class AndroidFilterProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val paletteTransferFilterFactory: PaletteTransferFilter.Factory,
-    private val lut512x512FilterFactory: LUT512x512Filter.Factory
+    private val lut512x512FilterFactory: LUT512x512Filter.Factory,
+    private val paletteTransferVariantFilterFactory: PaletteTransferVariantFilter.Factory
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
@@ -459,6 +462,9 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.SoftEleganceVariant -> {
                 SoftEleganceVariantFilter(value, lut512x512FilterFactory)
             }
+
+            is Filter.PaletteTransferVariant -> paletteTransferVariantFilterFactory(value)
+            is Filter.CubeLut -> CubeLutFilter(value, context)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

@@ -18,12 +18,15 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,12 +37,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -77,6 +83,68 @@ fun ImageSelector(
                 error = {
                     Icon(
                         imageVector = Icons.Outlined.AddPhotoAlternate,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CloverShape)
+                            .background(
+                                MaterialTheme.colorScheme.secondaryContainer
+                                    .copy(0.5f)
+                                    .compositeOver(color)
+                            )
+                            .padding(8.dp)
+                    )
+                }
+            )
+        },
+        endIcon = {
+            Icon(
+                imageVector = Icons.Rounded.MiniEdit,
+                contentDescription = stringResource(R.string.edit)
+            )
+        },
+        modifier = modifier,
+        shape = shape,
+        color = color,
+        drawStartIconContainer = false
+    )
+}
+
+@Composable
+fun FileSelector(
+    value: String?,
+    onValueChange: (Uri) -> Unit,
+    title: String = stringResource(id = R.string.pick_file),
+    subtitle: String?,
+    modifier: Modifier = Modifier,
+    autoShadowElevation: Dp = 1.dp,
+    color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    shape: Shape = RoundedCornerShape(20.dp)
+) {
+    val pickFileLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenDocument()) {
+            it?.let(onValueChange)
+        }
+    val context = LocalContext.current
+
+    PreferenceItemOverload(
+        title = title,
+        subtitle = if (subtitle == null && value != null) {
+            context.getFilename(value.toUri())
+        } else subtitle,
+        onClick = {
+            pickFileLauncher.launch(arrayOf("*/*"))
+        },
+        autoShadowElevation = autoShadowElevation,
+        startIcon = {
+            Picture(
+                contentScale = ContentScale.Inside,
+                model = value,
+                shape = CloverShape,
+                modifier = Modifier.size(48.dp),
+                error = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.InsertDriveFile,
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()

@@ -18,8 +18,10 @@
 package ru.tech.imageresizershrinker.feature.filters.data.utils
 
 import com.awxkee.aire.EdgeMode
+import com.awxkee.aire.PaletteTransferColorspace
 import com.awxkee.aire.TransferFunction
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
+import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpace
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 
 fun BlurEdgeMode.toEdgeMode(): EdgeMode = when (this) {
@@ -29,10 +31,16 @@ fun BlurEdgeMode.toEdgeMode(): EdgeMode = when (this) {
     BlurEdgeMode.Reflect -> EdgeMode.REFLECT
 }
 
-
 fun TransferFunc.toFunc(): TransferFunction = when (this) {
     TransferFunc.SRGB -> TransferFunction.SRGB
     TransferFunc.REC709 -> TransferFunction.REC709
     TransferFunc.GAMMA2P2 -> TransferFunction.GAMMA2P2
     TransferFunc.GAMMA2P8 -> TransferFunction.GAMMA2P8
+}
+
+fun PaletteTransferSpace.toSpace(): PaletteTransferColorspace = when (this) {
+    PaletteTransferSpace.LALPHABETA -> PaletteTransferColorspace.LALPHABETA
+    PaletteTransferSpace.LAB -> PaletteTransferColorspace.LAB
+    PaletteTransferSpace.OKLAB -> PaletteTransferColorspace.OKLAB
+    PaletteTransferSpace.LUV -> PaletteTransferColorspace.LUV
 }

@@ -416,7 +416,7 @@ fun AddFiltersSheet(
                     else lists.map {
                         val destination = mutableListOf<UiFilter<*>>()
                         for (element in it) {
-                            if (element !is Filter.PaletteTransfer && element !is Filter.LUT512x512) {
+                            if (element !is Filter.PaletteTransfer && element !is Filter.LUT512x512 && element !is Filter.PaletteTransferVariant) {
                                 destination.add(element)
                             }
                         }
