@@ -1649,4 +1649,7 @@
     <string name="clustered_4x4_dithering"></string>
     <string name="center_right"></string>
     <string name="image_cutting"></string>
+    <string name="downscale_image_sub"></string>
+    <string name="resolution"></string>
+    <string name="soft_glow"></string>
 </resources>
