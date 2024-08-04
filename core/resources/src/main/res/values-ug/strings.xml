@@ -1649,4 +1649,7 @@
     <string name="highlight_color"></string>
     <string name="pixel_by_pixel"></string>
     <string name="pixel_comparison_type"></string>
+    <string name="downscale_image_sub"></string>
+    <string name="soft_glow"></string>
+    <string name="resolution"></string>
 </resources>
