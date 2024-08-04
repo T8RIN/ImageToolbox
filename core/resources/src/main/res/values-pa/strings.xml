@@ -1649,4 +1649,7 @@
     <string name="black_hat"></string>
     <string name="fast_settings_side_sub"></string>
     <string name="clear_selection"></string>
+    <string name="soft_glow"></string>
+    <string name="resolution"></string>
+    <string name="downscale_image_sub"></string>
 </resources>
