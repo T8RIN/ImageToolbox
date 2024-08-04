@@ -1650,4 +1650,6 @@
     <string name="edge_mode"></string>
     <string name="manage_storage_extra_types_sub"></string>
     <string name="tool_exit_confirmation"></string>
+    <string name="soft_glow"></string>
+    <string name="resolution"></string>
 </resources>
