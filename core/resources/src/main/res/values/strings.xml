@@ -78,7 +78,7 @@
     <string name="pick_two_images">Pick two images to start</string>
     <string name="pick_images">Pick images</string>
     <string name="settings">Settings</string>
-    <string name="night_mode">Night mode</string>
+    <string name="night_mode">Theme</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="system">System</string>
@@ -890,7 +890,7 @@
     <string name="fluent_switch">Fluent</string>
     <string name="fluent_switch_sub">Uses Windows 11 styled switch based on \"Fluent\" design system</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">Uses IOS like switch based on cupertino design system</string>
+    <string name="cupertino_switch_sub">Uses iOS like switch based on cupertino design system</string>
     <string name="images_to_svg">Images To Svg</string>
     <string name="images_to_svg_sub">Trace given images to SVG images</string>
     <string name="use_sampled_palette">Use Sampled Palette</string>
@@ -898,7 +898,7 @@
     <string name="path_omit">Path Omit</string>
     <string name="svg_warning">Usage of this tool for tracing large images without downscaling are not recommended, it can cause crash and increase processing time</string>
     <string name="downscale_image">Downscale image</string>
-    <string name="downscale_image_sub">Image will be downscaled to lower dimensions before processing, this helps tool to work faster and safer</string>
+    <string name="downscale_image_sub">Image will be downscaled to lower dimensions before processing, this helps the tool to work faster and safer</string>
     <string name="min_color_ratio">Minimum Color Ratio</string>
     <string name="lines_threshold">Lines Threshold</string>
     <string name="quadratic_threshold">Quadratic Threshold</string>
@@ -1283,7 +1283,7 @@
     <string name="hdr">HDR</string>
     <string name="gotham">Gotham</string>
     <string name="simple_sketch">Simple Sketch</string>
-    <string name="soft_glow">Soft GLow</string>
+    <string name="soft_glow">Soft Glow</string>
     <string name="color_poster">Color Poster</string>
     <string name="tri_tone">Tri Tone</string>
     <string name="third_color">Third color</string>
