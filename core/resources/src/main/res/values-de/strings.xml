@@ -761,8 +761,7 @@
     <string name="old_tv">Alter Fernseher</string>
     <string name="shuffle_blur">Mischunschärfe</string>
     <string name="recognize_text">OCR (Text erkennen)</string>
-    <string name="download_description">Damit Tesseract OCR ordnungsgemäß funktioniert, müssen zusätzliche Trainingsdaten (%1$s) auf dein Gerät heruntergeladen werden.
-\nMöchtest du %2$s Daten herunterladen?</string>
+    <string name="download_description">Damit Tesseract OCR ordnungsgemäß funktioniert, müssen zusätzliche Trainingsdaten (%1$s) auf dein Gerät heruntergeladen werden. \nMöchtest du %2$s Daten herunterladen?</string>
     <string name="no_connection">Keine Verbindung. Überprüfen die Verbindung und versuche es erneut, um Eisenbahnmodelle herunterzuladen</string>
     <string name="restore_background_sub">Der Pinsel stellt den Hintergrund wieder her, anstatt ihn zu löschen</string>
     <string name="horizontal_grid">Horizontales Gitter</string>
