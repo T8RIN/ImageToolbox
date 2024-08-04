@@ -101,7 +101,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 210 various filters)
+- Applying filter chains (More than 220 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -314,6 +314,16 @@ or click one of the badges below.
     - [x] Miss Etikate
     - [x] Soft Elegance
     - [x] Soft Elegance Variant
+    - [x] Bleach Bypass
+    - [x] Candlelight
+    - [x] Drop Blues
+    - [x] Edgy Amber
+    - [x] Fall Colors
+    - [x] Film Stock 50
+    - [x] Foggy Night
+    - [x] Kodak
+    - [x] Palette Transfer Variant
+    - [x] 3D LUT (.cube / .CUBE)
 
   </details>
 - Custom Filters Creation by Template filters
