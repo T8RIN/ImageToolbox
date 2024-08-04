@@ -1649,4 +1649,7 @@
     <string name="checksum_as_filename"></string>
     <string name="cupertino_switch_sub"></string>
     <string name="show_system_bars_by_swipe_sub"></string>
+    <string name="downscale_image_sub"></string>
+    <string name="soft_glow"></string>
+    <string name="resolution"></string>
 </resources>
