@@ -528,6 +528,11 @@ or click one of the badges below.
     - Gradient creation
     - Overlaying image with gradient
 - Image source selection
+- Added Color Tools option
+  - Mixing
+  - Conversion
+  - Harmonies
+  - Shading
 - Additional Features
     - Rotating
     - Flipping
