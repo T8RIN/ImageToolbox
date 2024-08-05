@@ -77,7 +77,7 @@
     <string name="compare">तुलना करें</string>
     <string name="pick_images">छवियां चुनें</string>
     <string name="settings">सेटिंग्स</string>
-    <string name="night_mode">रात्रि मोड</string>
+    <string name="night_mode">थीम</string>
     <string name="dark">गहरा</string>
     <string name="light">हल्का</string>
     <string name="system">सिस्टम</string>
@@ -1305,4 +1305,16 @@
     <string name="color_info">रंग जानकारी</string>
     <string name="selected_color">चयनित रंग</string>
     <string name="color_to_mix">मिश्रण करने के लिए रंग</string>
+    <string name="candlelight">मोमबत्ती की रौशनी</string>
+    <string name="drop_blues">ड्रॉप ब्लूज़</string>
+    <string name="palette_transfer_variant">पैलेट ट्रांसफर वैरिएंट</string>
+    <string name="target_cube_lut_file">लक्ष्य 3D एलयूटी फाइल (.cube / .CUBE)</string>
+    <string name="cube_lut">3डी एलयूटी</string>
+    <string name="lut">एलयूटी</string>
+    <string name="bleach_bypass">ब्लीच बाईपास</string>
+    <string name="edgy_amber">एजी एम्बर</string>
+    <string name="fall_colors">पतझड़ के रंग</string>
+    <string name="film_stock_50">फिल्म स्टॉक 50</string>
+    <string name="foggy_night">धूमिल रात</string>
+    <string name="kodak">कोडैक</string>
 </resources>

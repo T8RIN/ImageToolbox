@@ -74,7 +74,7 @@
     <string name="restart_app">重启应用</string>
     <string name="clear">清空</string>
     <string name="settings">设置</string>
-    <string name="night_mode">夜间模式</string>
+    <string name="night_mode">主题</string>
     <string name="dark">暗色</string>
     <string name="light">亮色</string>
     <string name="system">跟随系统</string>
@@ -871,13 +871,13 @@
     <string name="fluent_switch">Fluent</string>
     <string name="pixel_switch">Pixel</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">使用基于 Cupertino 设计系统的类似 IOS 的开关</string>
+    <string name="cupertino_switch_sub">使用基于 Cupertino 设计系统的类似 iOS 的开关</string>
     <string name="fluent_switch_sub">使用基于 \"Fluent \"设计系统的 Windows 11 风格开关</string>
     <string name="images_to_svg_sub">将给定图片追踪为 SVG 图片</string>
     <string name="use_sampled_palette_sub">如果启用该选项，将对量化调色板进行采样</string>
     <string name="path_omit">路径省略</string>
     <string name="downscale_image">缩放图片</string>
-    <string name="downscale_image_sub">图片将在处理前缩放为较小的尺寸，这有助于工具更快、更安全地工作</string>
+    <string name="downscale_image_sub">图片将在处理前缩放为较小的尺寸，这有助于此工具更快、更安全地工作</string>
     <string name="min_color_ratio">最小色比</string>
     <string name="lines_threshold">线条阈值</string>
     <string name="path_scale">路径标度</string>
