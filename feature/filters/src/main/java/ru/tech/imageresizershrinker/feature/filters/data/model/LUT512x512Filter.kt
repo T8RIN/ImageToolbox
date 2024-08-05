@@ -23,7 +23,10 @@ import com.t8rin.trickle.Trickle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import ru.tech.imageresizershrinker.core.data.utils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
@@ -32,7 +35,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 internal class LUT512x512Filter @AssistedInject constructor(
     @Assisted override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.lookup),
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>
 ) : Transformation<Bitmap>, Filter.LUT512x512 {
 
     override val cacheKey: String
@@ -45,11 +49,18 @@ internal class LUT512x512Filter @AssistedInject constructor(
         val lutBitmap = imageGetter.getImage(
             data = value.second.data,
             size = IntegerSize(512, 512)
-        ) ?: return input
+        )?.takeIf {
+            it.safeAspectRatio == 1f
+        } ?: return input
 
         return Trickle.applyLut(
             input = input,
-            lutBitmap = lutBitmap,
+            lutBitmap = imageScaler.scaleImage(
+                image = lutBitmap,
+                width = 512,
+                height = 512,
+                resizeType = ResizeType.Explicit
+            ),
             intensity = value.first
         )
     }
