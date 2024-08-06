@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
@@ -445,6 +446,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             is BlurEdgeMode -> name
             is TransferFunc -> name
             is FadeSide -> name
+            is PopArtBlendingMode -> name
             else -> ""
         }
     }
@@ -458,6 +460,7 @@ internal class FavoriteFiltersInteractorImpl @Inject constructor(
             BlurEdgeMode::class.simpleName!! -> BlurEdgeMode.valueOf(this)
             TransferFunc::class.simpleName!! -> TransferFunc.valueOf(this)
             FadeSide::class.simpleName!! -> FadeSide.valueOf(this)
+            PopArtBlendingMode::class.simpleName!! -> PopArtBlendingMode.valueOf(this)
             else -> ""
         }
     }

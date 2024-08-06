@@ -132,7 +132,8 @@ sealed class UiFilter<T>(
                     UiPaletteTransferVariantFilter(),
                     UiPosterizeFilter(),
                     UiColorPosterFilter(),
-                    UiTriToneFilter()
+                    UiTriToneFilter(),
+                    UiPopArtFilter()
                 ),
                 listOf(
                     UiLUT512x512Filter(),

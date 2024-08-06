@@ -60,6 +60,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianPara
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpace
+import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
@@ -1101,6 +1102,103 @@ internal fun <T> FilterItemContent(
                             }
                         }
                     }
+
+                    value.first is Number && value.second is ColorModel && value.third is PopArtBlendingMode -> {
+                        var sliderState1 by remember { mutableFloatStateOf((value.first as Number).toFloat()) }
+                        var color1 by remember(value) { mutableStateOf((value.second as ColorModel).toColor()) }
+                        var blendMode1 by remember(value) { mutableStateOf((value.third as PopArtBlendingMode)) }
+
+                        EnhancedSliderItem(
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    start = 8.dp,
+                                    end = 8.dp
+                                ),
+                            enabled = !previewOnly,
+                            value = sliderState1,
+                            title = filter.paramsInfo[0].title?.let {
+                                stringResource(it)
+                            } ?: "",
+                            onValueChange = {
+                                sliderState1 = it
+                                onFilterChange(
+                                    Triple(
+                                        sliderState1,
+                                        color1.toModel(),
+                                        blendMode1
+                                    )
+                                )
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
+                            },
+                            valueRange = filter.paramsInfo[0].valueRange,
+                            behaveAsContainer = false
+                        )
+                        Box(
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 16.dp,
+                                end = 16.dp
+                            )
+                        ) {
+                            Column {
+                                Text(
+                                    text = stringResource(filter.paramsInfo[1].title!!),
+                                    modifier = Modifier
+                                        .padding(
+                                            bottom = 16.dp,
+                                            top = 16.dp,
+                                            end = 16.dp,
+                                        )
+                                )
+                                ColorSelectionRow(
+                                    value = color1,
+                                    allowScroll = !previewOnly,
+                                    allowAlpha = true,
+                                    onValueChange = { color ->
+                                        color1 = color
+                                        onFilterChange(
+                                            Triple(
+                                                sliderState1,
+                                                color1.toModel(),
+                                                blendMode1
+                                            )
+                                        )
+                                    }
+                                )
+                                Text(
+                                    text = stringResource(filter.paramsInfo[2].title!!),
+                                    modifier = Modifier.padding(
+                                        top = 8.dp,
+                                        start = 12.dp,
+                                        end = 12.dp,
+                                    )
+                                )
+                                val entries by remember(filter) {
+                                    derivedStateOf {
+                                        PopArtBlendingMode.entries
+                                    }
+                                }
+                                ToggleGroupButton(
+                                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    items = entries.map { it.translatedName },
+                                    selectedIndex = entries.indexOf(blendMode1),
+                                    indexChanged = {
+                                        blendMode1 = entries[it]
+                                        onFilterChange(
+                                            Triple(
+                                                sliderState1,
+                                                color1.toModel(),
+                                                blendMode1
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
             }
 
@@ -1773,6 +1871,17 @@ private fun <T> TransferFuncSelector(
         }
     )
 }
+
+private val PopArtBlendingMode.translatedName: String
+    @Composable
+    get() = when (this) {
+        PopArtBlendingMode.MULTIPLY -> "Multiply"
+        PopArtBlendingMode.COLOR_BURN -> "Color Burn"
+        PopArtBlendingMode.SOFT_LIGHT -> "Soft Light"
+        PopArtBlendingMode.HSL_COLOR -> "HSL Color"
+        PopArtBlendingMode.HSL_HUE -> "HSL Hue"
+        PopArtBlendingMode.DIFFERENCE -> "Difference"
+    }
 
 private val PaletteTransferSpace.translatedName: String
     @Composable

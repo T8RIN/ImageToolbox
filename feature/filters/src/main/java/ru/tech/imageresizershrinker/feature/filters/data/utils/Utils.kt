@@ -20,8 +20,10 @@ package ru.tech.imageresizershrinker.feature.filters.data.utils
 import com.awxkee.aire.EdgeMode
 import com.awxkee.aire.PaletteTransferColorspace
 import com.awxkee.aire.TransferFunction
+import com.t8rin.trickle.PopArtBlendMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpace
+import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 
 fun BlurEdgeMode.toEdgeMode(): EdgeMode = when (this) {
@@ -43,4 +45,13 @@ fun PaletteTransferSpace.toSpace(): PaletteTransferColorspace = when (this) {
     PaletteTransferSpace.LAB -> PaletteTransferColorspace.LAB
     PaletteTransferSpace.OKLAB -> PaletteTransferColorspace.OKLAB
     PaletteTransferSpace.LUV -> PaletteTransferColorspace.LUV
+}
+
+fun PopArtBlendingMode.toMode(): PopArtBlendMode = when (this) {
+    PopArtBlendingMode.MULTIPLY -> PopArtBlendMode.MULTIPLY
+    PopArtBlendingMode.COLOR_BURN -> PopArtBlendMode.COLOR_BURN
+    PopArtBlendingMode.SOFT_LIGHT -> PopArtBlendMode.SOFT_LIGHT
+    PopArtBlendingMode.HSL_COLOR -> PopArtBlendMode.HSL_COLOR
+    PopArtBlendingMode.HSL_HUE -> PopArtBlendMode.HSL_HUE
+    PopArtBlendingMode.DIFFERENCE -> PopArtBlendMode.DIFFERENCE
 }

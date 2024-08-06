@@ -186,6 +186,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.PixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PoissonBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PolaroidFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PolkaDotFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.PopArtFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PosterizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtonomalyFilter
@@ -478,6 +479,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.FilmStock50 -> FilmStock50Filter(value, lutFilterFactory)
             is Filter.FoggyNight -> FoggyNightFilter(value, lutFilterFactory)
             is Filter.Kodak -> KodakFilter(value, lutFilterFactory)
+            is Filter.PopArt -> PopArtFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

@@ -246,6 +246,7 @@ interface Filter<Value> {
     interface FilmStock50 : Filter<Float>
     interface FoggyNight : Filter<Float>
     interface Kodak : Filter<Float>
+    interface PopArt : TripleFilter<Float, ColorModel, PopArtBlendingMode>
 }
 
 interface SimpleFilter : Filter<Unit>
