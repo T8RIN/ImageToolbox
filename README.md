@@ -324,6 +324,7 @@ or click one of the badges below.
     - [x] Kodak
     - [x] Palette Transfer Variant
     - [x] 3D LUT (.cube / .CUBE)
+    - [x] Pop Art
 
   </details>
 - Custom Filters Creation by Template filters
