@@ -1311,4 +1311,13 @@
     <string name="soft_elegance">柔美优雅</string>
     <string name="miss_etikate">Miss Etikate</string>
     <string name="cube_lut">3D LUT</string>
+    <string name="foggy_night">雾夜朦胧</string>
+    <string name="film_stock_50">50号胶片</string>
+    <string name="fall_colors">金秋色彩</string>
+    <string name="edgy_amber">锐利琥珀</string>
+    <string name="save_empty_lut">获取中性 LUT 图片</string>
+    <string name="drop_blues">沉寂蓝调</string>
+    <string name="save_empty_lut_sub">首先，使用你最喜欢的图片编辑应用将一个滤镜应用于中性LUT（颜色查找表），你可以在这里获取它。为了使这个操作正常工作，每个像素的颜色不能依赖于其他像素（例如，模糊效果是不行的）。一旦准备就绪，将你的新LUT图像作为输入用于512x512 LUT滤镜。</string>
+    <string name="kodak">柯达胶卷</string>
+    <string name="pop_art">流行艺术</string>
 </resources>
