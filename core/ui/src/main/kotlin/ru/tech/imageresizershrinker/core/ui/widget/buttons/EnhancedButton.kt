@@ -38,7 +38,6 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -51,7 +50,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
@@ -173,6 +171,7 @@ fun EnhancedButton(
 fun EnhancedIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onLongClick: (() -> Unit)? = null,
     enabled: Boolean = true,
     containerColor: Color = Color.Transparent,
     contentColor: Color = contentColor(containerColor),
@@ -187,18 +186,53 @@ fun EnhancedIconButton(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
     val focus = LocalFocusManager.current
-    val scope = rememberCoroutineScope()
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
+        if (onLongClick != null) {
+            val viewConfiguration = LocalViewConfiguration.current
+
+
+            LaunchedEffect(interactionSource) {
+                var isLongClick = false
+
+                interactionSource.interactions.collectLatest { interaction ->
+                    when (interaction) {
+                        is PressInteraction.Press -> {
+                            isLongClick = false
+                            delay(viewConfiguration.longPressTimeoutMillis)
+                            isLongClick = true
+                            onLongClick()
+                            focus.clearFocus()
+                            haptics.performHapticFeedback(
+                                HapticFeedbackType.LongPress
+                            )
+                        }
+
+                        is PressInteraction.Release -> {
+                            if (!isLongClick) {
+                                onClick()
+                                focus.clearFocus()
+                                haptics.performHapticFeedback(
+                                    HapticFeedbackType.TextHandleMove
+                                )
+                            }
+                        }
+
+                        is PressInteraction.Cancel -> {
+                            isLongClick = false
+                        }
+                    }
+                }
+            }
+        }
         OutlinedIconButton(
             onClick = {
-                onClick()
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
-                scope.launch {
-                    delay(300)
+                if (onLongClick == null) {
+                    onClick()
                     focus.clearFocus()
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
                 }
             },
             modifier = modifier

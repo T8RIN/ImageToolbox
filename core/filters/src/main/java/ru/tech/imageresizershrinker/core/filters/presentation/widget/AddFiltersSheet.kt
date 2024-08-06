@@ -159,6 +159,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
@@ -425,6 +426,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     }
 
     fun saveNeutralLut(
+        oneTimeSaveLocationUri: String? = null,
         onComplete: (result: SaveResult) -> Unit,
     ) {
         viewModelScope.launch {
@@ -446,7 +448,8 @@ private class AddFiltersSheetViewModel @Inject constructor(
                                 quality = Quality.Base()
                             )
                         ),
-                        keepOriginalMetadata = false
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     )
                 )
             }
@@ -992,6 +995,19 @@ fun AddFiltersSheet(
                                                             shape = MaterialTheme.shapes.extraSmall
                                                         )
                                                         Spacer(modifier = Modifier.height(8.dp))
+                                                        var showFolderSelectionDialog by rememberSaveable {
+                                                            mutableStateOf(false)
+                                                        }
+                                                        val saveNeutralLut: (String?) -> Unit = {
+                                                            viewModel.saveNeutralLut(it) { saveResult ->
+                                                                context.parseSaveResult(
+                                                                    saveResult = saveResult,
+                                                                    onSuccess = showConfetti,
+                                                                    toastHostState = toastHostState,
+                                                                    scope = scope
+                                                                )
+                                                            }
+                                                        }
                                                         Row {
                                                             ShareButton(
                                                                 onShare = {
@@ -1010,14 +1026,10 @@ fun AddFiltersSheet(
                                                             )
                                                             EnhancedIconButton(
                                                                 onClick = {
-                                                                    viewModel.saveNeutralLut { saveResult ->
-                                                                        context.parseSaveResult(
-                                                                            saveResult = saveResult,
-                                                                            onSuccess = showConfetti,
-                                                                            toastHostState = toastHostState,
-                                                                            scope = scope
-                                                                        )
-                                                                    }
+                                                                    saveNeutralLut(null)
+                                                                },
+                                                                onLongClick = {
+                                                                    showFolderSelectionDialog = true
                                                                 }
                                                             ) {
                                                                 Icon(
@@ -1025,6 +1037,16 @@ fun AddFiltersSheet(
                                                                     contentDescription = stringResource(
                                                                         R.string.save
                                                                     )
+                                                                )
+                                                            }
+
+                                                            if (showFolderSelectionDialog) {
+                                                                OneTimeSaveLocationSelectionDialog(
+                                                                    onDismiss = {
+                                                                        showFolderSelectionDialog =
+                                                                            false
+                                                                    },
+                                                                    onSaveRequest = saveNeutralLut
                                                                 )
                                                             }
                                                         }
