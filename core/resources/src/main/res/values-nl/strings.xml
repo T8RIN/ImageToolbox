@@ -1302,7 +1302,21 @@
     <string name="soft_elegance">Soft Elegance</string>
     <string name="color_tools_sub">Meng, maak tonen, genereer tinten en meer</string>
     <string name="color_harmonies">Kleurharmonieën</string>
-    <string name="lut512x512">LUT 512x512</string>
+    <string name="lut512x512">512x512 2D LUT</string>
     <string name="color_shading">Kleurtint</string>
     <string name="cannot_use_monet_while_dynamic_colors_applied">Kan Monet niet gebruiken terwijl dynamische kleuren zijn ingeschakeld</string>
+    <string name="lut">LUT</string>
+    <string name="palette_transfer_variant">Paletoverdracht-variant</string>
+    <string name="bleach_bypass">Bleach Bypass</string>
+    <string name="fall_colors">Herfstkleuren</string>
+    <string name="foggy_night">Mistige nacht</string>
+    <string name="drop_blues">Drop Blues</string>
+    <string name="save_empty_lut">Neutrale LUT-afbeelding verkrijgen</string>
+    <string name="cube_lut">3D LUT</string>
+    <string name="target_cube_lut_file">Doel 3D LUT-bestand (.cube / .CUBE)</string>
+    <string name="candlelight">Kaarslicht</string>
+    <string name="kodak">Kodak</string>
+    <string name="save_empty_lut_sub">Gebruik eerst je favoriete fotobewerkingstoepassing om een filter toe te passen op neutrale LUT die je hier kunt verkrijgen. Om dit goed te laten werken, mag elke pixelkleur niet afhankelijk zijn van andere pixels (onverduistering werkt bijvoorbeeld niet). Als je klaar bent, gebruik je je nieuwe LUT-afbeelding als invoer voor 512 * 512 LUT-filter</string>
+    <string name="edgy_amber">Edgy Amber</string>
+    <string name="film_stock_50">Film Stock 50</string>
 </resources>
