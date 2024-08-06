@@ -71,9 +71,9 @@ fun Color.applyHarmony(
 
         HarmonyType.TETRADIC -> listOf(
             hsvToColor(h, s, v),
-            hsvToColor((h + 90) % 360, s, v),
+            hsvToColor((h + 30) % 360, s, v),
             hsvToColor((h + 180) % 360, s, v),
-            hsvToColor((h + 270) % 360, s, v)
+            hsvToColor((h + 210) % 360, s, v)
         )
 
         HarmonyType.SQUARE -> listOf(
