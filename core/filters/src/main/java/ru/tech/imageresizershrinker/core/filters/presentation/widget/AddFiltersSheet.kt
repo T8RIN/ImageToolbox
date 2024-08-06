@@ -995,7 +995,7 @@ fun AddFiltersSheet(
                                                             shape = MaterialTheme.shapes.extraSmall
                                                         )
                                                         Spacer(modifier = Modifier.height(8.dp))
-                                                        var showFolderSelectionDialog by rememberSaveable {
+                                                        var showFolderSelection by rememberSaveable {
                                                             mutableStateOf(false)
                                                         }
                                                         val saveNeutralLut: (String?) -> Unit = {
@@ -1029,7 +1029,7 @@ fun AddFiltersSheet(
                                                                     saveNeutralLut(null)
                                                                 },
                                                                 onLongClick = {
-                                                                    showFolderSelectionDialog = true
+                                                                    showFolderSelection = true
                                                                 }
                                                             ) {
                                                                 Icon(
@@ -1040,11 +1040,10 @@ fun AddFiltersSheet(
                                                                 )
                                                             }
 
-                                                            if (showFolderSelectionDialog) {
+                                                            if (showFolderSelection) {
                                                                 OneTimeSaveLocationSelectionDialog(
                                                                     onDismiss = {
-                                                                        showFolderSelectionDialog =
-                                                                            false
+                                                                        showFolderSelection = false
                                                                     },
                                                                     onSaveRequest = saveNeutralLut
                                                                 )
