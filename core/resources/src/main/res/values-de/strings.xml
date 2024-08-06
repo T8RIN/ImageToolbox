@@ -1319,4 +1319,5 @@
     <string name="cube_lut">3D LUT</string>
     <string name="target_cube_lut_file">Target 3D LUT File (.cube / .CUBE)</string>
     <string name="save_empty_lut_sub">Verwenden zunächst deine bevorzugte Fotobearbeitungsanwendung, um einen Filter auf die neutrale LUT anzuwenden, die du hier erhalten kannst. Damit dies richtig funktioniert, darf die Farbe jedes Pixels nicht von anderen Pixeln abhängen (z. B. funktioniert der Weichzeichner nicht). Sobald du fertig bist, verwendest du dein neues LUT-Bild als Eingabe für den 512*512 LUT-Filter</string>
+    <string name="pop_art">Pop Art</string>
 </resources>
