@@ -161,7 +161,7 @@
     <string name="pick_two_images">Kies twee afbeeldingen om te beginnen</string>
     <string name="pick_images">Kies afbeeldingen</string>
     <string name="settings">Instellingen</string>
-    <string name="night_mode">Thema</string>
+    <string name="night_mode">Nachtmodus</string>
     <string name="dark">Donker</string>
     <string name="light">Licht</string>
     <string name="system">Systeem</string>
@@ -573,7 +573,7 @@
     <string name="available_languages">Beschikbare talen</string>
     <string name="segmentation_mode">Segmentatiemodus</string>
     <string name="use_pixel_switch">Gebruik Pixelswitch</string>
-    <string name="use_pixel_switch_sub">Er wordt een pixelachtige schakelaar gebruikt in plaats van het materiaal van Google waarop je je baseert</string>
+    <string name="use_pixel_switch_sub">Pixel-achtige schakelaar wordt gebruikt in plaats van een schakelaar gebaseerd op Google\'s Material You</string>
     <string name="saved_to_original">Overschreven bestand met naam %s op oorspronkelijke bestemming</string>
     <string name="magnifier">Vergrootglas</string>
     <string name="magnifier_sub">Schakelt vergrootglas aan de bovenkant van de vinger in tekenmodi in voor betere toegankelijkheid</string>
@@ -1316,7 +1316,13 @@
     <string name="target_cube_lut_file">Doel 3D LUT-bestand (.cube / .CUBE)</string>
     <string name="candlelight">Kaarslicht</string>
     <string name="kodak">Kodak</string>
-    <string name="save_empty_lut_sub">Gebruik eerst je favoriete fotobewerkingstoepassing om een filter toe te passen op neutrale LUT die je hier kunt verkrijgen. Om dit goed te laten werken, mag elke pixelkleur niet afhankelijk zijn van andere pixels (onverduistering werkt bijvoorbeeld niet). Als je klaar bent, gebruik je je nieuwe LUT-afbeelding als invoer voor 512 * 512 LUT-filter</string>
+    <string name="save_empty_lut_sub">Gebruik eerst je favoriete fotobewerkingstoepassing om een filter toe te passen op neutrale LUT die je hier kunt verkrijgen. Om dit goed te laten werken, mag elke pixelkleur niet afhankelijk zijn van andere pixels (onverduistering werkt bijvoorbeeld niet). Als je klaar bent, gebruik je je nieuwe LUT-afbeelding als invoer voor 512*512 LUT-filter</string>
     <string name="edgy_amber">Edgy Amber</string>
     <string name="film_stock_50">Film Stock 50</string>
+    <string name="pop_art">Pop Art</string>
+    <string name="celluloid">Celluloid</string>
+    <string name="golden_forest">Golden Forest</string>
+    <string name="coffee">Koffie</string>
+    <string name="greenish">Greenish</string>
+    <string name="retro_yellow">Retro Yellow</string>
 </resources>
