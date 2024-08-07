@@ -325,6 +325,11 @@ or click one of the badges below.
     - [x] Palette Transfer Variant
     - [x] 3D LUT (.cube / .CUBE)
     - [x] Pop Art
+    - [x] Celluloid
+    - [x] Coffee
+    - [x] Golden Forest
+    - [x] Greenish
+    - [x] Retro Yellow
 
   </details>
 - Custom Filters Creation by Template filters
