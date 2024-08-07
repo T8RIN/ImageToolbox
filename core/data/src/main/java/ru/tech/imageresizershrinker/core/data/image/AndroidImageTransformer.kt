@@ -121,11 +121,6 @@ internal class AndroidImageTransformer @Inject constructor(
             }
 
             is Preset.Percentage -> currentInfo.copy(
-                quality = when (val quality = currentInfo.quality) {
-                    is Quality.Base -> quality.copy(qualityValue = preset.value)
-                    is Quality.Jxl -> quality.copy(qualityValue = preset.value)
-                    else -> quality
-                },
                 width = calcWidth().calc(preset.value),
                 height = calcHeight().calc(preset.value),
             )
