@@ -247,6 +247,11 @@ interface Filter<Value> {
     interface FoggyNight : Filter<Float>
     interface Kodak : Filter<Float>
     interface PopArt : TripleFilter<Float, ColorModel, PopArtBlendingMode>
+    interface Celluloid : Filter<Float>
+    interface Coffee : Filter<Float>
+    interface GoldenForest : Filter<Float>
+    interface Greenish : Filter<Float>
+    interface RetroYellow : Filter<Float>
 }
 
 interface SimpleFilter : Filter<Unit>

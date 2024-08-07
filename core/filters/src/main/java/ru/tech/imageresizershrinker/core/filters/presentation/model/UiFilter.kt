@@ -149,7 +149,12 @@ sealed class UiFilter<T>(
                     UiFallColorsFilter(),
                     UiFilmStock50Filter(),
                     UiFoggyNightFilter(),
-                    UiKodakFilter()
+                    UiKodakFilter(),
+                    UiCelluloidFilter(),
+                    UiCoffeeFilter(),
+                    UiGoldenForestFilter(),
+                    UiGreenishFilter(),
+                    UiRetroYellowFilter()
                 ),
                 listOf(
                     UiBrightnessFilter(),

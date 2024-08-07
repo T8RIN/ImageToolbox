@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.BurkesDitheringFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.CGAColorSpaceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CandlelightFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CaramelDarknessFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CelluloidFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CircleBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CirclePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheFilter
@@ -63,6 +64,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered2x2Dithe
 import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered4x4DitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered8x8DitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CodaChromeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CoffeeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorAnomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorBalanceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorExplosionFilter
@@ -127,11 +129,13 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.GaussianBlurFilte
 import ru.tech.imageresizershrinker.feature.filters.data.model.GaussianBoxBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlassSphereRefractionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlitchFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.GoldenForestFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GoldenHourFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GothamFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GrainFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GrayscaleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GreenSunFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.GreenishFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HDRFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HableFilmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HalftoneFilter
@@ -199,6 +203,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.RandomDitheringFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.RedSwirlFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RemoveColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ReplaceColorFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.RetroYellowFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RingBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SandPaintingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SaturationFilter
@@ -480,6 +485,11 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.FoggyNight -> FoggyNightFilter(value, lutFilterFactory)
             is Filter.Kodak -> KodakFilter(value, lutFilterFactory)
             is Filter.PopArt -> PopArtFilter(value)
+            is Filter.Celluloid -> CelluloidFilter(value, lutFilterFactory)
+            is Filter.Coffee -> CoffeeFilter(value, lutFilterFactory)
+            is Filter.GoldenForest -> GoldenForestFilter(value, lutFilterFactory)
+            is Filter.Greenish -> GreenishFilter(value, lutFilterFactory)
+            is Filter.RetroYellow -> RetroYellowFilter(value, lutFilterFactory)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
