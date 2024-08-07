@@ -865,7 +865,7 @@
     <string name="max">Максимум</string>
     <string name="resize_anchor">Привязка к размеру</string>
     <string name="fluent_switch_sub">Использует переключатель в стиле Windows 11 на основе системы дизайна Fluent</string>
-    <string name="cupertino_switch_sub">Использует IOS-подобный переключатель на основе системы дизайна Купертино</string>
+    <string name="cupertino_switch_sub">Использует iOS-подобный переключатель на основе системы дизайна Купертино</string>
     <string name="channels_configuration">Конфигурация каналов</string>
     <string name="header_today">Сегодня</string>
     <string name="header_yesterday">Вчера</string>
