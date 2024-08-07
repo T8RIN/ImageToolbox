@@ -74,7 +74,7 @@
     <string name="restart_app">重启应用</string>
     <string name="clear">清空</string>
     <string name="settings">设置</string>
-    <string name="night_mode">主题</string>
+    <string name="night_mode">夜间模式</string>
     <string name="dark">暗色</string>
     <string name="light">亮色</string>
     <string name="system">跟随系统</string>
@@ -1320,4 +1320,6 @@
     <string name="save_empty_lut_sub">首先，使用你最喜欢的图片编辑应用将一个滤镜应用于中性LUT（颜色查找表），你可以在这里获取它。为了使这个操作正常工作，每个像素的颜色不能依赖于其他像素（例如，模糊效果是不行的）。一旦准备就绪，将你的新LUT图像作为输入用于512x512 LUT滤镜。</string>
     <string name="kodak">柯达胶卷</string>
     <string name="pop_art">流行艺术</string>
+    <string name="golden_forest">金色森林</string>
+    <string name="coffee">咖啡</string>
 </resources>
