@@ -518,6 +518,7 @@ or click one of the badges below.
     - J2K
     - TIFF
     - TIF
+    - QOI
     - SVG and GIF to static raster images
     - Telegram sticker PNG format
 - Files to Zip
