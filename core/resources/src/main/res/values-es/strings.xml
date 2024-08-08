@@ -679,7 +679,7 @@
     <string name="caramel_darkness">Oscuridad del caramelo</string>
     <string name="futuristic_gradient">Degradado futurista</string>
     <string name="digital_code">Código digital</string>
-    <string name="watermarking">marca de agua</string>
+    <string name="watermarking">Marca de agua</string>
     <string name="watermarking_sub">Cubra imágenes con marcas de agua de texto/imagen personalizables</string>
     <string name="overlay_mode">Modo de superposición</string>
     <string name="pixel_size">Tamaño de píxel</string>
@@ -814,4 +814,5 @@
     <string name="jpeg_type_to_jxl_sub">Realiza transcodificaciones sin perdida de JPEG a JXL</string>
     <string name="jpeg_type_to_jxl">JPEG a JXL</string>
     <string name="select_jxl_image_to_start">Elija la imagen JXL para empezar</string>
+    <string name="format_conversion">Convertir a formato</string>
 </resources>

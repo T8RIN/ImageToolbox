@@ -77,7 +77,7 @@
     <string name="compare">तुलना करें</string>
     <string name="pick_images">छवियां चुनें</string>
     <string name="settings">सेटिंग्स</string>
-    <string name="night_mode">थीम</string>
+    <string name="night_mode">रात्रि मोड</string>
     <string name="dark">गहरा</string>
     <string name="light">हल्का</string>
     <string name="system">सिस्टम</string>
@@ -1317,4 +1317,12 @@
     <string name="film_stock_50">फिल्म स्टॉक 50</string>
     <string name="foggy_night">धूमिल रात</string>
     <string name="kodak">कोडैक</string>
+    <string name="save_empty_lut">न्यूट्रल LUT छवि प्राप्त करें</string>
+    <string name="pop_art">पॉप आर्ट</string>
+    <string name="celluloid">सेल्यूलाइड</string>
+    <string name="coffee">कॉफी</string>
+    <string name="greenish">हरापन</string>
+    <string name="save_empty_lut_sub">सबसे पहले, न्यूट्रल LUT पर फिल्टर लगाने के लिए अपने पसंदीदा फोटो संपादन एप्लिकेशन का उपयोग करें जिसे आप यहां प्राप्त कर सकते हैं। इसके ठीक से काम करने के लिए प्रत्येक पिक्सल का रंग अन्य पिक्सल पर निर्भर नहीं होना चाहिए (उदाहरण के लिए धुंधलापन काम नहीं करेगा)। एक बार तैयार हो जाने पर, अपनी नई LUT छवि को 512*512 LUT फिल्टर के लिए इनपुट के रूप में उपयोग करें</string>
+    <string name="golden_forest">सुनहरा जंगल</string>
+    <string name="retro_yellow">रेट्रो पीला</string>
 </resources>
