@@ -96,6 +96,13 @@ sealed class ImageFormatGroup(
         )
     )
 
+    data object Qoi : ImageFormatGroup(
+        title = "QOI",
+        formats = listOf(
+            ImageFormat.Qoi
+        )
+    )
+
     data class Custom(
         override val title: String,
         override val formats: List<ImageFormat>
@@ -103,7 +110,7 @@ sealed class ImageFormatGroup(
 
     companion object {
         val entries by lazy {
-            listOf(Jpg, Png, Webp, Avif, Heic, Jxl, Bmp, Jpeg2000, Tiff)
+            listOf(Jpg, Png, Webp, Avif, Heic, Jxl, Bmp, Jpeg2000, Tiff, Qoi)
         }
 
         val alphaContainedEntries
@@ -113,7 +120,8 @@ sealed class ImageFormatGroup(
                 Avif,
                 Heic,
                 Jxl,
-                Jpeg2000
+                Jpeg2000,
+                Qoi
             )
 
         val highLevelFormats by lazy {

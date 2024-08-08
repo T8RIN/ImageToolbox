@@ -247,6 +247,13 @@ sealed class ImageFormat(
         compressionTypes = emptyList()
     )
 
+    data object Qoi : ImageFormat(
+        title = "QOI",
+        extension = "qoi",
+        mimeType = "image/qoi",
+        canChangeCompressionValue = false
+    )
+
     companion object {
         sealed class CompressionType(
             open val compressionRange: IntRange = 0..100

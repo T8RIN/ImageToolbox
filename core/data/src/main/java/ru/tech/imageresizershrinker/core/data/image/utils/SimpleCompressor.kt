@@ -33,6 +33,7 @@ import com.gemalto.jp2.JP2Encoder
 import com.radzivon.bartoshyk.avif.coder.AvifSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
+import com.t8rin.qoi_coder.QOIEncoder
 import org.beyka.tiffbitmapfactory.CompressionScheme
 import org.beyka.tiffbitmapfactory.Orientation
 import org.beyka.tiffbitmapfactory.TiffSaver
@@ -76,6 +77,8 @@ internal abstract class SimpleCompressor {
             ImageFormat.Jpeg2000.Jp2 -> Jp2
             ImageFormat.Tif,
             ImageFormat.Tiff -> Tiff(context)
+
+            ImageFormat.Qoi -> Qoi
         }
 
     }
@@ -509,6 +512,15 @@ internal abstract class SimpleCompressor {
 
             return file.readBytes()
         }
+    }
+
+    data object Qoi : SimpleCompressor() {
+
+        override suspend fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray = QOIEncoder(image).encode()
+
     }
 
 }

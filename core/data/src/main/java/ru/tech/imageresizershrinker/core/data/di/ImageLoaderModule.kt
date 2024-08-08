@@ -31,6 +31,7 @@ import coil.util.Logger
 import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.github.awxkee.avifcoil.decoder.HeifDecoder
+import com.t8rin.qoi_coder.coil.QoiDecoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -82,6 +83,7 @@ internal object ImageLoaderModule {
             add(AnimatedJxlDecoder.Factory(context))
             add(Jpeg2000Decoder.Factory(context))
             add(TiffDecoder.Factory(context))
+            add(QoiDecoder.Factory(context))
 
             if (BuildConfig.DEBUG) add(interceptor)
         }
