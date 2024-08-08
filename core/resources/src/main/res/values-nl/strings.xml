@@ -339,7 +339,7 @@
     <string name="skip">Overslaan</string>
     <string name="copy">Kopiëren</string>
     <string name="warning_bytes">Opslaan in de modus %1$s kan onstabiel zijn, omdat het een verliesvrij formaat is</string>
-    <string name="presets_sub" formatted="false">Bij voorinstelling 125, wordt de afbeelding opgeslagen als 125% van de originele afbeelding met 100% kwaliteit. Bij voorinstelling 50, wordt de afbeelding opgeslagen met 50% grootte en 50% kwaliteit.</string>
+    <string name="presets_sub" formatted="false">Bij voorinstelling 125, wordt de afbeelding opgeslagen als 125% van de originele afbeelding. Bij voorinstelling 50, wordt de afbeelding opgeslagen met 50% grootte.</string>
     <string name="presets_sub_bytes">De voorinstelling hier bepaalt het percentage van het uitvoerbestand, d.w.z. bij voorinstelling 50 op een afbeelding van 5 MB, krijg je na het opslaan een afbeelding van 2,5 MB</string>
     <string name="randomize_filename">Willekeurige bestandsnaam</string>
     <string name="randomize_filename_sub">Indien ingeschakeld zal de uitvoerbestandsnaam volledig willekeurig zijn</string>
