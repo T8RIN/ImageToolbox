@@ -149,11 +149,15 @@ object ContextUtils {
 
         runCatching {
             val startsWithImage = intent?.type?.startsWith("image/") == true
-            val hasJxl = intent?.clipData?.clipList()
-                ?.any { it.toString().endsWith(".jxl") } == true
-            val dataHasJxl = intent?.data.toString().endsWith(".jxl")
+            val hasExtraFormats = intent?.clipData?.clipList()
+                ?.any {
+                    it.toString().endsWith(".jxl") || it.toString().endsWith(".qoi")
+                } == true
+            val dataHasExtraFormats = intent?.data.toString().let {
+                it.endsWith(".jxl") || it.endsWith(".qoi")
+            }
 
-            if ((startsWithImage || hasJxl || dataHasJxl) && intent != null) {
+            if ((startsWithImage || hasExtraFormats || dataHasExtraFormats) && intent != null) {
                 when (intent.action) {
                     Intent.ACTION_VIEW -> {
                         val data = intent.data

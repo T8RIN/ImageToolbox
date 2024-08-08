@@ -101,6 +101,7 @@
                 <data android:scheme="file" />
                 <data android:mimeType="image/*" />
                 <data android:pathSuffix=".jxl" />
+                <data android:pathSuffix=".qoi" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
@@ -135,6 +136,7 @@
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
+                <data android:pathSuffix=".qoi" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
             </intent-filter>
@@ -146,6 +148,7 @@
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
+                <data android:pathSuffix=".qoi" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
             </intent-filter>
@@ -157,6 +160,7 @@
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
+                <data android:pathSuffix=".qoi" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
             </intent-filter>
