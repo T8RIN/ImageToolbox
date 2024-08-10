@@ -1117,6 +1117,7 @@
     <string name="added_filter_template">已添加滤镜模板，名称为\"%1$s\" (%2$d)</string>
     <string name="min">最小</string>
     <string name="grant_camera_permission_to_scan_qr_code">在设置中授予相机扫描二维码的权限</string>
+    <string name="grant_camera_permission_to_scan_document_scanner">在设置中授予相机文档扫描器的权限</string>
     <string name="cubic">立方体</string>
     <string name="gaussian">高斯型</string>
     <string name="sphinx">斯芬克斯</string>

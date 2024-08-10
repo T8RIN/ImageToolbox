@@ -104,7 +104,7 @@ fun rememberDocumentScanner(
         } else {
             scope.launch {
                 toastHostState.showToast(
-                    message = context.getString(R.string.grant_camera_permission_to_scan_qr_code),
+                    message = context.getString(R.string.grant_camera_permission_to_scan_document_scanner),
                     icon = Icons.Outlined.CameraAlt
                 )
             }
