@@ -17,30 +17,44 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerImpl
 
 class DocumentScanner internal constructor(
+    private val context: Context,
     private val scanner: DocumentScannerImpl,
-    private val scannerLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>
+    private val scannerLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    private val requestPermissionLauncher: ManagedActivityResultLauncher<String, Boolean>
 ) {
 
     fun scan() {
-        scanner.apply {
-            scannerLauncher.launch(createDocumentScanIntent())
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED) {
+            scannerLauncher.launch(scanner.createDocumentScanIntent())
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
 
@@ -80,10 +94,29 @@ fun rememberDocumentScanner(
         scanner.handleDocumentScanIntentResult(result)
     }
 
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            scanner.apply {
+                scannerLauncher.launch(createDocumentScanIntent())
+            }
+        } else {
+            scope.launch {
+                toastHostState.showToast(
+                    message = context.getString(R.string.grant_camera_permission_to_scan_document_scanner),
+                    icon = Icons.Outlined.CameraAlt
+                )
+            }
+        }
+    }
+
     return remember(context, scannerLauncher) {
         DocumentScanner(
+            context = context,
             scanner = scanner,
-            scannerLauncher = scannerLauncher
+            scannerLauncher = scannerLauncher,
+            requestPermissionLauncher = requestPermissionLauncher
         )
     }
 }
