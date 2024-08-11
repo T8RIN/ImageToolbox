@@ -597,7 +597,7 @@
     <string name="skip">Прапусціць</string>
     <string name="copy">Копія</string>
     <string name="warning_bytes">Захаванне ў рэжыме %1$s можа быць нестабільным, таму што гэта фармат без страт</string>
-    <string name="presets_sub" formatted="false">Калі вы абралі папярэднюю ўстаноўку 125, выява будзе захавана ў памеры 125% ад арыгінальнай выявы са 100% якасцю. Калі вы выбіраеце значэнне 50, то выява будзе захавана з памерам 50% і якасцю 50%.</string>
+    <string name="presets_sub" formatted="false">Калі вы абралі папярэднюю ўстаноўку 125, выява будзе захавана ў памеры 125% ад арыгінальнай выявы. Калі вы выбіраеце значэнне 50, то выява будзе захавана з памерам 50%</string>
     <string name="presets_sub_bytes">Прадусталяванне тут вызначае % выхаднога файла, г. зн., калі вы выбіраеце заданне 50 для выявы памерам 5 МБ, пасля захавання вы атрымаеце выяву памерам 2,5 МБ</string>
     <string name="tg_chat">Тэлеграм чат</string>
     <string name="crop_mask">Кроп-маска</string>
@@ -863,4 +863,43 @@
     <string name="switch_type">Тып пераключальніка</string>
     <string name="pick_multiple_media">Множны выбар медыя</string>
     <string name="pick_single_media">Выбар медыя</string>
+    <string name="downscale_image">Памяншэнне выявы</string>
+    <string name="quadratic_threshold">Квадратычны парог</string>
+    <string name="coordinates_rounding_tolerance">Допуск акруглення каардынат</string>
+    <string name="add_new_folder">Дадаць новую тэчку</string>
+    <string name="tag_bits_per_sample">Бітоў на сэмпл</string>
+    <string name="tag_compression">Кампрэсія</string>
+    <string name="tag_photometric_interpretation">Фотаметрычная інтэрпрэтацыя</string>
+    <string name="tag_samples_per_pixel">Сэмплаў на піксель</string>
+    <string name="tag_planar_configuration">Планарная канфігурацыя</string>
+    <string name="compose">Кампоз</string>
+    <string name="material_you_switch_sub">Выкарыстоўвае перамыкач на аснове View, ён выглядае лепш за іншых і мае прыемную анімацыю</string>
+    <string name="compose_switch_sub">Выкарыстоўвае перамыкач з Jetpack Compose, ён не так прыгожы, як на аснове View</string>
+    <string name="default_line_width">Таўшчыня лініі па змаўчанні</string>
+    <string name="max">Максімум</string>
+    <string name="resize_anchor">Прывязка да памеру</string>
+    <string name="pixel_switch">Піксель</string>
+    <string name="fluent_switch">Флюент</string>
+    <string name="fluent_switch_sub">Выкарыстоўвае перамыкач у стылі Windows 11 на аснове сістэмы дызайну Fluent</string>
+    <string name="cupertino_switch">Куперціна</string>
+    <string name="cupertino_switch_sub">Выкарыстоўвае iOS-падобны перамыкач на аснове сістэмы дызайну Куперціна</string>
+    <string name="engine_mode">Рэжым рухавіка</string>
+    <string name="legacy">Стары</string>
+    <string name="lstm_network">Сетка LSTM</string>
+    <string name="legacy_and_lstm">Стары &amp; LSTM</string>
+    <string name="convert">Канвертаваць</string>
+    <string name="convert_sub">Пераўтварэнне пакетаў выяваў у зададзены фармат</string>
+    <string name="images_to_svg">Выявы ў SVG</string>
+    <string name="images_to_svg_sub">Трасіроўка дадзеных малюнкаў у выявы SVG</string>
+    <string name="use_sampled_palette">Выкарыстоўваць выбарачную палітру</string>
+    <string name="use_sampled_palette_sub">Палітра квантавання будзе абрана, калі гэтая опцыя ўключана</string>
+    <string name="path_omit">Пропуск шляху</string>
+    <string name="svg_warning">Выкарыстанне гэтай прылады для адсочвання вялікіх малюнкаў без памяншэння маштабу не рэкамендуецца, гэта можа прывесці да збою і павелічэнню часу апрацоўкі</string>
+    <string name="downscale_image_sub">Перад апрацоўкай малюнак будзе паменшаны да меншых памераў, гэта дапаможа прыладзе працаваць хутчэй і бяспечней.</string>
+    <string name="min_color_ratio">Мінімальныя суадносіны колераў</string>
+    <string name="lines_threshold">Парог ліній</string>
+    <string name="path_scale">Маштаб шляху</string>
+    <string name="reset_properties">Скінуць уласцівасці</string>
+    <string name="reset_properties_sub">Для ўсіх уласцівасцей будуць устаноўлены значэнні па змаўчанні. Звярніце ўвагу, што гэта дзеянне немагчыма адмяніць</string>
+    <string name="detailed">Падрабязны</string>
 </resources>
