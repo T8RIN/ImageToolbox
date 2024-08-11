@@ -1325,4 +1325,5 @@
     <string name="coffee">Koffie</string>
     <string name="greenish">Greenish</string>
     <string name="retro_yellow">Retro Yellow</string>
+    <string name="grant_camera_permission_to_scan_document_scanner">Geef camera toestemming in Instellingen om Document-scanner te scannen</string>
 </resources>
