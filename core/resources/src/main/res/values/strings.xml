@@ -1135,6 +1135,7 @@
     <string name="qr_description">QR Description</string>
     <string name="min">Min</string>
     <string name="grant_camera_permission_to_scan_qr_code">Grant camera permission in settings to scan QR code</string>
+    <string name="grant_camera_permission_to_scan_document_scanner">Grant camera permission in settings to scan Document Scanner</string>
     <string name="cubic">Cubic</string>
     <string name="bspline">B-Spline</string>
     <string name="hamming">Hamming</string>
