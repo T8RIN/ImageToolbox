@@ -292,7 +292,7 @@
     <string name="key">Chiave</string>
     <string name="implementation_sub">AES-256, modalità GCM, nessuna spaziatura interna, IV casuali a 12 byte. Le chiavi vengono utilizzate come hash SHA-3 (256 bit).</string>
     <string name="file_size">Dimensione del file</string>
-    <string name="presets_sub" formatted="false">Se è stata selezionata la preset 125, l\'immagine verrà salvata con una dimensione del 125% dell\'immagine originale con una qualità del 100%. Se si sceglie il preset 50, l\'immagine verrà salvata con il 50% di dimensione e il 50% di qualità.</string>
+    <string name="presets_sub" formatted="false">Se hai selezionato preset 125, l\'immagine verrà salvata con il 125% della dimensione dell\'immagine originale. Se hai scelto il preset 50, allora l\'immagine verrà salvata con il 50% della dimensione.</string>
     <string name="reset_settings_sub">In questo modo verranno ripristinate le impostazioni ai valori predefiniti. Si noti che questa operazione non può essere annullata senza un file di backup menzionato sopra.</string>
     <string name="something_went_wrong_emphasis">Ooops… Qualcosa è andato storto. Puoi scrivermi utilizzando le opzioni di seguito e cercherò di trovare una soluzione</string>
     <string name="tg_chat">Chat Telegram</string>
@@ -844,4 +844,20 @@
     <string name="header_yesterday">Ieri</string>
     <string name="request">Richiesta</string>
     <string name="images_to_svg">Immagini in Svg</string>
+    <string name="try_again">Riprova</string>
+    <string name="lanczos_bessel_sub">Metodo di ricampionamento che mantiene un\'interpolazione di alta qualità applicando una funzione di Bessel (jinc) ai valori dei pixel</string>
+    <string name="embedded_picker_sub">Utilizza il selezionatore di immagini di Image Toolbox invece di quelli predefiniti dal sistema.</string>
+    <string name="show_settings_in_landscape">Mostra le impostazioni in orizzontale</string>
+    <string name="fullscreen_settings">Impostazioni a schermo intero</string>
+    <string name="fullscreen_settings_sub">Abilita e la pagina delle impostazioni verrà sempre aperta a schermo intero invece che lateralmente</string>
+    <string name="pick_multiple_media">Seleziona più media</string>
+    <string name="pick_single_media">Seleziona un media</string>
+    <string name="pick">Seleziona</string>
+    <string name="fast_gaussian_blur_2d">Sfocatura Gaussiana Veloce 2D</string>
+    <string name="fast_gaussian_blur_3d">Sfocatura Gaussiana Veloce 3D</string>
+    <string name="fast_gaussian_blur_4d">Sfocatura Gaussiana Veloce 4D</string>
+    <string name="channels_configuration">Configurazione dei canali</string>
+    <string name="embedded_picker">Selettore incorporato</string>
+    <string name="lossy_compression">Compressione con perdita</string>
+    <string name="compression_type">Tipo di compressione</string>
 </resources>
