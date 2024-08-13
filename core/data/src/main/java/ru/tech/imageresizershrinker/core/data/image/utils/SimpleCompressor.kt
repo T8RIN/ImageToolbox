@@ -437,7 +437,7 @@ internal abstract class SimpleCompressor {
                 },
                 compressionOption = JxlCompressionOption.LOSSY,
                 quality = jxlQuality.qualityValue,
-                effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
+                effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort - 1 },
                 decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
             )
         }
@@ -462,7 +462,7 @@ internal abstract class SimpleCompressor {
                 },
                 compressionOption = JxlCompressionOption.LOSSLESS,
                 quality = 100,
-                effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
+                effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort - 1 },
                 decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
             )
         }

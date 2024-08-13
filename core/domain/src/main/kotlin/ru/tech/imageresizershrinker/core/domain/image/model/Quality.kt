@@ -30,7 +30,7 @@ sealed class Quality(
                 val value = this as? Jxl ?: return Jxl(qualityValue.coerceIn(1..100))
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
-                    effort = effort.coerceIn(0..9),
+                    effort = effort.coerceIn(1..10),
                     speed = speed.coerceIn(0..4)
                 )
             }
@@ -71,7 +71,7 @@ sealed class Quality(
     data class Jxl(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
-        @IntRange(from = 0, to = 9)
+        @IntRange(from = 1, to = 10)
         val effort: Int = 5,
         @IntRange(from = 0, to = 4)
         val speed: Int = 0,

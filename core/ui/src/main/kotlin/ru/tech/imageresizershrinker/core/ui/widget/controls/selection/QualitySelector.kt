@@ -216,7 +216,7 @@ fun QualitySelector(
                             Text(
                                 text = stringResource(
                                     R.string.speed_sub,
-                                    0, 5
+                                    0, 4
                                 ),
                                 fontSize = 12.sp,
                                 textAlign = TextAlign.Center,
