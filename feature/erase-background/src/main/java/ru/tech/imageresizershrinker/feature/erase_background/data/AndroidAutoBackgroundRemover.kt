@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.erase_background.data
 
 import android.graphics.Bitmap
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import kotlinx.coroutines.CoroutineScope
@@ -88,19 +89,25 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
                 it.onSuccess(onSuccess).onFailure(onFailure)
             }
             val scope = CoroutineScope(defaultDispatcher)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            
+            val subject = @RequiresApi(Build.VERSION_CODES.N) {
                 MlKitSubjectBackgroundRemover.removeBackground(
                     bitmap = image,
                     onFinish = onFinish
                 )
-            } else {
+            }
+            val selfie = {
                 MlKitBackgroundRemover.removeBackground(
                     bitmap = image,
                     scope = scope,
                     onFinish = onFinish
                 )
             }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                runCatching(subject).getOrNull() ?: selfie()
+            } else selfie()
+
         }.onFailure(onFailure)
     }
 
