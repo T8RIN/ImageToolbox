@@ -12,7 +12,7 @@
     <string name="by_bytes_resize_sub">Ändere die Größe des gewählten Bildes nach Größe in KB</string>
     <string name="settings">Einstellungen</string>
     <string name="system">Nach Systemvorgabe</string>
-    <string name="night_mode">Design</string>
+    <string name="night_mode">Nachtmodus</string>
     <string name="dark">Dunkles Design</string>
     <string name="light">Helles Design</string>
     <string name="customization">Anpassungen</string>
@@ -292,7 +292,7 @@
     <string name="fallback_option">Fallback-Option</string>
     <string name="skip">Überspringen</string>
     <string name="copy">Kopieren</string>
-    <string name="presets_sub" formatted="false">Wenn Du die Voreinstellung 50 wählst, wird das Bild mit einer Kantenlänge von 50% des Ursprungsbildes und einer Qualität von 50% gespeichert. Erstellst Du die Voreinstellung 125, wird das Bild damit mit einer Kantenlänge von 125% des Ursprungsbildes und in einer Qualität von 100% gespeichert.</string>
+    <string name="presets_sub" formatted="false">Wenn du die Voreinstellung 125 gewählt hast, wird das Bild in einer Größe von 125% des Originalbildes gespeichert. Wenn du Voreinstellung 50 wählst, wird das Bild mit 50 % Größe gespeichert</string>
     <string name="presets_sub_bytes">Die Voreinstellung legt hier den Prozentsatz der Ausgabedatei fest, d. h. wenn Du die Voreinstellung 50 für ein 5 MB großes Bild wählst, erhältst Du nach dem Speichern ein 2,5 MB großes Bild.</string>
     <string name="randomize_filename">Zufälligen Dateinamen erzeugen</string>
     <string name="randomize_filename_sub">Wenn aktiviert, wird der Dateiname völlig zufällig gewählt.</string>
@@ -1321,4 +1321,9 @@
     <string name="save_empty_lut_sub">Verwenden zunächst deine bevorzugte Fotobearbeitungsanwendung, um einen Filter auf die neutrale LUT anzuwenden, die du hier erhalten kannst. Damit dies richtig funktioniert, darf die Farbe jedes Pixels nicht von anderen Pixeln abhängen (z. B. funktioniert der Weichzeichner nicht). Sobald du fertig bist, verwendest du dein neues LUT-Bild als Eingabe für den 512*512 LUT-Filter</string>
     <string name="pop_art">Pop Art</string>
     <string name="grant_camera_permission_to_scan_document_scanner">Erteile Kamera Erlaubnis in den Einstellungen, um den Dokumentenscanner zu scannen</string>
+    <string name="golden_forest">Goldener Wald</string>
+    <string name="greenish">Grünlich</string>
+    <string name="retro_yellow">Retrogelb</string>
+    <string name="coffee">Kaffee</string>
+    <string name="celluloid">Zelluloid</string>
 </resources>
