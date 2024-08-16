@@ -585,6 +585,10 @@ internal fun SettingItem(
             Setting.ColorBlindScheme -> {
                 ColorBlindSchemeSettingItem(onValueChange = viewModel::setColorBlindScheme)
             }
+
+            Setting.EnableLinksPreview -> {
+                EnableLinksPreviewSettingItem(onClick = viewModel::toggleIsLinksPreviewEnabled)
+            }
         }
     }
 }

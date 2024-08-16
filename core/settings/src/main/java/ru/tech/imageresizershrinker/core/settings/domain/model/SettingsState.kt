@@ -93,7 +93,8 @@ data class SettingsState(
     val canEnterPresetsByTextField: Boolean,
     val donateDialogOpenCount: Int,
     val colorBlindType: Int?,
-    val favoriteScreenList: List<Int>
+    val favoriteScreenList: List<Int>,
+    val isLinkPreviewEnabled: Boolean
 ) {
 
     companion object {
@@ -169,7 +170,8 @@ data class SettingsState(
                 canEnterPresetsByTextField = false,
                 donateDialogOpenCount = 0,
                 colorBlindType = null,
-                favoriteScreenList = emptyList()
+                favoriteScreenList = emptyList(),
+                isLinkPreviewEnabled = true
             )
         }
     }

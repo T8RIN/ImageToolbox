@@ -79,4 +79,5 @@ dependencies {
     api(libs.zxing.android.embedded)
 
     api(libs.capturable)
+    api(libs.jsoup)
 }

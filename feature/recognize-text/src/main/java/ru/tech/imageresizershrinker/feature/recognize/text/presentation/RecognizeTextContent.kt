@@ -25,6 +25,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -81,6 +82,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
@@ -391,6 +393,12 @@ fun RecognizeTextContent(
                 },
                 onImportLanguages = onImportLanguages,
                 onExportLanguages = onExportLanguages
+            )
+            LinkPreviewList(
+                text = editedText ?: "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             OCRTextPreviewItem(

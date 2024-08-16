@@ -321,6 +321,7 @@ sealed class SettingsGroup(
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,
             Setting.OpenEditInsteadOfPreview,
+            Setting.EnableLinksPreview,
             Setting.GeneratePreviews
         ),
         initialState = false

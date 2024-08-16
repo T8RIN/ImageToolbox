@@ -181,4 +181,6 @@ interface SettingsInteractor : SimpleSettingInteractor {
 
     suspend fun toggleFavoriteScreen(screenId: Int)
 
+    suspend fun toggleIsLinkPreviewEnabled()
+
 }

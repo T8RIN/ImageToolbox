@@ -90,6 +90,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IMAGE_PICK
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IMAGE_SCALE_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INITIAL_OCR_CODES
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INVERT_THEME
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_LINK_PREVIEW_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.MAGNIFIER_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.NIGHT_MODE
@@ -255,6 +256,7 @@ internal class AndroidSettingsManager @Inject constructor(
             favoriteScreenList = prefs[FAVORITE_SCREENS]?.split("/")?.mapNotNull {
                 it.toIntOrNull()
             }?.takeIf { it.isNotEmpty() } ?: default.favoriteScreenList,
+            isLinkPreviewEnabled = prefs[IS_LINK_PREVIEW_ENABLED] ?: default.isLinkPreviewEnabled
         )
     }.onEach { currentSettings = it }
 
@@ -909,6 +911,15 @@ internal class AndroidSettingsManager @Inject constructor(
             current + screenId
         }
         setFavoriteScreens(newScreens)
+    }
+
+    override suspend fun toggleIsLinkPreviewEnabled() {
+        dataStore.edit {
+            it.toggle(
+                key = IS_LINK_PREVIEW_ENABLED,
+                defaultValue = default.isLinkPreviewEnabled
+            )
+        }
     }
 
     private suspend fun setFavoriteScreens(data: List<Int>) {

@@ -392,4 +392,9 @@ sealed class Setting(
         title = R.string.color_blind_scheme,
         subtitle = R.string.color_blind_scheme_sub
     )
+
+    data object EnableLinksPreview : Setting(
+        title = R.string.links_preview,
+        subtitle = R.string.links_preview_sub
+    )
 }

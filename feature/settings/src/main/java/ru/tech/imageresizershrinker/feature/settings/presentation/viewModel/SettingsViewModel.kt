@@ -548,4 +548,10 @@ class SettingsViewModel @Inject constructor(
             settingsManager.setColorBlindType(value)
         }
     }
+
+    fun toggleIsLinksPreviewEnabled() {
+        viewModelScope.launch {
+            settingsManager.toggleIsLinkPreviewEnabled()
+        }
+    }
 }

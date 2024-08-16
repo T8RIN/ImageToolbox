@@ -95,6 +95,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
@@ -303,6 +304,12 @@ fun ScanQrCodeContent(
                 QrCodePreview()
                 Spacer(modifier = Modifier.height(16.dp))
             }
+            LinkPreviewList(
+                text = qrContent,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
             RoundedTextField(
                 modifier = Modifier
                     .container(shape = RoundedCornerShape(24.dp))

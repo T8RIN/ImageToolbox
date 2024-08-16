@@ -119,7 +119,8 @@ data class UiSettingsState(
     val canEnterPresetsByTextField: Boolean,
     val donateDialogOpenCount: Int?,
     val colorBlindType: ColorBlindType?,
-    val favoriteScreenList: List<Int>
+    val favoriteScreenList: List<Int>,
+    val isLinkPreviewEnabled: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -281,7 +282,8 @@ fun SettingsState.toUiState(
                 }
             }
         }.value,
-        favoriteScreenList = favoriteScreenList
+        favoriteScreenList = favoriteScreenList,
+        isLinkPreviewEnabled = isLinkPreviewEnabled
     )
 }
 

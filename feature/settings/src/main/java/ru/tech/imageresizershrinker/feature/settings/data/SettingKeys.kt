@@ -95,4 +95,5 @@ internal object SettingKeys {
     val DONATE_DIALOG_OPEN_COUNT = intPreferencesKey("DONATE_DIALOG_OPEN_COUNT")
     val COLOR_BLIND_TYPE = intPreferencesKey("COLOR_BLIND_TYPE")
     val FAVORITE_SCREENS = stringPreferencesKey("FAVORITE_SCREENS")
+    val IS_LINK_PREVIEW_ENABLED = booleanPreferencesKey("IS_LINK_PREVIEW_ENABLED")
 }
