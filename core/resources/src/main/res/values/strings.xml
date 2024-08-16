@@ -1346,4 +1346,5 @@
     <string name="retro_yellow">Retro Yellow</string>
     <string name="links_preview">Links Preview</string>
     <string name="links_preview_sub">Enables link preview retrieveing in places where you can obtain text (QRCode, OCR etc)</string>
+    <string name="links">Links</string>
 </resources>

@@ -26,8 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LinkPreview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LinkUtils
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
