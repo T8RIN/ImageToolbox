@@ -443,8 +443,9 @@ fun ScanQrCodeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (false) to !isLandscape,
+                targetState = (qrContent.isEmpty()) to !isLandscape,
                 secondaryButtonIcon = Icons.Outlined.QrCodeScanner,
+                secondaryButtonText = stringResource(R.string.start_scanning),
                 onSecondaryButtonClick = scanner::scan,
                 onPrimaryButtonClick = {
                     scope.launch {
