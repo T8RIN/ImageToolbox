@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LinkPreview
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -96,7 +96,8 @@ fun LinkPreviewCard(
                         )
                     }
                 },
-            )
+            ),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         var sizeOfRight by remember {
             mutableStateOf(80.dp)
@@ -116,9 +117,11 @@ fun LinkPreviewCard(
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(CloverShape)
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(12.dp)
+                        .clip(MaterialStarShape)
                         .background(
-                            MaterialTheme.colorScheme.secondaryContainer
+                            MaterialTheme.colorScheme.tertiaryContainer
                                 .copy(0.5f)
                                 .compositeOver(MaterialTheme.colorScheme.surface)
                         )
@@ -131,7 +134,12 @@ fun LinkPreviewCard(
             modifier = Modifier
                 .weight(1f)
                 .onSizeChanged {
-                    sizeOfRight = with(density) { it.height.toDp() }
+                    sizeOfRight =
+                        if (linkPreview.title.isNullOrBlank() && linkPreview.description.isNullOrBlank()) {
+                            80.dp
+                        } else {
+                            with(density) { it.height.toDp() }
+                        }
                 }
                 .padding(12.dp),
             verticalArrangement = Arrangement.Center,
@@ -159,14 +167,15 @@ fun LinkPreviewCard(
                     lineHeight = 16.sp
                 )
             }
-            if ((linkPreview.description.isNullOrBlank() || linkPreview.title.isNullOrBlank()) && !linkPreview.url.isNullOrBlank()) {
+            if ((linkPreview.description.isNullOrBlank() || linkPreview.title.isNullOrBlank()) && (!linkPreview.url.isNullOrBlank() || !linkPreview.link.isNullOrBlank())) {
                 Text(
-                    text = linkPreview.url,
+                    text = linkPreview.url ?: linkPreview.link ?: "",
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Start,
-                    lineHeight = 16.sp
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 )
             }
         }

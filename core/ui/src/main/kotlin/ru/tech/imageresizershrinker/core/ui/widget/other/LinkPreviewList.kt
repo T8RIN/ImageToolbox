@@ -62,9 +62,6 @@ fun LinkPreviewList(
         LinkUtils.parseLinks(text).forEach { link ->
             linkPreviewList += LinkPreview(link)
         }
-        linkPreviewList = linkPreviewList.filter {
-            it.description != null || it.title != null
-        }.toSet()
         isLoading = false
     }
 

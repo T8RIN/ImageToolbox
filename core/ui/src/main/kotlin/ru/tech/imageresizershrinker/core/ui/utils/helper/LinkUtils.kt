@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
@@ -8,7 +9,7 @@ object LinkUtils {
     fun parseLinks(text: String): Set<String> {
         val regex = Regex("""\b(?:https?://|www\.|http?://)\S+\b""")
         val matches = regex.findAll(text)
-        return matches.map { it.value }.toSet()
+        return matches.map { it.value }.toSet().makeLog("COCK")
     }
 }
 
