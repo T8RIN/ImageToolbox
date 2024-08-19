@@ -1326,4 +1326,7 @@
     <string name="greenish">Greenish</string>
     <string name="retro_yellow">Retro Yellow</string>
     <string name="grant_camera_permission_to_scan_document_scanner">Geef camera toestemming in Instellingen om Document-scanner te scannen</string>
+    <string name="links_preview">Links Voorbeeld</string>
+    <string name="links">Links</string>
+    <string name="links_preview_sub">Hiermee kunt u een voorbeeld van een link ophalen op plaatsen waar u tekst kunt verkrijgen (QRCode, OCR etc)</string>
 </resources>
