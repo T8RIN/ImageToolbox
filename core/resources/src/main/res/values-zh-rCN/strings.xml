@@ -1326,4 +1326,7 @@
     <string name="celluloid">Celluloid</string>
     <string name="greenish">青翠之影</string>
     <string name="retro_yellow">时光黄影</string>
+    <string name="links_preview">链接预览</string>
+    <string name="links">链接</string>
+    <string name="links_preview_sub">在可获取文本（二维码、OCR 等）的地方启用链接预览检索功能</string>
 </resources>
