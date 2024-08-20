@@ -395,7 +395,7 @@
     <string name="randomize_filename_sub">Jeśli włączone, nazwa pliku wyjściowego będzie w pełni losowa</string>
     <string name="saved_to">Zapisano w folderze %1$s z nazwą %2$s</string>
     <string name="presets_sub_bytes">Preset określa % rozmiaru pliku wyjściowego, tj. jeśli wybierzesz ustawienie wstępne 50 na obrazie o rozmiarze 5 MB, po zapisaniu otrzymasz obraz o rozmiarze 2,5 MB.</string>
-    <string name="presets_sub" formatted="false">Jeśli wybrano ustawienie 125, obraz zostanie zapisany w rozmiarze 125% oryginalnego obrazu z jakością 100%. W przypadku wybrania ustawienia 50 obraz zostanie zapisany w rozmiarze 50% i jakości 50%.</string>
+    <string name="presets_sub" formatted="false">Jeśli wybrano ustawienie 125, obraz zostanie zapisany w rozmiarze 125% oryginalnego obrazu. W przypadku wybrania ustawienia 50 obraz zostanie zapisany w rozmiarze 50%.</string>
     <string name="text">Tekst</string>
     <string name="font_scale">Skala czcionki</string>
     <string name="defaultt">Domyślna</string>
@@ -872,7 +872,7 @@
     <string name="fluent_switch">Fluent</string>
     <string name="fluent_switch_sub">Wykorzystuje przełącznik w stylu Windows 11, oparty na systemie projektowania \"Fluent\"</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">Używa przełącznika podobnego do IOS opartego na systemie projektowania Cupertino</string>
+    <string name="cupertino_switch_sub">Używa przełącznika podobnego do iOS opartego na systemie projektowania Cupertino</string>
     <string name="images_to_svg">Obrazy do Svg</string>
     <string name="images_to_svg_sub">Śledzenie podanych obrazów do obrazów SVG</string>
     <string name="use_sampled_palette">Użyj próbkowanej palety</string>
@@ -944,4 +944,7 @@
     <string name="tag_offset_time_digitized">Cyfrowy czas przesunięcia</string>
     <string name="tag_subsec_time">Czas sub-sekundowy</string>
     <string name="tag_subsec_time_original">Czas sub-sekundowy Oryginał</string>
+    <string name="tag_exposure_time">Czas ekspozycji</string>
+    <string name="tag_f_number">Numer F</string>
+    <string name="tag_exposure_program">Program ekspozycji</string>
 </resources>
