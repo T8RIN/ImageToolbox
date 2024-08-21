@@ -17,7 +17,7 @@ aire = "0.13.12"
 jxlCoder = "2.3.0"
 
 tesseract = "4.7.0"
-composeVersion = "1.7.0-beta07"
+composeVersion = "1.7.0-rc01"
 androidx-datastorePreferencesAndroid = "1.1.1"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
