@@ -21,11 +21,11 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Pt
+import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
-import ru.tech.imageresizershrinker.feature.draw.domain.Pt
-import ru.tech.imageresizershrinker.feature.draw.domain.pt
 
 data class UiPathPaint(
     override val path: Path,

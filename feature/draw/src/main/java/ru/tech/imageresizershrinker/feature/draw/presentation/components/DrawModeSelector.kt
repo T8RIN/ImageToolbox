@@ -62,6 +62,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
+import ru.tech.imageresizershrinker.core.domain.model.Pt
+import ru.tech.imageresizershrinker.core.domain.model.coerceIn
+import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
@@ -87,9 +90,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
-import ru.tech.imageresizershrinker.feature.draw.domain.Pt
-import ru.tech.imageresizershrinker.feature.draw.domain.coerceIn
-import ru.tech.imageresizershrinker.feature.draw.domain.pt
 
 @Composable
 fun DrawModeSelector(

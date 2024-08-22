@@ -49,11 +49,11 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import coil.request.ImageRequest
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
-import ru.tech.imageresizershrinker.feature.draw.domain.Pt
 import kotlin.math.roundToInt
 import android.graphics.Path as NativePath
 

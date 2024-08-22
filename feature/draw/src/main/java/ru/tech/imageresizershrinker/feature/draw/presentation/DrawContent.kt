@@ -124,6 +124,8 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.coerceIn
+import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -174,8 +176,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
-import ru.tech.imageresizershrinker.feature.draw.domain.coerceIn
-import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector

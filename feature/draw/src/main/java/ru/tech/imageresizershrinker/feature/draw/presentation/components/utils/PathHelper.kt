@@ -28,9 +28,9 @@ import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rotate
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
-import ru.tech.imageresizershrinker.feature.draw.domain.Pt
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.max

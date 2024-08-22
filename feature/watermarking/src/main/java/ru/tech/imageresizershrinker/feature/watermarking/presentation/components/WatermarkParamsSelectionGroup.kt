@@ -186,7 +186,7 @@ fun WatermarkParamsSelectionGroup(
                             value = type.size,
                             title = stringResource(R.string.watermark_size),
                             internalStateTransformation = {
-                                it.roundToInt()
+                                it.roundToTwoDigits()
                             },
                             onValueChange = {
                                 onValueChange(
@@ -195,8 +195,7 @@ fun WatermarkParamsSelectionGroup(
                                     )
                                 )
                             },
-                            valueRange = 1f..100f,
-                            steps = 99,
+                            valueRange = 0.01f..1f,
                             shape = RoundedCornerShape(20.dp),
                             color = MaterialTheme.colorScheme.surface
                         )

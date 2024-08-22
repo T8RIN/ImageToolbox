@@ -68,6 +68,7 @@ import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiNativeStackBlurFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
@@ -81,7 +82,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownI
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
-import ru.tech.imageresizershrinker.feature.draw.domain.Pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.clipBitmap
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.copy
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedImageOnPath

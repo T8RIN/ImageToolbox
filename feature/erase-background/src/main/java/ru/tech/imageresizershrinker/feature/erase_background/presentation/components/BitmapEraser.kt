@@ -73,6 +73,7 @@ import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
@@ -81,7 +82,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCount
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
-import ru.tech.imageresizershrinker.feature.draw.domain.Pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 
 @Composable

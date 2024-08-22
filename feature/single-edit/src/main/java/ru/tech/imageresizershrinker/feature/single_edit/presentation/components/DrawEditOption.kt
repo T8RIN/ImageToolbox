@@ -69,6 +69,8 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.coerceIn
+import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
@@ -88,8 +90,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
-import ru.tech.imageresizershrinker.feature.draw.domain.coerceIn
-import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector

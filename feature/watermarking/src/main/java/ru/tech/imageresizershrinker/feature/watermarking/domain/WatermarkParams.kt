@@ -57,7 +57,7 @@ sealed interface WatermarkingType {
                 Text(
                     color = -16777216,
                     style = 0,
-                    size = 10f,
+                    size = 0.1f,
                     font = 0,
                     backgroundColor = 0,
                     text = "Watermark"

@@ -85,6 +85,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
@@ -118,7 +119,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContaine
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
-import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector

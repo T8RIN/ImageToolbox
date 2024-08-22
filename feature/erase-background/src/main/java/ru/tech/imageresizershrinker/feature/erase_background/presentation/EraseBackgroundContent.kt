@@ -104,6 +104,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
+import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
@@ -140,7 +141,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver

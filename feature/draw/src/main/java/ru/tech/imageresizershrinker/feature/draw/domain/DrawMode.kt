@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.draw.domain
 
+import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 sealed class DrawMode(open val ordinal: Int) {

@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.draw.domain
 
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Pt
 
 interface PathPaint<Path, Color> {
     operator fun component1() = path

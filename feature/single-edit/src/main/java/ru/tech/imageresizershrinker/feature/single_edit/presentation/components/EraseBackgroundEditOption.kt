@@ -68,6 +68,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
@@ -84,7 +85,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
