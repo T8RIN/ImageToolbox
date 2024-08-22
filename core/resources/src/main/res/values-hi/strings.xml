@@ -1326,4 +1326,7 @@
     <string name="golden_forest">सुनहरा जंगल</string>
     <string name="retro_yellow">रेट्रो पीला</string>
     <string name="grant_camera_permission_to_scan_document_scanner">दस्तावेज़ स्कैनर को स्कैन करने के लिए सेटिंग में कैमरे की अनुमति प्रदान करें</string>
+    <string name="links">लिंक</string>
+    <string name="links_preview_sub">उन स्थानों पर लिंक पूर्वावलोकन पुनर्प्राप्ति सक्षम करता है जहां आप पाठ प्राप्त कर सकते हैं (क्यूआर कोड, ओसीआर आदि)</string>
+    <string name="links_preview">लिंक पूर्वावलोकन</string>
 </resources>
