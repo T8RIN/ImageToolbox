@@ -22,6 +22,8 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
@@ -47,6 +49,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
+import ru.tech.imageresizershrinker.core.ui.utils.helper.mainLooperAction
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -170,14 +173,28 @@ class ScreenshotService : Service() {
                         ),
                         keepOriginalMetadata = true
                     )
-                    Toast.makeText(
-                        this@ScreenshotService,
-                        this@ScreenshotService.getString(
-                            R.string.saved_to_without_filename,
-                            fileController.defaultSavingPath
-                        ),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val clipboardManager = getSystemService<ClipboardManager>()
+
+                    uri?.let { uri ->
+                        clipboardManager?.setPrimaryClip(
+                            ClipData.newUri(
+                                contentResolver,
+                                "IMAGE",
+                                uri
+                            )
+                        )
+                    }
+
+                    mainLooperAction {
+                        Toast.makeText(
+                            applicationContext,
+                            this@ScreenshotService.getString(
+                                R.string.saved_to_without_filename,
+                                fileController.defaultSavingPath
+                            ),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

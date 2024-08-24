@@ -20,13 +20,12 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 import android.os.Handler
 import android.os.Looper
 
+
 fun mainLooperDelayedAction(
     delay: Long,
     action: () -> Unit
-) {
-    Handler(
-        Looper.getMainLooper()
-    ).postDelayed(
-        Runnable(action), delay
-    )
-}
+) = Handler(Looper.getMainLooper()).postDelayed(action, delay)
+
+fun mainLooperAction(
+    action: () -> Unit
+) = Handler(Looper.getMainLooper()).post(action)
