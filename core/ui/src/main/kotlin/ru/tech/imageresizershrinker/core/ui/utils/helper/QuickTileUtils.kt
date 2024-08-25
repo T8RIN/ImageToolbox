@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 import android.content.Intent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
+
 const val ScreenshotAction = "shot"
 
 val PickColorAction = Screen.PickColorFromImage::class.simpleName
