@@ -82,6 +82,53 @@ object ContextUtils {
         }
     }
 
+    fun Context.startActivity(
+        clazz: Class<*>,
+        intentBuilder: Intent.() -> Unit
+    ) {
+        startActivity(buildIntent(clazz, intentBuilder))
+    }
+
+    fun Context.buildIntent(
+        clazz: Class<*>,
+        intentBuilder: Intent.() -> Unit
+    ): Intent = Intent(applicationContext, clazz).apply(intentBuilder)
+
+    fun Context.postToast(
+        textRes: Int,
+        vararg formatArgs: Any
+    ) {
+        mainLooperAction {
+            Toast.makeText(
+                applicationContext,
+                getString(
+                    R.string.saved_to_without_filename,
+                    formatArgs
+                ),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    fun Context.postToast(
+        textRes: Int,
+        isLong: Boolean = false,
+        vararg formatArgs: Any
+    ) {
+        mainLooperAction {
+            Toast.makeText(
+                applicationContext,
+                getString(
+                    R.string.saved_to_without_filename,
+                    formatArgs
+                ),
+                if (isLong) {
+                    Toast.LENGTH_LONG
+                } else Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     fun Context.needToShowStoragePermissionRequest(): Boolean {
         val permissions = listOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -174,7 +221,7 @@ object ContextUtils {
 
                     Intent.ACTION_SEND -> {
                         intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                            if (intent.getStringExtra("screen") == Screen.PickColorFromImage::class.simpleName) {
+                            if (intent.getTileScreenAction() == PickColorAction) {
                                 onNavigate(Screen.PickColorFromImage(it))
                             } else {
                                 if (intent.type?.contains("gif") == true) {

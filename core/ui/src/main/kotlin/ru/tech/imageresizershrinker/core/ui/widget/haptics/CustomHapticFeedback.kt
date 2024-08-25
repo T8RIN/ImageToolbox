@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalView
+import androidx.core.content.getSystemService
 
 private fun View.vibrate() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     reallyPerformHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
@@ -49,8 +50,8 @@ private fun View.reallyPerformHapticFeedback(feedbackConstant: Int) {
 }
 
 private fun Context.isTouchExplorationEnabled(): Boolean {
-    val accessibilityManager =
-        getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager?
+    val accessibilityManager = getSystemService<AccessibilityManager>()
+
     return accessibilityManager?.isTouchExplorationEnabled ?: false
 }
 

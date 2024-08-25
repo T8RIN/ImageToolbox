@@ -34,7 +34,6 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,8 +47,14 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.postToast
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.startActivity
+import ru.tech.imageresizershrinker.core.ui.utils.helper.DataExtra
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
-import ru.tech.imageresizershrinker.core.ui.utils.helper.mainLooperAction
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ResultCode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ScreenshotAction
+import ru.tech.imageresizershrinker.core.ui.utils.helper.getTileScreenAction
+import ru.tech.imageresizershrinker.core.ui.utils.helper.putTileScreenAction
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -75,14 +80,15 @@ class ScreenshotService : Service() {
         runCatching {
             val mediaProjectionManager = getSystemService<MediaProjectionManager>()
 
-            val resultCode = intent?.getIntExtra("resultCode", RESULT_CANCELED) ?: RESULT_CANCELED
-            val data = intent?.parcelable<Intent>("data")
+            val resultCode = intent?.getIntExtra(ResultCode, RESULT_CANCELED) ?: RESULT_CANCELED
+            val data = intent?.parcelable<Intent>(DataExtra)
+            val channelId = 1
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 getSystemService<NotificationManager>()
                     ?.createNotificationChannel(
                         NotificationChannel(
-                            "1",
+                            channelId.toString(),
                             "screenshot",
                             NotificationManager.IMPORTANCE_DEFAULT
                         )
@@ -90,16 +96,16 @@ class ScreenshotService : Service() {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     startForeground(
-                        1,
-                        Notification.Builder(applicationContext, "1")
+                        channelId,
+                        Notification.Builder(applicationContext, channelId.toString())
                             .setSmallIcon(R.drawable.ic_launcher_monochrome)
                             .build(),
                         ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
                     )
                 } else {
                     startForeground(
-                        1,
-                        Notification.Builder(applicationContext, "1")
+                        channelId,
+                        Notification.Builder(applicationContext, channelId.toString())
                             .setSmallIcon(R.drawable.ic_launcher_monochrome)
                             .build()
                     )
@@ -112,17 +118,19 @@ class ScreenshotService : Service() {
                     callback,
                     Handler(Looper.getMainLooper())
                 )
-                startCapture(
+                val screenshotMaker = buildScreenshotMaker(
                     mediaProjection = this,
                     intent = intent
                 )
+
+                screenshotMaker.takeScreenshot(1000)
             }
         }
 
         return START_REDELIVER_INTENT
     }
 
-    private fun startCapture(
+    private fun buildScreenshotMaker(
         mediaProjection: MediaProjection,
         intent: Intent?
     ) = ScreenshotMaker(
@@ -140,19 +148,14 @@ class ScreenshotService : Service() {
                 )?.toUri()
             }
 
-            if (intent?.getStringExtra("screen") != "shot") {
-                applicationContext.startActivity(
-                    Intent(
-                        applicationContext,
-                        AppActivityClass
-                    ).apply {
-                        putExtra("screen", intent?.getStringExtra("screen"))
-                        type = "image/png"
-                        putExtra(Intent.EXTRA_STREAM, uri)
-                        action = Intent.ACTION_SEND
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
-                )
+            if (intent?.getTileScreenAction() != ScreenshotAction) {
+                startActivity(AppActivityClass) {
+                    putTileScreenAction(intent?.getTileScreenAction())
+                    type = "image/png"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    action = Intent.ACTION_SEND
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
             } else {
                 runBlocking {
                     val timeStamp = SimpleDateFormat(
@@ -184,21 +187,14 @@ class ScreenshotService : Service() {
                             )
                         )
                     }
-
-                    mainLooperAction {
-                        Toast.makeText(
-                            applicationContext,
-                            this@ScreenshotService.getString(
-                                R.string.saved_to_without_filename,
-                                fileController.defaultSavingPath
-                            ),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    postToast(
+                        textRes = R.string.saved_to_without_filename,
+                        fileController.defaultSavingPath
+                    )
                 }
             }
         }
-    ).takeScreenshot(1000)
+    )
 
     override fun onBind(intent: Intent): IBinder? = null
 

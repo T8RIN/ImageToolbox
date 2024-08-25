@@ -17,38 +17,18 @@
 
 package ru.tech.imageresizershrinker.feature.quick_tiles
 
-import android.annotation.SuppressLint
-import android.app.PendingIntent
-import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
+import ru.tech.imageresizershrinker.core.ui.utils.helper.EditAction
+import ru.tech.imageresizershrinker.feature.quick_tiles.utils.startActivityAndCollapse
 
 @RequiresApi(Build.VERSION_CODES.N)
 class EditScreenshotTile : TileService() {
 
-    @SuppressLint("StartActivityAndCollapseDeprecated")
     override fun onClick() {
         super.onClick()
-        runCatching {
-            val intent = Intent(applicationContext, ScreenshotLauncher::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-            val pendingIntent =
-                PendingIntent.getActivity(
-                    this,
-                    0,
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
-
-            if (Build.VERSION.SDK_INT >= 34) {
-                startActivityAndCollapse(pendingIntent)
-            } else {
-                @Suppress("DEPRECATION")
-                startActivityAndCollapse(intent)
-            }
-        }
+        startActivityAndCollapse(EditAction)
     }
 
 }

@@ -1,8 +1,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -34,6 +32,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -55,8 +54,7 @@ fun LinkPreviewCard(
     linkPreview: LinkPreview,
     shape: Shape
 ) {
-    val clipboardManager =
-        LocalContext.current.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clipboardManager = LocalClipboardManager.current.nativeClipboard
     val coroutineScope = rememberCoroutineScope()
     val onLinkCopiedText = stringResource(R.string.copied)
     val linkTextLabel = stringResource(R.string.image_link)
