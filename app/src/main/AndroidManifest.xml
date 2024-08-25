@@ -203,7 +203,7 @@
         </service>
 
         <service
-            android:name=".feature.quick_tiles.ColorPickerTile"
+            android:name=".feature.quick_tiles.tiles.ColorPickerTile"
             android:exported="true"
             android:icon="@drawable/outline_colorize_24"
             android:label="@string/pick_color"
@@ -215,7 +215,7 @@
         </service>
 
         <service
-            android:name=".feature.quick_tiles.ImageToolboxTile"
+            android:name=".feature.quick_tiles.tiles.ImageToolboxTile"
             android:exported="true"
             android:icon="@drawable/ic_launcher_monochrome_24"
             android:label="@string/app_name"
@@ -227,7 +227,7 @@
         </service>
 
         <service
-            android:name=".feature.quick_tiles.EditScreenshotTile"
+            android:name=".feature.quick_tiles.tiles.EditScreenshotTile"
             android:exported="true"
             android:icon="@drawable/outline_app_registration_24"
             android:label="@string/edit_screenshot"
@@ -239,7 +239,7 @@
         </service>
 
         <service
-            android:name=".feature.quick_tiles.TakeScreenshotTile"
+            android:name=".feature.quick_tiles.tiles.TakeScreenshotTile"
             android:exported="true"
             android:icon="@drawable/outline_screenshot_24"
             android:label="@string/screenshot"

@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.quick_tiles
+package ru.tech.imageresizershrinker.feature.quick_tiles.tiles
 
 import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
-import ru.tech.imageresizershrinker.core.ui.utils.helper.EditAction
+import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.feature.quick_tiles.utils.startActivityAndCollapse
 
+
 @RequiresApi(Build.VERSION_CODES.N)
-class EditScreenshotTile : TileService() {
+class ImageToolboxTile : TileService() {
 
     override fun onClick() {
         super.onClick()
-        startActivityAndCollapse(EditAction)
+        startActivityAndCollapse(clazz = AppActivityClass)
     }
 
 }

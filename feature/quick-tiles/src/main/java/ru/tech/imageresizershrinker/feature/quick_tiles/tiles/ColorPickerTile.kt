@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.quick_tiles
+package ru.tech.imageresizershrinker.feature.quick_tiles.tiles
 
 import android.os.Build
 import android.service.quicksettings.TileService
