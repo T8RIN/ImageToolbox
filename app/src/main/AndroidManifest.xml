@@ -251,11 +251,11 @@
         </service>
 
         <activity
-            android:name=".feature.quick_tiles.ScreenshotLauncher"
+            android:name=".feature.quick_tiles.screenshot.ScreenshotLauncher"
             android:theme="@style/TransparentActivity" />
 
         <service
-            android:name=".feature.quick_tiles.ScreenshotService"
+            android:name=".feature.quick_tiles.screenshot.ScreenshotService"
             android:foregroundServiceType="mediaProjection"
             android:process=":remote" />
 

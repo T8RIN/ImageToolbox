@@ -24,7 +24,7 @@ import androidx.core.service.quicksettings.PendingIntentActivityWrapper
 import androidx.core.service.quicksettings.TileServiceCompat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.buildIntent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.putTileScreenAction
-import ru.tech.imageresizershrinker.feature.quick_tiles.ScreenshotLauncher
+import ru.tech.imageresizershrinker.feature.quick_tiles.screenshot.ScreenshotLauncher
 
 fun TileService.startActivityAndCollapse(
     screenAction: String? = null,
