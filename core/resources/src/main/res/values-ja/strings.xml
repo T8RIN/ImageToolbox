@@ -810,4 +810,14 @@
     <string name="rain">雨</string>
     <string name="corners">コーナー</string>
     <string name="jxl_tools">JXLツール</string>
+    <string name="jxl_tools_sub">JXL ~ JPEG間のロスレス変換、GIF/APNGからJXLアニメーションへの変換を行います</string>
+    <string name="jxl_type_to_jpeg">JXL から JPEG に</string>
+    <string name="jxl_type_to_jpeg_sub">JXLからJPEGへのロスレス変換を行います</string>
+    <string name="jpeg_type_to_jxl_sub">JPEGからJXLへのロスレス変換を行います</string>
+    <string name="jpeg_type_to_jxl">JPEG から JXL に</string>
+    <string name="select_jxl_image_to_start">開始するにはJXL画像を選択</string>
+    <string name="fast_gaussian_blur_2d">高速2Dガウシアンぼかし</string>
+    <string name="fast_gaussian_blur_3d">高速3Dガウシアンぼかし</string>
+    <string name="fast_gaussian_blur_4d">高速4Dガウシアンぼかし</string>
+    <string name="auto_paste">自動貼り付け</string>
 </resources>
