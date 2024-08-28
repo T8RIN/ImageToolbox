@@ -459,6 +459,7 @@ or click one of the badges below.
 - GIF conversion
     - GIF to images
     - Images to GIF
+    - GIF to WEBP
 - APNG conversion
     - APNG to images
     - Images to APNG
