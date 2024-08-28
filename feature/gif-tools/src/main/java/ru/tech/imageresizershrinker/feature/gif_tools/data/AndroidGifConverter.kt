@@ -26,7 +26,7 @@ import androidx.exifinterface.media.ExifInterface
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
-import com.t8rin.awebp.AnimatedWebpEncoder
+import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import javax.inject.Inject
 
 
@@ -177,17 +178,20 @@ internal class AndroidGifConverter @Inject constructor(
         }
     }
 
-    private val String.bytes: ByteArray?
+    private val String.inputStream: InputStream?
         get() = context
             .contentResolver
-            .openInputStream(toUri())?.use {
-                it.readBytes()
-            }
+            .openInputStream(toUri())
+
+    private val String.bytes: ByteArray?
+        get() = inputStream?.use {
+            it.readBytes()
+        }
 
     private val String.file: File
         get() {
             val gifFile = File(context.cacheDir, "temp.gif")
-            context.contentResolver.openInputStream(toUri())?.use { gifStream ->
+            inputStream?.use { gifStream ->
                 gifStream.copyTo(FileOutputStream(gifFile))
             }
             return gifFile
