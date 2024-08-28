@@ -31,6 +31,8 @@ import coil.util.Logger
 import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.github.awxkee.avifcoil.decoder.HeifDecoder
+import com.t8rin.avif.coil.AnimatedAVIFDecoder
+import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.qoi_coder.coil.QoiDecoder
 import dagger.Module
 import dagger.Provides
@@ -74,11 +76,13 @@ internal object ImageLoaderModule {
     ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
             add(AnimatedPngDecoder.Factory(context))
-            add(
-                if (Build.VERSION.SDK_INT >= 28) ImageDecoderDecoder.Factory()
-                else GifDecoder.Factory()
-            )
+            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+            else {
+                add(GifDecoder.Factory())
+                add(AnimatedWebPDecoder.Factory())
+            }
             add(SvgDecoder.Factory())
+            add(AnimatedAVIFDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
             add(AnimatedJxlDecoder.Factory(context))
             add(Jpeg2000Decoder.Factory(context))
