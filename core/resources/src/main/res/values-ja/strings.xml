@@ -804,4 +804,10 @@
     <string name="zip">ジップ</string>
     <string name="zip_sub">指定されたファイルまたは画像から Zip ファイルを作成する</string>
     <string name="drag_handle_width">ドラッグハンドル幅</string>
+    <string name="confetti_type">紙吹雪のタイプ</string>
+    <string name="festive">クラッカー</string>
+    <string name="explode">花火</string>
+    <string name="rain">雨</string>
+    <string name="corners">コーナー</string>
+    <string name="jxl_tools">JXLツール</string>
 </resources>
