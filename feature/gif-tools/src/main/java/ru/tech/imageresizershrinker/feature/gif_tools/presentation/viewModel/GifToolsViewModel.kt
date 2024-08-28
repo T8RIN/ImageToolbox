@@ -98,6 +98,9 @@ class GifToolsViewModel @Inject constructor(
     private val _jxlQuality: MutableState<Quality.Jxl> = mutableStateOf(Quality.Jxl())
     val jxlQuality by _jxlQuality
 
+    private val _webpQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base())
+    val webpQuality by _webpQuality
+
     private var gifData: ByteArray? = null
 
     fun setType(type: Screen.GifTools.Type) {
@@ -111,6 +114,10 @@ class GifToolsViewModel @Inject constructor(
             }
 
             is Screen.GifTools.Type.GifToJxl -> {
+                _type.update { type }
+            }
+
+            is Screen.GifTools.Type.GifToWebp -> {
                 _type.update { type }
             }
         }
@@ -311,6 +318,30 @@ class GifToolsViewModel @Inject constructor(
                     onResult(results.onSuccess(::registerSave))
                 }
 
+                is Screen.GifTools.Type.GifToWebp -> {
+                    val results = mutableListOf<SaveResult>()
+                    val gifUris = type.gifUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = gifUris.size
+                    gifConverter.convertGifToWebp(
+                        gifUris = gifUris,
+                        quality = webpQuality
+                    ) { uri, webpBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = WebpSaveTarget(uri, webpBytes),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                    }
+
+                    onResult(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -325,6 +356,32 @@ class GifToolsViewModel @Inject constructor(
         filename = jxlFilename(uri),
         data = jxlBytes,
         imageFormat = ImageFormat.Jxl.Lossless
+    )
+
+    private fun WebpSaveTarget(
+        uri: String,
+        webpBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = webpFilename(uri),
+        data = webpBytes,
+        imageFormat = ImageFormat.Webp.Lossless
+    )
+
+    private fun webpFilename(
+        uri: String
+    ): String = fileController.constructImageFilename(
+        ImageSaveTarget<ExifInterface>(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Webp.Lossless,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
     )
 
     private fun jxlFilename(
@@ -463,6 +520,29 @@ class GifToolsViewModel @Inject constructor(
                     shareProvider.shareUris(results.filterNotNull())
                 }
 
+                is Screen.GifTools.Type.GifToWebp -> {
+                    val results = mutableListOf<String?>()
+                    val gifUris = type.gifUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = gifUris.size
+                    gifConverter.convertGifToWebp(
+                        gifUris = gifUris,
+                        quality = webpQuality
+                    ) { uri, webpBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = webpBytes,
+                                filename = webpFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                    }
+
+                    shareProvider.shareUris(results.filterNotNull())
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -472,6 +552,13 @@ class GifToolsViewModel @Inject constructor(
     fun setJxlQuality(quality: Quality) {
         _jxlQuality.update {
             (quality as? Quality.Jxl) ?: Quality.Jxl()
+        }
+        registerChanges()
+    }
+
+    fun setWebpQuality(quality: Quality) {
+        _webpQuality.update {
+            (quality as? Quality.Base) ?: Quality.Base()
         }
         registerChanges()
     }

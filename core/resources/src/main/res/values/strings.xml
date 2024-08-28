@@ -1348,4 +1348,6 @@
     <string name="links_preview_sub">Enables link preview retrieveing in places where you can obtain text (QRCode, OCR etc)</string>
     <string name="links">Links</string>
     <string name="ico_size_warning">Ico Files can be saved only at maximum size of 256*256, larger values will be coerced in resulting image</string>
+    <string name="gif_type_to_webp">GIF to WEBP</string>
+    <string name="gif_type_to_webp_sub">Convert GIF images to WEBP animated pictures</string>
 </resources>

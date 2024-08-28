@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Stack
 import ru.tech.imageresizershrinker.core.resources.icons.Svg
 import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.Transparency
+import ru.tech.imageresizershrinker.core.resources.icons.Webp
 
 @Parcelize
 sealed class Screen(
@@ -431,6 +432,7 @@ sealed class Screen(
                     is GifToImage -> Icons.Outlined.Collections
                     is GifToJxl -> Icons.Filled.Jxl
                     is ImageToGif -> Icons.Rounded.Gif
+                    is GifToWebp -> Icons.Rounded.Webp
                 }
 
             data class GifToImage(
@@ -454,12 +456,20 @@ sealed class Screen(
                 subtitle = R.string.gif_type_to_jxl_sub
             )
 
+            data class GifToWebp(
+                val gifUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.gif_type_to_webp,
+                subtitle = R.string.gif_type_to_webp_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToGif(),
                         GifToImage(),
-                        GifToJxl()
+                        GifToJxl(),
+                        GifToWebp()
                     )
                 }
             }
@@ -705,6 +715,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 48
+        const val FEATURES_COUNT = 49
     }
 }

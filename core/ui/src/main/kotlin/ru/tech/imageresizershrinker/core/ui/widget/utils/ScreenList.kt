@@ -62,6 +62,12 @@ internal fun List<Uri>.screenList(
                         uris.firstOrNull()
                     )
                 ),
+                Screen.GifTools(
+                    Screen.GifTools.Type.GifToJxl(uris)
+                ),
+                Screen.GifTools(
+                    Screen.GifTools.Type.GifToWebp(uris)
+                ),
                 Screen.Cipher(uris.firstOrNull()),
                 Screen.Zip(uris)
             )

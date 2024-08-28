@@ -128,7 +128,8 @@ fun Activity.parseSaveResults(
                     )
                 }
             } else {
-                val saveResult = results.first { it is SaveResult.Success } as? SaveResult.Success
+                val saveResult =
+                    results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
                 val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
                 scope.launch {
                     toastHostState.showToast(
@@ -150,12 +151,12 @@ fun Activity.parseSaveResults(
     } else if (failed < done) {
         scope.launch {
             showConfetti()
-            val saveResult = results.first { it is SaveResult.Success } as SaveResult.Success
+            val saveResult = results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
             toastHostState.showToast(
-                message = saveResult.message
+                message = saveResult?.message
                     ?: getString(
                         R.string.saved_to_without_filename,
-                        saveResult.savingPath
+                        saveResult?.savingPath
                     ),
                 icon = Icons.Rounded.Save,
                 duration = ToastDuration.Long

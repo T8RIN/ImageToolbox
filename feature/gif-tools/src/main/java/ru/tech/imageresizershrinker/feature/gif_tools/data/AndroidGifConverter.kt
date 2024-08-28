@@ -19,11 +19,14 @@ package ru.tech.imageresizershrinker.feature.gif_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
+import com.t8rin.awebp.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -43,6 +46,8 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 
@@ -149,10 +154,42 @@ internal class AndroidGifConverter @Inject constructor(
         }
     }
 
+    override suspend fun convertGifToWebp(
+        gifUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        gifUris.forEach { uri ->
+            runCatching {
+                val encoder = AnimatedWebpEncoder(
+                    quality = quality.qualityValue,
+                    loopCount = 1,
+                    backgroundColor = Color.Transparent.toArgb()
+                )
+
+                encoder
+                    .loadGif(uri.file)
+                    .encode()
+                    .let {
+                        onProgress(uri, it)
+                    }
+            }
+        }
+    }
+
     private val String.bytes: ByteArray?
         get() = context
             .contentResolver
             .openInputStream(toUri())?.use {
                 it.readBytes()
             }
+
+    private val String.file: File
+        get() {
+            val gifFile = File(context.cacheDir, "temp.gif")
+            context.contentResolver.openInputStream(toUri())?.use { gifStream ->
+                gifStream.copyTo(FileOutputStream(gifFile))
+            }
+            return gifFile
+        }
 }

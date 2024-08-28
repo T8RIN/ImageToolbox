@@ -161,7 +161,7 @@ fun GifToolsContent(
         }
     }
 
-    val pickMultipleGifLauncher = rememberLauncherForActivityResult(
+    val pickMultipleGifToJxlLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.filter {
@@ -182,7 +182,28 @@ fun GifToolsContent(
         }
     }
 
-    val addGifsLauncher = rememberLauncherForActivityResult(
+    val pickMultipleGifToWebpLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.filter {
+            it.isGif(context)
+        }?.let { uris ->
+            if (uris.isEmpty()) {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Jxl
+                    )
+                }
+            } else {
+                viewModel.setType(
+                    Screen.GifTools.Type.GifToWebp(uris)
+                )
+            }
+        }
+    }
+
+    val addGifsToJxlLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.filter {
@@ -199,6 +220,30 @@ fun GifToolsContent(
                 viewModel.setType(
                     Screen.GifTools.Type.GifToJxl(
                         (viewModel.type as? Screen.GifTools.Type.GifToJxl)?.gifUris?.plus(uris)
+                            ?.distinct()
+                    )
+                )
+            }
+        }
+    }
+
+    val addGifsToWebpLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.filter {
+            it.isGif(context)
+        }?.let { uris ->
+            if (uris.isEmpty()) {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Jxl
+                    )
+                }
+            } else {
+                viewModel.setType(
+                    Screen.GifTools.Type.GifToWebp(
+                        (viewModel.type as? Screen.GifTools.Type.GifToWebp)?.gifUris?.plus(uris)
                             ?.distinct()
                     )
                 )
@@ -247,6 +292,10 @@ fun GifToolsContent(
 
                     is Screen.GifTools.Type.GifToJxl -> {
                         stringResource(R.string.gif_type_to_jxl)
+                    }
+
+                    is Screen.GifTools.Type.GifToWebp -> {
+                        stringResource(R.string.gif_type_to_webp)
                     }
 
                     null -> stringResource(R.string.gif_tools)
@@ -379,7 +428,40 @@ fun GifToolsContent(
                                         )
                                     },
                                     onAddUris = {
-                                        addGifsLauncher.launch(arrayOf("image/gif"))
+                                        addGifsToJxlLauncher.launch(arrayOf("image/gif"))
+                                    }
+                                )
+                            }
+
+                            is Screen.GifTools.Type.GifToWebp -> {
+                                UrisPreview(
+                                    modifier = Modifier
+                                        .then(
+                                            if (!isPortrait) {
+                                                Modifier
+                                                    .layout { measurable, constraints ->
+                                                        val placeable = measurable.measure(
+                                                            constraints = constraints.copy(
+                                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                                                            )
+                                                        )
+                                                        layout(placeable.width, placeable.height) {
+                                                            placeable.place(0, 0)
+                                                        }
+                                                    }
+                                                    .verticalScroll(rememberScrollState())
+                                            } else Modifier
+                                        )
+                                        .padding(vertical = 24.dp),
+                                    uris = type.gifUris ?: emptyList(),
+                                    isPortrait = true,
+                                    onRemoveUri = {
+                                        viewModel.setType(
+                                            Screen.GifTools.Type.GifToWebp(type.gifUris?.minus(it))
+                                        )
+                                    },
+                                    onAddUris = {
+                                        addGifsToWebpLauncher.launch(arrayOf("image/gif"))
                                     }
                                 )
                             }
@@ -441,6 +523,15 @@ fun GifToolsContent(
                     )
                 }
 
+                is Screen.GifTools.Type.GifToWebp -> {
+                    QualitySelector(
+                        imageFormat = ImageFormat.Jpg,
+                        enabled = true,
+                        quality = viewModel.webpQuality,
+                        onQualityChange = viewModel::setWebpQuality
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -497,7 +588,14 @@ fun GifToolsContent(
                 onSecondaryButtonClick = {
                     when (viewModel.type) {
                         is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.launch(arrayOf("image/gif"))
-                        is Screen.GifTools.Type.GifToJxl -> pickMultipleGifLauncher.launch(arrayOf("image/gif"))
+                        is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.launch(
+                            arrayOf("image/gif")
+                        )
+
+                        is Screen.GifTools.Type.GifToWebp -> pickMultipleGifToWebpLauncher.launch(
+                            arrayOf("image/gif")
+                        )
+
                         else -> pickImagesLauncher.pickImage()
                     }
                 },
@@ -554,7 +652,18 @@ fun GifToolsContent(
                     startIcon = types[2].icon,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        pickMultipleGifLauncher.launch(arrayOf("image/gif"))
+                        pickMultipleGifToJxlLauncher.launch(arrayOf("image/gif"))
+                    }
+                )
+            }
+            val preference4 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[3].title),
+                    subtitle = stringResource(types[3].subtitle),
+                    startIcon = types[3].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        pickMultipleGifToWebpLauncher.launch(arrayOf("image/gif"))
                     }
                 )
             }
@@ -565,28 +674,32 @@ fun GifToolsContent(
                     preference2()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference3()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference4()
                 }
             } else {
                 val direction = LocalLayoutDirection.current
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                val cutout = WindowInsets.displayCutout.asPaddingValues().let {
+                    PaddingValues(
+                        start = it.calculateStartPadding(direction),
+                        end = it.calculateEndPadding(direction)
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.padding(cutout)
                 ) {
-                    Row(
-                        modifier = Modifier.padding(
-                            WindowInsets.displayCutout.asPaddingValues().let {
-                                PaddingValues(
-                                    start = it.calculateStartPadding(direction),
-                                    end = it.calculateEndPadding(direction)
-                                )
-                            }
-                        )
-                    ) {
-                        preference1.withModifier(modifier = Modifier.weight(1f))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        preference2.withModifier(modifier = Modifier.weight(1f))
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+                    preference1.withModifier(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    preference2.withModifier(modifier = Modifier.weight(1f))
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.padding(cutout)
+                ) {
+                    preference3.withModifier(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    preference4.withModifier(modifier = Modifier.weight(1f))
                 }
             }
         },
