@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
@@ -125,7 +126,11 @@ fun ResizeImageField(
                 modifier = Modifier.weight(1f)
             )
         }
-
+        IcoSizeWarning(
+            visible = imageInfo.run {
+                imageFormat == ImageFormat.Ico && (width > 256 || height > 256)
+            }
+        )
         OOMWarning(visible = showWarning)
     }
 }

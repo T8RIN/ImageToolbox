@@ -74,7 +74,8 @@ internal class AndroidImageCompressor @Inject constructor(
         SimpleCompressor
             .getInstance(
                 imageFormat = imageFormat,
-                context = context
+                context = context,
+                imageScaler = imageScaler
             )
             .compress(
                 image = image.toSoftware(),

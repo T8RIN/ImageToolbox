@@ -1347,4 +1347,5 @@
     <string name="links_preview">Links Preview</string>
     <string name="links_preview_sub">Enables link preview retrieveing in places where you can obtain text (QRCode, OCR etc)</string>
     <string name="links">Links</string>
+    <string name="ico_size_warning">Ico Files can be saved only at maximum size of 256*256, larger values will be coerced in resulting image</string>
 </resources>

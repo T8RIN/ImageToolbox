@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
-fun OOMWarning(visible: Boolean) {
+fun IcoSizeWarning(visible: Boolean) {
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + expandVertically(),
@@ -50,21 +50,21 @@ fun OOMWarning(visible: Boolean) {
                     top = 12.dp
                 )
                 .container(
-                    color = MaterialTheme.colorScheme.errorContainer.copy(
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
                         alpha = 0.7f
                     ),
-                    resultPadding = 0.dp,
+                    resultPadding = 4.dp,
                     shape = RoundedCornerShape(16.dp)
                 )
         ) {
             Text(
-                text = stringResource(R.string.image_size_warning),
+                text = stringResource(R.string.ico_size_warning),
                 fontSize = 12.sp,
                 modifier = Modifier.padding(8.dp),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,
                 lineHeight = 14.sp,
-                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.5f)
+                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
             )
         }
     }

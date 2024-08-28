@@ -254,6 +254,13 @@ sealed class ImageFormat(
         canChangeCompressionValue = false
     )
 
+    data object Ico : ImageFormat(
+        title = "ICO",
+        extension = "ico",
+        mimeType = "image/x-icon",
+        canChangeCompressionValue = false
+    )
+
     companion object {
         sealed class CompressionType(
             open val compressionRange: IntRange = 0..100
@@ -284,6 +291,8 @@ sealed class ImageFormat(
             typeString.contains("avif") -> Avif.Lossless
             typeString.contains("heif") -> Heif.Lossless
             typeString.contains("heic") -> Heic.Lossless
+            typeString.contains("qoi") -> Qoi
+            typeString.contains("ico") -> Ico
             else -> Default
         }
 
@@ -320,7 +329,9 @@ sealed class ImageFormat(
                 Tif,
                 Tiff,
                 Jpeg2000.Jp2,
-                Jpeg2000.J2k
+                Jpeg2000.J2k,
+                Qoi,
+                Ico
             )
         }
     }

@@ -34,15 +34,19 @@ import com.radzivon.bartoshyk.avif.coder.AvifSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import com.t8rin.qoi_coder.QOIEncoder
+import kotlinx.coroutines.coroutineScope
 import org.beyka.tiffbitmapfactory.CompressionScheme
 import org.beyka.tiffbitmapfactory.Orientation
 import org.beyka.tiffbitmapfactory.TiffSaver
 import org.beyka.tiffbitmapfactory.TiffSaver.SaveOptions
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 
 internal abstract class SimpleCompressor {
@@ -51,7 +55,8 @@ internal abstract class SimpleCompressor {
 
         fun getInstance(
             imageFormat: ImageFormat,
-            context: Context
+            context: Context,
+            imageScaler: ImageScaler<Bitmap>
         ): SimpleCompressor = when (imageFormat) {
             ImageFormat.Avif.Lossless -> AvifLossless(context)
             ImageFormat.Avif.Lossy -> AvifLossy(context)
@@ -79,6 +84,8 @@ internal abstract class SimpleCompressor {
             ImageFormat.Tiff -> Tiff(context)
 
             ImageFormat.Qoi -> Qoi
+
+            ImageFormat.Ico -> Ico(imageScaler)
         }
 
     }
@@ -87,138 +94,6 @@ internal abstract class SimpleCompressor {
         image: Bitmap,
         quality: Quality
     ): ByteArray
-
-    data object Bmp : SimpleCompressor() {
-        private const val BMP_WIDTH_OF_TIMES = 4
-        private const val BYTE_PER_PIXEL = 3
-
-        private fun writeInt(value: Int): ByteArray {
-            val b = ByteArray(4)
-            b[0] = (value and 0x000000FF).toByte()
-            b[1] = (value and 0x0000FF00 shr 8).toByte()
-            b[2] = (value and 0x00FF0000 shr 16).toByte()
-            b[3] = (value and -0x1000000 shr 24).toByte()
-            return b
-        }
-
-        private fun writeShort(value: Short): ByteArray {
-            val b = ByteArray(2)
-            b[0] = (value.toInt() and 0x00FF).toByte()
-            b[1] = (value.toInt() and 0xFF00 shr 8).toByte()
-            return b
-        }
-
-        override suspend fun compress(
-            image: Bitmap,
-            quality: Quality
-        ): ByteArray {
-            //image size
-            val width = image.width
-            val height = image.height
-
-            //image dummy data size
-            //reason : the amount of bytes per image row must be a multiple of 4 (requirements of bmp format)
-            var dummyBytesPerRow: ByteArray? = null
-            var hasDummy = false
-            val rowWidthInBytes =
-                BYTE_PER_PIXEL * width //source image width * number of bytes to encode one pixel.
-            if (rowWidthInBytes % BMP_WIDTH_OF_TIMES > 0) {
-                hasDummy = true
-                //the number of dummy bytes we need to add on each row
-                dummyBytesPerRow =
-                    ByteArray(BMP_WIDTH_OF_TIMES - rowWidthInBytes % BMP_WIDTH_OF_TIMES)
-                //just fill an array with the dummy bytes we need to append at the end of each row
-                for (i in dummyBytesPerRow.indices) {
-                    dummyBytesPerRow[i] = 0xFF.toByte()
-                }
-            }
-
-            //an array to receive the pixels from the source image
-            val pixels = IntArray(width * height)
-
-            //the number of bytes used in the file to store raw image data (excluding file headers)
-            val imageSize =
-                (rowWidthInBytes + if (hasDummy) dummyBytesPerRow!!.size else 0) * height
-            //file headers size
-            val imageDataOffset = 0x36
-
-            //final size of the file
-            val fileSize = imageSize + imageDataOffset
-
-            //Android Bitmap Image Data
-            image.getPixels(pixels, 0, width, 0, 0, width, height)
-
-            //ByteArrayOutputStream baos = new ByteArrayOutputStream(fileSize);
-            val buffer = ByteBuffer.allocate(fileSize)
-            /**
-             * BITMAP FILE HEADER Write Start
-             */
-            buffer.put(0x42.toByte())
-            buffer.put(0x4D.toByte())
-
-            //size
-            buffer.put(writeInt(fileSize))
-
-            //reserved
-            buffer.put(writeShort(0.toShort()))
-            buffer.put(writeShort(0.toShort()))
-
-            //image data start offset
-            buffer.put(writeInt(imageDataOffset))
-            /** BITMAP FILE HEADER Write End  */
-
-            //*******************************************
-            /** BITMAP INFO HEADER Write Start  */
-            //size
-            buffer.put(writeInt(0x28))
-
-            //width, height
-            //if we add 3 dummy bytes per row : it means we add a pixel (and the image width is modified.
-            buffer.put(writeInt(width + if (hasDummy) (if (dummyBytesPerRow!!.size == 3) 1 else 0) else 0))
-            buffer.put(writeInt(height))
-
-            //planes
-            buffer.put(writeShort(1.toShort()))
-
-            //bit count
-            buffer.put(writeShort(24.toShort()))
-
-            //bit compression
-            buffer.put(writeInt(0))
-
-            //image data size
-            buffer.put(writeInt(imageSize))
-
-            //horizontal resolution in pixels per meter
-            buffer.put(writeInt(0))
-
-            //vertical resolution in pixels per meter (unreliable)
-            buffer.put(writeInt(0))
-            buffer.put(writeInt(0))
-            buffer.put(writeInt(0))
-            /** BITMAP INFO HEADER Write End  */
-            var row = height
-            var startPosition = (row - 1) * width
-            var endPosition = row * width
-            while (row > 0) {
-                for (i in startPosition until endPosition) {
-                    buffer.put((pixels[i] and 0x000000FF).toByte())
-                    buffer.put((pixels[i] and 0x0000FF00 shr 8).toByte())
-                    buffer.put((pixels[i] and 0x00FF0000 shr 16).toByte())
-                }
-                if (hasDummy) {
-                    if (dummyBytesPerRow != null) {
-                        buffer.put(dummyBytesPerRow)
-                    }
-                }
-                row--
-                endPosition = startPosition
-                startPosition -= width
-            }
-            return buffer.array()
-        }
-
-    }
 
     data object Jpg : SimpleCompressor() {
 
@@ -520,6 +395,219 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray = QOIEncoder(image).encode()
+
+    }
+
+    data class Ico(
+        private val imageScaler: ImageScaler<Bitmap>
+    ) : SimpleCompressor() {
+
+        override suspend fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray = coroutineScope {
+            val bitmap = if (image.width > 256 || image.height > 256) {
+                imageScaler.scaleImage(
+                    image = image,
+                    width = 256,
+                    height = 256,
+                    resizeType = ResizeType.Flexible
+                )
+            } else image
+
+            val width = bitmap.width
+            val height = bitmap.height
+
+            val outputStream = ByteArrayOutputStream()
+            val header = ByteArray(6)
+            val entry = ByteArray(16)
+            val infoHeader = ByteArray(40)
+
+            // ICO Header
+            header[2] = 1 // Image type: Icon
+            header[4] = 1 // Number of images
+
+            outputStream.write(header)
+
+            // Image entry
+            entry[0] = if (width > 256) 0 else width.toByte()
+            entry[1] = if (height > 256) 0 else height.toByte()
+            entry[4] = 1 // Color planes
+            entry[6] = 32 // Bits per pixel
+
+            val andMaskSize = ((width + 31) / 32) * 4 * height
+            val xorMaskSize = width * height * 4
+            val imageDataSize = infoHeader.size + xorMaskSize + andMaskSize
+
+            ByteBuffer.wrap(entry, 8, 4).order(ByteOrder.LITTLE_ENDIAN).putInt(imageDataSize)
+            ByteBuffer.wrap(entry, 12, 4)
+                .order(ByteOrder.LITTLE_ENDIAN)
+                .putInt(header.size + entry.size)
+
+            outputStream.write(entry)
+
+            // BITMAP INFO HEADER
+            ByteBuffer.wrap(infoHeader).order(ByteOrder.LITTLE_ENDIAN).apply {
+                putInt(40) // Header size
+                putInt(width) // Width
+                putInt(height * 2) // Height (XOR + AND masks)
+                putShort(1) // Color planes
+                putShort(32) // Bits per pixel
+                putInt(0) // Compression (BI_RGB)
+                putInt(xorMaskSize + andMaskSize) // Image size
+            }
+
+            outputStream.write(infoHeader)
+
+            // XOR mask (pixel data)
+            for (y in height - 1 downTo 0) {
+                for (x in 0 until width) {
+                    val pixel = bitmap.getPixel(x, y)
+                    outputStream.write(pixel and 0xFF) // B
+                    outputStream.write((pixel shr 8) and 0xFF) // G
+                    outputStream.write((pixel shr 16) and 0xFF) // R
+                    outputStream.write((pixel shr 24) and 0xFF) // A
+                }
+            }
+
+            // AND mask (all 0 for no transparency mask)
+            outputStream.write(ByteArray(andMaskSize))
+
+            outputStream.toByteArray()
+        }
+
+    }
+
+    data object Bmp : SimpleCompressor() {
+
+        private const val BMP_WIDTH_OF_TIMES = 4
+        private const val BYTE_PER_PIXEL = 3
+
+        private fun writeInt(value: Int): ByteArray {
+            val b = ByteArray(4)
+            b[0] = (value and 0x000000FF).toByte()
+            b[1] = (value and 0x0000FF00 shr 8).toByte()
+            b[2] = (value and 0x00FF0000 shr 16).toByte()
+            b[3] = (value and -0x1000000 shr 24).toByte()
+            return b
+        }
+
+        private fun writeShort(value: Short): ByteArray {
+            val b = ByteArray(2)
+            b[0] = (value.toInt() and 0x00FF).toByte()
+            b[1] = (value.toInt() and 0xFF00 shr 8).toByte()
+            return b
+        }
+
+        override suspend fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray {
+            //image size
+            val width = image.width
+            val height = image.height
+
+            //image dummy data size
+            //reason : the amount of bytes per image row must be a multiple of 4 (requirements of bmp format)
+            var dummyBytesPerRow: ByteArray? = null
+            var hasDummy = false
+            val rowWidthInBytes =
+                BYTE_PER_PIXEL * width //source image width * number of bytes to encode one pixel.
+            if (rowWidthInBytes % BMP_WIDTH_OF_TIMES > 0) {
+                hasDummy = true
+                //the number of dummy bytes we need to add on each row
+                dummyBytesPerRow =
+                    ByteArray(BMP_WIDTH_OF_TIMES - rowWidthInBytes % BMP_WIDTH_OF_TIMES)
+                //just fill an array with the dummy bytes we need to append at the end of each row
+                for (i in dummyBytesPerRow.indices) {
+                    dummyBytesPerRow[i] = 0xFF.toByte()
+                }
+            }
+
+            //an array to receive the pixels from the source image
+            val pixels = IntArray(width * height)
+
+            //the number of bytes used in the file to store raw image data (excluding file headers)
+            val imageSize =
+                (rowWidthInBytes + if (hasDummy) dummyBytesPerRow!!.size else 0) * height
+            //file headers size
+            val imageDataOffset = 0x36
+
+            //final size of the file
+            val fileSize = imageSize + imageDataOffset
+
+            //Android Bitmap Image Data
+            image.getPixels(pixels, 0, width, 0, 0, width, height)
+
+            //ByteArrayOutputStream baos = new ByteArrayOutputStream(fileSize);
+            val buffer = ByteBuffer.allocate(fileSize)
+            /**
+             * BITMAP FILE HEADER Write Start
+             */
+            buffer.put(0x42.toByte())
+            buffer.put(0x4D.toByte())
+
+            //size
+            buffer.put(writeInt(fileSize))
+
+            //reserved
+            buffer.put(writeShort(0.toShort()))
+            buffer.put(writeShort(0.toShort()))
+
+            //image data start offset
+            buffer.put(writeInt(imageDataOffset))
+            /** BITMAP FILE HEADER Write End  */
+
+            //*******************************************
+            /** BITMAP INFO HEADER Write Start  */
+            //size
+            buffer.put(writeInt(0x28))
+
+            //width, height
+            //if we add 3 dummy bytes per row : it means we add a pixel (and the image width is modified.
+            buffer.put(writeInt(width + if (hasDummy) (if (dummyBytesPerRow!!.size == 3) 1 else 0) else 0))
+            buffer.put(writeInt(height))
+
+            //planes
+            buffer.put(writeShort(1.toShort()))
+
+            //bit count
+            buffer.put(writeShort(24.toShort()))
+
+            //bit compression
+            buffer.put(writeInt(0))
+
+            //image data size
+            buffer.put(writeInt(imageSize))
+
+            //horizontal resolution in pixels per meter
+            buffer.put(writeInt(0))
+
+            //vertical resolution in pixels per meter (unreliable)
+            buffer.put(writeInt(0))
+            buffer.put(writeInt(0))
+            buffer.put(writeInt(0))
+            /** BITMAP INFO HEADER Write End  */
+            var row = height
+            var startPosition = (row - 1) * width
+            var endPosition = row * width
+            while (row > 0) {
+                for (i in startPosition until endPosition) {
+                    buffer.put((pixels[i] and 0x000000FF).toByte())
+                    buffer.put((pixels[i] and 0x0000FF00 shr 8).toByte())
+                    buffer.put((pixels[i] and 0x00FF0000 shr 16).toByte())
+                }
+                if (hasDummy) {
+                    if (dummyBytesPerRow != null) {
+                        buffer.put(dummyBytesPerRow)
+                    }
+                }
+                row--
+                endPosition = startPosition
+                startPosition -= width
+            }
+            return buffer.array()
+        }
 
     }
 
