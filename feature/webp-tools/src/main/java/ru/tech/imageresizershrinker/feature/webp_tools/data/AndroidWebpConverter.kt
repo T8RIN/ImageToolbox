@@ -76,8 +76,6 @@ internal class AndroidWebpConverter @Inject constructor(
         }
     }
 
-    //Сделай названия файлов во встроенном пикере
-
     override suspend fun createWebpFromImageUris(
         imageUris: List<String>,
         params: WebpParams,
