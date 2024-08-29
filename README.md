@@ -460,6 +460,9 @@ or click one of the badges below.
     - GIF to images
     - Images to GIF
     - GIF to WEBP
+- WEBP conversion
+    - WEBP to images
+    - Images to WEBP
 - APNG conversion
     - APNG to images
     - Images to APNG
