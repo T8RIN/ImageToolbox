@@ -1329,4 +1329,5 @@
     <string name="links_preview">链接预览</string>
     <string name="links">链接</string>
     <string name="links_preview_sub">在可获取文本（二维码、OCR 等）的地方启用链接预览检索功能</string>
+    <string name="ico_size_warning">Ico 文件的最大保存尺寸只能为 256*256，在生成的图像中将强制使用较大的值</string>
 </resources>
