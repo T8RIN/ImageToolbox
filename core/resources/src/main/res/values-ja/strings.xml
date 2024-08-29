@@ -820,4 +820,12 @@
     <string name="fast_gaussian_blur_3d">高速3Dガウシアンぼかし</string>
     <string name="fast_gaussian_blur_4d">高速4Dガウシアンぼかし</string>
     <string name="auto_paste">自動貼り付け</string>
+    <string name="gif_type_to_jxl">GIF から JXL に</string>
+    <string name="gif_type_to_jxl_sub">GIF画像をJXLアニメーション画像に変換します</string>
+    <string name="apng_type_to_jxl">APNG から JXL に</string>
+    <string name="apng_type_to_jxl_sub">APNG画像をJXLアニメーション画像に変換します</string>
+    <string name="jxl_type_to_images">JXL を分解</string>
+    <string name="jxl_type_to_images_sub">JXLアニメーション画像から画像を取り出します</string>
+    <string name="jxl_type_to_jxl">画像から JXL に</string>
+    <string name="jxl_type_to_jxl_sub">複数枚の画像から JXL アニメーション画像に変換します</string>
 </resources>
