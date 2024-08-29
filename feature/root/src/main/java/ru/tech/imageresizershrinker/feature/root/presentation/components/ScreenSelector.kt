@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsConten
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditContent
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.SvgMakerContent
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingContent
+import ru.tech.imageresizershrinker.feature.webp_tools.presentation.WebpToolsContent
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
 import ru.tech.imageresizershrinker.image_splitting.presentation.ImageSplitterContent
 
@@ -376,6 +377,13 @@ internal fun ScreenSelector(
 
             Screen.ColorTools -> {
                 ColorToolsContent(onGoBack = onGoBack)
+            }
+
+            is Screen.WebpTools -> {
+                WebpToolsContent(
+                    typeState = screen.type,
+                    onGoBack = onGoBack
+                )
             }
         }
     }

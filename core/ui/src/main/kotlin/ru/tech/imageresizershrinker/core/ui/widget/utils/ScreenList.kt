@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import java.util.Locale
 
@@ -40,10 +41,16 @@ internal fun List<Uri>.screenList(
 
     fun Uri?.type(
         vararg extensions: String
-    ) = extensions.any { ext ->
-        context
-            .getExtension(this.toString())
-            ?.contains(ext) == true
+    ): Boolean {
+        if (this == null) return false
+
+        val extension = context.getExtension(toString()).also {
+            it.makeLog()
+        }
+
+        return extensions.any { ext ->
+            extension?.contains(ext) == true
+        }
     }
 
     val filesAvailableScreens by remember(uris) {
@@ -150,6 +157,10 @@ internal fun List<Uri>.screenList(
                     ) + Screen.JxlTools(
                         Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
                     )
+                } else if (uri.type("webp")) {
+                    it + Screen.WebpTools(
+                        Screen.WebpTools.Type.WebpToImage(uris.firstOrNull())
+                    )
                 } else it
             }
         }
@@ -218,6 +229,11 @@ internal fun List<Uri>.screenList(
                 add(
                     Screen.ApngTools(
                         Screen.ApngTools.Type.ImageToApng(uris)
+                    )
+                )
+                add(
+                    Screen.WebpTools(
+                        Screen.WebpTools.Type.ImageToWebp(uris)
                     )
                 )
                 add(Screen.DeleteExif(uris))

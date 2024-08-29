@@ -1350,4 +1350,11 @@
     <string name="ico_size_warning">Ico Files can be saved only at maximum size of 256*256, larger values will be coerced in resulting image</string>
     <string name="gif_type_to_webp">GIF to WEBP</string>
     <string name="gif_type_to_webp_sub">Convert GIF images to WEBP animated pictures</string>
+    <string name="webp_tools">WEBP tools</string>
+    <string name="webp_tools_sub">Convert images to WEBP animated picture or extract frames from given WEBP animation</string>
+    <string name="webp_type_to_image">WEBP to images</string>
+    <string name="webp_type_to_image_sub">Convert WEBP file to batch of pictures</string>
+    <string name="webp_type_to_webp_sub">Convert batch of images to WEBP file</string>
+    <string name="webp_type_to_webp">Images to WEBP</string>
+    <string name="select_webp_image_to_start">Pick WEBP image to start</string>
 </resources>

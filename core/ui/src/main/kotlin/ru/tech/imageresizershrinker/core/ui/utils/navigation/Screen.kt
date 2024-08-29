@@ -69,6 +69,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Svg
 import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
+import ru.tech.imageresizershrinker.core.resources.icons.WebpBox
 
 @Parcelize
 sealed class Screen(
@@ -114,6 +115,7 @@ sealed class Screen(
             is ImageStacking -> "Image_Stacking"
             is ImageSplitting -> "Image_Splitting"
             is ColorTools -> "Color_Tools"
+            is WebpTools -> "WEBP_Tools"
         }
 
     val icon: ImageVector?
@@ -153,6 +155,7 @@ sealed class Screen(
             is ImageStacking -> Icons.Outlined.Stack
             is ImageSplitting -> Icons.Outlined.ContentCut
             ColorTools -> Icons.Outlined.ColorLens
+            is WebpTools -> Icons.Rounded.WebpBox
         }
 
     data object Settings : Screen(
@@ -651,6 +654,50 @@ sealed class Screen(
         subtitle = R.string.color_tools_sub
     )
 
+    data class WebpTools(
+        val type: Type? = null
+    ) : Screen(
+        id = 31,
+        title = R.string.webp_tools,
+        subtitle = R.string.webp_tools_sub
+    ) {
+        @Parcelize
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int
+        ) : Parcelable {
+
+            val icon: ImageVector
+                get() = when (this) {
+                    is WebpToImage -> Icons.Outlined.Collections
+                    is ImageToWebp -> Icons.Rounded.Webp
+                }
+
+            data class WebpToImage(
+                val webpUri: Uri? = null
+            ) : Type(
+                title = R.string.webp_type_to_image,
+                subtitle = R.string.webp_type_to_image_sub
+            )
+
+            data class ImageToWebp(
+                val imageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.webp_type_to_webp,
+                subtitle = R.string.webp_type_to_webp_sub
+            )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        ImageToWebp(),
+                        WebpToImage()
+                    )
+                }
+            }
+        }
+    }
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -703,7 +750,8 @@ sealed class Screen(
                     JxlTools(),
                     ApngTools(),
                     Cipher(),
-                    Zip()
+                    Zip(),
+                    WebpTools()
                 ) to Triple(
                     R.string.tools,
                     Icons.Rounded.Toolbox,
@@ -715,6 +763,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 49
+        const val FEATURES_COUNT = 51
     }
 }

@@ -59,4 +59,5 @@ dependencies {
     implementation(projects.feature.imageStacking)
     implementation(projects.feature.imageSplitting)
     implementation(projects.feature.colorTools)
+    implementation(projects.feature.webpTools)
 }
