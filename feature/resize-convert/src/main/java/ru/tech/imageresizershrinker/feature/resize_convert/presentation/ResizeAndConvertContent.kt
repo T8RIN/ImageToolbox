@@ -220,7 +220,7 @@ fun ResizeAndConvertContent(
             ShareButton(
                 enabled = viewModel.bitmap != null,
                 onShare = {
-                    viewModel.shareBitmaps(showConfetti)
+                    viewModel.performSharing(showConfetti)
                 },
                 onCopy = { manager ->
                     viewModel.cacheCurrentImage { uri ->

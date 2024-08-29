@@ -26,11 +26,9 @@ import androidx.exifinterface.media.ExifInterface
 import com.t8rin.awebp.decoder.AnimatedWebpDecoder
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -61,27 +59,24 @@ internal class AndroidWebpConverter @Inject constructor(
         webpUri: String,
         imageFormat: ImageFormat,
         quality: Quality
-    ): Flow<String> = channelFlow {
-        AnimatedWebpDecoder(webpUri.file) { decoder ->
-            repeat(decoder.frameCount) { index ->
-                if (!currentCoroutineContext().isActive) {
-                    currentCoroutineContext().cancel(null)
-                    return@channelFlow
-                }
-                val frame = decoder.getFrame(index)
-
-                imageShareProvider.cacheImage(
-                    image = frame,
-                    imageInfo = ImageInfo(
-                        width = frame.width,
-                        height = frame.height,
-                        imageFormat = imageFormat,
-                        quality = quality
-                    )
-                )?.let { send(it) }
-            }
+    ): Flow<String> = AnimatedWebpDecoder(
+        sourceFile = webpUri.file,
+        coroutineScope = CoroutineScope(decodingDispatcher)
+    ).frames().mapNotNull { frame ->
+        imageShareProvider.cacheImage(
+            image = frame.bitmap,
+            imageInfo = ImageInfo(
+                width = frame.bitmap.width,
+                height = frame.bitmap.height,
+                imageFormat = imageFormat,
+                quality = quality
+            )
+        ).also {
+            frame.bitmap.recycle()
         }
     }
+
+    //Сделай названия файлов во встроенном пикере
 
     override suspend fun createWebpFromImageUris(
         imageUris: List<String>,

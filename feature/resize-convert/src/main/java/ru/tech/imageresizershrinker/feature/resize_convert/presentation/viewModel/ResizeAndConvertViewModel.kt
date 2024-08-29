@@ -446,34 +446,12 @@ class ResizeAndConvertViewModel @Inject constructor(
             ?.let(::updateSelectedUri)
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
-            _isSaving.value = true
-            shareProvider.shareImages(
-                uris = uris?.map { it.toString() } ?: emptyList(),
-                imageLoader = { uri ->
-                    imageGetter.getImage(uri)?.image?.let { bmp ->
-                        bmp to imageInfo.copy(
-                            originalUri = uri
-                        ).let {
-                            imageTransformer.applyPresetBy(
-                                image = bitmap,
-                                preset = _presetSelected.value,
-                                currentInfo = it
-                            )
-                        }
-                    }
-                },
-                onProgressChange = {
-                    if (it == -1) {
-                        onComplete()
-                        _isSaving.value = false
-                        _done.value = 0
-                    } else {
-                        _done.value = it
-                    }
-                }
-            )
+    fun performSharing(onComplete: () -> Unit) {
+        cacheImages { uris ->
+            viewModelScope.launch {
+                shareProvider.shareUris(uris.map { it.toString() })
+                onComplete()
+            }
         }
     }
 

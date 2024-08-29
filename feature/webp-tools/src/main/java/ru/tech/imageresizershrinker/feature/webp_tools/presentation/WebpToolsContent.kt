@@ -74,6 +74,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
@@ -107,6 +108,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.components.WebpParamsSelector
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.WebpToolsViewModel
@@ -115,6 +117,7 @@ import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.We
 fun WebpToolsContent(
     typeState: Screen.WebpTools.Type?,
     onGoBack: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     viewModel: WebpToolsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
@@ -266,10 +269,34 @@ fun WebpToolsContent(
             }
         },
         actions = {
+            var editSheetData by remember {
+                mutableStateOf(listOf<Uri>())
+            }
             ShareButton(
                 enabled = !viewModel.isLoading && viewModel.type != null,
                 onShare = {
                     viewModel.performSharing(showConfetti)
+                },
+                onEdit = {
+                    viewModel.cacheImages {
+                        editSheetData = it
+                    }
+                }
+            )
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = {
+                    if (!it) {
+                        editSheetData = emptyList()
+                    }
+                },
+                onNavigate = { screen ->
+                    scope.launch {
+                        editSheetData = emptyList()
+                        delay(200)
+                        onNavigate(screen)
+                    }
                 }
             )
         },

@@ -315,7 +315,8 @@ internal fun ScreenSelector(
             is Screen.ApngTools -> {
                 ApngToolsContent(
                     typeState = screen.type,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = onNavigate
                 )
             }
 
@@ -382,7 +383,8 @@ internal fun ScreenSelector(
             is Screen.WebpTools -> {
                 WebpToolsContent(
                     typeState = screen.type,
-                    onGoBack = onGoBack
+                    onGoBack = onGoBack,
+                    onNavigate = onNavigate
                 )
             }
         }

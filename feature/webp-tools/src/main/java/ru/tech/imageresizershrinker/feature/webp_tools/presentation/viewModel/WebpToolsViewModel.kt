@@ -25,6 +25,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -331,6 +332,17 @@ class WebpToolsViewModel @Inject constructor(
     }
 
     fun performSharing(onComplete: () -> Unit) {
+        cacheImages { uris ->
+            viewModelScope.launch {
+                shareProvider.shareUris(uris.map { it.toString() })
+                onComplete()
+            }
+        }
+    }
+
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
@@ -345,8 +357,7 @@ class WebpToolsViewModel @Inject constructor(
                     val uris = convertedImageUris.filterIndexed { index, _ ->
                         index in positions
                     }
-                    shareProvider.shareUris(uris)
-                    onComplete()
+                    onComplete(uris.map { it.toUri() })
                 }
 
                 is Screen.WebpTools.Type.ImageToWebp -> {
@@ -365,11 +376,12 @@ class WebpToolsViewModel @Inject constructor(
                                 Locale.getDefault()
                             ).format(Date())
                             val webpName = "WEBP_$timeStamp"
-                            shareProvider.shareByteArray(
+                            shareProvider.cacheByteArray(
                                 byteArray = byteArray,
                                 filename = "$webpName.webp",
-                                onComplete = onComplete
-                            )
+                            )?.let {
+                                onComplete(listOf(it.toUri()))
+                            }
                         }
                     }
                 }

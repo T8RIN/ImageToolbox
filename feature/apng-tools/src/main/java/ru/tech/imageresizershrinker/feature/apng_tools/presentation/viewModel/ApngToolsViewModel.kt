@@ -25,6 +25,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -390,6 +391,24 @@ class ApngToolsViewModel @Inject constructor(
     }
 
     fun performSharing(onComplete: () -> Unit) {
+        cacheImages { uris ->
+            viewModelScope.launch {
+                shareProvider.shareUris(uris.map { it.toString() })
+                onComplete()
+            }
+        }
+    }
+
+    fun setJxlQuality(quality: Quality) {
+        _jxlQuality.update {
+            (quality as? Quality.Jxl) ?: Quality.Jxl()
+        }
+        registerChanges()
+    }
+
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
+    ) {
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
@@ -404,8 +423,7 @@ class ApngToolsViewModel @Inject constructor(
                     val uris = convertedImageUris.filterIndexed { index, _ ->
                         index in positions
                     }
-                    shareProvider.shareUris(uris)
-                    onComplete()
+                    onComplete(uris.map { it.toUri() })
                 }
 
                 is Screen.ApngTools.Type.ImageToApng -> {
@@ -424,11 +442,12 @@ class ApngToolsViewModel @Inject constructor(
                                 Locale.getDefault()
                             ).format(Date())
                             val apngName = "APNG_$timeStamp"
-                            shareProvider.shareByteArray(
+                            shareProvider.cacheByteArray(
                                 byteArray = byteArray,
-                                filename = "$apngName.png",
-                                onComplete = onComplete
-                            )
+                                filename = "$apngName.png"
+                            )?.let {
+                                onComplete(listOf(it.toUri()))
+                            }
                         }
                     }
                 }
@@ -453,20 +472,13 @@ class ApngToolsViewModel @Inject constructor(
                         _done.update { it + 1 }
                     }
 
-                    shareProvider.shareUris(results.filterNotNull())
+                    onComplete(results.mapNotNull { it?.toUri() })
                 }
 
                 null -> Unit
             }
             _isSaving.value = false
         }
-    }
-
-    fun setJxlQuality(quality: Quality) {
-        _jxlQuality.update {
-            (quality as? Quality.Jxl) ?: Quality.Jxl()
-        }
-        registerChanges()
     }
 
 }
