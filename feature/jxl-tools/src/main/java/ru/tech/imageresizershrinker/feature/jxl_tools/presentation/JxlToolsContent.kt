@@ -46,9 +46,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
@@ -69,7 +68,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -459,32 +457,36 @@ fun JxlToolsContent(
                                 )
                             }
 
-                            is Screen.JxlTools.Type.JpegToJxl,
-                            is Screen.JxlTools.Type.JxlToJpeg -> {
-                                UrisPreview(
+                            is Screen.JxlTools.Type.ImageToJxl -> {
+                                ImageReorderCarousel(
+                                    images = uris,
                                     modifier = Modifier
-                                        .then(
-                                            if (!isPortrait) {
-                                                Modifier
-                                                    .layout { measurable, constraints ->
-                                                        val placeable = measurable.measure(
-                                                            constraints = constraints.copy(
-                                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
-                                                            )
-                                                        )
-                                                        layout(placeable.width, placeable.height) {
-                                                            placeable.place(0, 0)
-                                                        }
-                                                    }
-                                                    .verticalScroll(rememberScrollState())
-                                            } else Modifier
+                                        .padding(top = if (isPortrait) 24.dp else 0.dp)
+                                        .container(
+                                            shape = RoundedCornerShape(size = 24.dp),
+                                            color = if (isPortrait) {
+                                                Color.Unspecified
+                                            } else MaterialTheme.colorScheme.surface
+                                        ),
+                                    onReorder = {
+                                        viewModel.setType(
+                                            Screen.JxlTools.Type.ImageToJxl(it)
                                         )
-                                        .padding(vertical = 24.dp),
-                                    uris = uris,
-                                    isPortrait = true,
-                                    onRemoveUri = viewModel::removeUri,
-                                    onAddUris = addImages
+                                    },
+                                    onNeedToAddImage = addImages,
+                                    onNeedToRemoveImageAt = {
+                                        viewModel.setType(
+                                            Screen.JxlTools.Type.ImageToJxl(
+                                                (viewModel.type as Screen.JxlTools.Type.ImageToJxl)
+                                                    .imageUris?.toMutableList()
+                                                    ?.apply {
+                                                        removeAt(it)
+                                                    }
+                                            )
+                                        )
+                                    }
                                 )
+                                Spacer(modifier = Modifier.height(12.dp))
                             }
 
                             else -> Unit
@@ -493,7 +495,8 @@ fun JxlToolsContent(
                 }
             }
         },
-        placeImagePreview = viewModel.type !is Screen.JxlTools.Type.ImageToJxl,
+        placeImagePreview = viewModel.type is Screen.JxlTools.Type.JxlToImage
+                || viewModel.type is Screen.JxlTools.Type.ImageToJxl,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
@@ -520,34 +523,25 @@ fun JxlToolsContent(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
-                is Screen.JxlTools.Type.ImageToJxl -> {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    ImageReorderCarousel(
-                        images = uris,
-                        onReorder = {
-                            viewModel.setType(
-                                Screen.JxlTools.Type.ImageToJxl(it)
-                            )
-                        },
-                        onNeedToAddImage = addImages,
-                        onNeedToRemoveImageAt = {
-                            viewModel.setType(
-                                Screen.JxlTools.Type.ImageToJxl(
-                                    (viewModel.type as Screen.JxlTools.Type.ImageToJxl)
-                                        .imageUris?.toMutableList()
-                                        ?.apply {
-                                            removeAt(it)
-                                        }
-                                )
-                            )
-                        }
+                is Screen.JxlTools.Type.JpegToJxl,
+                is Screen.JxlTools.Type.JxlToJpeg -> {
+                    UrisPreview(
+                        modifier = Modifier
+                            .padding(
+                                vertical = if (isPortrait) 24.dp else 8.dp
+                            ),
+                        uris = uris,
+                        isPortrait = true,
+                        onRemoveUri = viewModel::removeUri,
+                        onAddUris = addImages
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                }
+
+                is Screen.JxlTools.Type.ImageToJxl -> {
                     AnimatedJxlParamsSelector(
                         value = viewModel.params,
                         onValueChange = viewModel::updateParams
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
 
                 else -> Unit

@@ -39,6 +39,7 @@ internal class TimeMeasureInterceptor @Inject constructor() : Interceptor {
         if (transformations.isNotEmpty()) {
             "Time $delta ms for transformations = $transformations, with ${result.request.sizeResolver.size()}".makeLog()
         }
+        "Time $delta ms for ${chain.size}".makeLog()
 
         return result
     }
