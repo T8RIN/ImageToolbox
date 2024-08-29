@@ -1326,4 +1326,8 @@
     <string name="retro_yellow">Retrogelb</string>
     <string name="coffee">Kaffee</string>
     <string name="celluloid">Zelluloid</string>
+    <string name="links_preview">Links Vorschau</string>
+    <string name="links_preview_sub">Aktiviert das Abrufen der Linkvorschau an Stellen, an denen du Text erhalten kannst (QR Code, OCR usw.)</string>
+    <string name="links">Links</string>
+    <string name="ico_size_warning">Ico-Dateien können nur mit einer maximalen Größe von 256x256 gespeichert werden, größere Werte werden im resultierenden Bild erzwungen</string>
 </resources>
