@@ -524,7 +524,7 @@ or click one of the badges below.
     - TIF
     - QOI
     - ICO
-    - SVG and GIF to static raster images
+    - SVG, DNG, PSD, GIF to static raster images
     - Telegram sticker PNG format
 - Files to Zip
 - Comparing images
