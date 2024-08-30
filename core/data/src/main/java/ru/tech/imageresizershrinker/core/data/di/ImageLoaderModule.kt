@@ -32,6 +32,7 @@ import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.github.awxkee.avifcoil.decoder.HeifDecoder
 import com.t8rin.awebp.coil.AnimatedWebPDecoder
+import com.t8rin.psd.coil.PsdDecoder
 import com.t8rin.qoi_coder.coil.QoiDecoder
 import dagger.Module
 import dagger.Provides
@@ -74,7 +75,7 @@ internal object ImageLoaderModule {
         interceptor: TimeMeasureInterceptor
     ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
-            add(AnimatedPngDecoder.Factory(context))
+            add(AnimatedPngDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
             else {
                 add(GifDecoder.Factory())
@@ -84,10 +85,10 @@ internal object ImageLoaderModule {
             //add(AnimatedAVIFDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
             add(AnimatedJxlDecoder.Factory(context))
-            add(Jpeg2000Decoder.Factory(context))
-            add(TiffDecoder.Factory(context))
-            add(QoiDecoder.Factory(context))
-
+            add(Jpeg2000Decoder.Factory())
+            add(TiffDecoder.Factory())
+            add(QoiDecoder.Factory())
+            add(PsdDecoder.Factory())
             if (BuildConfig.DEBUG) add(interceptor)
         }
         .build()

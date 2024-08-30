@@ -9,7 +9,7 @@ versionCode = "151"
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "2.3.5"
+imageToolboxLibs = "2.4.2"
 trickle = "1.1.2"
 
 avifCoder = "1.8.0"
@@ -79,7 +79,34 @@ quickie-foss = { module = "com.github.T8RIN.QuickieExtended:quickie-foss", versi
 zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 capturable = { module = "dev.shreyaspatil:capturable", version.ref = "capturable" }
 documentscanner = { module = "com.github.T8RIN:DocumentScanner", version.ref = "documentScanner" }
+
 imageToolboxLibs = { module = "com.github.T8RIN:ImageToolboxLibs", version.ref = "imageToolboxLibs" }
+toolbox-cropper = { module = "com.github.T8RIN.ImageToolboxLibs:cropper", version.ref = "imageToolboxLibs" }
+toolbox-dynamicTheme = { module = "com.github.T8RIN.ImageToolboxLibs:dynamic-theme", version.ref = "imageToolboxLibs" }
+toolbox-colordetector = { module = "com.github.T8RIN.ImageToolboxLibs:colordetector", version.ref = "imageToolboxLibs" }
+toolbox-gesture = { module = "com.github.T8RIN.ImageToolboxLibs:gesture", version.ref = "imageToolboxLibs" }
+toolbox-beforeafter = { module = "com.github.T8RIN.ImageToolboxLibs:beforeafter", version.ref = "imageToolboxLibs" }
+toolbox-image = { module = "com.github.T8RIN.ImageToolboxLibs:image", version.ref = "imageToolboxLibs" }
+toolbox-screenshot = { module = "com.github.T8RIN.ImageToolboxLibs:screenshot", version.ref = "imageToolboxLibs" }
+toolbox-modalsheet = { module = "com.github.T8RIN.ImageToolboxLibs:modalsheet", version.ref = "imageToolboxLibs" }
+toolbox-gpuimage = { module = "com.github.T8RIN.ImageToolboxLibs:gpuimage", version.ref = "imageToolboxLibs" }
+toolbox-colorpicker = { module = "com.github.T8RIN.ImageToolboxLibs:colorpicker", version.ref = "imageToolboxLibs" }
+toolbox-systemuicontroller = { module = "com.github.T8RIN.ImageToolboxLibs:systemuicontroller", version.ref = "imageToolboxLibs" }
+toolbox-placeholder = { module = "com.github.T8RIN.ImageToolboxLibs:placeholder", version.ref = "imageToolboxLibs" }
+toolbox-logger = { module = "com.github.T8RIN.ImageToolboxLibs:logger", version.ref = "imageToolboxLibs" }
+toolbox-zoomable = { module = "com.github.T8RIN.ImageToolboxLibs:zoomable", version.ref = "imageToolboxLibs" }
+toolbox-extendedcolors = { module = "com.github.T8RIN.ImageToolboxLibs:extendedcolors", version.ref = "imageToolboxLibs" }
+toolbox-androidwm = { module = "com.github.T8RIN.ImageToolboxLibs:androidwm", version.ref = "imageToolboxLibs" }
+toolbox-gifConverter = { module = "com.github.T8RIN.ImageToolboxLibs:gif-converter", version.ref = "imageToolboxLibs" }
+toolbox-apng = { module = "com.github.T8RIN.ImageToolboxLibs:apng", version.ref = "imageToolboxLibs" }
+toolbox-snowfall = { module = "com.github.T8RIN.ImageToolboxLibs:snowfall", version.ref = "imageToolboxLibs" }
+toolbox-svg = { module = "com.github.T8RIN.ImageToolboxLibs:svg", version.ref = "imageToolboxLibs" }
+toolbox-jp2decoder = { module = "com.github.T8RIN.ImageToolboxLibs:jp2decoder", version.ref = "imageToolboxLibs" }
+toolbox-tiffDecoder = { module = "com.github.T8RIN.ImageToolboxLibs:tiffdecoder", version.ref = "imageToolboxLibs" }
+toolbox-qoiCoder = { module = "com.github.T8RIN.ImageToolboxLibs:qoi-coder", version.ref = "imageToolboxLibs" }
+toolbox-awebp = { module = "com.github.T8RIN.ImageToolboxLibs:awebp", version.ref = "imageToolboxLibs" }
+toolbox-psd = { module = "com.github.T8RIN.ImageToolboxLibs:psd", version.ref = "imageToolboxLibs" }
+
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }

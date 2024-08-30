@@ -31,4 +31,7 @@ dependencies {
     implementation(projects.feature.pickColor)
     implementation(projects.feature.compare)
     implementation(libs.kotlin.reflect)
+    implementation(libs.aire)
+    implementation(libs.trickle)
+    implementation(libs.toolbox.gpuimage)
 }

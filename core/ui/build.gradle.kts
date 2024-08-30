@@ -50,7 +50,21 @@ dependencies {
     api(libs.coilSvg)
 
     //Modules
-    api(libs.imageToolboxLibs)
+    api(libs.toolbox.cropper)
+    api(libs.toolbox.dynamicTheme)
+    api(libs.toolbox.colordetector)
+    api(libs.toolbox.gesture)
+    api(libs.toolbox.beforeafter)
+    api(libs.toolbox.image)
+    api(libs.toolbox.screenshot)
+    api(libs.toolbox.modalsheet)
+    api(libs.toolbox.colorpicker)
+    api(libs.toolbox.systemuicontroller)
+    api(libs.toolbox.placeholder)
+    api(libs.toolbox.logger)
+    api(libs.toolbox.zoomable)
+    api(libs.toolbox.snowfall)
+    api(libs.toolbox.extendedcolors)
 
     api(libs.reorderable)
 
@@ -76,8 +90,8 @@ dependencies {
 
     "marketImplementation"(libs.quickie.bundled)
     "fossImplementation"(libs.quickie.foss)
-    api(libs.zxing.android.embedded)
+    implementation(libs.zxing.android.embedded)
+    implementation(libs.jsoup)
 
     api(libs.capturable)
-    api(libs.jsoup)
 }

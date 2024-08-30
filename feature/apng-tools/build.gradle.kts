@@ -23,3 +23,8 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.apng_tools"
+
+dependencies {
+    implementation(libs.toolbox.apng)
+    implementation(libs.jxl.coder)
+}

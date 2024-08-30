@@ -23,3 +23,9 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.gif_tools"
+
+dependencies {
+    implementation(libs.toolbox.awebp)
+    implementation(libs.toolbox.gifConverter)
+    implementation(libs.jxl.coder)
+}

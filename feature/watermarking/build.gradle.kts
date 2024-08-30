@@ -26,4 +26,5 @@ android.namespace = "ru.tech.imageresizershrinker.feature.watermarking"
 
 dependencies {
     implementation(projects.feature.compare)
+    implementation(libs.toolbox.androidwm)
 }

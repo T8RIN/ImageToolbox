@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.jxl_tools"
+
+dependencies {
+    implementation(libs.jxl.coder)
+}

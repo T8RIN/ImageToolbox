@@ -15,20 +15,44 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.core.domain.image.model
 
-android.namespace = "ru.tech.imageresizershrinker.core.settings"
+enum class TiffCompressionScheme(val value: Int) {
+    /**
+     * No compression
+     */
+    NONE(1),
 
-dependencies {
-    implementation(libs.datastore.preferences.android)
-    implementation(libs.kotlinx.collections.immutable)
+    /**
+     * CCITT modified Huffman RLE
+     */
+    CCITTRLE(2),
 
-    implementation(libs.toolbox.dynamicTheme)
-    implementation(projects.core.domain)
-    implementation(projects.core.resources)
-    implementation(projects.core.di)
+    /**
+     * CCITT Group 3 fax encoding
+     */
+    CCITTFAX3(3),
+
+    /**
+     * CCITT Group 4 fax encoding
+     */
+    CCITTFAX4(4),
+
+    /**
+     * LZW
+     */
+    LZW(5),
+
+    /**
+     * JPEG ('new-style' JPEG)
+     */
+    JPEG(7),
+    PACKBITS(32773),
+    DEFLATE(32946),
+    ADOBE_DEFLATE(8),
+
+    /**
+     * All other compression schemes
+     */
+    OTHER(0)
 }

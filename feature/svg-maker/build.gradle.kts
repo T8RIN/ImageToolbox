@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.svg_maker"
+
+dependencies {
+    implementation(libs.toolbox.svg)
+}

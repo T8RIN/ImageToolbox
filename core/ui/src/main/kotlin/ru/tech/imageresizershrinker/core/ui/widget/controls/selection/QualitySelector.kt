@@ -56,9 +56,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.beyka.tiffbitmapfactory.CompressionScheme
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.TiffCompressionScheme
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.QualityHigh
 import ru.tech.imageresizershrinker.core.resources.icons.QualityLow
@@ -284,7 +284,7 @@ fun QualitySelector(
                 AnimatedVisibility(imageFormat is ImageFormat.Tiff || imageFormat is ImageFormat.Tif) {
                     val tiffQuality = quality as? Quality.Tiff
                     val compressionItems = remember {
-                        CompressionScheme.entries
+                        TiffCompressionScheme.entries
                     }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -366,12 +366,12 @@ private fun ImageFormat.isMidQuality(quality: Int): Boolean {
     return quality > range * (2 / 5f)
 }
 
-private val CompressionScheme.title: String
+private val TiffCompressionScheme.title: String
     get() = when (this) {
-        CompressionScheme.CCITTRLE -> "RLE"
-        CompressionScheme.CCITTFAX3 -> "FAX 3"
-        CompressionScheme.CCITTFAX4 -> "FAX 4"
-        CompressionScheme.ADOBE_DEFLATE -> "ADOBE DEFLATE"
+        TiffCompressionScheme.CCITTRLE -> "RLE"
+        TiffCompressionScheme.CCITTFAX3 -> "FAX 3"
+        TiffCompressionScheme.CCITTFAX4 -> "FAX 4"
+        TiffCompressionScheme.ADOBE_DEFLATE -> "ADOBE DEFLATE"
         else -> this.name
     }
 

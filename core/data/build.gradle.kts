@@ -25,27 +25,33 @@ android.namespace = "ru.tech.imageresizershrinker.core.data"
 dependencies {
     api(libs.coil)
     api(libs.coilCompose)
-    api(libs.coilGif)
-    api(libs.coilSvg)
+    implementation(libs.coilGif)
+    implementation(libs.coilSvg)
+
     api(libs.datastore.preferences.android)
 
-    api(libs.avif.coder.coil) {
+    implementation(libs.avif.coder.coil) {
         exclude(module = "com.github.awxkee:avif-coder")
     }
-    api(libs.avif.coder)
-    api(libs.jxl.coder.coil) {
+    implementation(libs.avif.coder)
+    implementation(libs.jxl.coder.coil) {
         exclude(module = "com.github.awxkee:jxl-coder")
     }
-    api(libs.jxl.coder)
-    api(libs.aire)
-    api(libs.trickle)
+    implementation(libs.jxl.coder)
+
+    implementation(libs.aire)
 
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)
 
-    api(libs.tesseract)
+    api(libs.toolbox.logger)
 
-    implementation(libs.imageToolboxLibs)
+    implementation(libs.toolbox.tiffDecoder)
+    implementation(libs.toolbox.qoiCoder)
+    implementation(libs.toolbox.jp2decoder)
+    implementation(libs.toolbox.awebp)
+    implementation(libs.toolbox.psd)
+    implementation(libs.toolbox.apng)
 
     implementation(projects.core.domain)
     implementation(projects.core.resources)
