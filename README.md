@@ -523,6 +523,7 @@ or click one of the badges below.
     - TIFF
     - TIF
     - QOI
+    - ICO
     - SVG and GIF to static raster images
     - Telegram sticker PNG format
 - Files to Zip
@@ -547,7 +548,7 @@ or click one of the badges below.
 - Additional Features
     - Rotating
     - Flipping
-    - Previewing SVG, GIF and almost all types of images
+    - Previewing SVG, DNG, PSD and almost all types of images
     - Saving to any specific folder
     - Long press on save to choose one time output folder
     - Randomizing output filename
