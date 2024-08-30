@@ -32,19 +32,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
 fun MediaCheckBox(
     modifier: Modifier = Modifier,
     isChecked: Boolean,
     onCheck: (() -> Unit)? = null,
+    checkedIcon: ImageVector = Icons.Filled.CheckCircle,
+    checkedColor: Color = MaterialTheme.colorScheme.primary,
     uncheckedColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     val image = if (isChecked) {
-        Icons.Filled.CheckCircle
+        checkedIcon
     } else Icons.Outlined.Circle
     val color by animateColorAsState(
-        if (isChecked) MaterialTheme.colorScheme.primary
+        if (isChecked) checkedColor
         else uncheckedColor
     )
     if (onCheck != null) {

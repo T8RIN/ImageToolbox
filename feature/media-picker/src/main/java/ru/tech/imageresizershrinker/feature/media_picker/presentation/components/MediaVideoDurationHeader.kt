@@ -38,6 +38,8 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.theme.Black
+import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.formatMinSec
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 
@@ -61,7 +63,7 @@ fun MediaVideoDurationHeader(
             modifier = Modifier,
             text = media.duration.formatMinSec(),
             style = MaterialTheme.typography.labelSmall,
-            color = Color.White
+            color = White
         )
         Spacer(modifier = Modifier.size(2.dp))
         Image(
@@ -74,14 +76,42 @@ fun MediaVideoDurationHeader(
                     offsetY = (-2).dp
                 ),
             imageVector = Icons.Rounded.PlayCircle,
-            colorFilter = ColorFilter.tint(color = Color.White),
+            colorFilter = ColorFilter.tint(color = White),
             contentDescription = "Video"
         )
     }
 }
 
-fun Modifier.advancedShadow(
-    color: Color = Color.Black,
+@Composable
+fun MediaExtensionHeader(
+    modifier: Modifier = Modifier,
+    media: Media
+) {
+    Row(
+        modifier = modifier
+            .padding(8.dp)
+            .padding(vertical = 2.dp)
+            .advancedShadow(
+                cornersRadius = 4.dp,
+                shadowBlurRadius = 6.dp,
+                alpha = 0.4f
+            )
+            .padding(horizontal = 2.dp),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier,
+            text = media.fileExtension.uppercase(),
+            style = MaterialTheme.typography.labelMedium,
+            color = White
+        )
+    }
+}
+
+@Composable
+private fun Modifier.advancedShadow(
+    color: Color = Black,
     alpha: Float = 1f,
     cornersRadius: Dp = 0.dp,
     shadowBlurRadius: Dp = 0.dp,
