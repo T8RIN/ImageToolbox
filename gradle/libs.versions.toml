@@ -9,7 +9,7 @@ versionCode = "151"
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "2.4.2"
+imageToolboxLibs = "2.4.3"
 trickle = "1.1.2"
 
 avifCoder = "1.8.0"
@@ -80,7 +80,6 @@ zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", ve
 capturable = { module = "dev.shreyaspatil:capturable", version.ref = "capturable" }
 documentscanner = { module = "com.github.T8RIN:DocumentScanner", version.ref = "documentScanner" }
 
-imageToolboxLibs = { module = "com.github.T8RIN:ImageToolboxLibs", version.ref = "imageToolboxLibs" }
 toolbox-cropper = { module = "com.github.T8RIN.ImageToolboxLibs:cropper", version.ref = "imageToolboxLibs" }
 toolbox-dynamicTheme = { module = "com.github.T8RIN.ImageToolboxLibs:dynamic-theme", version.ref = "imageToolboxLibs" }
 toolbox-colordetector = { module = "com.github.T8RIN.ImageToolboxLibs:colordetector", version.ref = "imageToolboxLibs" }
