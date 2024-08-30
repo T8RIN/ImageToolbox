@@ -1329,4 +1329,5 @@
     <string name="links_preview">Links Voorbeeld</string>
     <string name="links">Links</string>
     <string name="links_preview_sub">Hiermee kunt u een voorbeeld van een link ophalen op plaatsen waar u tekst kunt verkrijgen (QRCode, OCR etc)</string>
+    <string name="ico_size_warning">Ico-bestanden kunnen alleen worden opgeslagen met een maximale grootte van 256*256, grotere waarden worden naar deze afmetingen verkleind</string>
 </resources>
