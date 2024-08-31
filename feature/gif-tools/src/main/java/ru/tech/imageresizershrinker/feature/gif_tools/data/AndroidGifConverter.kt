@@ -168,12 +168,14 @@ internal class AndroidGifConverter @Inject constructor(
                     backgroundColor = Color.Transparent.toArgb()
                 )
 
-                encoder
-                    .loadGif(uri.file)
-                    .encode()
-                    .let {
-                        onProgress(uri, it)
-                    }
+                runCatching {
+                    encoder
+                        .loadGif(uri.file)
+                        .encode()
+                        .let {
+                            onProgress(uri, it)
+                        }
+                }.getOrNull()
             }
         }
     }

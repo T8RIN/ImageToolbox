@@ -121,7 +121,10 @@ internal class AndroidWebpConverter @Inject constructor(
             }
             onProgress()
         }
-        encoder.encode()
+
+        runCatching {
+            encoder.encode()
+        }.onFailure(onError).getOrNull()
     }
 
     private val String.inputStream: InputStream?
