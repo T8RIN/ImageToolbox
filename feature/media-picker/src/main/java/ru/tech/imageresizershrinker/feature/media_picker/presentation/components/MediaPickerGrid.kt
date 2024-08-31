@@ -16,36 +16,86 @@
  */
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.components
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
+import ru.tech.imageresizershrinker.core.ui.theme.White
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.animation.PageCloseTransition
+import ru.tech.imageresizershrinker.core.ui.utils.animation.PageOpenTransition
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaItem
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaState
@@ -67,6 +117,23 @@ fun MediaPickerGrid(
 
     LaunchedEffect(state.media) {
         gridState.scrollToItem(0)
+    }
+
+    var imagePreviewUri by rememberSaveable {
+        mutableStateOf<String?>(null)
+    }
+
+    val onMediaClick: (Media) -> Unit = {
+        if (allowSelection) {
+            if (selectedMedia.contains(it)) selectedMedia.remove(it)
+            else selectedMedia.add(it)
+        } else {
+            if (selectedMedia.contains(it)) selectedMedia.remove(it)
+            else {
+                if (selectedMedia.isNotEmpty()) selectedMedia[0] = it
+                else selectedMedia.add(it)
+            }
+        }
     }
 
     val layoutDirection = LocalLayoutDirection.current
@@ -140,19 +207,6 @@ fun MediaPickerGrid(
                 is MediaItem.MediaViewItem -> {
                     val selectionState = remember { mutableStateOf(true) }
 
-                    val onClick: (Media) -> Unit = {
-                        if (allowSelection) {
-                            if (selectedMedia.contains(it)) selectedMedia.remove(it)
-                            else selectedMedia.add(it)
-                        } else {
-                            if (selectedMedia.contains(it)) selectedMedia.remove(it)
-                            else {
-                                if (selectedMedia.isNotEmpty()) selectedMedia[0] = it
-                                else selectedMedia.add(it)
-                            }
-                        }
-                    }
-
                     MediaImage(
                         modifier = Modifier.animateItem(),
                         media = item.media,
@@ -162,7 +216,7 @@ fun MediaPickerGrid(
                             hapticFeedback.performHapticFeedback(
                                 HapticFeedbackType.TextHandleMove
                             )
-                            onClick(it)
+                            onMediaClick(it)
                         },
                         isSelected = remember(item, selectedMedia) {
                             derivedStateOf {
@@ -170,12 +224,189 @@ fun MediaPickerGrid(
                             }
                         }.value,
                         onItemLongClick = {
-                            hapticFeedback.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
-                            onClick(it)
+                            imagePreviewUri = it.uri
                         }
                     )
+                }
+            }
+        }
+    }
+
+    FullscreenPopup {
+        AnimatedVisibility(
+            visible = imagePreviewUri != null,
+            modifier = Modifier.fillMaxSize(),
+            enter = PageOpenTransition,
+            exit = PageCloseTransition
+        ) {
+            val initialPage by remember(imagePreviewUri, state.media) {
+                derivedStateOf {
+                    imagePreviewUri?.let {
+                        state.media.indexOfFirst { it.uri == imagePreviewUri }
+                    }?.takeIf { it >= 0 } ?: 0
+                }
+            }
+            val pagerState = rememberPagerState(
+                initialPage = initialPage,
+                pageCount = {
+                    state.media.size
+                }
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f))
+                    .pointerInput(Unit) {
+                        detectTapGestures { }
+                    }
+            ) {
+                val imageErrorPages = remember {
+                    mutableStateListOf<Int>()
+                }
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.fillMaxSize(),
+                    beyondViewportPageCount = 5,
+                    pageSpacing = 16.dp
+                ) { page ->
+                    val media = state.media.getOrNull(page)
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Picture(
+                            showTransparencyChecker = false,
+                            model = media?.uri,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clipToBounds()
+                                .zoomable(rememberZoomState(8f))
+                                .systemBarsPadding()
+                                .displayCutoutPadding(),
+                            contentScale = ContentScale.Fit,
+                            shape = RectangleShape,
+                            onSuccess = {
+                                imageErrorPages.remove(page)
+                            },
+                            onError = {
+                                imageErrorPages.add(page)
+                            },
+                            error = {
+                                Box(
+                                    contentAlignment = Alignment.Center,
+                                    modifier = Modifier.background(
+                                        takeColorFromScheme { isNightMode ->
+                                            errorContainer.copy(
+                                                if (isNightMode) 0.25f
+                                                else 1f
+                                            ).compositeOver(surface)
+                                        }
+                                    )
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.BrokenImageVariant,
+                                        contentDescription = null,
+                                        modifier = Modifier.fillMaxSize(0.5f),
+                                        tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)
+                                    )
+                                }
+                            }
+                        )
+                    }
+                }
+                val currentMedia = state.media.getOrNull(pagerState.currentPage)
+                EnhancedTopAppBar(
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
+                    type = EnhancedTopAppBarType.Center,
+                    modifier = Modifier,
+                    title = {
+                        state.media.size.takeIf { it > 1 }?.let {
+                            Text(
+                                text = "${pagerState.currentPage + 1}/$it",
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                                        shape = CircleShape
+                                    )
+                                    .padding(vertical = 4.dp, horizontal = 12.dp),
+                                color = White
+                            )
+                        }
+                    },
+                    actions = {
+                        val isImageError = imageErrorPages.contains(pagerState.currentPage)
+                        AnimatedVisibility(
+                            visible = state.media.isNotEmpty(),
+                            enter = fadeIn() + scaleIn(),
+                            exit = fadeOut() + scaleOut()
+                        ) {
+                            MediaCheckBox(
+                                modifier = Modifier.background(
+                                    color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                                    shape = CircleShape
+                                ),
+                                isChecked = selectedMedia.contains(currentMedia),
+                                onCheck = {
+                                    currentMedia?.let(onMediaClick)
+                                },
+                                uncheckedColor = White,
+                                checkedColor = if (isImageError) {
+                                    MaterialTheme.colorScheme.error
+                                } else MaterialTheme.colorScheme.primary,
+                                checkedIcon = if (isImageError) {
+                                    Icons.Filled.Error
+                                } else Icons.Filled.CheckCircle
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        AnimatedVisibility(state.media.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .minimumInteractiveComponentSize()
+                                    .size(48.dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                                        shape = CircleShape
+                                    )
+                                    .padding(4.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        imagePreviewUri = null
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit),
+                                    tint = White
+                                )
+                            }
+                        }
+                    },
+                )
+                currentMedia?.label?.let {
+                    Text(
+                        text = it,
+                        modifier = Modifier
+                            .animateContentSize()
+                            .align(Alignment.BottomCenter)
+                            .padding(16.dp)
+                            .navigationBarsPadding()
+                            .background(
+                                color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                                shape = CircleShape
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        color = White
+                    )
+                }
+            }
+
+            if (imagePreviewUri != null) {
+                BackHandler {
+                    imagePreviewUri = null
                 }
             }
         }

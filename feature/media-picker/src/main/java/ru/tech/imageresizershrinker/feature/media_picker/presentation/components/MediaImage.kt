@@ -89,13 +89,13 @@ fun MediaImage(
     val strokeSize by animateDpAsState(
         targetValue = if (isSelected) 2.dp else 0.dp, label = "strokeSize"
     )
-    var isImageLoaded by remember {
+    var isImageError by remember {
         mutableStateOf(false)
     }
     val strokeColor = takeColorFromScheme {
         if (isSelected) {
-            if (isImageLoaded) primaryContainer
-            else errorContainer
+            if (isImageError) errorContainer
+            else primaryContainer
         } else Color.Transparent
     }
 
@@ -144,10 +144,10 @@ fun MediaImage(
                 contentDescription = media.label,
                 contentScale = ContentScale.Crop,
                 onSuccess = {
-                    isImageLoaded = true
+                    isImageError = false
                 },
                 onError = {
-                    isImageLoaded = false
+                    isImageError = true
                 },
                 error = {
                     Box(
@@ -226,12 +226,12 @@ fun MediaImage(
                 MediaCheckBox(
                     isChecked = isSelected,
                     uncheckedColor = White.copy(0.8f),
-                    checkedColor = if (isImageLoaded) {
-                        MaterialTheme.colorScheme.primary
-                    } else MaterialTheme.colorScheme.error,
-                    checkedIcon = if (isImageLoaded) {
-                        Icons.Filled.CheckCircle
-                    } else Icons.Filled.Error,
+                    checkedColor = if (isImageError) {
+                        MaterialTheme.colorScheme.error
+                    } else MaterialTheme.colorScheme.primary,
+                    checkedIcon = if (isImageError) {
+                        Icons.Filled.Error
+                    } else Icons.Filled.CheckCircle,
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(
