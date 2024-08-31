@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toClipData
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
@@ -114,11 +115,20 @@ class MediaPickerActivity : M3Activity() {
             if (selectedMedia.size == 1) Intent.ACTION_SEND
             else Intent.ACTION_SEND_MULTIPLE
         ).apply {
-            if (selectedMedia.size == 1) data = selectedMedia.first()
-            else putParcelableArrayListExtra(
-                Intent.EXTRA_STREAM,
-                ArrayList(selectedMedia)
-            )
+            if (selectedMedia.size == 1) {
+                data = selectedMedia.first()
+                clipData = selectedMedia.toClipData()
+                putExtra(
+                    Intent.EXTRA_STREAM,
+                    selectedMedia.first()
+                )
+            } else {
+                clipData = selectedMedia.toClipData()
+                putParcelableArrayListExtra(
+                    Intent.EXTRA_STREAM,
+                    ArrayList(selectedMedia)
+                )
+            }
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
         setResult(RESULT_OK, newIntent)

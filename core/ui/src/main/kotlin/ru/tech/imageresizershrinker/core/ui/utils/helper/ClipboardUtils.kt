@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import android.content.ClipData
+import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
 import android.net.Uri
@@ -121,6 +122,21 @@ fun ClipData.clipList() = List(
         getItemAt(it).uri
     }
 ).filterNotNull()
+
+fun List<Uri>.toClipData(): ClipData? {
+    if (this.isEmpty()) return null
+
+    return ClipData(
+        ClipDescription(
+            "Images", arrayOf("image/*")
+        ),
+        ClipData.Item(this.first())
+    ).apply {
+        this@toClipData.drop(1).forEach {
+            addItem(ClipData.Item(it))
+        }
+    }
+}
 
 fun Uri.asClip(
     context: Context

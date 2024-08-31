@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -31,6 +32,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -48,8 +50,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,6 +65,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -72,6 +77,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PageCloseTransition
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PageOpenTransition
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
@@ -239,6 +245,31 @@ fun ImagePager(
                     }
                 },
             )
+            val context = LocalContext.current
+            val selectedUriFilename by remember(selectedUri) {
+                derivedStateOf {
+                    selectedUri?.let {
+                        context.getFilename(it)
+                    }
+                }
+            }
+
+            selectedUriFilename?.let {
+                Text(
+                    text = it,
+                    modifier = Modifier
+                        .animateContentSize()
+                        .align(Alignment.BottomCenter)
+                        .padding(16.dp)
+                        .navigationBarsPadding()
+                        .background(
+                            color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                            shape = CircleShape
+                        )
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    color = White
+                )
+            }
         }
 
         ProcessImagesPreferenceSheet(

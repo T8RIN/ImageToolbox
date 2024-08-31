@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -64,18 +65,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
+import ru.tech.imageresizershrinker.core.ui.theme.White
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.advancedShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 
@@ -104,6 +111,7 @@ fun ImagesPreviewWithSelection(
             fontWeight = FontWeight.Medium
         )
     },
+    showExtension: Boolean = true,
     endAdditionalItem: (@Composable LazyGridItemScope.() -> Unit)? = null,
     isContentAlignToCenter: Boolean = true
 ) {
@@ -221,7 +229,8 @@ fun ImagesPreviewWithSelection(
                         onError = onError,
                         isAboveImageScrimEnabled = isAboveImageScrimEnabled,
                         isSelectionMode = isSelectionMode,
-                        aboveImageContent = aboveImageContent
+                        aboveImageContent = aboveImageContent,
+                        showExtension = showExtension
                     )
                 }
                 endAdditionalItem?.let {
@@ -294,7 +303,8 @@ fun ImagesPreviewWithSelection(
                         onError = onError,
                         aboveImageContent = aboveImageContent,
                         isSelectionMode = isSelectionMode,
-                        isAboveImageScrimEnabled = isAboveImageScrimEnabled
+                        isAboveImageScrimEnabled = isAboveImageScrimEnabled,
+                        showExtension = showExtension
                     )
                 }
                 endAdditionalItem?.let {
@@ -342,6 +352,7 @@ private fun ImageItem(
     selected: Boolean,
     isSelectionMode: Boolean,
     isAboveImageScrimEnabled: Boolean,
+    showExtension: Boolean,
     aboveImageContent: @Composable BoxScope.(index: Int) -> Unit = {
         Text(
             text = (index + 1).toString(),
@@ -374,6 +385,7 @@ private fun ImageItem(
             onError = {
                 onError(uri)
             },
+            filterQuality = FilterQuality.High,
             shape = RectangleShape,
             model = uri
         )
@@ -389,6 +401,41 @@ private fun ImageItem(
             contentAlignment = Alignment.Center,
             content = {
                 aboveImageContent(index)
+
+                if (showExtension) {
+                    val context = LocalContext.current
+                    val extension by remember(uri) {
+                        derivedStateOf {
+                            uri.toUri().let { uri ->
+                                context.getFilename(uri)?.takeLastWhile { it != '.' }?.uppercase()
+                            }
+                        }
+                    }
+
+                    extension?.let {
+                        Row(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(8.dp)
+                                .padding(vertical = 2.dp)
+                                .advancedShadow(
+                                    cornersRadius = 4.dp,
+                                    shadowBlurRadius = 6.dp,
+                                    alpha = 0.4f
+                                )
+                                .padding(horizontal = 2.dp),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                modifier = Modifier,
+                                text = it,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = White
+                            )
+                        }
+                    }
+                }
             }
         )
         AnimatedContent(
