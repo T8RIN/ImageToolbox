@@ -97,7 +97,9 @@ fun MediaPickerScreen(
     allowedMedia: AllowedMedia,
     allowSelection: Boolean,
     viewModel: MediaPickerViewModel,
-    sendMediaAsResult: (List<Uri>) -> Unit
+    sendMediaAsResult: (List<Uri>) -> Unit,
+    onRequestManagePermission: () -> Unit,
+    isManagePermissionAllowed: Boolean
 ) {
     val scope = rememberCoroutineScope()
     var selectedAlbumIndex by rememberSaveable { mutableLongStateOf(-1) }
@@ -124,8 +126,8 @@ fun MediaPickerScreen(
                     .background(MaterialTheme.colorScheme.surfaceContainer)
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterHorizontally
+                    space = 8.dp,
+                    alignment = Alignment.CenterHorizontally
                 ),
                 contentPadding = PaddingValues(
                     start = WindowInsets.displayCutout
@@ -173,7 +175,9 @@ fun MediaPickerScreen(
                     state = mediaState,
                     selectedMedia = selectedMedia,
                     allowSelection = allowSelection,
-                    isButtonVisible = isButtonVisible
+                    isButtonVisible = isButtonVisible,
+                    isManagePermissionAllowed = isManagePermissionAllowed,
+                    onRequestManagePermission = onRequestManagePermission
                 )
                 BoxAnimatedVisibility(
                     modifier = Modifier

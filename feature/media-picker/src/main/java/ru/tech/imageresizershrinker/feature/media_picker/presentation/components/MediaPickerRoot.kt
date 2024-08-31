@@ -25,7 +25,14 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.twotone.BrokenImage
@@ -33,7 +40,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,7 +57,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
 import ru.tech.imageresizershrinker.core.resources.R
@@ -64,36 +77,44 @@ internal fun MediaPickerActivity.MediaPickerRoot(
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
 ) {
-    var permissionAllowed by remember {
+    var isPermissionAllowed by remember {
+        mutableStateOf(true)
+    }
+    var isManagePermissionAllowed by remember {
         mutableStateOf(true)
     }
     var invalidator by remember {
         mutableIntStateOf(0)
     }
 
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
         invalidator++
     }
 
-    val lifecycleEvent by   LocalLifecycleOwner.current.lifecycle.observeAsState()
+    val requestManagePermission = {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            launcher.launch(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+        }
+    }
+
+    val lifecycleEvent by LocalLifecycleOwner.current.lifecycle.observeAsState()
     LaunchedEffect(
         lifecycleEvent,
         invalidator
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
-            permissionAllowed = hasPermissionAllowed(permission)
+            isPermissionAllowed = hasPermissionAllowed(permission)
+            isManagePermissionAllowed = Environment.isExternalStorageManager()
             if (!hasPermissionAllowed(permission)) {
                 ActivityCompat.requestPermissions(
                     this@MediaPickerRoot,
                     arrayOf(permission),
                     0
                 )
-            } else if (!Environment.isExternalStorageManager()) {
-                if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
-                    launcher.launch(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
-                }
-            } else{
+            } else {
                 viewModel.init(allowedMedia)
             }
         }
@@ -128,7 +149,7 @@ internal fun MediaPickerActivity.MediaPickerRoot(
         }
     ) {
         AnimatedContent(
-            targetState = permissionAllowed,
+            targetState = isPermissionAllowed,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = it.calculateTopPadding())
@@ -141,7 +162,9 @@ internal fun MediaPickerActivity.MediaPickerRoot(
                         allowedMedia = allowedMedia,
                         allowSelection = allowMultiple,
                         viewModel = viewModel,
-                        sendMediaAsResult = ::sendMediaAsResult
+                        sendMediaAsResult = ::sendMediaAsResult,
+                        isManagePermissionAllowed = isManagePermissionAllowed,
+                        onRequestManagePermission = requestManagePermission
                     )
                     LaunchedEffect(Unit) {
                         viewModel.init(allowedMedia = allowedMedia)
