@@ -1330,4 +1330,13 @@
     <string name="links">Links</string>
     <string name="links_preview_sub">Hiermee kunt u een voorbeeld van een link ophalen op plaatsen waar u tekst kunt verkrijgen (QRCode, OCR etc)</string>
     <string name="ico_size_warning">Ico-bestanden kunnen alleen worden opgeslagen met een maximale grootte van 256*256, grotere waarden worden naar deze afmetingen verkleind</string>
+    <string name="webp_type_to_webp_sub">Converteer een reeks afbeeldingen naar een WEBP-bestand</string>
+    <string name="webp_type_to_webp">Images naar WEBP</string>
+    <string name="select_webp_image_to_start">Kies een WEBP-afbeelding om te starten</string>
+    <string name="gif_type_to_webp">GIF naar WEBP</string>
+    <string name="gif_type_to_webp_sub">Converteer GIF-afbeeldingen naar WEBP-animatiefoto\'s</string>
+    <string name="webp_type_to_image_sub">Converteer het WEBP-bestand naar een reeks afbeeldingen</string>
+    <string name="webp_tools">WEBP-hulpmiddelen</string>
+    <string name="webp_tools_sub">Converteer afbeeldingen naar WEBP-animatie of extraheer frames van gegeven WEBP-animatie</string>
+    <string name="webp_type_to_image">WEBP naar afbeeldingen</string>
 </resources>
