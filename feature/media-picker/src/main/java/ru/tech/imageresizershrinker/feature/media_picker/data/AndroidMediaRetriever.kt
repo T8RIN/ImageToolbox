@@ -28,16 +28,9 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.feature.media_picker.data.utils.Query
-import ru.tech.imageresizershrinker.feature.media_picker.data.utils.contentFlowObserver
-import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getAlbums
-import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getMedia
+import ru.tech.imageresizershrinker.feature.media_picker.data.utils.*
 import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRetriever
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaOrder
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
+import ru.tech.imageresizershrinker.feature.media_picker.domain.model.*
 import javax.inject.Inject
 
 internal class AndroidMediaRetriever @Inject constructor(
@@ -66,7 +59,21 @@ internal class AndroidMediaRetriever @Inject constructor(
                 )
             }
         )
-        it.getAlbums(query, mediaOrder = MediaOrder.Label(OrderType.Ascending))
+        val fileQuery = Query.AlbumQuery().copy(
+            bundle = Bundle().apply {
+                val extensions = getSupportedFileSequence(allowedMedia).toList()
+                putString(
+                    ContentResolver.QUERY_ARG_SQL_SELECTION,
+                    extensions.asSequence().map { MediaStore.MediaColumns.DATA + " LIKE ?" }
+                        .joinToString(" OR ")
+                )
+                putStringArray(
+                    ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
+                    extensions.toTypedArray()
+                )
+            }
+        )
+        it.getAlbums(query, fileQuery, mediaOrder = MediaOrder.Label(OrderType.Ascending))
     }
 
     override fun mediaFlowWithType(
@@ -92,32 +99,51 @@ internal class AndroidMediaRetriever @Inject constructor(
                 }
                 putString(
                     ContentResolver.QUERY_ARG_SQL_SELECTION,
-                    MediaStore.MediaColumns.BUCKET_ID + "= ? and " + MediaStore.MediaColumns.MIME_TYPE + " like ?"
+                    MediaStore.MediaColumns.BUCKET_ID + "= ? and (" + MediaStore.MediaColumns.MIME_TYPE + " like ? OR ${MediaStore.MediaColumns.DATA} LIKE ?)"
                 )
                 putStringArray(
                     ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
-                    arrayOf(albumId.toString(), mimeType)
+                    arrayOf(albumId.toString(), mimeType, "%.jxl")
+                )
+            }
+        )
+        val fileQuery = Query.MediaQuery().copy(
+            bundle = Bundle().apply {
+                val extensions = getSupportedFileSequence(allowedMedia).toList()
+
+                putString(
+                    ContentResolver.QUERY_ARG_SQL_SELECTION,
+                    MediaStore.MediaColumns.BUCKET_ID + "= ? and ("
+                            + extensions.asSequence().map { MediaStore.MediaColumns.DATA + " LIKE ?" }
+                        .joinToString(" OR ")
+                            + ")"
+                )
+                putStringArray(
+                    ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
+                    arrayOf(albumId.toString(), *extensions.toTypedArray())
                 )
             }
         )
         /** return@retrieveMedia */
-        it.getMedia(query)
+        it.getMedia(query, fileQuery)
     }
 
     override fun getMediaByType(
         allowedMedia: AllowedMedia
-    ): Flow<Result<List<Media>>> = context.retrieveMedia {
+    ): Flow<Result<List<Media>>> = context.retrieveMedia { it ->
         val query = when (allowedMedia) {
             is AllowedMedia.Photos -> Query.PhotoQuery()
             AllowedMedia.Videos -> Query.VideoQuery()
             AllowedMedia.Both -> Query.MediaQuery()
         }
-        it.getMedia(mediaQuery = query)
+        val fileQuery = Query.FileQuery(getSupportedFileSequence(allowedMedia).toList())
+        it.getMedia(mediaQuery = query, fileQuery = fileQuery)
     }
 
     private val uris = arrayOf(
         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+        MediaStore.Files.getContentUri("external")
     )
 
     private fun Context.retrieveMedia(
