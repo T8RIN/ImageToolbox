@@ -51,6 +51,11 @@ import java.nio.ByteOrder
 
 internal abstract class SimpleCompressor {
 
+    abstract suspend fun compress(
+        image: Bitmap,
+        quality: Quality
+    ): ByteArray
+
     companion object {
 
         fun getInstance(
@@ -89,11 +94,6 @@ internal abstract class SimpleCompressor {
         }
 
     }
-
-    abstract suspend fun compress(
-        image: Bitmap,
-        quality: Quality
-    ): ByteArray
 
     data object Jpg : SimpleCompressor() {
 

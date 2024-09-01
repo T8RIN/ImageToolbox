@@ -68,6 +68,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageResizer.Launcher"
+        tools:replace="android:allowBackup, android:label"
         tools:targetApi="tiramisu">
 
         <profileable
