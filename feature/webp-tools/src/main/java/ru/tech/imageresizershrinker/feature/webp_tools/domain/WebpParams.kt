@@ -32,7 +32,7 @@ data class WebpParams(
                 size = null,
                 repeatCount = 1,
                 delay = 1000,
-                quality = Quality.Base(5)
+                quality = Quality.Base(100)
             )
         }
     }
