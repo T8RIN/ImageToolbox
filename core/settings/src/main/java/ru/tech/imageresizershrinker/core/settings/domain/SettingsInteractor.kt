@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.settings.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -182,5 +183,9 @@ interface SettingsInteractor : SimpleSettingInteractor {
     suspend fun toggleFavoriteScreen(screenId: Int)
 
     suspend fun toggleIsLinkPreviewEnabled()
+
+    suspend fun setDefaultDrawColor(color: ColorModel)
+
+    suspend fun setDefaultDrawPathMode(modeOrdinal: Int)
 
 }

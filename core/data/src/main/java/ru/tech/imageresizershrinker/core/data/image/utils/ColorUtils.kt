@@ -17,13 +17,13 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package ru.tech.imageresizershrinker.feature.filters.data.utils
+package ru.tech.imageresizershrinker.core.data.image.utils
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 
-internal object ColorUtils {
+object ColorUtils {
 
     inline fun ColorModel.toColor() = Color(colorInt)
 

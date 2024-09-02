@@ -35,6 +35,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
@@ -552,6 +553,18 @@ class SettingsViewModel @Inject constructor(
     fun toggleIsLinksPreviewEnabled() {
         viewModelScope.launch {
             settingsManager.toggleIsLinkPreviewEnabled()
+        }
+    }
+
+    fun setDefaultDrawColor(colorModel: ColorModel) {
+        viewModelScope.launch {
+            settingsManager.setDefaultDrawColor(colorModel)
+        }
+    }
+
+    fun setDefaultDrawPathMode(mode: Int) {
+        viewModelScope.launch {
+            settingsManager.setDefaultDrawPathMode(mode)
         }
     }
 }

@@ -589,6 +589,14 @@ internal fun SettingItem(
             Setting.EnableLinksPreview -> {
                 EnableLinksPreviewSettingItem(onClick = viewModel::toggleIsLinksPreviewEnabled)
             }
+
+            Setting.DefaultDrawColor -> {
+                DefaultDrawColorSettingItem(onValueChange = viewModel::setDefaultDrawColor)
+            }
+
+            Setting.DefaultDrawPathMode -> {
+                DefaultDrawPathModeSettingItem(onValueChange = viewModel::setDefaultDrawPathMode)
+            }
         }
     }
 }

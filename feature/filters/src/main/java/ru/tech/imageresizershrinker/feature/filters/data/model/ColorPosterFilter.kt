@@ -21,11 +21,11 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.t8rin.trickle.Trickle
 import com.t8rin.trickle.TrickleUtils
+import ru.tech.imageresizershrinker.core.data.image.utils.ColorUtils.toModel
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 import kotlin.math.roundToInt
 
 internal class ColorPosterFilter(

@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
@@ -65,6 +66,7 @@ class DrawViewModel @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
+    private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
@@ -109,6 +111,13 @@ class DrawViewModel @Inject constructor(
 
     private val _saveExif: MutableState<Boolean> = mutableStateOf(false)
     val saveExif: Boolean by _saveExif
+
+    init {
+        viewModelScope.launch {
+            val settingsState = settingsProvider.getSettingsState()
+            _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
+        }
+    }
 
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }

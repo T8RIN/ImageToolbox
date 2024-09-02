@@ -397,4 +397,14 @@ sealed class Setting(
         title = R.string.links_preview,
         subtitle = R.string.links_preview_sub
     )
+
+    data object DefaultDrawColor : Setting(
+        title = R.string.default_draw_color,
+        subtitle = null
+    )
+
+    data object DefaultDrawPathMode : Setting(
+        title = R.string.default_draw_path_mode,
+        subtitle = null
+    )
 }

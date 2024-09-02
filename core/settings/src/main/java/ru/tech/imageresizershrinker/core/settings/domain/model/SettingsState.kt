@@ -18,8 +18,11 @@
 package ru.tech.imageresizershrinker.core.settings.domain.model
 
 import android.os.Build
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 
 data class SettingsState(
@@ -94,7 +97,9 @@ data class SettingsState(
     val donateDialogOpenCount: Int,
     val colorBlindType: Int?,
     val favoriteScreenList: List<Int>,
-    val isLinkPreviewEnabled: Boolean
+    val isLinkPreviewEnabled: Boolean,
+    val defaultDrawColor: ColorModel,
+    val defaultDrawPathMode: Int
 ) {
 
     companion object {
@@ -171,7 +176,9 @@ data class SettingsState(
                 donateDialogOpenCount = 0,
                 colorBlindType = null,
                 favoriteScreenList = emptyList(),
-                isLinkPreviewEnabled = true
+                isLinkPreviewEnabled = true,
+                defaultDrawColor = ColorModel(Color.Black.toArgb()),
+                defaultDrawPathMode = 0
             )
         }
     }

@@ -308,7 +308,7 @@ fun DrawContent(
     var drawColor by rememberSaveable(
         viewModel.drawBehavior,
         stateSaver = ColorSaver
-    ) { mutableStateOf(Color.Black) }
+    ) { mutableStateOf(settingsState.defaultDrawColor) }
 
     var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
 

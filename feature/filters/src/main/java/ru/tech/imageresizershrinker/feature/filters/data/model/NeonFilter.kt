@@ -20,12 +20,12 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.core.data.image.utils.ColorUtils.toModel
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.transformation.ChainTransformation
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
-import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 internal class NeonFilter(
     private val context: Context,

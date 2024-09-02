@@ -35,6 +35,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
@@ -66,7 +67,9 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_H
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_HARMONIZER
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_COLOR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_LINE_WIDTH
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_PATH_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DONATE_DIALOG_OPEN_COUNT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAG_HANDLE_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAW_APPBAR_SHADOWS
@@ -256,7 +259,10 @@ internal class AndroidSettingsManager @Inject constructor(
             favoriteScreenList = prefs[FAVORITE_SCREENS]?.split("/")?.mapNotNull {
                 it.toIntOrNull()
             }?.takeIf { it.isNotEmpty() } ?: default.favoriteScreenList,
-            isLinkPreviewEnabled = prefs[IS_LINK_PREVIEW_ENABLED] ?: default.isLinkPreviewEnabled
+            isLinkPreviewEnabled = prefs[IS_LINK_PREVIEW_ENABLED] ?: default.isLinkPreviewEnabled,
+            defaultDrawColor = prefs[DEFAULT_DRAW_COLOR]?.let { ColorModel(it) }
+                ?: default.defaultDrawColor,
+            defaultDrawPathMode = prefs[DEFAULT_DRAW_PATH_MODE] ?: default.defaultDrawPathMode
         )
     }.onEach { currentSettings = it }
 
@@ -919,6 +925,18 @@ internal class AndroidSettingsManager @Inject constructor(
                 key = IS_LINK_PREVIEW_ENABLED,
                 defaultValue = default.isLinkPreviewEnabled
             )
+        }
+    }
+
+    override suspend fun setDefaultDrawColor(color: ColorModel) {
+        dataStore.edit { prefs ->
+            prefs[DEFAULT_DRAW_COLOR] = color.colorInt
+        }
+    }
+
+    override suspend fun setDefaultDrawPathMode(modeOrdinal: Int) {
+        dataStore.edit { prefs ->
+            prefs[DEFAULT_DRAW_PATH_MODE] = modeOrdinal
         }
     }
 

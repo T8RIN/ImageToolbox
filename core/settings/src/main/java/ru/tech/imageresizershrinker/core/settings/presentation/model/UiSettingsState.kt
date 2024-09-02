@@ -120,7 +120,9 @@ data class UiSettingsState(
     val donateDialogOpenCount: Int?,
     val colorBlindType: ColorBlindType?,
     val favoriteScreenList: List<Int>,
-    val isLinkPreviewEnabled: Boolean
+    val isLinkPreviewEnabled: Boolean,
+    val defaultDrawColor: Color,
+    val defaultDrawPathMode: Int
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -283,7 +285,9 @@ fun SettingsState.toUiState(
             }
         }.value,
         favoriteScreenList = favoriteScreenList,
-        isLinkPreviewEnabled = isLinkPreviewEnabled
+        isLinkPreviewEnabled = isLinkPreviewEnabled,
+        defaultDrawColor = Color(defaultDrawColor.colorInt),
+        defaultDrawPathMode = defaultDrawPathMode
     )
 }
 

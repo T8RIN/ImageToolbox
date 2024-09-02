@@ -21,12 +21,12 @@ import android.content.Context
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFalseColorFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import ru.tech.imageresizershrinker.core.data.image.utils.ColorUtils.blue
+import ru.tech.imageresizershrinker.core.data.image.utils.ColorUtils.green
+import ru.tech.imageresizershrinker.core.data.image.utils.ColorUtils.red
+import ru.tech.imageresizershrinker.core.data.image.utils.ColorUtils.toModel
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.blue
-import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.green
-import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.red
-import ru.tech.imageresizershrinker.feature.filters.data.utils.ColorUtils.toModel
 
 
 internal class FalseColorFilter(

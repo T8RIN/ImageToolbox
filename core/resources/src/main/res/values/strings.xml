@@ -1359,4 +1359,6 @@
     <string name="select_webp_image_to_start">Pick WEBP image to start</string>
     <string name="manage_storage_extra_types">No full access to files</string>
     <string name="manage_storage_extra_types_sub">Allow all files access to see JXL, QOI and other images that not recognized on android as Image files, without giving permission you will be unable to see this images here</string>
+    <string name="default_draw_color">Default Draw Color</string>
+    <string name="default_draw_path_mode">Default Draw Path Mode</string>
 </resources>

@@ -96,4 +96,6 @@ internal object SettingKeys {
     val COLOR_BLIND_TYPE = intPreferencesKey("COLOR_BLIND_TYPE")
     val FAVORITE_SCREENS = stringPreferencesKey("FAVORITE_SCREENS")
     val IS_LINK_PREVIEW_ENABLED = booleanPreferencesKey("IS_LINK_PREVIEW_ENABLED")
+    val DEFAULT_DRAW_COLOR = intPreferencesKey("DEFAULT_DRAW_COLOR")
+    val DEFAULT_DRAW_PATH_MODE = intPreferencesKey("DEFAULT_DRAW_PATH_MODE")
 }

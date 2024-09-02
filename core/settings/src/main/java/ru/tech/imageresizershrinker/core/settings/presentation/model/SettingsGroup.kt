@@ -158,6 +158,8 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.LockDrawOrientation,
             Setting.DefaultDrawLineWidth,
+            Setting.DefaultDrawColor,
+            Setting.DefaultDrawPathMode,
             Setting.Magnifier
         ),
         initialState = false

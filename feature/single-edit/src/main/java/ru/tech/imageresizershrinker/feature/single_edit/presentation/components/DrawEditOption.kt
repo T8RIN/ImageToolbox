@@ -139,7 +139,7 @@ fun DrawEditOption(
 
         val settingsState = LocalSettingsState.current
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
-        var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Black) }
+        var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(settingsState.defaultDrawColor) }
 
         var alpha by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
