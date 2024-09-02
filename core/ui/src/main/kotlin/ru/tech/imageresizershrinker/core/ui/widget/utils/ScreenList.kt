@@ -28,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
-import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import java.util.Locale
 
@@ -44,13 +43,9 @@ internal fun List<Uri>.screenList(
     ): Boolean {
         if (this == null) return false
 
-        val extension = context.getExtension(toString()).also {
-            it.makeLog()
-        }
+        val extension = context.getExtension(toString()) ?: return false
 
-        return extensions.any { ext ->
-            extension?.contains(ext) == true
-        }
+        return extensions.any(extension::contains)
     }
 
     val filesAvailableScreens by remember(uris) {
@@ -275,6 +270,7 @@ internal fun List<Uri>.screenList(
 private fun Context.getExtension(
     uri: String
 ): String? {
+    if (uri.endsWith(".qoi")) return "qoi"
     if (uri.endsWith(".jxl")) return "jxl"
     return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
         MimeTypeMap.getSingleton()
