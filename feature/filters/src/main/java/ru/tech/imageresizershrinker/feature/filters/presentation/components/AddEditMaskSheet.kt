@@ -50,7 +50,6 @@ import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -212,7 +211,7 @@ fun AddEditMaskSheet(
                         .background(SimpleSheetDefaults.barContainerColor)
                         .padding(8.dp)
                 ) {
-                    IconButton(
+                    EnhancedIconButton(
                         onClick = {
                             if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
                             else showExitDialog = true

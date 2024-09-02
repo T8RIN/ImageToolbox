@@ -19,13 +19,20 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation.component
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.DraggableAnchors
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,11 +46,13 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -63,7 +72,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -77,23 +85,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.modalsheet.FullscreenPopup
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
@@ -102,6 +112,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PageCloseTransition
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PageOpenTransition
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
@@ -110,6 +121,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaItem
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaState
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.isHeaderKey
+import kotlin.math.roundToInt
 
 @Composable
 fun MediaPickerGrid(
@@ -309,6 +321,36 @@ fun MediaPickerGrid(
             enter = PageOpenTransition,
             exit = PageCloseTransition
         ) {
+            val density = LocalDensity.current
+            val screenHeight =
+                LocalConfiguration.current.screenHeightDp.dp + WindowInsets.systemBars.asPaddingValues()
+                    .let { it.calculateTopPadding() + it.calculateBottomPadding() }
+            val anchors = with(density) {
+                DraggableAnchors {
+                    true at 0f
+                    false at -screenHeight.toPx()
+                }
+            }
+
+            val draggableState = remember(anchors) {
+                AnchoredDraggableState(
+                    initialValue = true,
+                    anchors = anchors,
+                    positionalThreshold = { distance: Float -> distance * 0.5f },
+                    velocityThreshold = { with(density) { 100.dp.toPx() } },
+                    snapAnimationSpec = spring(),
+                    decayAnimationSpec = splineBasedDecay(density)
+                )
+            }
+
+            LaunchedEffect(draggableState.settledValue) {
+                if (!draggableState.settledValue) {
+                    imagePreviewUri = null
+                    delay(600)
+                    draggableState.snapTo(true)
+                }
+            }
+
             val initialPage by remember(imagePreviewUri, state.media) {
                 derivedStateOf {
                     imagePreviewUri?.let {
@@ -322,13 +364,16 @@ fun MediaPickerGrid(
                     state.media.size
                 }
             )
+            val progress = draggableState.progress(
+                from = false,
+                to = true
+            )
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f))
-                    .pointerInput(Unit) {
-                        detectTapGestures { }
-                    }
+                    .background(
+                        MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
+                    )
             ) {
                 val imageErrorPages = remember {
                     mutableStateListOf<Int>()
@@ -343,15 +388,39 @@ fun MediaPickerGrid(
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        val zoomState = rememberZoomState(10f)
                         Picture(
                             showTransparencyChecker = false,
                             model = media?.uri,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clipToBounds()
-                                .zoomable(rememberZoomState(8f))
                                 .systemBarsPadding()
-                                .displayCutoutPadding(),
+                                .displayCutoutPadding()
+                                .offset {
+                                    IntOffset(
+                                        x = 0,
+                                        y = -draggableState
+                                            .requireOffset()
+                                            .roundToInt(),
+                                    )
+                                }
+                                .anchoredDraggable(
+                                    state = draggableState,
+                                    enabled = zoomState.scale < 1.01f,
+                                    orientation = Orientation.Vertical,
+                                    reverseDirection = true
+                                )
+                                .zoomable(
+                                    zoomEnabled = !imageErrorPages.contains(page),
+                                    zoomState = zoomState,
+                                    onDoubleTap = {
+                                        zoomState.toggleScale(
+                                            targetScale = 5f,
+                                            position = it
+                                        )
+                                    }
+                                ),
                             contentScale = ContentScale.Fit,
                             shape = RectangleShape,
                             onSuccess = {
@@ -384,93 +453,96 @@ fun MediaPickerGrid(
                     }
                 }
                 val currentMedia = state.media.getOrNull(pagerState.currentPage)
-                EnhancedTopAppBar(
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    ),
-                    type = EnhancedTopAppBarType.Center,
-                    modifier = Modifier,
-                    title = {
-                        state.media.size.takeIf { it > 1 }?.let {
-                            Text(
-                                text = "${pagerState.currentPage + 1}/$it",
-                                modifier = Modifier
-                                    .background(
-                                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
-                                        shape = CircleShape
-                                    )
-                                    .padding(vertical = 4.dp, horizontal = 12.dp),
-                                color = White
-                            )
-                        }
-                    },
-                    actions = {
-                        val isImageError = imageErrorPages.contains(pagerState.currentPage)
-                        AnimatedVisibility(
-                            visible = state.media.isNotEmpty(),
-                            enter = fadeIn() + scaleIn(),
-                            exit = fadeOut() + scaleOut()
-                        ) {
-                            MediaCheckBox(
-                                modifier = Modifier.background(
-                                    color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
-                                    shape = CircleShape
-                                ),
-                                isChecked = selectedMedia.contains(currentMedia),
-                                onCheck = {
-                                    currentMedia?.let(onMediaClick)
-                                },
-                                uncheckedColor = White,
-                                checkedColor = if (isImageError) {
-                                    MaterialTheme.colorScheme.error
-                                } else MaterialTheme.colorScheme.primary,
-                                checkedIcon = if (isImageError) {
-                                    Icons.Filled.Error
-                                } else Icons.Filled.CheckCircle
-                            )
-                        }
-                    },
-                    navigationIcon = {
-                        AnimatedVisibility(state.media.isNotEmpty()) {
-                            Box(
-                                modifier = Modifier
-                                    .minimumInteractiveComponentSize()
-                                    .size(48.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
-                                        shape = CircleShape
-                                    )
-                                    .padding(4.dp)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        imagePreviewUri = null
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                    contentDescription = stringResource(R.string.exit),
-                                    tint = White
+                AnimatedVisibility(
+                    visible = draggableState.offset == 0f,
+                    modifier = Modifier.fillMaxWidth(),
+                    enter = fadeIn() + slideInVertically(),
+                    exit = fadeOut() + slideOutVertically()
+                ) {
+                    EnhancedTopAppBar(
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f)
+                        ),
+                        type = EnhancedTopAppBarType.Center,
+                        modifier = Modifier,
+                        title = {
+                            state.media.size.takeIf { it > 1 }?.let {
+                                Text(
+                                    text = "${pagerState.currentPage + 1}/$it",
+                                    modifier = Modifier
+                                        .padding(vertical = 4.dp, horizontal = 12.dp),
+                                    color = White
                                 )
                             }
-                        }
-                    },
-                )
-                currentMedia?.label?.let {
-                    Text(
-                        text = it,
-                        modifier = Modifier
-                            .animateContentSize()
-                            .align(Alignment.BottomCenter)
-                            .padding(16.dp)
-                            .navigationBarsPadding()
-                            .background(
-                                color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
-                                shape = CircleShape
-                            )
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                        color = White
+                        },
+                        actions = {
+                            val isImageError = imageErrorPages.contains(pagerState.currentPage)
+                            AnimatedVisibility(
+                                visible = state.media.isNotEmpty(),
+                                enter = fadeIn() + scaleIn(),
+                                exit = fadeOut() + scaleOut()
+                            ) {
+                                MediaCheckBox(
+                                    isChecked = selectedMedia.contains(currentMedia),
+                                    onCheck = {
+                                        currentMedia?.let(onMediaClick)
+                                    },
+                                    uncheckedColor = White,
+                                    checkedColor = if (isImageError) {
+                                        MaterialTheme.colorScheme.error
+                                    } else MaterialTheme.colorScheme.primary,
+                                    checkedIcon = if (isImageError) {
+                                        Icons.Filled.Error
+                                    } else Icons.Filled.CheckCircle
+                                )
+                            }
+                        },
+                        navigationIcon = {
+                            AnimatedVisibility(state.media.isNotEmpty()) {
+                                EnhancedIconButton(
+                                    onClick = {
+                                        imagePreviewUri = null
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                        contentDescription = stringResource(R.string.exit),
+                                        tint = White
+                                    )
+                                }
+                            }
+                        },
                     )
+                }
+                AnimatedVisibility(
+                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty(),
+                    modifier = Modifier.fillMaxWidth(),
+                    enter = fadeIn() + slideInVertically(),
+                    exit = fadeOut() + slideOutVertically()
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        currentMedia?.label?.let {
+                            Text(
+                                text = it,
+                                modifier = Modifier
+                                    .animateContentSize()
+                                    .padding(top = 64.dp)
+                                    .align(Alignment.TopCenter)
+                                    .padding(8.dp)
+                                    .statusBarsPadding()
+                                    .background(
+                                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                color = White,
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        }
+                    }
                 }
             }
 

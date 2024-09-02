@@ -60,13 +60,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -80,7 +80,9 @@ import androidx.core.net.toUri
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
+import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
 import ru.tech.imageresizershrinker.core.ui.theme.White
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.advancedShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
@@ -329,20 +331,6 @@ fun ImagesPreviewWithSelection(
     }
 }
 
-val ImageFramesSaver = Saver<ImageFrames, String>(
-    save = {
-        when (it) {
-            is ImageFrames.All -> ImageFrames.All::class.simpleName
-            is ImageFrames.ManualSelection -> it.framePositions.joinToString(",")
-        }
-    },
-    restore = {
-        if (it.startsWith(ImageFrames.All::class.simpleName!!)) {
-            ImageFrames.All
-        } else ImageFrames.ManualSelection(it.split(",").mapNotNull(String::toIntOrNull))
-    }
-)
-
 @Composable
 private fun ImageItem(
     modifier: Modifier,
@@ -384,6 +372,26 @@ private fun ImageItem(
                 .background(MaterialTheme.colorScheme.surface),
             onError = {
                 onError(uri)
+            },
+            error = {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.background(
+                        takeColorFromScheme { isNightMode ->
+                            errorContainer.copy(
+                                if (isNightMode) 0.25f
+                                else 1f
+                            ).compositeOver(surface)
+                        }
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.BrokenImageVariant,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(0.5f),
+                        tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)
+                    )
+                }
             },
             filterQuality = FilterQuality.High,
             shape = RectangleShape,
