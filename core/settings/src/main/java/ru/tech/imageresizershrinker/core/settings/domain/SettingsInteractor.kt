@@ -188,4 +188,6 @@ interface SettingsInteractor : SimpleSettingInteractor {
 
     suspend fun setDefaultDrawPathMode(modeOrdinal: Int)
 
+    suspend fun toggleAddTimestampToFilename()
+
 }

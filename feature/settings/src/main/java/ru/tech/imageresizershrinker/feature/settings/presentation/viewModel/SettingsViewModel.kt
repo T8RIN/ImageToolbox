@@ -567,4 +567,10 @@ class SettingsViewModel @Inject constructor(
             settingsManager.setDefaultDrawPathMode(mode)
         }
     }
+
+    fun toggleAddTimestampToFilename() {
+        viewModelScope.launch {
+            settingsManager.toggleAddTimestampToFilename()
+        }
+    }
 }

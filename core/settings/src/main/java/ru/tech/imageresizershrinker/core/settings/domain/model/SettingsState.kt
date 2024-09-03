@@ -99,7 +99,8 @@ data class SettingsState(
     val favoriteScreenList: List<Int>,
     val isLinkPreviewEnabled: Boolean,
     val defaultDrawColor: ColorModel,
-    val defaultDrawPathMode: Int
+    val defaultDrawPathMode: Int,
+    val addTimestampToFilename: Boolean
 ) {
 
     companion object {
@@ -178,7 +179,8 @@ data class SettingsState(
                 favoriteScreenList = emptyList(),
                 isLinkPreviewEnabled = true,
                 defaultDrawColor = ColorModel(Color.Black.toArgb()),
-                defaultDrawPathMode = 0
+                defaultDrawPathMode = 0,
+                addTimestampToFilename = true
             )
         }
     }

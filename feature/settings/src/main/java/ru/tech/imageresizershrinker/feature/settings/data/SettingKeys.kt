@@ -98,4 +98,5 @@ internal object SettingKeys {
     val IS_LINK_PREVIEW_ENABLED = booleanPreferencesKey("IS_LINK_PREVIEW_ENABLED")
     val DEFAULT_DRAW_COLOR = intPreferencesKey("DEFAULT_DRAW_COLOR")
     val DEFAULT_DRAW_PATH_MODE = intPreferencesKey("DEFAULT_DRAW_PATH_MODE")
+    val ADD_TIMESTAMP_TO_FILENAME = booleanPreferencesKey("ADD_TIMESTAMP_TO_FILENAME")
 }

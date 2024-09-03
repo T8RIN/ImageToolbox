@@ -407,4 +407,9 @@ sealed class Setting(
         title = R.string.default_draw_path_mode,
         subtitle = null
     )
+
+    data object AddTimestampToFilename : Setting(
+        title = R.string.add_timestamp,
+        subtitle = R.string.add_timestamp_sub
+    )
 }

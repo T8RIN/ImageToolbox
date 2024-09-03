@@ -428,18 +428,26 @@ internal class AndroidFileController @Inject constructor(
             Locale.getDefault()
         ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
 
-        return "$prefix${
-            if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
-                if (settingsState.addOriginalFilename) {
-                    saveTarget.sequenceNumber.toString()
-                } else {
-                    SimpleDateFormat(
-                        "yyyy-MM-dd_HH-mm-ss",
-                        Locale.getDefault()
-                    ).format(Date()) + "_" + saveTarget.sequenceNumber
-                }
-            } else timeStamp
-        }$suffix.$extension"
+        val body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
+            if (settingsState.addOriginalFilename) {
+                saveTarget.sequenceNumber.toString()
+            } else {
+                val timeStampPart = if (settingsState.addTimestampToFilename) {
+                    timeStamp.dropLastWhile { it != '_' }
+                } else ""
+
+                timeStampPart + saveTarget.sequenceNumber
+            }
+        } else if (settingsState.addTimestampToFilename) {
+            timeStamp
+        } else ""
+
+        if (body.isEmpty()) {
+            if (prefix.endsWith("_")) prefix = prefix.dropLast(1)
+            if (suffix.startsWith("_")) suffix = suffix.drop(1)
+        }
+
+        return "$prefix$body$suffix.$extension"
     }
 
     override fun constructImageFilename(
@@ -478,18 +486,26 @@ internal class AndroidFileController @Inject constructor(
             Locale.getDefault()
         ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
 
-        return "$prefix${
-            if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
-                if (settingsState.addOriginalFilename) {
-                    saveTarget.sequenceNumber.toString()
-                } else {
-                    SimpleDateFormat(
-                        "yyyy-MM-dd_HH-mm-ss",
-                        Locale.getDefault()
-                    ).format(Date()) + "_" + saveTarget.sequenceNumber
-                }
-            } else timeStamp
-        }$suffix.$extension"
+        val body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
+            if (settingsState.addOriginalFilename) {
+                saveTarget.sequenceNumber.toString()
+            } else {
+                val timeStampPart = if (settingsState.addTimestampToFilename) {
+                    timeStamp.dropLastWhile { it != '_' }
+                } else ""
+
+                timeStampPart + saveTarget.sequenceNumber
+            }
+        } else if (settingsState.addTimestampToFilename) {
+            timeStamp
+        } else ""
+
+        if (body.isEmpty()) {
+            if (prefix.endsWith("_")) prefix = prefix.dropLast(1)
+            if (suffix.startsWith("_")) suffix = suffix.drop(1)
+        }
+
+        return "$prefix$body$suffix.$extension"
     }
 
     override fun clearCache(onComplete: (String) -> Unit) = context.clearCache(onComplete)

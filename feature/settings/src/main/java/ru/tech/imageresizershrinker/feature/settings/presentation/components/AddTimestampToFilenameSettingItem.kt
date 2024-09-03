@@ -19,19 +19,19 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.Numeric
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun ReplaceSequenceNumberSettingItem(
+fun AddTimestampToFilenameSettingItem(
     onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
@@ -44,9 +44,9 @@ fun ReplaceSequenceNumberSettingItem(
             onClick()
         },
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        title = stringResource(R.string.replace_sequence_number),
-        subtitle = stringResource(R.string.replace_sequence_number_sub),
-        checked = settingsState.addSequenceNumber,
-        startIcon = Icons.Filled.Numeric
+        title = stringResource(R.string.add_timestamp),
+        subtitle = stringResource(R.string.add_timestamp_sub),
+        checked = settingsState.addTimestampToFilename,
+        startIcon = Icons.Outlined.Timer
     )
 }

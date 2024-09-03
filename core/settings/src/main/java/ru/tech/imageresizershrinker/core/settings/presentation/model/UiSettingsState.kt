@@ -122,7 +122,8 @@ data class UiSettingsState(
     val favoriteScreenList: List<Int>,
     val isLinkPreviewEnabled: Boolean,
     val defaultDrawColor: Color,
-    val defaultDrawPathMode: Int
+    val defaultDrawPathMode: Int,
+    val addTimestampToFilename: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -287,7 +288,8 @@ fun SettingsState.toUiState(
         favoriteScreenList = favoriteScreenList,
         isLinkPreviewEnabled = isLinkPreviewEnabled,
         defaultDrawColor = Color(defaultDrawColor.colorInt),
-        defaultDrawPathMode = defaultDrawPathMode
+        defaultDrawPathMode = defaultDrawPathMode,
+        addTimestampToFilename = addTimestampToFilename
     )
 }
 

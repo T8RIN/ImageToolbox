@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_SIZE_TO_FILENAME
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_TIMESTAMP_TO_FILENAME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ALLOW_ANALYTICS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ALLOW_AUTO_PASTE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ALLOW_BETAS
@@ -262,7 +263,9 @@ internal class AndroidSettingsManager @Inject constructor(
             isLinkPreviewEnabled = prefs[IS_LINK_PREVIEW_ENABLED] ?: default.isLinkPreviewEnabled,
             defaultDrawColor = prefs[DEFAULT_DRAW_COLOR]?.let { ColorModel(it) }
                 ?: default.defaultDrawColor,
-            defaultDrawPathMode = prefs[DEFAULT_DRAW_PATH_MODE] ?: default.defaultDrawPathMode
+            defaultDrawPathMode = prefs[DEFAULT_DRAW_PATH_MODE] ?: default.defaultDrawPathMode,
+            addTimestampToFilename = prefs[ADD_TIMESTAMP_TO_FILENAME]
+                ?: default.addTimestampToFilename
         )
     }.onEach { currentSettings = it }
 
@@ -937,6 +940,15 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setDefaultDrawPathMode(modeOrdinal: Int) {
         dataStore.edit { prefs ->
             prefs[DEFAULT_DRAW_PATH_MODE] = modeOrdinal
+        }
+    }
+
+    override suspend fun toggleAddTimestampToFilename() {
+        dataStore.edit {
+            it.toggle(
+                key = ADD_TIMESTAMP_TO_FILENAME,
+                defaultValue = default.addTimestampToFilename
+            )
         }
     }
 

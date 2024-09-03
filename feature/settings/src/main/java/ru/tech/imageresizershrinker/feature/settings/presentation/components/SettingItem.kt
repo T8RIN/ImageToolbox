@@ -334,9 +334,7 @@ internal fun SettingItem(
             }
 
             Setting.ReplaceSequenceNumber -> {
-                ReplaceSequenceNumberSettingItem(
-                    onClick = { viewModel.toggleAddSequenceNumber() }
-                )
+                ReplaceSequenceNumberSettingItem(onClick = viewModel::toggleAddSequenceNumber)
             }
 
             Setting.OverwriteFiles -> {
@@ -346,9 +344,7 @@ internal fun SettingItem(
             }
 
             Setting.Reset -> {
-                ResetSettingsSettingItem(
-                    onReset = viewModel::resetSettings
-                )
+                ResetSettingsSettingItem(onReset = viewModel::resetSettings)
             }
 
             Setting.Restore -> {
@@ -596,6 +592,10 @@ internal fun SettingItem(
 
             Setting.DefaultDrawPathMode -> {
                 DefaultDrawPathModeSettingItem(onValueChange = viewModel::setDefaultDrawPathMode)
+            }
+
+            Setting.AddTimestampToFilename -> {
+                AddTimestampToFilenameSettingItem(onClick = viewModel::toggleAddTimestampToFilename)
             }
         }
     }
