@@ -109,7 +109,7 @@ fun AvailableColorTuplesSheet(
     onOpenColorPicker: () -> Unit,
     colorPicker: @Composable () -> Unit,
     onPickTheme: (ColorTuple) -> Unit,
-    updateThemeContrast: (Float) -> Unit,
+    onUpdateThemeContrast: (Float) -> Unit,
     onThemeStyleSelected: (PaletteStyle) -> Unit,
     onToggleInvertColors: () -> Unit,
     onToggleUseEmojiAsPrimaryColor: () -> Unit,
@@ -303,7 +303,7 @@ fun AvailableColorTuplesSheet(
                     },
                     steps = 198,
                     onValueChangeFinished = {
-                        updateThemeContrast(it)
+                        onUpdateThemeContrast(it)
                     },
                     modifier = Modifier.padding(bottom = 4.dp)
                 )

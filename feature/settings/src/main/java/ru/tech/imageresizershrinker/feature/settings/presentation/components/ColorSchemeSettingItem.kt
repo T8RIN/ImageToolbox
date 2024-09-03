@@ -167,7 +167,7 @@ fun ColorSchemeSettingItem(
         ),
         onToggleInvertColors = onToggleInvertColors,
         onThemeStyleSelected = { onSetThemeStyle(it.ordinal) },
-        updateThemeContrast = onUpdateThemeContrast,
+        onUpdateThemeContrast = onUpdateThemeContrast,
         onOpenColorPicker = {
             showColorPicker = true
         },
