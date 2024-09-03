@@ -117,6 +117,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SWITCH_TYP
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_STYLE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FORMATTED_TIMESTAMP
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
@@ -265,7 +266,9 @@ internal class AndroidSettingsManager @Inject constructor(
                 ?: default.defaultDrawColor,
             defaultDrawPathMode = prefs[DEFAULT_DRAW_PATH_MODE] ?: default.defaultDrawPathMode,
             addTimestampToFilename = prefs[ADD_TIMESTAMP_TO_FILENAME]
-                ?: default.addTimestampToFilename
+                ?: default.addTimestampToFilename,
+            useFormattedFilenameTimestamp = prefs[USE_FORMATTED_TIMESTAMP]
+                ?: default.useFormattedFilenameTimestamp
         )
     }.onEach { currentSettings = it }
 
@@ -948,6 +951,15 @@ internal class AndroidSettingsManager @Inject constructor(
             it.toggle(
                 key = ADD_TIMESTAMP_TO_FILENAME,
                 defaultValue = default.addTimestampToFilename
+            )
+        }
+    }
+
+    override suspend fun toggleUseFormattedFilenameTimestamp() {
+        dataStore.edit {
+            it.toggle(
+                key = USE_FORMATTED_TIMESTAMP,
+                defaultValue = default.useFormattedFilenameTimestamp
             )
         }
     }

@@ -123,7 +123,8 @@ data class UiSettingsState(
     val isLinkPreviewEnabled: Boolean,
     val defaultDrawColor: Color,
     val defaultDrawPathMode: Int,
-    val addTimestampToFilename: Boolean
+    val addTimestampToFilename: Boolean,
+    val useFormattedFilenameTimestamp: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -289,7 +290,8 @@ fun SettingsState.toUiState(
         isLinkPreviewEnabled = isLinkPreviewEnabled,
         defaultDrawColor = Color(defaultDrawColor.colorInt),
         defaultDrawPathMode = defaultDrawPathMode,
-        addTimestampToFilename = addTimestampToFilename
+        addTimestampToFilename = addTimestampToFilename,
+        useFormattedFilenameTimestamp = useFormattedFilenameTimestamp
     )
 }
 

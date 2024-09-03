@@ -100,7 +100,8 @@ data class SettingsState(
     val isLinkPreviewEnabled: Boolean,
     val defaultDrawColor: ColorModel,
     val defaultDrawPathMode: Int,
-    val addTimestampToFilename: Boolean
+    val addTimestampToFilename: Boolean,
+    val useFormattedFilenameTimestamp: Boolean
 ) {
 
     companion object {
@@ -180,7 +181,8 @@ data class SettingsState(
                 isLinkPreviewEnabled = true,
                 defaultDrawColor = ColorModel(Color.Black.toArgb()),
                 defaultDrawPathMode = 0,
-                addTimestampToFilename = true
+                addTimestampToFilename = true,
+                useFormattedFilenameTimestamp = true
             )
         }
     }

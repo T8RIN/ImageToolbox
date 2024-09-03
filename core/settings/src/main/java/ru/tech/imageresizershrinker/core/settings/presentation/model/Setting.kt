@@ -412,4 +412,9 @@ sealed class Setting(
         title = R.string.add_timestamp,
         subtitle = R.string.add_timestamp_sub
     )
+
+    data object UseFormattedFilenameTimestamp : Setting(
+        title = R.string.formatted_timestamp,
+        subtitle = R.string.formatted_timestamp_sub
+    )
 }

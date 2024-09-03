@@ -190,4 +190,6 @@ interface SettingsInteractor : SimpleSettingInteractor {
 
     suspend fun toggleAddTimestampToFilename()
 
+    suspend fun toggleUseFormattedFilenameTimestamp()
+
 }

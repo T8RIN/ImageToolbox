@@ -423,10 +423,12 @@ internal class AndroidFileController @Inject constructor(
         }
         if (settingsState.addSizeInFilename && !forceNotAddSizeInFilename) prefix += wh
 
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+        val timeStamp = if (settingsState.useFormattedFilenameTimestamp) {
+            SimpleDateFormat(
+                "yyyy-MM-dd_HH-mm-ss",
+                Locale.getDefault()
+            ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+        } else Date().time.toString()
 
         val body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
             if (settingsState.addOriginalFilename) {
@@ -481,10 +483,12 @@ internal class AndroidFileController @Inject constructor(
         }
         if (settingsState.addSizeInFilename && !forceNotAddSizeInFilename) prefix += wh
 
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+        val timeStamp = if (settingsState.useFormattedFilenameTimestamp) {
+            SimpleDateFormat(
+                "yyyy-MM-dd_HH-mm-ss",
+                Locale.getDefault()
+            ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+        } else Date().time.toString()
 
         val body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
             if (settingsState.addOriginalFilename) {

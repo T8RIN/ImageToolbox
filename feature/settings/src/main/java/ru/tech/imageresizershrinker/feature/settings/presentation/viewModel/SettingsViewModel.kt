@@ -573,4 +573,10 @@ class SettingsViewModel @Inject constructor(
             settingsManager.toggleAddTimestampToFilename()
         }
     }
+
+    fun toggleUseFormattedFilenameTimestamp() {
+        viewModelScope.launch {
+            settingsManager.toggleUseFormattedFilenameTimestamp()
+        }
+    }
 }

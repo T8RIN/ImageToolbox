@@ -597,6 +597,10 @@ internal fun SettingItem(
             Setting.AddTimestampToFilename -> {
                 AddTimestampToFilenameSettingItem(onClick = viewModel::toggleAddTimestampToFilename)
             }
+
+            Setting.UseFormattedFilenameTimestamp -> {
+                UseFormattedFilenameTimestampSettingItem(onClick = viewModel::toggleUseFormattedFilenameTimestamp)
+            }
         }
     }
 }

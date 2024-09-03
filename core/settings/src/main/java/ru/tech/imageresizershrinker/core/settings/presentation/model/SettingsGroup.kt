@@ -193,6 +193,7 @@ sealed class SettingsGroup(
             Setting.AddOriginalFilename,
             Setting.ReplaceSequenceNumber,
             Setting.AddTimestampToFilename,
+            Setting.UseFormattedFilenameTimestamp,
             Setting.OverwriteFiles,
             Setting.RandomizeFilename
         ),

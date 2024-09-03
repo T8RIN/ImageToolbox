@@ -99,4 +99,5 @@ internal object SettingKeys {
     val DEFAULT_DRAW_COLOR = intPreferencesKey("DEFAULT_DRAW_COLOR")
     val DEFAULT_DRAW_PATH_MODE = intPreferencesKey("DEFAULT_DRAW_PATH_MODE")
     val ADD_TIMESTAMP_TO_FILENAME = booleanPreferencesKey("ADD_TIMESTAMP_TO_FILENAME")
+    val USE_FORMATTED_TIMESTAMP = booleanPreferencesKey("USE_FORMATTED_TIMESTAMP")
 }
