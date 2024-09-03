@@ -43,7 +43,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -198,8 +197,6 @@ fun ImagePreviewContent(
         }
     }
 
-    val gridState = rememberLazyStaggeredGridState()
-
     val selectedUris by remember(viewModel.uris, viewModel.imageFrames) {
         derivedStateOf {
             viewModel.getSelectedUris() ?: emptyList()
@@ -342,14 +339,12 @@ fun ImagePreviewContent(
                         ImagePreviewGrid(
                             data = viewModel.uris,
                             onAddImages = viewModel::updateUris,
-                            modifier = Modifier.fillMaxSize(),
                             onShareImage = {
                                 viewModel.shareImages(
                                     uriList = listOf(element = it),
                                     onComplete = showConfetti
                                 )
                             },
-                            state = gridState,
                             onRemove = viewModel::removeUri,
                             initialShowImagePreviewDialog = initialShowImagePreviewDialog,
                             onNavigate = onNavigate,

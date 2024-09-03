@@ -29,8 +29,6 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.Icon
@@ -44,7 +42,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -77,12 +74,8 @@ internal fun ImagePreviewGrid(
     onAddImages: ((List<Uri>) -> Unit)?,
     onShareImage: (Uri) -> Unit,
     onRemove: (Uri) -> Unit,
-    modifier: Modifier = Modifier,
-    state: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     verticalCellSize: Dp = 120.dp,
     horizontalCellSize: Dp = verticalCellSize,
-    showTransparencyChecker: Boolean = true,
-    color: Color = MaterialTheme.colorScheme.secondaryContainer,
     contentPadding: PaddingValues? = null,
     initialShowImagePreviewDialog: Boolean = false
 ) {

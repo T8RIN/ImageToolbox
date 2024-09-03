@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.toolbox.awebp)
     implementation(libs.toolbox.psd)
     implementation(libs.toolbox.apng)
+    implementation(libs.toolbox.djvuCoder)
 
     implementation(projects.core.domain)
     implementation(projects.core.resources)

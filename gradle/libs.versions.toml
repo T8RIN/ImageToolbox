@@ -9,7 +9,7 @@ versionCode = "152"
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "2.4.7"
+imageToolboxLibs = "2.5.0"
 trickle = "1.1.2"
 
 avifCoder = "1.8.0"
@@ -105,7 +105,7 @@ toolbox-tiffDecoder = { module = "com.github.T8RIN.ImageToolboxLibs:tiffdecoder"
 toolbox-qoiCoder = { module = "com.github.T8RIN.ImageToolboxLibs:qoi-coder", version.ref = "imageToolboxLibs" }
 toolbox-awebp = { module = "com.github.T8RIN.ImageToolboxLibs:awebp", version.ref = "imageToolboxLibs" }
 toolbox-psd = { module = "com.github.T8RIN.ImageToolboxLibs:psd", version.ref = "imageToolboxLibs" }
-toolbox-avif = { module = "com.github.T8RIN.ImageToolboxLibs:avif", version.ref = "imageToolboxLibs" }
+toolbox-djvuCoder = { module = "com.github.T8RIN.ImageToolboxLibs:djvu-coder", version.ref = "imageToolboxLibs" }
 
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }

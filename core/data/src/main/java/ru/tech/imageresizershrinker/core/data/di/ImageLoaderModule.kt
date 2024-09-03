@@ -32,6 +32,7 @@ import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.github.awxkee.avifcoil.decoder.HeifDecoder
 import com.t8rin.awebp.coil.AnimatedWebPDecoder
+import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.psd.coil.PsdDecoder
 import com.t8rin.qoi_coder.coil.QoiDecoder
 import com.t8rin.tiff.TiffDecoder
@@ -88,6 +89,7 @@ internal object ImageLoaderModule {
             add(TiffDecoder.Factory())
             add(QoiDecoder.Factory())
             add(PsdDecoder.Factory())
+            add(DjvuDecoder.Factory())
             if (BuildConfig.DEBUG) add(interceptor)
         }
         .build()
