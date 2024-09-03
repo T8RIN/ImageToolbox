@@ -23,7 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
-import androidx.compose.material.icons.rounded.UploadFile
+import androidx.compose.material.icons.outlined.UploadFile
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -75,6 +75,6 @@ fun BackupSettingItem(
         modifier = modifier,
         title = stringResource(R.string.backup),
         subtitle = stringResource(R.string.backup_sub),
-        startIcon = Icons.Rounded.UploadFile
+        startIcon = Icons.Outlined.UploadFile
     )
 }

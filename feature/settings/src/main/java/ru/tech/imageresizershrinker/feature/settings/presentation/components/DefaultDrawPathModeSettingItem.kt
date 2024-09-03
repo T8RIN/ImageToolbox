@@ -20,13 +20,13 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.TouchApp
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.HourglassEmpty
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
-import androidx.compose.material.icons.rounded.TouchApp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -64,7 +64,7 @@ fun DefaultDrawPathModeSettingItem(
     Column(modifier = modifier.container(shape = shape)) {
         TitleItem(
             text = stringResource(R.string.default_draw_path_mode),
-            icon = Icons.Rounded.TouchApp,
+            icon = Icons.Outlined.TouchApp,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .padding(top = 12.dp)

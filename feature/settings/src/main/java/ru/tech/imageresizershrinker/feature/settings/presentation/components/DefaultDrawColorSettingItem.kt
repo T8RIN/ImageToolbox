@@ -21,7 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BorderColor
+import androidx.compose.material.icons.outlined.BorderColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -48,7 +48,7 @@ fun DefaultDrawColorSettingItem(
     Column(modifier = modifier.container(shape = shape)) {
         TitleItem(
             text = stringResource(R.string.default_draw_color),
-            icon = Icons.Rounded.BorderColor,
+            icon = Icons.Outlined.BorderColor,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .padding(top = 12.dp)

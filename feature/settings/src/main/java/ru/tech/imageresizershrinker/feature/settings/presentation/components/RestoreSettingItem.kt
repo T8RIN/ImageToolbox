@@ -74,6 +74,6 @@ fun RestoreSettingItem(
         modifier = modifier,
         title = stringResource(R.string.restore),
         subtitle = stringResource(R.string.restore_sub),
-        startIcon = Icons.Rounded.DownloadFile
+        startIcon = Icons.Outlined.DownloadFile
     )
 }
