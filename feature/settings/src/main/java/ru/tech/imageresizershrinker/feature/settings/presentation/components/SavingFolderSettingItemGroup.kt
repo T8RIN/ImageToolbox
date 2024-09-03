@@ -54,7 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 @Composable
 fun SavingFolderSettingItemGroup(
     modifier: Modifier = Modifier,
-    updateSaveFolderUri: (Uri?) -> Unit
+    onValueChange: (Uri?) -> Unit
 ) {
     Column(modifier) {
         val context = LocalContext.current
@@ -71,13 +71,13 @@ fun SavingFolderSettingItemGroup(
                         Intent.FLAG_GRANT_READ_URI_PERMISSION or
                                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
-                    updateSaveFolderUri(it)
+                    onValueChange(it)
                 }
             }
         )
         PreferenceItem(
             shape = ContainerShapeDefaults.topShape,
-            onClick = { updateSaveFolderUri(null) },
+            onClick = { onValueChange(null) },
             title = stringResource(R.string.def),
             subtitle = stringResource(R.string.default_folder),
             color = takeColorFromScheme {

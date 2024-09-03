@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun LockDrawOrientationSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -40,7 +40,9 @@ fun LockDrawOrientationSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         title = stringResource(R.string.lock_draw_orientation),
         subtitle = stringResource(R.string.lock_draw_orientation_sub),
         checked = settingsState.lockDrawOrientation,

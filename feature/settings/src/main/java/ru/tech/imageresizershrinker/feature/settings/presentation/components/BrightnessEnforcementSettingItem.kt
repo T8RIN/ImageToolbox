@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun BrightnessEnforcementSettingItem(
-    updateScreens: (Screen) -> Unit,
+    onValueChange: (Screen) -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -144,12 +144,12 @@ fun BrightnessEnforcementSettingItem(
                                 Checkbox(
                                     checked = checked,
                                     onCheckedChange = {
-                                        updateScreens(screen)
+                                        onValueChange(screen)
                                     }
                                 )
                             },
                             onClick = {
-                                updateScreens(screen)
+                                onValueChange(screen)
                             }
                         )
                     }

@@ -32,11 +32,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun AmoledModeSettingItem(
-    onClick: (Boolean) -> Unit,
-    modifier: Modifier = Modifier.padding(
-        start = 8.dp,
-        end = 8.dp
-    ),
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ContainerShapeDefaults.centerShape
 ) {
     val settingsState = LocalSettingsState.current
@@ -47,6 +44,8 @@ fun AmoledModeSettingItem(
         title = stringResource(R.string.amoled_mode),
         subtitle = stringResource(R.string.amoled_mode_sub),
         checked = settingsState.isAmoledMode,
-        onClick = onClick
+        onClick = {
+            onClick()
+        }
     )
 }

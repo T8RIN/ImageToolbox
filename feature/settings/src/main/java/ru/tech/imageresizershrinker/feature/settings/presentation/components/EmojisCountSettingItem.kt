@@ -40,7 +40,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
 fun EmojisCountSettingItem(
-    updateEmojisCount: (Int) -> Unit,
+    onValueChange: (Int) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
@@ -76,7 +76,7 @@ fun EmojisCountSettingItem(
             it.toInt()
         },
         onValueChangeFinished = {
-            updateEmojisCount(it.toInt())
+            onValueChange(it.toInt())
         }
     )
 }

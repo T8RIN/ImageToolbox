@@ -40,8 +40,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun BackupSettingItem(
-    createBackupFilename: () -> String,
-    createBackup: (Uri) -> Unit,
+    onCreateBackupFilename: () -> String,
+    onCreateBackup: (Uri) -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -53,14 +53,14 @@ fun BackupSettingItem(
         contract = ActivityResultContracts.CreateDocument("*/*"),
         onResult = {
             it?.let { uri ->
-                createBackup(uri)
+                onCreateBackup(uri)
             }
         }
     )
     PreferenceItem(
         onClick = {
             runCatching {
-                backupSavingLauncher.launch(createBackupFilename())
+                backupSavingLauncher.launch(onCreateBackupFilename())
             }.onFailure {
                 scope.launch {
                     toastHostState.showToast(

@@ -59,8 +59,8 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 @Composable
 fun EmojiSettingItem(
     selectedEmojiIndex: Int,
-    addColorTupleFromEmoji: (getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) -> Unit,
-    updateEmoji: (Int) -> Unit,
+    onAddColorTupleFromEmoji: (getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) -> Unit,
+    onUpdateEmoji: (Int) -> Unit,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
     shape: Shape = ContainerShapeDefaults.topShape
 ) {
@@ -114,7 +114,7 @@ fun EmojiSettingItem(
                             Modifier.scaleOnTap(
                                 onRelease = { time ->
                                     if (time > 500) {
-                                        addColorTupleFromEmoji(
+                                        onAddColorTupleFromEmoji(
                                             { index ->
                                                 index?.let {
                                                     emojis[it].toString()
@@ -145,7 +145,7 @@ fun EmojiSettingItem(
         selectedEmojiIndex = selectedEmojiIndex,
         emojiWithCategories = Emoji.allIconsCategorized(),
         allEmojis = Emoji.allIcons(),
-        onEmojiPicked = updateEmoji,
+        onEmojiPicked = onUpdateEmoji,
         visible = showEmojiDialog,
         onDismiss = {
             showEmojiDialog = false

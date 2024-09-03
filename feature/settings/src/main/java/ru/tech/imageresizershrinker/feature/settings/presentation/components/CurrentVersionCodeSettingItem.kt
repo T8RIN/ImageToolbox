@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 
 @Composable
 fun CurrentVersionCodeSettingItem(
-    updateAvailable: Boolean,
+    isUpdateAvailable: Boolean,
     onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
@@ -58,7 +58,7 @@ fun CurrentVersionCodeSettingItem(
         shape = shape,
         modifier = Modifier
             .pulsate(
-                enabled = updateAvailable,
+                enabled = isUpdateAvailable,
                 range = 0.98f..1.02f
             )
             .then(modifier),

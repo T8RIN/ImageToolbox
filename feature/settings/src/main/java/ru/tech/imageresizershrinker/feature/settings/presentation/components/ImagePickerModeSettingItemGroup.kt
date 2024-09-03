@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun ImagePickerModeSettingItemGroup(
-    updateImagePickerMode: (Int) -> Unit,
+    onValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val settingsState = LocalSettingsState.current
@@ -63,7 +63,7 @@ fun ImagePickerModeSettingItemGroup(
             )
             PreferenceItem(
                 shape = shape,
-                onClick = { updateImagePickerMode(mode.ordinal) },
+                onClick = { onValueChange(mode.ordinal) },
                 title = stringResource(mode.title),
                 startIcon = mode.icon,
                 subtitle = stringResource(mode.subtitle),

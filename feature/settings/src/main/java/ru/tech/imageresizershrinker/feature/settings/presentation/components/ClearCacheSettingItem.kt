@@ -39,7 +39,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun ClearCacheSettingItem(
-    clearCache: ((String) -> Unit) -> Unit,
+    onClearCache: ((String) -> Unit) -> Unit,
     value: String,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
@@ -53,7 +53,7 @@ fun ClearCacheSettingItem(
     PreferenceItem(
         shape = shape,
         onClick = {
-            clearCache { cache = it }
+            onClearCache { cache = it }
         },
         modifier = modifier,
         title = stringResource(R.string.cache_size),

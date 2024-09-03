@@ -112,13 +112,12 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.Sett
 fun SettingsContent(
     viewModel: SettingsViewModel = hiltViewModel(),
     onTryGetUpdate: (
-        newRequest: Boolean,
-        installedFromMarket: Boolean,
+        isNewRequest: Boolean,
         onNoUpdates: Lambda
     ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Boolean,
-    updateAvailable: Boolean,
+    isUpdateAvailable: Boolean,
     onGoBack: Lambda? = null,
     isStandaloneScreen: Boolean = true,
     appBarNavigationIcon: (@Composable (Boolean, Lambda) -> Unit)? = null
@@ -362,8 +361,8 @@ fun SettingsContent(
                                                         setting = setting,
                                                         viewModel = viewModel,
                                                         onTryGetUpdate = onTryGetUpdate,
-                                                        updateAvailable = updateAvailable,
-                                                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                                        isUpdateAvailable = isUpdateAvailable,
+                                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                                                         onNavigateToEasterEgg = onNavigateToEasterEgg,
                                                         onNavigateToSettings = onNavigateToSettings
                                                     )
@@ -384,7 +383,7 @@ fun SettingsContent(
                                                         setting = setting,
                                                         viewModel = viewModel,
                                                         onTryGetUpdate = onTryGetUpdate,
-                                                        updateAvailable = updateAvailable,
+                                                        isUpdateAvailable = isUpdateAvailable,
                                                         onNavigateToEasterEgg = onNavigateToEasterEgg,
                                                         onNavigateToSettings = onNavigateToSettings
                                                     )
@@ -414,7 +413,7 @@ fun SettingsContent(
                                     setting = setting,
                                     viewModel = viewModel,
                                     onTryGetUpdate = onTryGetUpdate,
-                                    updateAvailable = updateAvailable,
+                                    isUpdateAvailable = isUpdateAvailable,
                                     onNavigateToEasterEgg = onNavigateToEasterEgg,
                                     onNavigateToSettings = onNavigateToSettings
                                 )

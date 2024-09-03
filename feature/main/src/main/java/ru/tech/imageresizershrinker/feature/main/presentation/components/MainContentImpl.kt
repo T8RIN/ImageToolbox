@@ -59,7 +59,7 @@ internal fun MainContentImpl(
     onToggleFavorite: (Screen) -> Unit,
     onShowSnowfall: () -> Unit,
     onTryGetUpdate: () -> Unit,
-    updateAvailable: Boolean
+    isUpdateAvailable: Boolean
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -155,7 +155,7 @@ internal fun MainContentImpl(
                     } else {
                         SearchableBottomBar(
                             searching = searching,
-                            updateAvailable = updateAvailable,
+                            updateAvailable = isUpdateAvailable,
                             onTryGetUpdate = onTryGetUpdate,
                             screenSearchKeyword = screenSearchKeyword,
                             onUpdateSearch = {

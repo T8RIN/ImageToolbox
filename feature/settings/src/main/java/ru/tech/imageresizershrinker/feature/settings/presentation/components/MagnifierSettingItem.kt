@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun MagnifierSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -43,7 +43,9 @@ fun MagnifierSettingItem(
         title = stringResource(R.string.magnifier),
         subtitle = stringResource(R.string.magnifier_sub),
         checked = settingsState.magnifierEnabled,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Outlined.ZoomIn
     )
 }

@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun AddOriginalFilenameSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -51,7 +51,9 @@ fun AddOriginalFilenameSettingItem(
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.picturePickerMode != PicturePickerMode.PhotoPicker,
         modifier = modifier,
         startIcon = Icons.Outlined.Difference,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         onDisabledClick = {
             scope.launch {
                 toastHostState.showToast(

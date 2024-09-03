@@ -387,10 +387,28 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) {
+    private fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) {
         viewModelScope.launch {
             settingsManager.setCopyToClipboardMode(copyToClipboardMode)
         }
+    }
+
+    fun toggleAutoPinClipboard(value: Boolean) {
+        val mode = if (value) {
+            CopyToClipboardMode.Enabled.WithSaving
+        } else {
+            CopyToClipboardMode.Disabled
+        }
+        setCopyToClipboardMode(mode)
+    }
+
+    fun toggleAutoPinClipboardOnlyClip(value: Boolean) {
+        val mode = if (value) {
+            CopyToClipboardMode.Enabled.WithoutSaving
+        } else {
+            CopyToClipboardMode.Enabled.WithSaving
+        }
+        setCopyToClipboardMode(mode)
     }
 
     fun setVibrationStrength(strength: Int) {

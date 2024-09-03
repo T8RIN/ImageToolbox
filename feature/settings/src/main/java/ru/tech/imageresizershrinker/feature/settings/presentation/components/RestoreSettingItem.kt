@@ -40,7 +40,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun RestoreSettingItem(
-    restoreBackupFrom: (uri: Uri) -> Unit,
+    onObtainBackupFile: (uri: Uri) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -48,7 +48,7 @@ fun RestoreSettingItem(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.let {
-                restoreBackupFrom(it)
+                onObtainBackupFile(it)
             }
         }
     )

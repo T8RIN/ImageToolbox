@@ -17,8 +17,10 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
@@ -28,8 +30,10 @@ import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
+import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.NavigationTransition
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.navigateNew
@@ -75,6 +79,7 @@ internal fun ScreenSelector(
     viewModel: RootViewModel,
     onRegisterScreenOpen: (Screen) -> Unit,
 ) {
+    val context = LocalContext.current as ComponentActivity
     val scope = rememberCoroutineScope()
     val navController = viewModel.navController
     val settingsState = LocalSettingsState.current
@@ -98,6 +103,14 @@ internal fun ScreenSelector(
         onRegisterScreenOpen(destination)
     }
 
+    val onTryGetUpdate: (Boolean, Lambda) -> Unit = { isNewRequest, onNoUpdates ->
+        viewModel.tryGetUpdate(
+            isNewRequest = isNewRequest,
+            isInstalledFromMarket = context.isInstalledFromPlayStore(),
+            onNoUpdates = onNoUpdates
+        )
+    }
+
     AnimatedNavHost(
         controller = navController,
         transitionQueueing = NavTransitionQueueing.ConflateQueued,
@@ -106,8 +119,8 @@ internal fun ScreenSelector(
         when (screen) {
             is Screen.Settings -> {
                 SettingsContent(
-                    onTryGetUpdate = viewModel::tryGetUpdate,
-                    updateAvailable = viewModel.updateAvailable,
+                    onTryGetUpdate = onTryGetUpdate,
+                    isUpdateAvailable = viewModel.isUpdateAvailable,
                     onGoBack = onGoBack,
                     onNavigateToEasterEgg = {
                         navController.navigateNew(Screen.EasterEgg).also {
@@ -128,9 +141,9 @@ internal fun ScreenSelector(
 
             is Screen.Main -> {
                 MainContent(
-                    onTryGetUpdate = viewModel::tryGetUpdate,
-                    updateAvailable = viewModel.updateAvailable,
-                    updateUris = viewModel::updateUris,
+                    onTryGetUpdate = onTryGetUpdate,
+                    isUpdateAvailable = viewModel.isUpdateAvailable,
+                    onUpdateUris = viewModel::updateUris,
                     onNavigateToSettings = {
                         navController.navigateNew(Screen.Settings).also {
                             if (it) onRegisterScreenOpen(Screen.Settings)

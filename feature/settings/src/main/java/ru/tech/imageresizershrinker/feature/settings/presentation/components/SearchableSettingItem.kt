@@ -53,13 +53,12 @@ internal fun SearchableSettingItem(
     shape: Shape,
     viewModel: SettingsViewModel,
     onTryGetUpdate: (
-        newRequest: Boolean,
-        installedFromMarket: Boolean,
+        isNewRequest: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Boolean,
-    updateAvailable: Boolean
+    isUpdateAvailable: Boolean
 ) {
     Column(
         modifier = modifier.container(
@@ -106,7 +105,7 @@ internal fun SearchableSettingItem(
                 setting = setting,
                 viewModel = viewModel,
                 onTryGetUpdate = onTryGetUpdate,
-                updateAvailable = updateAvailable,
+                isUpdateAvailable = isUpdateAvailable,
                 onNavigateToEasterEgg = onNavigateToEasterEgg,
                 onNavigateToSettings = onNavigateToSettings
             )

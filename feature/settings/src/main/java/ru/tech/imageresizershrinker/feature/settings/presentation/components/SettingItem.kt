@@ -17,12 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import android.app.Activity
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BrowserUpdated
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.MaterialTheme
@@ -33,27 +29,19 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
-import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
 
 @Composable
@@ -61,41 +49,36 @@ internal fun SettingItem(
     setting: Setting,
     viewModel: SettingsViewModel,
     onTryGetUpdate: (
-        newRequest: Boolean,
-        installedFromMarket: Boolean,
+        isNewRequest: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Boolean,
-    updateAvailable: Boolean,
-    color: Color = MaterialTheme.colorScheme.surface
+    isUpdateAvailable: Boolean,
+    containerColor: Color = MaterialTheme.colorScheme.surface
 ) {
-    fun tryGetUpdate(
-        newRequest: Boolean = false,
-        installedFromMarket: Boolean,
-        onNoUpdates: () -> Unit = {}
-    ) = onTryGetUpdate(newRequest, installedFromMarket, onNoUpdates)
-
     val context = LocalContext.current as ComponentActivity
+    
+    fun tryGetUpdate(
+        isNewRequest: Boolean = false,
+        onNoUpdates: () -> Unit = {}
+    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
+
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiHostState = LocalConfettiHostState.current
 
     ProvideContainerDefaults(
-        color = color,
+        color = containerColor,
         shape = LocalContainerShape.current
     ) {
         when (setting) {
             Setting.AddFileSize -> {
-                AddFileSizeSettingItem(
-                    onClick = { viewModel.toggleAddFileSize() }
-                )
+                AddFileSizeSettingItem(onClick = viewModel::toggleAddFileSize)
             }
 
             Setting.AddOriginalFilename -> {
-                AddOriginalFilenameSettingItem(
-                    onClick = { viewModel.toggleAddOriginalFilename() }
-                )
+                AddOriginalFilenameSettingItem(onClick = viewModel::toggleAddOriginalFilename)
             }
 
             Setting.AllowBetas -> {
@@ -104,7 +87,7 @@ internal fun SettingItem(
                         onClick = {
                             viewModel.toggleAllowBetas()
                             tryGetUpdate(
-                                true, context.isInstalledFromPlayStore()
+                                isNewRequest = true
                             )
                         }
                     )
@@ -112,19 +95,15 @@ internal fun SettingItem(
             }
 
             Setting.AllowImageMonet -> {
-                AllowImageMonetSettingItem(onClick = { viewModel.toggleAllowImageMonet() })
+                AllowImageMonetSettingItem(onClick = viewModel::toggleAllowImageMonet)
             }
 
             Setting.AmoledMode -> {
-                AmoledModeSettingItem(
-                    onClick = { viewModel.toggleAmoledMode() }
-                )
+                AmoledModeSettingItem(onClick = viewModel::toggleAmoledMode)
             }
 
             Setting.Analytics -> {
-                AnalyticsSettingItem(
-                    onClick = { viewModel.toggleAllowCollectAnalytics() }
-                )
+                AnalyticsSettingItem(onClick = viewModel::toggleAllowCollectAnalytics)
             }
 
             Setting.Author -> {
@@ -141,8 +120,8 @@ internal fun SettingItem(
 
             Setting.Backup -> {
                 BackupSettingItem(
-                    createBackupFilename = viewModel::createBackupFilename,
-                    createBackup = { uri ->
+                    onCreateBackupFilename = viewModel::createBackupFilename,
+                    onCreateBackup = { uri ->
                         viewModel.createBackup(
                             uri = uri,
                             onResult = { result ->
@@ -166,42 +145,37 @@ internal fun SettingItem(
 
             Setting.ChangeFont -> {
                 ChangeFontSettingItem(
-                    onFontSelected = { font ->
+                    onValueChange = { font ->
                         viewModel.setFont(font.asDomain())
-                        (context as? Activity)?.recreate()
+                        context.recreate()
                     }
                 )
             }
 
             Setting.ChangeLanguage -> {
-                ChangeLanguageSettingItem(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.topShape
-                )
+                ChangeLanguageSettingItem()
             }
 
             Setting.ClearCache -> {
                 ClearCacheSettingItem(
                     value = viewModel.getReadableCacheSize(),
-                    clearCache = viewModel::clearCache
+                    onClearCache = viewModel::clearCache
                 )
             }
 
             Setting.ColorScheme -> {
                 ColorSchemeSettingItem(
-                    toggleInvertColors = viewModel::toggleInvertColors,
-                    setThemeStyle = viewModel::setThemeStyle,
-                    updateThemeContrast = viewModel::updateThemeContrast,
-                    updateColorTuple = viewModel::setColorTuple,
-                    updateColorTuples = viewModel::updateColorTuples,
+                    onToggleInvertColors = viewModel::toggleInvertColors,
+                    onSetThemeStyle = viewModel::setThemeStyle,
+                    onUpdateThemeContrast = viewModel::updateThemeContrast,
+                    onUpdateColorTuple = viewModel::setColorTuple,
+                    onUpdateColorTuples = viewModel::updateColorTuples,
                     onToggleUseEmojiAsPrimaryColor = viewModel::toggleUseEmojiAsPrimaryColor
                 )
             }
 
             Setting.Crashlytics -> {
-                CrashlyticsSettingItem(
-                    onClick = { viewModel.toggleAllowCollectCrashlytics() }
-                )
+                CrashlyticsSettingItem(onClick = viewModel::toggleAllowCollectCrashlytics)
             }
 
             Setting.CurrentVersionCode -> {
@@ -221,8 +195,7 @@ internal fun SettingItem(
                     toastHostState.currentToastData?.dismiss()
                     if (clicks == 1) {
                         tryGetUpdate(
-                            newRequest = true,
-                            installedFromMarket = context.isInstalledFromPlayStore(),
+                            isNewRequest = true,
                             onNoUpdates = {
                                 scope.launch {
                                     toastHostState.showToast(
@@ -236,7 +209,7 @@ internal fun SettingItem(
                 }
 
                 CurrentVersionCodeSettingItem(
-                    updateAvailable = updateAvailable,
+                    isUpdateAvailable = isUpdateAvailable,
                     onClick = {
                         clicks++
                     }
@@ -248,52 +221,44 @@ internal fun SettingItem(
             }
 
             Setting.DynamicColors -> {
-                DynamicColorsSettingItem(
-                    onClick = { viewModel.toggleDynamicColors() }
-                )
+                DynamicColorsSettingItem(onClick = viewModel::toggleDynamicColors)
             }
 
             Setting.Emoji -> {
                 EmojiSettingItem(
-                    addColorTupleFromEmoji = viewModel::addColorTupleFromEmoji,
+                    onAddColorTupleFromEmoji = viewModel::addColorTupleFromEmoji,
                     selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
-                    updateEmoji = viewModel::setEmoji
+                    onUpdateEmoji = viewModel::setEmoji
                 )
             }
 
             Setting.EmojisCount -> {
-                EmojisCountSettingItem(updateEmojisCount = viewModel::setEmojisCount)
+                EmojisCountSettingItem(onValueChange = viewModel::setEmojisCount)
             }
 
             Setting.FabAlignment -> {
-                FabAlignmentSettingItem(updateAlignment = viewModel::setAlignment)
+                FabAlignmentSettingItem(onValueChange = viewModel::setAlignment)
             }
 
             Setting.FilenamePrefix -> {
-                FilenamePrefixSettingItem(
-                    onValueChange = viewModel::setFilenamePrefix
-                )
+                FilenamePrefixSettingItem(onValueChange = viewModel::setFilenamePrefix)
             }
 
             Setting.FilenameSuffix -> {
-                FilenameSuffixSettingItem(
-                    onValueChange = viewModel::setFilenameSuffix
-                )
+                FilenameSuffixSettingItem(onValueChange = viewModel::setFilenameSuffix)
             }
 
             Setting.FontScale -> {
                 FontScaleSettingItem(
                     onValueChange = {
                         viewModel.onUpdateFontScale(it)
-                        (context as Activity).recreate()
+                        context.recreate()
                     }
                 )
             }
 
             Setting.GroupOptions -> {
-                GroupOptionsSettingItem(
-                    onClick = { viewModel.toggleGroupOptionsByType() }
-                )
+                GroupOptionsSettingItem(onClick = viewModel::toggleGroupOptionsByType)
             }
 
             Setting.HelpTranslate -> {
@@ -301,9 +266,7 @@ internal fun SettingItem(
             }
 
             Setting.ImagePickerMode -> {
-                ImagePickerModeSettingItemGroup(
-                    updateImagePickerMode = viewModel::setImagePickerMode
-                )
+                ImagePickerModeSettingItemGroup(onValueChange = viewModel::setImagePickerMode)
             }
 
             Setting.IssueTracker -> {
@@ -311,9 +274,7 @@ internal fun SettingItem(
             }
 
             Setting.LockDrawOrientation -> {
-                LockDrawOrientationSettingItem(
-                    onClick = { viewModel.toggleLockDrawOrientation() }
-                )
+                LockDrawOrientationSettingItem(onClick = viewModel::toggleLockDrawOrientation)
             }
 
             Setting.NightMode -> {
@@ -328,9 +289,7 @@ internal fun SettingItem(
             }
 
             Setting.RandomizeFilename -> {
-                RandomizeFilenameSettingItem(
-                    onClick = { viewModel.toggleRandomizeFilename() }
-                )
+                RandomizeFilenameSettingItem(onClick = viewModel::toggleRandomizeFilename)
             }
 
             Setting.ReplaceSequenceNumber -> {
@@ -338,9 +297,7 @@ internal fun SettingItem(
             }
 
             Setting.OverwriteFiles -> {
-                OverwriteFilesSettingItem(
-                    onClick = { viewModel.toggleOverwriteFiles() }
-                )
+                OverwriteFilesSettingItem(onClick = viewModel::toggleOverwriteFiles)
             }
 
             Setting.Reset -> {
@@ -349,7 +306,7 @@ internal fun SettingItem(
 
             Setting.Restore -> {
                 RestoreSettingItem(
-                    restoreBackupFrom = {
+                    onObtainBackupFile = {
                         viewModel.restoreBackupFrom(
                             uri = it,
                             onSuccess = {
@@ -365,41 +322,31 @@ internal fun SettingItem(
                                         Icons.Rounded.Save
                                     )
                                 }
+                            },
+                            onFailure = {
+                                scope.launch {
+                                    toastHostState.showError(context, it)
+                                }
                             }
-                        ) {
-                            scope.launch {
-                                toastHostState.showError(context, it)
-                            }
-                        }
+                        )
                     }
                 )
             }
 
             Setting.SavingFolder -> {
-                SavingFolderSettingItemGroup(
-                    updateSaveFolderUri = viewModel::updateSaveFolderUri
-                )
+                SavingFolderSettingItemGroup(onValueChange = viewModel::updateSaveFolderUri)
             }
 
             Setting.ScreenOrder -> {
-                ScreenOrderSettingItem(
-                    updateOrder = viewModel::updateOrder
-                )
+                ScreenOrderSettingItem(onValueChange = viewModel::updateOrder)
             }
 
             Setting.ScreenSearch -> {
-                ScreenSearchSettingItem(
-                    onClick = { viewModel.toggleScreenSearchEnabled() }
-                )
+                ScreenSearchSettingItem(onClick = viewModel::toggleScreenSearchEnabled)
             }
 
             Setting.SourceCode -> {
-                SourceCodeSettingItem(
-                    shape = ContainerShapeDefaults.bottomShape,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
-                )
+                SourceCodeSettingItem()
             }
 
             Setting.Telegram -> {
@@ -407,18 +354,10 @@ internal fun SettingItem(
             }
 
             Setting.CheckUpdatesButton -> {
-                PreferenceItem(
-                    title = stringResource(R.string.check_for_updates),
-                    color = MaterialTheme.colorScheme.mixedContainer,
-                    contentColor = MaterialTheme.colorScheme.onMixedContainer,
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.bottomShape,
-                    startIcon = Icons.Outlined.BrowserUpdated,
-                    overrideIconShapeContentColor = true,
+                CheckUpdatesButtonSettingItem(
                     onClick = {
                         tryGetUpdate(
-                            newRequest = true,
-                            installedFromMarket = context.isInstalledFromPlayStore(),
+                            isNewRequest = true,
                             onNoUpdates = {
                                 scope.launch {
                                     toastHostState.showToast(
@@ -457,27 +396,11 @@ internal fun SettingItem(
             }
 
             Setting.AutoPinClipboard -> {
-                AutoPinClipboardSettingItem(
-                    onClick = {
-                        if (it) {
-                            viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithSaving)
-                        } else {
-                            viewModel.setCopyToClipboardMode(CopyToClipboardMode.Disabled)
-                        }
-                    }
-                )
+                AutoPinClipboardSettingItem(onClick = viewModel::toggleAutoPinClipboard)
             }
 
             Setting.AutoPinClipboardOnlyClip -> {
-                AutoPinClipboardOnlyClipSettingItem(
-                    onClick = {
-                        if (it) {
-                            viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithoutSaving)
-                        } else {
-                            viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithSaving)
-                        }
-                    }
-                )
+                AutoPinClipboardOnlyClipSettingItem(onClick = viewModel::toggleAutoPinClipboardOnlyClip)
             }
 
             Setting.VibrationStrength -> {
@@ -485,9 +408,7 @@ internal fun SettingItem(
             }
 
             Setting.DefaultScaleMode -> {
-                DefaultScaleModeSettingItem(
-                    onValueChange = viewModel::setDefaultImageScaleMode
-                )
+                DefaultScaleModeSettingItem(onValueChange = viewModel::setDefaultImageScaleMode)
             }
 
             Setting.SwitchType -> {
@@ -495,29 +416,27 @@ internal fun SettingItem(
             }
 
             Setting.Magnifier -> {
-                MagnifierSettingItem(onClick = { viewModel.toggleMagnifierEnabled() })
+                MagnifierSettingItem(onClick = viewModel::toggleMagnifierEnabled)
             }
 
             Setting.ExifWidgetInitialState -> {
-                ExifWidgetInitialStateSettingItem(onClick = { viewModel.toggleExifWidgetInitialState() })
+                ExifWidgetInitialStateSettingItem(onClick = viewModel::toggleExifWidgetInitialState)
             }
 
             Setting.BrightnessEnforcement -> {
-                BrightnessEnforcementSettingItem(
-                    updateScreens = viewModel::updateBrightnessEnforcementScreens
-                )
+                BrightnessEnforcementSettingItem(onValueChange = viewModel::updateBrightnessEnforcementScreens)
             }
 
             Setting.Confetti -> {
-                ConfettiSettingItem(viewModel::toggleConfettiEnabled)
+                ConfettiSettingItem(onClick = viewModel::toggleConfettiEnabled)
             }
 
             Setting.SecureMode -> {
-                SecureModeSettingItem(viewModel::toggleSecureMode)
+                SecureModeSettingItem(onClick = viewModel::toggleSecureMode)
             }
 
             Setting.UseRandomEmojis -> {
-                UseRandomEmojisSettingItem(viewModel::toggleUseRandomEmojis)
+                UseRandomEmojisSettingItem(onClick = viewModel::toggleUseRandomEmojis)
             }
 
             Setting.IconShape -> {

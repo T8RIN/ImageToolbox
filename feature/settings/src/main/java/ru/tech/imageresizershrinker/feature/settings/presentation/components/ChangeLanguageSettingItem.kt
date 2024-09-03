@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
@@ -65,8 +64,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ChangeLanguageSettingItem(
-    modifier: Modifier = Modifier,
-    shape: Shape = RoundedCornerShape(16.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp),
+    shape: Shape = ContainerShapeDefaults.topShape
 ) {
     val context = LocalContext.current
     var showEmbeddedLanguagePicker by rememberSaveable { mutableStateOf(false) }

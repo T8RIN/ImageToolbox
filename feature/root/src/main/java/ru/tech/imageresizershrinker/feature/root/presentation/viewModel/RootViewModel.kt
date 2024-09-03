@@ -78,10 +78,10 @@ class RootViewModel @Inject constructor(
     private val _showUpdateDialog = mutableStateOf(false)
     val showUpdateDialog by _showUpdateDialog
 
-    private val _updateAvailable = mutableStateOf(false)
-    val updateAvailable by _updateAvailable
+    private val _isUpdateAvailable = mutableStateOf(false)
+    val isUpdateAvailable by _isUpdateAvailable
 
-    private val _cancelledUpdate = mutableStateOf(false)
+    private val _isUpdateCancelled = mutableStateOf(false)
 
     private val _shouldShowExitDialog = mutableStateOf(true)
     val shouldShowDialog by _shouldShowExitDialog
@@ -121,7 +121,7 @@ class RootViewModel @Inject constructor(
     }
 
     fun cancelledUpdate(showAgain: Boolean = false) {
-        if (!showAgain) _cancelledUpdate.value = true
+        if (!showAgain) _isUpdateCancelled.value = true
         _showUpdateDialog.value = false
     }
 
@@ -138,7 +138,7 @@ class RootViewModel @Inject constructor(
                 _showUpdateDialog.value = isNewRequest
             }
         } else {
-            if (!_cancelledUpdate.value || isNewRequest) {
+            if (!_isUpdateCancelled.value || isNewRequest) {
                 viewModelScope.launch {
                     checkForUpdates(showDialog, onNoUpdates)
                 }
@@ -174,7 +174,7 @@ class RootViewModel @Inject constructor(
                     updateName = tag
                 )
             ) {
-                _updateAvailable.value = true
+                _isUpdateAvailable.value = true
                 if (showDialog) {
                     _showUpdateDialog.value = true
                 }

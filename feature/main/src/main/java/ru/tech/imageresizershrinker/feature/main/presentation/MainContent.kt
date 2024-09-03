@@ -75,7 +75,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
@@ -90,22 +89,20 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsConten
 @Composable
 fun MainContent(
     onTryGetUpdate: (
-        newRequest: Boolean,
-        installedFromMarket: Boolean,
+        isNewRequest: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
     onNavigateToSettings: () -> Boolean,
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
-    updateAvailable: Boolean,
-    updateUris: (List<Uri>) -> Unit,
+    isUpdateAvailable: Boolean,
+    onUpdateUris: (List<Uri>) -> Unit,
     onToggleFavorite: (Screen) -> Unit
 ) {
     fun tryGetUpdate(
-        newRequest: Boolean,
-        installedFromMarket: Boolean,
+        isNewRequest: Boolean,
         onNoUpdates: () -> Unit
-    ) = onTryGetUpdate(newRequest, installedFromMarket, onNoUpdates)
+    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
 
     val settingsState = LocalSettingsState.current
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
@@ -126,7 +123,7 @@ fun MainContent(
                 settingsBlockContent = {
                     SettingsContent(
                         onTryGetUpdate = ::tryGetUpdate,
-                        updateAvailable = updateAvailable,
+                        isUpdateAvailable = isUpdateAvailable,
                         isStandaloneScreen = false,
                         onNavigateToEasterEgg = onNavigateToEasterEgg,
                         onNavigateToSettings = onNavigateToSettings
@@ -187,11 +184,10 @@ fun MainContent(
             onShowSnowfall = {
                 showSnowfall = true
             },
-            onGetClipList = updateUris,
+            onGetClipList = onUpdateUris,
             onTryGetUpdate = {
                 tryGetUpdate(
-                    newRequest = true,
-                    installedFromMarket = context.isInstalledFromPlayStore(),
+                    isNewRequest = true,
                     onNoUpdates = {
                         scope.launch {
                             toastHost.showToast(
@@ -202,7 +198,7 @@ fun MainContent(
                     }
                 )
             },
-            updateAvailable = updateAvailable,
+            isUpdateAvailable = isUpdateAvailable,
             onNavigateToSettings = { onNavigateToSettings() },
             onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
             onToggleFavorite = onToggleFavorite

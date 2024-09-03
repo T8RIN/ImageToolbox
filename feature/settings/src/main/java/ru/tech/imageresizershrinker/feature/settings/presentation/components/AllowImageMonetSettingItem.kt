@@ -36,8 +36,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun AllowImageMonetSettingItem(
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
-    onClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val toastHostState = LocalToastHostState.current
@@ -60,7 +60,9 @@ fun AllowImageMonetSettingItem(
         title = stringResource(R.string.allow_image_monet),
         subtitle = stringResource(R.string.allow_image_monet_sub),
         checked = settingsState.allowChangeColorByImage,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Outlined.WaterDrop
     )
 }

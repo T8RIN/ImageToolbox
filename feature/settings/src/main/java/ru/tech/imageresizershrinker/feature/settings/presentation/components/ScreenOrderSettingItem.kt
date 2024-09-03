@@ -65,7 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ScreenOrderSettingItem(
-    updateOrder: (List<Screen>) -> Unit,
+    onValueChange: (List<Screen>) -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -133,7 +133,7 @@ fun ScreenOrderSettingItem(
                         }
                     },
                     onDragEnd = { _, _ ->
-                        updateOrder(data.value)
+                        onValueChange(data.value)
                     }
                 )
                 LazyColumn(

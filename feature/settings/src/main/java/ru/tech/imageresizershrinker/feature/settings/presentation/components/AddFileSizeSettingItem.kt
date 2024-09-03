@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun AddFileSizeSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -42,7 +42,9 @@ fun AddFileSizeSettingItem(
         modifier = modifier,
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
         startIcon = Icons.Outlined.Hexagon,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         title = stringResource(R.string.add_file_size),
         subtitle = stringResource(R.string.add_file_size_sub),
         checked = settingsState.addSizeInFilename

@@ -66,11 +66,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorSchemeSettingItem(
-    toggleInvertColors: () -> Unit,
-    setThemeStyle: (Int) -> Unit,
-    updateThemeContrast: (Float) -> Unit,
-    updateColorTuple: (ColorTuple) -> Unit,
-    updateColorTuples: (List<ColorTuple>) -> Unit,
+    onToggleInvertColors: () -> Unit,
+    onSetThemeStyle: (Int) -> Unit,
+    onUpdateThemeContrast: (Float) -> Unit,
+    onUpdateColorTuple: (ColorTuple) -> Unit,
+    onUpdateColorTuples: (List<ColorTuple>) -> Unit,
     onToggleUseEmojiAsPrimaryColor: () -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
@@ -101,6 +101,19 @@ fun ColorSchemeSettingItem(
             }
         },
         endContent = {
+            val colorTuple by remember(
+                settingsState.themeStyle,
+                settingsState.appColorTuple
+            ) {
+                derivedStateOf {
+                    if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
+                        settingsState.appColorTuple
+                    } else settingsState.appColorTuple.run {
+                        copy(secondary = primary, tertiary = primary)
+                    }
+                }
+            }
+
             ColorTupleItem(
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -116,18 +129,7 @@ fun ColorSchemeSettingItem(
                         resultPadding = 5.dp
                     )
                     .clip(CircleShape),
-                colorTuple = remember(
-                    settingsState.themeStyle,
-                    settingsState.appColorTuple
-                ) {
-                    derivedStateOf {
-                        if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
-                            settingsState.appColorTuple
-                        } else settingsState.appColorTuple.run {
-                            copy(secondary = primary, tertiary = primary)
-                        }
-                    }
-                }.value,
+                colorTuple = colorTuple,
                 backgroundColor = Color.Transparent
             ) {
                 Box(
@@ -163,13 +165,13 @@ fun ColorSchemeSettingItem(
             dynamicColor = settingsState.isDynamicColors,
             darkTheme = settingsState.isNightMode
         ),
-        onToggleInvertColors = toggleInvertColors,
-        onThemeStyleSelected = { setThemeStyle(it.ordinal) },
-        updateThemeContrast = updateThemeContrast,
-        openColorPicker = {
+        onToggleInvertColors = onToggleInvertColors,
+        onThemeStyleSelected = { onSetThemeStyle(it.ordinal) },
+        updateThemeContrast = onUpdateThemeContrast,
+        onOpenColorPicker = {
             showColorPicker = true
         },
-        colorPicker = { onUpdateColorTuples ->
+        colorPicker = {
             ColorTuplePicker(
                 visible = showColorPicker,
                 colorTuple = settingsState.appColorTuple,
@@ -177,18 +179,16 @@ fun ColorSchemeSettingItem(
                     showColorPicker = false
                 },
                 onColorChange = {
-                    updateColorTuple(it)
+                    onUpdateColorTuple(it)
                     onUpdateColorTuples(settingsState.colorTupleList + it)
                 }
             )
         },
-        onUpdateColorTuples = {
-            updateColorTuples(it)
-        },
+        onUpdateColorTuples = onUpdateColorTuples,
         onToggleUseEmojiAsPrimaryColor = onToggleUseEmojiAsPrimaryColor,
         onDismiss = {
             showPickColorSheet = false
         },
-        onPickTheme = { updateColorTuple(it) }
+        onPickTheme = onUpdateColorTuple
     )
 }

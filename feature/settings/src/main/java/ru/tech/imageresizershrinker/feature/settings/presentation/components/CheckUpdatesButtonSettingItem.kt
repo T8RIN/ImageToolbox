@@ -19,33 +19,33 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.SettingsInputComposite
+import androidx.compose.material.icons.outlined.BrowserUpdated
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
+import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
-fun GroupOptionsSettingItem(
+fun CheckUpdatesButtonSettingItem(
     onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.bottomShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val settingsState = LocalSettingsState.current
-    PreferenceRowSwitch(
-        shape = shape,
+    PreferenceItem(
+        title = stringResource(R.string.check_for_updates),
+        color = MaterialTheme.colorScheme.mixedContainer,
+        contentColor = MaterialTheme.colorScheme.onMixedContainer,
         modifier = modifier,
-        startIcon = Icons.Outlined.SettingsInputComposite,
-        title = stringResource(R.string.group_options_by_type),
-        subtitle = stringResource(R.string.group_options_by_type_sub),
-        checked = settingsState.groupOptionsByTypes,
-        onClick = {
-            onClick()
-        }
+        shape = shape,
+        startIcon = Icons.Outlined.BrowserUpdated,
+        overrideIconShapeContentColor = true,
+        onClick = onClick
     )
 }

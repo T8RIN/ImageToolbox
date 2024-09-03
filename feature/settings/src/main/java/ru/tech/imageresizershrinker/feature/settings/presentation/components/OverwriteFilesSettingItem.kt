@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun OverwriteFilesSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -40,7 +40,9 @@ fun OverwriteFilesSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         enabled = !settingsState.randomizeFilename,
         title = stringResource(R.string.overwrite_files),
         subtitle = stringResource(R.string.overwrite_files_sub),

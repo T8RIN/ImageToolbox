@@ -106,8 +106,8 @@ fun AvailableColorTuplesSheet(
     onDismiss: () -> Unit,
     colorTupleList: List<ColorTuple>,
     currentColorTuple: ColorTuple,
-    openColorPicker: () -> Unit,
-    colorPicker: @Composable (onUpdateColorTuples: (List<ColorTuple>) -> Unit) -> Unit,
+    onOpenColorPicker: () -> Unit,
+    colorPicker: @Composable () -> Unit,
     onPickTheme: (ColorTuple) -> Unit,
     updateThemeContrast: (Float) -> Unit,
     onThemeStyleSelected: (PaletteStyle) -> Unit,
@@ -462,7 +462,7 @@ fun AvailableColorTuplesSheet(
                                         borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
                                         resultPadding = 0.dp
                                     )
-                                    .clickable { openColorPicker() }
+                                    .clickable { onOpenColorPicker() }
                                     .padding(3.dp)
                                     .clip(CircleShape),
                                 backgroundColor = Color.Transparent
@@ -498,7 +498,7 @@ fun AvailableColorTuplesSheet(
             onPickTheme(it)
         }
     )
-    colorPicker(onUpdateColorTuples)
+    colorPicker()
 
     if (settingsState.isDynamicColors) onDismiss()
 }

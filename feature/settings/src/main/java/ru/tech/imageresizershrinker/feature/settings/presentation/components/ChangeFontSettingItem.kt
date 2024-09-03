@@ -40,7 +40,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 
 @Composable
 fun ChangeFontSettingItem(
-    onFontSelected: (UiFontFamily) -> Unit,
+    onValueChange: (UiFontFamily) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -63,6 +63,6 @@ fun ChangeFontSettingItem(
         onDismiss = {
             showFontSheet = false
         },
-        onFontSelected = onFontSelected
+        onFontSelected = onValueChange
     )
 }

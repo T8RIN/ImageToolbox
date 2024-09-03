@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun RandomizeFilenameSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -41,7 +41,9 @@ fun RandomizeFilenameSettingItem(
         shape = shape,
         modifier = modifier,
         enabled = !settingsState.overwriteFiles,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         title = stringResource(R.string.randomize_filename),
         subtitle = stringResource(R.string.randomize_filename_sub),
         checked = settingsState.randomizeFilename,

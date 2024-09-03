@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun ScreenSearchSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -44,6 +44,8 @@ fun ScreenSearchSettingItem(
         startIcon = Icons.AutoMirrored.Rounded.ManageSearch,
         subtitle = stringResource(R.string.search_option_sub),
         checked = settingsState.screensSearchEnabled,
-        onClick = onClick
+        onClick = {
+            onClick()
+        }
     )
 }

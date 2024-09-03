@@ -62,7 +62,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun FabAlignmentSettingItem(
-    updateAlignment: (Float) -> Unit,
+    onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp),
     shape: Shape = ContainerShapeDefaults.bottomShape
@@ -161,7 +161,7 @@ fun FabAlignmentSettingItem(
                     value = sliderValue,
                     onValueChange = {
                         sliderValue = it
-                        updateAlignment(sliderValue)
+                        onValueChange(sliderValue)
                     },
                     colors = SliderDefaults.colors(
                         activeTickColor = MaterialTheme.colorScheme.inverseSurface,

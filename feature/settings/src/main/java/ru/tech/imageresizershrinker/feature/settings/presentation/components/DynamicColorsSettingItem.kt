@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun DynamicColorsSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
     shape: Shape = ContainerShapeDefaults.centerShape
 ) {
@@ -44,6 +44,8 @@ fun DynamicColorsSettingItem(
         title = stringResource(R.string.dynamic_colors),
         subtitle = stringResource(R.string.dynamic_colors_sub),
         checked = settingsState.isDynamicColors,
-        onClick = onClick
+        onClick = {
+            onClick()
+        }
     )
 }

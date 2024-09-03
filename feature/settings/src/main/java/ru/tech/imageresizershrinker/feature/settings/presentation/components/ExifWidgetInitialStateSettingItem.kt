@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun ExifWidgetInitialStateSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.defaultShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -43,7 +43,9 @@ fun ExifWidgetInitialStateSettingItem(
         title = stringResource(R.string.force_exif_widget_inital_value),
         subtitle = stringResource(R.string.force_exif_widget_inital_value_sub),
         checked = settingsState.exifWidgetInitialState,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Outlined.DataSaverOff
     )
 }
