@@ -58,7 +58,7 @@ object IconShapeDefaults {
             IconShape(CloverShape),
             IconShape(MaterialStarShape, 6.dp, 22.dp),
             IconShape(SmallMaterialStarShape, 6.dp, 22.dp),
-            IconShape(BookmarkShape, 6.dp, 22.dp),
+            IconShape(BookmarkShape, 8.dp, 22.dp),
             IconShape(OvalShape, 6.dp),
             IconShape(PentagonShape, 6.dp, 22.dp),
             IconShape(OctagonShape, 6.dp, 22.dp),
@@ -136,6 +136,7 @@ fun IconShapeContainer(
                             .offset(
                                 y = when (iconShapeAnimated.shape) {
                                     PentagonShape -> 2.dp
+                                    BookmarkShape -> (-1).dp
                                     SimpleHeartShape -> (-1.5).dp
                                     else -> 0.dp
                                 }
