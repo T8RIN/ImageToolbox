@@ -31,6 +31,7 @@ import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.settings.Paths
+import ru.tech.imageresizershrinker.core.ui.shapes.BookmarkShape
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.shapes.KotlinShape
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
@@ -123,6 +124,18 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 7
                 override val title: String
                     get() = "Clover"
+
+            }
+        ),
+        CropOutlineProperty(
+            OutlineType.Custom,
+            object : CropShape {
+                override val shape: Shape
+                    get() = BookmarkShape
+                override val id: Int
+                    get() = 17
+                override val title: String
+                    get() = "Bookmark"
 
             }
         ),

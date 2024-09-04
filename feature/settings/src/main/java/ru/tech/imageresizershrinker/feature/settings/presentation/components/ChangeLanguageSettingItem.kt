@@ -35,7 +35,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getCurrentLocaleString
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getLanguages
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedRadioButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -172,7 +172,7 @@ private fun PickLanguageSheet(
                                 size = entries.size
                             ),
                             endIcon = {
-                                RadioButton(
+                                EnhancedRadioButton(
                                     selected = isSelected,
                                     onClick = {
                                         onSelect(locale.key)

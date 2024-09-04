@@ -70,7 +70,6 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
@@ -115,6 +114,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedCheckbox
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
@@ -188,20 +188,23 @@ fun RecognizeLanguageSelector(
         mutableStateOf(value.isNotEmpty())
     }
 
-    val onValueChangeImpl: (Boolean, RecognitionType, OCRLanguage) -> Unit =
-        { selected, type, lang ->
-            if (allowMultipleLanguagesSelection) {
-                if (selected) {
-                    onValueChange(
-                        (value - lang).distinct(),
-                        type
-                    )
-                } else onValueChange(
-                    (value + lang).distinct(),
+    fun onValueChangeImpl(
+        selected: Boolean,
+        type: RecognitionType,
+        lang: OCRLanguage
+    ) {
+        if (allowMultipleLanguagesSelection) {
+            if (selected) {
+                onValueChange(
+                    (value - lang).distinct(),
                     type
                 )
-            } else onValueChange(listOf(lang), type)
-        }
+            } else onValueChange(
+                (value + lang).distinct(),
+                type
+            )
+        } else onValueChange(listOf(lang), type)
+    }
 
     var deleteDialogData by remember {
         mutableStateOf<OCRLanguage?>(null)
@@ -385,9 +388,9 @@ fun RecognizeLanguageSelector(
                                                 HapticFeedbackType.LongPress
                                             )
                                             onValueChangeImpl(
-                                                selected,
-                                                currentRecognitionType,
-                                                lang
+                                                selected = selected,
+                                                type = currentRecognitionType,
+                                                lang = lang
                                             )
                                         },
                                         color = animateColorAsState(
@@ -628,9 +631,9 @@ fun RecognizeLanguageSelector(
                                                         HapticFeedbackType.LongPress
                                                     )
                                                     onValueChangeImpl(
-                                                        selected,
-                                                        currentRecognitionType,
-                                                        lang
+                                                        selected = selected,
+                                                        type = currentRecognitionType,
+                                                        lang = lang
                                                     )
                                                 }
                                                 .padding(16.dp),
@@ -640,13 +643,13 @@ fun RecognizeLanguageSelector(
                                                 LocalMinimumInteractiveComponentSize.ProvidesValue(
                                                     Dp.Unspecified
                                                 ) {
-                                                    Checkbox(
+                                                    EnhancedCheckbox(
                                                         checked = selected,
                                                         onCheckedChange = {
                                                             onValueChangeImpl(
-                                                                selected,
-                                                                currentRecognitionType,
-                                                                lang
+                                                                selected = selected,
+                                                                type = currentRecognitionType,
+                                                                lang = lang
                                                             )
                                                         },
                                                         modifier = Modifier.padding(end = 8.dp)
@@ -774,7 +777,11 @@ fun RecognizeLanguageSelector(
                                         haptics.performHapticFeedback(
                                             HapticFeedbackType.LongPress
                                         )
-                                        onValueChangeImpl(selected, currentRecognitionType, lang)
+                                        onValueChangeImpl(
+                                            selected = selected,
+                                            type = currentRecognitionType,
+                                            lang = lang
+                                        )
                                     },
                                     color = animateColorAsState(
                                         if (selected) {
