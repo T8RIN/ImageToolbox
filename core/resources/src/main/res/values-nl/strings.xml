@@ -1339,4 +1339,12 @@
     <string name="webp_tools">WEBP-hulpmiddelen</string>
     <string name="webp_tools_sub">Converteer afbeeldingen naar WEBP-animatie of extraheer frames van gegeven WEBP-animatie</string>
     <string name="webp_type_to_image">WEBP naar afbeeldingen</string>
+    <string name="manage_storage_extra_types">Geen volledige toegang tot bestanden</string>
+    <string name="default_draw_color">Standaard tekenkleur</string>
+    <string name="default_draw_path_mode">Standaard padmodus tekenen</string>
+    <string name="add_timestamp">Tijdstempel toevoegen</string>
+    <string name="add_timestamp_sub">Tijdstempel inschakelen en dit toevoegen aan de bestandsnaam van de uitvoer</string>
+    <string name="formatted_timestamp">Tijdstempel met opmaak</string>
+    <string name="enable_timestamps_to_format_them">Schakel Tijdstempel in om de opmaak te selecteren</string>
+    <string name="manage_storage_extra_types_sub">Verleen toegang tot alle bestanden om JXL, QOI en andere afbeeldingen te zien die op Android niet worden herkend als afbeeldingsbestanden. Zonder deze toestemming, zijn deze afbeeldingen hier niet zien.</string>
 </resources>
