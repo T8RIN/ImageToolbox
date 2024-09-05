@@ -1362,7 +1362,7 @@
     <string name="default_draw_color">Default Draw Color</string>
     <string name="default_draw_path_mode">Default Draw Path Mode</string>
     <string name="add_timestamp">Add Timestamp</string>
-    <string name="add_timestamp_sub">Enable Timestamp adding to the output filename</string>
+    <string name="add_timestamp_sub">Enables Timestamp adding to the output filename</string>
     <string name="formatted_timestamp">Formatted Timestamp</string>
     <string name="formatted_timestamp_sub">Enable Timestamp formatting in output filename instead of basic millis</string>
     <string name="enable_timestamps_to_format_them">Enable Timestamps to select their format</string>
