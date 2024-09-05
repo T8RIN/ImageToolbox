@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.rounded.ContentPasteGo
 import androidx.compose.material.icons.rounded.Draw
@@ -46,6 +48,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +62,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -68,11 +72,13 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -88,6 +94,9 @@ fun ColorSelectionRow(
     onValueChange: (Color) -> Unit,
     contentPadding: PaddingValues = PaddingValues()
 ) {
+    val scope = rememberCoroutineScope()
+    val toastHostState = LocalToastHostState.current
+    val context = LocalContext.current
     var customColor by remember { mutableStateOf<Color?>(null) }
     var showColorPicker by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
@@ -128,7 +137,24 @@ fun ColorSelectionRow(
                     )
                     .transparencyChecker()
                     .background(background, CircleShape)
-                    .clickable {
+                    .combinedClickable(
+                        onLongClick = {
+                            context.pasteColorFromClipboard(
+                                onPastedColor = {
+                                    onValueChange(Color(it))
+                                    customColor = Color(it)
+                                },
+                                onPastedColorFailure = { message ->
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            message = message,
+                                            icon = Icons.Outlined.Error
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                    ) {
                         showColorPicker = true
                     },
                 contentAlignment = Alignment.Center
@@ -184,7 +210,6 @@ fun ColorSelectionRow(
         mutableIntStateOf(customColor?.toArgb() ?: 0)
     }
     val settingsState = LocalSettingsState.current
-    val scope = rememberCoroutineScope()
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
     SimpleSheet(
         sheetContent = {
@@ -213,8 +238,11 @@ fun ColorSelectionRow(
                             Spacer(Modifier.height(16.dp))
                             val rowState = rememberLazyListState()
                             val itemWidth = with(LocalDensity.current) { 48.dp.toPx() }
-                            val possibleCount =
-                                (rowState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
+                            val possibleCount by remember(rowState, itemWidth) {
+                                derivedStateOf {
+                                    (rowState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
+                                }
+                            }
                             LazyRow(
                                 state = rowState,
                                 modifier = modifier
