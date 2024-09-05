@@ -502,12 +502,14 @@ or click one of the badges below.
         - Kotlin Logo
         - Small Material Star
         - Heart
+        - Shuriken
         - Bookmark
         - Pill
         - Burger
         - Shield
         - Droplet
         - Arrow
+        - Egg
         - Enhanced Heart
         - Star
         - Image Mask
