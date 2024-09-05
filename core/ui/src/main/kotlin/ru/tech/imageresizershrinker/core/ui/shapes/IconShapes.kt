@@ -68,7 +68,8 @@ object IconShapeDefaults {
             IconShape(ArrowShape, 10.dp, 20.dp),
             IconShape(PentagonShape, 6.dp, 22.dp),
             IconShape(OctagonShape, 6.dp, 22.dp),
-            IconShape(ShurikenShape, 6.dp),
+            IconShape(ShurikenShape, 8.dp, 22.dp),
+            IconShape(ExplosionShape, 6.dp),
             IconShape(HeartShape, 10.dp, 18.dp),
             IconShape(SimpleHeartShape, 12.dp, 16.dp),
             IconShape.Random
