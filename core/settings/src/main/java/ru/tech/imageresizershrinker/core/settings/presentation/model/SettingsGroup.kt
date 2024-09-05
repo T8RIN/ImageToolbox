@@ -178,7 +178,8 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.FolderOpened,
         titleId = R.string.folder,
         settingsList = listOf(
-            Setting.SavingFolder
+            Setting.SavingFolder,
+            Setting.OneTimeSaveLocation
         ),
         initialState = false
     )

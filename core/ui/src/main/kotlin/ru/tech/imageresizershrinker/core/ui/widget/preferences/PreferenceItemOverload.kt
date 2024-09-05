@@ -53,6 +53,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -196,6 +197,7 @@ fun PreferenceItemOverload(
                                 Text(
                                     text = sub,
                                     fontSize = 12.sp,
+                                    textAlign = TextAlign.Start,
                                     fontWeight = FontWeight.Normal,
                                     lineHeight = 14.sp,
                                     color = LocalContentColor.current.copy(alpha = 0.5f)

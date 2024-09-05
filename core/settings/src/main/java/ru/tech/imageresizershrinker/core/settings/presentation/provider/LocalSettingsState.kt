@@ -20,15 +20,15 @@ package ru.tech.imageresizershrinker.core.settings.presentation.provider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
-import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingInteractor
+import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.model.EditPresetsController
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiSettingsState
 
 val LocalSettingsState =
     compositionLocalOf<UiSettingsState> { error("UiSettingsState not present") }
 
-val LocalSimpleSettingInteractor =
-    compositionLocalOf<SimpleSettingInteractor> { error("SimpleSettingInteractor not present") }
+val LocalSimpleSettingsInteractor =
+    compositionLocalOf<SimpleSettingsInteractor> { error("SimpleSettingInteractor not present") }
 
 val LocalEditPresetsController =
     compositionLocalOf<EditPresetsController> { error("EditPresetsController not present") }

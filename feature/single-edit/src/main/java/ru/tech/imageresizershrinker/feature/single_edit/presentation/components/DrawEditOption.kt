@@ -75,7 +75,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
@@ -316,7 +316,7 @@ fun DrawEditOption(
                         }
                     }.value
                 )
-                val settingsInteractor = LocalSimpleSettingInteractor.current
+                val settingsInteractor = LocalSimpleSettingsInteractor.current
                 val scope = rememberCoroutineScope()
                 PreferenceRowSwitch(
                     modifier = Modifier

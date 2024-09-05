@@ -417,4 +417,9 @@ sealed class Setting(
         title = R.string.formatted_timestamp,
         subtitle = R.string.formatted_timestamp_sub
     )
+
+    data object OneTimeSaveLocation : Setting(
+        title = R.string.one_time_save_location,
+        subtitle = R.string.one_time_save_location_sub
+    )
 }

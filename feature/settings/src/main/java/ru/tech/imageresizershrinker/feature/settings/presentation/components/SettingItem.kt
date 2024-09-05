@@ -58,7 +58,7 @@ internal fun SettingItem(
     containerColor: Color = MaterialTheme.colorScheme.surface
 ) {
     val context = LocalContext.current as ComponentActivity
-    
+
     fun tryGetUpdate(
         isNewRequest: Boolean = false,
         onNoUpdates: () -> Unit = {}
@@ -519,6 +519,10 @@ internal fun SettingItem(
 
             Setting.UseFormattedFilenameTimestamp -> {
                 UseFormattedFilenameTimestampSettingItem(onClick = viewModel::toggleUseFormattedFilenameTimestamp)
+            }
+
+            Setting.OneTimeSaveLocation -> {
+                OneTimeSaveLocationSettingItem()
             }
         }
     }

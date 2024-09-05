@@ -129,7 +129,7 @@ import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
@@ -445,7 +445,7 @@ fun DrawContent(
                 }
             }.value
         )
-        val settingsInteractor = LocalSimpleSettingInteractor.current
+        val settingsInteractor = LocalSimpleSettingsInteractor.current
         PreferenceRowSwitch(
             modifier = Modifier
                 .fillMaxWidth()

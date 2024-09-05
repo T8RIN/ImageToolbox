@@ -72,7 +72,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -93,7 +93,7 @@ import java.util.Locale
 @Composable
 fun OneTimeSaveLocationSelectionDialog(
     onDismiss: () -> Unit,
-    onSaveRequest: (String?) -> Unit
+    onSaveRequest: ((String?) -> Unit)?
 ) {
     val settingsState = LocalSettingsState.current
     var tempSelectedSaveFolderUri by rememberSaveable {
@@ -105,14 +105,16 @@ fun OneTimeSaveLocationSelectionDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            EnhancedButton(
-                onClick = {
-                    onDismiss()
-                    onSaveRequest(selectedSaveFolderUri)
-                },
-                containerColor = MaterialTheme.colorScheme.primary
-            ) {
-                Text(text = stringResource(id = R.string.save))
+            onSaveRequest?.let {
+                EnhancedButton(
+                    onClick = {
+                        onDismiss()
+                        onSaveRequest(selectedSaveFolderUri)
+                    },
+                    containerColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Text(text = stringResource(id = R.string.save))
+                }
             }
         },
         dismissButton = {
@@ -204,7 +206,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         size = data.size + 1,
                         forceDefault = isDragged
                     )
-                    val settingsInteractor = LocalSimpleSettingInteractor.current
+                    val settingsInteractor = LocalSimpleSettingsInteractor.current
                     val canDeleteItem by remember(item, settingsState) {
                         derivedStateOf {
                             item != null && item in settingsState.oneTimeSaveLocations

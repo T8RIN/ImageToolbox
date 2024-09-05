@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingInteractor
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberEditPresetsController
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
@@ -104,7 +104,7 @@ fun RootContent(
     CompositionLocalProvider(
         LocalToastHostState provides viewModel.toastHostState,
         LocalSettingsState provides settingsState,
-        LocalSimpleSettingInteractor provides viewModel.getSettingsInteractor(),
+        LocalSimpleSettingsInteractor provides viewModel.getSettingsInteractor(),
         LocalEditPresetsController provides editPresetsController,
         LocalConfettiHostState provides rememberConfettiHostState(),
         LocalImageLoader provides viewModel.imageLoader,

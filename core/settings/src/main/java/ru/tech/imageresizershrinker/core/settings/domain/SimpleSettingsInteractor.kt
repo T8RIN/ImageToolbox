@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.core.settings.domain
 
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 
-interface SimpleSettingInteractor {
+interface SimpleSettingsInteractor {
 
     suspend fun toggleMagnifierEnabled()
 

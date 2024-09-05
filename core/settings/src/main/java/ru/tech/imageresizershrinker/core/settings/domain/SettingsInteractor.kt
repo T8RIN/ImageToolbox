@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
-interface SettingsInteractor : SimpleSettingInteractor {
+interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleAddSequenceNumber()
 
