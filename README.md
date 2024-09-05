@@ -505,6 +505,9 @@ or click one of the badges below.
         - Bookmark
         - Pill
         - Burger
+        - Shield
+        - Droplet
+        - Arrow
         - Enhanced Heart
         - Star
         - Image Mask
