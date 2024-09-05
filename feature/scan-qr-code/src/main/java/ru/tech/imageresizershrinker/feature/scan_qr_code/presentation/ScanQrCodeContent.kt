@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Cancel
@@ -322,6 +323,7 @@ fun ScanQrCodeContent(
                 label = {
                     Text(stringResource(id = R.string.code_content))
                 },
+                keyboardOptions = KeyboardOptions(),
                 endIcon = {
                     AnimatedVisibility(qrContent.isNotBlank()) {
                         EnhancedIconButton(
