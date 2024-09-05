@@ -56,8 +56,8 @@ internal fun filteredScreenListFor(
                 Screen.typedEntries[selectedNavigationItem].first
             } else if (!settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {
                 if (selectedNavigationItem == 0) {
-                    settingsState.favoriteScreenList.mapNotNull {
-                        Screen.entries.find { s -> s.id == it }
+                    screenList.filter {
+                        it.id in settingsState.favoriteScreenList
                     }
                 } else screenList
             } else {
