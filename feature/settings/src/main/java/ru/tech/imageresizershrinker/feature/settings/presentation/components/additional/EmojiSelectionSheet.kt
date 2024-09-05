@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components.ad
 
 import android.net.Uri
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,10 +42,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Face5
 import androidx.compose.material.icons.outlined.Face6
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -51,10 +53,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -79,7 +83,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import kotlin.random.Random
 
 @Composable
-fun EmojiSheet(
+fun EmojiSelectionSheet(
     selectedEmojiIndex: Int,
     emojiWithCategories: ImmutableList<EmojiData>,
     allEmojis: ImmutableList<Uri>,
@@ -147,13 +151,7 @@ fun EmojiSheet(
                 if (emojiEnabled) 1f else 0.4f
             }
         }
-        val spanModifier = Modifier
-            .padding(vertical = 16.dp)
-            .container(
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(0.6f),
-                resultPadding = 0.dp
-            )
-            .padding(16.dp)
+
         Box {
             val density = LocalDensity.current
             var topPadding by remember {
@@ -169,6 +167,10 @@ fun EmojiSheet(
                     )
                 }
             }
+            var expandedCategories by rememberSaveable {
+                mutableStateOf("")
+            }
+
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -197,67 +199,101 @@ fun EmojiSheet(
                             span = { GridItemSpan(maxLineSpan) },
                             key = icon.name
                         ) {
-                            Row(
-                                modifier = spanModifier,
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                Icon(
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    modifier = Modifier.padding(end = 16.dp)
-                                )
-                                Text(title)
+                            val expanded by remember(title, expandedCategories) {
+                                derivedStateOf {
+                                    title in expandedCategories
+                                }
                             }
-                        }
-                        emojis.forEach { emoji ->
-                            item(
-                                key = emoji
-                            ) {
-                                val index by remember(allEmojis, emoji) {
-                                    derivedStateOf {
-                                        allEmojis.indexOf(emoji)
-                                    }
-                                }
-                                val selected by remember(index, selectedEmojiIndex) {
-                                    derivedStateOf {
-                                        index == selectedEmojiIndex
-                                    }
-                                }
-                                val color by animateColorAsState(
-                                    if (selected) MaterialTheme.colorScheme.primaryContainer
-                                    else MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = 0.2f
+                            TitleItem(
+                                modifier = Modifier
+                                    .padding(
+                                        bottom = animateDpAsState(
+                                            if (expanded) 8.dp
+                                            else 0.dp
+                                        ).value
                                     )
-                                )
-                                val borderColor by animateColorAsState(
-                                    if (selected) {
-                                        MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)
-                                    } else MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                        alpha = 0.1f
+                                    .container(
+                                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        resultPadding = 0.dp
                                     )
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .aspectRatio(1f)
-                                        .container(
-                                            color = color,
-                                            shape = CloverShape,
-                                            borderColor = borderColor,
-                                            resultPadding = 0.dp
+                                    .clickable {
+                                        expandedCategories = if (expanded) {
+                                            expandedCategories.replace(title, "")
+                                        } else expandedCategories + title
+                                    }
+                                    .padding(16.dp),
+                                text = title,
+                                icon = icon,
+                                endContent = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.KeyboardArrowDown,
+                                        contentDescription = null,
+                                        modifier = Modifier.rotate(
+                                            animateFloatAsState(
+                                                if (expanded) 180f
+                                                else 0f
+                                            ).value
                                         )
-                                        .clickable {
-                                            onEmojiPicked(index)
-                                        },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    EmojiItem(
-                                        emoji = emoji.toString(),
-                                        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                        fontScale = 1f,
-                                        isFullQuality = false
                                     )
                                 }
+                            )
+                        }
+                        if (title in expandedCategories) {
+                            emojis.forEach { emoji ->
+                                item(
+                                    key = emoji
+                                ) {
+                                    val index by remember(allEmojis, emoji) {
+                                        derivedStateOf {
+                                            allEmojis.indexOf(emoji)
+                                        }
+                                    }
+                                    val selected by remember(index, selectedEmojiIndex) {
+                                        derivedStateOf {
+                                            index == selectedEmojiIndex
+                                        }
+                                    }
+                                    val color by animateColorAsState(
+                                        if (selected) MaterialTheme.colorScheme.primaryContainer
+                                        else MaterialTheme.colorScheme.secondaryContainer.copy(
+                                            alpha = 0.2f
+                                        )
+                                    )
+                                    val borderColor by animateColorAsState(
+                                        if (selected) {
+                                            MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)
+                                        } else MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                            alpha = 0.1f
+                                        )
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .animateItem()
+                                            .aspectRatio(1f)
+                                            .container(
+                                                color = color,
+                                                shape = CloverShape,
+                                                borderColor = borderColor,
+                                                resultPadding = 0.dp
+                                            )
+                                            .clickable {
+                                                onEmojiPicked(index)
+                                            },
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        EmojiItem(
+                                            emoji = emoji.toString(),
+                                            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                            fontScale = 1f,
+                                            isFullQuality = false
+                                        )
+                                    }
+                                }
+                            }
+                            item(
+                                span = { GridItemSpan(maxLineSpan) }
+                            ) {
+                                Spacer(Modifier.height(2.dp))
                             }
                         }
                     }
@@ -275,7 +311,7 @@ fun EmojiSheet(
                     title = stringResource(R.string.enable_emoji),
                     color = animateColorAsState(
                         if (emojiEnabled) MaterialTheme.colorScheme.primaryContainer
-                        else MaterialTheme.colorScheme.surfaceContainerLow
+                        else MaterialTheme.colorScheme.surfaceContainer
                     ).value,
                     modifier = Modifier
                         .fillMaxWidth()

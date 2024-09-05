@@ -54,7 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.EmojiSheet
+import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.EmojiSelectionSheet
 
 @Composable
 fun EmojiSettingItem(
@@ -141,7 +141,7 @@ fun EmojiSettingItem(
             }
         }
     )
-    EmojiSheet(
+    EmojiSelectionSheet(
         selectedEmojiIndex = selectedEmojiIndex,
         emojiWithCategories = Emoji.allIconsCategorized(),
         allEmojis = Emoji.allIcons(),
