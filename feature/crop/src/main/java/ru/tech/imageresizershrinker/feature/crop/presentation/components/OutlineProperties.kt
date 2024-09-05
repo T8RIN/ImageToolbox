@@ -31,9 +31,11 @@ import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.settings.Paths
+import ru.tech.imageresizershrinker.core.ui.shapes.ArrowShape
 import ru.tech.imageresizershrinker.core.ui.shapes.BookmarkShape
 import ru.tech.imageresizershrinker.core.ui.shapes.BurgerShape
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.shapes.DropletShape
 import ru.tech.imageresizershrinker.core.ui.shapes.KotlinShape
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.OctagonShape
@@ -199,6 +201,30 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 20
                 override val title: String
                     get() = "Shield"
+
+            }
+        ),
+        CropOutlineProperty(
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
+                override val shape: Shape
+                    get() = DropletShape
+                override val id: Int
+                    get() = 21
+                override val title: String
+                    get() = "Droplet"
+
+            }
+        ),
+        CropOutlineProperty(
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
+                override val shape: Shape
+                    get() = ArrowShape
+                override val id: Int
+                    get() = 22
+                override val title: String
+                    get() = "Arrow"
 
             }
         ),

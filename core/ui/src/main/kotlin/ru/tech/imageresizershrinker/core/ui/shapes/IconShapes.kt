@@ -63,6 +63,8 @@ object IconShapeDefaults {
             IconShape(BurgerShape, 6.dp, 22.dp),
             IconShape(OvalShape, 6.dp),
             IconShape(ShieldShape, 8.dp, 20.dp),
+            IconShape(DropletShape, 6.dp, 22.dp),
+            IconShape(ArrowShape, 10.dp, 20.dp),
             IconShape(PentagonShape, 6.dp, 22.dp),
             IconShape(OctagonShape, 6.dp, 22.dp),
             IconShape(HeartShape, 10.dp, 18.dp),
@@ -141,6 +143,7 @@ fun IconShapeContainer(
                                     PentagonShape -> 2.dp
                                     BookmarkShape -> (-1).dp
                                     SimpleHeartShape -> (-1.5).dp
+                                    ArrowShape -> 2.dp
                                     else -> 0.dp
                                 }
                             )
