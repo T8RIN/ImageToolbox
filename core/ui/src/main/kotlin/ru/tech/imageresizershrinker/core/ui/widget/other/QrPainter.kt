@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -173,7 +174,8 @@ private fun createDefaultBitmap(sizePx: Int): Bitmap? {
 @Composable
 fun QrCode(
     content: String,
-    modifier: Modifier
+    modifier: Modifier,
+    shape: Shape = RoundedCornerShape(4.dp)
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -197,13 +199,12 @@ fun QrCode(
         Box(
             modifier = Modifier
                 .size(size)
-                .clip(RoundedCornerShape(4.dp))
+                .clip(shape)
                 .shimmer(true)
         )
         Image(
             painter = painter,
-            modifier = Modifier
-                .clip(RoundedCornerShape(4.dp)),
+            modifier = Modifier.clip(shape),
             contentDescription = null
         )
     }

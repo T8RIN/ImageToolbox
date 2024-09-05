@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -53,6 +54,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -88,6 +90,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -104,6 +107,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeViewModel
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
@@ -150,6 +154,10 @@ fun ScanQrCodeContent(
 
     var qrDescription by rememberSaveable {
         mutableStateOf("")
+    }
+
+    var qrCornersSize by rememberSaveable {
+        mutableIntStateOf(4)
     }
 
     val settingsState = LocalSettingsState.current
@@ -229,7 +237,10 @@ fun ScanQrCodeContent(
                                             .aspectRatio(1f)
                                     } else Modifier
                                 )
-                                .size(targetSize)
+                                .size(targetSize),
+                            shape = RoundedCornerShape(
+                                animateIntAsState(qrCornersSize).value.dp
+                            )
                         )
 
                         BoxAnimatedVisibility(visible = qrDescription.isNotEmpty() && qrContent.isNotEmpty()) {
@@ -436,6 +447,19 @@ fun ScanQrCodeContent(
                             modifier = Modifier.padding(top = 4.dp)
                         )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    EnhancedSliderItem(
+                        value = qrCornersSize,
+                        title = stringResource(R.string.corners),
+                        valueRange = 0f..24f,
+                        onValueChange = {
+                            qrCornersSize = it.toInt()
+                        },
+                        internalStateTransformation = {
+                            it.roundToInt()
+                        },
+                        steps = 22
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
