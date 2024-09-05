@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.shapes.OvalShape
 import ru.tech.imageresizershrinker.core.ui.shapes.PentagonShape
 import ru.tech.imageresizershrinker.core.ui.shapes.PillShape
 import ru.tech.imageresizershrinker.core.ui.shapes.ShieldShape
+import ru.tech.imageresizershrinker.core.ui.shapes.ShurikenShape
 import ru.tech.imageresizershrinker.core.ui.shapes.SmallMaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.SquircleShape
 
@@ -159,6 +160,17 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 19
                 override val title: String
                     get() = "Burger"
+            }
+        ),
+        CropOutlineProperty(
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
+                override val shape: Shape
+                    get() = ShurikenShape
+                override val id: Int
+                    get() = 23
+                override val title: String
+                    get() = "Shuriken"
             }
         ),
         CropOutlineProperty(
