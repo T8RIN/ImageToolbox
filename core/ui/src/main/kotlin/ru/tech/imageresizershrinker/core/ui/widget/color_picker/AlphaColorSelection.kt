@@ -90,8 +90,6 @@ fun AlphaColorSelection(
                 .container(
                     shape = CircleShape,
                     resultPadding = 0.dp,
-                    color = Color.Transparent,
-                    composeColorOnTopOfBackground = false,
                     clip = false,
                     isShadowClip = true
                 )
@@ -106,8 +104,6 @@ fun AlphaColorSelection(
                 .container(
                     shape = CircleShape,
                     resultPadding = 0.dp,
-                    color = Color.Transparent,
-                    composeColorOnTopOfBackground = false,
                     clip = false,
                     isShadowClip = true
                 )

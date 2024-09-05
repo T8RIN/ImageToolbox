@@ -124,7 +124,8 @@ data class UiSettingsState(
     val defaultDrawColor: Color,
     val defaultDrawPathMode: Int,
     val addTimestampToFilename: Boolean,
-    val useFormattedFilenameTimestamp: Boolean
+    val useFormattedFilenameTimestamp: Boolean,
+    val favoriteColors: List<Color>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -291,7 +292,12 @@ fun SettingsState.toUiState(
         defaultDrawColor = Color(defaultDrawColor.colorInt),
         defaultDrawPathMode = defaultDrawPathMode,
         addTimestampToFilename = addTimestampToFilename,
-        useFormattedFilenameTimestamp = useFormattedFilenameTimestamp
+        useFormattedFilenameTimestamp = useFormattedFilenameTimestamp,
+        favoriteColors = remember(favoriteColors) {
+            derivedStateOf {
+                favoriteColors.map { Color(it.colorInt) }
+            }
+        }.value
     )
 }
 

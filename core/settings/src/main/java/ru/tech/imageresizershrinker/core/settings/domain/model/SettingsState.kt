@@ -101,7 +101,8 @@ data class SettingsState(
     val defaultDrawColor: ColorModel,
     val defaultDrawPathMode: Int,
     val addTimestampToFilename: Boolean,
-    val useFormattedFilenameTimestamp: Boolean
+    val useFormattedFilenameTimestamp: Boolean,
+    val favoriteColors: List<ColorModel>
 ) {
 
     companion object {
@@ -182,7 +183,8 @@ data class SettingsState(
                 defaultDrawColor = ColorModel(Color.Black.toArgb()),
                 defaultDrawPathMode = 0,
                 addTimestampToFilename = true,
-                useFormattedFilenameTimestamp = true
+                useFormattedFilenameTimestamp = true,
+                favoriteColors = emptyList()
             )
         }
     }

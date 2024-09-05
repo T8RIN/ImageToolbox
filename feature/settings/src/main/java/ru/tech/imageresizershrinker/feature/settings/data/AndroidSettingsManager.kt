@@ -83,6 +83,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DYNAMIC_CO
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.EMOJI_COUNT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.EXIF_WIDGET_INITIAL_STATE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAB_ALIGNMENT
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAVORITE_COLORS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAVORITE_SCREENS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FILENAME_SUFFIX
@@ -268,7 +269,10 @@ internal class AndroidSettingsManager @Inject constructor(
             addTimestampToFilename = prefs[ADD_TIMESTAMP_TO_FILENAME]
                 ?: default.addTimestampToFilename,
             useFormattedFilenameTimestamp = prefs[USE_FORMATTED_TIMESTAMP]
-                ?: default.useFormattedFilenameTimestamp
+                ?: default.useFormattedFilenameTimestamp,
+            favoriteColors = prefs[FAVORITE_COLORS]?.split("/")?.mapNotNull { color ->
+                color.toIntOrNull()?.let { ColorModel(it) }
+            } ?: default.favoriteColors
         )
     }.onEach { currentSettings = it }
 
@@ -838,6 +842,23 @@ internal class AndroidSettingsManager @Inject constructor(
         }
     }
 
+    override suspend fun toggleFavoriteColor(
+        color: ColorModel,
+        forceExclude: Boolean
+    ) {
+        val current = currentSettings.favoriteColors
+        val newColors = if (color in current) {
+            if (forceExclude) {
+                current - color
+            } else {
+                listOf(color) + (current - color)
+            }
+        } else {
+            listOf(color) + current
+        }
+        setFavoriteColors(newColors)
+    }
+
     override suspend fun toggleOpenEditInsteadOfPreview() {
         dataStore.edit {
             it.toggle(
@@ -967,6 +988,12 @@ internal class AndroidSettingsManager @Inject constructor(
     private suspend fun setFavoriteScreens(data: List<Int>) {
         dataStore.edit { prefs ->
             prefs[FAVORITE_SCREENS] = data.joinToString("/") { it.toString() }
+        }
+    }
+
+    private suspend fun setFavoriteColors(data: List<ColorModel>) {
+        dataStore.edit { prefs ->
+            prefs[FAVORITE_COLORS] = data.take(30).joinToString("/") { it.colorInt.toString() }
         }
     }
 

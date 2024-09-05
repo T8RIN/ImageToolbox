@@ -88,8 +88,6 @@ fun ColorSelection(
                 .container(
                     shape = CircleShape,
                     resultPadding = 0.dp,
-                    color = Color.Transparent,
-                    composeColorOnTopOfBackground = false,
                     clip = false,
                     isShadowClip = true
                 )

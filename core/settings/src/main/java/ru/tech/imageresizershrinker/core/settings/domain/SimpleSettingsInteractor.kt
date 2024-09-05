@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.settings.domain
 
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 
 interface SimpleSettingsInteractor {
@@ -24,5 +25,10 @@ interface SimpleSettingsInteractor {
     suspend fun toggleMagnifierEnabled()
 
     suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
+
+    suspend fun toggleFavoriteColor(
+        color: ColorModel,
+        forceExclude: Boolean
+    )
 
 }
