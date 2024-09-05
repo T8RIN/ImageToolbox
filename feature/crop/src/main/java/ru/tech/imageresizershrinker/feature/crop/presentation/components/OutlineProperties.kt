@@ -32,12 +32,14 @@ import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.settings.Paths
 import ru.tech.imageresizershrinker.core.ui.shapes.BookmarkShape
+import ru.tech.imageresizershrinker.core.ui.shapes.BurgerShape
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.shapes.KotlinShape
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.OctagonShape
 import ru.tech.imageresizershrinker.core.ui.shapes.OvalShape
 import ru.tech.imageresizershrinker.core.ui.shapes.PentagonShape
+import ru.tech.imageresizershrinker.core.ui.shapes.PillShape
 import ru.tech.imageresizershrinker.core.ui.shapes.SmallMaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.SquircleShape
 
@@ -45,31 +47,31 @@ import ru.tech.imageresizershrinker.core.ui.shapes.SquircleShape
 fun outlineProperties(): List<CropOutlineProperty> = remember {
     listOf(
         CropOutlineProperty(
-            OutlineType.Rect,
-            RectCropShape(
+            outlineType = OutlineType.Rect,
+            cropOutline = RectCropShape(
                 id = 0,
                 title = OutlineType.Rect.name
             )
         ),
         CropOutlineProperty(
-            OutlineType.RoundedRect,
-            RoundedCornerCropShape(
+            outlineType = OutlineType.RoundedRect,
+            cropOutline = RoundedCornerCropShape(
                 id = 1,
                 title = OutlineType.RoundedRect.name,
                 cornerRadius = CornerRadiusProperties()
             )
         ),
         CropOutlineProperty(
-            OutlineType.CutCorner,
-            CutCornerCropShape(
+            outlineType = OutlineType.CutCorner,
+            cropOutline = CutCornerCropShape(
                 id = 2,
                 title = OutlineType.CutCorner.name,
                 cornerRadius = CornerRadiusProperties()
             )
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = OvalShape
                 override val id: Int
@@ -80,8 +82,8 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             }
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = SquircleShape
                 override val id: Int
@@ -92,8 +94,8 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             }
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = OctagonShape
                 override val id: Int
@@ -104,8 +106,8 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             },
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = PentagonShape
                 override val id: Int
@@ -128,8 +130,20 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             }
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
+                override val shape: Shape
+                    get() = PillShape
+                override val id: Int
+                    get() = 18
+                override val title: String
+                    get() = "Pill"
+
+            }
+        ),
+        CropOutlineProperty(
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = BookmarkShape
                 override val id: Int
@@ -140,8 +154,20 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             }
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
+                override val shape: Shape
+                    get() = BurgerShape
+                override val id: Int
+                    get() = 19
+                override val title: String
+                    get() = "Burger"
+
+            }
+        ),
+        CropOutlineProperty(
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = MaterialStarShape
                 override val id: Int
@@ -152,8 +178,8 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             }
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = SmallMaterialStarShape
                 override val id: Int
@@ -164,8 +190,8 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             }
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            object : CropShape {
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
                 override val shape: Shape
                     get() = KotlinShape
                 override val id: Int
@@ -176,27 +202,30 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             }
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            CustomPathOutline(
+            outlineType = OutlineType.Custom,
+            cropOutline = CustomPathOutline(
                 id = 8,
                 title = "Heart",
                 path = Paths.Favorite
             )
         ),
         CropOutlineProperty(
-            OutlineType.Custom,
-            CustomPathOutline(
+            outlineType = OutlineType.Custom,
+            cropOutline = CustomPathOutline(
                 id = 9,
                 title = "Star",
                 path = Paths.Star
             )
         ),
         CropOutlineProperty(
-            OutlineType.ImageMask,
-            ImageMaskOutline(
+            outlineType = OutlineType.ImageMask,
+            cropOutline = ImageMaskOutline(
                 id = 10,
                 title = OutlineType.ImageMask.name,
-                image = ImageBitmap(1, 1)
+                image = ImageBitmap(
+                    width = 1,
+                    height = 1
+                )
             )
         )
     )

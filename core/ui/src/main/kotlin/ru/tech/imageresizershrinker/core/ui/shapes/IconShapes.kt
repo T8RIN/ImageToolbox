@@ -59,6 +59,8 @@ object IconShapeDefaults {
             IconShape(MaterialStarShape, 6.dp, 22.dp),
             IconShape(SmallMaterialStarShape, 6.dp, 22.dp),
             IconShape(BookmarkShape, 8.dp, 22.dp),
+            IconShape(PillShape, 10.dp, 22.dp),
+            IconShape(BurgerShape, 6.dp, 22.dp),
             IconShape(OvalShape, 6.dp),
             IconShape(PentagonShape, 6.dp, 22.dp),
             IconShape(OctagonShape, 6.dp, 22.dp),
