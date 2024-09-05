@@ -154,7 +154,7 @@ internal fun MainContentImpl(
                         )
                     } else {
                         SearchableBottomBar(
-                            searching = searching,
+                            searching = true,
                             updateAvailable = isUpdateAvailable,
                             onTryGetUpdate = onTryGetUpdate,
                             screenSearchKeyword = screenSearchKeyword,
