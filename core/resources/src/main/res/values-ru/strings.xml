@@ -1325,4 +1325,27 @@
     <string name="golden_forest">Золотой лес</string>
     <string name="greenish">Зеленоватый</string>
     <string name="retro_yellow">Ретро-желтый</string>
+    <string name="manage_storage_extra_types">Нет полного доступа к файлам</string>
+    <string name="enable_timestamps_to_format_them">Включите временные метки, чтобы выбрать их формат</string>
+    <string name="grant_camera_permission_to_scan_document_scanner">Предоставьте доступ к камере в настройках для сканирования сканера документов</string>
+    <string name="links">Ссылки</string>
+    <string name="links_preview_sub">Позволяет предварительно просматривать ссылки в местах, где можно получить текст (QR-код, OCR и т. д.)</string>
+    <string name="ico_size_warning">Файлы Ico можно сохранять только с максимальным размером 256*256, большие значения будут принудительно уменьшены в конечном изображении</string>
+    <string name="webp_type_to_image">WEBP для изображений</string>
+    <string name="webp_type_to_image_sub">Конвертировать файл WEBP в пакет изображений</string>
+    <string name="webp_type_to_webp_sub">Конвертировать пакет изображений в файл WEBP</string>
+    <string name="webp_type_to_webp">Изображения в WEBP</string>
+    <string name="select_webp_image_to_start">Выберите изображение WEBP, чтобы начать</string>
+    <string name="default_draw_color">Цвет рисования по умолчанию</string>
+    <string name="manage_storage_extra_types_sub">Разрешите доступ ко всем файлам для просмотра JXL, QOI и других изображений, которые не распознаются системой Android как файлы изображений. Без предоставления разрешения вы не сможете увидеть эти изображения здесь</string>
+    <string name="default_draw_path_mode">Режим рисования пути по умолчанию</string>
+    <string name="add_timestamp_sub">Включает добавление временной метки к имени выходного файла</string>
+    <string name="add_timestamp">Добавить временную метку</string>
+    <string name="formatted_timestamp">Форматированная временная метка</string>
+    <string name="formatted_timestamp_sub">Включить форматирование временной метки в имени выходного файла вместо базовых миллисекунд</string>
+    <string name="links_preview">Предпросмотр ссылок</string>
+    <string name="gif_type_to_webp">GIF в WEBP</string>
+    <string name="gif_type_to_webp_sub">Конвертируйте GIF-изображения в анимированные WEBP-изображения</string>
+    <string name="webp_tools">WEBP Инструменты</string>
+    <string name="webp_tools_sub">Конвертируйте изображения в анимированные изображения WEBP или извлекайте кадры из заданной анимации WEBP</string>
 </resources>
