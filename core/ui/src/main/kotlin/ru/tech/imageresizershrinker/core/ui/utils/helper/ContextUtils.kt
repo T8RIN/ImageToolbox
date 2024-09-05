@@ -102,7 +102,7 @@ object ContextUtils {
             Toast.makeText(
                 applicationContext,
                 getString(
-                    R.string.saved_to_without_filename,
+                    textRes,
                     formatArgs
                 ),
                 Toast.LENGTH_SHORT
@@ -119,7 +119,7 @@ object ContextUtils {
             Toast.makeText(
                 applicationContext,
                 getString(
-                    R.string.saved_to_without_filename,
+                    textRes,
                     formatArgs
                 ),
                 if (isLong) {

@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.utils.drawBitmap
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -202,7 +203,7 @@ internal class AndroidImageScaler @Inject constructor(
         Bitmap.createBitmap(
             targetWidth,
             targetHeight,
-            drawImage.config
+            drawImage.safeConfig
         ).apply {
             setHasAlpha(true)
         }.applyCanvas {

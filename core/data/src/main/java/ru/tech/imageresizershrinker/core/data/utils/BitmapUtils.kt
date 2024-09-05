@@ -53,6 +53,9 @@ val Bitmap.safeAspectRatio: Float
         .coerceAtLeast(0.005f)
         .coerceAtMost(1000f)
 
+val Bitmap.safeConfig: Bitmap.Config
+    get() = config
+
 val ImageBitmap.safeAspectRatio: Float
     get() = aspectRatio
         .coerceAtLeast(0.005f)

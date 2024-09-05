@@ -17,11 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.utils
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -29,6 +27,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 
+@JvmName("collectAsUiState1")
 @Composable
 fun Flow<List<Filter<*>>>.collectAsUiState(): State<List<UiFilter<*>>> = this
     .map { list ->
@@ -40,9 +39,7 @@ fun Flow<List<Filter<*>>>.collectAsUiState(): State<List<UiFilter<*>>> = this
 
 
 @Composable
-fun Flow<List<TemplateFilter>>.collectAsUiState(
-    context: Context = LocalContext.current
-): State<List<TemplateFilter>> = this
+fun Flow<List<TemplateFilter>>.collectAsUiState(): State<List<TemplateFilter>> = this
     .map { list ->
         list.sortedBy { it.name }
     }
