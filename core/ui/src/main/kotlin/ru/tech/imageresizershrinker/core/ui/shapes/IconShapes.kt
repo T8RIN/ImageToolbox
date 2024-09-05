@@ -62,6 +62,7 @@ object IconShapeDefaults {
             IconShape(PillShape, 10.dp, 22.dp),
             IconShape(BurgerShape, 6.dp, 22.dp),
             IconShape(OvalShape, 6.dp),
+            IconShape(ShieldShape, 8.dp, 20.dp),
             IconShape(PentagonShape, 6.dp, 22.dp),
             IconShape(OctagonShape, 6.dp, 22.dp),
             IconShape(HeartShape, 10.dp, 18.dp),
