@@ -503,6 +503,7 @@ or click one of the badges below.
         - Small Material Star
         - Heart
         - Shuriken
+        - Explosion
         - Bookmark
         - Pill
         - Burger
@@ -510,6 +511,7 @@ or click one of the badges below.
         - Droplet
         - Arrow
         - Egg
+        - Map
         - Enhanced Heart
         - Star
         - Image Mask
