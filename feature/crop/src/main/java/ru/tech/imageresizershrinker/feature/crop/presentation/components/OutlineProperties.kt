@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.core.ui.shapes.BookmarkShape
 import ru.tech.imageresizershrinker.core.ui.shapes.BurgerShape
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.shapes.DropletShape
+import ru.tech.imageresizershrinker.core.ui.shapes.EggShape
 import ru.tech.imageresizershrinker.core.ui.shapes.KotlinShape
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.OctagonShape
@@ -81,7 +82,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 5
                 override val title: String
                     get() = "Oval"
-
             }
         ),
         CropOutlineProperty(
@@ -93,7 +93,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 3
                 override val title: String
                     get() = "Squircle"
-
             }
         ),
         CropOutlineProperty(
@@ -105,7 +104,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 6
                 override val title: String
                     get() = "Octagon"
-
             },
         ),
         CropOutlineProperty(
@@ -117,7 +115,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 4
                 override val title: String
                     get() = "Pentagon"
-
             }
         ),
         CropOutlineProperty(
@@ -129,7 +126,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 7
                 override val title: String
                     get() = "Clover"
-
             }
         ),
         CropOutlineProperty(
@@ -141,7 +137,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 18
                 override val title: String
                     get() = "Pill"
-
             }
         ),
         CropOutlineProperty(
@@ -153,7 +148,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 17
                 override val title: String
                     get() = "Bookmark"
-
             }
         ),
         CropOutlineProperty(
@@ -165,7 +159,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 19
                 override val title: String
                     get() = "Burger"
-
             }
         ),
         CropOutlineProperty(
@@ -177,7 +170,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 12
                 override val title: String
                     get() = "MaterialStar"
-
             }
         ),
         CropOutlineProperty(
@@ -189,7 +181,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 14
                 override val title: String
                     get() = "SmallMaterialStar"
-
             }
         ),
         CropOutlineProperty(
@@ -201,7 +192,17 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 20
                 override val title: String
                     get() = "Shield"
-
+            }
+        ),
+        CropOutlineProperty(
+            outlineType = OutlineType.Custom,
+            cropOutline = object : CropShape {
+                override val shape: Shape
+                    get() = EggShape
+                override val id: Int
+                    get() = 23
+                override val title: String
+                    get() = "Egg"
             }
         ),
         CropOutlineProperty(
@@ -213,7 +214,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 21
                 override val title: String
                     get() = "Droplet"
-
             }
         ),
         CropOutlineProperty(
@@ -225,7 +225,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 22
                 override val title: String
                     get() = "Arrow"
-
             }
         ),
         CropOutlineProperty(
@@ -237,7 +236,6 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 13
                 override val title: String
                     get() = "Kotlin"
-
             }
         ),
         CropOutlineProperty(

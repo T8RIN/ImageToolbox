@@ -63,6 +63,7 @@ object IconShapeDefaults {
             IconShape(BurgerShape, 6.dp, 22.dp),
             IconShape(OvalShape, 6.dp),
             IconShape(ShieldShape, 8.dp, 20.dp),
+            IconShape(EggShape, 8.dp, 20.dp),
             IconShape(DropletShape, 6.dp, 22.dp),
             IconShape(ArrowShape, 10.dp, 20.dp),
             IconShape(PentagonShape, 6.dp, 22.dp),
