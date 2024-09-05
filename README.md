@@ -502,6 +502,9 @@ or click one of the badges below.
         - Kotlin Logo
         - Small Material Star
         - Heart
+        - Bookmark
+        - Pill
+        - Burger
         - Enhanced Heart
         - Star
         - Image Mask
