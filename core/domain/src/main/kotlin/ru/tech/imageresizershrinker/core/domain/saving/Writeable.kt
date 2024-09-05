@@ -17,11 +17,14 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving
 
+import java.io.InputStream
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 interface Writeable {
+
+    fun copyFrom(inputStream: InputStream): Long
 
     fun writeBytes(byteArray: ByteArray)
 

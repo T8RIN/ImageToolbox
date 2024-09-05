@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.ContentCopy
@@ -281,6 +282,30 @@ fun RecognizeTextContent(
         importLanguagesPicker.launch(arrayOf("application/zip"))
     }
 
+    val saveLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("text/plain")
+    ) { uri ->
+        uri?.let {
+            viewModel.saveContentToTxt(
+                uri = uri,
+                onResult = { result ->
+                    context.parseFileSaveResult(
+                        saveResult = result,
+                        onSuccess = {
+                            confettiHostState.showConfetti()
+                        },
+                        toastHostState = toastHostState,
+                        scope = scope
+                    )
+                }
+            )
+        }
+    }
+
+    val saveText: () -> Unit = {
+        saveLauncher.launch(viewModel.generateTextFilename())
+    }
+
     AdaptiveLayoutScreen(
         title = {
             AnimatedContent(
@@ -314,6 +339,15 @@ fun RecognizeTextContent(
                 onShare = shareText,
                 enabled = isHaveText
             )
+            EnhancedIconButton(
+                onClick = saveText,
+                enabled = !text.isNullOrEmpty()
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Save,
+                    contentDescription = null
+                )
+            }
         },
         imagePreview = {
             Box(

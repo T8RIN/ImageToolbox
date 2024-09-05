@@ -458,6 +458,14 @@ class RecognizeTextViewModel @Inject constructor(
         return "image_toolbox_ocr_languages_$timeStamp.zip"
     }
 
+    fun generateTextFilename(): String {
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date())
+        return "OCR_$timeStamp.txt"
+    }
+
     fun importLanguagesFrom(
         uri: Uri,
         onSuccess: () -> Unit,
@@ -473,6 +481,22 @@ class RecognizeTextViewModel @Inject constructor(
                 }
                 .onFailure(onFailure)
             _isExporting.value = false
+        }
+    }
+
+    fun saveContentToTxt(
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
+    ) {
+        recognitionData?.text?.takeIf { it.isNotEmpty() }?.let { data ->
+            viewModelScope.launch {
+                fileController.writeBytes(
+                    uri = uri.toString(),
+                    block = {
+                        it.writeBytes(data.encodeToByteArray())
+                    }
+                ).also(onResult).onSuccess(::registerSave)
+            }
         }
     }
 
