@@ -17,15 +17,13 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.WEBLATE_LINK
@@ -38,7 +36,7 @@ fun HelpTranslateSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val context = LocalContext.current
+    val linkHandler = LocalUriHandler.current
     PreferenceItem(
         shape = shape,
         modifier = modifier,
@@ -46,12 +44,7 @@ fun HelpTranslateSettingItem(
         subtitle = stringResource(R.string.help_translate_sub),
         startIcon = Icons.Rounded.Translate,
         onClick = {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(WEBLATE_LINK)
-                )
-            )
+            linkHandler.openUri(WEBLATE_LINK)
         }
     )
 }

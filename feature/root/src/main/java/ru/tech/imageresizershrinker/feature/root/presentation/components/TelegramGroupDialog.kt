@@ -26,8 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import ru.tech.imageresizershrinker.core.domain.TelegramChannel
-import ru.tech.imageresizershrinker.core.domain.TelegramGroup
+import ru.tech.imageresizershrinker.core.domain.TELEGRAM_CHANNEL_LINK
+import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -57,7 +57,7 @@ fun TelegramGroupDialog(
             EnhancedButton(
                 onClick = {
                     onRedirected()
-                    linkHandler.openUri(TelegramGroup)
+                    linkHandler.openUri(TELEGRAM_GROUP_LINK)
                 }
             ) {
                 Text(stringResource(R.string.group))
@@ -67,7 +67,7 @@ fun TelegramGroupDialog(
             EnhancedButton(
                 onClick = {
                     onRedirected()
-                    linkHandler.openUri(TelegramChannel)
+                    linkHandler.openUri(TELEGRAM_CHANNEL_LINK)
                 },
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
             ) {

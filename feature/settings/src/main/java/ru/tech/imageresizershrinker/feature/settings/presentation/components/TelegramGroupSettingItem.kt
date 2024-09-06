@@ -19,32 +19,37 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 
 @Composable
-fun IssueTrackerSettingItem(
+fun TelegramGroupSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val linkHandler = LocalUriHandler.current
-    PreferenceItem(
+    PreferenceRow(
         shape = shape,
-        modifier = modifier,
-        title = stringResource(R.string.issue_tracker),
-        subtitle = stringResource(R.string.issue_tracker_sub),
-        startIcon = Icons.Outlined.BugReport,
         onClick = {
-            linkHandler.openUri(ISSUE_TRACKER)
-        }
+            linkHandler.openUri(TELEGRAM_GROUP_LINK)
+        },
+        startIcon = Icons.Rounded.Telegram,
+        title = stringResource(R.string.tg_chat),
+        subtitle = stringResource(R.string.tg_chat_sub),
+        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+            alpha = 0.9f
+        ),
+        modifier = modifier
     )
 }

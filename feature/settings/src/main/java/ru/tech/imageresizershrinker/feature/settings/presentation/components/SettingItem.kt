@@ -349,8 +349,12 @@ internal fun SettingItem(
                 SourceCodeSettingItem()
             }
 
-            Setting.Telegram -> {
-                TelegramSettingItem()
+            Setting.TelegramGroup -> {
+                TelegramGroupSettingItem()
+            }
+
+            Setting.TelegramChannel -> {
+                TelegramChannelSettingItem()
             }
 
             Setting.CheckUpdatesButton -> {

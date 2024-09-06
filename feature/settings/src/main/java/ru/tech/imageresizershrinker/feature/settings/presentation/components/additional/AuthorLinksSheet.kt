@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components.additional
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,8 +32,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_LINK
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.resources.R
@@ -55,6 +56,7 @@ fun AuthorLinksSheet(
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
+    val linkHandler = LocalUriHandler.current
 
     SimpleSheet(
         visible = visible,
@@ -82,12 +84,7 @@ fun AuthorLinksSheet(
                     PreferenceItem(
                         color = MaterialTheme.colorScheme.tertiaryContainer,
                         onClick = {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(AUTHOR_TG)
-                                )
-                            )
+                            linkHandler.openUri(AUTHOR_TG)
                         },
                         endIcon = Icons.Rounded.Link,
                         shape = topShape,
@@ -101,7 +98,7 @@ fun AuthorLinksSheet(
                         onClick = {
                             Intent(Intent.ACTION_SENDTO).apply {
                                 data =
-                                    Uri.parse("mailto:${context.getString(R.string.developer_email)}")
+                                    "mailto:${context.getString(R.string.developer_email)}".toUri()
                                 context.startActivity(this)
                             }
                         },
@@ -115,12 +112,7 @@ fun AuthorLinksSheet(
                     PreferenceItem(
                         color = MaterialTheme.colorScheme.primaryContainer,
                         onClick = {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(AUTHOR_LINK)
-                                )
-                            )
+                            linkHandler.openUri(AUTHOR_LINK)
                         },
                         endIcon = Icons.Rounded.Link,
                         shape = bottomShape,

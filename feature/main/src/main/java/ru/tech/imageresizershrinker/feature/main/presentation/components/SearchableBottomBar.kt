@@ -17,9 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -48,6 +45,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -172,36 +170,21 @@ internal fun SearchableBottomBar(
         },
         floatingActionButton = {
             val context = LocalContext.current
+            val linkHandler = LocalUriHandler.current
             if (!searching) {
                 EnhancedFloatingActionButton(
                     onClick = {
                         if (context.isInstalledFromPlayStore()) {
-                            try {
-                                context.startActivity(
-                                    Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=${context.packageName}")
-                                    )
-                                )
-                            } catch (e: ActivityNotFoundException) {
-                                context.startActivity(
-                                    Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
-                                    )
-                                )
+                            runCatching {
+                                linkHandler.openUri("market://details?id=${context.packageName}")
+                            }.onFailure {
+                                linkHandler.openUri("https://play.google.com/store/apps/details?id=${context.packageName}")
                             }
                         } else {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(APP_LINK)
-                                )
-                            )
+                            linkHandler.openUri(APP_LINK)
                         }
                     },
-                    modifier = Modifier
-                        .requiredSize(size = 56.dp),
+                    modifier = Modifier.requiredSize(size = 56.dp),
                     content = {
                         if (context.isInstalledFromPlayStore()) {
                             Icon(

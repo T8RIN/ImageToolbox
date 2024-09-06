@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.crash
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -62,6 +61,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -73,8 +73,8 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.crash.components.CrashHandler
-import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
@@ -134,6 +134,8 @@ class CrashActivity : CrashHandler() {
                 }
             }
 
+            val linkHandler = LocalUriHandler.current
+
             val settingsState = getSettingsState()
 
             CompositionLocalProvider(
@@ -186,12 +188,7 @@ class CrashActivity : CrashHandler() {
                                 ) {
                                     EnhancedButton(
                                         onClick = {
-                                            startActivity(
-                                                Intent(
-                                                    Intent.ACTION_VIEW,
-                                                    Uri.parse(AUTHOR_TG + "_imagetoolbox")
-                                                )
-                                            )
+                                            linkHandler.openUri(TELEGRAM_GROUP_LINK)
                                             newClip(title + "\n\n" + body)
                                         },
                                         modifier = Modifier
@@ -222,12 +219,7 @@ class CrashActivity : CrashHandler() {
                                     }
                                     EnhancedButton(
                                         onClick = {
-                                            startActivity(
-                                                Intent(
-                                                    Intent.ACTION_VIEW,
-                                                    Uri.parse("$ISSUE_TRACKER/new?title=$title&body=$body")
-                                                )
-                                            )
+                                            linkHandler.openUri("$ISSUE_TRACKER/new?title=$title&body=$body")
                                             newClip(title + "\n\n" + body)
                                         },
                                         modifier = Modifier

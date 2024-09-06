@@ -17,10 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -45,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
@@ -68,7 +66,9 @@ fun ChangeLanguageSettingItem(
     shape: Shape = ContainerShapeDefaults.topShape
 ) {
     val context = LocalContext.current
+    val linkHandler = LocalUriHandler.current
     var showEmbeddedLanguagePicker by rememberSaveable { mutableStateOf(false) }
+
     Column(Modifier.animateContentSize()) {
         PreferenceItem(
             shape = shape,
@@ -82,12 +82,7 @@ fun ChangeLanguageSettingItem(
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi() && !ContextUtils.isRedMagic()) {
                     runCatching {
-                        context.startActivity(
-                            Intent(
-                                Settings.ACTION_APP_LOCALE_SETTINGS,
-                                Uri.parse("package:${context.packageName}")
-                            )
-                        )
+                        linkHandler.openUri("package:${context.packageName}")
                     }.onFailure {
                         showEmbeddedLanguagePicker = true
                     }

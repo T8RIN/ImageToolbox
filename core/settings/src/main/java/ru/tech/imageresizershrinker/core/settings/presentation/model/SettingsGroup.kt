@@ -259,7 +259,8 @@ sealed class SettingsGroup(
             Setting.CurrentVersionCode,
             Setting.HelpTranslate,
             Setting.IssueTracker,
-            Setting.Telegram,
+            Setting.TelegramChannel,
+            Setting.TelegramGroup,
             Setting.SourceCode
         ),
         initialState = true

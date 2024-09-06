@@ -17,46 +17,37 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.CHAT_LINK
+import ru.tech.imageresizershrinker.core.domain.TELEGRAM_CHANNEL_LINK
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.Telegram
+import ru.tech.imageresizershrinker.core.resources.icons.Sitemap
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 
 @Composable
-fun TelegramSettingItem(
+fun TelegramChannelSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val context = LocalContext.current
+    val linkHandler = LocalUriHandler.current
     PreferenceRow(
         shape = shape,
         onClick = {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(CHAT_LINK)
-                )
-            )
+            linkHandler.openUri(TELEGRAM_CHANNEL_LINK)
         },
-        startIcon = Icons.Rounded.Telegram,
-        title = stringResource(R.string.tg_chat),
-        subtitle = stringResource(R.string.tg_chat_sub),
-        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-            alpha = 0.9f
-        ),
+        startIcon = Icons.Outlined.Sitemap,
+        title = stringResource(R.string.ci_channel),
+        subtitle = stringResource(R.string.ci_channel_sub),
+        color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f),
+        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
         modifier = modifier
     )
 }

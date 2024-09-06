@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.APP_LINK
@@ -43,17 +41,12 @@ fun SourceCodeSettingItem(
     color: Color = MaterialTheme.colorScheme.primaryContainer.copy(0.7f),
     contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.9f)
 ) {
-    val context = LocalContext.current
+    val linkHandler = LocalUriHandler.current
     PreferenceItem(
         contentColor = contentColor,
         shape = shape,
         onClick = {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(APP_LINK)
-                )
-            )
+            linkHandler.openUri(APP_LINK)
         },
         startIcon = Icons.Rounded.Github,
         title = stringResource(R.string.check_source_code),

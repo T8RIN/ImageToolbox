@@ -253,7 +253,7 @@ sealed class Setting(
         subtitle = R.string.check_source_code_sub
     )
 
-    data object Telegram : Setting(
+    data object TelegramGroup : Setting(
         title = R.string.tg_chat,
         subtitle = R.string.tg_chat_sub
     )
@@ -422,4 +422,10 @@ sealed class Setting(
         title = R.string.one_time_save_location,
         subtitle = R.string.one_time_save_location_sub
     )
+
+    data object TelegramChannel : Setting(
+        title = R.string.ci_channel,
+        subtitle = R.string.ci_channel_sub
+    )
+
 }
