@@ -1339,4 +1339,13 @@
     <string name="webp_type_to_image">WEBP 转为 images</string>
     <string name="select_webp_image_to_start">选取 WEBP 图片以开始</string>
     <string name="webp_tools_sub">将图像转换为 WEBP 动画图片，或从给定的 WEBP 动画中提取帧</string>
+    <string name="default_draw_color">默认绘图颜色</string>
+    <string name="default_draw_path_mode">默认绘制路径模式</string>
+    <string name="add_timestamp">添加时间戳</string>
+    <string name="formatted_timestamp_sub">在输出文件名中启用时间戳格式，代替基本的毫秒数</string>
+    <string name="manage_storage_extra_types">无法完全访问文件</string>
+    <string name="manage_storage_extra_types_sub">允许访问所有文件，以查看 JXL、QOI 和其他未被安卓系统识别为图像文件的图像。</string>
+    <string name="add_timestamp_sub">启用在输出文件名中添加时间戳</string>
+    <string name="formatted_timestamp">格式化时间戳</string>
+    <string name="enable_timestamps_to_format_them">启用时间戳以选择其格式</string>
 </resources>
