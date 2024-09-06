@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.feature.root.presentation.components.FirstLa
 import ru.tech.imageresizershrinker.feature.root.presentation.components.GithubReviewDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
+import ru.tech.imageresizershrinker.feature.root.presentation.components.TelegramGroupDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.DonateDialog
 
@@ -237,13 +238,20 @@ fun RootContent(
 
             PermissionDialog()
 
-            if (viewModel.showGithubReviewSheet) {
+            if (viewModel.showGithubReviewDialog) {
                 GithubReviewDialog(
-                    onDismiss = viewModel::hideReviewSheet,
+                    onDismiss = viewModel::hideReviewDialog,
                     onNotShowAgain = {
                         ReviewHandler.notShowReviewAgain(context)
                     },
                     isNotShowAgainButtonVisible = ReviewHandler.showNotShowAgainButton
+                )
+            }
+
+            if (viewModel.showTelegramGroupDialog) {
+                TelegramGroupDialog(
+                    onDismiss = viewModel::hideTelegramGroupDialog,
+                    onRedirected = viewModel::registerTelegramGroupOpen
                 )
             }
         }

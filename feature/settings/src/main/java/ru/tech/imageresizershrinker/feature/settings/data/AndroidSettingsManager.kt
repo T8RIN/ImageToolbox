@@ -96,6 +96,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IMAGE_SCAL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INITIAL_OCR_CODES
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INVERT_THEME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_LINK_PREVIEW_ENABLED
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_TELEGRAM_GROUP_OPENED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.MAGNIFIER_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.NIGHT_MODE
@@ -275,6 +276,10 @@ internal class AndroidSettingsManager @Inject constructor(
             } ?: default.favoriteColors
         )
     }.onEach { currentSettings = it }
+
+    override fun getNeedToShowTelegramGroupDialog(): Flow<Boolean> = getSettingsStateFlow().map {
+        it.appOpenCount % 6 == 0 && it.appOpenCount != 0 && (dataStore.data.first()[IS_TELEGRAM_GROUP_OPENED] != true)
+    }
 
     override suspend fun toggleAddSequenceNumber() {
         dataStore.edit {
@@ -982,6 +987,12 @@ internal class AndroidSettingsManager @Inject constructor(
                 key = USE_FORMATTED_TIMESTAMP,
                 defaultValue = default.useFormattedFilenameTimestamp
             )
+        }
+    }
+
+    override suspend fun registerTelegramGroupOpen() {
+        dataStore.edit { prefs ->
+            prefs[IS_TELEGRAM_GROUP_OPENED] = true
         }
     }
 

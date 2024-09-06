@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.domain
 
-object Constants {
+internal object Constants {
 
     const val LANGUAGE_CODE = "%s.traineddata"
 

@@ -29,5 +29,5 @@ const val BitcoinWallet = "17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq"
 const val USDTWallet = "TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7"
 const val TONSpaceWallet = "UQDMePBU-FaxwaIME8p7h2spRITeRxvtCPegtKefeV5v-sN1"
 const val TONWallet = "UQB44LtN0zArKGcWTbNxU7zAkGYunVs1rkn_VsLq71G4bdmK"
-const val FOSS_LINK =
-    "https://f-droid.org/repo/ru.tech.imageresizershrinker/ru/icon_-9n8vowl_QLljJDENvZaSlNplpt8PF-LrCkGnGshnUg=.png"
+const val TelegramGroup = "https://t.me/t8rin_imagetoolbox"
+const val TelegramChannel = "https://t.me/t8rin_imagetoolbox_ci"

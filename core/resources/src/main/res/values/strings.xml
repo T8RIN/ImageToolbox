@@ -1369,4 +1369,8 @@
     <string name="one_time_save_location">One Time Save Location</string>
     <string name="one_time_save_location_sub">View and Edit one time save locations which you can use by long pressing the save button in mostly all options</string>
     <string name="recently_used">Recently Used</string>
+    <string name="ci_channel">CI channel</string>
+    <string name="group">Group</string>
+    <string name="image_toolbox_in_telegram">ImageToolbox in Telegram 🎉</string>
+    <string name="image_toolbox_in_telegram_sub">Join our chat where you can discuss anything you want and also look into the CI channel where I post betas and announcements</string>
 </resources>

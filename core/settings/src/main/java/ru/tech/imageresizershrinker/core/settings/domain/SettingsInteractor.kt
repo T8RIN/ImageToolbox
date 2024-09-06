@@ -192,4 +192,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleUseFormattedFilenameTimestamp()
 
+    suspend fun registerTelegramGroupOpen()
+
 }

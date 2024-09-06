@@ -26,4 +26,6 @@ interface SettingsProvider {
 
     fun getSettingsStateFlow(): Flow<SettingsState>
 
+    fun getNeedToShowTelegramGroupDialog(): Flow<Boolean>
+
 }

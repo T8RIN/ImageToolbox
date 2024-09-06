@@ -86,6 +86,12 @@ class RootViewModel @Inject constructor(
     private val _shouldShowExitDialog = mutableStateOf(true)
     val shouldShowDialog by _shouldShowExitDialog
 
+    private val _showGithubReviewDialog = mutableStateOf(false)
+    val showGithubReviewDialog by _showGithubReviewDialog
+
+    private val _showTelegramGroupDialog = mutableStateOf(false)
+    val showTelegramGroupDialog by _showTelegramGroupDialog
+
     private val _tag = mutableStateOf("")
     val tag by _tag
 
@@ -101,9 +107,19 @@ class RootViewModel @Inject constructor(
             settingsManager.registerAppOpen()
             _settingsState.value = settingsManager.getSettingsState()
         }
-        settingsManager.getSettingsStateFlow().onEach {
-            _settingsState.value = it
-        }.launchIn(viewModelScope)
+        settingsManager
+            .getSettingsStateFlow()
+            .onEach {
+                _settingsState.value = it
+            }
+            .launchIn(viewModelScope)
+
+        settingsManager
+            .getNeedToShowTelegramGroupDialog()
+            .onEach { value ->
+                _showTelegramGroupDialog.update { value }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun toggleShowUpdateDialog() {
@@ -323,15 +339,16 @@ class RootViewModel @Inject constructor(
         ?.extractPrimaryColor()
         ?.let { ColorTuple(it) }
 
-    private val _showGithubReviewSheet = mutableStateOf(false)
-    val showGithubReviewSheet by _showGithubReviewSheet
-
     fun onWantGithubReview() {
-        _showGithubReviewSheet.update { true }
+        _showGithubReviewDialog.update { true }
     }
 
-    fun hideReviewSheet() {
-        _showGithubReviewSheet.update { false }
+    fun hideReviewDialog() {
+        _showGithubReviewDialog.update { false }
+    }
+
+    fun hideTelegramGroupDialog() {
+        _showTelegramGroupDialog.update { false }
     }
 
     fun getSettingsInteractor(): SettingsInteractor = settingsManager
@@ -357,6 +374,12 @@ class RootViewModel @Inject constructor(
     fun toggleFavoriteScreen(screen: Screen) {
         viewModelScope.launch {
             settingsManager.toggleFavoriteScreen(screen.id)
+        }
+    }
+
+    fun registerTelegramGroupOpen() {
+        viewModelScope.launch {
+            settingsManager.registerTelegramGroupOpen()
         }
     }
 
