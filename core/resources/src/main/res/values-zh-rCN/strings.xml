@@ -1348,4 +1348,12 @@
     <string name="add_timestamp_sub">启用在输出文件名中添加时间戳</string>
     <string name="formatted_timestamp">格式化时间戳</string>
     <string name="enable_timestamps_to_format_them">启用时间戳以选择其格式</string>
+    <string name="recently_used">最近使用</string>
+    <string name="ci_channel_sub">获取应用程序新版本的通知并阅读公告</string>
+    <string name="ci_channel">自动构建（CI）频道</string>
+    <string name="one_time_save_location">单次保存位置</string>
+    <string name="group">组</string>
+    <string name="one_time_save_location_sub">查看和编辑单次保存位置，您可以在大多数选项中长按保存按钮来使用这些位置</string>
+    <string name="image_toolbox_in_telegram">ImageToolbox 中的 Telegram 🎉</string>
+    <string name="image_toolbox_in_telegram_sub">加入我们的聊天室，在这里你可以讨论任何你想讨论的问题，还可以查看 CI 频道，我将在这里发布测试版和公告。</string>
 </resources>
