@@ -72,7 +72,7 @@ apply filters, add some drawing, erase background, edit EXIF or even create PDF 
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want and also look into the CI channel where I will post betas and announcements
+  Join our chat where you can discuss anything you want and also look into the CI channel where I post betas and announcements
   </br>
 
 # ☕ Buy me a coffee
