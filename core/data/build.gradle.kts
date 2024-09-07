@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.jxl.coder)
 
     implementation(libs.aire)
+    implementation(libs.jpegli.coder)
 
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)

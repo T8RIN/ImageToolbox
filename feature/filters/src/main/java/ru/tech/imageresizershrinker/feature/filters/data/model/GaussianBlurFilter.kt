@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.GaussianPreciseLevel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
@@ -40,7 +41,8 @@ internal class GaussianBlurFilter(
         bitmap = input,
         kernelSize = 2 * value.first.toInt() + 1,
         sigma = value.second,
-        edgeMode = value.third.toEdgeMode()
+        edgeMode = value.third.toEdgeMode(),
+        gaussianPreciseLevel = GaussianPreciseLevel.INTEGRAL
     )
 
 }

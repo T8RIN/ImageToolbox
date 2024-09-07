@@ -34,6 +34,9 @@ import com.radzivon.bartoshyk.avif.coder.AvifSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import com.t8rin.qoi_coder.QOIEncoder
+import io.github.awxkee.jpegli.coder.IccStrategy
+import io.github.awxkee.jpegli.coder.JpegliCoder
+import io.github.awxkee.jpegli.coder.Scalar
 import kotlinx.coroutines.coroutineScope
 import org.beyka.tiffbitmapfactory.CompressionScheme
 import org.beyka.tiffbitmapfactory.Orientation
@@ -287,10 +290,18 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = Aire.jpegli(
-            bitmap = image,
-            quality = quality.qualityValue
-        )
+        ): ByteArray = ByteArrayOutputStream().use {
+            JpegliCoder.compress(
+                bitmap = image,
+                quality = quality.qualityValue,
+                background = Scalar.ZERO,
+                progressive = true,
+                strategy = IccStrategy.DEFAULT,
+                outputStream = it
+            )
+
+            it.toByteArray()
+        }
 
     }
 

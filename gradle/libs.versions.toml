@@ -13,8 +13,9 @@ imageToolboxLibs = "2.5.2"
 trickle = "1.1.2"
 
 avifCoder = "1.8.0"
-aire = "0.13.12"
+aire = "0.13.13"
 jxlCoder = "2.3.0"
+jpegliCoder = "1.0.1"
 
 tesseract = "4.7.0"
 composeVersion = "1.7.0"
@@ -108,8 +109,10 @@ toolbox-awebp = { module = "com.github.T8RIN.ImageToolboxLibs:awebp", version.re
 toolbox-psd = { module = "com.github.T8RIN.ImageToolboxLibs:psd", version.ref = "imageToolboxLibs" }
 toolbox-djvuCoder = { module = "com.github.T8RIN.ImageToolboxLibs:djvu-coder", version.ref = "imageToolboxLibs" }
 
-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
+jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
