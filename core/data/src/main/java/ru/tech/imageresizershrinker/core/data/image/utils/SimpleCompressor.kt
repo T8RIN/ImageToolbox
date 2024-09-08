@@ -290,18 +290,18 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = ByteArrayOutputStream().use {
-            JpegliCoder.compress(
-                bitmap = image,
-                quality = quality.qualityValue,
-                background = Scalar.ZERO,
-                progressive = true,
-                strategy = IccStrategy.DEFAULT,
-                outputStream = it
-            )
-
-            it.toByteArray()
-        }
+        ): ByteArray = ByteArrayOutputStream().apply {
+            use { out ->
+                JpegliCoder.compress(
+                    bitmap = image,
+                    quality = quality.qualityValue,
+                    background = Scalar.ZERO,
+                    progressive = true,
+                    strategy = IccStrategy.DEFAULT,
+                    outputStream = out
+                )
+            }
+        }.toByteArray()
 
     }
 
