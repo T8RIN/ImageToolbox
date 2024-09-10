@@ -42,6 +42,7 @@ import org.beyka.tiffbitmapfactory.CompressionScheme
 import org.beyka.tiffbitmapfactory.Orientation
 import org.beyka.tiffbitmapfactory.TiffSaver
 import org.beyka.tiffbitmapfactory.TiffSaver.SaveOptions
+import ru.tech.imageresizershrinker.core.data.utils.compress
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
@@ -103,17 +104,10 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = ByteArrayOutputStream().apply {
-            use { out ->
-                image.copy(
-                    Bitmap.Config.ARGB_8888, false
-                ).compress(
-                    Bitmap.CompressFormat.JPEG,
-                    quality.qualityValue,
-                    out
-                )
-            }
-        }.toByteArray()
+        ): ByteArray = image.compress(
+            format = Bitmap.CompressFormat.JPEG,
+            quality = quality.qualityValue
+        )
 
     }
 
@@ -122,22 +116,18 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = ByteArrayOutputStream().apply {
-            use { out ->
-                @Suppress("DEPRECATION")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    image.compress(
-                        Bitmap.CompressFormat.WEBP_LOSSLESS,
-                        quality.qualityValue,
-                        out
-                    )
-                } else image.compress(
-                    Bitmap.CompressFormat.WEBP,
-                    quality.qualityValue,
-                    out
-                )
-            }
-        }.toByteArray()
+        ): ByteArray = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            image.compress(
+                format = Bitmap.CompressFormat.WEBP_LOSSLESS,
+                quality = quality.qualityValue
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            image.compress(
+                format = Bitmap.CompressFormat.WEBP,
+                quality = quality.qualityValue
+            )
+        }
 
     }
 
@@ -146,22 +136,18 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = ByteArrayOutputStream().apply {
-            use { out ->
-                @Suppress("DEPRECATION")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    image.compress(
-                        Bitmap.CompressFormat.WEBP_LOSSY,
-                        quality.qualityValue,
-                        out
-                    )
-                } else image.compress(
-                    Bitmap.CompressFormat.WEBP,
-                    quality.qualityValue,
-                    out
-                )
-            }
-        }.toByteArray()
+        ): ByteArray = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            image.compress(
+                format = Bitmap.CompressFormat.WEBP_LOSSY,
+                quality = quality.qualityValue
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            image.compress(
+                format = Bitmap.CompressFormat.WEBP,
+                quality = quality.qualityValue
+            )
+        }
 
     }
 
@@ -169,15 +155,10 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = ByteArrayOutputStream().apply {
-            use { out ->
-                image.compress(
-                    Bitmap.CompressFormat.PNG,
-                    quality.qualityValue,
-                    out
-                )
-            }
-        }.toByteArray()
+        ): ByteArray = image.compress(
+            format = Bitmap.CompressFormat.PNG,
+            quality = quality.qualityValue
+        )
 
     }
 
@@ -550,7 +531,7 @@ internal abstract class SimpleCompressor {
             //Android Bitmap Image Data
             image.getPixels(pixels, 0, width, 0, 0, width, height)
 
-            //ByteArrayOutputStream baos = new ByteArrayOutputStream(fileSize);
+            //ByteArrayOutputStream bos = new ByteArrayOutputStream(fileSize);
             val buffer = ByteBuffer.allocate(fileSize)
             /**
              * BITMAP FILE HEADER Write Start

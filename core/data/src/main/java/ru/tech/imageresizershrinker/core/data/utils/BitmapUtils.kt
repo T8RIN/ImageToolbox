@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.core.graphics.drawable.toBitmap
+import java.io.ByteArrayOutputStream
 
 private val possibleConfigs = mutableListOf<Bitmap.Config>().apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -67,3 +68,12 @@ val Drawable.safeAspectRatio: Float
         .coerceAtMost(1000f)
 
 fun Drawable.toBitmap(): Bitmap = toBitmap(config = getSuitableConfig())
+
+fun Bitmap.compress(
+    format: Bitmap.CompressFormat,
+    quality: Int
+): ByteArray = ByteArrayOutputStream().apply {
+    use { out ->
+        compress(format, quality, out)
+    }
+}.toByteArray()
