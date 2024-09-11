@@ -101,6 +101,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -120,6 +121,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
@@ -557,7 +559,8 @@ fun CropContent(
                         .heightIn(max = screenHeight * 0.7f)
                         .pointerInput(Unit) {
                             detectTapGestures { focus.clearFocus() }
-                        }) {
+                        }
+                ) {
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(true),
                         actions = {
@@ -631,7 +634,11 @@ fun CropContent(
                             }
                         }
                     )
-                    controls()
+                    ProvideContainerDefaults(
+                        color = SimpleSheetDefaults.contentContainerColor
+                    ) {
+                        controls()
+                    }
                 }
             },
             content = content
