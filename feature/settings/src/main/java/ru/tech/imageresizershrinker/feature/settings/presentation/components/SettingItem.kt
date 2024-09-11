@@ -58,15 +58,21 @@ internal fun SettingItem(
     containerColor: Color = MaterialTheme.colorScheme.surface
 ) {
     val context = LocalContext.current as ComponentActivity
-
-    fun tryGetUpdate(
-        isNewRequest: Boolean = false,
-        onNoUpdates: () -> Unit = {}
-    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
-
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiHostState = LocalConfettiHostState.current
+
+    fun tryGetUpdate(
+        isNewRequest: Boolean = true,
+        onNoUpdates: () -> Unit = {
+            scope.launch {
+                toastHostState.showToast(
+                    icon = Icons.Rounded.FileDownloadOff,
+                    message = context.getString(R.string.no_updates)
+                )
+            }
+        }
+    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
 
     ProvideContainerDefaults(
         color = containerColor,
@@ -87,7 +93,7 @@ internal fun SettingItem(
                         onClick = {
                             viewModel.toggleAllowBetas()
                             tryGetUpdate(
-                                isNewRequest = true
+                                onNoUpdates = {}
                             )
                         }
                     )
@@ -194,17 +200,7 @@ internal fun SettingItem(
 
                     toastHostState.currentToastData?.dismiss()
                     if (clicks == 1) {
-                        tryGetUpdate(
-                            isNewRequest = true,
-                            onNoUpdates = {
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        icon = Icons.Rounded.FileDownloadOff,
-                                        message = context.getString(R.string.no_updates)
-                                    )
-                                }
-                            }
-                        )
+                        tryGetUpdate()
                     }
                 }
 
@@ -359,19 +355,7 @@ internal fun SettingItem(
 
             Setting.CheckUpdatesButton -> {
                 CheckUpdatesButtonSettingItem(
-                    onClick = {
-                        tryGetUpdate(
-                            isNewRequest = true,
-                            onNoUpdates = {
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        icon = Icons.Rounded.FileDownloadOff,
-                                        message = context.getString(R.string.no_updates)
-                                    )
-                                }
-                            }
-                        )
-                    }
+                    onClick = ::tryGetUpdate
                 )
             }
 
