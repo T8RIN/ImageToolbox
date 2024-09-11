@@ -179,7 +179,7 @@ data class PathHelper(
             val newPath = Path().apply {
                 if (isRegular) {
                     val angleStep = 360f / vertices
-                    val startAngle = rotationDegrees - 180.0
+                    val startAngle = rotationDegrees - 270.0
                     moveTo(
                         centerX + radius * cos(Math.toRadians(startAngle)).toFloat(),
                         centerY + radius * sin(Math.toRadians(startAngle)).toFloat()
@@ -193,7 +193,7 @@ data class PathHelper(
                     }
                 } else {
                     for (i in 0 until vertices) {
-                        val angle = i * (360f / vertices) + rotationDegrees
+                        val angle = i * (360f / vertices) + rotationDegrees - 270.0
                         val x =
                             centerX + width / 2f * cos(Math.toRadians(angle.toDouble())).toFloat()
                         val y =
@@ -234,7 +234,7 @@ data class PathHelper(
                     val innerRadius = outerRadius * innerRadiusRatio
 
                     val angleStep = 360f / (2 * vertices)
-                    val startAngle = rotationDegrees - 180.0
+                    val startAngle = rotationDegrees - 270.0
 
                     for (i in 0 until (2 * vertices)) {
                         val radius = if (i % 2 == 0) outerRadius else innerRadius
@@ -249,8 +249,7 @@ data class PathHelper(
                     }
                 } else {
                     for (i in 0 until (2 * vertices)) {
-                        val angle =
-                            i * (360f / (2 * vertices)) + rotationDegrees.toDouble()
+                        val angle = i * (360f / (2 * vertices)) + rotationDegrees - 270.0
                         val radiusX =
                             (if (i % 2 == 0) width else width * innerRadiusRatio) / 2f
                         val radiusY =
