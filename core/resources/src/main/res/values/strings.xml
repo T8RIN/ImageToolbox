@@ -152,7 +152,7 @@
     <string name="options_arrangement">Options arrangement</string>
     <string name="edit">Edit</string>
     <string name="order">Order</string>
-    <string name="order_sub">Determines order of the options on the main screen</string>
+    <string name="order_sub">Determines order of the tools on the main screen</string>
     <string name="emojis_count">Emojis count</string>
     <string name="sequence_num">sequenceNum</string>
     <string name="original_filename">originalFilename</string>
@@ -435,7 +435,7 @@
     <string name="invert_colors">Invert Colors</string>
     <string name="invert_colors_sub">Replaces theme colors to negative ones if enabled</string>
     <string name="search_option">Search</string>
-    <string name="search_option_sub">Enables ability to search through all available options on the main screen</string>
+    <string name="search_option_sub">Enables ability to search through all available tools on the main screen</string>
     <string name="pdf_tools">PDF Tools</string>
     <string name="pdf_tools_sub">Operate with PDF files: Preview, Convert to batch of images or create one from given pictures</string>
     <string name="preview_pdf">Preview PDF</string>
@@ -1375,4 +1375,7 @@
     <string name="image_toolbox_in_telegram_sub">Join our chat where you can discuss anything you want and also look into the CI channel where I post betas and announcements</string>
     <string name="ci_channel_sub">Get notified about new versions of app, and read announcements</string>
     <string name="fit_description">Fit an image to given dimensions and apply blur or color to background</string>
+    <string name="tools_arrangement">Tools Arrangement</string>
+    <string name="group_tools_by_type">Group tools by type</string>
+    <string name="group_tools_by_type_sub">Groups tools on the main screen by their type instead of a custom list arrangement</string>
 </resources>

@@ -122,9 +122,9 @@ sealed class SettingsGroup(
         initialState = false
     )
 
-    data object OptionsArrangement : SettingsGroup(
+    data object ToolsArrangement : SettingsGroup(
         icon = Icons.Rounded.Stacks,
-        titleId = R.string.options_arrangement,
+        titleId = R.string.tools_arrangement,
         settingsList = listOf(
             Setting.ScreenOrder,
             Setting.ScreenSearch,
@@ -347,7 +347,7 @@ sealed class SettingsGroup(
                 Screen,
                 Font,
                 Behavior,
-                OptionsArrangement,
+                ToolsArrangement,
                 Presets,
                 ScaleMode,
                 Draw,
