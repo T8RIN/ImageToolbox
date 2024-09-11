@@ -74,3 +74,15 @@ fun SimplePicture(
             }
         }
 }
+
+//if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//    val activity = LocalContext.current as Activity
+//    DisposableEffect(it) {
+//        activity.window.colorMode = if (bitmap.hasGainmap()) {
+//            ActivityInfo.COLOR_MODE_HDR
+//        } else ActivityInfo.COLOR_MODE_DEFAULT
+//        onDispose {
+//            activity.window.colorMode = ActivityInfo.COLOR_MODE_DEFAULT
+//        }
+//    }
+//}

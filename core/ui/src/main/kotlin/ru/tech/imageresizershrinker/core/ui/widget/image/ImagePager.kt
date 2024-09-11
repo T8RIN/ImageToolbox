@@ -152,7 +152,7 @@ fun ImagePager(
         var wantToEdit by rememberSaveable {
             mutableStateOf(false)
         }
-        val state = rememberPagerState(
+        val pagerState = rememberPagerState(
             initialPage = selectedUri?.let {
                 uris?.indexOf(it)
             } ?: 0,
@@ -160,9 +160,9 @@ fun ImagePager(
                 uris?.size ?: 0
             }
         )
-        LaunchedEffect(state.currentPage) {
+        LaunchedEffect(pagerState.currentPage) {
             onUriSelected(
-                uris?.getOrNull(state.currentPage)
+                uris?.getOrNull(pagerState.currentPage)
             )
         }
         val progress = draggableState.progress(
@@ -180,10 +180,11 @@ fun ImagePager(
                 mutableStateListOf<Int>()
             }
             HorizontalPager(
-                state = state,
+                state = pagerState,
                 modifier = Modifier.fillMaxSize(),
                 beyondViewportPageCount = 5,
-                pageSpacing = 16.dp
+                pageSpacing = if (pagerState.pageCount > 1) 16.dp
+                else 0.dp
             ) { page ->
                 Box(
                     modifier = Modifier.fillMaxSize()
@@ -221,6 +222,7 @@ fun ImagePager(
                                     )
                                 }
                             ),
+                        enableUltraHDRSupport = true,
                         contentScale = ContentScale.Fit,
                         shape = RectangleShape,
                         onSuccess = {
@@ -267,7 +269,7 @@ fun ImagePager(
                     title = {
                         uris?.size?.takeIf { it > 1 }?.let {
                             Text(
-                                text = "${state.currentPage + 1}/$it",
+                                text = "${pagerState.currentPage + 1}/$it",
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 12.dp),
                                 color = White

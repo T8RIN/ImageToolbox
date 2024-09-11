@@ -382,7 +382,8 @@ fun MediaPickerGrid(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize(),
                     beyondViewportPageCount = 5,
-                    pageSpacing = 16.dp
+                    pageSpacing = if (pagerState.pageCount > 1) 16.dp
+                    else 0.dp
                 ) { page ->
                     val media = state.media.getOrNull(page)
                     Box(
@@ -421,6 +422,7 @@ fun MediaPickerGrid(
                                         )
                                     }
                                 ),
+                            enableUltraHDRSupport = true,
                             contentScale = ContentScale.Fit,
                             shape = RectangleShape,
                             onSuccess = {

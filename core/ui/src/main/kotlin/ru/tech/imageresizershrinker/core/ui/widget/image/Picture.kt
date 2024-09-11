@@ -19,7 +19,12 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.graphics.Bitmap
+import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,12 +42,17 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.graphics.drawable.toBitmapOrNull
 import coil.ImageLoader
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageScope
 import coil.request.ImageRequest
 import coil.transform.Transformation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -71,7 +81,8 @@ fun Picture(
     crossfadeEnabled: Boolean = true,
     allowHardware: Boolean = true,
     showTransparencyChecker: Boolean = true,
-    isLoadingFromDifferentPlace: Boolean = false
+    isLoadingFromDifferentPlace: Boolean = false,
+    enableUltraHDRSupport: Boolean = false
 ) {
     val context = LocalContext.current
 
@@ -81,16 +92,50 @@ fun Picture(
 
     val imageLoader = manualImageLoader ?: LocalImageLoader.current
 
+    val activity = LocalContext.current as Activity
+
+    val hdrTransformation = remember {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
+            listOf(
+                GenericTransformation<Bitmap> { bitmap ->
+                    withContext(Dispatchers.Main.immediate) {
+                        activity.window.colorMode = if (bitmap.hasGainmap()) {
+                            ActivityInfo.COLOR_MODE_HDR
+                        } else ActivityInfo.COLOR_MODE_DEFAULT
+                    }
+                    bitmap
+                }.toCoil()
+            )
+        } else emptyList()
+    }
+
     val request = if (model !is ImageRequest) {
-        remember(context, model, crossfadeEnabled, allowHardware, transformations) {
+        remember(
+            context,
+            model,
+            crossfadeEnabled,
+            allowHardware,
+            transformations,
+            hdrTransformation
+        ) {
             ImageRequest.Builder(context)
                 .data(model)
                 .crossfade(crossfadeEnabled)
                 .allowHardware(allowHardware)
-                .transformations(transformations)
+                .transformations(
+                    transformations + hdrTransformation
+                )
                 .build()
         }
     } else model
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && enableUltraHDRSupport) {
+        DisposableEffect(model) {
+            onDispose {
+                activity.window.colorMode = ActivityInfo.COLOR_MODE_DEFAULT
+            }
+        }
+    }
 
     SubcomposeAsyncImage(
         model = request,
@@ -108,6 +153,12 @@ fun Picture(
         success = success,
         error = error,
         onSuccess = {
+            if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
+                activity.window.colorMode =
+                    if (it.result.drawable.toBitmapOrNull(400, 400)?.hasGainmap() == true) {
+                        ActivityInfo.COLOR_MODE_HDR
+                    } else ActivityInfo.COLOR_MODE_DEFAULT
+            }
             shimmerVisible = false
             onSuccess?.invoke(it)
             onState?.invoke(it)
