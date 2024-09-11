@@ -136,7 +136,7 @@ internal fun ImagePreviewGrid(
         onItemClick = { index ->
             if (!isSelectionModePrevious) {
                 showImagePreviewDialog = true
-                data?.get(index)?.let {
+                data?.getOrNull(index)?.let {
                     selectedUri = it.toString()
                 }
             }
