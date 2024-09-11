@@ -166,6 +166,9 @@ class SingleEditViewModel @Inject constructor(
         viewModelScope.launch {
             val settingsState = settingsProvider.getSettingsState()
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
+            _imageInfo.update {
+                it.copy(resizeType = settingsState.defaultResizeType)
+            }
         }
     }
 
@@ -175,13 +178,13 @@ class SingleEditViewModel @Inject constructor(
 
     private suspend fun checkBitmapAndUpdate(resetPreset: Boolean = false) {
         if (resetPreset) {
-            _presetSelected.value = Preset.None
+            _presetSelected.update { Preset.None }
         }
         _bitmap.value?.let { bmp ->
             val preview = updatePreview(bmp)
-            _previewBitmap.value = null
-            _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
-            if (shouldShowPreview) _previewBitmap.value = preview
+            _previewBitmap.update { null }
+            _shouldShowPreview.update { imagePreviewCreator.canShow(preview) }
+            if (shouldShowPreview) _previewBitmap.update { preview }
         }
     }
 
@@ -194,7 +197,7 @@ class SingleEditViewModel @Inject constructor(
         onComplete: (result: SaveResult) -> Unit,
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
-            _isSaving.value = true
+            _isSaving.update { true }
             bitmap?.let { bitmap ->
                 onComplete(
                     fileController.save(
@@ -215,7 +218,7 @@ class SingleEditViewModel @Inject constructor(
                     ).onSuccess(::registerSave)
                 )
             }
-            _isSaving.value = false
+            _isSaving.update { false }
         }
     }
 
@@ -223,20 +226,22 @@ class SingleEditViewModel @Inject constructor(
         bitmap: Bitmap
     ): Bitmap? = withContext(defaultDispatcher) {
         return@withContext imageInfo.run {
-            _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
+            _showWarning.update {
+                width * height * 4L >= 10_000 * 10_000 * 3L
+            }
             imagePreviewCreator.createPreview(
                 image = bitmap,
                 imageInfo = this,
-                onGetByteCount = {
-                    _imageInfo.value = _imageInfo.value.copy(sizeInBytes = it)
+                onGetByteCount = { sizeInBytes ->
+                    _imageInfo.update { it.copy(sizeInBytes = sizeInBytes) }
                 }
             )
         }
     }
 
     private fun setBitmapInfo(newInfo: ImageInfo) {
-        if (_imageInfo.value != newInfo) {
-            _imageInfo.value = newInfo
+        if (imageInfo != newInfo) {
+            _imageInfo.update { newInfo }
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
@@ -244,14 +249,18 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun resetValues(newBitmapComes: Boolean = false) {
-        _imageInfo.value = ImageInfo(
-            width = _originalSize.value?.width ?: 0,
-            height = _originalSize.value?.height ?: 0,
-            imageFormat = imageInfo.imageFormat,
-            originalUri = uri.toString()
-        )
+        _imageInfo.update {
+            ImageInfo(
+                width = _originalSize.value?.width ?: 0,
+                height = _originalSize.value?.height ?: 0,
+                imageFormat = it.imageFormat,
+                originalUri = uri.toString()
+            )
+        }
         if (newBitmapComes) {
-            _bitmap.value = _internalBitmap.value
+            _bitmap.update {
+                _internalBitmap.value
+            }
         }
         debouncedImageCalculation {
             checkBitmapAndUpdate(
@@ -267,14 +276,20 @@ class SingleEditViewModel @Inject constructor(
         viewModelScope.launch {
             if (!saveOriginalSize) {
                 val size = bitmap?.let { it.width to it.height }
-                _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
+                _originalSize.update {
+                    size?.run { IntegerSize(width = first, height = second) }
+                }
             }
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+            _bitmap.update {
+                imageScaler.scaleUntilCanShow(bitmap)
+            }
             if (!saveOriginalSize) {
-                _imageInfo.value = _imageInfo.value.copy(
-                    width = bitmap?.width ?: 0,
-                    height = bitmap?.height ?: 0
-                )
+                _imageInfo.update {
+                    it.copy(
+                        width = bitmap?.width ?: 0,
+                        height = bitmap?.height ?: 0
+                    )
+                }
             }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
@@ -286,11 +301,11 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun rotateBitmapLeft() {
-        _imageInfo.value = _imageInfo.value.run {
-            copy(
-                rotationDegrees = _imageInfo.value.rotationDegrees - 90f,
-                height = width,
-                width = height
+        _imageInfo.update {
+            it.copy(
+                rotationDegrees = it.rotationDegrees - 90f,
+                height = it.width,
+                width = it.height
             )
         }
         debouncedImageCalculation {
@@ -300,11 +315,11 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun rotateBitmapRight() {
-        _imageInfo.value = _imageInfo.value.run {
-            copy(
-                rotationDegrees = _imageInfo.value.rotationDegrees + 90f,
-                height = width,
-                width = height
+        _imageInfo.update {
+            it.copy(
+                rotationDegrees = it.rotationDegrees + 90f,
+                height = it.width,
+                width = it.height
             )
         }
         debouncedImageCalculation {
@@ -314,7 +329,9 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun flipImage() {
-        _imageInfo.value = _imageInfo.value.copy(isFlipped = !_imageInfo.value.isFlipped)
+        _imageInfo.update {
+            it.copy(isFlipped = !it.isFlipped)
+        }
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
@@ -322,8 +339,10 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun updateWidth(width: Int) {
-        if (_imageInfo.value.width != width) {
-            _imageInfo.value = _imageInfo.value.copy(width = width)
+        if (imageInfo.width != width) {
+            _imageInfo.update {
+                it.copy(width = width)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
                     resetPreset = true
@@ -334,8 +353,10 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun updateHeight(height: Int) {
-        if (_imageInfo.value.height != height) {
-            _imageInfo.value = _imageInfo.value.copy(height = height)
+        if (imageInfo.height != height) {
+            _imageInfo.update {
+                it.copy(height = height)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
                     resetPreset = true
@@ -346,8 +367,10 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun setQuality(quality: Quality) {
-        if (_imageInfo.value.quality != quality) {
-            _imageInfo.value = _imageInfo.value.copy(quality = quality)
+        if (imageInfo.quality != quality) {
+            _imageInfo.update {
+                it.copy(quality = quality)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
@@ -356,8 +379,10 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        if (_imageInfo.value.imageFormat != imageFormat) {
-            _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
+        if (imageInfo.imageFormat != imageFormat) {
+            _imageInfo.update {
+                it.copy(imageFormat = imageFormat)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
                     resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png.Lossless
@@ -368,7 +393,7 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun setResizeType(type: ResizeType) {
-        if (_imageInfo.value.resizeType != type) {
+        if (imageInfo.resizeType != type) {
             _imageInfo.update {
                 it.copy(
                     resizeType = type.withOriginalSizeIfCrop(originalSize)
@@ -384,14 +409,14 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun setUri(uri: Uri) {
-        _uri.value = uri
+        _uri.update { uri }
     }
 
     fun decodeBitmapByUri(
         uri: Uri,
         onError: (Throwable) -> Unit
     ) {
-        _isImageLoading.value = true
+        _isImageLoading.update { true }
         _imageInfo.update {
             it.copy(originalUri = uri.toString())
         }
@@ -400,7 +425,7 @@ class SingleEditViewModel @Inject constructor(
             originalSize = true,
             onGetImage = ::setImageData,
             onError = {
-                _isImageLoading.value = false
+                _isImageLoading.update { false }
                 onError(it)
             }
         )
@@ -408,29 +433,35 @@ class SingleEditViewModel @Inject constructor(
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
         job = viewModelScope.launch {
-            _isImageLoading.value = true
+            _isImageLoading.update { true }
             _exif.update { imageData.metadata }
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
-            _originalSize.value = size.run { IntegerSize(width = first, height = second) }
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap).also {
-                _internalBitmap.value = it
+            _originalSize.update {
+                size.run { IntegerSize(width = first, height = second) }
+            }
+            _bitmap.update {
+                _internalBitmap.update {
+                    imageScaler.scaleUntilCanShow(bitmap)
+                }
             }
             resetValues(true)
-            _imageInfo.value = imageData.imageInfo.copy(
-                width = size.first,
-                height = size.second
-            )
+            _imageInfo.update {
+                imageData.imageInfo.copy(
+                    width = size.first,
+                    height = size.second
+                )
+            }
             checkBitmapAndUpdate(
                 resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png.Lossless
             )
-            _isImageLoading.value = false
+            _isImageLoading.update { false }
         }
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
         savingJob = viewModelScope.launch {
-            _isSaving.value = true
+            _isSaving.update { true }
             bitmap?.let { image ->
                 shareProvider.shareImage(
                     image = image,
@@ -438,13 +469,13 @@ class SingleEditViewModel @Inject constructor(
                     onComplete = onComplete
                 )
             }
-            _isSaving.value = false
+            _isSaving.update { false }
         }
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = viewModelScope.launch {
-            _isSaving.value = true
+            _isSaving.update { true }
             bitmap?.let { image ->
                 shareProvider.cacheImage(
                     image = image,
@@ -453,7 +484,7 @@ class SingleEditViewModel @Inject constructor(
                     onComplete(uri.toUri())
                 }
             }
-            _isSaving.value = false
+            _isSaving.update { false }
         }
     }
 
@@ -471,22 +502,24 @@ class SingleEditViewModel @Inject constructor(
                     currentInfo = imageInfo
                 )
             )
-            _presetSelected.value = preset
+            _presetSelected.update { preset }
             registerChanges()
         }
     }
 
     fun clearExif() {
-        val t = _exif.value
+        val tempExif = _exif.value
         MetadataTag.entries.forEach {
-            t?.setAttribute(it.key, null)
+            tempExif?.setAttribute(it.key, null)
         }
-        _exif.value = t
+        _exif.update {
+            tempExif
+        }
         registerChanges()
     }
 
     private fun updateExif(exifInterface: ExifInterface?) {
-        _exif.value = exifInterface
+        _exif.update { exifInterface }
         registerChanges()
     }
 
@@ -539,45 +572,49 @@ class SingleEditViewModel @Inject constructor(
         val list = _filterList.value.toMutableList()
         runCatching {
             list[index] = list[index].copy(value)
-            _filterList.value = list
+            _filterList.update { list }
         }.onFailure {
             showError(it)
             list[index] = list[index].newInstance()
-            _filterList.value = list
+            _filterList.update { list }
         }
     }
 
     fun updateOrder(value: List<UiFilter<*>>) {
-        _filterList.value = value
+        _filterList.update { value }
     }
 
     fun addFilter(filter: UiFilter<*>) {
-        _filterList.value += filter
+        _filterList.update {
+            it + filter
+        }
     }
 
     fun removeFilterAtIndex(index: Int) {
-        _filterList.value = _filterList.value.toMutableList().apply {
-            removeAt(index)
+        _filterList.update {
+            it.toMutableList().apply {
+                removeAt(index)
+            }
         }
     }
 
     fun clearFilterList() {
-        _filterList.value = listOf()
+        _filterList.update { listOf() }
     }
 
     fun clearDrawing(canUndo: Boolean = false) {
         viewModelScope.launch {
             delay(500L)
-            _drawLastPaths.value = if (canUndo) drawPaths else listOf()
-            _drawPaths.value = listOf()
-            _drawUndonePaths.value = listOf()
+            _drawLastPaths.update { if (canUndo) drawPaths else listOf() }
+            _drawPaths.update { listOf() }
+            _drawUndonePaths.update { listOf() }
         }
     }
 
     fun undoDraw() {
         if (drawPaths.isEmpty() && drawLastPaths.isNotEmpty()) {
-            _drawPaths.value = drawLastPaths
-            _drawLastPaths.value = listOf()
+            _drawPaths.update { drawLastPaths }
+            _drawLastPaths.update { listOf() }
             return
         }
         if (drawPaths.isEmpty()) return
@@ -598,22 +635,22 @@ class SingleEditViewModel @Inject constructor(
 
     fun addPathToDrawList(pathPaint: UiPathPaint) {
         _drawPaths.update { it + pathPaint }
-        _drawUndonePaths.value = listOf()
+        _drawUndonePaths.update { listOf() }
     }
 
     fun clearErasing(canUndo: Boolean = false) {
         viewModelScope.launch {
             delay(250L)
-            _eraseLastPaths.value = if (canUndo) erasePaths else listOf()
-            _erasePaths.value = listOf()
-            _eraseUndonePaths.value = listOf()
+            _eraseLastPaths.update { if (canUndo) erasePaths else listOf() }
+            _erasePaths.update { listOf() }
+            _eraseUndonePaths.update { listOf() }
         }
     }
 
     fun undoErase() {
         if (erasePaths.isEmpty() && eraseLastPaths.isNotEmpty()) {
-            _erasePaths.value = eraseLastPaths
-            _eraseLastPaths.value = listOf()
+            _erasePaths.update { eraseLastPaths }
+            _eraseLastPaths.update { listOf() }
             return
         }
         if (erasePaths.isEmpty()) return
@@ -634,13 +671,13 @@ class SingleEditViewModel @Inject constructor(
 
     fun addPathToEraseList(pathPaint: UiPathPaint) {
         _erasePaths.update { it + pathPaint }
-        _eraseUndonePaths.value = listOf()
+        _eraseUndonePaths.update { listOf() }
     }
 
     fun cancelSaving() {
         savingJob?.cancel()
         savingJob = null
-        _isSaving.value = false
+        _isSaving.update { false }
     }
 
     fun setImageScaleMode(imageScaleMode: ImageScaleMode) {

@@ -102,4 +102,5 @@ internal object SettingKeys {
     val USE_FORMATTED_TIMESTAMP = booleanPreferencesKey("USE_FORMATTED_TIMESTAMP")
     val FAVORITE_COLORS = stringPreferencesKey("FAVORITE_COLORS")
     val IS_TELEGRAM_GROUP_OPENED = booleanPreferencesKey("IS_TELEGRAM_GROUP_OPENED")
+    val DEFAULT_RESIZE_TYPE = intPreferencesKey("DEFAULT_RESIZE_TYPE")
 }

@@ -35,6 +35,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
@@ -71,6 +72,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COPY_TO_CL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_COLOR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_LINE_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_PATH_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_RESIZE_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DONATE_DIALOG_OPEN_COUNT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAG_HANDLE_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAW_APPBAR_SHADOWS
@@ -273,7 +275,10 @@ internal class AndroidSettingsManager @Inject constructor(
                 ?: default.useFormattedFilenameTimestamp,
             favoriteColors = prefs[FAVORITE_COLORS]?.split("/")?.mapNotNull { color ->
                 color.toIntOrNull()?.let { ColorModel(it) }
-            } ?: default.favoriteColors
+            } ?: default.favoriteColors,
+            defaultResizeType = prefs[DEFAULT_RESIZE_TYPE]?.let {
+                ResizeType.entries.getOrNull(it)
+            } ?: ResizeType.Explicit
         )
     }.onEach { currentSettings = it }
 
@@ -993,6 +998,14 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun registerTelegramGroupOpen() {
         dataStore.edit { prefs ->
             prefs[IS_TELEGRAM_GROUP_OPENED] = true
+        }
+    }
+
+    override suspend fun setDefaultResizeType(resizeType: ResizeType) {
+        dataStore.edit { prefs ->
+            prefs[DEFAULT_RESIZE_TYPE] = ResizeType.entries.indexOfFirst {
+                it::class.isInstance(resizeType)
+            }
         }
     }
 

@@ -284,7 +284,7 @@ sealed class Setting(
     )
 
     data object DefaultScaleMode : Setting(
-        title = R.string.default_value,
+        title = R.string.scale_mode,
         subtitle = null
     )
 
@@ -426,6 +426,11 @@ sealed class Setting(
     data object TelegramChannel : Setting(
         title = R.string.ci_channel,
         subtitle = R.string.ci_channel_sub
+    )
+
+    data object DefaultResizeType : Setting(
+        title = R.string.resize_type,
+        subtitle = null
     )
 
 }

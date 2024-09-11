@@ -35,6 +35,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -595,6 +596,12 @@ class SettingsViewModel @Inject constructor(
     fun toggleUseFormattedFilenameTimestamp() {
         viewModelScope.launch {
             settingsManager.toggleUseFormattedFilenameTimestamp()
+        }
+    }
+
+    fun setDefaultResizeType(resizeType: ResizeType) {
+        viewModelScope.launch {
+            settingsManager.setDefaultResizeType(resizeType)
         }
     }
 }

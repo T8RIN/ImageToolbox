@@ -30,6 +30,9 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.toBitmap
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
@@ -40,14 +43,28 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.util.Locale
 import javax.inject.Inject
 
 internal class AndroidImageGetter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
+    settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageGetter<Bitmap, ExifInterface> {
+
+    private var settingsState: SettingsState = SettingsState.Default
+
+    init {
+        settingsProvider
+            .getSettingsStateFlow()
+            .onEach {
+                settingsState = it
+            }
+            .launchIn(CoroutineScope(defaultDispatcher))
+    }
 
     override suspend fun getImage(
         uri: String,
@@ -68,7 +85,8 @@ internal class AndroidImageGetter @Inject constructor(
                     width = bitmap.width,
                     height = bitmap.height,
                     imageFormat = ImageFormat[getExtension(uri)],
-                    originalUri = uri
+                    originalUri = uri,
+                    resizeType = settingsState.defaultResizeType
                 ),
                 metadata = exif
             )
@@ -160,7 +178,8 @@ internal class AndroidImageGetter @Inject constructor(
                         width = bitmap.width,
                         height = bitmap.height,
                         imageFormat = ImageFormat[getExtension(uri)],
-                        originalUri = uri
+                        originalUri = uri,
+                        resizeType = settingsState.defaultResizeType
                     ),
                     metadata = exif
                 )
@@ -216,7 +235,8 @@ internal class AndroidImageGetter @Inject constructor(
                                     width = bitmap.width,
                                     height = bitmap.height,
                                     imageFormat = ImageFormat[getExtension(uri)],
-                                    originalUri = uri
+                                    originalUri = uri,
+                                    resizeType = settingsState.defaultResizeType
                                 ),
                                 metadata = exif
                             )

@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -65,6 +66,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
+    settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
@@ -107,6 +109,15 @@ class ResizeAndConvertViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
+    init {
+        viewModelScope.launch {
+            val settingsState = settingsProvider.getSettingsState()
+            _imageInfo.update {
+                it.copy(resizeType = settingsState.defaultResizeType)
+            }
+        }
+    }
+
     private var job: Job? by smartJob {
         _isImageLoading.update { false }
     }
@@ -115,10 +126,10 @@ class ResizeAndConvertViewModel @Inject constructor(
         uris: List<Uri>?,
         onError: (Throwable) -> Unit
     ) {
-        _uris.value = null
-        _uris.value = uris
-        _selectedUri.value = uris?.firstOrNull()
-        _presetSelected.value = Preset.None
+        _uris.update { null }
+        _uris.update { uris }
+        _selectedUri.update { uris?.firstOrNull() }
+        _presetSelected.update { Preset.None }
         uris?.firstOrNull()?.let { uri ->
             viewModelScope.launch {
                 _imageInfo.update {
@@ -136,7 +147,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch(defaultDispatcher) {
-            _uris.value = uris
+            _uris.update { uris }
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
                 if (index == 0) {
@@ -149,10 +160,11 @@ class ResizeAndConvertViewModel @Inject constructor(
                     }
                 }
             }
-            val u = _uris.value?.toMutableList()?.apply {
-                remove(removedUri)
+            _uris.update {
+                it?.toMutableList()?.apply {
+                    remove(removedUri)
+                }
             }
-            _uris.value = u
         }
     }
 
@@ -160,13 +172,13 @@ class ResizeAndConvertViewModel @Inject constructor(
         resetPreset: Boolean = false
     ) {
         if (resetPreset) {
-            _presetSelected.value = Preset.None
+            _presetSelected.update { Preset.None }
         }
         _bitmap.value?.let { bmp ->
             val preview = updatePreview(bmp)
-            _previewBitmap.value = null
-            _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
-            if (shouldShowPreview) _previewBitmap.value = preview
+            _previewBitmap.update { null }
+            _shouldShowPreview.update { imagePreviewCreator.canShow(preview) }
+            if (shouldShowPreview) _previewBitmap.update { preview }
         }
     }
 
@@ -174,12 +186,12 @@ class ResizeAndConvertViewModel @Inject constructor(
         bitmap: Bitmap
     ): Bitmap? = withContext(defaultDispatcher) {
         return@withContext imageInfo.run {
-            _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
+            _showWarning.update { width * height * 4L >= 10_000 * 10_000 * 3L }
             imagePreviewCreator.createPreview(
                 image = bitmap,
                 imageInfo = this,
-                onGetByteCount = {
-                    _imageInfo.value = _imageInfo.value.copy(sizeInBytes = it)
+                onGetByteCount = { sizeInBytes ->
+                    _imageInfo.update { it.copy(sizeInBytes = sizeInBytes) }
                 }
             )
         }
@@ -187,7 +199,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private fun setBitmapInfo(newInfo: ImageInfo) {
         if (_imageInfo.value != newInfo) {
-            _imageInfo.value = newInfo
+            _imageInfo.update { newInfo }
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
@@ -199,14 +211,16 @@ class ResizeAndConvertViewModel @Inject constructor(
         saveFormat: Boolean = false,
         resetPreset: Boolean = true
     ) {
-        _imageInfo.value = ImageInfo(
-            width = _originalSize.value?.width ?: 0,
-            height = _originalSize.value?.height ?: 0,
-            imageFormat = if (saveFormat) {
-                imageInfo.imageFormat
-            } else ImageFormat.Default,
-            originalUri = selectedUri?.toString()
-        )
+        _imageInfo.update {
+            ImageInfo(
+                width = _originalSize.value?.width ?: 0,
+                height = _originalSize.value?.height ?: 0,
+                imageFormat = if (saveFormat) {
+                    imageInfo.imageFormat
+                } else ImageFormat.Default,
+                originalUri = selectedUri?.toString()
+            )
+        }
         debouncedImageCalculation {
             checkBitmapAndUpdate(
                 resetPreset = resetPreset
@@ -216,30 +230,32 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
         job = viewModelScope.launch {
-            _isImageLoading.value = true
+            _isImageLoading.update { true }
             _exif.update { imageData.metadata }
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
-            _originalSize.value = size.run { IntegerSize(width = first, height = second) }
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+            _originalSize.update { size.run { IntegerSize(width = first, height = second) } }
+            _bitmap.update { imageScaler.scaleUntilCanShow(bitmap) }
             resetValues(true)
-            _imageInfo.value = imageData.imageInfo.copy(
-                width = size.first,
-                height = size.second
-            )
+            _imageInfo.update {
+                imageData.imageInfo.copy(
+                    width = size.first,
+                    height = size.second
+                )
+            }
             checkBitmapAndUpdate(
                 resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png.Lossless
             )
-            _isImageLoading.value = false
+            _isImageLoading.update { false }
         }
     }
 
     fun rotateLeft() {
-        _imageInfo.value = _imageInfo.value.run {
-            copy(
-                rotationDegrees = _imageInfo.value.rotationDegrees - 90f,
-                height = width,
-                width = height
+        _imageInfo.update {
+            it.copy(
+                rotationDegrees = it.rotationDegrees - 90f,
+                height = it.width,
+                width = it.height
             )
         }
         debouncedImageCalculation {
@@ -249,11 +265,11 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun rotateRight() {
-        _imageInfo.value = _imageInfo.value.run {
-            copy(
-                rotationDegrees = _imageInfo.value.rotationDegrees + 90f,
-                height = width,
-                width = height
+        _imageInfo.update {
+            it.copy(
+                rotationDegrees = it.rotationDegrees + 90f,
+                height = it.width,
+                width = it.height
             )
         }
         debouncedImageCalculation {
@@ -263,7 +279,9 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun flip() {
-        _imageInfo.value = _imageInfo.value.copy(isFlipped = !_imageInfo.value.isFlipped)
+        _imageInfo.update {
+            it.copy(isFlipped = !it.isFlipped)
+        }
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
@@ -271,8 +289,10 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun updateWidth(width: Int) {
-        if (_imageInfo.value.width != width) {
-            _imageInfo.value = _imageInfo.value.copy(width = width)
+        if (imageInfo.width != width) {
+            _imageInfo.update {
+                it.copy(width = width)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(true)
             }
@@ -281,8 +301,10 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun updateHeight(height: Int) {
-        if (_imageInfo.value.height != height) {
-            _imageInfo.value = _imageInfo.value.copy(height = height)
+        if (imageInfo.height != height) {
+            _imageInfo.update {
+                it.copy(height = height)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(true)
             }
@@ -291,8 +313,10 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun setQuality(quality: Quality) {
-        if (_imageInfo.value.quality != quality) {
-            _imageInfo.value = _imageInfo.value.copy(quality = quality)
+        if (imageInfo.quality != quality) {
+            _imageInfo.update {
+                it.copy(quality = quality)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
@@ -301,8 +325,10 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        if (_imageInfo.value.imageFormat != imageFormat) {
-            _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
+        if (imageInfo.imageFormat != imageFormat) {
+            _imageInfo.update {
+                it.copy(imageFormat = imageFormat)
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
                     resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png.Lossless
@@ -313,7 +339,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun setResizeType(type: ResizeType) {
-        if (_imageInfo.value.resizeType != type) {
+        if (imageInfo.resizeType != type) {
             _imageInfo.update {
                 it.copy(
                     resizeType = type.withOriginalSizeIfCrop(originalSize)
@@ -327,7 +353,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun setKeepExif(boolean: Boolean) {
-        _keepExif.value = boolean
+        _keepExif.update { boolean }
         registerChanges()
     }
 
@@ -340,9 +366,9 @@ class ResizeAndConvertViewModel @Inject constructor(
         onComplete: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
-            _isSaving.value = true
+            _isSaving.update { true }
             val results = mutableListOf<SaveResult>()
-            _done.value = 0
+            _done.update { 0 }
             uris?.forEach { uri ->
                 runCatching {
                     imageGetter.getImage(uri.toString())?.image
@@ -352,7 +378,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                     ).let {
                         imageTransformer.applyPresetBy(
                             image = bitmap,
-                            preset = _presetSelected.value,
+                            preset = presetSelected,
                             currentInfo = it
                         )
                     }.let { imageInfo ->
@@ -362,7 +388,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                                     imageInfo = imageInfo,
                                     metadata = if (uris!!.size == 1) exif else null,
                                     originalUri = uri.toString(),
-                                    sequenceNumber = _done.value + 1,
+                                    sequenceNumber = done + 1,
                                     data = imageCompressor.compressAndTransform(
                                         image = bitmap,
                                         imageInfo = imageInfo
@@ -380,12 +406,12 @@ class ResizeAndConvertViewModel @Inject constructor(
                 _done.value += 1
             }
             onComplete(results.onSuccess(::registerSave))
-            _isSaving.value = false
+            _isSaving.update { false }
         }
     }
 
     fun updateSelectedUri(uri: Uri) {
-        _selectedUri.value = uri
+        _selectedUri.update { uri }
         viewModelScope.launch(defaultDispatcher) {
             _isImageLoading.update { true }
             val bitmap = imageGetter.getImage(
@@ -393,18 +419,29 @@ class ResizeAndConvertViewModel @Inject constructor(
                 originalSize = true
             )?.image
             val size = bitmap?.let { it.width to it.height }
-            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-            _imageInfo.value = _imageInfo.value.copy(
-                width = size?.first ?: 0,
-                height = size?.second ?: 0,
-                originalUri = uri.toString()
-            )
-            _imageInfo.value = imageTransformer.applyPresetBy(
-                image = _bitmap.value,
-                preset = _presetSelected.value,
-                currentInfo = _imageInfo.value
-            )
+            _originalSize.update {
+                size?.run {
+                    IntegerSize(
+                        width = first,
+                        height = second
+                    )
+                }
+            }
+            _bitmap.update { imageScaler.scaleUntilCanShow(bitmap) }
+            _imageInfo.update {
+                it.copy(
+                    width = size?.first ?: 0,
+                    height = size?.second ?: 0,
+                    originalUri = uri.toString()
+                )
+            }
+            _imageInfo.update {
+                imageTransformer.applyPresetBy(
+                    image = _bitmap.value,
+                    preset = presetSelected,
+                    currentInfo = it
+                )
+            }
             checkBitmapAndUpdate()
             _isImageLoading.update { false }
         }
@@ -417,12 +454,12 @@ class ResizeAndConvertViewModel @Inject constructor(
             }
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
-                    image = _bitmap.value,
+                    image = bitmap,
                     preset = preset,
-                    currentInfo = _imageInfo.value
+                    currentInfo = imageInfo
                 )
             )
-            _presetSelected.value = preset
+            _presetSelected.update { preset }
         }
     }
 
@@ -458,15 +495,15 @@ class ResizeAndConvertViewModel @Inject constructor(
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
 
     fun clearExif() {
-        val t = _exif.value
+        val tempExif = _exif.value
         MetadataTag.entries.forEach {
-            t?.setAttribute(it.key, null)
+            tempExif?.setAttribute(it.key, null)
         }
-        _exif.value = t
+        _exif.update { tempExif }
     }
 
     fun updateExif(exifInterface: ExifInterface?) {
-        _exif.value = exifInterface
+        _exif.update { exifInterface }
         registerChanges()
     }
 
@@ -488,7 +525,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     fun cancelSaving() {
         savingJob?.cancel()
         savingJob = null
-        _isSaving.value = false
+        _isSaving.update { false }
     }
 
     fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
@@ -505,14 +542,14 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = viewModelScope.launch {
-            _isSaving.value = true
+            _isSaving.update { true }
             imageGetter.getImage(selectedUri.toString())?.image?.let { bmp ->
                 bmp to imageInfo.copy(
                     originalUri = selectedUri.toString()
                 ).let {
                     imageTransformer.applyPresetBy(
                         image = bitmap,
-                        preset = _presetSelected.value,
+                        preset = presetSelected,
                         currentInfo = it
                     )
                 }
@@ -524,7 +561,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                     onComplete(uri.toUri())
                 }
             }
-            _isSaving.value = false
+            _isSaving.update { false }
         }
     }
 
@@ -532,8 +569,8 @@ class ResizeAndConvertViewModel @Inject constructor(
         onComplete: (List<Uri>) -> Unit
     ) {
         savingJob = viewModelScope.launch {
-            _isSaving.value = true
-            _done.value = 0
+            _isSaving.update { true }
+            _done.update { 0 }
             val list = mutableListOf<Uri>()
             uris?.forEach { uri ->
                 imageGetter.getImage(uri.toString())?.image?.let { bmp ->
@@ -542,7 +579,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                     ).let {
                         imageTransformer.applyPresetBy(
                             image = bitmap,
-                            preset = _presetSelected.value,
+                            preset = presetSelected,
                             currentInfo = it
                         )
                     }
@@ -557,7 +594,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                 _done.value += 1
             }
             onComplete(list)
-            _isSaving.value = false
+            _isSaving.update { false }
         }
     }
 

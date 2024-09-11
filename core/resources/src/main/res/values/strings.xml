@@ -1378,4 +1378,5 @@
     <string name="tools_arrangement">Tools Arrangement</string>
     <string name="group_tools_by_type">Group tools by type</string>
     <string name="group_tools_by_type_sub">Groups tools on the main screen by their type instead of a custom list arrangement</string>
+    <string name="default_values">Default Values</string>
 </resources>

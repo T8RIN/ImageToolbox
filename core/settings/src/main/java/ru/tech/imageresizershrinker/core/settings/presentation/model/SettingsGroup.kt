@@ -21,10 +21,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.DesignServices
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.Face6
-import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.IntegrationInstructions
 import androidx.compose.material.icons.rounded.Palette
@@ -143,11 +143,12 @@ sealed class SettingsGroup(
         initialState = false
     )
 
-    data object ScaleMode : SettingsGroup(
-        icon = Icons.Rounded.FitScreen,
-        titleId = R.string.scale_mode,
+    data object DefaultValues : SettingsGroup(
+        icon = Icons.Rounded.DesignServices,
+        titleId = R.string.default_values,
         settingsList = listOf(
-            Setting.DefaultScaleMode
+            Setting.DefaultScaleMode,
+            Setting.DefaultResizeType
         ),
         initialState = false
     )
@@ -349,7 +350,7 @@ sealed class SettingsGroup(
                 Behavior,
                 ToolsArrangement,
                 Presets,
-                ScaleMode,
+                DefaultValues,
                 Draw,
                 Exif,
                 Folder,

@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.settings.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
@@ -193,5 +194,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleUseFormattedFilenameTimestamp()
 
     suspend fun registerTelegramGroupOpen()
+
+    suspend fun setDefaultResizeType(resizeType: ResizeType)
 
 }

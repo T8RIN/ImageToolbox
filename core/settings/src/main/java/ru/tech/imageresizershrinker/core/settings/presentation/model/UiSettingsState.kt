@@ -40,6 +40,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -125,7 +126,8 @@ data class UiSettingsState(
     val defaultDrawPathMode: Int,
     val addTimestampToFilename: Boolean,
     val useFormattedFilenameTimestamp: Boolean,
-    val favoriteColors: List<Color>
+    val favoriteColors: List<Color>,
+    val defaultResizeType: ResizeType
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -297,7 +299,8 @@ fun SettingsState.toUiState(
             derivedStateOf {
                 favoriteColors.map { Color(it.colorInt) }
             }
-        }.value
+        }.value,
+        defaultResizeType = defaultResizeType
     )
 }
 

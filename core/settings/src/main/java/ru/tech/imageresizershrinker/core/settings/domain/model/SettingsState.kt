@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 
@@ -102,7 +103,8 @@ data class SettingsState(
     val defaultDrawPathMode: Int,
     val addTimestampToFilename: Boolean,
     val useFormattedFilenameTimestamp: Boolean,
-    val favoriteColors: List<ColorModel>
+    val favoriteColors: List<ColorModel>,
+    val defaultResizeType: ResizeType
 ) {
 
     companion object {
@@ -184,7 +186,8 @@ data class SettingsState(
                 defaultDrawPathMode = 0,
                 addTimestampToFilename = true,
                 useFormattedFilenameTimestamp = true,
-                favoriteColors = emptyList()
+                favoriteColors = emptyList(),
+                defaultResizeType = ResizeType.Explicit
             )
         }
     }

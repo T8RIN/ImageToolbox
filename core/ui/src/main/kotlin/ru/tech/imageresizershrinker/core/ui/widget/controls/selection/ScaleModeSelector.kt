@@ -102,7 +102,8 @@ fun ScaleModeSelector(
             Text(
                 text = stringResource(R.string.scale_mode),
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.weight(1f, false)
             )
             Badge(
                 content = {
@@ -173,12 +174,12 @@ fun ScaleModeSelector(
         if (showAsColumns) {
             FlowRow(
                 verticalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterVertically
+                    space = 8.dp,
+                    alignment = Alignment.CenterVertically
                 ),
                 horizontalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterHorizontally
+                    space = 8.dp,
+                    alignment = Alignment.CenterHorizontally
                 ),
                 modifier = chipsModifier
             ) {
@@ -217,7 +218,7 @@ fun ScaleModeSelector(
                 horizontalItemSpacing = 8.dp,
                 rows = StaggeredGridCells.Adaptive(30.dp),
                 modifier = Modifier
-                    .heightIn(max = 160.dp)
+                    .heightIn(max = if (enableItemsCardBackground) 160.dp else 140.dp)
                     .then(chipsModifier)
                     .fadingEdges(
                         scrollableState = state,

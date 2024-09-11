@@ -528,6 +528,10 @@ internal fun SettingItem(
             Setting.OneTimeSaveLocation -> {
                 OneTimeSaveLocationSettingItem()
             }
+
+            Setting.DefaultResizeType -> {
+                DefaultResizeTypeSettingItem(onValueChange = viewModel::setDefaultResizeType)
+            }
         }
     }
 }
