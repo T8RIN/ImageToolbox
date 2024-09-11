@@ -83,7 +83,7 @@ fun DefaultDrawPathModeSettingItem(
                     contentDescription = null
                 )
             },
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(it)
             }
         )

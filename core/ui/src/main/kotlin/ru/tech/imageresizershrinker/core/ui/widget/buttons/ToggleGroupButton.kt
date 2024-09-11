@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
@@ -62,19 +61,19 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun ToggleGroupButton(
-    @SuppressLint("ModifierParameter") modifier: Modifier = defaultModifier,
+    modifier: Modifier = defaultModifier,
     enabled: Boolean = true,
     items: List<String>,
     selectedIndex: Int,
     title: String? = null,
-    indexChanged: (Int) -> Unit,
+    onIndexChange: (Int) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
     ToggleGroupButton(
         enabled = enabled,
         items = items,
         selectedIndex = selectedIndex,
-        indexChanged = indexChanged,
+        onIndexChange = onIndexChange,
         modifier = modifier,
         title = {
             title?.let {
@@ -92,13 +91,12 @@ fun ToggleGroupButton(
 
 @Composable
 fun ToggleGroupButton(
-    @SuppressLint("ModifierParameter")
     modifier: Modifier = defaultModifier,
     enabled: Boolean,
     items: List<String>,
     selectedIndex: Int,
     title: @Composable RowScope.() -> Unit = {},
-    indexChanged: (Int) -> Unit,
+    onIndexChange: (Int) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
     ToggleGroupButton(
@@ -115,7 +113,7 @@ fun ToggleGroupButton(
                 maxLines = 1
             )
         },
-        indexChanged = indexChanged,
+        onIndexChange = onIndexChange,
         title = title,
         inactiveButtonColor = inactiveButtonColor
     )
@@ -124,7 +122,6 @@ fun ToggleGroupButton(
 
 @Composable
 fun ToggleGroupButton(
-    @SuppressLint("ModifierParameter")
     modifier: Modifier = defaultModifier,
     enabled: Boolean = true,
     itemCount: Int,
@@ -132,7 +129,7 @@ fun ToggleGroupButton(
     itemContent: @Composable (item: Int) -> Unit,
     title: @Composable RowScope.() -> Unit = {},
     buttonIcon: (@Composable () -> Unit)? = null,
-    indexChanged: (Int) -> Unit,
+    onIndexChange: (Int) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
     isScrollable: Boolean = true
@@ -190,7 +187,7 @@ fun ToggleGroupButton(
                                 haptics.performHapticFeedback(
                                     HapticFeedbackType.LongPress
                                 )
-                                indexChanged(index)
+                                onIndexChange(index)
                             },
                             icon = {
                                 if (buttonIcon == null) SegmentedButtonDefaults.Icon(index == selectedIndex)

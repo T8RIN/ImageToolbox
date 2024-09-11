@@ -156,7 +156,7 @@
     <string name="load_image_from_net_sub">Загрузите любое изображение из Интернета, чтобы просмотреть, масштабировать, отредактировать и сохранить его, если хотите.</string>
     <string name="image_link">Ссылка на изображение</string>
     <string name="fill">Заполнить</string>
-    <string name="fit">Как есть</string>
+    <string name="fit">Вписать</string>
     <string name="content_scale">Масштаб контента</string>
     <string name="explicit_description">Принудительно превращает каждую картинку в изображение, заданное параметрами ширины и высоты - может изменить соотношение сторон</string>
     <string name="flexible_description">Изменяет размер картинок до изображений с длинной стороной, заданной параметром ширины - сохраняет соотношения сторон</string>

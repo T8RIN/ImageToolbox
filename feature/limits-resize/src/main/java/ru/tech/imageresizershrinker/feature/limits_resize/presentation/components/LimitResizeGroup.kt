@@ -74,7 +74,7 @@ fun LimitsResizeSelector(
             is LimitsResizeType.Recode -> 1
             is LimitsResizeType.Zoom -> 2
         },
-        indexChanged = {
+        onIndexChange = {
             onValueChange(
                 when (it) {
                     0 -> LimitsResizeType.Skip(value.autoRotateLimitBox)

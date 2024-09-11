@@ -17,12 +17,12 @@
 
 package ru.tech.imageresizershrinker.core.domain
 
-const val APP_LINK = "https://github.com/T8RIN/ImageResizer"
+const val APP_LINK = "https://github.com/T8RIN/ImageToolbox"
 const val WEBLATE_LINK = "https://hosted.weblate.org/engage/image-resizer/"
-const val ISSUE_TRACKER = "https://github.com/T8RIN/ImageResizer/issues"
+const val ISSUE_TRACKER = "https://github.com/T8RIN/ImageToolbox/issues"
 const val AUTHOR_AVATAR = "https://avatars.githubusercontent.com/u/52178347?v=4"
 const val AUTHOR_LINK = "https://github.com/T8RIN"
-const val APP_RELEASES = "https://github.com/T8RIN/ImageResizer/releases"
+const val APP_RELEASES = "https://github.com/T8RIN/ImageToolbox/releases"
 const val AUTHOR_TG = "http://t.me/T8RIN"
 const val TELEGRAM_GROUP_LINK = "https://t.me/t8rin_imagetoolbox"
 const val TELEGRAM_CHANNEL_LINK = "https://t.me/t8rin_imagetoolbox_ci"

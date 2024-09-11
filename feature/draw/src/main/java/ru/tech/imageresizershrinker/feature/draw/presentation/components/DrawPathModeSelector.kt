@@ -138,7 +138,7 @@ fun DrawPathModeSelector(
                     contentDescription = null
                 )
             },
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(values[it].saveState(value))
             }
         )

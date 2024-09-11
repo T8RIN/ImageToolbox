@@ -69,6 +69,7 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
+import ru.tech.imageresizershrinker.core.domain.model.max
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiNativeStackBlurFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
@@ -250,7 +251,7 @@ fun BitmapDrawer(
                 is DrawMode.PathEffect.PrivacyBlur -> {
                     listOf(
                         UiNativeStackBlurFilter(
-                            value = drawMode.blurRadius.toFloat()
+                            value = drawMode.blurRadius.toFloat() / 1000 * max(canvasSize)
                         )
                     )
                 }
@@ -258,10 +259,10 @@ fun BitmapDrawer(
                 is DrawMode.PathEffect.Pixelation -> {
                     listOf(
                         UiNativeStackBlurFilter(
-                            value = 20f
+                            value = 20f / 1000 * max(canvasSize)
                         ),
                         UiPixelationFilter(
-                            value = drawMode.pixelSize
+                            value = drawMode.pixelSize / 1000 * max(canvasSize)
                         )
                     )
                 }

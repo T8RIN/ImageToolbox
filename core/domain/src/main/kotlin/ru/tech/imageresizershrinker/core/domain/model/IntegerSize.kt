@@ -55,4 +55,6 @@ data class IntegerSize(
     }
 }
 
+fun max(size: IntegerSize): Int = maxOf(size.width, size.height)
+
 infix fun Int.sizeTo(int: Int): IntegerSize = IntegerSize(this, int)

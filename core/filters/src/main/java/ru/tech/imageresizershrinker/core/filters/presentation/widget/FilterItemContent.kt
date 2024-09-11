@@ -654,7 +654,7 @@ internal fun <T> FilterItemContent(
                             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             items = entries.map { it.translatedName },
                             selectedIndex = entries.indexOf(colorSpace1),
-                            indexChanged = {
+                            onIndexChange = {
                                 colorSpace1 = entries[it]
                                 onFilterChange(
                                     Triple(
@@ -1185,7 +1185,7 @@ internal fun <T> FilterItemContent(
                                     inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                     items = entries.map { it.translatedName },
                                     selectedIndex = entries.indexOf(blendMode1),
-                                    indexChanged = {
+                                    onIndexChange = {
                                         blendMode1 = entries[it]
                                         onFilterChange(
                                             Triple(
@@ -1463,7 +1463,7 @@ internal fun <T> FilterItemContent(
                             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             items = FadeSide.entries.map { it.translatedName },
                             selectedIndex = FadeSide.entries.indexOf(sideFade),
-                            indexChanged = {
+                            onIndexChange = {
                                 sideFade = FadeSide.entries[it]
                             }
                         )
@@ -1836,7 +1836,7 @@ private fun <T> EdgeModeSelector(
         inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         items = entries.map { it.translatedName },
         selectedIndex = entries.indexOf(value),
-        indexChanged = {
+        onIndexChange = {
             onValueChange(entries[it])
         }
     )
@@ -1866,7 +1866,7 @@ private fun <T> TransferFuncSelector(
         inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         items = entries.map { it.translatedName },
         selectedIndex = entries.indexOf(value),
-        indexChanged = {
+        onIndexChange = {
             onValueChange(entries[it])
         }
     )

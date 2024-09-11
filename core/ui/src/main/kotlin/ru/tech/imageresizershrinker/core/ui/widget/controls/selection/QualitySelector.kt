@@ -254,7 +254,7 @@ fun QualitySelector(
                                 )
                             },
                             selectedIndex = items.indexOfFirst { it == jxlQuality?.channels },
-                            indexChanged = {
+                            onIndexChange = {
                                 jxlQuality?.copy(
                                     channels = Quality.Channels.fromInt(it)
                                 )?.coerceIn(imageFormat)?.let(onQualityChange)

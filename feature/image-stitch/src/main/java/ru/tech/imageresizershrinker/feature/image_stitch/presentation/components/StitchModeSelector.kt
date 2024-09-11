@@ -81,7 +81,7 @@ fun StitchModeSelector(
                 is StitchMode.Grid.Horizontal -> 2
                 is StitchMode.Grid.Vertical -> 3
             },
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(
                     when (it) {
                         0 -> StitchMode.Horizontal

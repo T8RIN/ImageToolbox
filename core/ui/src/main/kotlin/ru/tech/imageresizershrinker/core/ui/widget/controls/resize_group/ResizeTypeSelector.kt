@@ -58,6 +58,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeAnchor
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.Position
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.state.derivedValueOf
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
@@ -94,7 +95,7 @@ fun ResizeTypeSelector(
         mutableStateOf(Position.Center)
     }
 
-    val modifiedResizeType by remember(
+    val centerCropResizeType by remember(
         canvasColor,
         useBlurredBgInsteadOfColor,
         blurRadius,
@@ -109,9 +110,29 @@ fun ResizeTypeSelector(
             )
         }
     }
-    val updateResizeType = {
-        onValueChange(modifiedResizeType)
+    val updateCropResizeType = {
+        onValueChange(centerCropResizeType)
     }
+
+    val fitResizeType by remember(
+        canvasColor,
+        useBlurredBgInsteadOfColor,
+        blurRadius,
+        position
+    ) {
+        derivedStateOf {
+            ResizeType.Fit(
+                canvasColor = canvasColor.toArgb()
+                    .takeIf { !useBlurredBgInsteadOfColor },
+                blurRadius = blurRadius,
+                position = position
+            )
+        }
+    }
+    val updateFitResizeType = {
+        onValueChange(fitResizeType)
+    }
+
     Column(
         modifier = modifier
             .container(shape = RoundedCornerShape(24.dp))
@@ -143,25 +164,23 @@ fun ResizeTypeSelector(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             },
-            items = listOf(
-                stringResource(R.string.explicit),
-                stringResource(R.string.flexible),
-                stringResource(R.string.crop)
-            ),
-            selectedIndex = when (value) {
-                is ResizeType.Explicit -> 0
-                is ResizeType.Flexible -> 1
-                is ResizeType.CenterCrop -> 2
+            itemCount = ResizeType.entries.size,
+            selectedIndex = derivedValueOf(value) {
+                ResizeType.entries.indexOfFirst { it::class.isInstance(value) }
             },
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(
                     when (it) {
                         0 -> ResizeType.Explicit
                         1 -> ResizeType.Flexible
-                        2 -> modifiedResizeType
-                        else -> throw IllegalStateException()
+                        2 -> centerCropResizeType
+                        3 -> fitResizeType
+                        else -> ResizeType.Explicit
                     }
                 )
+            },
+            itemContent = {
+                Text(stringResource(ResizeType.entries[it].getTitle()))
             }
         )
         AnimatedVisibility(
@@ -192,7 +211,7 @@ fun ResizeTypeSelector(
                 itemContent = {
                     Text(entries[it].title)
                 },
-                indexChanged = {
+                onIndexChange = {
                     onValueChange(
                         ResizeType.Flexible(entries[it])
                     )
@@ -222,7 +241,7 @@ fun ResizeTypeSelector(
                     value = position,
                     onValueChange = {
                         position = it
-                        updateResizeType()
+                        updateCropResizeType()
                     },
                     shape = ContainerShapeDefaults.topShape,
                     color = MaterialTheme.colorScheme.surface
@@ -232,7 +251,7 @@ fun ResizeTypeSelector(
                     checked = useBlurredBgInsteadOfColor,
                     onCheckedChange = {
                         useBlurredBgInsteadOfColor = it
-                        updateResizeType()
+                        updateCropResizeType()
                     },
                     shape = ContainerShapeDefaults.centerShape
                 )
@@ -245,7 +264,7 @@ fun ResizeTypeSelector(
                             color = MaterialTheme.colorScheme.surface,
                             onValueChange = {
                                 blurRadius = it
-                                updateResizeType()
+                                updateCropResizeType()
                             },
                             shape = ContainerShapeDefaults.bottomShape
                         )
@@ -259,7 +278,63 @@ fun ResizeTypeSelector(
                             value = canvasColor,
                             onValueChange = {
                                 canvasColor = it
-                                updateResizeType()
+                                updateCropResizeType()
+                            }
+                        )
+                    }
+                }
+            }
+        }
+        AnimatedVisibility(
+            visible = value is ResizeType.Fit,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column(
+                modifier = Modifier.padding(8.dp)
+            ) {
+                PositionSelector(
+                    value = position,
+                    onValueChange = {
+                        position = it
+                        updateFitResizeType()
+                    },
+                    shape = ContainerShapeDefaults.topShape,
+                    color = MaterialTheme.colorScheme.surface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                UseBlurredBackgroundToggle(
+                    checked = useBlurredBgInsteadOfColor,
+                    onCheckedChange = {
+                        useBlurredBgInsteadOfColor = it
+                        updateFitResizeType()
+                    },
+                    shape = ContainerShapeDefaults.centerShape
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
+                    if (showBlurRadius) {
+                        BlurRadiusSelector(
+                            modifier = Modifier,
+                            value = blurRadius,
+                            color = MaterialTheme.colorScheme.surface,
+                            onValueChange = {
+                                blurRadius = it
+                                updateFitResizeType()
+                            },
+                            shape = ContainerShapeDefaults.bottomShape
+                        )
+                    } else {
+                        BackgroundColorSelector(
+                            modifier = Modifier
+                                .container(
+                                    shape = ContainerShapeDefaults.bottomShape,
+                                    color = MaterialTheme.colorScheme.surface
+                                ),
+                            value = canvasColor,
+                            onValueChange = {
+                                canvasColor = it
+                                updateFitResizeType()
                             }
                         )
                     }
@@ -335,10 +410,12 @@ private fun ResizeType.getTitle(): Int = when (this) {
     is ResizeType.CenterCrop -> R.string.crop
     is ResizeType.Explicit -> R.string.explicit
     is ResizeType.Flexible -> R.string.flexible
+    is ResizeType.Fit -> R.string.fit
 }
 
 private fun ResizeType.getSubtitle(): Int = when (this) {
     is ResizeType.CenterCrop -> R.string.crop_description
     is ResizeType.Explicit -> R.string.explicit_description
     is ResizeType.Flexible -> R.string.flexible_description
+    is ResizeType.Fit -> R.string.fit_description
 }

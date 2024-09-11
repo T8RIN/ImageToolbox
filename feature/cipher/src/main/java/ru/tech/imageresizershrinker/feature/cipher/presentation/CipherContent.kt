@@ -350,7 +350,7 @@ fun CipherContent(
                                                 enabled = true,
                                                 itemCount = items.size,
                                                 selectedIndex = (!viewModel.isEncrypt).toInt(),
-                                                indexChanged = {
+                                                onIndexChange = {
                                                     viewModel.setIsEncrypt(it == 0)
                                                 },
                                                 itemContent = {

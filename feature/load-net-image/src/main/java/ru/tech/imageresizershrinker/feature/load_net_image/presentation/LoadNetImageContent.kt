@@ -270,7 +270,7 @@ fun LoadNetImageContent(
                     stringResource(R.string.fit)
                 ),
                 selectedIndex = (scaleType == ContentScale.Fit).toInt(),
-                indexChanged = {
+                onIndexChange = {
                     scaleType = if (it == 0) {
                         ContentScale.FillWidth
                     } else {

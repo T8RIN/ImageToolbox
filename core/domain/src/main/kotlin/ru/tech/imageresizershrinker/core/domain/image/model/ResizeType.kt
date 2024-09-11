@@ -35,6 +35,12 @@ sealed class ResizeType {
         val position: Position = Position.Center
     ) : ResizeType()
 
+    data class Fit(
+        val canvasColor: Int? = 0,
+        val blurRadius: Int = 35,
+        val position: Position = Position.Center
+    ) : ResizeType()
+
     fun withOriginalSizeIfCrop(
         originalSize: IntegerSize?
     ): ResizeType = if (this is CenterCrop) {
@@ -48,7 +54,8 @@ sealed class ResizeType {
             listOf(
                 Explicit,
                 Flexible(),
-                CenterCrop()
+                CenterCrop(),
+                Fit()
             )
         }
     }

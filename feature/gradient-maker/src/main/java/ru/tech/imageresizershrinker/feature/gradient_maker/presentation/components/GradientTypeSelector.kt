@@ -59,7 +59,7 @@ fun GradientTypeSelector(
             items = GradientType.entries.map { it.translatedName },
             selectedIndex = GradientType.entries.indexOf(value),
             title = stringResource(id = R.string.gradient_type),
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(GradientType.entries[it])
             }
         )

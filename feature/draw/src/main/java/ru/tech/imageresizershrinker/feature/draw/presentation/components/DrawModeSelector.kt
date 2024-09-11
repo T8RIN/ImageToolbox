@@ -131,7 +131,7 @@ fun DrawModeSelector(
                     contentDescription = null
                 )
             },
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(DrawMode.entries[it])
             }
         )

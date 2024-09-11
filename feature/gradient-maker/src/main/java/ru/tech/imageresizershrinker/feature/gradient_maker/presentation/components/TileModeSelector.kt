@@ -60,7 +60,7 @@ fun TileModeSelector(
             items = entries.map { it.translatedName },
             selectedIndex = entries.indexOf(value),
             title = stringResource(id = R.string.tile_mode),
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(entries[it])
             }
         )

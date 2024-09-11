@@ -49,7 +49,7 @@ fun RecognitionTypeSelector(
             items = RecognitionType.entries.map { it.translatedName },
             selectedIndex = RecognitionType.entries.indexOf(value),
             title = stringResource(id = R.string.recognition_type),
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(RecognitionType.entries[it])
             }
         )

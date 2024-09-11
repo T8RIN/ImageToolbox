@@ -59,7 +59,7 @@ fun ImageFadingEdgesSelector(
                 0 -> 1
                 else -> 2
             },
-            indexChanged = {
+            onIndexChange = {
                 onValueChange(
                     when (it) {
                         0 -> null

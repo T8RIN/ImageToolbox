@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.createFilter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
@@ -116,24 +117,22 @@ internal class AndroidImageCombiner @Inject constructor(
                 combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
                     ?.let {
                         val space = combiningParams.spacing.absoluteValue
-                        val bottomFilter = object : Filter.SideFade {
-                            override val value: SideFadeParams
-                                get() = SideFadeParams.Absolute(
-                                    side = if (isHorizontal) {
-                                        FadeSide.End
-                                    } else FadeSide.Bottom,
-                                    size = space
-                                )
-                        }
-                        val topFilter = object : Filter.SideFade {
-                            override val value: SideFadeParams
-                                get() = SideFadeParams.Absolute(
-                                    side = if (isHorizontal) {
-                                        FadeSide.Start
-                                    } else FadeSide.Top,
-                                    size = space
-                                )
-                        }
+                        val bottomFilter = createFilter<SideFadeParams, Filter.SideFade>(
+                            SideFadeParams.Absolute(
+                                side = if (isHorizontal) {
+                                    FadeSide.End
+                                } else FadeSide.Bottom,
+                                size = space
+                            )
+                        )
+                        val topFilter = createFilter<SideFadeParams, Filter.SideFade>(
+                            SideFadeParams.Absolute(
+                                side = if (isHorizontal) {
+                                    FadeSide.Start
+                                } else FadeSide.Top,
+                                size = space
+                            )
+                        )
                         val filters = if (combiningParams.fadingEdgesMode == 0) {
                             when (i) {
                                 0 -> listOf()

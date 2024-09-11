@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.ImageResizer" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.ImageToolbox" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
-    <style name="Theme.ImageResizer.Launcher" parent="Theme.SplashScreen">
+    <style name="Theme.ImageToolbox.Launcher" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
-        <item name="postSplashScreenTheme">@style/Theme.ImageResizer</item>
+        <item name="postSplashScreenTheme">@style/Theme.ImageToolbox</item>
     </style>
 
     <style name="TransparentActivity" parent="Theme.Material3.DayNight.NoActionBar">

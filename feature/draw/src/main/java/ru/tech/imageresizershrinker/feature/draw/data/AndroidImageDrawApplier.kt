@@ -42,9 +42,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.max
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.createFilter
 import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedBitmapOnPath
 import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedTextOnPath
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
@@ -119,7 +121,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                     if (drawMode is DrawMode.PathEffect && !isErasing) {
                         val shaderSource = imageTransformer.transform(
                             image = image.overlay(bitmap),
-                            transformations = transformationsForMode(drawMode)
+                            transformations = transformationsForMode(canvasSize, drawMode)
                         )?.asImageBitmap()?.clipBitmap(
                             path = path,
                             paint = Paint().apply {
@@ -304,27 +306,25 @@ internal class AndroidImageDrawApplier @Inject constructor(
     }
 
     private fun transformationsForMode(
+        canvasSize: IntegerSize,
         drawMode: DrawMode
     ): List<Transformation<Bitmap>> = when (drawMode) {
         is DrawMode.PathEffect.PrivacyBlur -> {
             listOf(
-                object : Filter.NativeStackBlur {
-                    override val value: Float
-                        get() = drawMode.blurRadius.toFloat()
-                }
+                createFilter<Float, Filter.NativeStackBlur>(
+                    drawMode.blurRadius.toFloat() / 1000 * max(canvasSize)
+                )
             )
         }
 
         is DrawMode.PathEffect.Pixelation -> {
             listOf(
-                object : Filter.NativeStackBlur {
-                    override val value: Float
-                        get() = 20.toFloat()
-                },
-                object : Filter.Pixelation {
-                    override val value: Float
-                        get() = drawMode.pixelSize
-                }
+                createFilter<Float, Filter.NativeStackBlur>(
+                    20.toFloat() / 1000 * max(canvasSize)
+                ),
+                createFilter<Float, Filter.Pixelation>(
+                    drawMode.pixelSize / 1000 * max(canvasSize)
+                )
             )
         }
 

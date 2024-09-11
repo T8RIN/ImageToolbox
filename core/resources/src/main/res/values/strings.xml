@@ -1374,4 +1374,5 @@
     <string name="image_toolbox_in_telegram">ImageToolbox in Telegram 🎉</string>
     <string name="image_toolbox_in_telegram_sub">Join our chat where you can discuss anything you want and also look into the CI channel where I post betas and announcements</string>
     <string name="ci_channel_sub">Get notified about new versions of app, and read announcements</string>
+    <string name="fit_description">Fit an image to given dimensions and apply blur or color to background</string>
 </resources>

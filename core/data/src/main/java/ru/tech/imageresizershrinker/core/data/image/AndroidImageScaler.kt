@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ScaleColorSpace
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.createFilter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import javax.inject.Inject
 import kotlin.math.abs
@@ -99,12 +100,20 @@ internal class AndroidImageScaler @Inject constructor(
             }
 
             is ResizeType.CenterCrop -> {
-                resizeType.resizeWithCenterCrop(
+                resizeType.performCenterCrop(
                     image = image,
                     targetWidth = widthInternal,
                     targetHeight = heightInternal,
-                    imageScaleMode = imageScaleMode,
-                    scaleFactor = resizeType.scaleFactor
+                    imageScaleMode = imageScaleMode
+                )
+            }
+
+            is ResizeType.Fit -> {
+                resizeType.performFitResize(
+                    image = image,
+                    targetWidth = widthInternal,
+                    targetHeight = heightInternal,
+                    imageScaleMode = imageScaleMode
                 )
             }
         }
@@ -137,11 +146,115 @@ internal class AndroidImageScaler @Inject constructor(
         return size < 3096 * 3096 * 3
     }
 
-    private suspend fun ResizeType.CenterCrop.resizeWithCenterCrop(
+    private suspend fun Bitmap.fitResize(
+        targetWidth: Int,
+        targetHeight: Int,
+        imageScaleMode: ImageScaleMode
+    ): Bitmap {
+        val aspectRatio = width.toFloat() / height.toFloat()
+        val targetAspectRatio = targetWidth.toFloat() / targetHeight.toFloat()
+
+        val finalWidth: Int
+        val finalHeight: Int
+
+        if (aspectRatio > targetAspectRatio) {
+            // Image is wider than the target aspect ratio
+            finalWidth = targetWidth
+            finalHeight = (targetWidth / aspectRatio).toInt()
+        } else {
+            // Image is taller than or equal to the target aspect ratio
+            finalWidth = (targetHeight * aspectRatio).toInt()
+            finalHeight = targetHeight
+        }
+
+        return createScaledBitmap(
+            image = this,
+            width = finalWidth,
+            height = finalHeight,
+            imageScaleMode = imageScaleMode
+        )
+    }
+
+    private suspend fun ResizeType.Fit.performFitResize(
         image: Bitmap,
         targetWidth: Int,
         targetHeight: Int,
-        scaleFactor: Float,
+        imageScaleMode: ImageScaleMode
+    ): Bitmap = withContext(defaultDispatcher) {
+        if (targetWidth == image.width && targetHeight == image.height) {
+            return@withContext image
+        }
+
+        val originalWidth: Int
+        val originalHeight: Int
+
+        val aspect = image.aspectRatio
+        val originalAspect = image.aspectRatio
+
+        if (abs(aspect - originalAspect) > 0.001f) {
+            originalWidth = image.height
+            originalHeight = image.width
+        } else {
+            originalWidth = image.width
+            originalHeight = image.height
+        }
+
+        val drawImage = image.fitResize(
+            targetWidth = targetWidth,
+            targetHeight = targetHeight,
+            imageScaleMode = imageScaleMode
+        )
+
+        val blurredBitmap = imageTransformer.transform(
+            image = drawImage.let { bitmap ->
+                val xScale: Float = targetWidth.toFloat() / originalWidth
+                val yScale: Float = targetHeight.toFloat() / originalHeight
+                val scale = xScale.coerceAtLeast(yScale)
+                createScaledBitmap(
+                    image = bitmap,
+                    width = (scale * originalWidth).toInt(),
+                    height = (scale * originalHeight).toInt(),
+                    imageScaleMode = imageScaleMode
+                )
+            },
+            transformations = listOf(
+                filterProvider.filterToTransformation(
+                    createFilter<Float, Filter.NativeStackBlur>(
+                        blurRadius.toFloat() / 1000 * max(targetWidth, targetHeight)
+                    )
+                )
+            )
+        )
+
+        Bitmap.createBitmap(
+            targetWidth,
+            targetHeight,
+            drawImage.safeConfig
+        ).apply {
+            setHasAlpha(true)
+        }.applyCanvas {
+            drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+            canvasColor?.let {
+                drawColor(it)
+            } ?: blurredBitmap?.let {
+                drawBitmap(
+                    blurredBitmap,
+                    (width - blurredBitmap.width) / 2f,
+                    (height - blurredBitmap.height) / 2f,
+                    null
+                )
+            }
+            drawBitmap(
+                bitmap = drawImage,
+                position = position
+            )
+        }
+    }
+
+    private suspend fun ResizeType.CenterCrop.performCenterCrop(
+        image: Bitmap,
+        targetWidth: Int,
+        targetHeight: Int,
         imageScaleMode: ImageScaleMode
     ): Bitmap = withContext(defaultDispatcher) {
         val originalSize = if (!originalSize.isDefined()) {
@@ -192,10 +305,9 @@ internal class AndroidImageScaler @Inject constructor(
             },
             transformations = listOf(
                 filterProvider.filterToTransformation(
-                    object : Filter.NativeStackBlur {
-                        override val value: Float
-                            get() = blurRadius.toFloat() / 1000 * targetWidth
-                    }
+                    createFilter<Float, Filter.NativeStackBlur>(
+                        blurRadius.toFloat() / 1000 * max(targetWidth, targetHeight)
+                    )
                 )
             )
         )
@@ -208,7 +320,7 @@ internal class AndroidImageScaler @Inject constructor(
             setHasAlpha(true)
         }.applyCanvas {
             drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-            this@resizeWithCenterCrop.canvasColor?.let {
+            canvasColor?.let {
                 drawColor(it)
             } ?: blurredBitmap?.let {
                 drawBitmap(
