@@ -1343,8 +1343,17 @@
     <string name="default_draw_color">Standaard tekenkleur</string>
     <string name="default_draw_path_mode">Standaard padmodus tekenen</string>
     <string name="add_timestamp">Tijdstempel toevoegen</string>
-    <string name="add_timestamp_sub">Tijdstempel inschakelen en dit toevoegen aan de bestandsnaam van de uitvoer</string>
+    <string name="add_timestamp_sub">Schakelt Tijdstempel in en voegt deze toe aan de naam van het uitvoerbestand</string>
     <string name="formatted_timestamp">Tijdstempel met opmaak</string>
     <string name="enable_timestamps_to_format_them">Schakel Tijdstempel in om de opmaak te selecteren</string>
     <string name="manage_storage_extra_types_sub">Verleen toegang tot alle bestanden om JXL, QOI en andere afbeeldingen te zien die op Android niet worden herkend als afbeeldingsbestanden. Zonder deze toestemming, zijn deze afbeeldingen hier niet zien.</string>
+    <string name="formatted_timestamp_sub">Tijdstempel-opmaak inschakelen in de naam van het uitvoerbestand in plaats van standaard milliseconden</string>
+    <string name="recently_used">Recent gebruikt</string>
+    <string name="ci_channel">CI-kanaal</string>
+    <string name="one_time_save_location">Eenmalige opslaglocatie</string>
+    <string name="group">Groep</string>
+    <string name="one_time_save_location_sub">Eenmalige opslaglocaties bekijken en bewerken die u kunt gebruiken door lang op de opslagknop te drukken in vrijwel alle opties</string>
+    <string name="image_toolbox_in_telegram_sub">Sluit aan bij onze chat waar je alles kunt bespreken wat je wilt en kijk ook naar het CI-kanaal waar ik bèta\'s en aankondigingen plaats</string>
+    <string name="ci_channel_sub">Ontvang een melding over nieuwe versies van de app en lees aankondigingen</string>
+    <string name="image_toolbox_in_telegram">ImageToolbox op Telegram 🎉</string>
 </resources>
