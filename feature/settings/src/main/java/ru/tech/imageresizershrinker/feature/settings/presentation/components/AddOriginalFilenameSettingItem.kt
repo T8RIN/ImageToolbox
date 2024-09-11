@@ -40,7 +40,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 fun AddOriginalFilenameSettingItem(
     onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current

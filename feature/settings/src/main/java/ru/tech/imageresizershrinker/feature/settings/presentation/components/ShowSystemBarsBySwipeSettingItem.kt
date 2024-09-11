@@ -19,33 +19,33 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Numbers
+import androidx.compose.material.icons.outlined.SwipeVertical
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun PresetsSettingItem(
-    shape: Shape = ContainerShapeDefaults.topShape,
+fun ShowSystemBarsBySwipeSettingItem(
+    onClick: () -> Unit,
+    shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val editPresetsController = LocalEditPresetsController.current
     val settingsState = LocalSettingsState.current
-    PreferenceItem(
+    PreferenceRowSwitch(
         shape = shape,
-        onClick = editPresetsController::open,
-        title = stringResource(R.string.values),
-        subtitle = settingsState.presets.joinToString(", "),
-        startIcon = Icons.Outlined.Numbers,
-        endIcon = Icons.Rounded.MiniEdit,
-        modifier = modifier
+        modifier = modifier,
+        onClick = {
+            onClick()
+        },
+        title = stringResource(R.string.show_system_bars_by_swipe),
+        subtitle = stringResource(R.string.show_system_bars_by_swipe_sub),
+        checked = settingsState.isSystemBarsVisibleBySwipe,
+        startIcon = Icons.Outlined.SwipeVertical
     )
 }

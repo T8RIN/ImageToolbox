@@ -47,7 +47,8 @@ sealed class DomainFontFamily(val ordinal: Int) {
     data object System : DomainFontFamily(0)
 
     companion object {
-        fun fromOrdinal(int: Int?): DomainFontFamily = when (int) {
+        fun fromOrdinal(int: Int?): DomainFontFamily? = when (int) {
+            0 -> System
             1 -> Montserrat
             2 -> Caveat
             3 -> Comfortaa
@@ -74,7 +75,7 @@ sealed class DomainFontFamily(val ordinal: Int) {
             24 -> LcdOctagon
             25 -> LcdMoving
             26 -> Unisource
-            else -> System
+            else -> null
         }
     }
 }

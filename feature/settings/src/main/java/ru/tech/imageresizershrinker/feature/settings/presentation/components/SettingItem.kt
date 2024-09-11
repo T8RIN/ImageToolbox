@@ -532,6 +532,14 @@ internal fun SettingItem(
             Setting.DefaultResizeType -> {
                 DefaultResizeTypeSettingItem(onValueChange = viewModel::setDefaultResizeType)
             }
+
+            Setting.SystemBarsVisibility -> {
+                SystemBarsVisibilitySettingItem(onValueChange = viewModel::setSystemBarsVisibility)
+            }
+
+            Setting.ShowSystemBarsBySwipe -> {
+                ShowSystemBarsBySwipeSettingItem(onClick = viewModel::toggleIsSystemBarsVisibleBySwipe)
+            }
         }
     }
 }

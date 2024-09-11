@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 @Composable
 fun DynamicColorsSettingItem(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ContainerShapeDefaults.centerShape
 ) {
     val settingsState = LocalSettingsState.current

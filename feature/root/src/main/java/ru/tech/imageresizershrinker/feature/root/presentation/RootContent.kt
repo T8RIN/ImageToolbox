@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.root.presentation
 
 import android.content.ClipData
-import android.content.res.Configuration
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -36,11 +35,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.core.view.WindowInsetsControllerCompat
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
@@ -135,19 +131,6 @@ fun RootContent(
             if (!showUpdateSheet) {
                 delay(600)
                 viewModel.cancelledUpdate()
-            }
-        }
-        val conf = LocalConfiguration.current
-        val systemUiController = rememberSystemUiController()
-        LaunchedEffect(conf.orientation) {
-            if (conf.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                systemUiController.isNavigationBarVisible = false
-                systemUiController.systemBarsBehavior =
-                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            } else {
-                systemUiController.isNavigationBarVisible = true
-                systemUiController.systemBarsBehavior =
-                    WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
             }
         }
         ImageToolboxTheme {

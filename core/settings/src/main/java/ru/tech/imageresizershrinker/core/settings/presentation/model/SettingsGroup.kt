@@ -292,7 +292,9 @@ sealed class SettingsGroup(
         titleId = R.string.screen,
         settingsList = listOf(
             Setting.BrightnessEnforcement,
-            Setting.SecureMode
+            Setting.SecureMode,
+            Setting.SystemBarsVisibility,
+            Setting.ShowSystemBarsBySwipe
         ),
         initialState = false
     )

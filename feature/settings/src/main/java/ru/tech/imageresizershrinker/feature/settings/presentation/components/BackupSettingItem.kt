@@ -43,7 +43,7 @@ fun BackupSettingItem(
     onCreateBackupFilename: () -> String,
     onCreateBackup: (Uri) -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current

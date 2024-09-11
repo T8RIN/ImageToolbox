@@ -61,7 +61,7 @@ fun EmojiSettingItem(
     selectedEmojiIndex: Int,
     onAddColorTupleFromEmoji: (getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) -> Unit,
     onUpdateEmoji: (Int) -> Unit,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ContainerShapeDefaults.topShape
 ) {
     val settingsState = LocalSettingsState.current

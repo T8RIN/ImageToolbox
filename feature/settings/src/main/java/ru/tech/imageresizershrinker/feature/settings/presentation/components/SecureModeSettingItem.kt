@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 @Composable
 fun SecureModeSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ContainerShapeDefaults.bottomShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

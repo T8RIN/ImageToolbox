@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
+import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
@@ -98,6 +99,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IMAGE_SCAL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INITIAL_OCR_CODES
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INVERT_THEME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_LINK_PREVIEW_ENABLED
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_TELEGRAM_GROUP_OPENED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.MAGNIFIER_ENABLED
@@ -118,6 +120,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_SETTI
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SKIP_IMAGE_PICKING
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SWITCH_TYPE
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SYSTEM_BARS_VISIBILITY
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_STYLE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
@@ -148,7 +151,7 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map { prefs ->
         SettingsState(
-            nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
+            nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]) ?: default.nightMode,
             isDynamicColors = prefs[DYNAMIC_COLORS] ?: default.isDynamicColors,
             isAmoledMode = prefs[AMOLED_MODE] ?: default.isAmoledMode,
             appColorTuple = prefs[APP_COLOR_TUPLE] ?: default.appColorTuple,
@@ -164,7 +167,7 @@ internal class AndroidSettingsManager @Inject constructor(
             groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
             addSequenceNumber = prefs[ADD_SEQ_NUM_TO_FILENAME] ?: default.addSequenceNumber,
             saveFolderUri = prefs[SAVE_FOLDER_URI],
-            presets = Preset.createListFromInts(prefs[PRESETS]),
+            presets = Preset.createListFromInts(prefs[PRESETS]) ?: default.presets,
             colorTupleList = prefs[COLOR_TUPLES],
             allowChangeColorByImage = prefs[ALLOW_IMAGE_MONET] ?: default.allowChangeColorByImage,
             picturePickerModeInt = prefs[IMAGE_PICKER_MODE] ?: default.picturePickerModeInt,
@@ -174,7 +177,7 @@ internal class AndroidSettingsManager @Inject constructor(
             addOriginalFilename = prefs[ADD_ORIGINAL_NAME_TO_FILENAME]
                 ?: default.addOriginalFilename,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: default.randomizeFilename,
-            font = DomainFontFamily.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
+            font = DomainFontFamily.fromOrdinal(prefs[SELECTED_FONT_INDEX]) ?: default.font,
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
@@ -200,7 +203,7 @@ internal class AndroidSettingsManager @Inject constructor(
             screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
             copyToClipboardMode = prefs[COPY_TO_CLIPBOARD_MODE]?.let {
                 CopyToClipboardMode.fromInt(it)
-            } ?: CopyToClipboardMode.Disabled,
+            } ?: default.copyToClipboardMode,
             hapticsStrength = prefs[VIBRATION_STRENGTH] ?: default.hapticsStrength,
             overwriteFiles = prefs[OVERWRITE_FILE] ?: default.overwriteFiles,
             filenameSuffix = prefs[FILENAME_SUFFIX] ?: default.filenameSuffix,
@@ -278,7 +281,11 @@ internal class AndroidSettingsManager @Inject constructor(
             } ?: default.favoriteColors,
             defaultResizeType = prefs[DEFAULT_RESIZE_TYPE]?.let {
                 ResizeType.entries.getOrNull(it)
-            } ?: ResizeType.Explicit
+            } ?: default.defaultResizeType,
+            systemBarsVisibility = SystemBarsVisibility.fromOrdinal(prefs[SYSTEM_BARS_VISIBILITY])
+                ?: default.systemBarsVisibility,
+            isSystemBarsVisibleBySwipe = prefs[IS_SYSTEM_BARS_VISIBLE_BY_SWIPE]
+                ?: default.isSystemBarsVisibleBySwipe
         )
     }.onEach { currentSettings = it }
 
@@ -1006,6 +1013,21 @@ internal class AndroidSettingsManager @Inject constructor(
             prefs[DEFAULT_RESIZE_TYPE] = ResizeType.entries.indexOfFirst {
                 it::class.isInstance(resizeType)
             }
+        }
+    }
+
+    override suspend fun setSystemBarsVisibility(systemBarsVisibility: SystemBarsVisibility) {
+        dataStore.edit { prefs ->
+            prefs[SYSTEM_BARS_VISIBILITY] = systemBarsVisibility.ordinal
+        }
+    }
+
+    override suspend fun toggleIsSystemBarsVisibleBySwipe() {
+        dataStore.edit {
+            it.toggle(
+                key = IS_SYSTEM_BARS_VISIBLE_BY_SWIPE,
+                defaultValue = default.isSystemBarsVisibleBySwipe
+            )
         }
     }
 

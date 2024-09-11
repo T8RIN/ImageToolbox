@@ -288,7 +288,7 @@ sealed class UiFontFamily(
                 it.asDomain().ordinal
             },
             restore = {
-                DomainFontFamily.fromOrdinal(it).toUiFont()
+                DomainFontFamily.fromOrdinal(it)?.toUiFont()
             }
         )
     }

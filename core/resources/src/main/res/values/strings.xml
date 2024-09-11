@@ -1379,4 +1379,12 @@
     <string name="group_tools_by_type">Group tools by type</string>
     <string name="group_tools_by_type_sub">Groups tools on the main screen by their type instead of a custom list arrangement</string>
     <string name="default_values">Default Values</string>
+    <string name="system_bars_visibility">System Bars Visibility</string>
+    <string name="show_system_bars_by_swipe">Show System Bars By Swipe</string>
+    <string name="show_system_bars_by_swipe_sub">Enables swiping to show system bars if they are hidden</string>
+    <string name="auto">Auto</string>
+    <string name="hide_all">Hide All</string>
+    <string name="show_all">Show All</string>
+    <string name="hide_nav_bar">Hide Nav Bar</string>
+    <string name="hide_status_bar">Hide Status Bar</string>
 </resources>

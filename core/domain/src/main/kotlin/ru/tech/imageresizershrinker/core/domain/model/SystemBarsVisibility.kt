@@ -15,38 +15,37 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.image.model
+package ru.tech.imageresizershrinker.core.domain.model
 
-sealed class Preset {
+sealed class SystemBarsVisibility(
+    val ordinal: Int
+) {
 
-    data object Telegram : Preset()
+    data object Auto : SystemBarsVisibility(0)
 
-    data object None : Preset()
+    data object ShowAll : SystemBarsVisibility(1)
 
-    data class Percentage(val value: Int) : Preset()
+    data object HideAll : SystemBarsVisibility(2)
 
-    data class AspectRatio(
-        val ratio: Float,
-        val isFit: Boolean
-    ) : Preset()
+    data object HideNavigationBar : SystemBarsVisibility(3)
 
-    fun isTelegram(): Boolean = this is Telegram
-
-    fun value(): Int? = (this as? Percentage)?.value
-
-    fun isEmpty(): Boolean = this is None
-
-    fun isAspectRatio(): Boolean = this is AspectRatio
+    data object HideStatusBar : SystemBarsVisibility(4)
 
     companion object {
-        val Original by lazy {
-            Percentage(100)
+
+        val entries: List<SystemBarsVisibility> by lazy {
+            listOf(
+                Auto,
+                ShowAll,
+                HideAll,
+                HideNavigationBar,
+                HideStatusBar
+            )
         }
 
-        fun createListFromInts(presets: String?): List<Preset>? {
-            return presets?.split("*")?.map {
-                it.toInt()
-            }?.map { Percentage(it) }
+        fun fromOrdinal(ordinal: Int?): SystemBarsVisibility? = ordinal?.let {
+            entries[ordinal]
         }
     }
+
 }

@@ -39,7 +39,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 fun ResetSettingsSettingItem(
     onReset: () -> Unit,
     shape: Shape = ContainerShapeDefaults.bottomShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     var showResetDialog by remember { mutableStateOf(false) }
     PreferenceItem(

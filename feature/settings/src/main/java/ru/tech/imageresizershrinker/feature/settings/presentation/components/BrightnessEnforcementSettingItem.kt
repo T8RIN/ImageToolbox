@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun BrightnessEnforcementSettingItem(
     onValueChange: (Screen) -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     val settingsScreenList = settingsState.screenListWithMaxBrightnessEnforcement

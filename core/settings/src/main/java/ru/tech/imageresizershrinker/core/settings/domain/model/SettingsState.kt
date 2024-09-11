@@ -17,14 +17,13 @@
 
 package ru.tech.imageresizershrinker.core.settings.domain.model
 
-import android.os.Build
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset.Percentage
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 
 data class SettingsState(
     val nightMode: NightMode,
@@ -104,7 +103,9 @@ data class SettingsState(
     val addTimestampToFilename: Boolean,
     val useFormattedFilenameTimestamp: Boolean,
     val favoriteColors: List<ColorModel>,
-    val defaultResizeType: ResizeType
+    val defaultResizeType: ResizeType,
+    val systemBarsVisibility: SystemBarsVisibility,
+    val isSystemBarsVisibleBySwipe: Boolean
 ) {
 
     companion object {
@@ -117,10 +118,10 @@ data class SettingsState(
                 isAmoledMode = false,
                 appColorTuple = "",
                 borderWidth = -1f,
-                presets = emptyList(),
+                presets = List(6) { Percentage(100 - it * 10) }.reversed(),
                 fabAlignment = 1,
                 selectedEmoji = 0,
-                picturePickerModeInt = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) 0 else 1,
+                picturePickerModeInt = 0,
                 clearCacheOnLaunch = false,
                 showUpdateDialogOnStartup = true,
                 groupOptionsByTypes = true,
@@ -132,7 +133,7 @@ data class SettingsState(
                 addSizeInFilename = false,
                 addOriginalFilename = false,
                 randomizeFilename = false,
-                font = DomainFontFamily.Montserrat,
+                font = DomainFontFamily.System,
                 fontScale = 1f,
                 allowCollectCrashlytics = true,
                 allowCollectAnalytics = true,
@@ -182,12 +183,14 @@ data class SettingsState(
                 colorBlindType = null,
                 favoriteScreenList = emptyList(),
                 isLinkPreviewEnabled = true,
-                defaultDrawColor = ColorModel(Color.Black.toArgb()),
+                defaultDrawColor = ColorModel(-0x1000000),
                 defaultDrawPathMode = 0,
                 addTimestampToFilename = true,
                 useFormattedFilenameTimestamp = true,
                 favoriteColors = emptyList(),
-                defaultResizeType = ResizeType.Explicit
+                defaultResizeType = ResizeType.Explicit,
+                systemBarsVisibility = SystemBarsVisibility.Auto,
+                isSystemBarsVisibleBySwipe = true
             )
         }
     }

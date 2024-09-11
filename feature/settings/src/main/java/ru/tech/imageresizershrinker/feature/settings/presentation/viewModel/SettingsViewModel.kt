@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
@@ -602,6 +603,18 @@ class SettingsViewModel @Inject constructor(
     fun setDefaultResizeType(resizeType: ResizeType) {
         viewModelScope.launch {
             settingsManager.setDefaultResizeType(resizeType)
+        }
+    }
+
+    fun setSystemBarsVisibility(systemBarsVisibility: SystemBarsVisibility) {
+        viewModelScope.launch {
+            settingsManager.setSystemBarsVisibility(systemBarsVisibility)
+        }
+    }
+
+    fun toggleIsSystemBarsVisibleBySwipe() {
+        viewModelScope.launch {
+            settingsManager.toggleIsSystemBarsVisibleBySwipe()
         }
     }
 }

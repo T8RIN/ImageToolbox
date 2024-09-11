@@ -42,7 +42,7 @@ fun ClearCacheSettingItem(
     onClearCache: ((String) -> Unit) -> Unit,
     value: String,
     shape: Shape = ContainerShapeDefaults.topShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val context = LocalContext.current
     var cache by remember(

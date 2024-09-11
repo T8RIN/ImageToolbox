@@ -22,37 +22,64 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.crash.CrashActivity
 import ru.tech.imageresizershrinker.core.crash.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.di.entryPoint
+import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 @AndroidEntryPoint
-open class M3Activity : AppCompatActivity() {
-    private val settingsState = mutableStateOf(SettingsState.Default)
+abstract class M3Activity : AppCompatActivity() {
 
-    fun getSettingsState(): SettingsState = settingsState.value
+    private val windowInsetsController by lazy {
+        window?.let {
+            WindowCompat.getInsetsController(it, it.decorView)
+        }
+    }
+
+    private lateinit var settingsProvider: SettingsProvider
+
+    private val _settingsState = mutableStateOf(SettingsState.Default)
+    private val settingsState: SettingsState by _settingsState
+
+    @JvmName("getSettingsState1")
+    fun getSettingsState(): SettingsState = settingsState
 
     override fun attachBaseContext(newBase: Context) {
         newBase.entryPoint<SettingsStateEntryPoint> {
-            runBlocking {
-                settingsState.value = settingsManager.getSettingsState()
+            settingsProvider = settingsManager
+            _settingsState.update {
+                runBlocking {
+                    settingsProvider.getSettingsState()
+                }
+            }
+            lifecycleScope.launch {
+                settingsProvider
+                    .getSettingsStateFlow()
+                    .collect { state ->
+                        _settingsState.update { state }
+                        handleSystemBarsBehavior()
+                    }
             }
         }
         val newOverride = Configuration(newBase.resources?.configuration)
-        settingsState.value.fontScale?.let { newOverride.fontScale = it }
+        settingsState.fontScale?.let { newOverride.fontScale = it }
         applyOverrideConfiguration(newOverride)
         super.attachBaseContext(newBase)
     }
@@ -60,30 +87,74 @@ open class M3Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        adjustFontSize(settingsState.value.fontScale)
+        adjustFontSize(settingsState.fontScale)
         enableEdgeToEdge()
-        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.value.allowCollectCrashlytics)
+        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
         GlobalExceptionHandler.initialize(
             applicationContext = applicationContext,
             activityToBeLaunched = CrashActivity::class.java,
         )
-        Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.value.allowCollectCrashlytics)
-        lifecycleScope.launch {
-            entryPoint<SettingsStateEntryPoint> {
-                settingsManager
-                    .getSettingsStateFlow()
-                    .collect {
-                        settingsState.value = it
-                    }
-            }
-        }
+        Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
+
+        handleSystemBarsBehavior()
     }
 
     override fun recreate() {
-        CoroutineScope(Dispatchers.Main.immediate).launch {
+        lifecycleScope.launch {
             delay(10L)
             super.recreate()
         }
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) handleSystemBarsBehavior()
+    }
+
+    private fun handleSystemBarsBehavior() {
+        val safeController: WindowInsetsControllerCompat? = windowInsetsController
+
+        safeController?.apply {
+            when (settingsState.systemBarsVisibility) {
+                SystemBarsVisibility.Auto -> {
+                    val orientation = resources.configuration.orientation
+
+                    show(STATUS_BARS)
+
+                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        hide(NAV_BARS)
+                    } else {
+                        show(NAV_BARS)
+                    }
+                }
+
+                SystemBarsVisibility.HideAll -> {
+                    hide(SYSTEM_BARS)
+                }
+
+                SystemBarsVisibility.ShowAll -> {
+                    show(SYSTEM_BARS)
+                }
+
+                SystemBarsVisibility.HideNavigationBar -> {
+                    show(STATUS_BARS)
+                    hide(NAV_BARS)
+                }
+
+                SystemBarsVisibility.HideStatusBar -> {
+                    show(NAV_BARS)
+                    hide(STATUS_BARS)
+                }
+            }
+
+            systemBarsBehavior = if (settingsState.isSystemBarsVisibleBySwipe) {
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            } else WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
+        }
+    }
+
 }
+
+private val NAV_BARS = WindowInsetsCompat.Type.navigationBars()
+private val SYSTEM_BARS = WindowInsetsCompat.Type.systemBars()
+private val STATUS_BARS = WindowInsetsCompat.Type.statusBars()

@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 fun RestoreSettingItem(
     onObtainBackupFile: (uri: Uri) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val filePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),

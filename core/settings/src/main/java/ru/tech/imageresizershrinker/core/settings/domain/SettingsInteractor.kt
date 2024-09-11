@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
+import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
@@ -196,5 +197,9 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun registerTelegramGroupOpen()
 
     suspend fun setDefaultResizeType(resizeType: ResizeType)
+
+    suspend fun setSystemBarsVisibility(systemBarsVisibility: SystemBarsVisibility)
+
+    suspend fun toggleIsSystemBarsVisibleBySwipe()
 
 }

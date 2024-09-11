@@ -56,7 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 fun FilenamePrefixSettingItem(
     onValueChange: (String) -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     var showChangeFilenameDialog by rememberSaveable { mutableStateOf(false) }

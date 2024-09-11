@@ -79,7 +79,7 @@ fun CurrentVersionCodeSettingItem(
                     }
                 ).value,
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 8.dp)
+                    .padding(horizontal = 8.dp)
                     .size(64.dp)
                     .container(
                         resultPadding = 0.dp,

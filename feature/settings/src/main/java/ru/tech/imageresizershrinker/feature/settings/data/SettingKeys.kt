@@ -103,4 +103,6 @@ internal object SettingKeys {
     val FAVORITE_COLORS = stringPreferencesKey("FAVORITE_COLORS")
     val IS_TELEGRAM_GROUP_OPENED = booleanPreferencesKey("IS_TELEGRAM_GROUP_OPENED")
     val DEFAULT_RESIZE_TYPE = intPreferencesKey("DEFAULT_RESIZE_TYPE")
+    val SYSTEM_BARS_VISIBILITY = intPreferencesKey("SYSTEM_BARS_VISIBILITY")
+    val IS_SYSTEM_BARS_VISIBLE_BY_SWIPE = booleanPreferencesKey("IS_SYSTEM_BARS_VISIBLE_BY_SWIPE")
 }

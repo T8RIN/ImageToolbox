@@ -433,4 +433,14 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object SystemBarsVisibility : Setting(
+        title = R.string.system_bars_visibility,
+        subtitle = null
+    )
+
+    data object ShowSystemBarsBySwipe : Setting(
+        title = R.string.show_system_bars_by_swipe,
+        subtitle = R.string.show_system_bars_by_swipe_sub
+    )
+
 }
