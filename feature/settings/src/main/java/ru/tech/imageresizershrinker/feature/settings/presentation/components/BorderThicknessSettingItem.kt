@@ -21,11 +21,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.round
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
@@ -39,19 +45,25 @@ fun BorderThicknessSettingItem(
         .padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
+    var value by remember {
+        mutableFloatStateOf(settingsState.borderWidth.value.coerceAtLeast(0f))
+    }
+    LaunchedEffect(value) {
+        delay(500)
+        onValueChange(value)
+    }
     EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
         valueSuffix = " Dp",
-        value = settingsState.borderWidth.value.coerceAtLeast(0f),
+        value = value,
         title = stringResource(R.string.border_thickness),
         icon = Icons.Outlined.BorderStyle,
-        onValueChange = {},
+        onValueChange = {
+            value = (it * 10).round() / 10f
+        },
         internalStateTransformation = {
             (it * 10).round() / 10f
-        },
-        onValueChangeFinished = {
-            onValueChange((it * 10).round() / 10f)
         },
         valueRange = 0f..1.5f,
         steps = 14
