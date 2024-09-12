@@ -558,7 +558,8 @@ or click one of the badges below.
 - Additional Features
     - Rotating
     - Flipping
-    - Previewing SVG, DNG, PSD and almost all types of images
+    - Perlin Noise Generation
+    - Previewing SVG, DNG, PSD, DJVU and almost all types of images
     - Saving to any specific folder
     - Long press on save to choose one time output folder
     - Randomizing output filename
