@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
+import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
@@ -65,7 +66,6 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftPar
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter

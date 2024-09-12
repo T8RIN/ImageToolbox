@@ -15,25 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.zip.di
+package ru.tech.imageresizershrinker.noise_generation.di
 
+import android.graphics.Bitmap
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.zip.data.AndroidZipManager
-import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
-import javax.inject.Singleton
-
+import ru.tech.imageresizershrinker.noise_generation.data.AndroidNoiseGenerator
+import ru.tech.imageresizershrinker.noise_generation.domain.NoiseGenerator
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface ZipModule {
+internal interface NoiseGenerationModule {
 
-    @Singleton
     @Binds
-    fun provideZipManager(
-        manager: AndroidZipManager
-    ): ZipManager
+    fun provideGenerator(
+        impl: AndroidNoiseGenerator
+    ): NoiseGenerator<Bitmap>
 
 }

@@ -21,7 +21,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.svg_maker.data.SvgManagerImpl
+import ru.tech.imageresizershrinker.feature.svg_maker.data.AndroidSvgManager
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgManager
 import javax.inject.Singleton
 
@@ -33,7 +33,7 @@ internal interface SvgMakerModule {
     @Singleton
     @Binds
     fun provideSvgManager(
-        manager: SvgManagerImpl
+        manager: AndroidSvgManager
     ): SvgManager
 
 }

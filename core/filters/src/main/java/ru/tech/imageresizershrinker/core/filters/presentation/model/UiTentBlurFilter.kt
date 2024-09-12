@@ -17,9 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
+import ru.tech.imageresizershrinker.core.domain.utils.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiTentBlurFilter(

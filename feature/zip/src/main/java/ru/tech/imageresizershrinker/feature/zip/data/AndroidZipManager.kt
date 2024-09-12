@@ -32,7 +32,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 
-internal class ZipManagerImpl @Inject constructor(
+internal class AndroidZipManager @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ZipManager {

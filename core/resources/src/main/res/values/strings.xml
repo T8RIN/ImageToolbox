@@ -1387,4 +1387,19 @@
     <string name="show_all">Show All</string>
     <string name="hide_nav_bar">Hide Nav Bar</string>
     <string name="hide_status_bar">Hide Status Bar</string>
+    <string name="noise_generation">Noise Generation</string>
+    <string name="noise_generation_sub">Generate different noises like Perlin or other types</string>
+    <string name="frequency">Frequency</string>
+    <string name="noise_type">Noise Type</string>
+    <string name="rotation_type">Rotation Type</string>
+    <string name="fractal_type">Fractal Type</string>
+    <string name="octaves">Octaves</string>
+    <string name="lacunarity">Lacunarity</string>
+    <string name="gain">Gain</string>
+    <string name="weighted_strength">Weighted Strength</string>
+    <string name="ping_pong_strength">Ping Pong Strength</string>
+    <string name="distance_function">Distance Function</string>
+    <string name="return_type">Return Type</string>
+    <string name="jitter">Jitter</string>
+    <string name="domain_warp">Domain Warp</string>
 </resources>

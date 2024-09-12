@@ -15,25 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.zip.di
+package ru.tech.imageresizershrinker.noise_generation.domain.model
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.zip.data.AndroidZipManager
-import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
-import javax.inject.Singleton
-
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface ZipModule {
-
-    @Singleton
-    @Binds
-    fun provideZipManager(
-        manager: AndroidZipManager
-    ): ZipManager
-
+enum class FractalType {
+    None,
+    FBm,
+    Ridged,
+    PingPong,
+    DomainWarpProgressive,
+    DomainWarpIndependent
 }

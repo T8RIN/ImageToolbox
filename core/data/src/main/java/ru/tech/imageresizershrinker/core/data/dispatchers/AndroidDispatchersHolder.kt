@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.di.UiDispatcher
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import javax.inject.Inject
 
-internal data class DispatchersHolderImpl @Inject constructor(
+internal data class AndroidDispatchersHolder @Inject constructor(
     @UiDispatcher override val uiDispatcher: CoroutineDispatcher,
     @IoDispatcher override val ioDispatcher: CoroutineDispatcher,
     @EncodingDispatcher override val encodingDispatcher: CoroutineDispatcher,

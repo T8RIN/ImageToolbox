@@ -36,6 +36,7 @@ import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
+import androidx.compose.material.icons.outlined.Grain
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
@@ -116,6 +117,7 @@ sealed class Screen(
             is ImageSplitting -> "Image_Splitting"
             is ColorTools -> "Color_Tools"
             is WebpTools -> "WEBP_Tools"
+            is NoiseGeneration -> "Noise_Generation"
         }
 
     val icon: ImageVector?
@@ -156,6 +158,7 @@ sealed class Screen(
             is ImageSplitting -> Icons.Outlined.ContentCut
             ColorTools -> Icons.Outlined.ColorLens
             is WebpTools -> Icons.Rounded.WebpBox
+            NoiseGeneration -> Icons.Outlined.Grain
         }
 
     data object Settings : Screen(
@@ -698,6 +701,12 @@ sealed class Screen(
         }
     }
 
+    data object NoiseGeneration : Screen(
+        id = 32,
+        title = R.string.noise_generation,
+        subtitle = R.string.noise_generation_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -750,6 +759,7 @@ sealed class Screen(
                     JxlTools(),
                     ApngTools(),
                     Cipher(),
+                    NoiseGeneration,
                     Zip(),
                     WebpTools()
                 ) to Triple(
@@ -763,6 +773,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 51
+        const val FEATURES_COUNT = 52
     }
 }

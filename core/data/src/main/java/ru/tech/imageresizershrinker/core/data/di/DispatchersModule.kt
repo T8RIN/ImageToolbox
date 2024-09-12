@@ -21,7 +21,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.data.dispatchers.DispatchersHolderImpl
+import ru.tech.imageresizershrinker.core.data.dispatchers.AndroidDispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import javax.inject.Singleton
 
@@ -32,7 +32,7 @@ internal interface DispatchersModule {
     @Binds
     @Singleton
     fun dispatchersHolder(
-        dispatchers: DispatchersHolderImpl
+        dispatchers: AndroidDispatchersHolder
     ): DispatchersHolder
 
 }

@@ -15,25 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.zip.di
+package ru.tech.imageresizershrinker.core.domain.utils
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.zip.data.AndroidZipManager
-import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
-import javax.inject.Singleton
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
+const val NEAREST_ODD_ROUNDING = -3
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface ZipModule {
+fun roundToNearestOdd(
+    number: Float
+): Float = number.roundToInt().let {
+    if (it % 2 != 0) it
+    else it + 1
+}.toFloat()
 
-    @Singleton
-    @Binds
-    fun provideZipManager(
-        manager: AndroidZipManager
-    ): ZipManager
-
-}
+fun Float.roundTo(
+    digits: Int
+): Float = if (digits == NEAREST_ODD_ROUNDING) roundToNearestOdd(this)
+else (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))

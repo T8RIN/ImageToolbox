@@ -60,4 +60,5 @@ dependencies {
     implementation(projects.feature.imageSplitting)
     implementation(projects.feature.colorTools)
     implementation(projects.feature.webpTools)
+    implementation(projects.feature.noiseGeneration)
 }

@@ -73,6 +73,7 @@ import ru.tech.imageresizershrinker.feature.watermarking.presentation.Watermarki
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.WebpToolsContent
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
 import ru.tech.imageresizershrinker.image_splitting.presentation.ImageSplitterContent
+import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGenerationContent
 
 @Composable
 internal fun ScreenSelector(
@@ -396,6 +397,13 @@ internal fun ScreenSelector(
             is Screen.WebpTools -> {
                 WebpToolsContent(
                     typeState = screen.type,
+                    onGoBack = onGoBack,
+                    onNavigate = onNavigate
+                )
+            }
+
+            Screen.NoiseGeneration -> {
+                NoiseGenerationContent(
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )

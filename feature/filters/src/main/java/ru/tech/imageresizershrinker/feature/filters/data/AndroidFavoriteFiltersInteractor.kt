@@ -51,7 +51,7 @@ import ru.tech.imageresizershrinker.feature.filters.di.FilterInteractorDataStore
 import javax.inject.Inject
 import kotlin.reflect.full.primaryConstructor
 
-internal class FavoriteFiltersInteractorImpl @Inject constructor(
+internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     @ApplicationContext private val context: Context,
     @FilterInteractorDataStore private val dataStore: DataStore<Preferences>,
     private val fileController: FileController

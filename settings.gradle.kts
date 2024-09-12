@@ -17,12 +17,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:color-tools")
-
-
-include(":feature:image-splitting")
-
-
 pluginManagement {
     repositories {
         includeBuild("build-logic")
@@ -103,7 +97,10 @@ include(":feature:format-conversion")
 include(":feature:document-scanner")
 include(":feature:scan-qr-code")
 include(":feature:image-stacking")
+include(":feature:image-splitting")
+include(":feature:color-tools")
 include(":feature:webp-tools")
+include(":feature:noise-generation")
 
 include(":feature:root")
 

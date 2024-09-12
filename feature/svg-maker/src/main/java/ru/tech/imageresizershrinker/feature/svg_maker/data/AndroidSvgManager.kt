@@ -38,7 +38,7 @@ import java.io.FileWriter
 import javax.inject.Inject
 
 
-internal class SvgManagerImpl @Inject constructor(
+internal class AndroidSvgManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val randomStringGenerator: RandomStringGenerator,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,

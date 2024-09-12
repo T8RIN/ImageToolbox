@@ -31,6 +31,11 @@ data class IntegerSize(
             value
         }.getOrNull() ?: 1f
 
+    val safeAspectRatio: Float
+        get() = aspectRatio
+            .coerceAtLeast(0.005f)
+            .coerceAtMost(1000f)
+
     operator fun times(i: Float): IntegerSize = IntegerSize(
         width = (width * i).toInt(),
         height = (height * i).toInt()
