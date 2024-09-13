@@ -28,10 +28,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -49,7 +51,8 @@ class NoiseGenerationViewModel @Inject constructor(
     private val noiseGenerator: NoiseGenerator<Bitmap>,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageCompressor: ImageCompressor<Bitmap>
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    private val imageScaler: ImageScaler<Bitmap>
 ) : BaseViewModel(dispatchersHolder) {
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -172,12 +175,12 @@ class NoiseGenerationViewModel @Inject constructor(
     }
 
     fun setNoiseWidth(width: Int) {
-        _noiseSize.update { it.copy(width = width.coerceAtMost(2048)) }
+        _noiseSize.update { it.copy(width = width.coerceAtMost(8192)) }
         updatePreview()
     }
 
     fun setNoiseHeight(height: Int) {
-        _noiseSize.update { it.copy(height = height.coerceAtMost(2048)) }
+        _noiseSize.update { it.copy(height = height.coerceAtMost(8192)) }
         updatePreview()
     }
 
@@ -189,7 +192,14 @@ class NoiseGenerationViewModel @Inject constructor(
                 width = noiseSize.width,
                 height = noiseSize.height,
                 noiseParams = noiseParams
-            ).also { bitmap ->
+            )?.let {
+                imageScaler.scaleImage(
+                    image = it,
+                    width = 512,
+                    height = 512,
+                    resizeType = ResizeType.Flexible
+                )
+            }.also { bitmap ->
                 _previewBitmap.update { bitmap }
                 _isImageLoading.update { false }
             }

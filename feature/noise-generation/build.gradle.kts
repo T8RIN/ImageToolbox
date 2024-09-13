@@ -6,3 +6,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.noise_generation"
+
+dependencies {
+    implementation(libs.toolbox.fastNoise)
+}

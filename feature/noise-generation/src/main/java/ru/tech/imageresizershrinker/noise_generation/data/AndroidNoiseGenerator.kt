@@ -18,9 +18,7 @@
 package ru.tech.imageresizershrinker.noise_generation.data
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.graphics.toArgb
+import com.t8rin.fast_noise.FastNoise
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.noise_generation.domain.NoiseGenerator
@@ -37,38 +35,28 @@ internal class AndroidNoiseGenerator @Inject constructor(
         noiseParams: NoiseParams,
         onFailure: (Throwable) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
-        val generator = with(noiseParams) {
-            FastNoiseLite().apply {
-                setSeed(seed)
-                setFrequency(frequency)
-                setNoiseType(noiseType)
-                setRotationType3D(rotationType3D)
-                setFractalType(fractalType)
-                setFractalOctaves(fractalOctaves)
-                setFractalLacunarity(fractalLacunarity)
-                setFractalGain(fractalGain)
-                setFractalWeightedStrength(fractalWeightedStrength)
-                setFractalPingPongStrength(fractalPingPongStrength)
-                setCellularDistanceFunction(cellularDistanceFunction)
-                setCellularReturnType(cellularReturnType)
-                setCellularJitter(cellularJitter)
-                setDomainWarpType(domainWarpType)
-                setDomainWarpAmp(domainWarpAmp)
-            }
-        }
-
         runCatching {
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-
-            for (x in 0..<width) {
-                for (y in 0..<height) {
-                    val noise = generator.getNoise(x.toFloat(), y.toFloat()) + 1f
-                    val color = lerp(Color.Black, Color.White, noise / 2f)
-                    bitmap.setPixel(x, y, color.toArgb())
-                }
+            with(noiseParams) {
+                FastNoise.generateNoiseImage(
+                    width = width,
+                    height = height,
+                    seed = seed,
+                    frequency = frequency,
+                    noiseType = noiseType.ordinal,
+                    rotationType3D = rotationType3D.ordinal,
+                    fractalType = fractalType.ordinal,
+                    fractalOctaves = fractalOctaves,
+                    fractalLacunarity = fractalLacunarity,
+                    fractalGain = fractalGain,
+                    fractalWeightedStrength = fractalWeightedStrength,
+                    fractalPingPongStrength = fractalPingPongStrength,
+                    cellularDistanceFunction = cellularDistanceFunction.ordinal,
+                    cellularReturnType = cellularReturnType.ordinal,
+                    cellularJitter = cellularJitter,
+                    domainWarpType = domainWarpType.ordinal,
+                    domainWarpAmp = domainWarpAmp,
+                )
             }
-
-            bitmap
         }.onFailure(onFailure).getOrNull()
     }
 
