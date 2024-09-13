@@ -60,14 +60,16 @@ fun StitchModeSelector(
             modifier = Modifier.padding(start = 3.dp, end = 2.dp),
             enabled = true,
             title = {
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(stringResource(id = R.string.stitch_mode))
+                Column {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(stringResource(id = R.string.stitch_mode))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
-                Spacer(modifier = Modifier.height(8.dp))
             },
             items = listOf(
                 stringResource(R.string.horizontal),

@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
+import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchAlignment
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -95,9 +96,10 @@ internal class AndroidImageCombiner @Inject constructor(
             )
 
             val bitmaps = images.map { image ->
-                if (combiningParams.scaleSmallImagesToLarge && image.shouldUpscale(
-                        isHorizontal,
-                        size
+                if (
+                    combiningParams.scaleSmallImagesToLarge && image.shouldUpscale(
+                        isHorizontal = isHorizontal,
+                        size = size
                     )
                 ) {
                     image.upscale(isHorizontal, size)
@@ -155,13 +157,21 @@ internal class AndroidImageCombiner @Inject constructor(
                     canvas.drawBitmap(
                         bmp,
                         pos.toFloat(),
-                        0f,
+                        when (combiningParams.alignment) {
+                            StitchAlignment.Start -> 0f
+                            StitchAlignment.Center -> (canvas.height - bmp.height) / 2f
+                            StitchAlignment.End -> (canvas.height - bmp.height).toFloat()
+                        },
                         null
                     )
                 } else {
                     canvas.drawBitmap(
                         bmp,
-                        0f,
+                        when (combiningParams.alignment) {
+                            StitchAlignment.Start -> 0f
+                            StitchAlignment.Center -> (canvas.width - bmp.width) / 2f
+                            StitchAlignment.End -> (canvas.width - bmp.width).toFloat()
+                        },
                         pos.toFloat(),
                         null
                     )
@@ -180,7 +190,8 @@ internal class AndroidImageCombiner @Inject constructor(
                 imageScaleMode = ImageScaleMode.NotPresent
             ) to ImageInfo(
                 width = (size.width * imageScale).toInt(),
-                height = (size.height * imageScale).toInt()
+                height = (size.height * imageScale).toInt(),
+                imageFormat = ImageFormat.Png.Lossless
             )
         }
 
@@ -208,10 +219,12 @@ internal class AndroidImageCombiner @Inject constructor(
                 imageScale = imageScale,
                 onProgress = onProgress
             )
-        } else getImageData(
-            imagesUris = imageUris,
-            isHorizontal = combiningParams.stitchMode.isHorizontal()
-        )
+        } else {
+            getImageData(
+                imagesUris = imageUris,
+                isHorizontal = combiningParams.stitchMode.isHorizontal()
+            )
+        }
     }
 
     override suspend fun calculateCombinedImageDimensions(

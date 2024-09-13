@@ -81,6 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.ImageFadingEdgesSelector
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.ImageScaleSelector
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.SpacingSelector
+import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.StitchAlignmentSelector
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.StitchModeSelector
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.viewModel.ImageStitchingViewModel
 import kotlin.math.roundToLong
@@ -288,6 +289,16 @@ fun ImageStitchingContent(
                     checked = viewModel.combiningParams.scaleSmallImagesToLarge,
                     onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
                 )
+                AnimatedVisibility(
+                    visible = !viewModel.combiningParams.scaleSmallImagesToLarge,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    StitchAlignmentSelector(
+                        value = viewModel.combiningParams.alignment,
+                        onValueChange = viewModel::setStitchAlignment
+                    )
+                }
                 BackgroundColorSelector(
                     value = Color(viewModel.combiningParams.backgroundColor),
                     onValueChange = {

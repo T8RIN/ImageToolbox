@@ -28,14 +28,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.state.derivedValueOf
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchAlignment
+
 
 @Composable
-fun ImageFadingEdgesSelector(
+fun StitchAlignmentSelector(
     modifier: Modifier = Modifier,
-    value: Int?,
-    onValueChange: (Int?) -> Unit
+    value: StitchAlignment,
+    onValueChange: (StitchAlignment) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -47,28 +50,24 @@ fun ImageFadingEdgesSelector(
             title = {
                 Column {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(stringResource(id = R.string.fading_edges))
+                    Text(stringResource(id = R.string.alignment))
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             },
-            items = listOf(
-                stringResource(R.string.disabled),
-                stringResource(R.string.start),
-                stringResource(R.string.both)
-            ),
-            selectedIndex = when (value) {
-                null -> 0
-                0 -> 1
-                else -> 2
+            itemCount = StitchAlignment.entries.size,
+            selectedIndex = derivedValueOf(value) {
+                StitchAlignment.entries.indexOfFirst { it == value }
             },
             onIndexChange = {
-                onValueChange(
-                    when (it) {
-                        0 -> null
-                        1 -> 0
-                        else -> 1
-                    }
-                )
+                onValueChange(StitchAlignment.entries[it])
+            },
+            itemContent = {
+                val text = when (StitchAlignment.entries[it]) {
+                    StitchAlignment.Start -> R.string.start
+                    StitchAlignment.Center -> R.string.center
+                    StitchAlignment.End -> R.string.end
+                }
+                Text(stringResource(text))
             }
         )
     }

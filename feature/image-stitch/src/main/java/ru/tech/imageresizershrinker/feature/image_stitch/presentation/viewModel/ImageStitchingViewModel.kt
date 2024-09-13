@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
+import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchAlignment
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
 import javax.inject.Inject
 
@@ -99,7 +100,11 @@ class ImageStitchingViewModel @Inject constructor(
         _isImageLoading.update { false }
     }
 
+    private var previousParams: CombiningParams? = null
+
     private fun calculatePreview() {
+        if (previousParams == combiningParams) return
+
         calculationPreviewJob = viewModelScope.launch {
             delay(300L)
             _isImageLoading.value = true
@@ -116,6 +121,7 @@ class ImageStitchingViewModel @Inject constructor(
                 ).let { (image, size) ->
                     _previewBitmap.value = image
                     _imageSize.value = size
+                    previousParams = combiningParams
                 }
             }
             _isImageLoading.value = false
@@ -297,6 +303,11 @@ class ImageStitchingViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
+    }
+
+    fun setStitchAlignment(stitchAlignment: StitchAlignment) {
+        _combiningParams.update { it.copy(alignment = stitchAlignment) }
+        calculatePreview()
     }
 
 }

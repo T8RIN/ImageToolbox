@@ -157,7 +157,10 @@ fun ImageScaleSelector(
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
-                        .container(RoundedCornerShape(20.dp))
+                        .container(
+                            shape = RoundedCornerShape(size = 20.dp),
+                            color = MaterialTheme.colorScheme.surface
+                        )
                         .padding(6.dp),
                     color = LocalContentColor.current.copy(0.5f),
                     textAlign = TextAlign.Center
