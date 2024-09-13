@@ -1329,14 +1329,14 @@
     <string name="links_preview">链接预览</string>
     <string name="links">链接</string>
     <string name="links_preview_sub">在可获取文本（二维码、OCR 等）的地方启用链接预览检索功能</string>
-    <string name="ico_size_warning">Ico 文件的最大保存尺寸只能为 256*256，在生成的图像中将强制使用较大的值</string>
+    <string name="ico_size_warning">Ico 文件的最大保存尺寸只能为 256×256，在生成的图像中将强制使用较大的值</string>
     <string name="gif_type_to_webp">GIF 转为 WEBP</string>
     <string name="webp_type_to_image_sub">将 WEBP 文件转换为一批图片</string>
     <string name="webp_type_to_webp_sub">将一批图像转换为 WEBP 文件</string>
-    <string name="webp_type_to_webp">Images 转为 WEBP</string>
+    <string name="webp_type_to_webp">图片转为 WEBP</string>
     <string name="gif_type_to_webp_sub">将 GIF 图像转换为 WEBP 动画图片</string>
     <string name="webp_tools">WEBP 工具</string>
-    <string name="webp_type_to_image">WEBP 转为 images</string>
+    <string name="webp_type_to_image">WEBP 转为多张图片</string>
     <string name="select_webp_image_to_start">选取 WEBP 图片以开始</string>
     <string name="webp_tools_sub">将图像转换为 WEBP 动画图片，或从给定的 WEBP 动画中提取帧</string>
     <string name="default_draw_color">默认绘图颜色</string>
