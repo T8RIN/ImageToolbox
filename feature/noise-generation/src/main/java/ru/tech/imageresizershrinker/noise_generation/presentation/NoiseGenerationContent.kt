@@ -45,6 +45,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.animation.animate
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -156,7 +157,7 @@ fun NoiseGenerationContent(
                     model = viewModel.previewBitmap,
                     modifier = Modifier
                         .container(MaterialTheme.shapes.medium)
-                        .aspectRatio(viewModel.noiseSize.safeAspectRatio),
+                        .aspectRatio(viewModel.noiseSize.safeAspectRatio.animate()),
                     shape = MaterialTheme.shapes.medium,
                     contentScale = ContentScale.FillBounds
                 )

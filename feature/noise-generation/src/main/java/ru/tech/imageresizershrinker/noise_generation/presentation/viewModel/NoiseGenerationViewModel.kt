@@ -28,6 +28,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -52,7 +53,8 @@ class NoiseGenerationViewModel @Inject constructor(
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
 ) : BaseViewModel(dispatchersHolder) {
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -170,18 +172,24 @@ class NoiseGenerationViewModel @Inject constructor(
     }
 
     fun updateParams(params: NoiseParams) {
-        _noiseParams.update { params }
-        updatePreview()
+        _noiseParams.update(
+            onValueChanged = ::updatePreview,
+            transform = { params }
+        )
     }
 
     fun setNoiseWidth(width: Int) {
-        _noiseSize.update { it.copy(width = width.coerceAtMost(8192)) }
-        updatePreview()
+        _noiseSize.update(
+            onValueChanged = ::updatePreview,
+            transform = { it.copy(width = width.coerceAtMost(8192)) }
+        )
     }
 
     fun setNoiseHeight(height: Int) {
-        _noiseSize.update { it.copy(height = height.coerceAtMost(8192)) }
-        updatePreview()
+        _noiseSize.update(
+            onValueChanged = ::updatePreview,
+            transform = { it.copy(height = height.coerceAtMost(8192)) }
+        )
     }
 
     private fun updatePreview() {
