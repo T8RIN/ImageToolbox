@@ -164,7 +164,7 @@
     <string name="file_explorer_picker_sub">使用 GetContent 意图来选取图片。兼容性好，但在某些设备上接收选取的图片时也会出现问题，这与本 App 无关</string>
     <string name="edit">编辑</string>
     <string name="order">顺序</string>
-    <string name="order_sub">修改主屏幕上功能项目的顺序</string>
+    <string name="order_sub">确定主屏幕上工具的顺序</string>
     <string name="emojis_count">表情符号数</string>
     <string name="replace_sequence_number">替换序号</string>
     <string name="replace_sequence_number_sub">如果启用，则在使用批处理功能时将标准时间戳替换为图片序号</string>
@@ -422,7 +422,7 @@
     <string name="search_option">搜索</string>
     <string name="images_to_pdf">图片转 PDF</string>
     <string name="preview_pdf">预览 PDF</string>
-    <string name="search_option_sub">能够在主屏幕中搜索所有可用选项</string>
+    <string name="search_option_sub">允许在主屏幕上搜索所有可用工具</string>
     <string name="pdf_to_images">PDF 转图片</string>
     <string name="images_to_pdf_sub">打包所选图片输出为 PDF 文件</string>
     <string name="preview_pdf_sub">简单 PDF 预览</string>
@@ -1376,7 +1376,7 @@
     <string name="rotation_type">旋转类型</string>
     <string name="octaves">八分音符</string>
     <string name="lacunarity">Lacunarity</string>
-    <string name="gain">收获</string>
+    <string name="gain">增益</string>
     <string name="weighted_strength">加权强度</string>
     <string name="ping_pong_strength">乒乓强度</string>
     <string name="distance_function">距离功能</string>
