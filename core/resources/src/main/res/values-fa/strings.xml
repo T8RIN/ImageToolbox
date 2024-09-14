@@ -160,7 +160,7 @@
     <string name="options_arrangement">ترتیب گزینه ها</string>
     <string name="edit">ویرایش کنید</string>
     <string name="order">سفارش</string>
-    <string name="order_sub">ترتیب گزینه ها را در صفحه اصلی تعیین می کند</string>
+    <string name="order_sub">ترتیب ابزار ها را در صفحه اصلی تعیین می کند</string>
     <string name="emojis_count">تعداد ایموجی ها</string>
     <string name="sequence_num">sequenceNum</string>
     <string name="original_filename">نام فایل اصلی</string>
@@ -309,7 +309,7 @@
     <string name="skip">پرش کنید</string>
     <string name="copy">کپی 🀄</string>
     <string name="warning_bytes">ذخیره در حالت %1$s می تواند ناپایدار باشد، زیرا یک قالب بدون ضرر است</string>
-    <string name="presets_sub" formatted="false">اگر 125 از پیش تعیین شده را انتخاب کرده باشید، تصویر به اندازه 125٪ تصویر اصلی با کیفیت 100٪ ذخیره می شود. اگر 50 از پیش تعیین شده را انتخاب کنید، تصویر با اندازه 50 درصد و کیفیت 50 درصد ذخیره می شود.</string>
+    <string name="presets_sub" formatted="false">اگر 125 از پیش تعیین شده را انتخاب کرده باشید، تصویر به اندازه 125% اندازه تصویر اصلی ذخیره می شود. اگر 50 از پیش تعیین شده را انتخاب کنید، تصویر با اندازه 50٪ ذخیره می شود</string>
     <string name="presets_sub_bytes">پیش‌تنظیم در اینجا درصد فایل خروجی را تعیین می‌کند، یعنی اگر 50 از پیش تعیین شده را روی تصویر 5 مگابایتی انتخاب کنید، پس از ذخیره کردن تصویر 2.5 مگابایتی دریافت خواهید کرد.</string>
     <string name="randomize_filename">تصادفی کردن نام فایل</string>
     <string name="randomize_filename_sub">اگر فعال باشد نام فایل خروجی کاملا تصادفی خواهد بود</string>
@@ -434,7 +434,7 @@
     <string name="invert_colors">رنگ های معکوس</string>
     <string name="invert_colors_sub">در صورت فعال بودن، رنگ های طرح زمینه را با رنگ های منفی جایگزین می کند</string>
     <string name="search_option">جستجو کردن</string>
-    <string name="search_option_sub">امکان جستجو در تمام گزینه های موجود در صفحه اصلی را فعال می کند</string>
+    <string name="search_option_sub">امکان جستجو در تمام ابزار های موجود در صفحه اصلی را فعال می کند</string>
     <string name="pdf_tools">ابزارهای PDF</string>
     <string name="pdf_tools_sub">کار با فایل های PDF: پیش نمایش، تبدیل به دسته ای از تصاویر یا ایجاد یکی از تصاویر داده شده</string>
     <string name="preview_pdf">پیش نمایش PDF</string>
@@ -673,7 +673,7 @@
     <string name="amount">میزان</string>
     <string name="seed">بذر</string>
     <string name="anaglyph">آناگلیف</string>
-    <string name="noise">سر و صدا</string>
+    <string name="noise">نویز</string>
     <string name="pixel_sort">مرتب سازی پیکسل</string>
     <string name="shuffle">بر زدن</string>
     <string name="enhanced_glitch">نقص پیشرفته</string>
@@ -853,7 +853,7 @@
     <string name="pixel_switch">پیکسل</string>
     <string name="fluent_switch">روان</string>
     <string name="fluent_switch_sub">از سوییچ سبک ویندوز 11 بر اساس سیستم طراحی \"Fluent\" استفاده می کند</string>
-    <string name="cupertino_switch_sub">از سوئیچ مانند IOS بر اساس سیستم طراحی کوپرتینو استفاده می کند</string>
+    <string name="cupertino_switch_sub">از سوئیچ مانند iOS بر اساس سیستم طراحی کوپرتینو استفاده می کند</string>
     <string name="channels_configuration">پیکربندی کانال ها</string>
     <string name="embedded_picker">انتخابگر تعبیه شده</string>
     <string name="embedded_picker_sub">از انتخابگر تصویر خود جعبه ابزار تصویر به جای موارد از پیش تعریف شده سیستم استفاده می کند</string>
@@ -947,4 +947,20 @@
     <string name="webp_tools_sub">تصاویر را به تصویر متحرک WEBP تبدیل کنید یا فریم هایی را از انیمیشن WEBP داده شده استخراج کنید</string>
     <string name="save_as_qr_code_image">ذخیره QR کد به عنوان تصویر</string>
     <string name="qr_code_sub">کد QR را اسکن کنید و محتوای آن را دریافت کنید یا رشته خود را برای ایجاد کد جدید جایگذاری کنید</string>
+    <string name="gaussian_sub">یک روش درون یابی که یک تابع گاوسی را اعمال می کند و برای صاف کردن و کاهش نویز در تصاویر مفید است.</string>
+    <string name="tag_user_comment">نظر کاربر</string>
+    <string name="tag_subsec_time">زمان زیر ثانیه</string>
+    <string name="tag_iso_speed">سرعت ISO</string>
+    <string name="tag_shutter_speed_value">مقدار سرعت شاتر</string>
+    <string name="tag_flash">فلش</string>
+    <string name="tag_flash_energy">انرژی فلش</string>
+    <string name="image_toolbox_in_telegram">ImageToolbox در تلگرام 🎉</string>
+    <string name="noise_generation">تولید نویز</string>
+    <string name="noise_generation_sub">نویز های مختلفی مانند پرلین یا انواع دیگر تولید کنید</string>
+    <string name="noise_type">نوع نویز</string>
+    <string name="auto">خودکار</string>
+    <string name="hide_all">پنهان کردن همه</string>
+    <string name="show_all">نمایش همه</string>
+    <string name="hide_status_bar">پنهان کردن نوار وضعیت</string>
+    <string name="alignment">تراز</string>
 </resources>
