@@ -118,7 +118,7 @@ data class SettingsState(
                 isAmoledMode = false,
                 appColorTuple = "",
                 borderWidth = -1f,
-                presets = List(6) { Percentage(100 - it * 10) }.reversed(),
+                presets = List(6) { Percentage(100 - it * 10) },
                 fabAlignment = 1,
                 selectedEmoji = 0,
                 picturePickerModeInt = 0,
