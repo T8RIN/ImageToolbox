@@ -83,6 +83,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownI
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPathHelper
 
 @Composable
 fun BitmapEraser(
@@ -90,9 +91,9 @@ fun BitmapEraser(
     imageBitmapForShader: ImageBitmap?,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
-    useLasso: Boolean,
     originalImagePreviewAlpha: Float,
     onAddPath: (UiPathPaint) -> Unit,
+    drawPathMode: DrawPathMode = DrawPathMode.Lasso,
     strokeWidth: Pt,
     isRecoveryOn: Boolean = false,
     modifier: Modifier,
@@ -159,7 +160,8 @@ fun BitmapEraser(
             }
 
             var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
-            var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
+            var previousDrawPosition by remember { mutableStateOf(Offset.Unspecified) }
+            var drawDownPosition by remember { mutableStateOf(Offset.Unspecified) }
 
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
@@ -218,15 +220,15 @@ fun BitmapEraser(
             }
 
             val drawPaint by remember(
+                drawPathMode,
                 strokeWidth,
                 isRecoveryOn,
                 brushSoftness,
-                canvasSize,
-                useLasso
+                canvasSize
             ) {
                 derivedStateOf {
                     Paint().apply {
-                        style = if (useLasso) {
+                        style = if (drawPathMode.isFilled) {
                             PaintingStyle.Fill
                         } else PaintingStyle.Stroke
 
@@ -252,12 +254,22 @@ fun BitmapEraser(
             ) { mutableStateOf(Path()) }
 
             canvas.apply {
+                val drawHelper by rememberPathHelper(
+                    drawDownPosition = drawDownPosition,
+                    currentDrawPosition = currentDrawPosition,
+                    onPathChange = { drawPath = it },
+                    strokeWidth = strokeWidth,
+                    canvasSize = canvasSize,
+                    drawPathMode = drawPathMode,
+                    isEraserOn = false
+                )
+
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
                         if (currentDrawPosition.isSpecified) {
                             drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
-                            previousPosition = currentDrawPosition
+                            previousDrawPosition = currentDrawPosition
                         } else {
                             drawPath = Path()
                         }
@@ -265,47 +277,60 @@ fun BitmapEraser(
                     }
 
                     MotionEvent.Move -> {
-                        if (previousPosition.isUnspecified && currentDrawPosition.isSpecified) {
-                            drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
-                            previousPosition = currentDrawPosition
-                        }
-                        if (previousPosition.isSpecified && currentDrawPosition.isSpecified) {
-                            drawPath.quadraticTo(
-                                previousPosition.x,
-                                previousPosition.y,
-                                (previousPosition.x + currentDrawPosition.x) / 2,
-                                (previousPosition.y + currentDrawPosition.y) / 2
-                            )
-                        }
-                        previousPosition = currentDrawPosition
+                        drawHelper.drawPath(
+                            onDrawFreeArrow = {},
+                            onBaseDraw = {
+                                if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
+                                    drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
+                                    previousDrawPosition = currentDrawPosition
+                                }
+
+                                if (currentDrawPosition.isSpecified && previousDrawPosition.isSpecified) {
+                                    drawPath.quadraticTo(
+                                        previousDrawPosition.x,
+                                        previousDrawPosition.y,
+                                        (previousDrawPosition.x + currentDrawPosition.x) / 2,
+                                        (previousDrawPosition.y + currentDrawPosition.y) / 2
+                                    )
+                                }
+                                previousDrawPosition = currentDrawPosition
+                            }
+                        )
+
                         motionEvent = MotionEvent.Idle
                     }
 
                     MotionEvent.Up -> {
-                        PathMeasure().apply {
-                            setPath(drawPath, false)
-                        }.let {
-                            it.getPosition(it.length)
-                        }.takeOrElse { currentDrawPosition }.let { lastPoint ->
-                            if (currentDrawPosition.isSpecified) {
-                                drawPath.moveTo(lastPoint.x, lastPoint.y)
-                                drawPath.lineTo(currentDrawPosition.x, currentDrawPosition.y)
-                                onAddPath(
-                                    UiPathPaint(
-                                        path = drawPath,
-                                        strokeWidth = strokeWidth,
-                                        brushSoftness = brushSoftness,
-                                        isErasing = isRecoveryOn,
-                                        canvasSize = canvasSize,
-                                        drawPathMode = if (useLasso) {
-                                            DrawPathMode.Lasso
-                                        } else DrawPathMode.Free
+                        drawHelper.drawPath(
+                            onDrawFreeArrow = {},
+                            onBaseDraw = {
+                                PathMeasure().apply {
+                                    setPath(drawPath, false)
+                                }.let {
+                                    it.getPosition(it.length)
+                                }.takeOrElse { currentDrawPosition }.let { lastPoint ->
+                                    drawPath.moveTo(lastPoint.x, lastPoint.y)
+                                    drawPath.lineTo(
+                                        currentDrawPosition.x,
+                                        currentDrawPosition.y
                                     )
-                                )
+                                }
                             }
-                        }
+                        )
+
+                        onAddPath(
+                            UiPathPaint(
+                                path = drawPath,
+                                strokeWidth = strokeWidth,
+                                brushSoftness = brushSoftness,
+                                isErasing = isRecoveryOn,
+                                canvasSize = canvasSize,
+                                drawPathMode = drawPathMode
+                            )
+                        )
+
                         currentDrawPosition = Offset.Unspecified
-                        previousPosition = Offset.Unspecified
+                        previousDrawPosition = Offset.Unspecified
                         motionEvent = MotionEvent.Idle
 
                         scope.launch {
@@ -345,7 +370,7 @@ fun BitmapEraser(
                         ) {
                             derivedStateOf {
                                 Paint().apply {
-                                    style = if (mode is DrawPathMode.Lasso) {
+                                    style = if (mode.isFilled) {
                                         PaintingStyle.Fill
                                     } else PaintingStyle.Stroke
                                     blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
@@ -386,6 +411,7 @@ fun BitmapEraser(
                     if (drawStartedWithOnePointer) {
                         motionEvent = MotionEvent.Down
                         currentDrawPosition = pointerInputChange.position
+                        drawDownPosition = pointerInputChange.position
                         pointerInputChange.consume()
                         invalidations++
                     }

@@ -77,6 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
@@ -85,7 +86,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
@@ -96,7 +99,6 @@ import ru.tech.imageresizershrinker.feature.erase_background.presentation.compon
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeButton
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.TrimImageToggle
-import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.UseLassoSelector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -112,6 +114,8 @@ fun EraseBackgroundEditOption(
     paths: List<UiPathPaint>,
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
+    drawPathMode: DrawPathMode,
+    onUpdateDrawPathMode: (DrawPathMode) -> Unit,
     addPath: (UiPathPaint) -> Unit,
     autoBackgroundRemover: AutoBackgroundRemover<Bitmap>
 ) {
@@ -145,9 +149,7 @@ fun EraseBackgroundEditOption(
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) {
             mutableStateOf(0.pt)
         }
-        var useLasso by rememberSaveable {
-            mutableStateOf(false)
-        }
+
         var originalImagePreviewAlpha by rememberSaveable {
             mutableFloatStateOf(0.2f)
         }
@@ -256,18 +258,31 @@ fun EraseBackgroundEditOption(
                     },
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 )
-                UseLassoSelector(
-                    value = useLasso,
-                    onValueChange = {
-                        useLasso = it
-                    },
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                DrawPathModeSelector(
+                    modifier = Modifier.padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp
+                    ),
+                    value = drawPathMode,
+                    onValueChange = onUpdateDrawPathMode,
+                    values = remember {
+                        listOf(
+                            DrawPathMode.Free,
+                            DrawPathMode.Line,
+                            DrawPathMode.Lasso,
+                            DrawPathMode.Rect(),
+                            DrawPathMode.Oval
+                        )
+                    }
                 )
-                LineWidthSelector(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    value = strokeWidth.value,
-                    onValueChange = { strokeWidth = it.pt }
-                )
+                BoxAnimatedVisibility(drawPathMode.isStroke) {
+                    LineWidthSelector(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                        value = strokeWidth.value,
+                        onValueChange = { strokeWidth = it.pt }
+                    )
+                }
                 BrushSoftnessSelector(
                     modifier = Modifier
                         .padding(top = 8.dp, end = 16.dp, start = 16.dp),
@@ -382,7 +397,7 @@ fun EraseBackgroundEditOption(
                             .aspectRatio(aspectRatio, !useScaffold)
                             .fillMaxSize(),
                         panEnabled = panEnabled,
-                        useLasso = useLasso,
+                        drawPathMode = drawPathMode,
                         originalImagePreviewAlpha = originalImagePreviewAlpha,
                         onErased = { erasedBitmap = it }
                     )

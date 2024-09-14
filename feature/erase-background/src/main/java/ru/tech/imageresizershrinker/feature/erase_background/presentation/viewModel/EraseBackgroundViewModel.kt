@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
@@ -78,6 +79,9 @@ class EraseBackgroundViewModel @Inject constructor(
 
     private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
     val undonePaths: List<UiPathPaint> by _undonePaths
+
+    private val _drawPathMode: MutableState<DrawPathMode> = mutableStateOf(DrawPathMode.Free)
+    val drawPathMode: DrawPathMode by _drawPathMode
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
@@ -329,6 +333,10 @@ class EraseBackgroundViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
+    }
+
+    fun updateDrawPathMode(drawPathMode: DrawPathMode) {
+        _drawPathMode.update { drawPathMode }
     }
 
 }

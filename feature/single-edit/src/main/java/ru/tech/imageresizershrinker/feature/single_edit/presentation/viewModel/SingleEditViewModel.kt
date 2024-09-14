@@ -608,6 +608,8 @@ class SingleEditViewModel @Inject constructor(
             _drawLastPaths.update { if (canUndo) drawPaths else listOf() }
             _drawPaths.update { listOf() }
             _drawUndonePaths.update { listOf() }
+            _drawMode.update { DrawMode.Pen }
+            _drawPathMode.update { DrawPathMode.Free }
         }
     }
 
@@ -644,6 +646,7 @@ class SingleEditViewModel @Inject constructor(
             _eraseLastPaths.update { if (canUndo) erasePaths else listOf() }
             _erasePaths.update { listOf() }
             _eraseUndonePaths.update { listOf() }
+            _drawPathMode.update { DrawPathMode.Free }
         }
     }
 

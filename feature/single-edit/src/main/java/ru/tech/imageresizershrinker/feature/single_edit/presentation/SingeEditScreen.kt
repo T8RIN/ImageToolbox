@@ -510,6 +510,8 @@ fun SingleEditContent(
         lastPaths = viewModel.eraseLastPaths,
         undonePaths = viewModel.eraseUndonePaths,
         addPath = viewModel::addPathToEraseList,
+        drawPathMode = viewModel.drawPathMode,
+        onUpdateDrawPathMode = viewModel::updateDrawPathMode,
         autoBackgroundRemover = viewModel.getBackgroundRemover()
     )
 }
