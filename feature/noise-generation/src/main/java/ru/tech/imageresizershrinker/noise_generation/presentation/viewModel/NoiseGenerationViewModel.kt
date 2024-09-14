@@ -188,20 +188,22 @@ class NoiseGenerationViewModel @Inject constructor(
         viewModelScope.launch {
             _isImageLoading.update { true }
             _previewBitmap.update { null }
-            noiseGenerator.generateNoise(
-                width = noiseSize.width,
-                height = noiseSize.height,
-                noiseParams = noiseParams
-            )?.let {
-                imageScaler.scaleImage(
-                    image = it,
-                    width = 512,
-                    height = 512,
-                    resizeType = ResizeType.Flexible
-                )
-            }.also { bitmap ->
-                _previewBitmap.update { bitmap }
-                _isImageLoading.update { false }
+            debouncedImageCalculation {
+                noiseGenerator.generateNoise(
+                    width = noiseSize.width,
+                    height = noiseSize.height,
+                    noiseParams = noiseParams
+                )?.let {
+                    imageScaler.scaleImage(
+                        image = it,
+                        width = 512,
+                        height = 512,
+                        resizeType = ResizeType.Flexible
+                    )
+                }.also { bitmap ->
+                    _previewBitmap.update { bitmap }
+                    _isImageLoading.update { false }
+                }
             }
         }
     }
