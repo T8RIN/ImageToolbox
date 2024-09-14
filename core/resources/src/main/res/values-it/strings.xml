@@ -860,4 +860,9 @@
     <string name="embedded_picker">Selettore incorporato</string>
     <string name="lossy_compression">Compressione con perdita</string>
     <string name="compression_type">Tipo di compressione</string>
+    <string name="show_settings_in_landscape_sub">Se disattivata, le impostazioni in modalità panorama saranno aperte tramite il pulsante nella barra superiore invece di averle sempre visibili.</string>
+    <string name="switch_type">Cambia Tipo</string>
+    <string name="compose">Componi</string>
+    <string name="speed_sub">Controlla la velocità di decodifica del risultato per renderne l\'apertura più rapida. Un valore di %1$d indica la decodifica più lenta, mentre %2$d la più veloce. Quest\'impostazione può aumentare le dimensioni dell\'immagine finale.</string>
+    <string name="lossy_compression_sub">Usa una compressione con perdita di dati per ridurre le dimensioni del file invece di una senza perdita.</string>
 </resources>

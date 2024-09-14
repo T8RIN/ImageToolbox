@@ -1355,4 +1355,5 @@
     <string name="webp_type_to_webp_sub">Stapel an Bildern in eine WEBP-Datei umwandeln</string>
     <string name="webp_type_to_webp">Bilder zu WEBP</string>
     <string name="select_webp_image_to_start">WEBP-Bild zum Starten auswählen</string>
+    <string name="image_toolbox_in_telegram">ImageToolbox in Telegram 🎉</string>
 </resources>
