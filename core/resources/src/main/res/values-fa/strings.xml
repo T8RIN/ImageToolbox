@@ -963,4 +963,13 @@
     <string name="show_all">نمایش همه</string>
     <string name="hide_status_bar">پنهان کردن نوار وضعیت</string>
     <string name="alignment">تراز</string>
+    <string name="tag_f_number">عدد F</string>
+    <string name="tag_white_balance">وایت بالانس</string>
+    <string name="tag_sharpness">وضوح</string>
+    <string name="tag_camera_owner_name">نام مالک دوربین</string>
+    <string name="tag_gps_version_id">شناسه نسخه GPS</string>
+    <string name="tag_gps_satellites">ماهواره های GPS</string>
+    <string name="tag_gps_status">وضعیت GPS</string>
+    <string name="tag_gps_measure_mode">حالت اندازه گیری GPS</string>
+    <string name="tag_gps_speed">سرعت GPS</string>
 </resources>
