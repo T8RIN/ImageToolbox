@@ -266,4 +266,6 @@ class DocumentScannerViewModel @Inject constructor(
         _quality.update { quality }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
 }

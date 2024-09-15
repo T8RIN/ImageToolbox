@@ -158,4 +158,6 @@ class ScanQrCodeViewModel @Inject constructor(
         }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
+
 }

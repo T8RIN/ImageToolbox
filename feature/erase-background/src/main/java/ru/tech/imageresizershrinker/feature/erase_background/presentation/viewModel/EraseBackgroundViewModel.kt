@@ -93,7 +93,6 @@ class EraseBackgroundViewModel @Inject constructor(
     val imageFormat: ImageFormat by _imageFormat
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
-    val uri: Uri by _uri
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -338,5 +337,7 @@ class EraseBackgroundViewModel @Inject constructor(
     fun updateDrawPathMode(drawPathMode: DrawPathMode) {
         _drawPathMode.update { drawPathMode }
     }
+
+    fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
 }

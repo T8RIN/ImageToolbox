@@ -430,4 +430,7 @@ class FormatConversionViewModel @Inject constructor(
             ?.let(::updateSelectedUri)
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat? =
+        if (uris?.size == 1) imageInfo.imageFormat
+        else null
 }

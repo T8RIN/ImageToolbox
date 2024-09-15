@@ -404,7 +404,7 @@ fun SingleEditContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmap,
-                    formatForFilenameSelection = imageInfo.imageFormat
+                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                 )
             }
         },

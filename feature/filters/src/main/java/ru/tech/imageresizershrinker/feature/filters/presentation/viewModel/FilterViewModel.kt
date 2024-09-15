@@ -687,4 +687,9 @@ class FilterViewModel @Inject constructor(
             ?.let(::updateSelectedUri)
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat? = when {
+        basicFilterState.uris?.size == 1 -> imageInfo.imageFormat
+        maskingFilterState.uri != null -> imageInfo.imageFormat
+        else -> null
+    }
 }

@@ -28,7 +28,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -53,9 +52,12 @@ class NoiseGenerationViewModel @Inject constructor(
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>,
-    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>
 ) : BaseViewModel(dispatchersHolder) {
+
+    init {
+        updatePreview()
+    }
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -216,8 +218,6 @@ class NoiseGenerationViewModel @Inject constructor(
         }
     }
 
-    init {
-        updatePreview()
-    }
+    fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
 }

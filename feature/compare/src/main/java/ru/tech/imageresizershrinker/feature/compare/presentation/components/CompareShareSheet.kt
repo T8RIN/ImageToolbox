@@ -136,7 +136,8 @@ internal fun CompareShareSheet(
                             onDismiss = { showFolderSelectionDialog = false },
                             onSaveRequest = {
                                 onSaveBitmap(imageFormat, it)
-                            }
+                            },
+                            formatForFilenameSelection = imageFormat
                         )
                     }
                     Spacer(Modifier.height(4.dp))

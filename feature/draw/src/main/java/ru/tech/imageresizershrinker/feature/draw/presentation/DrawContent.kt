@@ -941,7 +941,8 @@ fun DrawContent(
                                         if (showFolderSelectionDialog) {
                                             OneTimeSaveLocationSelectionDialog(
                                                 onDismiss = { showFolderSelectionDialog = false },
-                                                onSaveRequest = saveBitmap
+                                                onSaveRequest = saveBitmap,
+                                                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                                             )
                                         }
                                     }
@@ -1060,7 +1061,8 @@ fun DrawContent(
                             if (showFolderSelectionDialog) {
                                 OneTimeSaveLocationSelectionDialog(
                                     onDismiss = { showFolderSelectionDialog = false },
-                                    onSaveRequest = saveBitmap
+                                    onSaveRequest = saveBitmap,
+                                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                                 )
                             }
                         }

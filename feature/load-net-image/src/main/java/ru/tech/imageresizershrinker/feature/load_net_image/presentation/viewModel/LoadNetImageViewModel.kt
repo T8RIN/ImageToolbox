@@ -82,7 +82,8 @@ class LoadNetImageViewModel @Inject constructor(
                         saveTarget = ImageSaveTarget<ExifInterface>(
                             imageInfo = ImageInfo(
                                 width = bitmap.width,
-                                height = bitmap.height
+                                height = bitmap.height,
+                                imageFormat = ImageFormat.Png.Lossless
                             ),
                             originalUri = "_",
                             sequenceNumber = null,
@@ -162,5 +163,7 @@ class LoadNetImageViewModel @Inject constructor(
             _isSaving.value = false
         }
     }
+
+    fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
 
 }

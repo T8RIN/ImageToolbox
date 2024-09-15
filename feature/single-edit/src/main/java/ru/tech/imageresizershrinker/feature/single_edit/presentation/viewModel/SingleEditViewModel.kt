@@ -712,4 +712,7 @@ class SingleEditViewModel @Inject constructor(
     fun updateDrawPathMode(drawPathMode: DrawPathMode) {
         _drawPathMode.update { drawPathMode }
     }
+
+    fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat
+
 }

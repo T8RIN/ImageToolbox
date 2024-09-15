@@ -502,7 +502,8 @@ fun CropContent(
                                         if (showFolderSelectionDialog) {
                                             OneTimeSaveLocationSelectionDialog(
                                                 onDismiss = { showFolderSelectionDialog = false },
-                                                onSaveRequest = saveBitmap
+                                                onSaveRequest = saveBitmap,
+                                                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                                             )
                                         }
                                     }
@@ -626,7 +627,8 @@ fun CropContent(
                                         if (showFolderSelectionDialog) {
                                             OneTimeSaveLocationSelectionDialog(
                                                 onDismiss = { showFolderSelectionDialog = false },
-                                                onSaveRequest = saveBitmap
+                                                onSaveRequest = saveBitmap,
+                                                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                                             )
                                         }
                                     }

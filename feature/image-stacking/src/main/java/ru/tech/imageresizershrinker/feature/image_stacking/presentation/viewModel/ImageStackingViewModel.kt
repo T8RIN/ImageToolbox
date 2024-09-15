@@ -282,4 +282,6 @@ class ImageStackingViewModel @Inject constructor(
         calculatePreview()
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat
+
 }

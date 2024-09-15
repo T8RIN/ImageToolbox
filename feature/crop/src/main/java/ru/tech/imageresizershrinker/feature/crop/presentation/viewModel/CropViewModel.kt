@@ -251,4 +251,6 @@ class CropViewModel @Inject constructor(
         }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
 }

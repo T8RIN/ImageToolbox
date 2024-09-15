@@ -315,7 +315,8 @@ fun LimitsResizeContent(
             if (showFolderSelectionDialog) {
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = saveBitmaps
+                    onSaveRequest = saveBitmaps,
+                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                 )
             }
         },

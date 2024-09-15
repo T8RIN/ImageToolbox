@@ -511,4 +511,7 @@ class GradientMakerViewModel @Inject constructor(
             ?.let(::updateSelectedUri)
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat? = if (uris.size < 2) imageFormat
+    else null
+
 }

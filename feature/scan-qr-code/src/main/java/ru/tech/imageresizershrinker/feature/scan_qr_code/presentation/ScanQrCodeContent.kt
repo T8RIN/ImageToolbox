@@ -494,7 +494,8 @@ fun ScanQrCodeContent(
                             val bitmap = captureController.captureAsync().await().asAndroidBitmap()
                             saveBitmap(it, bitmap)
                         }
-                    }
+                    },
+                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                 )
             }
         },

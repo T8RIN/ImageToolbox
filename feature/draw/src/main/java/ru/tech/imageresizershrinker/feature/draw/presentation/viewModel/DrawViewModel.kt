@@ -370,4 +370,6 @@ class DrawViewModel @Inject constructor(
         _drawPathMode.update { drawPathMode }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
 }

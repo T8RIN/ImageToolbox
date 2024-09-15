@@ -598,4 +598,8 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat? =
+        if (uris?.size == 1) imageInfo.imageFormat
+        else null
+
 }
