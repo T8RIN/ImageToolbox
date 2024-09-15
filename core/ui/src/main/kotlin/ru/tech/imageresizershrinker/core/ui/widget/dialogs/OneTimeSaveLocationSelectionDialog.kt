@@ -352,8 +352,8 @@ fun OneTimeSaveLocationSelectionDialog(
                     )
                     val imageString = stringResource(R.string.image)
                     PreferenceItem(
-                        title = stringResource(id = R.string.select_filename),
-                        subtitle = stringResource(id = R.string.select_filename_sub),
+                        title = stringResource(id = R.string.custom_filename),
+                        subtitle = stringResource(id = R.string.custom_filename_sub),
                         startIcon = Icons.Outlined.DriveFileRenameOutline,
                         shape = ContainerShapeDefaults.defaultShape,
                         titleFontStyle = LocalTextStyle.current.copy(

@@ -1403,7 +1403,7 @@
     <string name="jitter">Jitter</string>
     <string name="domain_warp">Domain Warp</string>
     <string name="alignment">Alignment</string>
-    <string name="select_filename">Select Filename</string>
-    <string name="select_filename_sub">Select location and filename which are will be used to save current image</string>
+    <string name="custom_filename">Custom Filename</string>
+    <string name="custom_filename_sub">Select location and filename which are will be used to save current image</string>
     <string name="saved_to_custom">Saved to folder with custom name</string>
 </resources>
