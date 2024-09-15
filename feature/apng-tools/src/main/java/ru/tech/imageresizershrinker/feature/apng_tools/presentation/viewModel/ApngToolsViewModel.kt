@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -61,6 +62,7 @@ class ApngToolsViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
+    private val filenameCreator: FilenameCreator,
     private val apngConverter: ApngConverter,
     private val shareProvider: ShareProvider<Bitmap>,
     defaultDispatchersHolder: DispatchersHolder
@@ -321,7 +323,7 @@ class ApngToolsViewModel @Inject constructor(
 
     private fun jxlFilename(
         uri: String
-    ): String = fileController.constructImageFilename(
+    ): String = filenameCreator.constructImageFilename(
         ImageSaveTarget<ExifInterface>(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Jxl.Lossless,

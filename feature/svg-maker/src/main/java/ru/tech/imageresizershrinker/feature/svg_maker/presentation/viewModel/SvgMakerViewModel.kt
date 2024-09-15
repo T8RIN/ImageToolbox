@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -50,6 +51,7 @@ class SvgMakerViewModel @Inject constructor(
     private val svgManager: SvgManager,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
+    private val filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
@@ -141,7 +143,7 @@ class SvgMakerViewModel @Inject constructor(
 
     private fun filename(
         uri: String
-    ): String = fileController.constructImageFilename(
+    ): String = filenameCreator.constructImageFilename(
         ImageSaveTarget<ExifInterface>(
             imageInfo = ImageInfo(
                 originalUri = uri
@@ -149,9 +151,9 @@ class SvgMakerViewModel @Inject constructor(
             originalUri = uri,
             sequenceNumber = done + 1,
             metadata = null,
-            data = ByteArray(0)
+            data = ByteArray(0),
+            extension = "svg"
         ),
-        extension = "svg",
         forceNotAddSizeInFilename = true
     )
 

@@ -45,10 +45,10 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
         return SecretKeySpec(key, ENCRYPTION_STANDARD)
     }
 
-    override fun generateRandomString(len: Int): String {
+    override fun generateRandomString(length: Int): String {
         val sr = SecureRandom()
-        val sb = StringBuilder(len)
-        for (i in 0 until len) {
+        val sb = StringBuilder(length)
+        for (i in 0 until length) {
             sb.append(CHARS[sr.nextInt(CHARS.length)])
         }
         return sb.toString()

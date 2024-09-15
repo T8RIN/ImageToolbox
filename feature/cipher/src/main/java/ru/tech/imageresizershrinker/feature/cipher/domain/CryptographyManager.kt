@@ -19,7 +19,9 @@ package ru.tech.imageresizershrinker.feature.cipher.domain
 
 interface CryptographyManager {
 
-    fun generateRandomString(len: Int): String
+    fun generateRandomString(
+        length: Int
+    ): String
 
     suspend fun decrypt(
         data: ByteArray,

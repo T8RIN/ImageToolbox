@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
@@ -51,8 +52,9 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class BytesResizeViewModel @Inject constructor(
+class ResizeByWeightViewModel @Inject constructor(
     private val fileController: FileController,
+    private val filenameCreator: FilenameCreator,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: BytesImageScaler<Bitmap>,
@@ -378,7 +380,7 @@ class BytesResizeViewModel @Inject constructor(
                 }?.let { (image, imageInfo) ->
                     shareProvider.cacheByteArray(
                         byteArray = image,
-                        filename = fileController.constructImageFilename(
+                        filename = filenameCreator.constructImageFilename(
                             ImageSaveTarget<ExifInterface>(
                                 imageInfo = imageInfo,
                                 originalUri = uri,
@@ -426,7 +428,7 @@ class BytesResizeViewModel @Inject constructor(
                 }?.let { (image, imageInfo) ->
                     shareProvider.cacheByteArray(
                         byteArray = image,
-                        filename = fileController.constructImageFilename(
+                        filename = filenameCreator.constructImageFilename(
                             ImageSaveTarget<ExifInterface>(
                                 imageInfo = imageInfo,
                                 originalUri = uri.toString(),

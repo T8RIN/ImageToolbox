@@ -91,14 +91,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.components.ImageFormatAlert
-import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.viewModel.BytesResizeViewModel
+import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.viewModel.ResizeByWeightViewModel
 
 @Composable
 fun BytesResizeContent(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: BytesResizeViewModel = hiltViewModel()
+    viewModel: ResizeByWeightViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
 

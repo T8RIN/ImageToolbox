@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -58,6 +59,7 @@ import javax.inject.Inject
 class JxlToolsViewModel @Inject constructor(
     private val jxlConverter: JxlConverter,
     private val fileController: FileController,
+    private val filenameCreator: FilenameCreator,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -347,7 +349,7 @@ class JxlToolsViewModel @Inject constructor(
     private fun filename(
         uri: String,
         format: ImageFormat
-    ): String = fileController.constructImageFilename(
+    ): String = filenameCreator.constructImageFilename(
         ImageSaveTarget<ExifInterface>(
             imageInfo = ImageInfo(
                 imageFormat = format,

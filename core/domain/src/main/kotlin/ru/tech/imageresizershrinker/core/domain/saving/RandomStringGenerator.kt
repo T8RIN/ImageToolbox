@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving
 
-fun interface RandomStringGenerator {
+interface RandomStringGenerator {
 
     fun generate(length: Int): String
 

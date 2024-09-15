@@ -34,7 +34,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.saving.ImageFilenameProvider
+import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.use
@@ -46,7 +46,7 @@ internal class AndroidShareProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageFilenameProvider: Lazy<ImageFilenameProvider>,
+    private val filenameCreator: Lazy<FilenameCreator>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ShareProvider<Bitmap> {
 
@@ -81,7 +81,7 @@ internal class AndroidShareProvider @Inject constructor(
                 data = byteArrayOf()
             )
 
-            val filename = imageFilenameProvider.get().constructImageFilename(saveTarget)
+            val filename = filenameCreator.get().constructImageFilename(saveTarget)
             val byteArray = imageCompressor.compressAndTransform(image, imageInfo)
 
             cacheByteArray(

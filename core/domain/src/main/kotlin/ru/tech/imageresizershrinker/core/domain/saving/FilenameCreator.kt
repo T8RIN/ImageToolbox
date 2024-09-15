@@ -19,6 +19,16 @@ package ru.tech.imageresizershrinker.core.domain.saving
 
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 
-fun interface ImageFilenameProvider {
-    fun constructImageFilename(saveTarget: ImageSaveTarget<*>): String
+interface FilenameCreator {
+
+    fun constructImageFilename(
+        saveTarget: ImageSaveTarget<*>,
+        forceNotAddSizeInFilename: Boolean = false
+    ): String
+
+    fun constructRandomFilename(
+        extension: String,
+        length: Int = 32
+    ): String
+
 }

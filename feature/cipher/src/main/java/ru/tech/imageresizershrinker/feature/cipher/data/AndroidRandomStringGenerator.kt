@@ -15,30 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.saving
+package ru.tech.imageresizershrinker.feature.cipher.data
 
-import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
-import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
+import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
+import javax.inject.Inject
 
-interface FileController {
-    val defaultSavingPath: String
+internal class AndroidRandomStringGenerator @Inject constructor(
+    private val cryptographyManager: CryptographyManager
+) : RandomStringGenerator {
 
-    suspend fun save(
-        saveTarget: SaveTarget,
-        keepOriginalMetadata: Boolean,
-        oneTimeSaveLocationUri: String? = null
-    ): SaveResult
+    override fun generate(length: Int): String = cryptographyManager.generateRandomString(length)
 
-    fun getSize(uri: String): Long?
-
-    fun clearCache(onComplete: (String) -> Unit = {})
-
-    fun getReadableCacheSize(): String
-
-    suspend fun readBytes(uri: String): ByteArray
-
-    suspend fun writeBytes(
-        uri: String,
-        block: suspend (Writeable) -> Unit
-    ): SaveResult
 }

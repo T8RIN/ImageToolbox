@@ -19,11 +19,11 @@ package ru.tech.imageresizershrinker.feature.cipher.di
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.feature.cipher.data.AndroidCryptographyManager
+import ru.tech.imageresizershrinker.feature.cipher.data.AndroidRandomStringGenerator
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import javax.inject.Singleton
 
@@ -35,19 +35,13 @@ internal interface CipherModule {
     @Singleton
     @Binds
     fun cryptographyManager(
-        repository: AndroidCryptographyManager
+        impl: AndroidCryptographyManager
     ): CryptographyManager
 
-    companion object {
-
-        @Singleton
-        @Provides
-        fun provideRandomStringGenerator(
-            cryptographyManager: CryptographyManager
-        ): RandomStringGenerator = RandomStringGenerator {
-            cryptographyManager.generateRandomString(it)
-        }
-
-    }
+    @Singleton
+    @Binds
+    fun provideRandomStringGenerator(
+        impl: AndroidRandomStringGenerator
+    ): RandomStringGenerator
 
 }
