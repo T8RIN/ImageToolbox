@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import java.util.Locale
 
@@ -245,7 +246,10 @@ internal fun List<Uri>.screenList(
         }
     }
 
+    val favoriteScreens = LocalSettingsState.current.favoriteScreenList
+
     return remember(
+        favoriteScreens,
         extraImageType,
         uris,
         pdfAvailableScreens,
@@ -262,7 +266,7 @@ internal fun List<Uri>.screenList(
                 extraImageType != null -> textAvailableScreens
 
                 else -> multipleImagesScreens
-            }
+            }.sortedWith(compareBy(nullsLast()) { s -> favoriteScreens.find { it == s.id } })
         }
     }
 }
