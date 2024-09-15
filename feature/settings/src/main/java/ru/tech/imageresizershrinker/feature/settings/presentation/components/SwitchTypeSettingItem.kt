@@ -137,7 +137,7 @@ fun SwitchTypeSettingItem(
                                     .copy(alpha = 0.5f)
                                 else Color.Transparent
                             ).value,
-                            shape = shape
+                            shape = ContainerShapeDefaults.shapeForIndex(index, entries.size)
                         ),
                     endIcon = if (selected) {
                         Icons.Rounded.RadioButtonChecked
