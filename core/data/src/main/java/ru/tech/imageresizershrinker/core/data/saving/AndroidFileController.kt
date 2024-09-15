@@ -227,16 +227,21 @@ internal class AndroidFileController @Inject constructor(
                     )
                 }
             } else {
-                (oneTimeSaveLocationUri ?: settingsState.saveFolderUri).takeIf {
+                val documentFile: DocumentFile?
+                val treeUri = (oneTimeSaveLocationUri ?: settingsState.saveFolderUri).takeIf {
                     !it.isNullOrEmpty()
-                }?.let { treeUri ->
-                    val hasDir: Boolean = runCatching {
-                        treeUri.toUri().let {
-                            DocumentFile.fromTreeUri(context, it)
-                        }?.exists()
-                    }.getOrNull() == true
+                }
 
-                    if (!hasDir) {
+                if (treeUri != null) {
+                    documentFile = runCatching {
+                        treeUri.toUri().let {
+                            if (DocumentFile.isDocumentUri(context, it)) {
+                                DocumentFile.fromSingleUri(context, it)
+                            } else DocumentFile.fromTreeUri(context, it)
+                        }
+                    }.getOrNull()
+
+                    if (documentFile?.exists() == false && documentFile.isDirectory || documentFile == null) {
                         if (oneTimeSaveLocationUri == null) {
                             settingsManager.setSaveFolderUri(null)
                         } else {
@@ -255,6 +260,8 @@ internal class AndroidFileController @Inject constructor(
                             )
                         )
                     }
+                } else {
+                    documentFile = null
                 }
 
                 var initialExif: ExifInterface? = null
@@ -270,10 +277,8 @@ internal class AndroidFileController @Inject constructor(
                     )
                 } else saveTarget
 
-                val savingFolder = context.getSavingFolder(
-                    treeUri = (oneTimeSaveLocationUri ?: settingsState.saveFolderUri)?.takeIf {
-                        it.isNotEmpty()
-                    }?.toUri(),
+                val savingFolder = getSavingFolder(
+                    treeUri = treeUri?.toUri(),
                     saveTarget = newSaveTarget
                 )
 
@@ -293,35 +298,39 @@ internal class AndroidFileController @Inject constructor(
                 val filename = newSaveTarget.filename ?: ""
 
                 oneTimeSaveLocationUri?.let {
-                    val currentLocation =
-                        settingsState.oneTimeSaveLocations.find { it.uri == oneTimeSaveLocationUri }
+                    if (documentFile?.isDirectory == true) {
+                        val currentLocation =
+                            settingsState.oneTimeSaveLocations.find { it.uri == oneTimeSaveLocationUri }
 
-                    settingsManager.setOneTimeSaveLocations(
-                        currentLocation?.let {
-                            settingsState.oneTimeSaveLocations.toMutableList().apply {
-                                remove(currentLocation)
-                                add(
-                                    currentLocation.copy(
-                                        uri = oneTimeSaveLocationUri,
-                                        date = System.currentTimeMillis(),
-                                        count = currentLocation.count + 1
+                        settingsManager.setOneTimeSaveLocations(
+                            currentLocation?.let {
+                                settingsState.oneTimeSaveLocations.toMutableList().apply {
+                                    remove(currentLocation)
+                                    add(
+                                        currentLocation.copy(
+                                            uri = oneTimeSaveLocationUri,
+                                            date = System.currentTimeMillis(),
+                                            count = currentLocation.count + 1
+                                        )
                                     )
+                                }
+                            } ?: settingsState.oneTimeSaveLocations.plus(
+                                OneTimeSaveLocation(
+                                    uri = oneTimeSaveLocationUri,
+                                    date = System.currentTimeMillis(),
+                                    count = 1
                                 )
-                            }
-                        } ?: settingsState.oneTimeSaveLocations.plus(
-                            OneTimeSaveLocation(
-                                uri = oneTimeSaveLocationUri,
-                                date = System.currentTimeMillis(),
-                                count = 1
                             )
                         )
-                    )
+                    }
                 }
-
 
                 return@withContext SaveResult.Success(
                     message = if (savingPath.isNotEmpty()) {
-                        if (filename.isNotEmpty()) {
+                        val isFile = documentFile?.isDirectory != true
+                        if (isFile) {
+                            context.getString(R.string.saved_to_custom)
+                        } else if (filename.isNotEmpty()) {
                             context.getString(
                                 R.string.saved_to,
                                 savingPath,
@@ -387,7 +396,6 @@ internal class AndroidFileController @Inject constructor(
 
     private data class SavingFolder(
         val outputStream: OutputStream? = null,
-        val file: File? = null,
         val fileUri: Uri? = null
     )
 
@@ -593,11 +601,11 @@ internal class AndroidFileController @Inject constructor(
         }.getOrNull()
     }
 
-    private suspend fun Context.getSavingFolder(
+    private suspend fun getSavingFolder(
         treeUri: Uri?,
         saveTarget: SaveTarget
     ): SavingFolder = withContext(defaultDispatcher) {
-        if (treeUri == null) {
+        if (treeUri == null || DocumentFile.isDocumentUri(context, treeUri)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val type = saveTarget.mimeType
                 val path = "${Environment.DIRECTORY_DOCUMENTS}/ResizedImages"
@@ -612,13 +620,13 @@ internal class AndroidFileController @Inject constructor(
                         path
                     )
                 }
-                val imageUri = contentResolver.insert(
+                val imageUri = context.contentResolver.insert(
                     MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY),
                     contentValues
                 )
 
                 SavingFolder(
-                    outputStream = imageUri?.let { contentResolver.openOutputStream(it) },
+                    outputStream = imageUri?.let { context.contentResolver.openOutputStream(it) },
                     fileUri = imageUri
                 )
             } else {
@@ -636,19 +644,23 @@ internal class AndroidFileController @Inject constructor(
                 )
             }
         } else {
-            val documentFile = DocumentFile.fromTreeUri(this@getSavingFolder, treeUri)
+            val documentFile = if (DocumentFile.isDocumentUri(context, treeUri)) {
+                DocumentFile.fromSingleUri(context, treeUri)
+            } else DocumentFile.fromTreeUri(context, treeUri)
 
             if (documentFile?.exists() == false || documentFile == null) {
                 throw NoSuchFileException(File(treeUri.toString()))
             }
 
-            val file =
-                documentFile.createFile(saveTarget.mimeType, saveTarget.filename!!)
+            val fileUri = try {
+                documentFile.createFile(saveTarget.mimeType, saveTarget.filename!!)!!.uri
+            } catch (_: UnsupportedOperationException) {
+                documentFile.uri
+            }
 
-            val imageUri = file!!.uri
             SavingFolder(
-                outputStream = contentResolver.openOutputStream(imageUri),
-                fileUri = imageUri
+                outputStream = context.contentResolver.openOutputStream(fileUri),
+                fileUri = fileUri
             )
         }
     }

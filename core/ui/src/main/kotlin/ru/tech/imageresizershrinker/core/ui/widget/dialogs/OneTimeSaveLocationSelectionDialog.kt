@@ -38,6 +38,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CreateNewFolder
+import androidx.compose.material.icons.outlined.DriveFileRenameOutline
 import androidx.compose.material.icons.outlined.SaveAs
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.Folder
@@ -69,6 +70,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -93,7 +95,8 @@ import java.util.Locale
 @Composable
 fun OneTimeSaveLocationSelectionDialog(
     onDismiss: () -> Unit,
-    onSaveRequest: ((String?) -> Unit)?
+    onSaveRequest: ((String?) -> Unit)?,
+    formatForFilenameSelection: ImageFormat? = null
 ) {
     val settingsState = LocalSettingsState.current
     var tempSelectedSaveFolderUri by rememberSaveable {
@@ -336,6 +339,38 @@ fun OneTimeSaveLocationSelectionDialog(
                         .padding(horizontal = 4.dp, vertical = 2.dp),
                     color = MaterialTheme.colorScheme.surfaceContainer
                 )
+
+                if (formatForFilenameSelection != null) {
+                    val createLauncher = rememberLauncherForActivityResult(
+                        contract = ActivityResultContracts.CreateDocument(formatForFilenameSelection.mimeType),
+                        onResult = { uri ->
+                            uri?.let {
+                                onSaveRequest?.invoke(it.toString())
+                                onDismiss()
+                            }
+                        }
+                    )
+                    val imageString = stringResource(R.string.image)
+                    PreferenceItem(
+                        title = stringResource(id = R.string.select_filename),
+                        subtitle = stringResource(id = R.string.select_filename_sub),
+                        startIcon = Icons.Outlined.DriveFileRenameOutline,
+                        shape = ContainerShapeDefaults.defaultShape,
+                        titleFontStyle = LocalTextStyle.current.copy(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 16.sp,
+                            textAlign = TextAlign.Start
+                        ),
+                        onClick = {
+                            createLauncher.launch("$imageString.${formatForFilenameSelection.extension}")
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                }
             }
         },
         modifier = Modifier.alertDialogBorder()

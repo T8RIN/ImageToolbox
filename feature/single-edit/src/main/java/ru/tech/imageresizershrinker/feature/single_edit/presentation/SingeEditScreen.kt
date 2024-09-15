@@ -403,7 +403,8 @@ fun SingleEditContent(
             if (showFolderSelectionDialog) {
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = saveBitmap
+                    onSaveRequest = saveBitmap,
+                    formatForFilenameSelection = imageInfo.imageFormat
                 )
             }
         },
