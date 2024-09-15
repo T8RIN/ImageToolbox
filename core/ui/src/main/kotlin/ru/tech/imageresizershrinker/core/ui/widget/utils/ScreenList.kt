@@ -99,7 +99,7 @@ internal fun List<Uri>.screenList(
                 Screen.SingleEdit(uris.firstOrNull()),
                 Screen.ResizeAndConvert(uris),
                 Screen.FormatConversion(uris),
-                Screen.ResizeByBytes(uris),
+                Screen.WeightResize(uris),
                 Screen.Crop(uris.firstOrNull()),
                 Screen.Filter(
                     type = Screen.Filter.Type.Basic(uris)
@@ -164,7 +164,7 @@ internal fun List<Uri>.screenList(
         derivedStateOf {
             mutableListOf(
                 Screen.ResizeAndConvert(uris),
-                Screen.ResizeByBytes(uris),
+                Screen.WeightResize(uris),
                 Screen.FormatConversion(uris),
                 Screen.Filter(
                     type = Screen.Filter.Type.Basic(uris)

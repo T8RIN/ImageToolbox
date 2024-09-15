@@ -22,4 +22,4 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.bytes_resize"
+android.namespace = "ru.tech.imageresizershrinker.feature.weight_resize"

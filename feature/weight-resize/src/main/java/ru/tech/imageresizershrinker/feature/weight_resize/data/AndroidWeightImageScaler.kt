@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.bytes_resize.data
+package ru.tech.imageresizershrinker.feature.weight_resize.data
 
 import android.graphics.Bitmap
 import kotlinx.coroutines.withContext
@@ -26,18 +26,18 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
+import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScaler
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-internal class AndroidBytesImageScaler @Inject constructor(
+internal class AndroidWeightImageScaler @Inject constructor(
     imageScaler: ImageScaler<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder,
     ImageScaler<Bitmap> by imageScaler,
-    BytesImageScaler<Bitmap> {
+    WeightImageScaler<Bitmap> {
 
     override suspend fun scaleByMaxBytes(
         image: Bitmap,

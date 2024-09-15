@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.bytes_resize.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -47,17 +47,17 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
+import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScaler
 import javax.inject.Inject
 
 
 @HiltViewModel
-class ResizeByWeightViewModel @Inject constructor(
+class WeightResizeViewModel @Inject constructor(
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageScaler: BytesImageScaler<Bitmap>,
+    private val imageScaler: WeightImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     dispatchersHolder: DispatchersHolder

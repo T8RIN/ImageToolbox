@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.bytes_resize.presentation
+package ru.tech.imageresizershrinker.feature.weight_resize.presentation
 
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -90,15 +90,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
-import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.components.ImageFormatAlert
-import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.viewModel.ResizeByWeightViewModel
+import ru.tech.imageresizershrinker.feature.weight_resize.presentation.components.ImageFormatAlert
+import ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel.WeightResizeViewModel
 
 @Composable
-fun BytesResizeContent(
+fun WeightResizeContent(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ResizeByWeightViewModel = hiltViewModel()
+    viewModel: WeightResizeViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
 

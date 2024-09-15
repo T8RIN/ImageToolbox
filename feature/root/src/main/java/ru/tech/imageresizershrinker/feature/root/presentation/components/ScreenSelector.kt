@@ -39,7 +39,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.navigateNew
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.safePop
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
-import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeContent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
 import ru.tech.imageresizershrinker.feature.crop.presentation.CropContent
@@ -71,6 +70,7 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditC
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.SvgMakerContent
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingContent
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.WebpToolsContent
+import ru.tech.imageresizershrinker.feature.weight_resize.presentation.WeightResizeContent
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
 import ru.tech.imageresizershrinker.image_splitting.presentation.ImageSplitterContent
 import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGenerationContent
@@ -187,8 +187,8 @@ internal fun ScreenSelector(
                 )
             }
 
-            is Screen.ResizeByBytes -> {
-                BytesResizeContent(
+            is Screen.WeightResize -> {
+                WeightResizeContent(
                     uriState = screen.uris,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate

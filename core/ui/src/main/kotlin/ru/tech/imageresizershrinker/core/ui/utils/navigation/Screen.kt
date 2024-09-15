@@ -104,7 +104,7 @@ sealed class Screen(
             is PickColorFromImage -> "Pick_Color_From_Image"
             is RecognizeText -> "Recognize_Text"
             is ResizeAndConvert -> "Resize_And_Convert"
-            is ResizeByBytes -> "Resize_By_Bytes"
+            is WeightResize -> "Resize_By_Bytes"
             Settings -> "Settings"
             is SingleEdit -> "Single_Edit"
             is Watermarking -> "Watermarking"
@@ -147,7 +147,7 @@ sealed class Screen(
             is PickColorFromImage -> Icons.Outlined.Colorize
             is RecognizeText -> Icons.Outlined.ImageText
             is ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
-            is ResizeByBytes -> Icons.Rounded.ImageWeight
+            is WeightResize -> Icons.Rounded.ImageWeight
             is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
             is Zip -> Icons.Outlined.FolderZip
             is SvgMaker -> Icons.Outlined.Svg
@@ -195,7 +195,7 @@ sealed class Screen(
         subtitle = R.string.resize_and_convert_sub
     )
 
-    data class ResizeByBytes(
+    data class WeightResize(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 2,
@@ -715,7 +715,7 @@ sealed class Screen(
                     ResizeAndConvert(),
                     FormatConversion(),
                     Crop(),
-                    ResizeByBytes(),
+                    WeightResize(),
                     LimitResize(),
                 ) to Triple(
                     R.string.edit,

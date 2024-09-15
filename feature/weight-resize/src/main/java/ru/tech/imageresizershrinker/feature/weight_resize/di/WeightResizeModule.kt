@@ -15,26 +15,26 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.bytes_resize.di
+package ru.tech.imageresizershrinker.feature.weight_resize.di
 
 import android.graphics.Bitmap
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.bytes_resize.data.AndroidBytesImageScaler
-import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
+import ru.tech.imageresizershrinker.feature.weight_resize.data.AndroidWeightImageScaler
+import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScaler
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface BytesResizeModule {
+internal interface WeightResizeModule {
 
     @Singleton
     @Binds
     fun provideScaler(
-        scaler: AndroidBytesImageScaler
-    ): BytesImageScaler<Bitmap>
+        scaler: AndroidWeightImageScaler
+    ): WeightImageScaler<Bitmap>
 
 }

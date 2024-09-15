@@ -31,7 +31,7 @@ dependencies {
     implementation(projects.feature.limitsResize)
     implementation(projects.feature.cipher)
     implementation(projects.feature.imagePreview)
-    implementation(projects.feature.bytesResize)
+    implementation(projects.feature.weightResize)
     implementation(projects.feature.compare)
     implementation(projects.feature.deleteExif)
     implementation(projects.feature.generatePalette)

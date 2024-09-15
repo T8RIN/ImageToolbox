@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.bytes_resize.presentation.components
+package ru.tech.imageresizershrinker.feature.weight_resize.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
@@ -36,13 +36,11 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
-fun ImageFormatAlert(
+internal fun ImageFormatAlert(
     format: ImageFormat,
     modifier: Modifier = Modifier
 ) {
-    AnimatedVisibility(
-        visible = !format.canChangeCompressionValue
-    ) {
+    AnimatedVisibility(!format.canChangeCompressionValue) {
         Box(
             modifier = modifier
                 .container(
