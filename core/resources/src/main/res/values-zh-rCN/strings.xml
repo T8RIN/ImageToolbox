@@ -1385,4 +1385,7 @@
     <string name="jitter">抖动</string>
     <string name="alignment">对齐</string>
     <string name="domain_warp">领域扭曲</string>
+    <string name="custom_filename">自定义文件名</string>
+    <string name="custom_filename_sub">选择用于保存当前图像的位置和文件名</string>
+    <string name="saved_to_custom">保存到以自定义名称的文件夹中</string>
 </resources>
