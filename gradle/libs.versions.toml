@@ -3,13 +3,13 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
-versionName = "3.0.1-alpha01"
+versionName = "3.1.0-alpha01"
 versionCode = "153"
 
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "2.5.5"
+imageToolboxLibs = "2.6.0"
 trickle = "1.1.2"
 
 avifCoder = "1.8.0"
@@ -109,6 +109,7 @@ toolbox-awebp = { module = "com.github.T8RIN.ImageToolboxLibs:awebp", version.re
 toolbox-psd = { module = "com.github.T8RIN.ImageToolboxLibs:psd", version.ref = "imageToolboxLibs" }
 toolbox-djvuCoder = { module = "com.github.T8RIN.ImageToolboxLibs:djvu-coder", version.ref = "imageToolboxLibs" }
 toolbox-fastNoise = { module = "com.github.T8RIN.ImageToolboxLibs:fast-noise", version.ref = "imageToolboxLibs" }
+toolbox-collages = { module = "com.github.T8RIN.ImageToolboxLibs:collages", version.ref = "imageToolboxLibs" }
 
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }

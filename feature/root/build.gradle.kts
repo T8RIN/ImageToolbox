@@ -61,4 +61,5 @@ dependencies {
     implementation(projects.feature.colorTools)
     implementation(projects.feature.webpTools)
     implementation(projects.feature.noiseGeneration)
+    implementation(projects.feature.colllageMaker)
 }

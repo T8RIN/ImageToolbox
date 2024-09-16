@@ -25,6 +25,7 @@ import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FilterHdr
 import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.ColorLens
@@ -118,6 +119,7 @@ sealed class Screen(
             is ColorTools -> "Color_Tools"
             is WebpTools -> "WEBP_Tools"
             is NoiseGeneration -> "Noise_Generation"
+            is CollageMaker -> "Collage_Maker"
         }
 
     val icon: ImageVector?
@@ -159,6 +161,7 @@ sealed class Screen(
             ColorTools -> Icons.Outlined.ColorLens
             is WebpTools -> Icons.Rounded.WebpBox
             NoiseGeneration -> Icons.Outlined.Grain
+            is CollageMaker -> Icons.Outlined.AutoAwesomeMosaic
         }
 
     data object Settings : Screen(
@@ -707,6 +710,14 @@ sealed class Screen(
         subtitle = R.string.noise_generation_sub
     )
 
+    data class CollageMaker(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 33,
+        title = R.string.collage_maker,
+        subtitle = R.string.collage_maker_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -726,6 +737,7 @@ sealed class Screen(
                     Filter(),
                     Draw(),
                     EraseBackground(),
+                    CollageMaker(),
                     ImageStitching(),
                     ImageStacking(),
                     ImageSplitting(),
@@ -773,6 +785,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 52
+        const val FEATURES_COUNT = 53
     }
 }

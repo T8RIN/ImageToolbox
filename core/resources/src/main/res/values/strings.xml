@@ -1406,4 +1406,8 @@
     <string name="custom_filename">Custom Filename</string>
     <string name="custom_filename_sub">Select location and filename which are will be used to save current image</string>
     <string name="saved_to_custom">Saved to folder with custom name</string>
+    <string name="collage_maker">Collage Maker</string>
+    <string name="collage_maker_sub">Make various collages from 2..10 images</string>
+    <string name="collage_type">Collage Type</string>
+    <string name="pick_images_collage">Pick 2..10 images</string>
 </resources>

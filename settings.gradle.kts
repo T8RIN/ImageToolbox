@@ -101,6 +101,7 @@ include(":feature:image-splitting")
 include(":feature:color-tools")
 include(":feature:webp-tools")
 include(":feature:noise-generation")
+include(":feature:colllage-maker")
 
 include(":feature:root")
 

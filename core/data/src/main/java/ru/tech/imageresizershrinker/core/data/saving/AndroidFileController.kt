@@ -121,11 +121,8 @@ internal class AndroidFileController @Inject constructor(
             }
 
             val originalUri = saveTarget.originalUri.toUri()
-            val hasOriginalUri = runCatching {
-                context.contentResolver.openFileDescriptor(originalUri, "r")
-            }.isSuccess
 
-            if (settingsState.overwriteFiles && hasOriginalUri) {
+            if (settingsState.overwriteFiles) {
                 runCatching {
                     if (originalUri == Uri.EMPTY) throw IllegalStateException()
 
@@ -258,7 +255,8 @@ internal class AndroidFileController @Inject constructor(
 
                 return@withContext SaveResult.Success(
                     message = if (savingPath.isNotEmpty()) {
-                        val isFile = documentFile?.isDirectory != true
+                        val isFile =
+                            (documentFile?.isDirectory != true && oneTimeSaveLocationUri != null)
                         if (isFile) {
                             context.getString(R.string.saved_to_custom)
                         } else if (filename.isNotEmpty()) {

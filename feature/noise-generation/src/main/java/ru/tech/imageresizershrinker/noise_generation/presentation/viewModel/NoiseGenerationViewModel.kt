@@ -106,7 +106,7 @@ class NoiseGenerationViewModel @Inject constructor(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
                             metadata = null,
-                            originalUri = "Noise",
+                            originalUri = "",
                             sequenceNumber = null,
                             data = imageCompressor.compress(
                                 image = bitmap,

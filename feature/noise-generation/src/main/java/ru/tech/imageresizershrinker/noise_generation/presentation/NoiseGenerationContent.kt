@@ -100,6 +100,44 @@ fun NoiseGenerationContent(
         }
     }
 
+    val shareButton: @Composable () -> Unit = {
+        var editSheetData by remember {
+            mutableStateOf(listOf<Uri>())
+        }
+        ShareButton(
+            onShare = {
+                viewModel.shareNoise(showConfetti)
+            },
+            onCopy = { manager ->
+                viewModel.cacheCurrentNoise { uri ->
+                    manager.setClip(uri.asClip(context))
+                    showConfetti()
+                }
+            },
+            onEdit = {
+                viewModel.cacheCurrentNoise {
+                    editSheetData = listOf(it)
+                }
+            }
+        )
+        ProcessImagesPreferenceSheet(
+            uris = editSheetData,
+            visible = editSheetData.isNotEmpty(),
+            onDismiss = {
+                if (!it) {
+                    editSheetData = emptyList()
+                }
+            },
+            onNavigate = { screen ->
+                scope.launch {
+                    editSheetData = emptyList()
+                    delay(200)
+                    onNavigate(screen)
+                }
+            }
+        )
+    }
+
     AdaptiveLayoutScreen(
         title = {
             Text(
@@ -109,43 +147,7 @@ fun NoiseGenerationContent(
             )
         },
         onGoBack = onGoBack,
-        actions = {
-            var editSheetData by remember {
-                mutableStateOf(listOf<Uri>())
-            }
-            ShareButton(
-                onShare = {
-                    viewModel.shareNoise(showConfetti)
-                },
-                onCopy = { manager ->
-                    viewModel.cacheCurrentNoise { uri ->
-                        manager.setClip(uri.asClip(context))
-                        showConfetti()
-                    }
-                },
-                onEdit = {
-                    viewModel.cacheCurrentNoise {
-                        editSheetData = listOf(it)
-                    }
-                }
-            )
-            ProcessImagesPreferenceSheet(
-                uris = editSheetData,
-                visible = editSheetData.isNotEmpty(),
-                onDismiss = {
-                    if (!it) {
-                        editSheetData = emptyList()
-                    }
-                },
-                onNavigate = { screen ->
-                    scope.launch {
-                        editSheetData = emptyList()
-                        delay(200)
-                        onNavigate(screen)
-                    }
-                }
-            )
-        },
+        actions = {},
         topAppBarPersistentActions = {
             TopAppBarEmoji()
         },
@@ -183,7 +185,8 @@ fun NoiseGenerationContent(
                 Spacer(Modifier.height(4.dp))
                 ImageFormatSelector(
                     value = viewModel.imageFormat,
-                    onValueChange = viewModel::setImageFormat
+                    onValueChange = viewModel::setImageFormat,
+                    forceEnabled = true
                 )
                 QualitySelector(
                     quality = viewModel.quality,
@@ -206,7 +209,9 @@ fun NoiseGenerationContent(
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },
-                actions = it
+                actions = {
+                    shareButton()
+                }
             )
             if (showFolderSelectionDialog) {
                 OneTimeSaveLocationSelectionDialog(

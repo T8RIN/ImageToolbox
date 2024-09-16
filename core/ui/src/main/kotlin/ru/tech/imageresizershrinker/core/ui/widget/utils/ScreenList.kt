@@ -174,6 +174,9 @@ internal fun List<Uri>.screenList(
                 add(Screen.ImageStitching(uris))
                 add(Screen.PdfTools(Screen.PdfTools.Type.ImagesToPdf(uris)))
                 if (uris.size == 2) add(Screen.Compare(uris))
+                if (uris.size in 2..10) {
+                    add(Screen.CollageMaker(uris))
+                }
                 add(Screen.GradientMaker(uris))
                 add(Screen.Watermarking(uris))
                 add(

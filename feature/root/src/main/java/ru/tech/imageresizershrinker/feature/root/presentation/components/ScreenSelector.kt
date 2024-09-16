@@ -29,6 +29,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerContent
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -404,6 +405,14 @@ internal fun ScreenSelector(
 
             Screen.NoiseGeneration -> {
                 NoiseGenerationContent(
+                    onGoBack = onGoBack,
+                    onNavigate = onNavigate
+                )
+            }
+
+            is Screen.CollageMaker -> {
+                CollageMakerContent(
+                    uriState = screen.uris,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
