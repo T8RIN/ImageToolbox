@@ -115,7 +115,7 @@
     <string name="dynamic_colors_sub">활성화하면 앱 색상이 배경 화면 색상에 적용됩니다.</string>
     <string name="surface">표면</string>
     <string name="permission_sub">앱이 이미지를 저장하려면 저장소에 액세스해야하며, 그렇지 않으면 작동 할 수 없으므로 다음 대화 상자에서 권한을 부여하십시오.</string>
-    <string name="donation_sub">이 애플리케이션은 완전 무료이지만 프로젝트 개발을 지원하려면 여기를 클릭하세요.</string>
+    <string name="donation_sub">이 애플리케이션은 완전 무료이지만, 프로젝트 개발을 지원하고 싶다면 여기를 클릭하세요.</string>
     <string name="image_too_large_preview">이미지가 너무 커서 미리 볼 수 없지만, 일단 저장해 보겠습니다</string>
     <string name="fab_alignment">FAB 정렬</string>
     <string name="check_updates">업데이트 확인</string>
@@ -145,7 +145,7 @@
     <string name="file_explorer_picker_sub">GetContent 의도를 사용하여 이미지를 선택하고 모든 곳에서 작동하지만 일부 장치에서 선택한 이미지를 수신하는 데 문제가 있을 수 있습니다. 제 잘못이 아닙니다</string>
     <string name="replace_sequence_number">시퀀스 번호 바꾸기</string>
     <string name="emoji_sub">메인 화면에 표시할 이모티콘 선택</string>
-    <string name="delete_exif_sub">몇 장의 이미지에서 EXIF 메타데이터 삭제</string>
+    <string name="delete_exif_sub">모든 이미지에서 EXIF 메타데이터 삭제</string>
     <string name="image_preview">이미지 미리보기</string>
     <string name="image_preview_sub">모든 유형의 이미지 미리보기: GIF, SVG 등</string>
     <string name="order_sub">기본 화면에서 옵션의 순서를 결정합니다.</string>
@@ -804,4 +804,5 @@
     <string name="zip">지퍼</string>
     <string name="zip_sub">주어진 파일이나 이미지로 Zip 파일 만들기</string>
     <string name="drag_handle_width">드래그 핸들 너비</string>
+    <string name="confetti_type">색종이 종류</string>
 </resources>
