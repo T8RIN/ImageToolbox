@@ -1409,5 +1409,5 @@
     <string name="collage_maker">Collage Maker</string>
     <string name="collage_maker_sub">Make various collages from 2..10 images</string>
     <string name="collage_type">Collage Type</string>
-    <string name="pick_images_collage">Pick 2..10 images</string>
+    <string name="pick_up_to_ten_images">Pick up to 10 images</string>
 </resources>

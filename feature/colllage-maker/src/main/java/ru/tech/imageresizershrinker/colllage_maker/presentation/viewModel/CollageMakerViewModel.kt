@@ -76,7 +76,7 @@ class CollageMakerViewModel @Inject constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
-    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default)
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat: ImageFormat by _imageFormat
 
     private val _quality: MutableState<Quality> = mutableStateOf(Quality.Base())

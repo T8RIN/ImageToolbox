@@ -75,12 +75,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageTypeSelection
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel.CollageMakerViewModel
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
@@ -141,7 +143,8 @@ fun CollageMakerContent(
             } else {
                 scope.launch {
                     toastHostState.showToast(
-                        message = context.getString(R.string.pick_images_collage),
+                        message = if (it.size > 10) context.getString(R.string.pick_up_to_ten_images)
+                        else context.getString(R.string.pick_at_least_two_images),
                         icon = Icons.Outlined.AutoAwesomeMosaic
                     )
                 }
@@ -158,7 +161,8 @@ fun CollageMakerContent(
             } else {
                 scope.launch {
                     toastHostState.showToast(
-                        message = context.getString(R.string.pick_images_collage),
+                        message = if (list.size > 10) context.getString(R.string.pick_up_to_ten_images)
+                        else context.getString(R.string.pick_at_least_two_images),
                         icon = Icons.Outlined.AutoAwesomeMosaic
                     )
                 }
@@ -295,6 +299,9 @@ fun CollageMakerContent(
             value = viewModel.spacing,
             title = stringResource(R.string.spacing),
             valueRange = 0f..50f,
+            internalStateTransformation = {
+                it.roundToTwoDigits()
+            },
             onValueChange = viewModel::setSpacing,
             sliderModifier = Modifier
                 .padding(
@@ -312,6 +319,9 @@ fun CollageMakerContent(
             value = viewModel.cornerRadius,
             title = stringResource(R.string.corners),
             valueRange = 0f..50f,
+            internalStateTransformation = {
+                it.roundToTwoDigits()
+            },
             onValueChange = viewModel::setCornerRadius,
             sliderModifier = Modifier
                 .padding(
@@ -333,6 +343,9 @@ fun CollageMakerContent(
         ImageFormatSelector(
             value = viewModel.imageFormat,
             onValueChange = viewModel::setImageFormat,
+            entries = if (viewModel.backgroundColor.alpha != 1f) {
+                ImageFormatGroup.alphaContainedEntries
+            } else ImageFormatGroup.entries,
             forceEnabled = true
         )
     }
