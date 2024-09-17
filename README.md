@@ -483,6 +483,9 @@ or click one of the badges below.
     - Scanning
     - Creating
     - Sharing as images
+- Collage Creation
+    - From 2 to 10 images
+    - More than 180 various collage layouts
 - Image Shrinking
     - Quality compressing
     - Preset shrinking
