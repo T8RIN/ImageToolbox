@@ -1388,4 +1388,8 @@
     <string name="hide_all">Alles verbergen</string>
     <string name="jitter">Jitter</string>
     <string name="custom_filename_sub">Selecteer de locatie en bestandsnaam die worden gebruikt om de huidige afbeelding op te slaan</string>
+    <string name="collage_maker">Collagemaker</string>
+    <string name="collage_maker_sub">Maak verschillende collages van 2-10 afbeeldingen</string>
+    <string name="collage_type">Collagetype</string>
+    <string name="pick_up_to_ten_images">Kies tot 10 afbeeldingen</string>
 </resources>
