@@ -32,12 +32,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -51,7 +49,6 @@ class CollageMakerViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
@@ -101,22 +98,7 @@ class CollageMakerViewModel @Inject constructor(
     fun updateUris(uris: List<Uri>?) {
         viewModelScope.launch {
             _isImageLoading.update { true }
-            _uris.update {
-                uris?.mapNotNull {
-                    val image =
-                        imageGetter.getImage(it, IntegerSize(2000, 2000)) ?: return@mapNotNull null
-
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = ImageInfo(
-                            width = image.width,
-                            height = image.height,
-                            quality = Quality.Base(100),
-                            imageFormat = ImageFormat.Png.Lossless
-                        )
-                    )?.toUri()
-                }
-            }
+            _uris.update { uris }
             _isImageLoading.update { false }
         }
     }

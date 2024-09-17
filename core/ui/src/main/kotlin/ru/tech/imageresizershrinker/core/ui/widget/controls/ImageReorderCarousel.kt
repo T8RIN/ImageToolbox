@@ -237,10 +237,13 @@ fun ImageReorderCarousel(
                 contentPadding = PaddingValues(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsIndexed(data.value, key = { _, uri -> uri.hashCode() }) { index, uri ->
+                itemsIndexed(
+                    items = data.value,
+                    key = { _, uri -> uri.toString() + uri.hashCode() }
+                ) { index, uri ->
                     ReorderableItem(
                         reorderableState = state,
-                        key = uri.hashCode()
+                        key = uri.toString() + uri.hashCode()
                     ) { isDragging ->
                         val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)

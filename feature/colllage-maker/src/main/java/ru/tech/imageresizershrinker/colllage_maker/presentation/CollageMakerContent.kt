@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -218,10 +219,14 @@ fun CollageMakerContent(
 
     val collagePreview: @Composable () -> Unit = {
         Box(
-            modifier = Modifier.container(
-                shape = RoundedCornerShape(4.dp),
-                resultPadding = 0.dp
-            )
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .container(
+                    shape = RoundedCornerShape(4.dp),
+                    resultPadding = 0.dp
+                ),
+            contentAlignment = Alignment.Center
         ) {
             Collage(
                 modifier = Modifier
