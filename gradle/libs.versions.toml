@@ -38,7 +38,7 @@ detekt = "1.23.7"
 detektCompose = "0.4.12"
 
 kotlin = "1.9.25"
-agp = "8.6.0"
+agp = "8.6.1"
 hilt = "2.52"
 gms = "4.4.2"
 
