@@ -747,7 +747,7 @@ fun ColorToolsContent(
                                     .fillMaxWidth()
                                     .height(250.dp),
                                 initialType = HistogramType.RGB,
-                                swapTypesOnTap = false,
+                                onSwapType = null,
                                 linesThickness = 1.dp,
                                 bordersShape = RoundedCornerShape(6.dp)
                             )
@@ -757,7 +757,17 @@ fun ColorToolsContent(
                                     .fillMaxWidth()
                                     .height(250.dp),
                                 initialType = HistogramType.Brightness,
-                                swapTypesOnTap = false,
+                                onSwapType = null,
+                                linesThickness = 1.dp,
+                                bordersShape = RoundedCornerShape(6.dp)
+                            )
+                            ImageHistogram(
+                                imageUri = imageUri,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp),
+                                initialType = HistogramType.Camera,
+                                onSwapType = null,
                                 linesThickness = 1.dp,
                                 bordersShape = RoundedCornerShape(6.dp)
                             )
