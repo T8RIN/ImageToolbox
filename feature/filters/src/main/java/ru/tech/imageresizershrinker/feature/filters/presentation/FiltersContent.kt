@@ -96,7 +96,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import com.t8rin.histogram.HistogramRGB
+import com.t8rin.histogram.ImageHistogram
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -474,7 +474,7 @@ fun FiltersContent(
                 title = stringResource(R.string.histogram),
                 subtitle = stringResource(R.string.histogram_sub),
                 endIcon = {
-                    HistogramRGB(
+                    ImageHistogram(
                         image = viewModel.previewBitmap,
                         modifier = Modifier
                             .width(100.dp)

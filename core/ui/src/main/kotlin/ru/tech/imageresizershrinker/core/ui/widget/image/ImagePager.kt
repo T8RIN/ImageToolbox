@@ -88,7 +88,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.t8rin.histogram.HistogramRGB
+import com.t8rin.histogram.ImageHistogram
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -188,7 +188,7 @@ fun ImagePager(
             val moreThanOneUri = (uris?.size ?: 0) > 1
 
             val histogram: @Composable () -> Unit = {
-                HistogramRGB(
+                ImageHistogram(
                     imageUri = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
                     modifier = Modifier
                         .height(50.dp)

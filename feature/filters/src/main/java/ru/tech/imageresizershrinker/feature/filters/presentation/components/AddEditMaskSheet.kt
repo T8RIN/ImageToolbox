@@ -76,7 +76,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
-import com.t8rin.histogram.HistogramRGB
+import com.t8rin.histogram.ImageHistogram
 import dagger.hilt.android.lifecycle.HiltViewModel
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -397,7 +397,7 @@ fun AddEditMaskSheet(
                                         title = stringResource(R.string.histogram),
                                         subtitle = stringResource(R.string.histogram_sub),
                                         endIcon = {
-                                            HistogramRGB(
+                                            ImageHistogram(
                                                 image = viewModel.previewBitmap,
                                                 modifier = Modifier
                                                     .width(100.dp)

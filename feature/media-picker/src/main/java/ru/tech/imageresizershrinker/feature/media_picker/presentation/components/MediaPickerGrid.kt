@@ -105,7 +105,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
-import com.t8rin.histogram.HistogramRGB
+import com.t8rin.histogram.ImageHistogram
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -385,7 +385,7 @@ fun MediaPickerGrid(
                 val moreThanOneUri = state.media.size > 1
                 val currentMedia = state.media.getOrNull(pagerState.currentPage)
                 val histogram: @Composable () -> Unit = {
-                    HistogramRGB(
+                    ImageHistogram(
                         imageUri = currentMedia?.uri?.toUri() ?: Uri.EMPTY,
                         modifier = Modifier
                             .height(50.dp)
