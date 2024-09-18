@@ -43,6 +43,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
@@ -206,13 +207,17 @@ fun SingleEditContent(
     var showDrawing by rememberSaveable { mutableStateOf(false) }
     var showEraseBackground by rememberSaveable { mutableStateOf(false) }
 
+
     AdaptiveLayoutScreen(
         title = {
+            val originalSize = viewModel.uri.fileSize(context) ?: 0
+            val compressedSize = viewModel.imageInfo.sizeInBytes.toLong()
             TopAppBarTitle(
                 title = stringResource(R.string.single_edit),
                 input = viewModel.bitmap,
                 isLoading = viewModel.isImageLoading,
-                size = viewModel.imageInfo.sizeInBytes.toLong()
+                size = compressedSize,
+                originalSize = originalSize
             )
         },
         onGoBack = onBack,

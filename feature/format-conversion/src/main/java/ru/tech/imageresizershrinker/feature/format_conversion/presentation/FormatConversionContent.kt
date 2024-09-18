@@ -44,6 +44,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -189,7 +190,8 @@ fun FormatConversionContent(
                 title = stringResource(R.string.format_conversion),
                 input = viewModel.bitmap,
                 isLoading = viewModel.isImageLoading,
-                size = viewModel.imageInfo.sizeInBytes.toLong()
+                size = viewModel.imageInfo.sizeInBytes.toLong(),
+                originalSize = viewModel.selectedUri?.fileSize(context)
             )
         },
         onGoBack = onBack,
