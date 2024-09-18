@@ -16,6 +16,7 @@
  */
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.components
 
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -40,6 +41,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -49,7 +51,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
@@ -86,6 +90,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -99,6 +104,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
+import com.t8rin.histogram.HistogramRGB
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -375,6 +382,17 @@ fun MediaPickerGrid(
                         MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
                     )
             ) {
+                val moreThanOneUri = state.media.size > 1
+                val currentMedia = state.media.getOrNull(pagerState.currentPage)
+                val histogram: @Composable () -> Unit = {
+                    HistogramRGB(
+                        imageUri = currentMedia?.uri?.toUri() ?: Uri.EMPTY,
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(90.dp),
+                        bordersColor = Color.White
+                    )
+                }
                 val imageErrorPages = remember {
                     mutableStateListOf<Int>()
                 }
@@ -454,7 +472,6 @@ fun MediaPickerGrid(
                         )
                     }
                 }
-                val currentMedia = state.media.getOrNull(pagerState.currentPage)
                 AnimatedVisibility(
                     visible = draggableState.offset == 0f,
                     modifier = Modifier.fillMaxWidth(),
@@ -475,7 +492,7 @@ fun MediaPickerGrid(
                                         .padding(vertical = 4.dp, horizontal = 12.dp),
                                     color = White
                                 )
-                            }
+                            } ?: histogram()
                         },
                         actions = {
                             val isImageError = imageErrorPages.contains(pagerState.currentPage)
@@ -517,7 +534,7 @@ fun MediaPickerGrid(
                     )
                 }
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty(),
+                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty() && !moreThanOneUri,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -544,6 +561,42 @@ fun MediaPickerGrid(
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
+                    }
+                }
+
+                AnimatedVisibility(
+                    visible = draggableState.offset == 0f && pagerState.currentPage !in imageErrorPages && moreThanOneUri,
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    enter = fadeIn() + slideInVertically { it / 2 },
+                    exit = fadeOut() + slideOutVertically { it / 2 }
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.scrim.copy(0.5f))
+                            .navigationBarsPadding()
+                            .padding(
+                                WindowInsets.displayCutout
+                                    .only(
+                                        WindowInsetsSides.Horizontal
+                                    )
+                                    .asPaddingValues()
+                            )
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        currentMedia?.label?.let {
+                            Text(
+                                text = it,
+                                modifier = Modifier
+                                    .animateContentSize()
+                                    .weight(1f),
+                                color = White,
+                                style = MaterialTheme.typography.labelLarge,
+                            )
+                            Spacer(Modifier.width(16.dp))
+                        }
+                        histogram()
                     }
                 }
             }

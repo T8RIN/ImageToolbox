@@ -65,6 +65,7 @@ dependencies {
     api(libs.toolbox.zoomable)
     api(libs.toolbox.snowfall)
     api(libs.toolbox.extendedcolors)
+    api(libs.toolbox.histogram)
 
     api(libs.reorderable)
 

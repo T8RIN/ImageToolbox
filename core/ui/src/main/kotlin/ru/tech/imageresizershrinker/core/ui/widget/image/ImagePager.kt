@@ -37,16 +37,23 @@ import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -71,6 +78,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
@@ -80,6 +88,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.t8rin.histogram.HistogramRGB
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -155,7 +164,7 @@ fun ImagePager(
         val pagerState = rememberPagerState(
             initialPage = selectedUri?.let {
                 uris?.indexOf(it)
-            } ?: 0,
+            }?.takeIf { it >= 0 } ?: 0,
             pageCount = {
                 uris?.size ?: 0
             }
@@ -176,6 +185,17 @@ fun ImagePager(
                     MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
                 )
         ) {
+            val moreThanOneUri = (uris?.size ?: 0) > 1
+
+            val histogram: @Composable () -> Unit = {
+                HistogramRGB(
+                    imageUri = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(90.dp),
+                    bordersColor = Color.White
+                )
+            }
             val imageErrorPages = remember {
                 mutableStateListOf<Int>()
             }
@@ -274,7 +294,7 @@ fun ImagePager(
                                     .padding(vertical = 4.dp, horizontal = 12.dp),
                                 color = White
                             )
-                        }
+                        } ?: histogram()
                     },
                     actions = {
                         AnimatedVisibility(
@@ -336,7 +356,7 @@ fun ImagePager(
             }
 
             AnimatedVisibility(
-                visible = draggableState.offset == 0f && !selectedUriFilename.isNullOrEmpty(),
+                visible = draggableState.offset == 0f && !selectedUriFilename.isNullOrEmpty() && !moreThanOneUri,
                 modifier = Modifier.fillMaxWidth(),
                 enter = fadeIn() + slideInVertically(),
                 exit = fadeOut() + slideOutVertically()
@@ -363,6 +383,42 @@ fun ImagePager(
                             style = MaterialTheme.typography.labelMedium
                         )
                     }
+                }
+            }
+
+            AnimatedVisibility(
+                visible = draggableState.offset == 0f && pagerState.currentPage !in imageErrorPages && moreThanOneUri,
+                modifier = Modifier.align(Alignment.BottomEnd),
+                enter = fadeIn() + slideInVertically { it / 2 },
+                exit = fadeOut() + slideOutVertically { it / 2 }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.scrim.copy(0.5f))
+                        .navigationBarsPadding()
+                        .padding(
+                            WindowInsets.displayCutout
+                                .only(
+                                    WindowInsetsSides.Horizontal
+                                )
+                                .asPaddingValues()
+                        )
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    selectedUriFilename?.let {
+                        Text(
+                            text = it,
+                            modifier = Modifier
+                                .animateContentSize()
+                                .weight(1f),
+                            color = White,
+                            style = MaterialTheme.typography.labelLarge,
+                        )
+                        Spacer(Modifier.width(16.dp))
+                    }
+                    histogram()
                 }
             }
         }
