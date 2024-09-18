@@ -1388,4 +1388,8 @@
     <string name="custom_filename">自定义文件名</string>
     <string name="custom_filename_sub">选择用于保存当前图像的位置和文件名</string>
     <string name="saved_to_custom">保存到以自定义名称的文件夹中</string>
+    <string name="collage_maker">拼贴画制作器</string>
+    <string name="collage_type">拼贴画类型</string>
+    <string name="pick_up_to_ten_images">最多可选取10张图片</string>
+    <string name="collage_maker_sub">用 2-10 张图片制作各种拼贴画</string>
 </resources>

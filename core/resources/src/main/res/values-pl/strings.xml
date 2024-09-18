@@ -236,7 +236,7 @@
     <string name="load_image_from_net">Załaduj obraz z sieci</string>
     <string name="edit">Edycja</string>
     <string name="order">Kolejność</string>
-    <string name="order_sub">Określa kolejność opcji na ekranie głównym</string>
+    <string name="order_sub">Określa kolejność narzędzi na ekranie głównym</string>
     <string name="content_scale">Skala zawartości</string>
     <string name="sequence_num">Sekwencja liczb</string>
     <string name="original_filename">Oryginalna nazwa pliku</string>
@@ -315,7 +315,7 @@
     <string name="invert_colors">Odwróć kolory</string>
     <string name="invert_colors_sub">Zamienia kolory motywu na negatywne</string>
     <string name="search_option">Szukaj</string>
-    <string name="search_option_sub">Umożliwia przeszukiwanie wszystkich dostępnych opcji na ekranie głównym</string>
+    <string name="search_option_sub">Umożliwia przeszukiwanie wszystkich dostępnych narzędzi na ekranie głównym</string>
     <string name="scale_small_images_to_large_sub">Jeśli ta opcja jest włączona, małe obrazy zostaną przeskalowane do największego w sekwencji</string>
     <string name="background_remover">Usuwanie tła</string>
     <string name="symbols">Symbole</string>
@@ -947,4 +947,21 @@
     <string name="tag_exposure_time">Czas ekspozycji</string>
     <string name="tag_f_number">Numer F</string>
     <string name="tag_exposure_program">Program ekspozycji</string>
+    <string name="tag_sharpness">Ostrość</string>
+    <string name="tag_camera_owner_name">Nazwa użytkownika aparatu</string>
+    <string name="tag_saturation">Nasycenie</string>
+    <string name="tag_lens_specification">Specyfikacja obiektywu</string>
+    <string name="tag_lens_make">Producent obiektywu</string>
+    <string name="tag_lens_model">Model obiektywu</string>
+    <string name="tag_lens_serial_number">Numer seryjny obiektywu</string>
+    <string name="font_size">Rozmiar czcionki</string>
+    <string name="watermark_size">Rozmiar znaku wodnego</string>
+    <string name="document_scanner">Skaner dokumentów</string>
+    <string name="click_to_start_scanning">Dotknij aby zacząć skanować</string>
+    <string name="start_scanning">Skanuj</string>
+    <string name="save_as_pdf">Zapisz jako PDF</string>
+    <string name="share_as_pdf">Udostępnij jako PDF</string>
+    <string name="options_below_is_for_images">Poniższe opcje dotyczą zapisywania skanów jako obrazów, a nie pliku PDF</string>
+    <string name="antialias_sub">Włącza antyaliasing aby uniknąć ostrych krawędzi</string>
+    <string name="document_scanner_sub">Skanuj dokumenty i utwórz PDF albo zapisz je jako oddzielne zdjęcia</string>
 </resources>
