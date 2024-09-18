@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -75,6 +76,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
+import com.t8rin.histogram.HistogramRGB
 import dagger.hilt.android.lifecycle.HiltViewModel
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -107,9 +109,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
@@ -339,12 +343,13 @@ fun AddEditMaskSheet(
                         Row(
                             Modifier
                                 .then(
-                                    if (imageState.isBlocked && isPortrait) Modifier.padding(
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        bottom = 16.dp
-                                    )
-                                    else Modifier.padding(16.dp)
+                                    if (imageState.isBlocked && isPortrait) {
+                                        Modifier.padding(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            bottom = 16.dp
+                                        )
+                                    } else Modifier.padding(16.dp)
                                 )
                                 .container(shape = CircleShape)
                         ) {
@@ -386,23 +391,45 @@ fun AddEditMaskSheet(
                         }
 
                         AnimatedVisibility(visible = canSave) {
-                            PreferenceRowSwitch(
-                                title = stringResource(id = R.string.mask_preview),
-                                subtitle = stringResource(id = R.string.mask_preview_sub),
-                                color = animateColorAsState(
-                                    if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
-                                    else Color.Unspecified,
-                                ).value,
-                                modifier = Modifier.padding(horizontal = 16.dp),
-                                shape = RoundedCornerShape(24.dp),
-                                contentColor = animateColorAsState(
-                                    if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.onSurface
-                                ).value,
-                                onClick = viewModel::togglePreviewMode,
-                                checked = maskPreviewModeEnabled,
-                                startIcon = Icons.Rounded.Preview
-                            )
+                            Column {
+                                BoxAnimatedVisibility(maskPreviewModeEnabled) {
+                                    PreferenceItemOverload(
+                                        title = stringResource(R.string.histogram),
+                                        subtitle = stringResource(R.string.histogram_sub),
+                                        endIcon = {
+                                            HistogramRGB(
+                                                image = viewModel.previewBitmap,
+                                                modifier = Modifier
+                                                    .width(100.dp)
+                                                    .height(50.dp),
+                                                bordersColor = Color.White
+                                            )
+                                        },
+                                        shape = RoundedCornerShape(24.dp),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
+                                            .padding(bottom = 8.dp)
+                                    )
+                                }
+                                PreferenceRowSwitch(
+                                    title = stringResource(id = R.string.mask_preview),
+                                    subtitle = stringResource(id = R.string.mask_preview_sub),
+                                    color = animateColorAsState(
+                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
+                                        else Color.Unspecified,
+                                    ).value,
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    shape = RoundedCornerShape(24.dp),
+                                    contentColor = animateColorAsState(
+                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
+                                        else MaterialTheme.colorScheme.onSurface
+                                    ).value,
+                                    onClick = viewModel::togglePreviewMode,
+                                    checked = maskPreviewModeEnabled,
+                                    startIcon = Icons.Rounded.Preview
+                                )
+                            }
                         }
 
                         Column(
@@ -426,14 +453,14 @@ fun AddEditMaskSheet(
                                 modifier = Modifier.padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    top = 16.dp
+                                    top = 8.dp
                                 )
                             )
                             DrawPathModeSelector(
                                 modifier = Modifier.padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    top = 16.dp
+                                    top = 8.dp
                                 ),
                                 values = remember {
                                     listOf(
@@ -453,7 +480,7 @@ fun AddEditMaskSheet(
                                 modifier = Modifier.padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    top = 16.dp
+                                    top = 8.dp
                                 ),
                                 color = Color.Unspecified,
                                 value = strokeWidth.value,
@@ -461,7 +488,7 @@ fun AddEditMaskSheet(
                             )
                             BrushSoftnessSelector(
                                 modifier = Modifier
-                                    .padding(top = 16.dp, end = 16.dp, start = 16.dp),
+                                    .padding(top = 8.dp, end = 16.dp, start = 16.dp),
                                 color = Color.Unspecified,
                                 value = brushSoftness.value,
                                 onValueChange = { brushSoftness = it.pt }
@@ -475,7 +502,7 @@ fun AddEditMaskSheet(
                             modifier = Modifier.padding(
                                 start = 16.dp,
                                 end = 16.dp,
-                                top = 16.dp
+                                top = 8.dp
                             ),
                             color = Color.Unspecified,
                             resultModifier = Modifier.padding(16.dp),
@@ -494,7 +521,7 @@ fun AddEditMaskSheet(
                             if (notEmpty) {
                                 Column(
                                     Modifier
-                                        .padding(16.dp)
+                                        .padding(horizontal = 16.dp, vertical = 8.dp)
                                         .container(MaterialTheme.shapes.extraLarge)
                                 ) {
                                     TitleItem(text = stringResource(R.string.filters))
@@ -547,7 +574,7 @@ fun AddEditMaskSheet(
                                     onClick = {
                                         showAddFilterSheet = true
                                     },
-                                    modifier = Modifier.padding(16.dp)
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                                 )
                             }
                         }

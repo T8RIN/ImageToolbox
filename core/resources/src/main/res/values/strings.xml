@@ -1410,4 +1410,7 @@
     <string name="collage_maker_sub">Make various collages from 2..10 images</string>
     <string name="collage_type">Collage Type</string>
     <string name="pick_up_to_ten_images">Pick up to 10 images</string>
+    <string name="collages_info">Hold image to swap, move and zoom to adjust position</string>
+    <string name="histogram">Histogram</string>
+    <string name="histogram_sub">RGB or Brightness image histogram to help you make adjustments</string>
 </resources>

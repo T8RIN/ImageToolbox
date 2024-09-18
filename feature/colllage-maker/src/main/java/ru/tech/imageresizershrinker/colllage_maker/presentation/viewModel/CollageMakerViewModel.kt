@@ -52,7 +52,7 @@ class CollageMakerViewModel @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
 
-    private val _spacing = mutableFloatStateOf(0f)
+    private val _spacing = mutableFloatStateOf(10f)
     val spacing: Float by _spacing
 
     private val _cornerRadius = mutableFloatStateOf(0f)

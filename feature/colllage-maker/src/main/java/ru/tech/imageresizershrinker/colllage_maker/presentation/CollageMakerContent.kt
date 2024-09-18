@@ -24,8 +24,10 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -38,6 +40,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,6 +48,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.material.icons.rounded.RoundedCorner
 import androidx.compose.material.icons.rounded.Tune
@@ -74,6 +78,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
@@ -218,7 +223,7 @@ fun CollageMakerContent(
         }
     }
 
-    val collagePreview: @Composable () -> Unit = {
+    val collagePreview: @Composable BoxScope.() -> Unit = {
         var isLoading by rememberSaveable(viewModel.uris) {
             mutableStateOf(true)
         }
@@ -228,6 +233,33 @@ fun CollageMakerContent(
                 isLoading = false
             }
         }
+        Row(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .container(
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    resultPadding = 0.dp,
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = stringResource(R.string.collages_info),
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold,
+                lineHeight = 14.sp,
+                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+            )
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()

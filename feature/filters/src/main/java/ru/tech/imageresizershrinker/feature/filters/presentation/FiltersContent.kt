@@ -54,6 +54,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Colorize
@@ -95,6 +96,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
+import com.t8rin.histogram.HistogramRGB
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -145,6 +147,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -466,6 +469,25 @@ fun FiltersContent(
             }
         }
 
+        val histogramItem = @Composable {
+            PreferenceItemOverload(
+                title = stringResource(R.string.histogram),
+                subtitle = stringResource(R.string.histogram_sub),
+                endIcon = {
+                    HistogramRGB(
+                        image = viewModel.previewBitmap,
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(50.dp),
+                        bordersColor = Color.White
+                    )
+                },
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(Modifier.size(8.dp))
+        }
+
         when (filterType) {
             is Screen.Filter.Type.Basic -> {
                 baseControls {
@@ -478,6 +500,7 @@ fun FiltersContent(
                                 showPickImageFromUrisSheet = true
                             }
                         )
+                        if (filterList.isNotEmpty()) histogramItem()
                         AnimatedContent(
                             targetState = filterList.isNotEmpty(),
                             transitionSpec = {
@@ -543,6 +566,7 @@ fun FiltersContent(
                             }
                         }
                         Spacer(Modifier.size(8.dp))
+                        if (filterList.isEmpty()) histogramItem()
                         SaveExifWidget(
                             imageFormat = viewModel.imageInfo.imageFormat,
                             checked = viewModel.keepExif,
@@ -574,6 +598,7 @@ fun FiltersContent(
                     val maskList = viewModel.maskingFilterState.masks
                     if (isPortrait && viewModel.bitmap == null) imageBlock()
                     if (viewModel.bitmap != null) {
+                        if (maskList.isNotEmpty()) histogramItem()
                         AnimatedContent(
                             targetState = maskList.isNotEmpty(),
                             transitionSpec = {
@@ -662,8 +687,8 @@ fun FiltersContent(
                                 }
                             }
                         }
-
                         Spacer(Modifier.size(8.dp))
+                        if (maskList.isEmpty()) histogramItem()
                         SaveExifWidget(
                             imageFormat = viewModel.imageInfo.imageFormat,
                             checked = viewModel.keepExif,
