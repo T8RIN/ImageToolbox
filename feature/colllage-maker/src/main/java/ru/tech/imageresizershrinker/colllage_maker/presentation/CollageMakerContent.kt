@@ -108,6 +108,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
@@ -218,6 +219,15 @@ fun CollageMakerContent(
     }
 
     val collagePreview: @Composable () -> Unit = {
+        var isLoading by rememberSaveable(viewModel.uris) {
+            mutableStateOf(true)
+        }
+        LaunchedEffect(isLoading) {
+            if (isLoading) {
+                delay(500)
+                isLoading = false
+            }
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -225,7 +235,8 @@ fun CollageMakerContent(
                 .container(
                     shape = RoundedCornerShape(4.dp),
                     resultPadding = 0.dp
-                ),
+                )
+                .shimmer(visible = isLoading),
             contentAlignment = Alignment.Center
         ) {
             Collage(
