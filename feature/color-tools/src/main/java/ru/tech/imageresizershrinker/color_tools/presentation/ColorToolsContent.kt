@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.color_tools.presentation
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
@@ -36,6 +37,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AutoGraph
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Blender
 import androidx.compose.material.icons.rounded.ContentCopy
@@ -69,6 +71,8 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHex
 import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHexAlpha
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
+import com.t8rin.histogram.HistogramType
+import com.t8rin.histogram.ImageHistogram
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -89,6 +93,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BackgroundColorSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -201,6 +206,9 @@ fun ColorToolsContent(
                         maxPercent = 1f
                     )
                 }
+            }
+            var imageUri by rememberSaveable {
+                mutableStateOf<Uri?>(null)
             }
             if (isPortrait) {
                 Spacer(modifier = Modifier.height(20.dp))
@@ -699,6 +707,60 @@ fun ColorToolsContent(
                                     }
                                 }
                             }
+                        }
+                    }
+                },
+                initialState = false
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            ExpandableItem(
+                visibleContent = {
+                    TitleItem(
+                        text = stringResource(R.string.histogram),
+                        icon = Icons.Rounded.AutoGraph
+                    )
+                },
+                expandableContent = {
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 8.dp
+                        )
+                    ) {
+                        ImageSelector(
+                            value = imageUri,
+                            onValueChange = {
+                                imageUri = it
+                            },
+                            subtitle = stringResource(R.string.image_for_histogram),
+                            shape = RoundedCornerShape(16.dp),
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            ImageHistogram(
+                                imageUri = imageUri,
+                                modifier = Modifier
+                                    .padding(top = 16.dp)
+                                    .fillMaxWidth()
+                                    .height(250.dp),
+                                initialType = HistogramType.RGB,
+                                swapTypesOnTap = false,
+                                linesThickness = 1.dp,
+                                bordersShape = RoundedCornerShape(6.dp)
+                            )
+                            ImageHistogram(
+                                imageUri = imageUri,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp),
+                                initialType = HistogramType.Brightness,
+                                swapTypesOnTap = false,
+                                linesThickness = 1.dp,
+                                bordersShape = RoundedCornerShape(6.dp)
+                            )
                         }
                     }
                 },
