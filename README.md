@@ -457,101 +457,104 @@ or click one of the badges below.
         - Jzazbz Gamma 2.2
         - Jzazbz Gamma 2.8
 - GIF conversion
-    - GIF to images
-    - Images to GIF
-    - GIF to WEBP
+  - GIF to images
+  - Images to GIF
+  - GIF to WEBP
 - WEBP conversion
-    - WEBP to images
-    - Images to WEBP
+  - WEBP to images
+  - Images to WEBP
 - APNG conversion
-    - APNG to images
-    - Images to APNG
+  - APNG to images
+  - Images to APNG
 - JXL transcoding
-    - JXL to JPEG
-    - JPEG to JXL
+  - JXL to JPEG
+  - JPEG to JXL
 - Animated JXL conversion
-    - Images to JXL
-    - JXL to Images
-    - APNG to JXL
-    - GIF to JXL
+  - Images to JXL
+  - JXL to Images
+  - APNG to JXL
+  - GIF to JXL
 - PDF tools
-    - PDF to images
-    - Images to PDF
-    - PDF previewing
+  - PDF to images
+  - Images to PDF
+  - PDF previewing
 - Document Scanning
 - QR Codes
-    - Scanning
-    - Creating
-    - Sharing as images
+  - Scanning
+  - Creating
+  - Sharing as images
 - Collage Creation
-    - From 2 to 10 images
-    - More than 180 various collage layouts
+  - From 2 to 10 images
+  - More than 180 various collage layouts
 - Image Shrinking
-    - Quality compressing
-    - Preset shrinking
-    - Reducing size by given weight (in KB)
+  - Quality compressing
+  - Preset shrinking
+  - Reducing size by given weight (in KB)
 - Cropping
-    - Regular crop
-    - Crop by aspect ratio
-    - Crop with shape mask
-        - Rounded Corners
-        - Cut Corners
-        - Oval
-        - Squircle
-        - Octagon
-        - Rounded Pentagon
-        - Clover
-        - Material Star
-        - Kotlin Logo
-        - Small Material Star
-        - Heart
-        - Shuriken
-        - Explosion
-        - Bookmark
-        - Pill
-        - Burger
-        - Shield
-        - Droplet
-        - Arrow
-        - Egg
-        - Map
-        - Enhanced Heart
-        - Star
-        - Image Mask
+  - Regular crop
+  - Crop by aspect ratio
+  - Crop with shape mask
+      - Rounded Corners
+      - Cut Corners
+      - Oval
+      - Squircle
+      - Octagon
+      - Rounded Pentagon
+      - Clover
+      - Material Star
+      - Kotlin Logo
+      - Small Material Star
+      - Heart
+      - Shuriken
+      - Explosion
+      - Bookmark
+      - Pill
+      - Burger
+      - Shield
+      - Droplet
+      - Arrow
+      - Egg
+      - Map
+      - Enhanced Heart
+      - Star
+      - Image Mask
 - Tracing raster images to SVG
 - Format Conversion
-    - HEIF
-    - HEIC
-    - AVIF
-    - WEBP
-    - JPEG
-    - JPG
-    - PNG Lossless
-    - PNG Lossy
-    - MozJpeg
-    - Jpegli
-    - JXL
-    - JP2
-    - J2K
-    - TIFF
-    - TIF
-    - QOI
-    - ICO
-    - SVG, DNG, PSD, GIF to static raster images
-    - Telegram sticker PNG format
+  - HEIF
+  - HEIC
+  - AVIF
+  - WEBP
+  - JPEG
+  - JPG
+  - PNG Lossless
+  - PNG Lossy
+  - MozJpeg
+  - Jpegli
+  - JXL
+  - JP2
+  - J2K
+  - TIFF
+  - TIF
+  - QOI
+  - ICO
+  - SVG, DNG, PSD, GIF to static raster images
+  - Telegram sticker PNG format
 - Files to Zip
 - Comparing images
-    - Slide
-    - Toggle Tap
-    - Transparency
-    - Side By Side
+  - Slide
+  - Toggle Tap
+  - Transparency
+  - Side By Side
 - Color Utils
-    - Palette generation
-        - Material You Scheme
-        - Simple Colors
-    - Picking color from image
-    - Gradient creation
-    - Overlaying image with gradient
+  - Palette generation
+      - Material You Scheme
+      - Simple Colors
+  - Picking color from image
+  - Gradient creation
+  - Overlaying image with gradient
+- Histograms
+  - RGB
+  - Brightness
 - Image source selection
 - Added Color Tools option
   - Mixing
