@@ -39,7 +39,7 @@ google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.7"
 detektCompose = "0.4.12"
 
-kotlin = "1.9.25"
+kotlin = "2.0.20"
 agp = "8.6.1"
 hilt = "2.52"
 gms = "4.4.2"
