@@ -48,6 +48,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import coil.request.ImageRequest
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
@@ -78,7 +79,7 @@ fun ImageBitmap.clipBitmap(
 
 fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     val image = this.asAndroidBitmap()
-    return Bitmap.createBitmap(image.width, image.height, image.config).applyCanvas {
+    return Bitmap.createBitmap(image.width, image.height, image.safeConfig).applyCanvas {
         drawBitmap(image, Matrix(), null)
         drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
     }.asImageBitmap()

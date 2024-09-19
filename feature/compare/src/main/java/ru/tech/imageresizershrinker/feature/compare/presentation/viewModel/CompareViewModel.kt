@@ -28,6 +28,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -195,7 +196,7 @@ class CompareViewModel @Inject constructor(
         overlay: Bitmap,
         percent: Float
     ): Bitmap {
-        val finalBitmap = overlay.copy(overlay.config, true).apply { setHasAlpha(true) }
+        val finalBitmap = overlay.copy(overlay.safeConfig, true).apply { setHasAlpha(true) }
         val canvas = android.graphics.Canvas(finalBitmap)
         val image = createScaledBitmap(canvas.width, canvas.height)
         runCatching {

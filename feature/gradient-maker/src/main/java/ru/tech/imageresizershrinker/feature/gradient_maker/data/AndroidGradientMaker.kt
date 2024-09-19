@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.asImageBitmap
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
@@ -64,7 +65,7 @@ internal class AndroidGradientMaker @Inject constructor(
             src.height
         ).toSize()
         gradientState.getBrush(size)?.let { brush ->
-            src.copy(src.config, true).apply {
+            src.copy(src.safeConfig, true).apply {
                 setHasAlpha(true)
 
                 Canvas(asImageBitmap()).apply {

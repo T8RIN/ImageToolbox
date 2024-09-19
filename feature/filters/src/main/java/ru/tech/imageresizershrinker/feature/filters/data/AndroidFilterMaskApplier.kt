@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.exifinterface.media.ExifInterface
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -86,7 +87,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
         pathPaints: List<PathPaint<Path, Color>>,
         inverse: Boolean,
     ): Bitmap {
-        val bitmap = Bitmap.createBitmap(this.width, this.height, this.config)
+        val bitmap = Bitmap.createBitmap(this.width, this.height, this.safeConfig)
             .apply { setHasAlpha(true) }
         val canvasSize = bitmap.run { IntegerSize(width, height) }
         Canvas(bitmap).apply {
@@ -154,7 +155,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
+        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.safeConfig)
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(image, Matrix(), null)
         canvas.drawBitmap(overlay, 0f, 0f, null)

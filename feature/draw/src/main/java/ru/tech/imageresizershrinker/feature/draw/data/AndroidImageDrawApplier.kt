@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.res.ResourcesCompat
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -98,7 +99,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
             else -> null
         }
 
-        val drawImage = image?.let { image.copy(image.config, true) }
+        val drawImage = image?.let { image.copy(image.safeConfig, true) }
 
         drawImage?.let { bitmap ->
             val canvas = Canvas(bitmap)
@@ -250,7 +251,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
         image: Bitmap?,
         shaderSourceUri: String
     ): Bitmap? {
-        val drawImage = image?.let { it.copy(it.config, true) }
+        val drawImage = image?.let { it.copy(it.safeConfig, true) }
 
         drawImage?.let {
             val canvas = Canvas(it)
@@ -356,7 +357,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
+        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.safeConfig)
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(image, Matrix(), null)
         canvas.drawBitmap(overlay, 0f, 0f, null)

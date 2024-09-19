@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -45,7 +46,7 @@ private fun Bitmap.fastBlur(
     val width = (sentBitmap.width * scale).roundToInt().coerceAtLeast(1)
     val height = (sentBitmap.height * scale).roundToInt().coerceAtLeast(1)
     sentBitmap = Bitmap.createScaledBitmap(sentBitmap, width, height, true)
-    val bitmap = sentBitmap.copy(sentBitmap.config, true)
+    val bitmap = sentBitmap.copy(sentBitmap.safeConfig, true)
     if (radius < 1) {
         return this
     }
