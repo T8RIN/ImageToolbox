@@ -1595,4 +1595,5 @@
     <string name="resolution_y"></string>
     <string name="grid_size"></string>
     <string name="tag_offset_time"></string>
+    <string name="tag_pixel_x_dimension"></string>
 </resources>
