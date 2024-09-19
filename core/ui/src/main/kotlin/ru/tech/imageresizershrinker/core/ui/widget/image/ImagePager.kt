@@ -354,9 +354,10 @@ fun ImagePager(
                     }
                 }
             }
+            val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
 
             AnimatedVisibility(
-                visible = draggableState.offset == 0f && !selectedUriFilename.isNullOrEmpty() && !moreThanOneUri,
+                visible = draggableState.offset == 0f && !selectedUriFilename.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist),
                 modifier = Modifier.fillMaxWidth(),
                 enter = fadeIn() + slideInVertically(),
                 exit = fadeOut() + slideOutVertically()
@@ -387,7 +388,7 @@ fun ImagePager(
             }
 
             AnimatedVisibility(
-                visible = draggableState.offset == 0f && pagerState.currentPage !in imageErrorPages && moreThanOneUri,
+                visible = draggableState.offset == 0f && showBottomHist,
                 modifier = Modifier.align(Alignment.BottomEnd),
                 enter = fadeIn() + slideInVertically { it / 2 },
                 exit = fadeOut() + slideOutVertically { it / 2 }

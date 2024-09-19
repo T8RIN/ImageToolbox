@@ -533,8 +533,11 @@ fun MediaPickerGrid(
                         },
                     )
                 }
+
+                val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
+
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty() && !moreThanOneUri,
+                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist),
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -565,7 +568,7 @@ fun MediaPickerGrid(
                 }
 
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && pagerState.currentPage !in imageErrorPages && moreThanOneUri,
+                    visible = draggableState.offset == 0f && showBottomHist,
                     modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
                     exit = fadeOut() + slideOutVertically { it / 2 }
