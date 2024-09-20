@@ -4,7 +4,11 @@
 
 </div>
 
-<h1 align="center">Image Toolbox</h1>
+<div align="center">
+  
+# Image Toolbox
+
+</div>
 
 </br>
 
@@ -44,7 +48,7 @@
 
 <div align="center">
 
-## Project Overview
+# 🗺️ Project Overview
 
 ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs. Ideal for both photographers and developers, the tool offers a simple interface with powerful capabilities.
 
@@ -102,7 +106,7 @@ or click one of the badges below.
 </p>
 </div>
 
-## Installation Instructions
+# 💻 Installation Instructions
 
 1. Clone the repository:
    ```bash
