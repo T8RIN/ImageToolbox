@@ -1392,4 +1392,8 @@
     <string name="collage_type">拼贴画类型</string>
     <string name="pick_up_to_ten_images">最多可选取10张图片</string>
     <string name="collage_maker_sub">用 2-10 张图片制作各种拼贴画</string>
+    <string name="collages_info">按住图像进行交换、移动和缩放以调整位置</string>
+    <string name="image_for_histogram">该图像将用于生成 RGB 和亮度直方图</string>
+    <string name="histogram">柱状图</string>
+    <string name="histogram_sub">RGB 或亮度图像直方图来帮助您进行调整</string>
 </resources>
