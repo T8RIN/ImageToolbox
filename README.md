@@ -42,21 +42,13 @@
   </a>
 </p>
 
+<div align="center">
+
 ## Project Overview
 
 ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs. Ideal for both photographers and developers, the tool offers a simple interface with powerful capabilities.
 
-## Installation Instructions
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/ImageToolbox.git
-   ```
-2. Install dependencies using your preferred package manager (e.g., Gradle).
-3. Build the project:
-   bash ./gradlew build
-4. Run the application:
-   bash ./gradlew run
+</div>
 
 <p align="middle">
     <img src="./fastlane/metadata/android/en-US/images/banner/banner1.png" width="99%" />
@@ -109,6 +101,19 @@ or click one of the badges below.
     <a href="https://github.com/t8rin/imageresizer/releases/latest"><img alt="GitHub" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
 </p>
 </div>
+
+## Installation Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ImageToolbox.git
+   ```
+2. Install dependencies using your preferred package manager (e.g., Gradle).
+3. Build the project:
+   bash ./gradlew build
+4. Run the application:
+   bash ./gradlew run
+
 
 # ✨ Features
 
