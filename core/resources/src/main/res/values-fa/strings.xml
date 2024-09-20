@@ -84,7 +84,7 @@
     <string name="custom">سفارشی</string>
     <string name="unspecified">نامشخص</string>
     <string name="device_storage">ذخیره سازی دستگاه</string>
-    <string name="by_bytes_resize">تغییر اندازه بر اساس وزن</string>
+    <string name="by_bytes_resize">تغییر اندازه بر اساس حجم</string>
     <string name="max_bytes">حداکثر اندازه در کیلوبایت</string>
     <string name="by_bytes_resize_sub">اندازه یک تصویر را با توجه به اندازه داده شده در کیلوبایت تغییر دهید</string>
     <string name="compare">مقایسه کنید</string>
@@ -487,7 +487,7 @@
     <string name="auto_rotate_limits_sub">اجازه می دهد تا جعبه محدودیت برای جهت گیری تصویر اتخاذ شود</string>
     <string name="draw_path_mode">حالت مسیر ترسیم</string>
     <string name="double_line_arrow">پیکان دو خطی</string>
-    <string name="free_drawing">نقاشی رایگان</string>
+    <string name="free_drawing">نقاشی آزاد</string>
     <string name="double_arrow">دو فلش</string>
     <string name="line_arrow">پیکان خط</string>
     <string name="arrow">فلش</string>
@@ -508,7 +508,7 @@
     <string name="outlined_rect_sub">رئوس مطالب را از نقطه شروع تا پایان رسم می کند</string>
     <string name="lasso">کمند</string>
     <string name="lasso_sub">مسیر پر بسته را بر اساس مسیر داده شده ترسیم می کند</string>
-    <string name="free">رایگان</string>
+    <string name="free">آزاد</string>
     <string name="horizontal_grid">شبکه افقی</string>
     <string name="vertical_grid">شبکه عمودی</string>
     <string name="stitch_mode">حالت دوخت</string>
