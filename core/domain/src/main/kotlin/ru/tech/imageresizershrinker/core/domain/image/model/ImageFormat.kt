@@ -169,12 +169,12 @@ sealed class ImageFormat(
         mimeType = "image/heic",
         canChangeCompressionValue = canChangeCompressionValue
     ) {
-        data object Lossless : Heif(
+        data object Lossless : Heic(
             title = "HEIC Lossless",
             canChangeCompressionValue = false
         )
 
-        data object Lossy : Heif(
+        data object Lossy : Heic(
             title = "HEIC Lossy",
             canChangeCompressionValue = true
         )
