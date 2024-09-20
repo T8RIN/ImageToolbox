@@ -60,6 +60,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -107,7 +108,8 @@ internal fun MediaPickerActivity.MediaPickerRoot(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
             isPermissionAllowed = hasPermissionAllowed(permission)
-            isManagePermissionAllowed = Environment.isExternalStorageManager()
+            isManagePermissionAllowed =
+                Environment.isExternalStorageManager() || isInstalledFromPlayStore()
             if (!hasPermissionAllowed(permission)) {
                 ActivityCompat.requestPermissions(
                     this@MediaPickerRoot,
