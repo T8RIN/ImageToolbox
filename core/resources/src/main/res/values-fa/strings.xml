@@ -84,7 +84,7 @@
     <string name="custom">سفارشی</string>
     <string name="unspecified">نامشخص</string>
     <string name="device_storage">ذخیره سازی دستگاه</string>
-    <string name="by_bytes_resize">تغییر اندازه بر اساس وزن</string>
+    <string name="by_bytes_resize">تغییر اندازه بر اساس حجم</string>
     <string name="max_bytes">حداکثر اندازه در کیلوبایت</string>
     <string name="by_bytes_resize_sub">اندازه یک تصویر را با توجه به اندازه داده شده در کیلوبایت تغییر دهید</string>
     <string name="compare">مقایسه کنید</string>
