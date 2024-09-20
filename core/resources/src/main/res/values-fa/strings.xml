@@ -508,7 +508,7 @@
     <string name="outlined_rect_sub">رئوس مطالب را از نقطه شروع تا پایان رسم می کند</string>
     <string name="lasso">کمند</string>
     <string name="lasso_sub">مسیر پر بسته را بر اساس مسیر داده شده ترسیم می کند</string>
-    <string name="free">رایگان</string>
+    <string name="free">آزاد</string>
     <string name="horizontal_grid">شبکه افقی</string>
     <string name="vertical_grid">شبکه عمودی</string>
     <string name="stitch_mode">حالت دوخت</string>
