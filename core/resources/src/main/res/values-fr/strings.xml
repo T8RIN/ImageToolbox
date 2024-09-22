@@ -142,7 +142,7 @@
     <string name="edit">Modifier</string>
     <string name="order">Commander</string>
     <string name="options_arrangement">Disposition des options</string>
-    <string name="order_sub">Détermine l’ordre des options sur l’écran principal</string>
+    <string name="order_sub">Détermine l’ordre des outils sur l’écran principal</string>
     <string name="emojis_count">Nombre d’émojis</string>
     <string name="add_original_filename">Ajouter le nom de fichier original</string>
     <string name="add_original_filename_sub">Si activé, ajoute le nom de fichier d\'origine au nom de l\'image de sortie</string>
@@ -292,7 +292,7 @@
     <string name="copy">Copier</string>
     <string name="skip">Passer</string>
     <string name="warning_bytes">L’enregistrement en mode %1$s peut être instable, car c\'est un format sans perte</string>
-    <string name="presets_sub" formatted="false">Si vous avez sélectionné le préréglage 125, l\'image sera enregistrée avec une taille de 125 % de l\'image originale et une qualité de 100 %. Si vous sélectionnez le préréglage 50, l\'image sera enregistrée avec une taille de 50 % et une qualité de 50 %.</string>
+    <string name="presets_sub" formatted="false">Si vous avez sélectionné le préréglage 125, l\'image sera enregistrée avec une taille de 125% de l\'image originale. Si vous sélectionnez le préréglage 50, l\'image sera enregistrée avec une taille de 50%</string>
     <string name="presets_sub_bytes">Ici, le préréglage détermine le pourcentage de la taille du fichier de sortie. Par exemple, si vous sélectionnez le préréglage 50 sur une image de 5 Mo, vous obtiendrez une image de 2,5 Mo après l\'enregistrement.</string>
     <string name="saved_to">Enregistré dans le dossier %1$s avec le nom %2$s</string>
     <string name="randomize_filename">Nom de fichier aléatoire</string>
@@ -419,7 +419,7 @@
     <string name="search_option">Chercher</string>
     <string name="images_to_pdf">Images en PDF</string>
     <string name="preview_pdf">Aperçu du PDF</string>
-    <string name="search_option_sub">Permet de rechercher parmi toutes les options disponibles sur l\'écran principal</string>
+    <string name="search_option_sub">Permet de rechercher parmi toutes les outils disponibles sur l\'écran principal</string>
     <string name="disabled">Désactiver</string>
     <string name="pdf_to_images">PDF en images</string>
     <string name="images_to_pdf_sub">Emballer les images données dans le fichier PDF de sortie</string>
