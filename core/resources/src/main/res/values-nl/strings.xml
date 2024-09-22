@@ -1392,4 +1392,8 @@
     <string name="collage_maker_sub">Maak verschillende collages van 2-10 afbeeldingen</string>
     <string name="collage_type">Collagetype</string>
     <string name="pick_up_to_ten_images">Kies tot 10 afbeeldingen</string>
+    <string name="collages_info">Houd de afbeelding ingedrukt om de positie te wisselen, verplaatsen en zoomen</string>
+    <string name="histogram">Histogram</string>
+    <string name="histogram_sub">RGB- of helderheidsbeeldhistogram om je te helpen aanpassingen te maken</string>
+    <string name="image_for_histogram">Deze afbeelding wordt gebruikt om RGB- en helderheidshistogrammen te genereren</string>
 </resources>

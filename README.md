@@ -4,7 +4,11 @@
 
 </div>
 
-<h1 align="center">Image Toolbox</h1>
+<div align="center">
+  
+# Image Toolbox
+
+</div>
 
 </br>
 
@@ -42,9 +46,13 @@
   </a>
 </p>
 
-<h4 align="center">Image Toolbox is a powerful picture editor, which can crop,
+<div align="center">
 
-apply filters, add some drawing, erase background, edit EXIF or even create PDF file</h4>
+# 🗺️ Project Overview
+
+ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs. Ideal for both photographers and developers, the tool offers a simple interface with powerful capabilities.
+
+</div>
 
 <p align="middle">
     <img src="./fastlane/metadata/android/en-US/images/banner/banner1.png" width="99%" />
@@ -80,8 +88,8 @@ apply filters, add some drawing, erase background, edit EXIF or even create PDF 
 This application is completely free, but if you want to support the project development, you can
 send a donation to the crypto wallets below
 
-| </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> ->  ```17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq```  <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> ->  ```TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7```  <- <br/> <br/> |
-|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> -> `17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq` <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> -> `TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7` <- <br/> <br/> |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 
 # 📲 Download
 
@@ -98,6 +106,19 @@ or click one of the badges below.
 </p>
 </div>
 
+# 💻 Installation Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ImageToolbox.git
+   ```
+2. Install dependencies using your preferred package manager (e.g., Gradle).
+3. Build the project:
+   bash ./gradlew build
+4. Run the application:
+   bash ./gradlew run
+
+
 # ✨ Features
 
 - Batch processing
@@ -107,355 +128,356 @@ or click one of the badges below.
   <summary>Available filters</summary>
   <br>
 
-    - [x] Saturation
-    - [x] Contrast
-    - [x] Brightness
-    - [x] Exposure
-    - [x] RGB
-    - [x] Hue
-    - [x] White Balance
-    - [x] Monochrome
-    - [x] Black and White
-    - [x] False Color
-    - [x] Sharpen
-    - [x] Gamma
-    - [x] Highlights and Shadows
-    - [x] Haze
-    - [x] Sepia Tone
-    - [x] Color Inversion
-    - [x] Solarize
-    - [x] Vibrance
-    - [x] Luminance Threshold
-    - [x] Pixellate
-    - [x] Halftone
-    - [x] Crosshatch
-    - [x] Sobel Edge Detection
-    - [x] Sketch Filter
-    - [x] Toon Filter
-    - [x] SmoothToon Filter
-    - [x] CGA Colorspace Filter
-    - [x] Posterize
-    - [x] Convolution 3x3
-    - [x] Emboss Filter
-    - [x] Laplacian
-    - [x] Kuwahara Filter
-    - [x] Vignette
-    - [x] Gaussian Blur
-    - [x] Box Blur
-    - [x] Stack Blur
-    - [x] Fast Blur
-    - [x] Bilaterial Blur
-    - [x] Zoom Blur
-    - [x] Median Blur
-    - [x] Pixelation
-    - [x] Enhanced Pixelation
-    - [x] Stroke Pixelation
-    - [x] Circle Pixelation
-    - [x] Enhanced Circle Pixelation
-    - [x] Diamond Pixelation
-    - [x] Enhanced Diamond Pixelation
-    - [x] Swirl Distortion
-    - [x] Bulge Distortion
-    - [x] Sphere Refraction
-    - [x] Glass Sphere Refraction
-    - [x] Dilation
-    - [x] Non Maximum Suppression
-    - [x] Opacity
-    - [x] Weak Pixel Inclusion Filter
-    - [x] Color Matrix 4x4
-    - [x] Lookup
-    - [x] Color Replacement
-    - [x] Color Removance
-    - [x] Bayer Two Dithering
-    - [x] Bayer Three Dithering
-    - [x] Bayer Four Dithering
-    - [x] Bayer Eight Dithering
-    - [x] Floyd Steinberg Dithering
-    - [x] Jarvis Judice Ninke Dithering
-    - [x] Sierra Dithering
-    - [x] Two Row Sierra Dithering
-    - [x] Sierra Lite Dithering
-    - [x] Atkinson Dithering
-    - [x] Stucki Dithering
-    - [x] Burkes Dithering
-    - [x] False Floyd Steinberg Dithering
-    - [x] Left To Right Dithering
-    - [x] Random Dithering
-    - [x] Simple Threshold Dithering
-    - [x] Quantizier
-    - [x] Glitch Effect
-    - [x] Enhanced Glitch Effect
-    - [x] Anaglyph
-    - [x] Noise
-    - [x] Tent Blur
-    - [x] Side Fade
-    - [x] Erode
-    - [x] Anisotropic Diffusion
-    - [x] Horizontal Wind Stagger
-    - [x] Fast Bilaterial Blur
-    - [x] Poisson Blur
-    - [x] Logarithmic Tone Mapping
-    - [x] Aces Filmic Tone Mapping
-    - [x] Crystallize
-    - [x] Fractal Glass
-    - [x] Marble
-    - [x] Oil
-    - [x] Water Effect
-    - [x] Hable Filmic Tone Mapping
-    - [x] Aces Hill Tone Mapping
-    - [x] Hejl Burgess Tone Mapping
-    - [x] Perlin Distortion
-    - [x] Grayscale
-    - [x] Dehaze
-    - [x] Color Matrix 3x3
-    - [x] Achromatomaly
-    - [x] Achromatopsia
-    - [x] Browni
-    - [x] CodaChrome
-    - [x] Cool
-    - [x] Deutaromaly
-    - [x] Deutaronotopia
-    - [x] Night Vision
-    - [x] Polaroid
-    - [x] Protanopia
-    - [x] Protonomaly
-    - [x] Tritanopia
-    - [x] Tritonomaly
-    - [x] Vintage
-    - [x] Warm
-    - [x] Grain
-    - [x] Unsharp
-    - [x] Pastel
-    - [x] Orange Haze
-    - [x] Pink Dream
-    - [x] Golden Hour
-    - [x] Hot Summer
-    - [x] Purple Mist
-    - [x] Sunrise
-    - [x] Colorful Swirl
-    - [x] Soft Spring Light
-    - [x] Autumn Tones
-    - [x] Lavender Dream
-    - [x] Cyberpunk
-    - [x] Lemonade Light
-    - [x] Spectral Fire
-    - [x] Night Magic
-    - [x] Fantasy Landscape
-    - [x] Color Explosion
-    - [x] Electric Gradient
-    - [x] Caramel Darkness
-    - [x] Futuristic Gradient
-    - [x] Green Sun
-    - [x] Rainbow World
-    - [x] Deep Purple
-    - [x] Space Portal
-    - [x] Red Swirl
-    - [x] Digital Code
-    - [x] Bokeh
-    - [x] Neon
-    - [x] Old Tv
-    - [x] Shuffle Blur
-    - [x] Mobius
-    - [x] Uchimura
-    - [x] Aldridge
-    - [x] Drago
-    - [x] Color Anomaly
-    - [x] Quantizier
-    - [x] Ring Blur
-    - [x] Cross Blur
-    - [x] Circle Blur
-    - [x] Star Blur
-    - [x] Motion Blur
-    - [x] Fast Gaussian Blur 2D
-    - [x] Fast Gaussian Blur 3D
-    - [x] Fast Gaussian Blur 4D
-    - [x] Equalize Histogram
-    - [x] Equalize Histogram HSV
-    - [x] Equalize Histogram Pixelation
-    - [x] Equalize Histogram Adaptive
-    - [x] Equalize Histogram Adaptive LUV
-    - [x] Equalize Histogram Adaptive LAB
-    - [x] Equalize Histogram Adaptive HSV
-    - [x] Equalize Histogram Adaptive HSL
-    - [x] Clahe
-    - [x] Clahe LUV
-    - [x] Clahe LAB
-    - [x] Clahe HSL
-    - [x] Clahe HSV
-    - [x] Crop To Content
-    - [x] Linear Box Blur
-    - [x] Linear Tent Blur
-    - [x] Linear Gaussian Box Blur
-    - [x] Linear Stack Blur
-    - [x] Gaussian Box Blur
-    - [x] Linear Fast Gaussian Next
-    - [x] LinearFast Gaussian
-    - [x] Linear Gaussian
-    - [x] Low Poly
-    - [x] Sand Painting
-    - [x] Palette Transfer
-    - [x] Enhanced Oil
-    - [x] Simple Old TV
-    - [x] HDR
-    - [x] Simple Sketch
-    - [x] Gotham
-    - [x] Color Poster
-    - [x] Tri Tone
-    - [x] Clahe Oklch
-    - [x] Clahe Jzazbz
-    - [x] Clahe Oklab
-    - [x] Yililoma Dithering
-    - [x] Clustered 2x2 Dithering
-    - [x] Clustered 4x4 Dithering
-    - [x] Clustered8x8 Dithering
-    - [x] Polka Dot
-    - [x] LUT 512*512
-    - [x] Amatorka
-    - [x] Miss Etikate
-    - [x] Soft Elegance
-    - [x] Soft Elegance Variant
-    - [x] Bleach Bypass
-    - [x] Candlelight
-    - [x] Drop Blues
-    - [x] Edgy Amber
-    - [x] Fall Colors
-    - [x] Film Stock 50
-    - [x] Foggy Night
-    - [x] Kodak
-    - [x] Palette Transfer Variant
-    - [x] 3D LUT (.cube / .CUBE)
-    - [x] Pop Art
-    - [x] Celluloid
-    - [x] Coffee
-    - [x] Golden Forest
-    - [x] Greenish
-    - [x] Retro Yellow
+  - [x] Saturation
+  - [x] Contrast
+  - [x] Brightness
+  - [x] Exposure
+  - [x] RGB
+  - [x] Hue
+  - [x] White Balance
+  - [x] Monochrome
+  - [x] Black and White
+  - [x] False Color
+  - [x] Sharpen
+  - [x] Gamma
+  - [x] Highlights and Shadows
+  - [x] Haze
+  - [x] Sepia Tone
+  - [x] Color Inversion
+  - [x] Solarize
+  - [x] Vibrance
+  - [x] Luminance Threshold
+  - [x] Pixellate
+  - [x] Halftone
+  - [x] Crosshatch
+  - [x] Sobel Edge Detection
+  - [x] Sketch Filter
+  - [x] Toon Filter
+  - [x] SmoothToon Filter
+  - [x] CGA Colorspace Filter
+  - [x] Posterize
+  - [x] Convolution 3x3
+  - [x] Emboss Filter
+  - [x] Laplacian
+  - [x] Kuwahara Filter
+  - [x] Vignette
+  - [x] Gaussian Blur
+  - [x] Box Blur
+  - [x] Stack Blur
+  - [x] Fast Blur
+  - [x] Bilaterial Blur
+  - [x] Zoom Blur
+  - [x] Median Blur
+  - [x] Pixelation
+  - [x] Enhanced Pixelation
+  - [x] Stroke Pixelation
+  - [x] Circle Pixelation
+  - [x] Enhanced Circle Pixelation
+  - [x] Diamond Pixelation
+  - [x] Enhanced Diamond Pixelation
+  - [x] Swirl Distortion
+  - [x] Bulge Distortion
+  - [x] Sphere Refraction
+  - [x] Glass Sphere Refraction
+  - [x] Dilation
+  - [x] Non Maximum Suppression
+  - [x] Opacity
+  - [x] Weak Pixel Inclusion Filter
+  - [x] Color Matrix 4x4
+  - [x] Lookup
+  - [x] Color Replacement
+  - [x] Color Removance
+  - [x] Bayer Two Dithering
+  - [x] Bayer Three Dithering
+  - [x] Bayer Four Dithering
+  - [x] Bayer Eight Dithering
+  - [x] Floyd Steinberg Dithering
+  - [x] Jarvis Judice Ninke Dithering
+  - [x] Sierra Dithering
+  - [x] Two Row Sierra Dithering
+  - [x] Sierra Lite Dithering
+  - [x] Atkinson Dithering
+  - [x] Stucki Dithering
+  - [x] Burkes Dithering
+  - [x] False Floyd Steinberg Dithering
+  - [x] Left To Right Dithering
+  - [x] Random Dithering
+  - [x] Simple Threshold Dithering
+  - [x] Quantizier
+  - [x] Glitch Effect
+  - [x] Enhanced Glitch Effect
+  - [x] Anaglyph
+  - [x] Noise
+  - [x] Tent Blur
+  - [x] Side Fade
+  - [x] Erode
+  - [x] Anisotropic Diffusion
+  - [x] Horizontal Wind Stagger
+  - [x] Fast Bilaterial Blur
+  - [x] Poisson Blur
+  - [x] Logarithmic Tone Mapping
+  - [x] Aces Filmic Tone Mapping
+  - [x] Crystallize
+  - [x] Fractal Glass
+  - [x] Marble
+  - [x] Oil
+  - [x] Water Effect
+  - [x] Hable Filmic Tone Mapping
+  - [x] Aces Hill Tone Mapping
+  - [x] Hejl Burgess Tone Mapping
+  - [x] Perlin Distortion
+  - [x] Grayscale
+  - [x] Dehaze
+  - [x] Color Matrix 3x3
+  - [x] Achromatomaly
+  - [x] Achromatopsia
+  - [x] Browni
+  - [x] CodaChrome
+  - [x] Cool
+  - [x] Deutaromaly
+  - [x] Deutaronotopia
+  - [x] Night Vision
+  - [x] Polaroid
+  - [x] Protanopia
+  - [x] Protonomaly
+  - [x] Tritanopia
+  - [x] Tritonomaly
+  - [x] Vintage
+  - [x] Warm
+  - [x] Grain
+  - [x] Unsharp
+  - [x] Pastel
+  - [x] Orange Haze
+  - [x] Pink Dream
+  - [x] Golden Hour
+  - [x] Hot Summer
+  - [x] Purple Mist
+  - [x] Sunrise
+  - [x] Colorful Swirl
+  - [x] Soft Spring Light
+  - [x] Autumn Tones
+  - [x] Lavender Dream
+  - [x] Cyberpunk
+  - [x] Lemonade Light
+  - [x] Spectral Fire
+  - [x] Night Magic
+  - [x] Fantasy Landscape
+  - [x] Color Explosion
+  - [x] Electric Gradient
+  - [x] Caramel Darkness
+  - [x] Futuristic Gradient
+  - [x] Green Sun
+  - [x] Rainbow World
+  - [x] Deep Purple
+  - [x] Space Portal
+  - [x] Red Swirl
+  - [x] Digital Code
+  - [x] Bokeh
+  - [x] Neon
+  - [x] Old Tv
+  - [x] Shuffle Blur
+  - [x] Mobius
+  - [x] Uchimura
+  - [x] Aldridge
+  - [x] Drago
+  - [x] Color Anomaly
+  - [x] Quantizier
+  - [x] Ring Blur
+  - [x] Cross Blur
+  - [x] Circle Blur
+  - [x] Star Blur
+  - [x] Motion Blur
+  - [x] Fast Gaussian Blur 2D
+  - [x] Fast Gaussian Blur 3D
+  - [x] Fast Gaussian Blur 4D
+  - [x] Equalize Histogram
+  - [x] Equalize Histogram HSV
+  - [x] Equalize Histogram Pixelation
+  - [x] Equalize Histogram Adaptive
+  - [x] Equalize Histogram Adaptive LUV
+  - [x] Equalize Histogram Adaptive LAB
+  - [x] Equalize Histogram Adaptive HSV
+  - [x] Equalize Histogram Adaptive HSL
+  - [x] Clahe
+  - [x] Clahe LUV
+  - [x] Clahe LAB
+  - [x] Clahe HSL
+  - [x] Clahe HSV
+  - [x] Crop To Content
+  - [x] Linear Box Blur
+  - [x] Linear Tent Blur
+  - [x] Linear Gaussian Box Blur
+  - [x] Linear Stack Blur
+  - [x] Gaussian Box Blur
+  - [x] Linear Fast Gaussian Next
+  - [x] LinearFast Gaussian
+  - [x] Linear Gaussian
+  - [x] Low Poly
+  - [x] Sand Painting
+  - [x] Palette Transfer
+  - [x] Enhanced Oil
+  - [x] Simple Old TV
+  - [x] HDR
+  - [x] Simple Sketch
+  - [x] Gotham
+  - [x] Color Poster
+  - [x] Tri Tone
+  - [x] Clahe Oklch
+  - [x] Clahe Jzazbz
+  - [x] Clahe Oklab
+  - [x] Yililoma Dithering
+  - [x] Clustered 2x2 Dithering
+  - [x] Clustered 4x4 Dithering
+  - [x] Clustered8x8 Dithering
+  - [x] Polka Dot
+  - [x] LUT 512\*512
+  - [x] Amatorka
+  - [x] Miss Etikate
+  - [x] Soft Elegance
+  - [x] Soft Elegance Variant
+  - [x] Bleach Bypass
+  - [x] Candlelight
+  - [x] Drop Blues
+  - [x] Edgy Amber
+  - [x] Fall Colors
+  - [x] Film Stock 50
+  - [x] Foggy Night
+  - [x] Kodak
+  - [x] Palette Transfer Variant
+  - [x] 3D LUT (.cube / .CUBE)
+  - [x] Pop Art
+  - [x] Celluloid
+  - [x] Coffee
+  - [x] Golden Forest
+  - [x] Greenish
+  - [x] Retro Yellow
 
   </details>
+
 - Custom Filters Creation by Template filters
-    - You can create filter from any filter chain
-    - Share created filters by QR code
-    - Scan filters from the app to get them on your device
+  - You can create filter from any filter chain
+  - Share created filters by QR code
+  - Scan filters from the app to get them on your device
 - AES-256 GCM No Padding files encryption and decryption
 - Extract Text From Images
-    - 120+ languages
-    - 3 Type of data: Fast, Standard, Best
-    - Segmentation Mode Selection
-    - Multiple languages at the same time
+  - 120+ languages
+  - 3 Type of data: Fast, Standard, Best
+  - Segmentation Mode Selection
+  - Multiple languages at the same time
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
 - Image Stacking
 - Image Splitting
 - Background Removal
-    - By drawing
-    - Automatically
+  - By drawing
+  - Automatically
 - Watermarking
-    - By Text
-    - By Image
+  - By Text
+  - By Image
 - Drawing on Image/Background
-    - Pen
-    - Neon
-    - Highlighter
-    - Privacy Blur
-    - Pixelation Paint
-    - Text
-    - Image Brush
-    - Filter Brush
-    - Pointing Arrow
-    - Line
-    - Double Pointing Arrow
-    - Line Pointing Arrow
-    - Double Line Pointing Arrow
-    - Outlined Rect
-    - Outlined Oval
-    - Outlined Triangle
-    - Outlined Polygon
-    - Outlined Star
-    - Rect
-    - Oval
-    - Triangle
-    - Polygon
-    - Star
-    - Lasso
+  - Pen
+  - Neon
+  - Highlighter
+  - Privacy Blur
+  - Pixelation Paint
+  - Text
+  - Image Brush
+  - Filter Brush
+  - Pointing Arrow
+  - Line
+  - Double Pointing Arrow
+  - Line Pointing Arrow
+  - Double Line Pointing Arrow
+  - Outlined Rect
+  - Outlined Oval
+  - Outlined Triangle
+  - Outlined Polygon
+  - Outlined Star
+  - Rect
+  - Oval
+  - Triangle
+  - Polygon
+  - Star
+  - Lasso
 - Image Resizing
-    - Width changing
-    - Height changing
-    - Adaptive resize
-    - Resize retaining aspect ratio
-    - Resize by given limits
-    - Center Crop with
-        - Background color changing
-        - Background blur drawing
-    - Different Scaling Algorithms
-        - Bilinear
-        - Nearest Neighbour
-        - Cubic
-        - Mitchell-Netravalli
-        - Catmull-Rom
-        - Hermite
-        - B-Spline
-        - Hann
-        - Bicubic
-        - Hamming
-        - Hanning
-        - Blackman
-        - Welch
-        - Quadric
-        - Gaussian
-        - Sphinx
-        - Bartlett
-        - Robidoux
-        - Robidoux Sharp
-        - Spline 16
-        - Spline 36
-        - Spline 64
-        - Kaiser
-        - Bartlett-Hann
-        - Box
-        - Bohman
-        - Lanczos 2
-        - Lanczos 3
-        - Lanczos 4
-        - Lanczos 2 Jinc
-        - Lanczos 3 Jinc
-        - Lanczos 4 Jinc
-        - Ewa Hanning
-        - Ewa Robidoux
-        - Ewa Blackman
-        - Ewa Quadric
-        - Ewa Robidoux Sharp
-        - Ewa Lanczos 3 Jinc
-        - Ginseng
-        - Ginseng EWA
-        - Lanczos Sharp EWA
-        - Lanczos 4 Sharpest EWA
-        - Lanczos Soft EWA
-        - Haasn Soft
-        - Lagrange 2
-        - Lagrange 3
-        - Lanczos 6
-        - Lanczos 6 Jinc
-    - Different Scale Color Spaces
-        - Linear
-        - sRGB
-        - LAB
-        - LUV
-        - Sigmoidal
-        - XYZ
-        - F32 Gamma 2.2
-        - F32 Gamma 2.8
-        - F32 Rec.709
-        - F32 sRGB
-        - LCH
-        - Oklab sRGB
-        - Oklab Rec.709
-        - Oklab Gamma 2.2
-        - Oklab Gamma 2.8
-        - Jzazbz sRGB
-        - Jzazbz Rec.709
-        - Jzazbz Gamma 2.2
-        - Jzazbz Gamma 2.8
+  - Width changing
+  - Height changing
+  - Adaptive resize
+  - Resize retaining aspect ratio
+  - Resize by given limits
+  - Center Crop with
+    - Background color changing
+    - Background blur drawing
+  - Different Scaling Algorithms
+    - Bilinear
+    - Nearest Neighbour
+    - Cubic
+    - Mitchell-Netravalli
+    - Catmull-Rom
+    - Hermite
+    - B-Spline
+    - Hann
+    - Bicubic
+    - Hamming
+    - Hanning
+    - Blackman
+    - Welch
+    - Quadric
+    - Gaussian
+    - Sphinx
+    - Bartlett
+    - Robidoux
+    - Robidoux Sharp
+    - Spline 16
+    - Spline 36
+    - Spline 64
+    - Kaiser
+    - Bartlett-Hann
+    - Box
+    - Bohman
+    - Lanczos 2
+    - Lanczos 3
+    - Lanczos 4
+    - Lanczos 2 Jinc
+    - Lanczos 3 Jinc
+    - Lanczos 4 Jinc
+    - Ewa Hanning
+    - Ewa Robidoux
+    - Ewa Blackman
+    - Ewa Quadric
+    - Ewa Robidoux Sharp
+    - Ewa Lanczos 3 Jinc
+    - Ginseng
+    - Ginseng EWA
+    - Lanczos Sharp EWA
+    - Lanczos 4 Sharpest EWA
+    - Lanczos Soft EWA
+    - Haasn Soft
+    - Lagrange 2
+    - Lagrange 3
+    - Lanczos 6
+    - Lanczos 6 Jinc
+  - Different Scale Color Spaces
+    - Linear
+    - sRGB
+    - LAB
+    - LUV
+    - Sigmoidal
+    - XYZ
+    - F32 Gamma 2.2
+    - F32 Gamma 2.8
+    - F32 Rec.709
+    - F32 sRGB
+    - LCH
+    - Oklab sRGB
+    - Oklab Rec.709
+    - Oklab Gamma 2.2
+    - Oklab Gamma 2.8
+    - Jzazbz sRGB
+    - Jzazbz Rec.709
+    - Jzazbz Gamma 2.2
+    - Jzazbz Gamma 2.8
 - GIF conversion
   - GIF to images
   - Images to GIF
@@ -494,30 +516,30 @@ or click one of the badges below.
   - Regular crop
   - Crop by aspect ratio
   - Crop with shape mask
-      - Rounded Corners
-      - Cut Corners
-      - Oval
-      - Squircle
-      - Octagon
-      - Rounded Pentagon
-      - Clover
-      - Material Star
-      - Kotlin Logo
-      - Small Material Star
-      - Heart
-      - Shuriken
-      - Explosion
-      - Bookmark
-      - Pill
-      - Burger
-      - Shield
-      - Droplet
-      - Arrow
-      - Egg
-      - Map
-      - Enhanced Heart
-      - Star
-      - Image Mask
+    - Rounded Corners
+    - Cut Corners
+    - Oval
+    - Squircle
+    - Octagon
+    - Rounded Pentagon
+    - Clover
+    - Material Star
+    - Kotlin Logo
+    - Small Material Star
+    - Heart
+    - Shuriken
+    - Explosion
+    - Bookmark
+    - Pill
+    - Burger
+    - Shield
+    - Droplet
+    - Arrow
+    - Egg
+    - Map
+    - Enhanced Heart
+    - Star
+    - Image Mask
 - Tracing raster images to SVG
 - Format Conversion
   - HEIF
@@ -547,8 +569,8 @@ or click one of the badges below.
   - Side By Side
 - Color Utils
   - Palette generation
-      - Material You Scheme
-      - Simple Colors
+    - Material You Scheme
+    - Simple Colors
   - Picking color from image
   - Gradient creation
   - Overlaying image with gradient
@@ -562,14 +584,14 @@ or click one of the badges below.
   - Harmonies
   - Shading
 - Additional Features
-    - Rotating
-    - Flipping
-    - Perlin Noise Generation
-    - Previewing SVG, DNG, PSD, DJVU and almost all types of images
-    - Saving to any specific folder
-    - Long press on save to choose one time output folder
-    - Randomizing output filename
-    - Embedded media picker
+  - Rotating
+  - Flipping
+  - Perlin Noise Generation
+  - Previewing SVG, DNG, PSD, DJVU and almost all types of images
+  - Saving to any specific folder
+  - Long press on save to choose one time output folder
+  - Randomizing output filename
+  - Embedded media picker
 
 **And More!**
 
@@ -586,10 +608,10 @@ or click one of the badges below.
 - In app language changing
 - Enabling or Disabling confetti
 - Custom app color scheme
-    - Different palette styles
-    - Predefined schemes
-    - Color inversion
-    - Contrast adjusting
+  - Different palette styles
+  - Predefined schemes
+  - Color inversion
+  - Contrast adjusting
 - Controlling borders thickness
 - Enabling and disabling each existing shadow
 - Haptics controls
@@ -599,60 +621,60 @@ or click one of the badges below.
   by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
 - Image based color scheme
 - Icons Background shape selection
-    - Rounded Corners
-    - Cut Corners
-    - Oval
-    - Squircle
-    - Octagon
-    - Rounded Pentagon
-    - Clover
-    - Material Star
-    - Small Material Star
-    - Heart
-    - Enhanced Heart
+  - Rounded Corners
+  - Cut Corners
+  - Oval
+  - Squircle
+  - Octagon
+  - Rounded Pentagon
+  - Clover
+  - Material Star
+  - Small Material Star
+  - Heart
+  - Enhanced Heart
 - Custom fonts
-    - Montserrat
-    - Comfortaa
-    - Caveat
-    - Handjet
-    - Jura
-    - Podkova
-    - Tektur
-    - YsabeauSC
-    - DejaVu
-    - BadScript
-    - RuslanDisplay
-    - Catterdale
-    - FRM32
-    - Tokeely Brookings
-    - Nunito
-    - Nothing
-    - WOPR Tweaked
-    - Alegreya Sans
-    - Minecraft Gnu
-    - Granite Fixed
-    - Nokia Pixel
-    - Ztivalia
-    - Axotrel
-    - Lcd Octagon
-    - Lcd Moving
-    - Unisource
+  - Montserrat
+  - Comfortaa
+  - Caveat
+  - Handjet
+  - Jura
+  - Podkova
+  - Tektur
+  - YsabeauSC
+  - DejaVu
+  - BadScript
+  - RuslanDisplay
+  - Catterdale
+  - FRM32
+  - Tokeely Brookings
+  - Nunito
+  - Nothing
+  - WOPR Tweaked
+  - Alegreya Sans
+  - Minecraft Gnu
+  - Granite Fixed
+  - Nokia Pixel
+  - Ztivalia
+  - Axotrel
+  - Lcd Octagon
+  - Lcd Moving
+  - Unisource
 - In app font scale changing
 - Changing between options list and grouped view
 - Confetti Type selection
-    - Default
-    - Festive
-    - Explode
-    - Rain
-    - Side
-    - Corners
-    - ImageToolbox
+  - Default
+  - Festive
+  - Explode
+  - Rain
+  - Side
+  - Corners
+  - ImageToolbox
 - Switch Type selection:
-    - Material You
-    - Compose
-    - Pixel
-    - Fluent
-    - Cupertino
+  - Material You
+  - Compose
+  - Pixel
+  - Fluent
+  - Cupertino
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
@@ -688,25 +710,26 @@ or click one of the badges below.
 - [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beautiful particle system.
 
 - Jetpack
-    - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style
-      framework based on composable functions.
 
-    - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) -
-      Material 3 powerful UI components.
+  - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style
+    framework based on composable functions.
 
-    - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manages
-      UI-related data holder and lifecycle awareness. Allows data to survive configuration changes
-      such
-      as screen rotations.
+  - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) -
+    Material 3 powerful UI components.
 
-    - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
-      asynchronously, consistently, and transactionally.
+  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manages
+    UI-related data holder and lifecycle awareness. Allows data to survive configuration changes
+    such
+    as screen rotations.
 
-    - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe
-      Android lifecycles and handle UI states upon the lifecycle changes.
+  - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
+    asynchronously, consistently, and transactionally.
 
-    - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read
-      and write image file EXIF tags.
+  - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe
+    Android lifecycles and handle UI states upon the lifecycle changes.
+
+  - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read
+    and write image file EXIF tags.
 
 - [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the
   images.
@@ -737,9 +760,9 @@ on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
 # ❤️ Find this repository useful?
 
-Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this
+Support it by joining **[stargazers](https://github.com/t8rin/ImageResizer/stargazers)** for this
 repository. :star: <br>
-And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
+And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 
 # ⭐ Star History
 
@@ -768,7 +791,6 @@ Designed and developed by 2023 T8RIN
 
     Unless required by applicable law or agreed to in writing, softwaredistributed under the License is distributed on an "AS IS" BASIS,WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.See the License for the specific language governing permissions andlimitations under the License.
 ```
-
 
 Photos
 by <a href="https://unsplash.com/@pawel_czerwinski?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
