@@ -39,9 +39,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,6 +85,9 @@ fun CropEditOption(
     setCropMask: (CropOutlineProperty) -> Unit,
     loadImage: suspend (Uri) -> Bitmap?
 ) {
+    val rotationState = rememberSaveable(bitmap) {
+        mutableFloatStateOf(0f)
+    }
     val scope = rememberCoroutineScope()
     bitmap?.let {
         var crop by remember(visible) { mutableStateOf(false) }
@@ -188,6 +193,7 @@ fun CropEditOption(
                         }
                         crop = false
                     },
+                    rotationState = rotationState,
                     cropProperties = cropProperties,
                     isRotationEnabled = cropProperties.cropOutlineProperty.cropOutline.id == 0,
                     addVerticalInsets = !useScaffold

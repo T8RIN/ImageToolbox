@@ -265,6 +265,10 @@ fun CropContent(
         }
     }
 
+    val rotationState = rememberSaveable(viewModel.bitmap) {
+        mutableFloatStateOf(0f)
+    }
+
     var crop by remember { mutableStateOf(false) }
     val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
         Box(
@@ -390,10 +394,6 @@ fun CropContent(
                             )
                         }
                     )
-                }
-
-                val rotationState = rememberSaveable(viewModel.bitmap) {
-                    mutableFloatStateOf(0f)
                 }
 
                 viewModel.bitmap?.let { bitmap ->
