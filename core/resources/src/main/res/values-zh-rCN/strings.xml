@@ -160,7 +160,7 @@
     <string name="reorder">重新排序</string>
     <string name="fast_blur">快速模糊</string>
     <string name="blur_size">模糊大小</string>
-    <string name="photo_picker_sub">使用 出现在屏幕底部的新版 Android 照片选择器，可能仅适用于 Android 12+。在接收 EXIF 元数据方面也–有问题</string>
+    <string name="photo_picker_sub">出现在屏幕底部的安卓新版照片拾取器，可能只适用于安卓 12+ 系统。在接收 EXIF 元数据有问题</string>
     <string name="file_explorer_picker_sub">使用 GetContent 意图来选取图片。兼容性好，但在某些设备上接收选取的图片时也会出现问题，这与本 App 无关</string>
     <string name="edit">编辑</string>
     <string name="order">顺序</string>
