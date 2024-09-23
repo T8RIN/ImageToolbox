@@ -399,7 +399,9 @@ fun CropContent(
                             onImageCropStarted = viewModel::imageCropStarted,
                             onImageCropFinished = {
                                 viewModel.imageCropFinished()
-                                viewModel.updateBitmap(it)
+                                if (it != null) {
+                                    viewModel.updateBitmap(it)
+                                }
                                 crop = false
                             },
                             cropProperties = viewModel.cropProperties
@@ -420,7 +422,9 @@ fun CropContent(
                                     onImageCropStarted = viewModel::imageCropStarted,
                                     onImageCropFinished = {
                                         viewModel.imageCropFinished()
-                                        viewModel.updateBitmap(it)
+                                        if (it != null) {
+                                            viewModel.updateBitmap(it)
+                                        }
                                         crop = false
                                     },
                                     cropProperties = viewModel.cropProperties

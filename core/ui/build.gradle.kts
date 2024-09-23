@@ -50,6 +50,7 @@ dependencies {
     api(libs.coilSvg)
 
     //Modules
+    api(libs.toolbox.uCrop)
     api(libs.toolbox.cropper)
     api(libs.toolbox.dynamicTheme)
     api(libs.toolbox.colordetector)

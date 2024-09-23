@@ -9,7 +9,7 @@ versionCode = "153"
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "2.7.5"
+imageToolboxLibs = "2.7.8"
 trickle = "1.1.3"
 
 avifCoder = "1.8.0"
@@ -113,7 +113,7 @@ toolbox-djvuCoder = { module = "com.github.T8RIN.ImageToolboxLibs:djvu-coder", v
 toolbox-fastNoise = { module = "com.github.T8RIN.ImageToolboxLibs:fast-noise", version.ref = "imageToolboxLibs" }
 toolbox-collages = { module = "com.github.T8RIN.ImageToolboxLibs:collages", version.ref = "imageToolboxLibs" }
 toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", version.ref = "imageToolboxLibs" }
-
+toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }

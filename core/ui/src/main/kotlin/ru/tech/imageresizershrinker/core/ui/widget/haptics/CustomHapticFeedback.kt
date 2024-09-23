@@ -55,6 +55,31 @@ private fun Context.isTouchExplorationEnabled(): Boolean {
     return accessibilityManager?.isTouchExplorationEnabled ?: false
 }
 
+internal data class CustomHapticFeedback(
+    val hapticsStrength: Int,
+    val view: View
+) : HapticFeedback {
+    override fun performHapticFeedback(hapticFeedbackType: HapticFeedbackType) {
+        when (hapticFeedbackType) {
+            HapticFeedbackType.LongPress -> {
+                when (hapticsStrength) {
+                    1 -> view.vibrate()
+                    2 -> view.vibrateStrong()
+                }
+            }
+
+            HapticFeedbackType.TextHandleMove -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    view.reallyPerformHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE)
+                } else view.reallyPerformHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+            }
+        }
+    }
+}
+
+internal data object EmptyHaptics : HapticFeedback {
+    override fun performHapticFeedback(hapticFeedbackType: HapticFeedbackType) = Unit
+}
 
 @Composable
 fun rememberCustomHapticFeedback(hapticsStrength: Int): HapticFeedback {
@@ -63,30 +88,12 @@ fun rememberCustomHapticFeedback(hapticsStrength: Int): HapticFeedback {
     val haptics by remember(hapticsStrength) {
         derivedStateOf {
             if (hapticsStrength == 0) EmptyHaptics
-            else object : HapticFeedback {
-                override fun performHapticFeedback(hapticFeedbackType: HapticFeedbackType) {
-                    when (hapticFeedbackType) {
-                        HapticFeedbackType.LongPress -> {
-                            when (hapticsStrength) {
-                                1 -> view.vibrate()
-                                2 -> view.vibrateStrong()
-                            }
-                        }
-
-                        HapticFeedbackType.TextHandleMove -> {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                view.reallyPerformHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE)
-                            } else view.reallyPerformHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-                        }
-                    }
-                }
-            }
+            else CustomHapticFeedback(
+                hapticsStrength = hapticsStrength,
+                view = view
+            )
         }
     }
 
     return haptics
-}
-
-data object EmptyHaptics : HapticFeedback {
-    override fun performHapticFeedback(hapticFeedbackType: HapticFeedbackType) = Unit
 }

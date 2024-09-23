@@ -177,12 +177,16 @@ fun CropEditOption(
                     crop = crop,
                     onImageCropStarted = { loading = true },
                     onImageCropFinished = {
-                        stateBitmap = it
-                        crop = false
-                        scope.launch {
-                            delay(500)
+                        if (it != null) {
+                            stateBitmap = it
+                            scope.launch {
+                                delay(500)
+                                loading = false
+                            }
+                        } else {
                             loading = false
                         }
+                        crop = false
                     },
                     cropProperties = cropProperties
                 )
