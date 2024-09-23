@@ -134,7 +134,7 @@
     <string name="gaussian_blur">Rozmycie Gaussa</string>
     <string name="radius">Promień</string>
     <string name="scale">Skala</string>
-    <string name="limits_resize">Zachowaj proporcje</string>
+    <string name="limits_resize">Zmień skalę</string>
     <string name="sketch">Szkic</string>
     <string name="threshold">Próg</string>
     <string name="quantizationLevels">Poziomy kwantyzacji</string>
@@ -873,8 +873,8 @@
     <string name="fluent_switch_sub">Wykorzystuje przełącznik w stylu Windows 11, oparty na systemie projektowania \"Fluent\"</string>
     <string name="cupertino_switch">Cupertino</string>
     <string name="cupertino_switch_sub">Używa przełącznika podobnego do iOS opartego na systemie projektowania Cupertino</string>
-    <string name="images_to_svg">Obrazy do Svg</string>
-    <string name="images_to_svg_sub">Śledzenie podanych obrazów do obrazów SVG</string>
+    <string name="images_to_svg">Obrazy do SVG</string>
+    <string name="images_to_svg_sub">Konwertuj obrazy do grafik SVG</string>
     <string name="use_sampled_palette">Użyj próbkowanej palety</string>
     <string name="use_sampled_palette_sub">Jeśli ta opcja jest włączona, próbkowana będzie paleta kwantyzacji</string>
     <string name="path_omit">Pomiń ścieżkę</string>
