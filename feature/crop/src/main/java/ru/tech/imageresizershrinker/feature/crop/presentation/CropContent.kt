@@ -63,6 +63,7 @@ import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -240,7 +241,7 @@ fun CropContent(
             )
             Spacer(modifier = Modifier.height(8.dp))
             CropMaskSelection(
-                onCropMaskChange = { viewModel.setCropMask(it) },
+                onCropMaskChange = viewModel::setCropMask,
                 selectedItem = viewModel.cropProperties.cropOutlineProperty,
                 loadImage = {
                     viewModel.loadImage(it)?.asImageBitmap()
@@ -391,6 +392,10 @@ fun CropContent(
                     )
                 }
 
+                val rotationState = rememberSaveable(viewModel.bitmap) {
+                    mutableFloatStateOf(0f)
+                }
+
                 viewModel.bitmap?.let { bitmap ->
                     if (isPortrait) {
                         Cropper(
@@ -404,7 +409,10 @@ fun CropContent(
                                 }
                                 crop = false
                             },
-                            cropProperties = viewModel.cropProperties
+                            rotationState = rotationState,
+                            cropProperties = viewModel.cropProperties,
+                            isRotationEnabled = viewModel.cropProperties.cropOutlineProperty.cropOutline.id == 0,
+                            addVerticalInsets = false
                         )
                     } else {
                         Row(
@@ -427,7 +435,10 @@ fun CropContent(
                                         }
                                         crop = false
                                     },
-                                    cropProperties = viewModel.cropProperties
+                                    rotationState = rotationState,
+                                    isRotationEnabled = viewModel.cropProperties.cropOutlineProperty.cropOutline.id == 0,
+                                    cropProperties = viewModel.cropProperties,
+                                    addVerticalInsets = true
                                 )
                             }
 

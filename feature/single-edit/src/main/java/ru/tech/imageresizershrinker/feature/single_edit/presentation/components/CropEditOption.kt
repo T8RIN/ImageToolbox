@@ -188,7 +188,9 @@ fun CropEditOption(
                         }
                         crop = false
                     },
-                    cropProperties = cropProperties
+                    cropProperties = cropProperties,
+                    isRotationEnabled = cropProperties.cropOutlineProperty.cropOutline.id == 0,
+                    addVerticalInsets = !useScaffold
                 )
                 AnimatedVisibility(
                     visible = loading,
