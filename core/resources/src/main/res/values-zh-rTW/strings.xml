@@ -139,7 +139,7 @@
     <string name="options_arrangement">選項排列</string>
     <string name="edit">編輯</string>
     <string name="order">順序</string>
-    <string name="order_sub">確定主畫面上選項的順序</string>
+    <string name="order_sub">確定主螢幕上工具的順序</string>
     <string name="emojis_count">表情符號數量</string>
     <string name="sequence_num">序號</string>
     <string name="original_filename">原始檔案名稱</string>
@@ -419,7 +419,7 @@
     <string name="invert_colors">顏色反轉</string>
     <string name="attention">提醒</string>
     <string name="search_option">搜尋</string>
-    <string name="search_option_sub">允許在主畫面上搜尋所有可用的選項</string>
+    <string name="search_option_sub">能夠搜尋主螢幕上的所有可用工具</string>
     <string name="pdf_tools">PDF 工具</string>
     <string name="images_to_pdf">圖像轉 PDF</string>
     <string name="preview_pdf">預覽 PDF</string>
@@ -1017,4 +1017,24 @@
     <string name="tag_strip_offsets">剝離偏移</string>
     <string name="tag_rows_per_strip">每條帶行數</string>
     <string name="tag_strip_byte_counts">剝離位元組計數</string>
+    <string name="tag_subsec_time_original">原始秒內細分時間</string>
+    <string name="tag_subsec_time_digitized">數位化秒內細分時間</string>
+    <string name="tag_sensitivity_type">靈敏度類型</string>
+    <string name="tag_iso_speed_latitude_yyy">ISO 感光度 緯度 yyy</string>
+    <string name="tag_iso_speed_latitude_zzz">ISO 感光度 緯度 zzz</string>
+    <string name="tag_subject_area">主體領域</string>
+    <string name="tag_spatial_frequency_response">空間頻率響應</string>
+    <string name="tag_focal_plane_x_resolution">焦平面 X 分辨率</string>
+    <string name="tag_focal_plane_y_resolution">焦平面 Y 分辨率</string>
+    <string name="tag_focal_plane_resolution_unit">焦平面解析度單元</string>
+    <string name="tag_sensing_method">感測方式</string>
+    <string name="tag_gps_track">GPS軌跡</string>
+    <string name="tag_gps_track_ref">GPS 軌跡參考</string>
+    <string name="tag_gps_map_datum">GPS 地圖日期</string>
+    <string name="tag_compressed_bits_per_pixel">每像素壓縮位數</string>
+    <string name="tag_offset_time_digitized">偏移時間數位化</string>
+    <string name="tag_subsec_time">秒內細分時間</string>
+    <string name="tag_gps_img_direction_ref">GPS 影像方向參考</string>
+    <string name="tag_gps_img_direction">GPS 影像方向</string>
+    <string name="tag_gps_dest_latitude_ref">GPS 目的地緯度參考</string>
 </resources>
