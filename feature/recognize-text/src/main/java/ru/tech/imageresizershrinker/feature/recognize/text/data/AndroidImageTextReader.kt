@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.OcrEngineMode
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitionResult
 import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
@@ -72,6 +73,7 @@ internal class AndroidImageTextReader @Inject constructor(
         languageCode: String,
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
+        parameters: TessParams,
         imageUri: String,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = getTextFromImage(
@@ -79,6 +81,7 @@ internal class AndroidImageTextReader @Inject constructor(
         languageCode = languageCode,
         segmentationMode = segmentationMode,
         ocrEngineMode = ocrEngineMode,
+        parameters = parameters,
         image = imageGetter.getImage(imageUri)?.image,
         onProgress = onProgress
     )
@@ -88,6 +91,7 @@ internal class AndroidImageTextReader @Inject constructor(
         languageCode: String,
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
+        parameters: TessParams,
         image: Bitmap?,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = withContext(defaultDispatcher) {
@@ -124,6 +128,11 @@ internal class AndroidImageTextReader @Inject constructor(
                     }
                 }
                 pageSegMode = segmentationMode.ordinal
+
+                parameters.forEach { param ->
+                    setVariable(param.key, param.stringValue)
+                }
+
                 setImage(image.copy(Bitmap.Config.ARGB_8888, false))
             }
 

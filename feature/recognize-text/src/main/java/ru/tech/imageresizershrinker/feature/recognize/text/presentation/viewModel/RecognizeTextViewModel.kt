@@ -63,6 +63,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.OcrEngineMode
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitionResult
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -90,6 +91,9 @@ class RecognizeTextViewModel @Inject constructor(
 
     private val _ocrEngineMode: MutableState<OcrEngineMode> = mutableStateOf(OcrEngineMode.DEFAULT)
     val ocrEngineMode by _ocrEngineMode
+
+    private val _params: MutableState<TessParams> = mutableStateOf(TessParams.Default)
+    val params by _params
 
     private val _selectedLanguages = mutableStateOf(listOf(OCRLanguage.Default))
     val selectedLanguages by _selectedLanguages
@@ -254,6 +258,7 @@ class RecognizeTextViewModel @Inject constructor(
                         image = bitmap
                     )
                 },
+                parameters = params,
                 ocrEngineMode = ocrEngineMode,
                 onProgress = { progress ->
                     _textLoadingProgress.update { progress }
