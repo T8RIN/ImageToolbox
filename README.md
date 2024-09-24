@@ -118,6 +118,16 @@ or click one of the badges below.
 4. Run the application:
    bash ./gradlew run
 
+# ⚔️ FOSS vs MARKET
+|     **Feature**    |      **FOSS**      |     **Market**     |
+|:------------------:|:------------------:|:------------------:|
+|     QR Scanner     |        Zxing       |        MlKit       |
+|    Auto erase BG   |         :x:        |        MlKit       |
+|  Document Scanner  |       OpenCV       |        MlKit       |
+|      Analytics     |         :x:        | :white_check_mark: |
+|     Crashlytics    |         :x:        | :white_check_mark: |
+|  Other Google deps |         :x:        | :white_check_mark: |
+| All Other Features | :white_check_mark: | :white_check_mark: |
 
 # ✨ Features
 
