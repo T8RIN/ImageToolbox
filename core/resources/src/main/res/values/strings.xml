@@ -1414,4 +1414,6 @@
     <string name="histogram">Histogram</string>
     <string name="histogram_sub">RGB or Brightness image histogram to help you make adjustments</string>
     <string name="image_for_histogram">This image will be used to generate RGB and Brightness histograms</string>
+    <string name="tesseract_options">Tesseract Options</string>
+    <string name="tesseract_options_sub">Appy some input variables for tesseract engine</string>
 </resources>

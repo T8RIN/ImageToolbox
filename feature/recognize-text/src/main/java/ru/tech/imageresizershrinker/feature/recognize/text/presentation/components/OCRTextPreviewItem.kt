@@ -69,6 +69,10 @@ internal fun OCRTextPreviewItem(
     loadingProgress: Int,
     accuracy: Int
 ) {
+    var expanded by rememberSaveable {
+        mutableStateOf(true)
+    }
+
     AnimatedContent(targetState = isLoading) { loading ->
         Box(
             modifier = Modifier
@@ -116,9 +120,6 @@ internal fun OCRTextPreviewItem(
                         .padding(16.dp)
                         .animateContentSize()
                 ) {
-                    var expanded by rememberSaveable(text?.length) {
-                        mutableStateOf(true)
-                    }
                     Row(
                         verticalAlignment = Alignment.Top
                     ) {

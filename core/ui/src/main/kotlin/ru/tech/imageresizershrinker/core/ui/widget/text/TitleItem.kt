@@ -18,9 +18,11 @@
 package ru.tech.imageresizershrinker.core.ui.widget.text
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -33,7 +35,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.icons.Firebase
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
@@ -75,8 +80,9 @@ fun TitleItem(
 fun TitleItem(
     icon: ImageVector? = null,
     text: String,
-    @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier.padding(16.dp),
+    subtitle: String? = null,
+    iconEndPadding: Dp = 8.dp,
     iconContainerColor: Color = IconShapeDefaults.containerColor,
     iconContentColor: Color = IconShapeDefaults.contentColor
 ) {
@@ -98,8 +104,28 @@ fun TitleItem(
                 containerColor = iconContainerColor,
                 contentColor = iconContentColor
             )
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(iconEndPadding))
         }
-        Text(text = text, fontWeight = FontWeight.Bold)
+        Column(
+            modifier = Modifier.weight(1f, false)
+        ) {
+            Text(
+                text = text,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                lineHeight = 18.sp
+            )
+            subtitle?.let {
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = subtitle,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Normal,
+                    lineHeight = 14.sp,
+                    color = LocalContentColor.current.copy(alpha = 0.5f)
+                )
+            }
+        }
     }
 }

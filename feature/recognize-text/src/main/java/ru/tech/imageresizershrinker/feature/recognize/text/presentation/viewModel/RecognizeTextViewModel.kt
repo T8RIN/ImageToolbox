@@ -505,4 +505,8 @@ class RecognizeTextViewModel @Inject constructor(
         }
     }
 
+    fun updateParams(newParams: TessParams) {
+        _params.update { newParams }
+    }
+
 }

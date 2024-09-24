@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.domain
 
+import okhttp3.internal.toImmutableList
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_CHOP_ENABLE
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_EDGES_MAX_CHILDREN_PER_OUTLINE
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_ENABLE_NEW_SEGSEARCH
@@ -26,29 +27,63 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_TEXTORD_FORCE_MAKE_PROP_WORDS
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_USE_NEW_STATE_COST
 
-data class TessParam<T>(
+class TessParam(
     val key: String,
-    val value: T
+    val value: Any
 ) {
     val stringValue: String
         get() = when (value) {
-            is Boolean -> if (value) "T" else "F"
+            is Boolean -> if (value) "1" else "0"
             else -> value.toString()
         }
+
+    fun copy(value: Any) = TessParam(
+        key = key,
+        value = value
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is TessParam) return false
+        if (this.key != other.key) return false
+
+        return this.value == other.value
+    }
+
+    override fun hashCode(): Int {
+        var result = key.hashCode()
+        result = 31 * result + value.hashCode()
+        return result
+    }
+
+    operator fun component1(): String = key
+    operator fun component2(): Any = value
 }
 
-data class TessParams(
-    private val value: List<TessParam<*>>
+class TessParams private constructor(
+    val tessParamList: List<TessParam>
 ) {
-    fun forEach(action: (TessParam<*>) -> Unit) = value.forEach(action)
+    fun update(
+        key: String,
+        transform: (Any) -> Any
+    ): TessParams = TessParams(
+        tessParamList = tessParamList.toMutableList().apply {
+            val index = indexOfFirst { it.key == key }.takeIf {
+                it >= 0
+            } ?: return this@TessParams
+
+            this[index] = this[index].let {
+                it.copy(value = transform(it.value))
+            }
+        }.toImmutableList()
+    )
 
     companion object {
         val Default by lazy {
             TessParams(
-                value = listOf(
+                tessParamList = listOf(
                     TessParam(
                         key = KEY_PRESERVE_INTERWORD_SPACES,
-                        value = 0
+                        value = false
                     ),
                     TessParam(
                         key = KEY_CHOP_ENABLE,
@@ -64,11 +99,11 @@ data class TessParams(
                     ),
                     TessParam(
                         key = KEY_ENABLE_NEW_SEGSEARCH,
-                        value = 0
+                        value = false
                     ),
                     TessParam(
                         key = KEY_LANGUAGE_MODEL_NGRAM_ON,
-                        value = 0
+                        value = false
                     ),
                     TessParam(
                         key = KEY_TEXTORD_FORCE_MAKE_PROP_WORDS,

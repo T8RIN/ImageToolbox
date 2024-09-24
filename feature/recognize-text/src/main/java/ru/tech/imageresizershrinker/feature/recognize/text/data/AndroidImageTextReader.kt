@@ -129,7 +129,7 @@ internal class AndroidImageTextReader @Inject constructor(
                 }
                 pageSegMode = segmentationMode.ordinal
 
-                parameters.forEach { param ->
+                parameters.tessParamList.forEach { param ->
                     setVariable(param.key, param.stringValue)
                 }
 
