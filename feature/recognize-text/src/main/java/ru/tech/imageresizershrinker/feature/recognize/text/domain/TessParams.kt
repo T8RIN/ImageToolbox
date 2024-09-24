@@ -60,7 +60,8 @@ class TessParam(
 }
 
 class TessParams private constructor(
-    val tessParamList: List<TessParam>
+    val tessParamList: List<TessParam>,
+    val tessCustomParams: String = ""
 ) {
     fun update(
         key: String,
@@ -74,7 +75,15 @@ class TessParams private constructor(
             this[index] = this[index].let {
                 it.copy(value = transform(it.value))
             }
-        }.toImmutableList()
+        }.toImmutableList(),
+        tessCustomParams = tessCustomParams
+    )
+
+    fun update(
+        newCustomParams: String
+    ): TessParams = TessParams(
+        tessParamList = tessParamList,
+        tessCustomParams = newCustomParams
     )
 
     companion object {

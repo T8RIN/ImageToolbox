@@ -474,7 +474,10 @@ fun RecognizeTextContent(
             Spacer(modifier = Modifier.height(8.dp))
             TessParamsSelector(
                 value = viewModel.params,
-                onValueChange = viewModel::updateParams,
+                onValueChange = {
+                    viewModel.updateParams(it)
+                    startRecognition()
+                },
                 modifier = Modifier.fillMaxWidth()
             )
         },

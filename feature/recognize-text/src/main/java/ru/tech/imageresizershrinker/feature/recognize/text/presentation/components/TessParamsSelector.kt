@@ -24,16 +24,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Tune
+import androidx.compose.material.icons.rounded.Done
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
 import kotlin.math.roundToInt
@@ -98,6 +108,50 @@ fun TessParamsSelector(
                         )
                     }
                 }
+
+                var tempTessParams by rememberSaveable(value.tessCustomParams) {
+                    mutableStateOf(value.tessCustomParams)
+                }
+                RoundedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .container(
+                            shape = ContainerShapeDefaults.defaultShape,
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                        .padding(8.dp),
+                    value = tempTessParams,
+                    singleLine = false,
+                    onValueChange = {
+                        tempTessParams = it
+                    },
+                    label = {
+                        Text(stringResource(R.string.custom_options))
+                    },
+                    onLoseFocusTransformation = {
+                        tempTessParams.trim().also {
+                            onValueChange(
+                                value.update(newCustomParams = it)
+                            )
+                            tempTessParams = it
+                        }
+                    },
+                    endIcon = {
+                        EnhancedIconButton(
+                            onClick = {
+                                onValueChange(
+                                    value.update(newCustomParams = tempTessParams)
+                                )
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Done,
+                                contentDescription = "Done"
+                            )
+                        }
+                    },
+                    shape = RoundedCornerShape(12.dp)
+                )
             }
         },
         shape = RoundedCornerShape(24.dp)

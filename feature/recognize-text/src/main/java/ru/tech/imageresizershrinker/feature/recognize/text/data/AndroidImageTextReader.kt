@@ -132,6 +132,12 @@ internal class AndroidImageTextReader @Inject constructor(
                 parameters.tessParamList.forEach { param ->
                     setVariable(param.key, param.stringValue)
                 }
+                runCatching {
+                    parameters.tessCustomParams.trim().removePrefix("--").split("--").forEach { s ->
+                        val (key, value) = s.trim().split(" ").filter { it.isNotEmpty() }
+                        setVariable(key, value)
+                    }
+                }
 
                 setImage(image.copy(Bitmap.Config.ARGB_8888, false))
             }
