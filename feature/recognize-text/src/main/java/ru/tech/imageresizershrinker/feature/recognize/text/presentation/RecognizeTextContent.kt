@@ -22,20 +22,16 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
-import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
@@ -82,26 +78,20 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.DownloadLanguageDialog
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.FilterSelectionBar
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.ModelTypeSelector
@@ -109,11 +99,11 @@ import ru.tech.imageresizershrinker.feature.recognize.text.presentation.componen
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.OcrEngineModeSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.RecognitionTypeSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.RecognizeLanguageSelector
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.TessParamsSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.toUi
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextViewModel
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.CropEditOption
-import kotlin.math.roundToInt
 
 
 @Composable
@@ -577,70 +567,4 @@ fun RecognizeTextContent(
     if (viewModel.isExporting) {
         LoadingDialog()
     }
-}
-
-@Composable
-fun TessParamsSelector(
-    value: TessParams,
-    onValueChange: (TessParams) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    ExpandableItem(
-        modifier = modifier,
-        visibleContent = {
-            TitleItem(
-                text = stringResource(R.string.tesseract_options),
-                subtitle = stringResource(R.string.tesseract_options_sub),
-                icon = Icons.Outlined.Tune,
-                iconEndPadding = 16.dp,
-                modifier = Modifier.padding(8.dp)
-            )
-        },
-        expandableContent = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.padding(horizontal = 8.dp)
-            ) {
-                val size = value.tessParamList.size
-
-                value.tessParamList.forEachIndexed { index, (key, paramValue) ->
-                    if (paramValue is Int) {
-                        EnhancedSliderItem(
-                            value = paramValue,
-                            onValueChange = { newValue ->
-                                onValueChange(
-                                    value.update(key) {
-                                        newValue.roundToInt()
-                                    }
-                                )
-                            },
-                            title = key,
-                            valueRange = 0f..100f,
-                            steps = 98,
-                            internalStateTransformation = {
-                                it.roundToInt()
-                            },
-                            shape = ContainerShapeDefaults.shapeForIndex(index, size),
-                            color = MaterialTheme.colorScheme.surface
-                        )
-                    } else if (paramValue is Boolean) {
-                        PreferenceRowSwitch(
-                            title = key,
-                            checked = paramValue,
-                            onClick = { checked ->
-                                onValueChange(
-                                    value.update(key) { checked }
-                                )
-                            },
-                            shape = ContainerShapeDefaults.shapeForIndex(index, size),
-                            modifier = Modifier.fillMaxWidth(),
-                            applyHorizontalPadding = false,
-                            color = MaterialTheme.colorScheme.surface
-                        )
-                    }
-                }
-            }
-        },
-        shape = RoundedCornerShape(24.dp)
-    )
 }

@@ -1,0 +1,105 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Tune
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
+import kotlin.math.roundToInt
+
+@Composable
+fun TessParamsSelector(
+    value: TessParams,
+    onValueChange: (TessParams) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ExpandableItem(
+        modifier = modifier,
+        visibleContent = {
+            TitleItem(
+                text = stringResource(R.string.tesseract_options),
+                subtitle = stringResource(R.string.tesseract_options_sub),
+                icon = Icons.Outlined.Tune,
+                iconEndPadding = 16.dp,
+                modifier = Modifier.padding(8.dp)
+            )
+        },
+        expandableContent = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.padding(horizontal = 8.dp)
+            ) {
+                val size = value.tessParamList.size
+
+                value.tessParamList.forEachIndexed { index, (key, paramValue) ->
+                    if (paramValue is Int) {
+                        EnhancedSliderItem(
+                            value = paramValue,
+                            onValueChange = { newValue ->
+                                onValueChange(
+                                    value.update(key) {
+                                        newValue.roundToInt()
+                                    }
+                                )
+                            },
+                            title = key,
+                            valueRange = 0f..100f,
+                            steps = 98,
+                            internalStateTransformation = {
+                                it.roundToInt()
+                            },
+                            shape = ContainerShapeDefaults.shapeForIndex(index, size),
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                    } else if (paramValue is Boolean) {
+                        PreferenceRowSwitch(
+                            title = key,
+                            checked = paramValue,
+                            onClick = { checked ->
+                                onValueChange(
+                                    value.update(key) { checked }
+                                )
+                            },
+                            shape = ContainerShapeDefaults.shapeForIndex(index, size),
+                            modifier = Modifier.fillMaxWidth(),
+                            applyHorizontalPadding = false,
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                    }
+                }
+            }
+        },
+        shape = RoundedCornerShape(24.dp)
+    )
+}
