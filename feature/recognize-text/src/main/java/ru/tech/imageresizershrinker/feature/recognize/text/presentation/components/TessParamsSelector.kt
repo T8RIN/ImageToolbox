@@ -17,12 +17,18 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Icon
@@ -33,9 +39,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
@@ -112,46 +122,77 @@ fun TessParamsSelector(
                 var tempTessParams by rememberSaveable(value.tessCustomParams) {
                     mutableStateOf(value.tessCustomParams)
                 }
-                RoundedTextField(
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .container(
                             shape = ContainerShapeDefaults.defaultShape,
                             color = MaterialTheme.colorScheme.surface
                         )
-                        .padding(8.dp),
-                    value = tempTessParams,
-                    singleLine = false,
-                    onValueChange = {
-                        tempTessParams = it
-                    },
-                    label = {
-                        Text(stringResource(R.string.custom_options))
-                    },
-                    onLoseFocusTransformation = {
-                        tempTessParams.trim().also {
-                            onValueChange(
-                                value.update(newCustomParams = it)
-                            )
+                        .padding(8.dp)
+                ) {
+                    RoundedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = tempTessParams,
+                        singleLine = false,
+                        onValueChange = {
                             tempTessParams = it
-                        }
-                    },
-                    endIcon = {
-                        EnhancedIconButton(
-                            onClick = {
+                        },
+                        label = {
+                            Text(stringResource(R.string.custom_options))
+                        },
+                        onLoseFocusTransformation = {
+                            tempTessParams.trim().also {
                                 onValueChange(
-                                    value.update(newCustomParams = tempTessParams)
+                                    value.update(newCustomParams = it)
                                 )
+                                tempTessParams = it
                             }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Done,
-                                contentDescription = "Done"
+                        },
+                        endIcon = {
+                            AnimatedVisibility(tempTessParams.isNotEmpty()) {
+                                EnhancedIconButton(
+                                    onClick = {
+                                        onValueChange(
+                                            value.update(newCustomParams = tempTessParams)
+                                        )
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Done,
+                                        contentDescription = "Done"
+                                    )
+                                }
+                            }
+                        },
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier
+                            .container(
+                                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                resultPadding = 0.dp,
+                                shape = RoundedCornerShape(8.dp)
                             )
-                        }
-                    },
-                    shape = RoundedCornerShape(12.dp)
-                )
+                            .padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Info,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = stringResource(R.string.custom_params_info),
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.SemiBold,
+                            lineHeight = 14.sp,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                        )
+                    }
+                }
             }
         },
         shape = RoundedCornerShape(24.dp)
