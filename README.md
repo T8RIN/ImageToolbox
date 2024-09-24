@@ -373,6 +373,8 @@ or click one of the badges below.
   - 120+ languages
   - 3 Type of data: Fast, Standard, Best
   - Segmentation Mode Selection
+  - Engine Mode Selection
+  - Custom Tesseract options entering
   - Multiple languages at the same time
 - EXIF metadata editing/deleting
 - Loading images from internet
@@ -524,6 +526,7 @@ or click one of the badges below.
   - Reducing size by given weight (in KB)
 - Cropping
   - Regular crop
+  - Free rotation crop
   - Crop by aspect ratio
   - Crop with shape mask
     - Rounded Corners
