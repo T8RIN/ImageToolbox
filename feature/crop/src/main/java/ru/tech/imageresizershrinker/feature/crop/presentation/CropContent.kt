@@ -96,6 +96,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -174,10 +175,14 @@ fun CropContent(
         }
     }
 
+    val rotationState = rememberSaveable {
+        mutableFloatStateOf(0f)
+    }
     val pickImageLauncher = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+            rotationState.value = 0f
             viewModel.setUri(it) { t ->
                 scope.launch {
                     toastHostState.showError(context, t)
@@ -263,10 +268,6 @@ fun CropContent(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-    }
-
-    val rotationState = rememberSaveable(viewModel.bitmap) {
-        mutableFloatStateOf(0f)
     }
 
     var crop by remember { mutableStateOf(false) }
@@ -370,9 +371,15 @@ fun CropContent(
                                 onShare = {
                                     viewModel.shareBitmap(showConfetti)
                                 },
-                                onCopy = {
+                                onEdit = {
                                     viewModel.cacheCurrentImage { uri ->
                                         editSheetData = listOf(uri)
+                                    }
+                                },
+                                onCopy = { manager ->
+                                    viewModel.cacheCurrentImage { uri ->
+                                        manager.setClip(uri.asClip(context))
+                                        showConfetti()
                                     }
                                 }
                             )

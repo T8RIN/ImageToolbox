@@ -85,7 +85,7 @@ fun CropEditOption(
     setCropMask: (CropOutlineProperty) -> Unit,
     loadImage: suspend (Uri) -> Bitmap?
 ) {
-    val rotationState = rememberSaveable(bitmap) {
+    val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
     val scope = rememberCoroutineScope()
