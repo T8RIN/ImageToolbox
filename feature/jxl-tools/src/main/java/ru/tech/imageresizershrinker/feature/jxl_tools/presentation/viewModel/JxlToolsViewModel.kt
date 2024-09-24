@@ -188,7 +188,7 @@ class JxlToolsViewModel @Inject constructor(
                         results.add(
                             fileController.save(
                                 saveTarget = JxlSaveTarget(uri, jxlBytes),
-                                keepOriginalMetadata = true,
+                                keepOriginalMetadata = false,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
@@ -214,7 +214,7 @@ class JxlToolsViewModel @Inject constructor(
                         results.add(
                             fileController.save(
                                 saveTarget = JpegSaveTarget(uri, jpegBytes),
-                                keepOriginalMetadata = true,
+                                keepOriginalMetadata = false,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
@@ -306,7 +306,7 @@ class JxlToolsViewModel @Inject constructor(
                         )?.also { jxlBytes ->
                             val result = fileController.save(
                                 saveTarget = JxlSaveTarget("", jxlBytes),
-                                keepOriginalMetadata = true,
+                                keepOriginalMetadata = false,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             ).onSuccess(::registerSave)
                             onResult(listOf(result))
