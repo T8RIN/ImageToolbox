@@ -526,6 +526,7 @@ or click one of the badges below.
   - Reducing size by given weight (in KB)
 - Cropping
   - Regular crop
+  - Free rotation crop
   - Crop by aspect ratio
   - Crop with shape mask
     - Rounded Corners
