@@ -19,7 +19,7 @@
     <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-lightblue?style=for-the-badge&logoColor=333&logo=material-you"/></a>
   </br>
   </br>
-<!--  <a href=""><img src="https://tokei.rs/b1/github/t8rin/imageToolbox?category=code&color=orange&style=for-the-badge"/></a> -->
+ <a href=""><img src="https://tokei.rs/b1/github/t8rin/imageToolbox?category=code&color=orange&style=for-the-badge"/></a>
   <a href="https://github.com/T8RIN/ImageToolbox/actions">
   <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge">
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge&color=37ABB5">
@@ -118,6 +118,16 @@ or click one of the badges below.
 4. Run the application:
    bash ./gradlew run
 
+# ⚔️ FOSS vs MARKET
+|     **Feature**    |      **FOSS**      |     **Market**     |
+|:------------------:|:------------------:|:------------------:|
+|     QR Scanner     |        Zxing       |        MlKit       |
+|    Auto erase BG   |         :x:        |        MlKit       |
+|  Document Scanner  |       OpenCV       |        MlKit       |
+|      Analytics     |         :x:        | :white_check_mark: |
+|     Crashlytics    |         :x:        | :white_check_mark: |
+|  Other Google deps |         :x:        | :white_check_mark: |
+| All Other Features | :white_check_mark: | :white_check_mark: |
 
 # ✨ Features
 
