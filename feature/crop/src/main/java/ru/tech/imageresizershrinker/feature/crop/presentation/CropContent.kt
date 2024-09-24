@@ -182,7 +182,7 @@ fun CropContent(
         mode = localImagePickerMode(Picker.Single)
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-            rotationState.value = 0f
+            rotationState.floatValue = 0f
             viewModel.setUri(it) { t ->
                 scope.launch {
                     toastHostState.showError(context, t)
