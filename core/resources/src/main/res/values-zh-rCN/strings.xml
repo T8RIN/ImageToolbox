@@ -1396,4 +1396,8 @@
     <string name="image_for_histogram">该图像将用于生成 RGB 和亮度直方图</string>
     <string name="histogram">柱状图</string>
     <string name="histogram_sub">RGB 或亮度图像直方图来帮助您进行调整</string>
+    <string name="tesseract_options">魔方选项</string>
+    <string name="tesseract_options_sub">为魔方引擎应用一些输入变量</string>
+    <string name="custom_options">自定义选项</string>
+    <string name="custom_params_info">应按照以下模式输入选项 \"--{选项名} {值}\"</string>
 </resources>
