@@ -142,7 +142,7 @@
     <string name="options_arrangement">Расположение опций</string>
     <string name="edit">Изменить</string>
     <string name="order">Порядок</string>
-    <string name="order_sub">Определяет порядок расположения опций на главном экране приложения</string>
+    <string name="order_sub">Определяет порядок инструментов на главном экране</string>
     <string name="emojis_count">Количество эмодзи</string>
     <string name="sequence_num">sequenceNum</string>
     <string name="original_filename">originalFilename</string>
@@ -419,7 +419,7 @@
     <string name="invert_colors_sub">Заменяет цвета темы на негативные, если включено</string>
     <string name="invert_colors">Инвертировать Цвета</string>
     <string name="search_option">Поиск</string>
-    <string name="search_option_sub">Включает возможность поиска по всем возможным опциям на главном экране</string>
+    <string name="search_option_sub">Включает возможность поиска по всем доступным инструментам на главном экране</string>
     <string name="pdf_tools">PDF инструменты</string>
     <string name="images_to_pdf">Изображения в PDF</string>
     <string name="preview_pdf">Предпросмотр PDF</string>
@@ -1348,4 +1348,7 @@
     <string name="gif_type_to_webp_sub">Конвертируйте GIF-изображения в анимированные WEBP-изображения</string>
     <string name="webp_tools">WEBP Инструменты</string>
     <string name="webp_tools_sub">Конвертируйте изображения в анимированные изображения WEBP или извлекайте кадры из заданной анимации WEBP</string>
+    <string name="one_time_save_location">Однократное сохранение местоположения</string>
+    <string name="recently_used">Недавно использовано</string>
+    <string name="one_time_save_location_sub">Просмотр и редактирование мест одноразового сохранения, которые можно использовать с помощью длительного нажатия кнопки сохранения практически во всех вариантах</string>
 </resources>
