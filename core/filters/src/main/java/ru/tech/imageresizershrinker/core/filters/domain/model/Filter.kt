@@ -252,6 +252,7 @@ interface Filter<Value> {
     interface GoldenForest : Filter<Float>
     interface Greenish : Filter<Float>
     interface RetroYellow : Filter<Float>
+    interface AutoCrop : Filter<Int>
 }
 
 interface SimpleFilter : Filter<Unit>

@@ -1418,4 +1418,5 @@
     <string name="tesseract_options_sub">Appy some input variables for tesseract engine</string>
     <string name="custom_options">Custom Options</string>
     <string name="custom_params_info">Options should be entered following this pattern: \"--{option_name} {value}\"</string>
+    <string name="auto_crop">Auto Crop</string>
 </resources>

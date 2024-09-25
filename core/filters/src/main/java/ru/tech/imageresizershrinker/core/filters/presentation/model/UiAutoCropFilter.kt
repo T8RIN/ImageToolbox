@@ -15,16 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.domain.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import java.lang.reflect.Proxy
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-inline fun <V : Any, reified T : Filter<V>> createFilter(
-    value: V
-): T = Proxy.newProxyInstance(
-    T::class.java.classLoader,
-    arrayOf(T::class.java)
-) { _, method, _ ->
-    if (method.name == "getValue") value else null
-} as T
+class UiAutoCropFilter(
+    override val value: Int = 5
+) : UiFilter<Int>(
+    title = R.string.auto_crop,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.tolerance,
+            valueRange = 0f..10f,
+            roundTo = 0
+        )
+    )
+), Filter.AutoCrop

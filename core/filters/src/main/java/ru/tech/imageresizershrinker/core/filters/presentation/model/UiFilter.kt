@@ -208,6 +208,7 @@ sealed class UiFilter<T>(
                     UiOpacityFilter(),
                     UiSideFadeFilter(),
                     UiCropToContentFilter(),
+                    UiAutoCropFilter(),
                     UiToonFilter(),
                     UiSmoothToonFilter(),
                     UiSketchFilter(),

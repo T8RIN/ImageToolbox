@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.AmatorkaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AnaglyphFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AnisotropicDiffusionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AtkinsonDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.AutoCropFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AutumnTonesFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BayerEightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BayerFourDitheringFilter
@@ -490,6 +491,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.GoldenForest -> GoldenForestFilter(value, lutFilterFactory)
             is Filter.Greenish -> GreenishFilter(value, lutFilterFactory)
             is Filter.RetroYellow -> RetroYellowFilter(value, lutFilterFactory)
+            is Filter.AutoCrop -> AutoCropFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
