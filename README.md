@@ -361,6 +361,7 @@ or click one of the badges below.
   - [x] Golden Forest
   - [x] Greenish
   - [x] Retro Yellow
+  - [x] Auto Crop
 
   </details>
 
@@ -527,6 +528,7 @@ or click one of the badges below.
 - Cropping
   - Regular crop
   - Free rotation crop
+  - Free corners crop
   - Crop by aspect ratio
   - Crop with shape mask
     - Rounded Corners
