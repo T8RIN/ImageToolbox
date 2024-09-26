@@ -547,7 +547,7 @@ fun BitmapDrawer(
                                                             paint.asFrameworkPaint()
                                                         )
                                                     }.toImageModel(),
-                                                    second = 10f,
+                                                    second = 3f,
                                                     third = 1
                                                 )
                                             )

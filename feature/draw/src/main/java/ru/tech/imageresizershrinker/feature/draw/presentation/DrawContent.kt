@@ -386,7 +386,11 @@ fun DrawContent(
                 BackgroundColorSelector(
                     value = viewModel.backgroundColor,
                     onValueChange = viewModel::updateBackgroundColor,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .container(
+                            shape = RoundedCornerShape(24.dp)
+                        )
                 )
             }
             AnimatedVisibility(
