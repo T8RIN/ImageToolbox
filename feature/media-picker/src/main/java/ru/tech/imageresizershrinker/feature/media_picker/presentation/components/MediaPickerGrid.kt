@@ -307,6 +307,13 @@ fun MediaPickerGrid(
                             )
                             onMediaClick(it)
                         },
+                        selectionIndex = remember(selectedMedia, item.media) {
+                            derivedStateOf {
+                                if (selectedMedia.size > 1) {
+                                    selectedMedia.indexOf(item.media)
+                                } else -1
+                            }
+                        }.value,
                         isSelected = remember(item, selectedMedia) {
                             derivedStateOf {
                                 selectedMedia.contains(item.media)

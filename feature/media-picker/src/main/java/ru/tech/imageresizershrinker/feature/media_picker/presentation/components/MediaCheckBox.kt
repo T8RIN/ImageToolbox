@@ -22,22 +22,33 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun MediaCheckBox(
     modifier: Modifier = Modifier,
     isChecked: Boolean,
+    selectionIndex: Int = -1,
     onCheck: (() -> Unit)? = null,
     checkedIcon: ImageVector = Icons.Filled.CheckCircle,
     checkedColor: Color = MaterialTheme.colorScheme.primary,
@@ -70,17 +81,43 @@ fun MediaCheckBox(
         }
     } else {
         AnimatedContent(
-            targetState = image,
+            targetState = Triple(isChecked, image, selectionIndex),
             transitionSpec = {
                 fadeIn() togetherWith fadeOut()
             }
-        ) { icon ->
-            Icon(
-                imageVector = icon,
-                modifier = modifier,
-                contentDescription = null,
-                tint = color
-            )
+        ) { (isChecked, image, selectionIndex) ->
+            if (selectionIndex >= 0) {
+                if (isChecked) {
+                    Box(
+                        modifier = modifier
+                            .size(24.dp)
+                            .padding(2.dp)
+                            .clip(CircleShape)
+                            .background(color),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AutoSizeText(
+                            text = (selectionIndex + 1).toString(),
+                            color = contentColorFor(color),
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                } else {
+                    Icon(
+                        imageVector = image,
+                        modifier = modifier,
+                        contentDescription = null,
+                        tint = color
+                    )
+                }
+            } else {
+                Icon(
+                    imageVector = image,
+                    modifier = modifier,
+                    contentDescription = null,
+                    tint = color
+                )
+            }
         }
     }
 }

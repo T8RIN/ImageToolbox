@@ -73,6 +73,7 @@ fun MediaImage(
     media: Media,
     selectionState: MutableState<Boolean>,
     isSelected: Boolean,
+    selectionIndex: Int,
     canClick: Boolean,
     onItemClick: (Media) -> Unit,
     onItemLongClick: (Media) -> Unit,
@@ -232,6 +233,7 @@ fun MediaImage(
                     checkedIcon = if (isImageError) {
                         Icons.Filled.Error
                     } else Icons.Filled.CheckCircle,
+                    selectionIndex = selectionIndex,
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(
