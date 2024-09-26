@@ -24,6 +24,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,12 +65,15 @@ import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,6 +92,26 @@ fun CropEditOption(
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
+    var cropType by rememberSaveable {
+        mutableStateOf(CropType.Default)
+    }
+    LaunchedEffect(cropProperties.cropOutlineProperty) {
+        cropType = if (cropProperties.cropOutlineProperty.cropOutline.id != 0) {
+            CropType.NoRotation
+        } else {
+            CropType.Default
+        }
+    }
+    val toggleFreeCornersCrop: () -> Unit = {
+        cropType = if (cropType != CropType.FreeCorners) {
+            CropType.FreeCorners
+        } else if (cropProperties.cropOutlineProperty.cropOutline.id != 0) {
+            CropType.NoRotation
+        } else {
+            CropType.Default
+        }
+    }
+
     val scope = rememberCoroutineScope()
     bitmap?.let {
         var crop by remember(visible) { mutableStateOf(false) }
@@ -107,24 +131,38 @@ fun CropEditOption(
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
-                AspectRatioSelector(
+                FreeCornersCropToggle(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    selectedAspectRatio = selectedAspectRatio,
-                    onAspectRatioChange = setCropAspectRatio
+                    value = cropType == CropType.FreeCorners,
+                    onClick = toggleFreeCornersCrop
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                CropMaskSelection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    onCropMaskChange = setCropMask,
-                    selectedItem = cropProperties.cropOutlineProperty,
-                    loadImage = {
-                        loadImage(it)?.asImageBitmap()
+                BoxAnimatedVisibility(
+                    visible = cropType != CropType.FreeCorners
+                ) {
+                    Column {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        AspectRatioSelector(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            selectedAspectRatio = selectedAspectRatio,
+                            onAspectRatioChange = setCropAspectRatio
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        CropMaskSelection(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            onCropMaskChange = setCropMask,
+                            selectedItem = cropProperties.cropOutlineProperty,
+                            loadImage = {
+                                loadImage(it)?.asImageBitmap()
+                            }
+                        )
                     }
-                )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
             },
             fabButtons = {
@@ -195,7 +233,7 @@ fun CropEditOption(
                     },
                     rotationState = rotationState,
                     cropProperties = cropProperties,
-                    isRotationEnabled = cropProperties.cropOutlineProperty.cropOutline.id == 0,
+                    cropType = cropType,
                     addVerticalInsets = !useScaffold
                 )
                 AnimatedVisibility(

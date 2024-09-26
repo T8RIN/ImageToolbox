@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,19 +64,24 @@ class CropViewModel @Inject constructor(
         mutableStateOf(DomainAspectRatio.Free)
     val selectedAspectRatio by _selectedAspectRatio
 
+    private val defaultOutline = CropOutlineProperty(
+        OutlineType.Rect,
+        RectCropShape(
+            id = 0,
+            title = OutlineType.Rect.name
+        )
+    )
+
     private val _cropProperties = mutableStateOf(
         CropDefaults.properties(
-            cropOutlineProperty = CropOutlineProperty(
-                OutlineType.Rect,
-                RectCropShape(
-                    id = 0,
-                    title = OutlineType.Rect.name
-                )
-            ),
+            cropOutlineProperty = defaultOutline,
             fling = true
         )
     )
     val cropProperties by _cropProperties
+
+    private val _cropType: MutableState<CropType> = mutableStateOf(CropType.Default)
+    val cropType: CropType by _cropType
 
     private val _uri = mutableStateOf(Uri.EMPTY)
 
@@ -160,20 +166,39 @@ class CropViewModel @Inject constructor(
         domainAspectRatio: DomainAspectRatio,
         aspectRatio: AspectRatio
     ) {
-        _cropProperties.value = _cropProperties.value.copy(
-            aspectRatio = aspectRatio.takeIf {
-                domainAspectRatio != DomainAspectRatio.Original
-            } ?: _bitmap.value?.let {
-                AspectRatio(it.safeAspectRatio)
-            } ?: aspectRatio,
-            fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
-        )
+        _cropProperties.update { properties ->
+            properties.copy(
+                aspectRatio = aspectRatio.takeIf {
+                    domainAspectRatio != DomainAspectRatio.Original
+                } ?: _bitmap.value?.let {
+                    AspectRatio(it.safeAspectRatio)
+                } ?: aspectRatio,
+                fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
+            )
+        }
         _selectedAspectRatio.update { domainAspectRatio }
     }
 
     fun setCropMask(cropOutlineProperty: CropOutlineProperty) {
-        _cropProperties.value =
-            _cropProperties.value.copy(cropOutlineProperty = cropOutlineProperty)
+        _cropProperties.update { it.copy(cropOutlineProperty = cropOutlineProperty) }
+
+        if (cropOutlineProperty.cropOutline.id == 0) {
+            _cropType.update { CropType.Default }
+        } else {
+            _cropType.update { CropType.NoRotation }
+        }
+    }
+
+    fun toggleFreeCornersCrop() {
+        _cropType.update {
+            if (it != CropType.FreeCorners) {
+                CropType.FreeCorners
+            } else if (cropProperties.cropOutlineProperty.cropOutline.id != defaultOutline.cropOutline.id) {
+                CropType.NoRotation
+            } else {
+                CropType.Default
+            }
+        }
     }
 
     fun resetBitmap() {

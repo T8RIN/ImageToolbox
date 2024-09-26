@@ -15,15 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.feature.crop.presentation.components
 
-android.namespace = "ru.tech.imageresizershrinker.feature.crop"
-
-dependencies {
-    implementation(libs.toolbox.opencvTools)
+enum class CropType {
+    Default, NoRotation, FreeCorners
 }

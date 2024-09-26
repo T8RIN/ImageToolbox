@@ -116,6 +116,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
@@ -126,7 +127,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -237,23 +240,37 @@ fun CropContent(
     val controls: @Composable () -> Unit = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             Spacer(modifier = Modifier.height(16.dp))
-            AspectRatioSelector(
+            FreeCornersCropToggle(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                selectedAspectRatio = viewModel.selectedAspectRatio,
-                onAspectRatioChange = viewModel::setCropAspectRatio
+                value = viewModel.cropType == CropType.FreeCorners,
+                onClick = viewModel::toggleFreeCornersCrop
             )
             Spacer(modifier = Modifier.height(8.dp))
-            CropMaskSelection(
-                onCropMaskChange = viewModel::setCropMask,
-                selectedItem = viewModel.cropProperties.cropOutlineProperty,
-                loadImage = {
-                    viewModel.loadImage(it)?.asImageBitmap()
-                },
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+            BoxAnimatedVisibility(
+                visible = viewModel.cropType != CropType.FreeCorners
+            ) {
+                Column {
+                    AspectRatioSelector(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        selectedAspectRatio = viewModel.selectedAspectRatio,
+                        onAspectRatioChange = viewModel::setCropAspectRatio
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    CropMaskSelection(
+                        onCropMaskChange = viewModel::setCropMask,
+                        selectedItem = viewModel.cropProperties.cropOutlineProperty,
+                        loadImage = {
+                            viewModel.loadImage(it)?.asImageBitmap()
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
             ImageFormatSelector(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -418,7 +435,7 @@ fun CropContent(
                             },
                             rotationState = rotationState,
                             cropProperties = viewModel.cropProperties,
-                            isRotationEnabled = viewModel.cropProperties.cropOutlineProperty.cropOutline.id == 0,
+                            cropType = viewModel.cropType,
                             addVerticalInsets = false
                         )
                     } else {
@@ -443,7 +460,7 @@ fun CropContent(
                                         crop = false
                                     },
                                     rotationState = rotationState,
-                                    isRotationEnabled = viewModel.cropProperties.cropOutlineProperty.cropOutline.id == 0,
+                                    cropType = viewModel.cropType,
                                     cropProperties = viewModel.cropProperties,
                                     addVerticalInsets = true
                                 )

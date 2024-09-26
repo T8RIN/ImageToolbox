@@ -27,6 +27,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -60,10 +61,12 @@ import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropProperties
+import com.t8rin.opencv_tools.free_corners_crop.FreeCornersCropper
 import com.yalantis.ucrop.compose.UCropper
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 
@@ -74,7 +77,7 @@ fun Cropper(
     crop: Boolean,
     onImageCropStarted: () -> Unit,
     onImageCropFinished: (Bitmap?) -> Unit,
-    isRotationEnabled: Boolean,
+    cropType: CropType,
     rotationState: MutableFloatState,
     cropProperties: CropProperties,
     addVerticalInsets: Boolean
@@ -83,81 +86,100 @@ fun Cropper(
         if (crop) onImageCropStarted()
     }
     AnimatedContent(
-        targetState = isRotationEnabled,
+        targetState = cropType,
         transitionSpec = { fadeIn() togetherWith fadeOut() }
-    ) { showUCrop ->
-        if (showUCrop) {
-            val scope = rememberCoroutineScope()
-            UCropper(
-                imageModel = bitmap,
-                aspectRatio = if (cropProperties.aspectRatio != AspectRatio.Original) {
-                    cropProperties.aspectRatio.value
-                } else null,
-                modifier = Modifier.transparencyChecker(),
-                containerModifier = Modifier.fillMaxSize(),
-                hapticsStrength = LocalSettingsState.current.hapticsStrength,
-                croppingTrigger = crop,
-                onCropped = {
-                    scope.launch {
-                        BitmapFactory.decodeFile(it.toFile().absolutePath)
-                            .apply(onImageCropFinished)
-                    }
-                },
-                rotationAngleState = rotationState,
-                onLoadingStateChange = {
-                    if (it) onImageCropStarted()
-                    else onImageCropFinished(null)
-                },
-                contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout).let {
-                    if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-                    else it.only(WindowInsetsSides.Horizontal)
-                }.asPaddingValues()
-            )
-        } else {
-            AnimatedContent(
-                targetState = (cropProperties.aspectRatio != AspectRatio.Original) to bitmap,
-                transitionSpec = { fadeIn() togetherWith fadeOut() },
-                modifier = modifier.fillMaxSize(),
-            ) { (fixedAspectRatio, bitmap) ->
-                Box {
-                    var zoomLevel by remember {
-                        mutableFloatStateOf(1f)
-                    }
-                    val bmp = remember(bitmap) { bitmap.asImageBitmap() }
-                    ImageCropper(
-                        backgroundModifier = Modifier.transparencyChecker(),
-                        imageBitmap = bmp,
-                        contentDescription = null,
-                        cropProperties = cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
-                        onCropStart = onImageCropStarted,
-                        crop = crop,
-                        cropStyle = CropDefaults.style(
-                            overlayColor = MaterialTheme.colorScheme.surfaceVariant
-                        ),
-                        onZoomChange = { newZoom ->
-                            zoomLevel = newZoom
-                        },
-                        onCropSuccess = { image ->
-                            onImageCropFinished(image.asAndroidBitmap())
+    ) { type ->
+        when (type) {
+            CropType.Default -> {
+                val scope = rememberCoroutineScope()
+                UCropper(
+                    imageModel = bitmap,
+                    aspectRatio = if (cropProperties.aspectRatio != AspectRatio.Original) {
+                        cropProperties.aspectRatio.value
+                    } else null,
+                    modifier = Modifier.transparencyChecker(),
+                    containerModifier = Modifier.fillMaxSize(),
+                    hapticsStrength = LocalSettingsState.current.hapticsStrength,
+                    croppingTrigger = crop,
+                    onCropped = {
+                        scope.launch {
+                            BitmapFactory.decodeFile(it.toFile().absolutePath)
+                                .apply(onImageCropFinished)
                         }
-                    )
-                    BoxAnimatedVisibility(
-                        visible = zoomLevel > 1f,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.TopStart),
-                        enter = scaleIn() + fadeIn(),
-                        exit = scaleOut() + fadeOut()
-                    ) {
-                        Text(
-                            text = stringResource(R.string.zoom) + " ${zoomLevel.roundToTwoDigits()}x",
-                            modifier = Modifier
-                                .background(Color.Black.copy(0.4f), CircleShape)
-                                .padding(horizontal = 8.dp, vertical = 4.dp),
-                            color = Color.White
+                    },
+                    rotationAngleState = rotationState,
+                    onLoadingStateChange = {
+                        if (it) onImageCropStarted()
+                        else onImageCropFinished(null)
+                    },
+                    contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout).let {
+                        if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                        else it.only(WindowInsetsSides.Horizontal)
+                    }.asPaddingValues()
+                )
+            }
+
+            CropType.NoRotation -> {
+                AnimatedContent(
+                    targetState = (cropProperties.aspectRatio != AspectRatio.Original) to bitmap,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    modifier = modifier.fillMaxSize(),
+                ) { (fixedAspectRatio, bitmap) ->
+                    Box {
+                        var zoomLevel by remember {
+                            mutableFloatStateOf(1f)
+                        }
+                        val bmp = remember(bitmap) { bitmap.asImageBitmap() }
+                        ImageCropper(
+                            backgroundModifier = Modifier.transparencyChecker(),
+                            imageBitmap = bmp,
+                            contentDescription = null,
+                            cropProperties = cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
+                            onCropStart = onImageCropStarted,
+                            crop = crop,
+                            cropStyle = CropDefaults.style(
+                                overlayColor = MaterialTheme.colorScheme.surfaceVariant
+                            ),
+                            onZoomChange = { newZoom ->
+                                zoomLevel = newZoom
+                            },
+                            onCropSuccess = { image ->
+                                onImageCropFinished(image.asAndroidBitmap())
+                            }
                         )
+                        BoxAnimatedVisibility(
+                            visible = zoomLevel > 1f,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.TopStart),
+                            enter = scaleIn() + fadeIn(),
+                            exit = scaleOut() + fadeOut()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.zoom) + " ${zoomLevel.roundToTwoDigits()}x",
+                                modifier = Modifier
+                                    .background(Color.Black.copy(0.4f), CircleShape)
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                color = Color.White
+                            )
+                        }
                     }
                 }
+            }
+
+            CropType.FreeCorners -> {
+                FreeCornersCropper(
+                    bitmap = bitmap,
+                    croppingTrigger = crop,
+                    onCropped = {
+                        onImageCropFinished(it)
+                    },
+                    modifier = Modifier.transparencyChecker(),
+                    contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout).let {
+                        if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                        else it.only(WindowInsetsSides.Horizontal)
+                    }.asPaddingValues() + PaddingValues(16.dp)
+                )
             }
         }
     }
