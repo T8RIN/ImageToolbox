@@ -126,6 +126,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
@@ -178,6 +179,9 @@ fun CropContent(
         }
     }
 
+    var coercePointsToImageArea by rememberSaveable {
+        mutableStateOf(true)
+    }
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
@@ -247,6 +251,16 @@ fun CropContent(
                 value = viewModel.cropType == CropType.FreeCorners,
                 onClick = viewModel::toggleFreeCornersCrop
             )
+            BoxAnimatedVisibility(viewModel.cropType == CropType.FreeCorners) {
+                CoercePointsToImageBoundsToggle(
+                    value = coercePointsToImageArea,
+                    onValueChange = { coercePointsToImageArea = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                        .padding(horizontal = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             BoxAnimatedVisibility(
                 visible = viewModel.cropType != CropType.FreeCorners
@@ -436,7 +450,8 @@ fun CropContent(
                             rotationState = rotationState,
                             cropProperties = viewModel.cropProperties,
                             cropType = viewModel.cropType,
-                            addVerticalInsets = false
+                            addVerticalInsets = false,
+                            coercePointsToImageArea = coercePointsToImageArea
                         )
                     } else {
                         Row(
@@ -462,7 +477,8 @@ fun CropContent(
                                     rotationState = rotationState,
                                     cropType = viewModel.cropType,
                                     cropProperties = viewModel.cropProperties,
-                                    addVerticalInsets = true
+                                    addVerticalInsets = true,
+                                    coercePointsToImageArea = coercePointsToImageArea
                                 )
                             }
 

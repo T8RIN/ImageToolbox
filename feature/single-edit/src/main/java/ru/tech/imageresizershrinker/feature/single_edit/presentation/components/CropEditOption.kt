@@ -70,6 +70,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
@@ -92,9 +93,13 @@ fun CropEditOption(
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
+    var coercePointsToImageArea by rememberSaveable {
+        mutableStateOf(true)
+    }
     var cropType by rememberSaveable {
         mutableStateOf(CropType.Default)
     }
+
     LaunchedEffect(cropProperties.cropOutlineProperty) {
         cropType = if (cropProperties.cropOutlineProperty.cropOutline.id != 0) {
             CropType.NoRotation
@@ -102,6 +107,7 @@ fun CropEditOption(
             CropType.Default
         }
     }
+
     val toggleFreeCornersCrop: () -> Unit = {
         cropType = if (cropType != CropType.FreeCorners) {
             CropType.FreeCorners
@@ -138,6 +144,16 @@ fun CropEditOption(
                     value = cropType == CropType.FreeCorners,
                     onClick = toggleFreeCornersCrop
                 )
+                BoxAnimatedVisibility(cropType == CropType.FreeCorners) {
+                    CoercePointsToImageBoundsToggle(
+                        value = coercePointsToImageArea,
+                        onValueChange = { coercePointsToImageArea = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                            .padding(horizontal = 16.dp)
+                    )
+                }
                 BoxAnimatedVisibility(
                     visible = cropType != CropType.FreeCorners
                 ) {
@@ -234,7 +250,8 @@ fun CropEditOption(
                     rotationState = rotationState,
                     cropProperties = cropProperties,
                     cropType = cropType,
-                    addVerticalInsets = !useScaffold
+                    addVerticalInsets = !useScaffold,
+                    coercePointsToImageArea = coercePointsToImageArea
                 )
                 AnimatedVisibility(
                     visible = loading,

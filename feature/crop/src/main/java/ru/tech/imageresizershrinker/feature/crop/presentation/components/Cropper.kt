@@ -78,6 +78,7 @@ fun Cropper(
     onImageCropStarted: () -> Unit,
     onImageCropFinished: (Bitmap?) -> Unit,
     cropType: CropType,
+    coercePointsToImageArea: Boolean,
     rotationState: MutableFloatState,
     cropProperties: CropProperties,
     addVerticalInsets: Boolean
@@ -174,11 +175,14 @@ fun Cropper(
                     onCropped = {
                         onImageCropFinished(it)
                     },
+                    coercePointsToImageArea = coercePointsToImageArea,
                     modifier = Modifier.transparencyChecker(),
-                    contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout).let {
-                        if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-                        else it.only(WindowInsetsSides.Horizontal)
-                    }.asPaddingValues() + PaddingValues(16.dp)
+                    contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout)
+                        .let {
+                            if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                            else it.only(WindowInsetsSides.Horizontal)
+                        }
+                        .asPaddingValues() + PaddingValues(16.dp)
                 )
             }
         }

@@ -1421,4 +1421,6 @@
     <string name="auto_crop">Auto Crop</string>
     <string name="free_corners">Free Corners</string>
     <string name="free_corners_sub">Crop image by polygon, this also corrects perspective</string>
+    <string name="coerce_points_to_image_bounds">Coerce Points To Image Bounds</string>
+    <string name="coerce_points_to_image_bounds_sub">Points will not be limited by image bounds, this useful for more precise perspective correcting</string>
 </resources>
