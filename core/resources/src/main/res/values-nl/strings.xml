@@ -1396,4 +1396,8 @@
     <string name="histogram">Histogram</string>
     <string name="histogram_sub">RGB- of helderheidsbeeldhistogram om je te helpen aanpassingen te maken</string>
     <string name="image_for_histogram">Deze afbeelding wordt gebruikt om RGB- en helderheidshistogrammen te genereren</string>
+    <string name="custom_options">Aangepaste opties</string>
+    <string name="custom_params_info">Voer opties in volgens dit patroon: \"--{optie_naam} {waarde}\"</string>
+    <string name="tesseract_options">Tesseract-opties</string>
+    <string name="tesseract_options_sub">Geef enkele invoervariabelen op voor de tesseract-engine</string>
 </resources>
