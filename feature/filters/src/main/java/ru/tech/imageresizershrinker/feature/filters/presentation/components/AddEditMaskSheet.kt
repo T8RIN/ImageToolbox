@@ -88,6 +88,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
@@ -809,7 +810,7 @@ private class AddMaskSheetViewModel @Inject constructor(
 
     suspend fun filter(
         bitmap: Bitmap,
-        filters: List<UiFilter<*>>,
+        filters: List<Filter<*>>,
         size: IntegerSize? = null
     ): Bitmap? = size?.let { intSize ->
         imageTransformer.transform(

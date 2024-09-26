@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -337,7 +337,7 @@ class DrawViewModel @Inject constructor(
 
     suspend fun filter(
         bitmap: Bitmap,
-        filters: List<UiFilter<*>>
+        filters: List<Filter<*>>
     ): Bitmap? = imageTransformer.transform(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }

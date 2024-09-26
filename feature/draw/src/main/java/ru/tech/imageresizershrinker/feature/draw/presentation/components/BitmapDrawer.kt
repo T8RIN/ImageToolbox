@@ -44,12 +44,16 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.geometry.takeOrElse
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asComposePaint
@@ -60,6 +64,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.applyCanvas
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
@@ -67,10 +72,12 @@ import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.domain.model.max
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.createFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiNativeStackBlurFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
@@ -78,6 +85,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -99,7 +107,7 @@ import android.graphics.Path as NativePath
 @Composable
 fun BitmapDrawer(
     imageBitmap: ImageBitmap,
-    onRequestFiltering: suspend (Bitmap, List<UiFilter<*>>) -> Bitmap?,
+    onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
     zoomState: ZoomState = rememberZoomState(maxScale = 30f),
@@ -247,7 +255,7 @@ fun BitmapDrawer(
 
             fun transformationsForMode(
                 drawMode: DrawMode,
-            ): List<UiFilter<*>> = when (drawMode) {
+            ): List<Filter<*>> = when (drawMode) {
                 is DrawMode.PathEffect.PrivacyBlur -> {
                     listOf(
                         UiNativeStackBlurFilter(
@@ -438,7 +446,7 @@ fun BitmapDrawer(
                         motionEvent = MotionEvent.Idle
 
                         scope.launch {
-                            if (drawMode is DrawMode.PathEffect && !isEraserOn) Unit
+                            if ((drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal) && !isEraserOn) Unit
                             else drawPath = Path()
 
                             pathWithoutTransformations = Path()
@@ -489,6 +497,76 @@ fun BitmapDrawer(
                             if (shaderSource != null) {
                                 LaunchedEffect(shaderSource) {
                                     drawPath = Path()
+                                }
+                                val imagePaint = remember { Paint() }
+                                drawImage(
+                                    image = shaderSource!!,
+                                    topLeftOffset = Offset.Zero,
+                                    paint = imagePaint
+                                )
+                            }
+                        } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
+                            val isSharpEdge = drawPathMode.isSharpEdge
+                            val isFilled = drawPathMode.isFilled
+                            val stroke = strokeWidth.toPx(canvasSize)
+                            val paint = Paint().apply {
+                                if (isFilled) {
+                                    style = PaintingStyle.Fill
+                                } else {
+                                    style = PaintingStyle.Stroke
+                                    this.strokeWidth = stroke
+                                    if (isSharpEdge) {
+                                        strokeCap = StrokeCap.Square
+                                    } else {
+                                        strokeCap = StrokeCap.Round
+                                        strokeJoin = StrokeJoin.Round
+                                    }
+                                }
+
+                                color = Color.White
+                            }
+
+                            var shaderSource by remember(backgroundColor) {
+                                mutableStateOf<ImageBitmap?>(null)
+                            }
+                            LaunchedEffect(shaderSource, invalidations) {
+                                if (shaderSource == null || invalidations <= paths.size) {
+                                    shaderSource = onRequestFiltering(
+                                        drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
+                                        listOf(
+                                            createFilter<Triple<ImageModel, Float, Int>, Filter.SpotHeal>(
+                                                Triple(
+                                                    first = Bitmap.createBitmap(
+                                                        canvasSize.width,
+                                                        canvasSize.height,
+                                                        Bitmap.Config.ARGB_8888
+                                                    ).applyCanvas {
+                                                        drawColor(Color.Black.toArgb())
+                                                        drawPath(
+                                                            path,
+                                                            paint.asFrameworkPaint()
+                                                        )
+                                                    }.toImageModel(),
+                                                    second = 10f,
+                                                    third = 1
+                                                )
+                                            )
+                                        )
+                                    )?.asImageBitmap()?.clipBitmap(
+                                        path = path.asComposePath(),
+                                        paint = paint.apply {
+                                            blendMode = BlendMode.Clear
+                                        }
+                                    )?.also {
+                                        it.prepareToDraw()
+                                        invalidations++
+                                    }
+                                }
+                            }
+                            if (shaderSource != null) {
+                                LaunchedEffect(shaderSource) {
+                                    drawPath = Path()
+                                    invalidations++
                                 }
                                 val imagePaint = remember { Paint() }
                                 drawImage(
@@ -556,6 +634,11 @@ fun BitmapDrawer(
                                 canvasSize = canvasSize,
                                 path = androidPath,
                                 paint = drawPaint
+                            )
+                        } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
+                            drawPath(
+                                androidPath,
+                                drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
                             )
                         } else {
                             drawPath(androidPath, drawPaint)

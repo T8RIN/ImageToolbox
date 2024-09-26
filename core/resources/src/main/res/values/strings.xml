@@ -1423,4 +1423,7 @@
     <string name="free_corners_sub">Crop image by polygon, this also corrects perspective</string>
     <string name="coerce_points_to_image_bounds">Coerce Points To Image Bounds</string>
     <string name="coerce_points_to_image_bounds_sub">Points will not be limited by image bounds, this useful for more precise perspective correcting</string>
+    <string name="mask">Mask</string>
+    <string name="spot_heal_sub">Content aware fill under drawn path</string>
+    <string name="spot_heal">Spot Heal</string>
 </resources>

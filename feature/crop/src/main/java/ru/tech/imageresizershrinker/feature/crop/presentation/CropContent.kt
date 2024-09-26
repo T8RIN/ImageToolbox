@@ -23,6 +23,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -251,7 +255,11 @@ fun CropContent(
                 value = viewModel.cropType == CropType.FreeCorners,
                 onClick = viewModel::toggleFreeCornersCrop
             )
-            BoxAnimatedVisibility(viewModel.cropType == CropType.FreeCorners) {
+            BoxAnimatedVisibility(
+                visible = viewModel.cropType == CropType.FreeCorners,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
                 CoercePointsToImageBoundsToggle(
                     value = coercePointsToImageArea,
                     onValueChange = { coercePointsToImageArea = it },
@@ -263,7 +271,9 @@ fun CropContent(
             }
             Spacer(modifier = Modifier.height(8.dp))
             BoxAnimatedVisibility(
-                visible = viewModel.cropType != CropType.FreeCorners
+                visible = viewModel.cropType != CropType.FreeCorners,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
             ) {
                 Column {
                     AspectRatioSelector(

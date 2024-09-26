@@ -305,9 +305,7 @@ fun ImageStitchingContent(
                         viewModel.updateBackgroundSelector(it.toArgb())
                     },
                     modifier = Modifier.container(
-                        shape = RoundedCornerShape(
-                            24.dp
-                        )
+                        shape = RoundedCornerShape(24.dp)
                     )
                 )
                 QualitySelector(

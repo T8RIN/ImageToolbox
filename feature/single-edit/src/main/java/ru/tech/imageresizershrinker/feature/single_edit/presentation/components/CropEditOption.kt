@@ -20,8 +20,10 @@ package ru.tech.imageresizershrinker.feature.single_edit.presentation.components
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -144,7 +146,11 @@ fun CropEditOption(
                     value = cropType == CropType.FreeCorners,
                     onClick = toggleFreeCornersCrop
                 )
-                BoxAnimatedVisibility(cropType == CropType.FreeCorners) {
+                BoxAnimatedVisibility(
+                    visible = cropType == CropType.FreeCorners,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
                     CoercePointsToImageBoundsToggle(
                         value = coercePointsToImageArea,
                         onValueChange = { coercePointsToImageArea = it },
@@ -155,7 +161,9 @@ fun CropEditOption(
                     )
                 }
                 BoxAnimatedVisibility(
-                    visible = cropType != CropType.FreeCorners
+                    visible = cropType != CropType.FreeCorners,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
                 ) {
                     Column {
                         Spacer(modifier = Modifier.height(8.dp))

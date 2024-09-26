@@ -227,6 +227,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SolarizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SpacePortalFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SpectralFireFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SphereRefractionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.SpotHealFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.StackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.StarBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.StrokePixelationFilter
@@ -257,7 +258,8 @@ internal class AndroidFilterProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val paletteTransferFilterFactory: PaletteTransferFilter.Factory,
     private val lutFilterFactory: LUT512x512Filter.Factory,
-    private val paletteTransferVariantFilterFactory: PaletteTransferVariantFilter.Factory
+    private val paletteTransferVariantFilterFactory: PaletteTransferVariantFilter.Factory,
+    private val spotHealFilterFactory: SpotHealFilter.Factory
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
@@ -492,6 +494,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Greenish -> GreenishFilter(value, lutFilterFactory)
             is Filter.RetroYellow -> RetroYellowFilter(value, lutFilterFactory)
             is Filter.AutoCrop -> AutoCropFilter(value)
+            is Filter.SpotHeal -> spotHealFilterFactory(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

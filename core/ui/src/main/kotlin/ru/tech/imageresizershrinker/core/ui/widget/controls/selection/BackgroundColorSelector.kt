@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,17 +35,12 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
 fun BackgroundColorSelector(
     value: Color,
     onValueChange: (Color) -> Unit,
-    modifier: Modifier = Modifier
-        .padding(16.dp)
-        .container(
-            shape = RoundedCornerShape(24.dp)
-        ),
+    modifier: Modifier = Modifier,
     title: String = stringResource(R.string.background_color)
 ) {
     Column(modifier = modifier) {

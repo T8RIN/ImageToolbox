@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -37,9 +36,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 fun AlphaSelector(
     value: Float,
     onValueChange: (Float) -> Unit,
-    @SuppressLint("ModifierParameter")
-    modifier: Modifier = Modifier
-        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+    modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     shape: Shape = RoundedCornerShape(24.dp),
     title: String = stringResource(R.string.paint_alpha),

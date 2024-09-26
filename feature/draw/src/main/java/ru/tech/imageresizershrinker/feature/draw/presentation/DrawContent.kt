@@ -327,144 +327,138 @@ fun DrawContent(
     }
 
     val controls = @Composable {
-        OpenColorPickerCard(
-            onOpen = {
-                viewModel.openColorPicker()
-                showPickColorSheet = true
-            }
-        )
-        AnimatedVisibility(
-            visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
+        Column(
+            modifier = Modifier.padding(vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            DrawColorSelector(
-                drawColor = drawColor,
-                onColorChange = { drawColor = it },
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-        AnimatedVisibility(
-            visible = drawPathMode.isStroke,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            LineWidthSelector(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
-                title = if (drawMode is DrawMode.Text) {
-                    stringResource(R.string.font_size)
-                } else stringResource(R.string.line_width),
-                valueRange = if (drawMode is DrawMode.Image) {
-                    10f..120f
-                } else 1f..100f,
-                value = strokeWidth.value,
-                onValueChange = { strokeWidth = it.pt }
-            )
-        }
-        AnimatedVisibility(
-            visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            BrushSoftnessSelector(
-                modifier = Modifier
-                    .padding(end = 16.dp, start = 16.dp),
-                value = brushSoftness.value,
-                onValueChange = { brushSoftness = it.pt }
-            )
-        }
-        if (viewModel.drawBehavior is DrawBehavior.Background) {
-            BackgroundColorSelector(
-                value = viewModel.backgroundColor,
-                onValueChange = viewModel::updateBackgroundColor
-            )
-        } else {
-            Spacer(Modifier.height(16.dp))
-        }
-        AnimatedVisibility(
-            visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            AlphaSelector(
-                value = alpha,
-                onValueChange = { alpha = it }
-            )
-        }
-        DrawModeSelector(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 16.dp
-            ),
-            value = drawMode,
-            strokeWidth = strokeWidth,
-            onValueChange = viewModel::updateDrawMode
-        )
-        DrawPathModeSelector(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 16.dp
-            ),
-            value = drawPathMode,
-            onValueChange = viewModel::updateDrawPathMode,
-            values = remember(drawMode) {
-                derivedStateOf {
-                    if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
-                        DrawPathMode.entries
-                    } else {
-                        listOf(
-                            DrawPathMode.Free,
-                            DrawPathMode.Line,
-                            DrawPathMode.OutlinedRect(),
-                            DrawPathMode.OutlinedOval,
-                            DrawPathMode.OutlinedTriangle,
-                            DrawPathMode.OutlinedPolygon(),
-                            DrawPathMode.OutlinedStar()
-                        )
+            AnimatedVisibility(
+                visible = drawMode !is DrawMode.SpotHeal,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                OpenColorPickerCard(
+                    onOpen = {
+                        viewModel.openColorPicker()
+                        showPickColorSheet = true
                     }
-                }
-            }.value
-        )
-        val settingsInteractor = LocalSimpleSettingsInteractor.current
-        PreferenceRowSwitch(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
-            shape = RoundedCornerShape(24.dp),
-            title = stringResource(R.string.magnifier),
-            subtitle = stringResource(R.string.magnifier_sub),
-            checked = settingsState.magnifierEnabled,
-            onClick = {
-                scope.launch {
-                    settingsInteractor.toggleMagnifierEnabled()
-                }
-            },
-            startIcon = Icons.Outlined.ZoomIn
-        )
-        SaveExifWidget(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            checked = viewModel.saveExif,
-            imageFormat = viewModel.imageFormat,
-            onCheckedChange = viewModel::setSaveExif
-        )
-        ImageFormatSelector(
-            modifier = Modifier
-                .padding(16.dp)
-                .navigationBarsPadding(),
-            forceEnabled = viewModel.drawBehavior is DrawBehavior.Background,
-            value = viewModel.imageFormat,
-            onValueChange = viewModel::setImageFormat
-        )
+                )
+            }
+            AnimatedVisibility(
+                visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image && drawMode !is DrawMode.SpotHeal,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                DrawColorSelector(
+                    drawColor = drawColor,
+                    onColorChange = { drawColor = it },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+            AnimatedVisibility(
+                visible = drawPathMode.isStroke,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                LineWidthSelector(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    title = if (drawMode is DrawMode.Text) {
+                        stringResource(R.string.font_size)
+                    } else stringResource(R.string.line_width),
+                    valueRange = if (drawMode is DrawMode.Image) {
+                        10f..120f
+                    } else 1f..100f,
+                    value = strokeWidth.value,
+                    onValueChange = { strokeWidth = it.pt }
+                )
+            }
+            AnimatedVisibility(
+                visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                BrushSoftnessSelector(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    value = brushSoftness.value,
+                    onValueChange = { brushSoftness = it.pt }
+                )
+            }
+            if (viewModel.drawBehavior is DrawBehavior.Background) {
+                BackgroundColorSelector(
+                    value = viewModel.backgroundColor,
+                    onValueChange = viewModel::updateBackgroundColor,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+            AnimatedVisibility(
+                visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                AlphaSelector(
+                    value = alpha,
+                    onValueChange = { alpha = it },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+            DrawModeSelector(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                value = drawMode,
+                strokeWidth = strokeWidth,
+                onValueChange = viewModel::updateDrawMode
+            )
+            DrawPathModeSelector(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                value = drawPathMode,
+                onValueChange = viewModel::updateDrawPathMode,
+                values = remember(drawMode) {
+                    derivedStateOf {
+                        if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
+                            DrawPathMode.entries
+                        } else {
+                            listOf(
+                                DrawPathMode.Free,
+                                DrawPathMode.Line,
+                                DrawPathMode.OutlinedRect(),
+                                DrawPathMode.OutlinedOval,
+                                DrawPathMode.OutlinedTriangle,
+                                DrawPathMode.OutlinedPolygon(),
+                                DrawPathMode.OutlinedStar()
+                            )
+                        }
+                    }
+                }.value
+            )
+            val settingsInteractor = LocalSimpleSettingsInteractor.current
+            PreferenceRowSwitch(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(24.dp),
+                title = stringResource(R.string.magnifier),
+                subtitle = stringResource(R.string.magnifier_sub),
+                checked = settingsState.magnifierEnabled,
+                onClick = {
+                    scope.launch {
+                        settingsInteractor.toggleMagnifierEnabled()
+                    }
+                },
+                startIcon = Icons.Outlined.ZoomIn
+            )
+            SaveExifWidget(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                checked = viewModel.saveExif,
+                imageFormat = viewModel.imageFormat,
+                onCheckedChange = viewModel::setSaveExif
+            )
+            ImageFormatSelector(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .navigationBarsPadding(),
+                forceEnabled = viewModel.drawBehavior is DrawBehavior.Background,
+                value = viewModel.imageFormat,
+                onValueChange = viewModel::setImageFormat
+            )
+        }
     }
 
     val secondaryControls = @Composable {
@@ -687,7 +681,6 @@ fun DrawContent(
             )
         }
     }
-
 
     val screenWidth = LocalConfiguration.current.screenWidthDp
 

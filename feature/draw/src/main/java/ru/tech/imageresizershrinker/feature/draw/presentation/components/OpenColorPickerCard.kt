@@ -42,7 +42,7 @@ fun OpenColorPickerCard(
 ) {
     Row(
         modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            .padding(horizontal = 16.dp)
             .container(
                 resultPadding = 0.dp,
                 color = MaterialTheme.colorScheme.mixedContainer.copy(0.7f),

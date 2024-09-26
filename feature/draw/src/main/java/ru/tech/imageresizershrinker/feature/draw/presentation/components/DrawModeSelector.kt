@@ -36,6 +36,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
+import androidx.compose.material.icons.outlined.Healing
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.AutoFixNormal
@@ -496,6 +497,7 @@ private fun DrawMode.getSubtitle(): Int = when (this) {
     is DrawMode.Text -> R.string.draw_text_sub
     is DrawMode.Image -> R.string.draw_mode_image_sub
     is DrawMode.PathEffect.Custom -> R.string.draw_filter_sub
+    DrawMode.SpotHeal -> R.string.spot_heal_sub
 }
 
 private fun DrawMode.getTitle(): Int = when (this) {
@@ -507,6 +509,7 @@ private fun DrawMode.getTitle(): Int = when (this) {
     is DrawMode.Text -> R.string.text
     is DrawMode.Image -> R.string.image
     is DrawMode.PathEffect.Custom -> R.string.filter
+    is DrawMode.SpotHeal -> R.string.spot_heal
 }
 
 private fun DrawMode.getIcon(): ImageVector = when (this) {
@@ -518,4 +521,5 @@ private fun DrawMode.getIcon(): ImageVector = when (this) {
     is DrawMode.Text -> Icons.Rounded.TextFormat
     is DrawMode.Image -> Icons.Outlined.Image
     is DrawMode.PathEffect.Custom -> Icons.Outlined.AutoFixHigh
+    DrawMode.SpotHeal -> Icons.Outlined.Healing
 }

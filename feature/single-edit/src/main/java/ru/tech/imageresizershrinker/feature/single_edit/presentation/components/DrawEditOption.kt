@@ -25,7 +25,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -35,7 +37,6 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -72,7 +73,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.coerceIn
 import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
@@ -105,7 +106,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 @Composable
 fun DrawEditOption(
     visible: Boolean,
-    onRequestFiltering: suspend (Bitmap, List<UiFilter<*>>) -> Bitmap?,
+    onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
     drawMode: DrawMode,
     onUpdateDrawMode: (DrawMode) -> Unit,
     drawPathMode: DrawPathMode,
@@ -211,132 +212,126 @@ fun DrawEditOption(
             onDismiss = onDismiss,
             useScaffold = useScaffold,
             controls = { scaffoldState ->
-                val focus = LocalFocusManager.current
-                LaunchedEffect(scaffoldState?.bottomSheetState?.currentValue, focus) {
-                    val current = scaffoldState?.bottomSheetState?.currentValue
-                    if (current.notNullAnd { it != SheetValue.Expanded }) {
-                        focus.clearFocus()
+                Column(
+                    modifier = Modifier.padding(vertical = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val focus = LocalFocusManager.current
+                    LaunchedEffect(scaffoldState?.bottomSheetState?.currentValue, focus) {
+                        val current = scaffoldState?.bottomSheetState?.currentValue
+                        if (current.notNullAnd { it != SheetValue.Expanded }) {
+                            focus.clearFocus()
+                        }
                     }
-                }
 
-                if (!useScaffold) secondaryControls()
-                OpenColorPickerCard(
-                    onOpen = {
-                        showPickColorSheet = true
-                    }
-                )
-                AnimatedVisibility(
-                    visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
-                    DrawColorSelector(
-                        drawColor = drawColor,
-                        onColorChange = { drawColor = it },
-                        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
-                    )
-                }
-                AnimatedVisibility(
-                    visible = drawPathMode.isStroke,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
-                    LineWidthSelector(
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = 16.dp
-                        ),
-                        title = if (drawMode is DrawMode.Text) {
-                            stringResource(R.string.font_size)
-                        } else stringResource(R.string.line_width),
-                        valueRange = if (drawMode is DrawMode.Image) {
-                            10f..120f
-                        } else 1f..100f,
-                        value = strokeWidth.value,
-                        onValueChange = { strokeWidth = it.pt }
-                    )
-                }
-                AnimatedVisibility(
-                    visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
-                    BrushSoftnessSelector(
-                        modifier = Modifier
-                            .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-                        value = brushSoftness.value,
-                        onValueChange = { brushSoftness = it.pt }
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                AnimatedVisibility(
-                    visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
-                    AlphaSelector(
-                        value = alpha,
-                        onValueChange = { alpha = it }
-                    )
-                }
-                DrawModeSelector(
-                    modifier = Modifier.padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        bottom = 16.dp
-                    ),
-                    value = drawMode,
-                    strokeWidth = strokeWidth,
-                    onValueChange = onUpdateDrawMode
-                )
-                DrawPathModeSelector(
-                    modifier = Modifier.padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        bottom = 16.dp
-                    ),
-                    value = drawPathMode,
-                    onValueChange = onUpdateDrawPathMode,
-                    values = remember(drawMode) {
-                        derivedStateOf {
-                            if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
-                                DrawPathMode.entries
-                            } else {
-                                listOf(
-                                    DrawPathMode.Free,
-                                    DrawPathMode.Line,
-                                    DrawPathMode.OutlinedRect(),
-                                    DrawPathMode.OutlinedOval,
-                                    DrawPathMode.OutlinedTriangle,
-                                    DrawPathMode.OutlinedPolygon(),
-                                    DrawPathMode.OutlinedStar()
-                                )
+                    if (!useScaffold) secondaryControls()
+                    AnimatedVisibility(
+                        visible = drawMode !is DrawMode.SpotHeal,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+                        OpenColorPickerCard(
+                            onOpen = {
+                                showPickColorSheet = true
                             }
-                        }
-                    }.value
-                )
-                val settingsInteractor = LocalSimpleSettingsInteractor.current
-                val scope = rememberCoroutineScope()
-                PreferenceRowSwitch(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
-                        ),
-                    shape = RoundedCornerShape(24.dp),
-                    title = stringResource(R.string.magnifier),
-                    subtitle = stringResource(R.string.magnifier_sub),
-                    checked = settingsState.magnifierEnabled,
-                    onClick = {
-                        scope.launch {
-                            settingsInteractor.toggleMagnifierEnabled()
-                        }
-                    },
-                    startIcon = Icons.Outlined.ZoomIn
-                )
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image && drawMode !is DrawMode.SpotHeal,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+                        DrawColorSelector(
+                            drawColor = drawColor,
+                            onColorChange = { drawColor = it },
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = drawPathMode.isStroke,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+                        LineWidthSelector(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            title = if (drawMode is DrawMode.Text) {
+                                stringResource(R.string.font_size)
+                            } else stringResource(R.string.line_width),
+                            valueRange = if (drawMode is DrawMode.Image) {
+                                10f..120f
+                            } else 1f..100f,
+                            value = strokeWidth.value,
+                            onValueChange = { strokeWidth = it.pt }
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+                        BrushSoftnessSelector(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            value = brushSoftness.value,
+                            onValueChange = { brushSoftness = it.pt }
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+                        AlphaSelector(
+                            value = alpha,
+                            onValueChange = { alpha = it },
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    }
+                    DrawModeSelector(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        value = drawMode,
+                        strokeWidth = strokeWidth,
+                        onValueChange = onUpdateDrawMode
+                    )
+                    DrawPathModeSelector(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        value = drawPathMode,
+                        onValueChange = onUpdateDrawPathMode,
+                        values = remember(drawMode) {
+                            derivedStateOf {
+                                if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
+                                    DrawPathMode.entries
+                                } else {
+                                    listOf(
+                                        DrawPathMode.Free,
+                                        DrawPathMode.Line,
+                                        DrawPathMode.OutlinedRect(),
+                                        DrawPathMode.OutlinedOval,
+                                        DrawPathMode.OutlinedTriangle,
+                                        DrawPathMode.OutlinedPolygon(),
+                                        DrawPathMode.OutlinedStar()
+                                    )
+                                }
+                            }
+                        }.value
+                    )
+                    val settingsInteractor = LocalSimpleSettingsInteractor.current
+                    val scope = rememberCoroutineScope()
+                    PreferenceRowSwitch(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(24.dp),
+                        title = stringResource(R.string.magnifier),
+                        subtitle = stringResource(R.string.magnifier_sub),
+                        checked = settingsState.magnifierEnabled,
+                        onClick = {
+                            scope.launch {
+                                settingsInteractor.toggleMagnifierEnabled()
+                            }
+                        },
+                        startIcon = Icons.Outlined.ZoomIn
+                    )
+                }
             },
             fabButtons = null,
             actions = {

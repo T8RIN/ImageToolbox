@@ -253,6 +253,7 @@ interface Filter<Value> {
     interface Greenish : Filter<Float>
     interface RetroYellow : Filter<Float>
     interface AutoCrop : Filter<Int>
+    interface SpotHeal : TripleFilter<ImageModel, Float, Int>
 }
 
 interface SimpleFilter : Filter<Unit>
