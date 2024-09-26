@@ -529,6 +529,7 @@ or click one of the badges below.
   - Regular crop
   - Free rotation crop
   - Free corners crop
+  - Perspective correction
   - Crop by aspect ratio
   - Crop with shape mask
     - Rounded Corners
