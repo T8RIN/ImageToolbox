@@ -97,6 +97,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ICON_SHAPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IMAGE_PICKER_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IMAGE_SCALE_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INITIAL_OCR_CODES
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INITIAL_OCR_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INVERT_THEME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_LINK_PREVIEW_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
@@ -722,6 +723,12 @@ internal class AndroidSettingsManager @Inject constructor(
         }
     }
 
+    override suspend fun getInitialOcrMode(): Int {
+        return dataStore.data.first().let { prefs ->
+            prefs[INITIAL_OCR_MODE] ?: 1
+        }
+    }
+
     override suspend fun setScreensWithBrightnessEnforcement(data: String) {
         dataStore.edit {
             it[SCREENS_WITH_BRIGHTNESS_ENFORCEMENT] = data
@@ -1028,6 +1035,12 @@ internal class AndroidSettingsManager @Inject constructor(
                 key = IS_SYSTEM_BARS_VISIBLE_BY_SWIPE,
                 defaultValue = default.isSystemBarsVisibleBySwipe
             )
+        }
+    }
+
+    override suspend fun setInitialOcrMode(mode: Int) {
+        dataStore.edit {
+            it[INITIAL_OCR_MODE] = mode
         }
     }
 

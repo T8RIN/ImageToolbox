@@ -28,4 +28,8 @@ interface SettingsProvider {
 
     fun getNeedToShowTelegramGroupDialog(): Flow<Boolean>
 
+    suspend fun getInitialOCRLanguageCodes(): List<String>
+
+    suspend fun getInitialOcrMode(): Int
+
 }

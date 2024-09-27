@@ -98,6 +98,7 @@ class RecognizeTextViewModel @Inject constructor(
     private val _selectedLanguages = mutableStateOf(listOf(OCRLanguage.Default))
     val selectedLanguages by _selectedLanguages
 
+    private var isRecognitionTypeSet = false
     private val _recognitionType = mutableStateOf(RecognitionType.Standard)
     val recognitionType by _recognitionType
 
@@ -172,6 +173,12 @@ class RecognizeTextViewModel @Inject constructor(
     ) {
         loadingJob = viewModelScope.launch {
             delay(200L)
+            if (!isRecognitionTypeSet) {
+                _recognitionType.update {
+                    RecognitionType.entries[settingsManager.getInitialOcrMode()]
+                }
+                isRecognitionTypeSet = true
+            }
             val data = imageTextReader.getLanguages(recognitionType)
             _selectedLanguages.update { ocrLanguages ->
                 val list = ocrLanguages.toMutableList()
@@ -284,6 +291,9 @@ class RecognizeTextViewModel @Inject constructor(
 
     fun setRecognitionType(recognitionType: RecognitionType) {
         _recognitionType.update { recognitionType }
+        viewModelScope.launch {
+            settingsManager.setInitialOcrMode(recognitionType.ordinal)
+        }
         loadLanguages()
     }
 

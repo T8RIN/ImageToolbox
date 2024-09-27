@@ -134,8 +134,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setInitialOCRLanguageCodes(list: List<String>)
 
-    suspend fun getInitialOCRLanguageCodes(): List<String>
-
     suspend fun setScreensWithBrightnessEnforcement(data: String)
 
     suspend fun toggleConfettiEnabled()
@@ -201,5 +199,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setSystemBarsVisibility(systemBarsVisibility: SystemBarsVisibility)
 
     suspend fun toggleIsSystemBarsVisibleBySwipe()
+
+    suspend fun setInitialOcrMode(mode: Int)
 
 }
