@@ -37,7 +37,7 @@ interface Filter<Value> {
     interface Contrast : Filter<Float>
     interface Convolution3x3 : Filter<FloatArray>
     interface Crosshatch : PairFilter<Float, Float>
-    interface Dilation : Filter<Float>
+    interface Dilation : PairFilter<Float, Boolean>
     interface Emboss : Filter<Float>
     interface Exposure : Filter<Float>
     interface FalseColor : PairFilter<ColorModel, ColorModel>
@@ -108,7 +108,7 @@ interface Filter<Value> {
     interface Anaglyph : Filter<Float>
     interface EnhancedGlitch : Filter<GlitchParams>
     interface TentBlur : Filter<Float>
-    interface Erode : Filter<Float>
+    interface Erode : PairFilter<Float, Boolean>
     interface AnisotropicDiffusion : TripleFilter<Int, Float, Float>
     interface HorizontalWindStagger : TripleFilter<Float, Int, ColorModel>
     interface FastBilaterialBlur : PairFilter<Float, Float>
@@ -254,6 +254,11 @@ interface Filter<Value> {
     interface RetroYellow : Filter<Float>
     interface AutoCrop : Filter<Int>
     interface SpotHeal : TripleFilter<ImageModel, Float, Int>
+    interface Opening : PairFilter<Float, Boolean>
+    interface Closing : PairFilter<Float, Boolean>
+    interface MorphologicalGradient : PairFilter<Float, Boolean>
+    interface TopHat : PairFilter<Float, Boolean>
+    interface BlackHat : PairFilter<Float, Boolean>
 }
 
 interface SimpleFilter : Filter<Unit>

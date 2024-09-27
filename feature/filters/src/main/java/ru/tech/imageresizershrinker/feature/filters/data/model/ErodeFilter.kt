@@ -19,12 +19,16 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.EdgeMode
+import com.awxkee.aire.MorphKernels
+import com.awxkee.aire.MorphOp
+import com.awxkee.aire.MorphOpMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ErodeFilter(
-    override val value: Float = 5f
+    override val value: Pair<Float, Boolean> = 25f to true
 ) : Transformation<Bitmap>, Filter.Erode {
 
     override val cacheKey: String
@@ -33,9 +37,19 @@ internal class ErodeFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.erode(
+    ): Bitmap = Aire.morphology(
         bitmap = input,
-        kernelSize = 2 * value.toInt() + 1
+        kernel = if (value.second) {
+            MorphKernels.circle(value.first.toInt())
+        } else {
+            MorphKernels.box(value.first.toInt())
+        },
+        morphOp = MorphOp.ERODE,
+        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
+        else MorphOpMode.RGB,
+        borderMode = EdgeMode.REFLECT,
+        kernelHeight = value.first.toInt(),
+        kernelWidth = value.first.toInt()
     )
 
 }

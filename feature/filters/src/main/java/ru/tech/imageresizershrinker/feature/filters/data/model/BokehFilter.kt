@@ -19,11 +19,13 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.EdgeMode
+import com.awxkee.aire.MorphOp
+import com.awxkee.aire.MorphOpMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 
 internal class BokehFilter(
     override val value: BokehParams = BokehParams.Default
@@ -35,16 +37,17 @@ internal class BokehFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.createScaledBitmap(
-        (input.width * value.scale).toInt(),
-        (input.height * value.scale).toInt()
-    ).let {
-        Aire.bokeh(
-            bitmap = it,
+    ): Bitmap = Aire.morphology(
+        bitmap = input,
+        kernel = Aire.getBokehKernel(
             kernelSize = value.radius * 2 + 1,
-            sides = value.amount,
-            enhance = true
-        )
-    }.createScaledBitmap(input.width, input.height)
+            sides = value.amount
+        ),
+        morphOp = MorphOp.ERODE,
+        morphOpMode = MorphOpMode.RGBA,
+        borderMode = EdgeMode.REFLECT,
+        kernelHeight = value.radius * 2 + 1,
+        kernelWidth = value.radius * 2 + 1
+    )
 
 }

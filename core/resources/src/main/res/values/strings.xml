@@ -1426,4 +1426,10 @@
     <string name="mask">Mask</string>
     <string name="spot_heal_sub">Content aware fill under drawn path</string>
     <string name="spot_heal">Spot Heal</string>
+    <string name="use_circle_kernel">Use Circle Kernel</string>
+    <string name="opening">Opening</string>
+    <string name="closing">Closing</string>
+    <string name="morphological_gradient">Morphological Gradient</string>
+    <string name="top_hat">Top Hat</string>
+    <string name="black_hat">Black Hat</string>
 </resources>

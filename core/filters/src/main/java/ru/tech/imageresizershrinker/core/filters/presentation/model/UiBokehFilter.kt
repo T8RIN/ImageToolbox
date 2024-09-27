@@ -37,10 +37,6 @@ class UiBokehFilter(
             title = R.string.amount,
             valueRange = 3f..40f,
             roundTo = 0
-        ),
-        FilterParam(
-            title = R.string.scale,
-            valueRange = 0.01f..1f
         )
     )
 ), Filter.Bokeh

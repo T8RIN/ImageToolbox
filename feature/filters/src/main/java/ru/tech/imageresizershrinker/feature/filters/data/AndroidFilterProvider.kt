@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.BayerThreeDitheri
 import ru.tech.imageresizershrinker.feature.filters.data.model.BayerTwoDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BlackAndWhiteFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.BlackHatFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BleachBypassFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BokehFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BoxBlurFilter
@@ -61,6 +62,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLABFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLUVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheOklabFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheOklchFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClosingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered2x2DitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered4x4DitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Clustered8x8DitheringFilter
@@ -170,6 +172,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MissEtikateFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.MorphologicalGradientFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MotionBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NegativeFilter
@@ -181,6 +184,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.NonMaximumSuppres
 import ru.tech.imageresizershrinker.feature.filters.data.model.OilFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OldTvFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OpacityFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.OpeningFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OrangeHazeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PaletteTransferFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PaletteTransferVariantFilter
@@ -237,6 +241,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SwirlDistortionFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.TentBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ThresholdFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ToonFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.TopHatFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TriToneFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritonomalyFilter
@@ -495,6 +500,11 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RetroYellow -> RetroYellowFilter(value, lutFilterFactory)
             is Filter.AutoCrop -> AutoCropFilter(value)
             is Filter.SpotHeal -> spotHealFilterFactory(value)
+            is Filter.Opening -> OpeningFilter(value)
+            is Filter.Closing -> ClosingFilter(value)
+            is Filter.MorphologicalGradient -> MorphologicalGradientFilter(value)
+            is Filter.TopHat -> TopHatFilter(value)
+            is Filter.BlackHat -> BlackHatFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

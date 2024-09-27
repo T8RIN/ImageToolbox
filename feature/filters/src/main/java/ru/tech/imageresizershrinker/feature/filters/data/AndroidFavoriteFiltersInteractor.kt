@@ -200,7 +200,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
             }
 
             is BokehParams -> {
-                BokehParams::class.simpleName!! to listOf(radius, amount, scale).joinToString(
+                BokehParams::class.simpleName!! to listOf(radius, amount).joinToString(
                     PROPERTIES_SEPARATOR
                 )
             }
@@ -325,7 +325,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
 
             name == BokehParams::class.simpleName -> {
                 val (radius, amount, scale) = value.split(PROPERTIES_SEPARATOR)
-                BokehParams(radius.toInt(), amount.toInt(), scale.toFloat())
+                BokehParams(radius.toInt(), amount.toInt())
             }
 
             name == GlitchParams::class.simpleName -> {

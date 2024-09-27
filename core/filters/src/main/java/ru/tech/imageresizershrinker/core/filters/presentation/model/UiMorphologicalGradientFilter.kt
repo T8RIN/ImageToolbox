@@ -21,10 +21,10 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiErodeFilter(
+class UiMorphologicalGradientFilter(
     override val value: Pair<Float, Boolean> = 25f to true
 ) : UiFilter<Pair<Float, Boolean>>(
-    title = R.string.erode,
+    title = R.string.morphological_gradient,
     value = value,
     paramsInfo = listOf(
         FilterParam(
@@ -38,4 +38,4 @@ class UiErodeFilter(
             roundTo = 0
         )
     )
-), Filter.Erode
+), Filter.MorphologicalGradient
