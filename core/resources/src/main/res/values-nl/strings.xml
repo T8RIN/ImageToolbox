@@ -1400,4 +1400,12 @@
     <string name="custom_params_info">Voer opties in volgens dit patroon: \"--{optie_naam} {waarde}\"</string>
     <string name="tesseract_options">Tesseract-opties</string>
     <string name="tesseract_options_sub">Geef enkele invoervariabelen op voor de tesseract-engine</string>
+    <string name="free_corners">Vrije hoeken</string>
+    <string name="coerce_points_to_image_bounds">Punten naar afbeeldingsgrenzen dwingen</string>
+    <string name="spot_heal_sub">Inhoudsbewust invullen onder getekend pad</string>
+    <string name="spot_heal">Vlekcorrectie</string>
+    <string name="auto_crop">Autom. bijsnijden</string>
+    <string name="free_corners_sub">Afbeelding bijsnijden met veelhoek. (incl. perspectiefcorrectie)</string>
+    <string name="coerce_points_to_image_bounds_sub">Punten worden niet beperkt door beeldgrenzen, dit is handig voor nauwkeurigere perspectiefcorrectie</string>
+    <string name="mask">Masker</string>
 </resources>
