@@ -132,7 +132,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 220 various filters)
+- Applying filter chains (More than 230 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -362,6 +362,11 @@ or click one of the badges below.
   - [x] Greenish
   - [x] Retro Yellow
   - [x] Auto Crop
+  - [x] Opening
+  - [x] Closing
+  - [x] Morphological Gradient
+  - [x] Top Hat
+  - [x] Black Hat
 
   </details>
 
