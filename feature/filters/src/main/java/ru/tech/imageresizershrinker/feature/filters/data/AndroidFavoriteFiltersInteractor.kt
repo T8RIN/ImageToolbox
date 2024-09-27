@@ -32,7 +32,6 @@ import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
-import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -199,12 +198,6 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
                 ).joinToString(PROPERTIES_SEPARATOR)
             }
 
-            is BokehParams -> {
-                BokehParams::class.simpleName!! to listOf(radius, amount).joinToString(
-                    PROPERTIES_SEPARATOR
-                )
-            }
-
             is GlitchParams -> {
                 GlitchParams::class.simpleName!! to listOf(
                     channelsShiftX,
@@ -321,11 +314,6 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
                     secondPart.fromPart(secondType),
                     thirdPart.fromPart(thirdType)
                 )
-            }
-
-            name == BokehParams::class.simpleName -> {
-                val (radius, amount, scale) = value.split(PROPERTIES_SEPARATOR)
-                BokehParams(radius.toInt(), amount.toInt())
             }
 
             name == GlitchParams::class.simpleName -> {

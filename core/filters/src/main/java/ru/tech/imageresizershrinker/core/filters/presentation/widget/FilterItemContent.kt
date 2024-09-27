@@ -51,7 +51,6 @@ import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
-import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -1525,58 +1524,6 @@ internal fun <T> FilterItemContent(
                                 2 -> frequencyY
                                 3 -> amplitudeX
                                 else -> amplitudeY
-                            } to filterParam
-                        }
-                    }
-                }
-
-                Column(
-                    modifier = Modifier.padding(8.dp)
-                ) {
-                    paramsInfo.forEach { (state, info) ->
-                        val (title, valueRange, roundTo) = info
-                        EnhancedSliderItem(
-                            enabled = !previewOnly,
-                            value = state.value,
-                            title = stringResource(title!!),
-                            valueRange = valueRange,
-                            onValueChange = {
-                                state.value = it
-                            },
-                            internalStateTransformation = {
-                                it.roundTo(roundTo)
-                            },
-                            behaveAsContainer = false
-                        )
-                    }
-                }
-            }
-
-            is BokehParams -> {
-                val radius: MutableState<Float> =
-                    remember(value) { mutableFloatStateOf(value.radius.toFloat()) }
-                val amount: MutableState<Float> =
-                    remember(value) { mutableFloatStateOf(value.amount.toFloat()) }
-
-                LaunchedEffect(
-                    radius.value,
-                    amount.value
-                ) {
-                    onFilterChange(
-                        BokehParams(
-                            radius = radius.value.toInt(),
-                            amount = amount.value.toInt()
-                        )
-                    )
-                }
-
-                val paramsInfo by remember(filter) {
-                    derivedStateOf {
-                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
-                            if (filterParam.title == null) return@mapIndexedNotNull null
-                            when (index) {
-                                0 -> radius
-                                else -> amount
                             } to filterParam
                         }
                     }

@@ -24,11 +24,10 @@ import com.awxkee.aire.MorphOp
 import com.awxkee.aire.MorphOpMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
-import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class BokehFilter(
-    override val value: BokehParams = BokehParams.Default
+    override val value: Pair<Int, Int> = 6 to 6
 ) : Transformation<Bitmap>, Filter.Bokeh {
 
     override val cacheKey: String
@@ -40,14 +39,15 @@ internal class BokehFilter(
     ): Bitmap = Aire.morphology(
         bitmap = input,
         kernel = Aire.getBokehKernel(
-            kernelSize = value.radius * 2 + 1,
-            sides = value.amount
+            kernelSize = value.first,
+            sides = value.second
         ),
-        morphOp = MorphOp.ERODE,
-        morphOpMode = MorphOpMode.RGBA,
+        morphOp = MorphOp.DILATE,
+        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
+        else MorphOpMode.RGB,
         borderMode = EdgeMode.REFLECT,
-        kernelHeight = value.radius * 2 + 1,
-        kernelWidth = value.radius * 2 + 1
+        kernelHeight = value.first,
+        kernelWidth = value.first
     )
 
 }

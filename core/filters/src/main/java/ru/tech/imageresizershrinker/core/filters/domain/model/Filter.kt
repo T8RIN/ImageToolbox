@@ -171,7 +171,7 @@ interface Filter<Value> {
     interface SpacePortal : SimpleFilter
     interface RedSwirl : SimpleFilter
     interface DigitalCode : SimpleFilter
-    interface Bokeh : Filter<BokehParams>
+    interface Bokeh : PairFilter<Int, Int>
     interface Neon : TripleFilter<Float, Float, ColorModel>
     interface OldTv : SimpleFilter
     interface ShuffleBlur : PairFilter<Int, Float>
