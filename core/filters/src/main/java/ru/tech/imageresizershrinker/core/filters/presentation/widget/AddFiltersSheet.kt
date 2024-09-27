@@ -179,6 +179,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberForeverLazyListState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -468,6 +469,28 @@ fun AddFiltersSheet(
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     canAddTemplates: Boolean = true
 ) {
+    val context = LocalContext.current
+    val groupedFilters by remember(context, canAddTemplates) {
+        derivedStateOf {
+            UiFilter.groupedEntries(context).let { lists ->
+                if (canAddTemplates) lists
+                else lists.map {
+                    it.filterIsNotInstance(
+                        Filter.PaletteTransfer::class,
+                        Filter.LUT512x512::class,
+                        Filter.PaletteTransferVariant::class,
+                        Filter.CubeLut::class
+                    )
+                }
+            }
+        }
+    }
+    val haptics = LocalHapticFeedback.current
+    val pagerState = rememberPagerState(
+        pageCount = { groupedFilters.size + if (canAddTemplates) 2 else 1 },
+        initialPage = 2
+    )
+
     ScopedViewModelContainer<AddFiltersSheetViewModel> { disposable ->
         val viewModel = this
 
@@ -484,28 +507,6 @@ fun AddFiltersSheet(
 
         val favoriteFilters by viewModel.favoritesFlow.collectAsUiState()
         val templateFilters by viewModel.templatesFlow.collectAsUiState()
-
-        val context = LocalContext.current
-        val groupedFilters by remember(context, canAddTemplates) {
-            derivedStateOf {
-                UiFilter.groupedEntries(context).let { lists ->
-                    if (canAddTemplates) lists
-                    else lists.map {
-                        it.filterIsNotInstance(
-                            Filter.PaletteTransfer::class,
-                            Filter.LUT512x512::class,
-                            Filter.PaletteTransferVariant::class,
-                            Filter.CubeLut::class
-                        )
-                    }
-                }
-            }
-        }
-        val haptics = LocalHapticFeedback.current
-        val pagerState = rememberPagerState(
-            pageCount = { groupedFilters.size + if (canAddTemplates) 2 else 1 },
-            initialPage = 2
-        )
 
         val tabs by remember(canAddTemplates) {
             derivedStateOf {
@@ -646,6 +647,7 @@ fun AddFiltersSheet(
                         ) { isNotEmpty ->
                             if (isNotEmpty) {
                                 LazyColumn(
+                                    state = rememberForeverLazyListState("sheet"),
                                     verticalArrangement = Arrangement.spacedBy(4.dp),
                                     modifier = Modifier.animateContentSize(),
                                     contentPadding = PaddingValues(16.dp)
@@ -760,6 +762,7 @@ fun AddFiltersSheet(
                                         }
                                     } else {
                                         LazyColumn(
+                                            state = rememberForeverLazyListState("templates"),
                                             horizontalAlignment = Alignment.CenterHorizontally,
                                             verticalArrangement = Arrangement.spacedBy(4.dp),
                                             contentPadding = PaddingValues(16.dp)
@@ -967,6 +970,7 @@ fun AddFiltersSheet(
                             }
                             val otherContent = @Composable {
                                 LazyColumn(
+                                    state = rememberForeverLazyListState("sheet$page"),
                                     verticalArrangement = Arrangement.spacedBy(4.dp),
                                     contentPadding = PaddingValues(16.dp)
                                 ) {
