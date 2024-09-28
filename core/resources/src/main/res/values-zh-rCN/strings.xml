@@ -1400,4 +1400,12 @@
     <string name="tesseract_options_sub">为魔方引擎应用一些输入变量</string>
     <string name="custom_options">自定义选项</string>
     <string name="custom_params_info">应按照以下模式输入选项 \"--{选项名} {值}\"</string>
+    <string name="free_corners">自由圆角</string>
+    <string name="mask">滤镜</string>
+    <string name="spot_heal_sub">在绘制的路径下进行内容感知填充</string>
+    <string name="spot_heal">点状愈合</string>
+    <string name="auto_crop">自动裁剪</string>
+    <string name="coerce_points_to_image_bounds">强制点到图像边界</string>
+    <string name="free_corners_sub">按多边形裁剪图像，这也可以修正透视</string>
+    <string name="coerce_points_to_image_bounds_sub">点将不受图像边界的限制，这有助于进行更精确的透视校正</string>
 </resources>
