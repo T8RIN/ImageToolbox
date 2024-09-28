@@ -22,9 +22,10 @@ import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import kotlin.math.roundToInt
 
 internal class EqualizeHistogramHSVFilter(
-    override val value: Int = 128
+    override val value: Float = 128f
 ) : Transformation<Bitmap>, Filter.EqualizeHistogramHSV {
 
     override val cacheKey: String
@@ -35,7 +36,7 @@ internal class EqualizeHistogramHSVFilter(
         size: IntegerSize
     ): Bitmap = Aire.equalizeHistHSV(
         bitmap = input,
-        binsCount = value
+        binsCount = value.roundToInt()
     )
 
 }

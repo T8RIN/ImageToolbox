@@ -22,9 +22,10 @@ import com.t8rin.opencv_tools.autocrop.AutoCropper
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import kotlin.math.roundToInt
 
 internal class AutoCropFilter(
-    override val value: Int = 5
+    override val value: Float = 5f
 ) : Transformation<Bitmap>, Filter.AutoCrop {
 
     override val cacheKey: String
@@ -35,7 +36,7 @@ internal class AutoCropFilter(
         size: IntegerSize
     ): Bitmap = AutoCropper.crop(
         bitmap = input,
-        sensitivity = value
+        sensitivity = value.roundToInt()
     ) ?: input
 
 }

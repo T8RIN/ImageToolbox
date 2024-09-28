@@ -192,7 +192,7 @@ interface Filter<Value> {
     interface FastGaussianBlur3D : PairFilter<Float, BlurEdgeMode>
     interface FastGaussianBlur4D : Filter<Float>
     interface EqualizeHistogram : SimpleFilter
-    interface EqualizeHistogramHSV : Filter<Int>
+    interface EqualizeHistogramHSV : Filter<Float>
     interface EqualizeHistogramPixelation : PairFilter<Int, Int>
     interface EqualizeHistogramAdaptive : PairFilter<Int, Int>
     interface EqualizeHistogramAdaptiveLUV : TripleFilter<Int, Int, Int>
@@ -209,7 +209,7 @@ interface Filter<Value> {
     interface LinearTentBlur : PairFilter<Int, TransferFunc>
     interface LinearGaussianBoxBlur : PairFilter<Int, TransferFunc>
     interface LinearStackBlur : PairFilter<Int, TransferFunc>
-    interface GaussianBoxBlur : Filter<Int>
+    interface GaussianBoxBlur : Filter<Float>
     interface LinearFastGaussianBlurNext : TripleFilter<Int, TransferFunc, BlurEdgeMode>
     interface LinearFastGaussianBlur : TripleFilter<Int, TransferFunc, BlurEdgeMode>
     interface LinearGaussianBlur : Filter<LinearGaussianParams>
@@ -252,7 +252,7 @@ interface Filter<Value> {
     interface GoldenForest : Filter<Float>
     interface Greenish : Filter<Float>
     interface RetroYellow : Filter<Float>
-    interface AutoCrop : Filter<Int>
+    interface AutoCrop : Filter<Float>
     interface SpotHeal : TripleFilter<ImageModel, Float, Int>
     interface Opening : PairFilter<Float, Boolean>
     interface Closing : PairFilter<Float, Boolean>

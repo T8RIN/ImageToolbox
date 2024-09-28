@@ -22,8 +22,8 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiEqualizeHistogramHSVFilter(
-    override val value: Int = 128
-) : UiFilter<Int>(
+    override val value: Float = 128f
+) : UiFilter<Float>(
     title = R.string.equalize_histogram_hsv,
     value = value,
     paramsInfo = listOf(

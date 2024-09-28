@@ -74,7 +74,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toFileModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
-import ru.tech.imageresizershrinker.core.ui.utils.state.derivedValueOf
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
@@ -199,20 +198,6 @@ internal fun <T> FilterItemContent(
                     value = value,
                     onValueChange = {
                         onFilterChange(it.roundTo(filter.paramsInfo.first().roundTo))
-                    },
-                    valueRange = filter.paramsInfo.first().valueRange
-                )
-            }
-
-            is Int -> {
-                EnhancedSlider(
-                    modifier = Modifier
-                        .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
-                        .offset(y = (-2).dp),
-                    enabled = !previewOnly,
-                    value = derivedValueOf(value) { value.toFloat() },
-                    onValueChange = {
-                        onFilterChange(it.toInt())
                     },
                     valueRange = filter.paramsInfo.first().valueRange
                 )

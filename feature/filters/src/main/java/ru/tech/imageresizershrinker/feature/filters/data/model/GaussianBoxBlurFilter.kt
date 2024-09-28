@@ -22,9 +22,10 @@ import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import kotlin.math.roundToInt
 
 internal class GaussianBoxBlurFilter(
-    override val value: Int = 25
+    override val value: Float = 25f
 ) : Transformation<Bitmap>, Filter.GaussianBoxBlur {
 
     override val cacheKey: String
@@ -35,7 +36,7 @@ internal class GaussianBoxBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.gaussianBoxBlur(
         bitmap = input,
-        radius = value
+        radius = value.roundToInt()
     )
 
 }

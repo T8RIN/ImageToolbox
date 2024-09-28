@@ -22,8 +22,8 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiAutoCropFilter(
-    override val value: Int = 5
-) : UiFilter<Int>(
+    override val value: Float = 5f
+) : UiFilter<Float>(
     title = R.string.auto_crop,
     value = value,
     paramsInfo = listOf(
