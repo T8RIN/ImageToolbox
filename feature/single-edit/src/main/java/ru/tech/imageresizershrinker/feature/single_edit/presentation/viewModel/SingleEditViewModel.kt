@@ -30,6 +30,7 @@ import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
+import com.t8rin.curves.ImageCurvesEditorState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -126,6 +127,10 @@ class SingleEditViewModel @Inject constructor(
         )
     )
     val cropProperties by _cropProperties
+
+    private val _imageCurvesEditorState: MutableState<ImageCurvesEditorState> =
+        mutableStateOf(ImageCurvesEditorState.Default)
+    val imageCurvesEditorState: ImageCurvesEditorState by _imageCurvesEditorState
 
     private val _exif: MutableState<ExifInterface?> = mutableStateOf(null)
     val exif by _exif
@@ -715,5 +720,9 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat
+
+    fun resetImageCurvesEditorState() {
+        _imageCurvesEditorState.update { ImageCurvesEditorState.Default }
+    }
 
 }

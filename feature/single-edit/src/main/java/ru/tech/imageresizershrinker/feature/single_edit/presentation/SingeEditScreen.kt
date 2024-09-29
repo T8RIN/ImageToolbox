@@ -90,6 +90,7 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.DrawEditOption
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.EraseBackgroundEditOption
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.FilterEditOption
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.ToneCurvesEditOption
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.SingleEditViewModel
 
 @Composable
@@ -206,6 +207,7 @@ fun SingleEditContent(
     var showFiltering by rememberSaveable { mutableStateOf(false) }
     var showDrawing by rememberSaveable { mutableStateOf(false) }
     var showEraseBackground by rememberSaveable { mutableStateOf(false) }
+    var showApplyCurves by rememberSaveable { mutableStateOf(false) }
 
 
     AdaptiveLayoutScreen(
@@ -275,9 +277,6 @@ fun SingleEditContent(
             )
 
             EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
                 enabled = viewModel.bitmap != null,
                 onClick = { showResetDialog = true }
             ) {
@@ -334,7 +333,8 @@ fun SingleEditContent(
                 onCrop = { showCropper = true },
                 onFilter = { showFiltering = true },
                 onDraw = { showDrawing = true },
-                onEraseBackground = { showEraseBackground = true }
+                onEraseBackground = { showEraseBackground = true },
+                onApplyCurves = { showApplyCurves = true }
             )
             Spacer(Modifier.size(16.dp))
             PresetSelector(
@@ -519,5 +519,17 @@ fun SingleEditContent(
         drawPathMode = viewModel.drawPathMode,
         onUpdateDrawPathMode = viewModel::updateDrawPathMode,
         autoBackgroundRemover = viewModel.getBackgroundRemover()
+    )
+
+    ToneCurvesEditOption(
+        visible = showApplyCurves,
+        onDismiss = { showApplyCurves = false },
+        useScaffold = isPortrait,
+        bitmap = viewModel.previewBitmap,
+        editorState = viewModel.imageCurvesEditorState,
+        onResetState = viewModel::resetImageCurvesEditorState,
+        onGetBitmap = {
+            viewModel.updateBitmapAfterEditing(it, true)
+        }
     )
 }

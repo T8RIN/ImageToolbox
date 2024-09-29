@@ -88,7 +88,7 @@
     <string name="color_scheme">Цветовая палитра</string>
     <string name="color_red">Красный</string>
     <string name="color_green">Зеленый</string>
-    <string name="color_blue">Голубой</string>
+    <string name="color_blue">Синий</string>
     <string name="clipboard_paste_invalid_color_code">Вставьте правильный aRGB-код.</string>
     <string name="clipboard_paste_invalid_empty">Нечего вставлять</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Невозможно изменить цвет приложения, если включены динамические цвета</string>

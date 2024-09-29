@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -92,6 +93,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -141,10 +143,20 @@ fun FilterEditOption(
             useScaffold = useScaffold,
             controls = {
                 Column(
-                    Modifier.padding(16.dp),
+                    modifier = Modifier.padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+                    if (!useScaffold) {
+                        OpenColorPickerCard(
+                            onOpen = {
+                                showColorPicker = true
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp)
+                        )
+                    }
                     Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
                         TitleItem(text = stringResource(R.string.filters))
                         Column(

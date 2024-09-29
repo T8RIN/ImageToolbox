@@ -1432,4 +1432,7 @@
     <string name="morphological_gradient">Morphological Gradient</string>
     <string name="top_hat">Top Hat</string>
     <string name="black_hat">Black Hat</string>
+    <string name="tone_curves">Tone Curves</string>
+    <string name="reset_curves">Reset Curves</string>
+    <string name="reset_curves_sub">Curves will be rolled back to default value</string>
 </resources>

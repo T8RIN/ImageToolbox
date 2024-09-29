@@ -9,7 +9,7 @@ versionCode = "153"
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "2.9.0"
+imageToolboxLibs = "2.9.2"
 trickle = "1.1.3"
 
 avifCoder = "1.8.0"
@@ -115,6 +115,7 @@ toolbox-collages = { module = "com.github.T8RIN.ImageToolboxLibs:collages", vers
 toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", version.ref = "imageToolboxLibs" }
 toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.ref = "imageToolboxLibs" }
 toolbox-opencvTools = { module = "com.github.T8RIN.ImageToolboxLibs:opencv-tools", version.ref = "imageToolboxLibs" }
+toolbox-curves = { module = "com.github.T8RIN.ImageToolboxLibs:curves", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }

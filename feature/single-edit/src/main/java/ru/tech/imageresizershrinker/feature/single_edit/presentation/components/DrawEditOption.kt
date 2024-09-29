@@ -214,7 +214,8 @@ fun DrawEditOption(
             controls = { scaffoldState ->
                 Column(
                     modifier = Modifier.padding(vertical = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     val focus = LocalFocusManager.current
                     LaunchedEffect(scaffoldState?.bottomSheetState?.currentValue, focus) {

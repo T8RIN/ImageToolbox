@@ -38,11 +38,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
 fun OpenColorPickerCard(
-    onOpen: () -> Unit
+    onOpen: () -> Unit,
+    modifier: Modifier = Modifier
+        .padding(horizontal = 16.dp)
 ) {
     Row(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
+        modifier = modifier
             .container(
                 resultPadding = 0.dp,
                 color = MaterialTheme.colorScheme.mixedContainer.copy(0.7f),

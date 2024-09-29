@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
+import ru.tech.imageresizershrinker.core.resources.icons.Curve
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -155,7 +156,8 @@ fun ImageExtraTransformBar(
     onCrop: () -> Unit,
     onFilter: () -> Unit,
     onDraw: () -> Unit,
-    onEraseBackground: () -> Unit
+    onEraseBackground: () -> Unit,
+    onApplyCurves: () -> Unit
 ) {
     if (LocalSettingsState.current.generatePreviews) {
 
@@ -168,6 +170,17 @@ fun ImageExtraTransformBar(
                 Icon(
                     imageVector = Icons.Rounded.CropSmall,
                     contentDescription = stringResource(R.string.crop)
+                )
+            }
+
+            EnhancedIconButton(
+                containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
+                contentColor = MaterialTheme.colorScheme.onMixedContainer,
+                onClick = onApplyCurves
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Curve,
+                    contentDescription = stringResource(R.string.tone_curves)
                 )
             }
 
