@@ -595,15 +595,16 @@ or click one of the badges below.
   - Picking color from image
   - Gradient creation
   - Overlaying image with gradient
-- Histograms
-  - RGB
-  - Brightness
-- Image source selection
-- Added Color Tools option
   - Mixing
   - Conversion
   - Harmonies
   - Shading
+  - Tone Curves applying
+- Histograms
+  - RGB
+  - Brightness
+  - Camera Like RGB
+- Image source selection
 - Additional Features
   - Rotating
   - Flipping
