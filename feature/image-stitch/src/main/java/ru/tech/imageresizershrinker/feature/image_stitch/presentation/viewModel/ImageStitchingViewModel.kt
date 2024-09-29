@@ -85,14 +85,14 @@ class ImageStitchingViewModel @Inject constructor(
     val done by _done
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
-        calculatePreview()
+        _imageInfo.update { it.copy(imageFormat = imageFormat) }
+        calculatePreview(true)
     }
 
     fun updateUris(uris: List<Uri>?) {
         if (uris != _uris.value) {
             _uris.value = uris
-            calculatePreview()
+            calculatePreview(true)
         }
     }
 
@@ -102,8 +102,8 @@ class ImageStitchingViewModel @Inject constructor(
 
     private var previousParams: CombiningParams? = null
 
-    private fun calculatePreview() {
-        if (previousParams == combiningParams) return
+    private fun calculatePreview(force: Boolean = false) {
+        if (previousParams == combiningParams && !force) return
 
         calculationPreviewJob = viewModelScope.launch {
             delay(300L)
@@ -202,8 +202,8 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun setQuality(quality: Quality) {
-        _imageInfo.value = _imageInfo.value.copy(quality = quality)
-        calculatePreview()
+        _imageInfo.update { it.copy(quality = quality) }
+        calculatePreview(true)
     }
 
     fun cancelSaving() {
@@ -261,7 +261,7 @@ class ImageStitchingViewModel @Inject constructor(
                 uris.filter { it !in list }
             )
         }
-        calculatePreview()
+        calculatePreview(true)
     }
 
     fun removeImageAt(index: Int) {
@@ -272,7 +272,7 @@ class ImageStitchingViewModel @Inject constructor(
                 if (it == null) _previewBitmap.value = null
             }
         }
-        calculatePreview()
+        calculatePreview(true)
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
