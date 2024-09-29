@@ -47,11 +47,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 @AndroidEntryPoint
 abstract class M3Activity : AppCompatActivity() {
 
-    private val windowInsetsController by lazy {
-        window?.let {
+    private val windowInsetsController: WindowInsetsControllerCompat?
+        get() = window?.let {
             WindowCompat.getInsetsController(it, it.decorView)
         }
-    }
 
     private lateinit var settingsProvider: SettingsProvider
 
