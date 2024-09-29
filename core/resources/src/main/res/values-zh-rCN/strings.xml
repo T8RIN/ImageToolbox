@@ -1408,4 +1408,10 @@
     <string name="coerce_points_to_image_bounds">强制点到图像边界</string>
     <string name="free_corners_sub">按多边形裁剪图像，这也可以修正透视</string>
     <string name="coerce_points_to_image_bounds_sub">点将不受图像边界的限制，这有助于进行更精确的透视校正</string>
+    <string name="morphological_gradient">形态渐变</string>
+    <string name="use_circle_kernel">使用圆形内核</string>
+    <string name="opening">正在开启</string>
+    <string name="closing">正在关闭</string>
+    <string name="top_hat">高帽</string>
+    <string name="black_hat">黑帽</string>
 </resources>

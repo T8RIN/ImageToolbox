@@ -1408,4 +1408,10 @@
     <string name="free_corners_sub">Afbeelding bijsnijden met veelhoek. (incl. perspectiefcorrectie)</string>
     <string name="coerce_points_to_image_bounds_sub">Punten worden niet beperkt door beeldgrenzen, dit is handig voor nauwkeurigere perspectiefcorrectie</string>
     <string name="mask">Masker</string>
+    <string name="opening">Openen</string>
+    <string name="morphological_gradient">Morfologisch kleurverloop</string>
+    <string name="top_hat">Top Hat</string>
+    <string name="use_circle_kernel">Cirkelkern gebruiken</string>
+    <string name="closing">Sluiten</string>
+    <string name="black_hat">Black Hat</string>
 </resources>
