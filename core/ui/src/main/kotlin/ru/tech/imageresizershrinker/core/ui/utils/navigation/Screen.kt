@@ -67,9 +67,9 @@ import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.core.resources.icons.Stack
-import ru.tech.imageresizershrinker.core.resources.icons.Svg
 import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.Transparency
+import ru.tech.imageresizershrinker.core.resources.icons.VectorPolyline
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
 import ru.tech.imageresizershrinker.core.resources.icons.WebpBox
 
@@ -152,7 +152,7 @@ sealed class Screen(
             is WeightResize -> Icons.Rounded.ImageWeight
             is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
             is Zip -> Icons.Outlined.FolderZip
-            is SvgMaker -> Icons.Outlined.Svg
+            is SvgMaker -> Icons.Outlined.VectorPolyline
             is FormatConversion -> Icons.Outlined.ImageConvert
             is DocumentScanner -> Icons.Outlined.DocumentScanner
             is ScanQrCode -> Icons.Outlined.QrCode
