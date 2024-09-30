@@ -104,6 +104,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedDiamondPi
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedOilFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedPixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedZoomBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveHSLFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveHSVFilter
@@ -154,6 +155,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.KodakFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.KuwaharaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LUT512x512Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LaplacianFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LaplacianSimpleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LavenderDreamFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LeftToRightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LemonadeLightFilter
@@ -174,7 +176,6 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.MissEtikateFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MorphologicalGradientFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.MotionBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NegativeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NeonFilter
@@ -225,6 +226,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SimpleThresholdDi
 import ru.tech.imageresizershrinker.feature.filters.data.model.SketchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SmoothToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SobelEdgeDetectionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.SobelSimpleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SoftEleganceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SoftEleganceVariantFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SoftSpringLightFilter
@@ -265,11 +267,11 @@ internal class AndroidFilterProvider @Inject constructor(
     private val paletteTransferFilterFactory: PaletteTransferFilter.Factory,
     private val lutFilterFactory: LUT512x512Filter.Factory,
     private val paletteTransferVariantFilterFactory: PaletteTransferVariantFilter.Factory,
-    private val spotHealFilterFactory: SpotHealFilter.Factory
+    private val spotHealFilterFactory: SpotHealFilter.Factory,
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
-        filter: Filter<*>
+        filter: Filter<*>,
     ): Transformation<Bitmap> = filter.run {
         when (this) {
             is Filter.BilaterialBlur -> BilaterialBlurFilter(value)
@@ -433,7 +435,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RingBlur -> RingBlurFilter(value)
             is Filter.StarBlur -> StarBlurFilter(value)
             is Filter.LinearTiltShift -> LinearTiltShiftFilter(value)
-            is Filter.MotionBlur -> MotionBlurFilter(value)
+            is Filter.EnhancedZoomBlur -> EnhancedZoomBlurFilter(value)
             is Filter.Convex -> ConvexFilter(value)
             is Filter.FastGaussianBlur2D -> FastGaussianBlur2DFilter(value)
             is Filter.FastGaussianBlur3D -> FastGaussianBlur3DFilter(value)
@@ -507,6 +509,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.TopHat -> TopHatFilter(value)
             is Filter.BlackHat -> BlackHatFilter(value)
             is Filter.Canny -> CannyFilter(value)
+            is Filter.SobelSimple -> SobelSimpleFilter(value)
+            is Filter.LaplacianSimple -> LaplacianSimpleFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

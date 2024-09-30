@@ -18,14 +18,16 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import com.t8rin.trickle.Trickle
+import com.awxkee.aire.Aire
+import com.awxkee.aire.EdgeMode
+import com.awxkee.aire.Scalar
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-internal class GothamFilter(
+internal class SobelSimpleFilter(
     override val value: Unit = Unit,
-) : Transformation<Bitmap>, Filter.Gotham {
+) : Transformation<Bitmap>, Filter.SobelSimple {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -33,6 +35,10 @@ internal class GothamFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize,
-    ): Bitmap = Trickle.gotham(input)
+    ): Bitmap = Aire.sobel(
+        bitmap = input,
+        edgeMode = EdgeMode.REFLECT_101,
+        scalar = Scalar.ZEROS
+    )
 
 }

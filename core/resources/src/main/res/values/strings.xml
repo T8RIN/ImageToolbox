@@ -1459,4 +1459,7 @@
     <string name="threshold_two">Threshold Two</string>
     <string name="canny">Canny</string>
     <string name="mirror_101">Mirror 101</string>
+    <string name="enhanced_zoom_blur">Enhanced Zoom Blur</string>
+    <string name="laplacian_simple">Laplacian Simple</string>
+    <string name="sobel_simple">Sobel Simple</string>
 </resources>

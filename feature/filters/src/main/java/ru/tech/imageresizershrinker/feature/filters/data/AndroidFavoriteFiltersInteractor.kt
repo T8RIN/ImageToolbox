@@ -33,13 +33,13 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
@@ -53,7 +53,7 @@ import kotlin.reflect.full.primaryConstructor
 internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     @ApplicationContext private val context: Context,
     @FilterInteractorDataStore private val dataStore: DataStore<Preferences>,
-    private val fileController: FileController
+    private val fileController: FileController,
 ) : FavoriteFiltersInteractor {
 
     override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
@@ -86,7 +86,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     override suspend fun addTemplateFilterFromString(
         string: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onError: suspend () -> Unit,
     ) {
         runCatching {
             if (isValidTemplateFilter(string)) {
@@ -101,7 +101,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     }
 
     override fun isValidTemplateFilter(
-        string: String
+        string: String,
     ): Boolean =
         (context.applicationInfo.packageName in string || PACKAGE in string) && "Filter" in string && LINK_HEADER in string
 
@@ -114,7 +114,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     override suspend fun addTemplateFilterFromUri(
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onError: suspend () -> Unit,
     ) {
         addTemplateFilterFromString(
             string = fileController.readBytes(uri).decodeToString(),
@@ -133,7 +133,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     }
 
     override suspend fun convertTemplateFilterToString(
-        templateFilter: TemplateFilter
+        templateFilter: TemplateFilter,
     ): String = "$LINK_HEADER${listOf(templateFilter).toDatastoreString()}"
 
     override suspend fun addTemplateFilter(templateFilter: TemplateFilter) {
@@ -151,7 +151,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     }
 
     private fun List<Filter<*>>.toDatastoreString(
-        includeValue: Boolean = false
+        includeValue: Boolean = false,
     ): String = joinToString(separator = FILTERS_SEPARATOR) { filter ->
         filter::class.qualifiedName!!.replace(
             context.applicationInfo.packageName,
@@ -230,8 +230,8 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
                 ).joinToString(PROPERTIES_SEPARATOR)
             }
 
-            is MotionBlurParams -> {
-                MotionBlurParams::class.simpleName!! to listOf(
+            is EnhancedZoomBlurParams -> {
+                EnhancedZoomBlurParams::class.simpleName!! to listOf(
                     radius,
                     sigma,
                     centerX,
@@ -317,12 +317,14 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
             }
 
             name == GlitchParams::class.simpleName -> {
-                val (channelsShiftX,
+                val (
+                    channelsShiftX,
                     channelsShiftY,
                     corruptionSize,
                     corruptionCount,
                     corruptionShiftX,
-                    corruptionShiftY) = value.split(PROPERTIES_SEPARATOR)
+                    corruptionShiftY,
+                ) = value.split(PROPERTIES_SEPARATOR)
                 GlitchParams(
                     channelsShiftX = channelsShiftX.toFloat(),
                     channelsShiftY = channelsShiftY.toFloat(),
@@ -360,11 +362,11 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
                 )
             }
 
-            name == MotionBlurParams::class.simpleName -> {
+            name == EnhancedZoomBlurParams::class.simpleName -> {
                 val (radius, sigma, centerX, centerY, strength, angle) = value.split(
                     PROPERTIES_SEPARATOR
                 )
-                MotionBlurParams(
+                EnhancedZoomBlurParams(
                     radius = radius.toInt(),
                     sigma = sigma.toFloat(),
                     centerX = centerX.toFloat(),
@@ -454,7 +456,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     }
 
     private fun String.toFiltersList(
-        includeValue: Boolean
+        includeValue: Boolean,
     ): List<Filter<*>> = split(FILTERS_SEPARATOR).mapNotNull { line ->
         if (line.trim().isEmpty()) return@mapNotNull null
 

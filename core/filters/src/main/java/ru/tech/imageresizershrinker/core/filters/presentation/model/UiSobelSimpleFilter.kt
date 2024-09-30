@@ -15,26 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.domain.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-data class MotionBlurParams(
-    val radius: Int,
-    val sigma: Float,
-    val centerX: Float,
-    val centerY: Float,
-    val strength: Float,
-    val angle: Float
-) {
-    companion object {
-        val Default by lazy {
-            MotionBlurParams(
-                radius = 25,
-                sigma = 3f,
-                centerX = 0.5f,
-                centerY = 0.5f,
-                strength = 0.5f,
-                angle = 90f
-            )
-        }
-    }
-}
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.resources.R
+
+class UiSobelSimpleFilter : UiFilter<Unit>(
+    title = R.string.sobel_simple,
+    value = Unit
+), Filter.SobelSimple

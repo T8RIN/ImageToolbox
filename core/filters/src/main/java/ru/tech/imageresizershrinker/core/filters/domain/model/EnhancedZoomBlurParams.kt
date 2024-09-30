@@ -15,24 +15,26 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.domain.model
 
-import android.graphics.Bitmap
-import com.t8rin.trickle.Trickle
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-
-internal class GothamFilter(
-    override val value: Unit = Unit,
-) : Transformation<Bitmap>, Filter.Gotham {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize,
-    ): Bitmap = Trickle.gotham(input)
-
+data class EnhancedZoomBlurParams(
+    val radius: Int,
+    val sigma: Float,
+    val centerX: Float,
+    val centerY: Float,
+    val strength: Float,
+    val angle: Float,
+) {
+    companion object {
+        val Default by lazy {
+            EnhancedZoomBlurParams(
+                radius = 25,
+                sigma = 3f,
+                centerX = 0.5f,
+                centerY = 0.5f,
+                strength = 0.5f,
+                angle = 90f
+            )
+        }
+    }
 }

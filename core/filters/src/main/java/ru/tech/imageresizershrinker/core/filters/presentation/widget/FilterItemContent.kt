@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpace
 import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
@@ -90,7 +90,7 @@ internal fun <T> FilterItemContent(
     filter: UiFilter<T>,
     onFilterChange: (value: Any) -> Unit,
     modifier: Modifier = Modifier,
-    previewOnly: Boolean = false
+    previewOnly: Boolean = false,
 ) {
     Column(
         modifier = modifier
@@ -1535,7 +1535,7 @@ internal fun <T> FilterItemContent(
                 }
             }
 
-            is MotionBlurParams -> {
+            is EnhancedZoomBlurParams -> {
                 val radius: MutableState<Float> =
                     remember(value) { mutableFloatStateOf((value.radius as Number).toFloat()) }
                 val sigma: MutableState<Float> =
@@ -1558,7 +1558,7 @@ internal fun <T> FilterItemContent(
                     angle.value
                 ) {
                     onFilterChange(
-                        MotionBlurParams(
+                        EnhancedZoomBlurParams(
                             radius = radius.value.toInt(),
                             sigma = sigma.value,
                             centerX = anchorX.value,
@@ -1755,7 +1755,7 @@ private fun <T> EdgeModeSelector(
     title: Int?,
     filter: UiFilter<T>,
     value: BlurEdgeMode,
-    onValueChange: (BlurEdgeMode) -> Unit
+    onValueChange: (BlurEdgeMode) -> Unit,
 ) {
     Text(
         text = stringResource(title!!),
@@ -1782,7 +1782,7 @@ private fun <T> TransferFuncSelector(
     title: Int?,
     filter: UiFilter<T>,
     value: TransferFunc,
-    onValueChange: (TransferFunc) -> Unit
+    onValueChange: (TransferFunc) -> Unit,
 ) {
     Text(
         text = stringResource(title!!),

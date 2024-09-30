@@ -15,24 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.graphics.Bitmap
-import com.t8rin.trickle.Trickle
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.resources.R
 
-internal class GothamFilter(
-    override val value: Unit = Unit,
-) : Transformation<Bitmap>, Filter.Gotham {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize,
-    ): Bitmap = Trickle.gotham(input)
-
-}
+class UiLaplacianSimpleFilter : UiFilter<Unit>(
+    title = R.string.laplacian_simple,
+    value = Unit
+), Filter.LaplacianSimple

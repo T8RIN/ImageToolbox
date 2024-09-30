@@ -186,7 +186,7 @@ interface Filter<Value> {
     interface CircleBlur : Filter<Float>
     interface StarBlur : Filter<Float>
     interface LinearTiltShift : Filter<LinearTiltShiftParams>
-    interface MotionBlur : Filter<MotionBlurParams>
+    interface EnhancedZoomBlur : Filter<EnhancedZoomBlurParams>
     interface Convex : Filter<Float>
     interface FastGaussianBlur2D : PairFilter<Float, BlurEdgeMode>
     interface FastGaussianBlur3D : PairFilter<Float, BlurEdgeMode>
@@ -260,6 +260,8 @@ interface Filter<Value> {
     interface TopHat : PairFilter<Float, Boolean>
     interface BlackHat : PairFilter<Float, Boolean>
     interface Canny : PairFilter<Float, Float>
+    interface SobelSimple : SimpleFilter
+    interface LaplacianSimple : SimpleFilter
 }
 
 interface SimpleFilter : Filter<Unit>
