@@ -19,10 +19,7 @@ package ru.tech.imageresizershrinker.core.resources.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
@@ -31,37 +28,42 @@ import androidx.compose.ui.unit.dp
 val Icons.Outlined.Stack: ImageVector by lazy {
     Builder(
         name = "Stack", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-        viewportWidth = 24.0f, viewportHeight = 24.0f
+        viewportWidth = 960f, viewportHeight = 960f
     ).apply {
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(12.0f, 16.54f)
-            lineTo(19.37f, 10.8f)
-            lineTo(21.0f, 12.07f)
-            lineTo(12.0f, 19.07f)
-            lineTo(3.0f, 12.07f)
-            lineTo(4.62f, 10.81f)
-            lineTo(12.0f, 16.54f)
-            moveTo(12.0f, 14.0f)
-            lineTo(3.0f, 7.0f)
-            lineTo(12.0f, 0.0f)
-            lineTo(21.0f, 7.0f)
-            lineTo(12.0f, 14.0f)
-            moveTo(12.0f, 2.53f)
-            lineTo(6.26f, 7.0f)
-            lineTo(12.0f, 11.47f)
-            lineTo(17.74f, 7.0f)
-            lineTo(12.0f, 2.53f)
-            moveTo(12.0f, 21.47f)
-            lineTo(19.37f, 15.73f)
-            lineTo(21.0f, 17.0f)
-            lineTo(12.0f, 24.0f)
-            lineTo(3.0f, 17.0f)
-            lineTo(4.62f, 15.74f)
-            lineTo(12.0f, 21.47f)
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(480f, 560f)
+            lineTo(40f, 320f)
+            lineTo(480f, 80f)
+            lineTo(920f, 320f)
+            lineTo(480f, 560f)
+            close()
+            moveTo(480f, 720f)
+            lineTo(63f, 493f)
+            lineTo(147f, 447f)
+            lineTo(480f, 629f)
+            lineTo(813f, 447f)
+            lineTo(897f, 493f)
+            lineTo(480f, 720f)
+            close()
+            moveTo(480f, 880f)
+            lineTo(63f, 653f)
+            lineTo(147f, 607f)
+            lineTo(480f, 789f)
+            lineTo(813f, 607f)
+            lineTo(897f, 653f)
+            lineTo(480f, 880f)
+            close()
+            moveTo(480f, 469f)
+            lineTo(753f, 320f)
+            lineTo(480f, 171f)
+            lineTo(207f, 320f)
+            lineTo(480f, 469f)
+            close()
+            moveTo(480f, 320f)
+            lineTo(480f, 320f)
+            lineTo(480f, 320f)
+            lineTo(480f, 320f)
+            close()
         }
     }.build()
 }
