@@ -367,6 +367,9 @@ or click one of the badges below.
   - [x] Morphological Gradient
   - [x] Top Hat
   - [x] Black Hat
+  - [x] Enhanced Zoom Blur
+  - [x] Simple Sobel
+  - [x] Simple Laplacian
 
   </details>
 
