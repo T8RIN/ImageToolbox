@@ -123,7 +123,9 @@ fun ToneCurvesEditOption(
                     }
                 }
             } else {
-                { actions() }
+                {
+                    actions()
+                }
             },
             scaffoldState = scaffoldState,
             actions = {
