@@ -97,9 +97,16 @@ fun DrawModeSelector(
     modifier: Modifier,
     value: DrawMode,
     strokeWidth: Pt,
-    onValueChange: (DrawMode) -> Unit
+    onValueChange: (DrawMode) -> Unit,
+    values: List<DrawMode> = DrawMode.entries
 ) {
     var isSheetVisible by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(values, value) {
+        if (values.find { it::class.isInstance(value) } == null) {
+            values.firstOrNull()?.let { onValueChange(it) }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -108,7 +115,7 @@ fun DrawModeSelector(
     ) {
         ToggleGroupButton(
             enabled = true,
-            itemCount = DrawMode.entries.size,
+            itemCount = values.size,
             title = {
                 Text(
                     text = stringResource(R.string.draw_mode),
@@ -122,18 +129,18 @@ fun DrawModeSelector(
                     }
                 )
             },
-            selectedIndex = DrawMode.entries.indexOfFirst {
+            selectedIndex = values.indexOfFirst {
                 value::class.isInstance(it)
             },
             buttonIcon = {},
             itemContent = {
                 Icon(
-                    imageVector = DrawMode.entries[it].getIcon(),
+                    imageVector = values[it].getIcon(),
                     contentDescription = null
                 )
             },
             onIndexChange = {
-                onValueChange(DrawMode.entries[it])
+                onValueChange(values[it])
             }
         )
 
@@ -443,19 +450,22 @@ fun DrawModeSelector(
                     .padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                DrawMode.entries.forEachIndexed { index, item ->
+                values.forEachIndexed { index, item ->
                     Column(
                         Modifier
                             .fillMaxWidth()
                             .container(
                                 shape = ContainerShapeDefaults.shapeForIndex(
-                                    index,
-                                    DrawMode.entries.size
+                                    index = index,
+                                    size = values.size
                                 ),
                                 resultPadding = 0.dp
                             )
                     ) {
-                        TitleItem(text = stringResource(item.getTitle()), icon = item.getIcon())
+                        TitleItem(
+                            text = stringResource(item.getTitle()),
+                            icon = item.getIcon()
+                        )
                         Text(
                             text = stringResource(item.getSubtitle()),
                             modifier = Modifier.padding(

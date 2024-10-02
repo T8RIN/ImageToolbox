@@ -170,11 +170,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawLineStyleSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
@@ -310,6 +312,8 @@ fun DrawContent(
 
     val drawPathMode = viewModel.drawPathMode
 
+    val drawLineStyle = viewModel.drawLineStyle
+
     LaunchedEffect(drawMode, strokeWidth) {
         strokeWidth = if (drawMode is DrawMode.Image) {
             strokeWidth.coerceIn(10.pt, 120.pt)
@@ -408,29 +412,65 @@ fun DrawContent(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 value = drawMode,
                 strokeWidth = strokeWidth,
-                onValueChange = viewModel::updateDrawMode
+                onValueChange = viewModel::updateDrawMode,
+                values = remember(drawLineStyle) {
+                    derivedStateOf {
+                        if (drawLineStyle == DrawLineStyle.None) {
+                            DrawMode.entries
+                        } else {
+                            listOf(
+                                DrawMode.Pen,
+                                DrawMode.Highlighter,
+                                DrawMode.Neon
+                            )
+                        }
+                    }
+                }.value
             )
             DrawPathModeSelector(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 value = drawPathMode,
                 onValueChange = viewModel::updateDrawPathMode,
-                values = remember(drawMode) {
+                values = remember(drawMode, drawLineStyle) {
                     derivedStateOf {
+                        val outlinedModes = listOf(
+                            DrawPathMode.OutlinedRect(),
+                            DrawPathMode.OutlinedOval,
+                            DrawPathMode.OutlinedTriangle,
+                            DrawPathMode.OutlinedPolygon(),
+                            DrawPathMode.OutlinedStar()
+                        )
                         if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
-                            DrawPathMode.entries
+                            when (drawLineStyle) {
+                                DrawLineStyle.None -> DrawPathMode.entries
+
+                                !is DrawLineStyle.Stamped<*> -> listOf(
+                                    DrawPathMode.Free,
+                                    DrawPathMode.Line,
+                                    DrawPathMode.LinePointingArrow,
+                                    DrawPathMode.PointingArrow,
+                                    DrawPathMode.DoublePointingArrow,
+                                    DrawPathMode.DoubleLinePointingArrow,
+                                ) + outlinedModes
+
+                                else -> listOf(
+                                    DrawPathMode.Free,
+                                    DrawPathMode.Line
+                                ) + outlinedModes
+                            }
                         } else {
                             listOf(
                                 DrawPathMode.Free,
-                                DrawPathMode.Line,
-                                DrawPathMode.OutlinedRect(),
-                                DrawPathMode.OutlinedOval,
-                                DrawPathMode.OutlinedTriangle,
-                                DrawPathMode.OutlinedPolygon(),
-                                DrawPathMode.OutlinedStar()
-                            )
+                                DrawPathMode.Line
+                            ) + outlinedModes
                         }
                     }
                 }.value
+            )
+            DrawLineStyleSelector(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                value = drawLineStyle,
+                onValueChange = viewModel::updateDrawLineStyle
             )
             val settingsInteractor = LocalSimpleSettingsInteractor.current
             PreferenceRowSwitch(
@@ -681,7 +721,8 @@ fun DrawContent(
                 onDraw = {},
                 onRequestFiltering = viewModel::filter,
                 drawPathMode = drawPathMode,
-                backgroundColor = viewModel.backgroundColor
+                backgroundColor = viewModel.backgroundColor,
+                drawLineStyle = drawLineStyle
             )
         }
     }

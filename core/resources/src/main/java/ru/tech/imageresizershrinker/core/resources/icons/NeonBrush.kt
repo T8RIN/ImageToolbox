@@ -33,7 +33,7 @@ val Icons.Outlined.NeonBrush: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+        path(fill = SolidColor(Color(0xFF000000))) {
             moveTo(19.443f, 6.414f)
             lineToRelative(-1.858f, -1.858f)
             curveToRelative(-0.354f, -0.354f, -0.774f, -0.531f, -1.261f, -0.531f)
@@ -55,8 +55,8 @@ val Icons.Outlined.NeonBrush: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF1D1D1B)),
-            stroke = SolidColor(Color(0xFF1D1D1B)),
+            fill = SolidColor(Color(0xFF000000)),
+            stroke = SolidColor(Color(0xFF000000)),
             strokeAlpha = 0.3f,
             strokeLineWidth = 6f
         ) {

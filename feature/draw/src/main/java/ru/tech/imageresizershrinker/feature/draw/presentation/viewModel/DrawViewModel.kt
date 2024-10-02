@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
@@ -87,6 +88,9 @@ class DrawViewModel @Inject constructor(
 
     private val _drawPathMode: MutableState<DrawPathMode> = mutableStateOf(DrawPathMode.Free)
     val drawPathMode: DrawPathMode by _drawPathMode
+
+    private val _drawLineStyle: MutableState<DrawLineStyle> = mutableStateOf(DrawLineStyle.None)
+    val drawLineStyle: DrawLineStyle by _drawLineStyle
 
     private val _uri = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
@@ -371,5 +375,9 @@ class DrawViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
+    fun updateDrawLineStyle(style: DrawLineStyle) {
+        _drawLineStyle.update { style }
+    }
 
 }

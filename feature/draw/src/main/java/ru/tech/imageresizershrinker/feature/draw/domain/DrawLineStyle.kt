@@ -47,9 +47,9 @@ sealed class DrawLineStyle(
             listOf(
                 None,
                 Dashed(),
+                DotDashed,
                 ZigZag(),
                 Stamped<Any>(),
-                DotDashed
             )
         }
 

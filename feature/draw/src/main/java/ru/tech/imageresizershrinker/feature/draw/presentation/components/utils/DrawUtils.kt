@@ -243,7 +243,7 @@ fun DrawLineStyle.asPathEffect(
         PathEffect.dashPathEffect(
             intervals = floatArrayOf(
                 size.toPx(canvasSize),
-                gap.toPx(canvasSize)
+                gap.toPx(canvasSize) + strokeWidth
             ),
             phase = 0f
         )

@@ -1435,4 +1435,16 @@
     <string name="tone_curves">Tone Curves</string>
     <string name="reset_curves">Reset Curves</string>
     <string name="reset_curves_sub">Curves will be rolled back to default value</string>
+    <string name="line_style">Line Style</string>
+    <string name="gap_size">Gap Size</string>
+    <string name="dashed">Dashed</string>
+    <string name="dot_dashed">Dot Dashed</string>
+    <string name="stamped">Stamped</string>
+    <string name="zigzag">Zigzag</string>
+    <string name="dashed_sub">Draws dahed line along the drawn path with specified gap size</string>
+    <string name="dot_dashed_sub">Draws dot and dashed line along given path</string>
+    <string name="defaultt_sub">Just default straight lines</string>
+    <string name="stamped_sub">Draws selected shapes along the path with specified spacing</string>
+    <string name="zigzag_sub">Draws wavy zigzag along the path</string>
+    <string name="zigzag_ratio">Zigzag ratio</string>
 </resources>

@@ -64,6 +64,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
@@ -167,6 +168,9 @@ class SingleEditViewModel @Inject constructor(
 
     private val _drawPathMode: MutableState<DrawPathMode> = mutableStateOf(DrawPathMode.Free)
     val drawPathMode: DrawPathMode by _drawPathMode
+
+    private val _drawLineStyle: MutableState<DrawLineStyle> = mutableStateOf(DrawLineStyle.None)
+    val drawLineStyle: DrawLineStyle by _drawLineStyle
 
     init {
         viewModelScope.launch {
@@ -723,6 +727,10 @@ class SingleEditViewModel @Inject constructor(
 
     fun resetImageCurvesEditorState() {
         _imageCurvesEditorState.update { ImageCurvesEditorState.Default }
+    }
+
+    fun updateDrawLineStyle(style: DrawLineStyle) {
+        _drawLineStyle.update { style }
     }
 
 }
