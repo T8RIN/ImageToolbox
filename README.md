@@ -419,6 +419,11 @@ or click one of the badges below.
   - Polygon
   - Star
   - Lasso
+  - Line Style
+    - Dashed
+    - Dot Dashed
+    - Zigzag
+    - Stamped
 - Image Resizing
   - Width changing
   - Height changing
