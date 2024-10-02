@@ -41,8 +41,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.ContentPasteGo
-import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -328,7 +328,7 @@ fun ColorSelectionRow(
         title = {
             TitleItem(
                 text = stringResource(R.string.color),
-                icon = Icons.Rounded.Draw
+                icon = Icons.Rounded.ColorLens
             )
         },
         confirmButton = {

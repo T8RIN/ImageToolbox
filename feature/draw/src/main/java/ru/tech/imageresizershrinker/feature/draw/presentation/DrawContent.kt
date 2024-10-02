@@ -72,7 +72,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
@@ -788,7 +788,7 @@ fun DrawContent(
                     title = {
                         TitleItem(
                             text = stringResource(R.string.draw),
-                            icon = Icons.Rounded.Draw
+                            icon = Icons.Rounded.FormatPaint
                         )
                     },
                     confirmButton = {

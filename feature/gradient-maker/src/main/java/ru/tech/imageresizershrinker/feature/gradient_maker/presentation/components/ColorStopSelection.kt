@@ -38,7 +38,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteOutline
-import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -173,7 +172,7 @@ fun ColorStopSelection(
         title = {
             TitleItem(
                 text = stringResource(R.string.color),
-                icon = Icons.Rounded.Draw
+                icon = Icons.Rounded.Palette
             )
         },
         confirmButton = {

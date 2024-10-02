@@ -18,11 +18,10 @@
 package ru.tech.imageresizershrinker.core.settings.presentation.model
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Architecture
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
-import androidx.compose.material.icons.rounded.DesignServices
-import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.Info
@@ -38,6 +37,7 @@ import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.Draw
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.Firebase
 import ru.tech.imageresizershrinker.core.resources.icons.FolderOpened
@@ -144,7 +144,7 @@ sealed class SettingsGroup(
     )
 
     data object DefaultValues : SettingsGroup(
-        icon = Icons.Rounded.DesignServices,
+        icon = Icons.Outlined.Architecture,
         titleId = R.string.default_values,
         settingsList = listOf(
             Setting.DefaultScaleMode,

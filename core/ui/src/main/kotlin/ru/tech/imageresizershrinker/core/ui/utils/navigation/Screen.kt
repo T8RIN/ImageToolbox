@@ -32,7 +32,6 @@ import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.DocumentScanner
-import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
@@ -52,6 +51,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.ApngBox
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
+import ru.tech.imageresizershrinker.core.resources.icons.Draw
 import ru.tech.imageresizershrinker.core.resources.icons.Encrypted
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.ImageCombine

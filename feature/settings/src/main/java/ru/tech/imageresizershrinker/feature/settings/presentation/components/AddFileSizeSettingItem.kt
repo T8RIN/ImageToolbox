@@ -19,13 +19,13 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Hexagon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.ScaleUnbalanced
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
@@ -41,7 +41,7 @@ fun AddFileSizeSettingItem(
         shape = shape,
         modifier = modifier,
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        startIcon = Icons.Outlined.Hexagon,
+        startIcon = Icons.Outlined.ScaleUnbalanced,
         onClick = {
             onClick()
         },
