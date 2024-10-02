@@ -41,7 +41,6 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.AutoFixNormal
 import androidx.compose.material.icons.rounded.BlurCircular
-import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -73,7 +72,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.resources.icons.Highlighter
-import ru.tech.imageresizershrinker.core.resources.icons.Laser
+import ru.tech.imageresizershrinker.core.resources.icons.NeonBrush
+import ru.tech.imageresizershrinker.core.resources.icons.Pen
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
@@ -513,9 +513,9 @@ private fun DrawMode.getTitle(): Int = when (this) {
 }
 
 private fun DrawMode.getIcon(): ImageVector = when (this) {
-    is DrawMode.Highlighter -> Icons.Rounded.Highlighter
-    is DrawMode.Neon -> Icons.Rounded.Laser
-    is DrawMode.Pen -> Icons.Rounded.Brush
+    is DrawMode.Highlighter -> Icons.Outlined.Highlighter
+    is DrawMode.Neon -> Icons.Outlined.NeonBrush
+    is DrawMode.Pen -> Icons.Outlined.Pen
     is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
     is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
     is DrawMode.Text -> Icons.Rounded.TextFormat

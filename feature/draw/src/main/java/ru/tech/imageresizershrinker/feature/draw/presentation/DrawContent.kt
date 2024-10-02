@@ -859,7 +859,14 @@ fun DrawContent(
                                 }
                                 BackgroundColorSelector(
                                     value = sheetBackgroundColor,
-                                    onValueChange = { sheetBackgroundColor = it }
+                                    onValueChange = { sheetBackgroundColor = it },
+                                    modifier = Modifier
+                                        .padding(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            bottom = 16.dp
+                                        )
+                                        .container()
                                 )
                             }
                         }

@@ -19,48 +19,65 @@ package ru.tech.imageresizershrinker.core.resources.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.Highlighter: ImageVector by lazy {
+val Icons.Outlined.Highlighter: ImageVector by lazy {
     Builder(
         name = "Highlighter", defaultWidth = 24.0.dp, defaultHeight =
         24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveToRelative(396.0f, 396.0f)
-            lineToRelative(200.0f, 200.0f)
-            lineToRelative(-212.0f, 212.0f)
-            quadToRelative(-19.0f, 19.0f, -52.5f, 19.0f)
-            reflectiveQuadTo(279.0f, 808.0f)
-            lineToRelative(-11.0f, -11.0f)
-            lineToRelative(-43.0f, 43.0f)
-            lineTo(70.0f, 840.0f)
-            lineToRelative(120.0f, -120.0f)
-            lineToRelative(-4.0f, -4.0f)
-            quadToRelative(-22.0f, -22.0f, -21.5f, -55.5f)
-            reflectiveQuadTo(187.0f, 605.0f)
-            lineToRelative(209.0f, -209.0f)
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(544f, 560f)
+            lineTo(440f, 456f)
+            lineTo(240f, 656f)
+            quadTo(240f, 656f, 240f, 656f)
+            quadTo(240f, 656f, 240f, 656f)
+            lineTo(344f, 760f)
+            quadTo(344f, 760f, 344f, 760f)
+            quadTo(344f, 760f, 344f, 760f)
+            lineTo(544f, 560f)
             close()
-            moveTo(439.0f, 353.0f)
-            lineTo(655.0f, 137.0f)
-            quadToRelative(17.0f, -17.0f, 43.0f, -17.0f)
-            reflectiveQuadToRelative(43.0f, 17.0f)
-            lineToRelative(112.0f, 112.0f)
-            quadToRelative(17.0f, 17.0f, 16.5f, 45.5f)
-            reflectiveQuadTo(852.0f, 340.0f)
-            lineTo(639.0f, 553.0f)
-            lineTo(439.0f, 353.0f)
+            moveTo(497f, 399f)
+            lineTo(601f, 503f)
+            lineTo(800f, 304f)
+            quadTo(800f, 304f, 800f, 304f)
+            quadTo(800f, 304f, 800f, 304f)
+            lineTo(696f, 200f)
+            quadTo(696f, 200f, 696f, 200f)
+            quadTo(696f, 200f, 696f, 200f)
+            lineTo(497f, 399f)
+            close()
+            moveTo(413f, 371f)
+            lineTo(629f, 587f)
+            lineTo(400f, 816f)
+            quadTo(376f, 840f, 344f, 840f)
+            quadTo(312f, 840f, 288f, 816f)
+            lineTo(286f, 814f)
+            lineTo(283f, 817f)
+            quadTo(272f, 828f, 257.5f, 834f)
+            quadTo(243f, 840f, 227f, 840f)
+            lineTo(108f, 840f)
+            quadTo(94f, 840f, 89f, 828f)
+            quadTo(84f, 816f, 94f, 806f)
+            lineTo(186f, 714f)
+            lineTo(184f, 712f)
+            quadTo(160f, 688f, 160f, 656f)
+            quadTo(160f, 624f, 184f, 600f)
+            lineTo(413f, 371f)
+            close()
+            moveTo(413f, 371f)
+            lineTo(640f, 144f)
+            quadTo(664f, 120f, 696f, 120f)
+            quadTo(728f, 120f, 752f, 144f)
+            lineTo(856f, 248f)
+            quadTo(880f, 272f, 880f, 304f)
+            quadTo(880f, 336f, 856f, 360f)
+            lineTo(629f, 587f)
+            lineTo(413f, 371f)
             close()
         }
     }.build()
