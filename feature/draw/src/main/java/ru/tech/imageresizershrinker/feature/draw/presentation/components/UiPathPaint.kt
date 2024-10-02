@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Path
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.domain.model.pt
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
@@ -35,7 +36,8 @@ data class UiPathPaint(
     override val isErasing: Boolean,
     override val drawMode: DrawMode = DrawMode.Pen,
     override val canvasSize: IntegerSize,
-    override val drawPathMode: DrawPathMode = DrawPathMode.Free
+    override val drawPathMode: DrawPathMode = DrawPathMode.Free,
+    override val drawLineStyle: DrawLineStyle = DrawLineStyle.None
 ) : PathPaint<Path, Color>
 
 
@@ -47,7 +49,8 @@ fun PathPaint<Path, Color>.toUiPathPaint() = UiPathPaint(
     isErasing = isErasing,
     drawMode = drawMode,
     canvasSize = canvasSize,
-    drawPathMode = drawPathMode
+    drawPathMode = drawPathMode,
+    drawLineStyle = drawLineStyle
 )
 
 val PtSaver: Saver<Pt, Float> = Saver(

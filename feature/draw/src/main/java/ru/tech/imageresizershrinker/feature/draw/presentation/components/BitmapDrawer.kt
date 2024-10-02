@@ -89,6 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.clipBitmap
@@ -123,6 +124,7 @@ fun BitmapDrawer(
     backgroundColor: Color,
     panEnabled: Boolean,
     drawColor: Color,
+    drawLineStyle: DrawLineStyle = DrawLineStyle.None
 ) {
     val scope = rememberCoroutineScope()
 
@@ -291,7 +293,8 @@ fun BitmapDrawer(
                 brushSoftness = brushSoftness,
                 drawMode = drawMode,
                 canvasSize = canvasSize,
-                drawPathMode = drawPathMode
+                drawPathMode = drawPathMode,
+                drawLineStyle = drawLineStyle
             )
 
             var drawPath by remember(
@@ -436,7 +439,8 @@ fun BitmapDrawer(
                                     isErasing = isEraserOn,
                                     drawMode = drawMode,
                                     canvasSize = canvasSize,
-                                    drawPathMode = drawPathMode
+                                    drawPathMode = drawPathMode,
+                                    drawLineStyle = drawLineStyle
                                 )
                             )
                         }
@@ -461,7 +465,7 @@ fun BitmapDrawer(
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                     drawColor(backgroundColor.toArgb())
 
-                    paths.forEach { (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode) ->
+                    paths.forEach { (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle) ->
                         val path by remember(nonScaledPath, canvasSize, size) {
                             derivedStateOf {
                                 nonScaledPath.scaleToFitCanvas(
@@ -583,7 +587,8 @@ fun BitmapDrawer(
                                 brushSoftness = brushSoftness,
                                 drawMode = drawMode,
                                 canvasSize = canvasSize,
-                                drawPathMode = drawPathMode
+                                drawPathMode = drawPathMode,
+                                drawLineStyle = drawLineStyle
                             )
                             if (drawMode is DrawMode.Text && !isEraserOn) {
                                 if (drawMode.isRepeated) {

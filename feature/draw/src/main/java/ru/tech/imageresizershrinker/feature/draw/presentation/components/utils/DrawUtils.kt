@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.draw.presentation.components.utils
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
@@ -29,6 +31,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -37,22 +41,30 @@ import androidx.compose.ui.graphics.NativePaint
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StampedPathEffectStyle
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import coil.request.ImageRequest
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
+import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import kotlin.math.roundToInt
@@ -94,6 +106,7 @@ fun rememberPaint(
     drawMode: DrawMode,
     canvasSize: IntegerSize,
     drawPathMode: DrawPathMode,
+    drawLineStyle: DrawLineStyle
 ): State<NativePaint> {
     val context = LocalContext.current
 
@@ -105,13 +118,21 @@ fun rememberPaint(
         drawMode,
         canvasSize,
         drawPathMode,
-        context
+        context,
+        drawLineStyle
     ) {
         derivedStateOf {
             val isSharpEdge = drawPathMode.isSharpEdge
             val isFilled = drawPathMode.isFilled
 
             Paint().apply {
+                if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
+                    pathEffect = drawLineStyle.asPathEffect(
+                        canvasSize = canvasSize,
+                        strokeWidth = strokeWidth.toPx(canvasSize),
+                        context = context
+                    )
+                }
                 blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
                 if (isEraserOn) {
                     style = PaintingStyle.Stroke
@@ -213,6 +234,98 @@ fun rememberPathEffectPaint(
     }
 }
 
+fun DrawLineStyle.asPathEffect(
+    canvasSize: IntegerSize,
+    strokeWidth: Float,
+    context: Context
+): PathEffect? = when (this) {
+    is DrawLineStyle.Dashed -> {
+        PathEffect.dashPathEffect(
+            intervals = floatArrayOf(
+                size.toPx(canvasSize),
+                gap.toPx(canvasSize)
+            ),
+            phase = 0f
+        )
+    }
+
+    DrawLineStyle.DotDashed -> {
+        val dashOnInterval1 = strokeWidth * 4
+        val dashOffInterval1 = strokeWidth * 2
+        val dashOnInterval2 = strokeWidth / 4
+        val dashOffInterval2 = strokeWidth * 2
+
+        PathEffect.dashPathEffect(
+            intervals = floatArrayOf(
+                dashOnInterval1,
+                dashOffInterval1,
+                dashOnInterval2,
+                dashOffInterval2
+            ),
+            phase = 0f
+        )
+    }
+
+    is DrawLineStyle.Stamped<*> -> {
+        fun Shape.toPath(): Path = Path().apply {
+            addOutline(
+                createOutline(
+                    size = Size(strokeWidth, strokeWidth),
+                    layoutDirection = LayoutDirection.Ltr,
+                    density = object : Density {
+                        override val density: Float
+                            get() = context.resources.displayMetrics.density
+                        override val fontScale: Float
+                            get() = context.resources.configuration.fontScale
+                    }
+                )
+            )
+        }
+
+        val path: Path? = when (shape) {
+            is Shape -> shape.toPath()
+            is android.graphics.Path -> shape.asComposePath()
+            is Path -> shape
+            null -> MaterialStarShape.toPath()
+            else -> null
+        }
+
+        path?.let {
+            PathEffect.stampedPathEffect(
+                shape = it,
+                advance = spacing.toPx(canvasSize) + strokeWidth,
+                phase = 0f,
+                style = StampedPathEffectStyle.Morph
+            )
+        }
+    }
+
+    is DrawLineStyle.ZigZag -> {
+        val zigZagPath = Path().apply {
+            val zigZagLineWidth = strokeWidth / heightRatio
+            val shapeVerticalOffset = (strokeWidth / 2) / 2
+            val shapeHorizontalOffset = (strokeWidth / 2) / 2
+            moveTo(0f, 0f)
+            lineTo(strokeWidth / 2, strokeWidth / 2)
+            lineTo(strokeWidth, 0f)
+            lineTo(strokeWidth, 0f + zigZagLineWidth)
+            lineTo(strokeWidth / 2, strokeWidth / 2 + zigZagLineWidth)
+            lineTo(0f, 0f + zigZagLineWidth)
+            translate(Offset(-shapeHorizontalOffset, -shapeVerticalOffset))
+        }
+
+        PathEffect.stampedPathEffect(
+            shape = zigZagPath,
+            advance = strokeWidth,
+            phase = 0f,
+            style = StampedPathEffectStyle.Morph
+        )
+    }
+
+    DrawLineStyle.None -> null
+}
+
+@SuppressLint("ComposableNaming")
 @Composable
 fun NativeCanvas.drawRepeatedImageOnPath(
     drawMode: DrawMode.Image,

@@ -831,7 +831,7 @@ fun DrawContent(
                                             .padding(
                                                 start = 8.dp,
                                                 top = 8.dp,
-                                                bottom = 8.dp,
+                                                bottom = 4.dp,
                                                 end = 4.dp
                                             )
                                     )
@@ -852,7 +852,7 @@ fun DrawContent(
                                             .padding(
                                                 start = 4.dp,
                                                 top = 8.dp,
-                                                bottom = 8.dp,
+                                                bottom = 4.dp,
                                                 end = 8.dp
                                             ),
                                     )
@@ -866,7 +866,7 @@ fun DrawContent(
                                             end = 16.dp,
                                             bottom = 16.dp
                                         )
-                                        .container()
+                                        .container(RoundedCornerShape(24.dp))
                                 )
                             }
                         }
