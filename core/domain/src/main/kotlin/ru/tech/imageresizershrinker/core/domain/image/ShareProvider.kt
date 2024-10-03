@@ -30,7 +30,8 @@ interface ShareProvider<I> {
 
     suspend fun cacheImage(
         image: I,
-        imageInfo: ImageInfo
+        imageInfo: ImageInfo,
+        filename: String? = null
     ): String?
 
     suspend fun shareImages(

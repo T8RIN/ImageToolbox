@@ -71,7 +71,8 @@ internal class AndroidShareProvider @Inject constructor(
 
     override suspend fun cacheImage(
         image: Bitmap,
-        imageInfo: ImageInfo
+        imageInfo: ImageInfo,
+        filename: String?
     ): String? = withContext(ioDispatcher) {
         runCatching {
             val saveTarget = ImageSaveTarget<ExifInterface>(
@@ -81,12 +82,12 @@ internal class AndroidShareProvider @Inject constructor(
                 data = byteArrayOf()
             )
 
-            val filename = filenameCreator.get().constructImageFilename(saveTarget)
+            val realFilename = filename ?: filenameCreator.get().constructImageFilename(saveTarget)
             val byteArray = imageCompressor.compressAndTransform(image, imageInfo)
 
             cacheByteArray(
                 byteArray = byteArray,
-                filename = filename
+                filename = realFilename
             )
 
         }.getOrNull()

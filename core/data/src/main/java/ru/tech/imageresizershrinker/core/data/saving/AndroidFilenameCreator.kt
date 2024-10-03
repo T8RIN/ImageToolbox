@@ -90,14 +90,18 @@ internal class AndroidFilenameCreator @Inject constructor(
         }
         if (settingsState.addSizeInFilename && !forceNotAddSizeInFilename) prefix += wh
 
+        val randomNumber: () -> String = {
+            Random(Random.nextInt()).hashCode().toString().take(4)
+        }
+
         val timeStamp = if (settingsState.useFormattedFilenameTimestamp) {
             SimpleDateFormat(
                 "yyyy-MM-dd_HH-mm-ss",
                 Locale.getDefault()
-            ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+            ).format(Date()) + "_${randomNumber()}"
         } else Date().time.toString()
 
-        val body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
+        var body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
             if (settingsState.addOriginalFilename) {
                 saveTarget.sequenceNumber.toString()
             } else {
@@ -114,6 +118,7 @@ internal class AndroidFilenameCreator @Inject constructor(
         if (body.isEmpty()) {
             if (prefix.endsWith("_")) prefix = prefix.dropLast(1)
             if (suffix.startsWith("_")) suffix = suffix.drop(1)
+            if (prefix.isEmpty() && suffix.isEmpty()) body = "image${randomNumber()}"
         }
 
         return "$prefix$body$suffix.$extension"
