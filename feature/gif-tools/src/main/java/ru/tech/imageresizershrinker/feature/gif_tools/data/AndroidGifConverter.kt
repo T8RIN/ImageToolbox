@@ -120,6 +120,10 @@ internal class AndroidGifConverter @Inject constructor(
                 (100 - ((params.quality.qualityValue - 1) * (100 / 19f))).toInt()
             )
             setFrameRate(params.fps.toFloat())
+            setDispose(
+                if (params.dontStack) 2 else 0
+            )
+            setTransparent(Color.Transparent.toArgb())
             start(out)
         }
         imageUris.forEach { uri ->

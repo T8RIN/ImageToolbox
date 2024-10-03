@@ -1450,4 +1450,6 @@
     <string name="create_shortcut">Create Shortcut</string>
     <string name="create_shortcut_title">Choose tool to pin</string>
     <string name="create_shortcut_subtitle">Tool will be added to home screen of your launcher as shortcut, use it combining with \"Skip file picking\" setting to achieve needed behavior</string>
+    <string name="dont_stack_frames">Don\'t stack frames</string>
+    <string name="dont_stack_frames_sub">Enables disposing of prevoius frames, so they will not stack on each other</string>
 </resources>

@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.Stack
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
@@ -81,6 +82,21 @@ fun GifParamsSelector(
                 )
             },
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
+            modifier = Modifier.fillMaxWidth(),
+            color = Color.Unspecified,
+            shape = RoundedCornerShape(24.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        PreferenceRowSwitch(
+            title = stringResource(id = R.string.dont_stack_frames),
+            subtitle = stringResource(id = R.string.dont_stack_frames_sub),
+            checked = value.dontStack,
+            onClick = {
+                onValueChange(
+                    value.copy(dontStack = it)
+                )
+            },
+            startIcon = Icons.Outlined.Stack,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
             shape = RoundedCornerShape(24.dp)
