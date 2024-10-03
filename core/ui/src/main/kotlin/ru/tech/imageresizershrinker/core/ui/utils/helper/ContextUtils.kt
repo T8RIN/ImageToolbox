@@ -45,9 +45,7 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
@@ -471,13 +469,9 @@ object ContextUtils {
 
     suspend fun Context.createScreenShortcut(
         screen: Screen,
-        onError: (Throwable) -> Unit = {}
-    ) {
-        val dispatcher = Dispatchers.Main.immediate
-            .plus(SupervisorJob())
-            .plus(CoroutineExceptionHandler { _, t -> onError(t) })
-
-        return withContext(dispatcher) {
+        onFailure: (Throwable) -> Unit = {}
+    ) = withContext(Dispatchers.Main.immediate) {
+        runCatching {
             val context = this@createScreenShortcut
 
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context) && screen.icon != null) {
@@ -514,7 +508,7 @@ object ContextUtils {
                     successCallback?.intentSender
                 )
             }
-        }
+        }.onFailure(onFailure)
     }
 
 }
