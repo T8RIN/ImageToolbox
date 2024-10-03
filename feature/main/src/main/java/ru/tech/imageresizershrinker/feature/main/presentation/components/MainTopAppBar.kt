@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.rounded.Settings
@@ -191,7 +192,8 @@ internal fun MainTopAppBar(
                                 subtitle = stringResource(R.string.create_shortcut_subtitle),
                                 startIcon = Icons.Rounded.PushPin,
                                 color = MaterialTheme.colorScheme.secondaryContainer,
-                                modifier = Modifier.padding(bottom = 8.dp)
+                                modifier = Modifier.padding(bottom = 8.dp),
+                                shape = RoundedCornerShape(28.dp)
                             )
                         }
                         items(screenList) { screen ->
