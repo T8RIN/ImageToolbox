@@ -25,7 +25,8 @@ data class GifParams(
     val repeatCount: Int,
     val fps: Int,
     val quality: Quality,
-    val dontStack: Boolean
+    val dontStack: Boolean,
+    val crossfadeCount: Int
 ) {
     companion object {
         val Default by lazy {
@@ -34,7 +35,8 @@ data class GifParams(
                 repeatCount = 1,
                 fps = 12,
                 quality = Quality.Base(50),
-                dontStack = false
+                dontStack = false,
+                crossfadeCount = 0
             )
         }
     }

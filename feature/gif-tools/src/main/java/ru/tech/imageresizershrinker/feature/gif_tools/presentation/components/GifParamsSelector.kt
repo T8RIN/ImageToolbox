@@ -22,9 +22,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterFrames
+import androidx.compose.material.icons.outlined.Opacity
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.runtime.Composable
@@ -36,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.Counter
 import ru.tech.imageresizershrinker.core.resources.icons.Stack
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
@@ -148,5 +151,41 @@ fun GifParamsSelector(
             },
             shape = RoundedCornerShape(24.dp)
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        PreferenceRowSwitch(
+            title = stringResource(id = R.string.crossfade),
+            subtitle = stringResource(id = R.string.crossfade_sub),
+            checked = value.crossfadeCount > 1,
+            onClick = {
+                onValueChange(
+                    value.copy(
+                        crossfadeCount = if (it) 2 else 0
+                    )
+                )
+            },
+            startIcon = Icons.Outlined.Opacity,
+            modifier = Modifier.fillMaxWidth(),
+            color = Color.Unspecified,
+            shape = RoundedCornerShape(24.dp)
+        )
+        AnimatedVisibility(value.crossfadeCount > 1) {
+            EnhancedSliderItem(
+                value = value.crossfadeCount,
+                icon = Icons.Outlined.Counter,
+                title = stringResource(id = R.string.crossfade_count),
+                valueRange = 2f..20f,
+                steps = 18,
+                internalStateTransformation = { it.roundToInt() },
+                onValueChange = {
+                    onValueChange(
+                        value.copy(
+                            crossfadeCount = it.roundToInt()
+                        )
+                    )
+                },
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
     }
 }

@@ -295,6 +295,7 @@ class RootViewModel @Inject constructor(
     }
 
     fun updateUris(uris: List<Uri>?) {
+        _uris.value = null
         _uris.value = uris
 
         if (!uris.isNullOrEmpty() || (uris.isNullOrEmpty() && extraImageType != null)) {
@@ -303,7 +304,8 @@ class RootViewModel @Inject constructor(
     }
 
     fun updateExtraImageType(type: String?) {
-        _extraImageType.value = type
+        _extraImageType.update { null }
+        _extraImageType.update { type }
     }
 
     fun showToast(

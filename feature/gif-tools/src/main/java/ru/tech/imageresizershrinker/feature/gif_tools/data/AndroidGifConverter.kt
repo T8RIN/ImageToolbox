@@ -19,8 +19,11 @@ package ru.tech.imageresizershrinker.feature.gif_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import com.awxkee.jxlcoder.JxlCoder
@@ -36,6 +39,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -126,16 +130,51 @@ internal class AndroidGifConverter @Inject constructor(
             setTransparent(Color.Transparent.toArgb())
             start(out)
         }
-        imageUris.forEach { uri ->
+        imageUris.forEachIndexed { index, uri ->
             imageGetter.getImage(
                 data = uri,
                 size = params.size
-            )?.let(encoder::addFrame)
+            )?.apply { setHasAlpha(true) }?.let { frame ->
+                encoder.addFrame(frame)
+                if (params.crossfadeCount > 1) {
+                    val list = mutableSetOf(0, 255)
+                    for (a in 0..255 step (255 / params.crossfadeCount)) {
+                        list.add(a)
+                    }
+                    val alphas = list.sortedDescending()
+
+
+                    imageGetter.getImage(
+                        data = imageUris.getOrNull(index + 1) ?: Unit,
+                        size = params.size
+                    )?.let { next ->
+                        alphas.forEach { alpha ->
+                            encoder.addFrame(
+                                next.overlay(
+                                    frame.copy(frame.safeConfig, true).applyCanvas {
+                                        drawColor(
+                                            Color.Black.copy(alpha / 255f).toArgb(),
+                                            PorterDuff.Mode.DST_IN
+                                        )
+                                    }
+                                )
+                            )
+                        }
+                    }
+                }
+            }
             onProgress()
         }
         encoder.finish()
 
         out.toByteArray()
+    }
+
+    private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
+        return Bitmap.createBitmap(width, height, safeConfig).applyCanvas {
+            drawBitmap(this@overlay, Matrix(), null)
+            drawBitmap(overlay, 0f, 0f, null)
+        }
     }
 
     override suspend fun convertGifToJxl(
