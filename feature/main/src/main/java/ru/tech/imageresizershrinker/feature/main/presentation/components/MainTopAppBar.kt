@@ -28,8 +28,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.DrawerState
@@ -152,7 +154,7 @@ internal fun MainTopAppBar(
                     onDismiss = { showShortcutAddingSheet = it },
                     confirmButton = {
                         EnhancedButton(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
                             onClick = {
                                 showShortcutAddingSheet = false
                             }
@@ -181,6 +183,17 @@ internal fun MainTopAppBar(
                         verticalItemSpacing = 8.dp,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
+                        item(
+                            span = StaggeredGridItemSpan.FullLine
+                        ) {
+                            PreferenceItem(
+                                title = stringResource(R.string.create_shortcut_title),
+                                subtitle = stringResource(R.string.create_shortcut_subtitle),
+                                startIcon = Icons.Rounded.PushPin,
+                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+                        }
                         items(screenList) { screen ->
                             PreferenceItem(
                                 onClick = {

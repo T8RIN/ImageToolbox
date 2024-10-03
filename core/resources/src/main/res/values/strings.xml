@@ -1448,4 +1448,6 @@
     <string name="zigzag_sub">Draws wavy zigzag along the path</string>
     <string name="zigzag_ratio">Zigzag ratio</string>
     <string name="create_shortcut">Create Shortcut</string>
+    <string name="create_shortcut_title">Choose tool to pin</string>
+    <string name="create_shortcut_subtitle">Tool will be added to home screen of your launcher as shortcut, use it combining with \"Skip file picking\" setting to achieve needed behavior</string>
 </resources>
