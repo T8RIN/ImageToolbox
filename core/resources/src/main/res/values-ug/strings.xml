@@ -238,7 +238,7 @@
     <string name="draw_on_background_sub">تەگلىك رەڭگىنى تاللاڭ ۋە ئۇنىڭ ئۈستىگە سىزىڭ</string>
     <string name="background_color">تەگلىك رەڭگى</string>
     <string name="cipher">Cipher</string>
-    <string name="cipher_sub">AES crypto algorythm ئاساسىدىكى ھەرقانداق ھۆججەتنى (رەسىمنىلا ئەمەس) شىفىرلاش ۋە شىفىرلاش</string>
+    <string name="cipher_sub">AES crypto algorithm ئاساسىدىكى ھەرقانداق ھۆججەتنى (رەسىمنىلا ئەمەس) شىفىرلاش ۋە شىفىرلاش</string>
     <string name="pick_file">ھۆججەت تاللاڭ</string>
     <string name="encrypt">شىفىرلاش</string>
     <string name="decrypt">يېشىش</string>

@@ -268,7 +268,7 @@
     <string name="pick_file">Choisir un dossier</string>
     <string name="cipher">Chiffrement</string>
     <string name="store_file_desc">Stockez ce fichier sur votre appareil ou utilisez l’action partage pour le mettre où vous voulez</string>
-    <string name="cipher_sub">Chiffrer et déchiffrer tout fichier (pas seulement l’image) basé sur AES crypto algorythm</string>
+    <string name="cipher_sub">Chiffrer et déchiffrer tout fichier (pas seulement l’image) basé sur AES crypto algorithm</string>
     <string name="features_sub">Chiffrement par mot de passe des fichiers. Les fichiers traités peuvent être stockés dans le répertoire sélectionné ou partagés. Les fichiers déchiffrés peuvent également être ouverts directement.</string>
     <string name="compatibility_sub">Veuillez noter que la compatibilité avec d’autres logiciels ou services de chiffrement de fichiers n’est pas garantie. Un traitement de clé ou une configuration de chiffrement légèrement différente peuvent causer une incompatibilité.</string>
     <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépendent de votre appareil.

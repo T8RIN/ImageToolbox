@@ -265,7 +265,7 @@
     <string name="draw_on_background_sub">Pick background color and draw on top of it</string>
     <string name="background_color">Background color</string>
     <string name="cipher">Cipher</string>
-    <string name="cipher_sub">Encrypt and Decrypt any file (not only the image) based on AES crypto algorythm</string>
+    <string name="cipher_sub">Encrypt and Decrypt any file (not only the image) based on AES crypto algorithm</string>
     <string name="pick_file">Pick file</string>
     <string name="encrypt">Encrypt</string>
     <string name="decrypt">Decrypt</string>

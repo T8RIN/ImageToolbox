@@ -282,7 +282,7 @@
     <string name="file_size_sub">Ang maximum na laki ng file ay pinaghihigpitan ng Android OS at ang memorya na magagamit, na halatang nakadepende sa iyong device.
 \nMangyaring tandaan: ang memorya ay hindi imbakan.</string>
     <string name="cipher">Cipher</string>
-    <string name="cipher_sub">I-encrypt at I-decrypt ang anumang file (hindi lamang ang imahe) batay sa AES crypto algorythm</string>
+    <string name="cipher_sub">I-encrypt at I-decrypt ang anumang file (hindi lamang ang imahe) batay sa AES crypto algorithm</string>
     <string name="pick_file_to_start">Pumili ng file upang magsimula</string>
     <string name="decryption">Pag-decryption</string>
     <string name="encryption">Pag-encrypt</string>
@@ -376,7 +376,7 @@
     <string name="blur_radius">Blur radius</string>
     <string name="draw_mode">Draw mode</string>
     <string name="create_issue">Gumawa ng Isyu</string>
-    <string name="something_went_wrong_emphasis">Ooops... Nagkaproblema. Maaari kang sumulat sa akin gamit ang mga opsyon sa ibaba at susubukan kong maghanap ng solusyon</string>
+    <string name="something_went_wrong_emphasis">Ooops… Nagkaproblema. Maaari kang sumulat sa akin gamit ang mga opsyon sa ibaba at susubukan kong maghanap ng solusyon</string>
     <string name="resize_and_convert">Baguhin ang laki at I-convert</string>
     <string name="resize_and_convert_sub">Baguhin ang laki ng mga ibinigay na larawan o i-convert ang mga ito sa iba pang mga format. Ang EXIF metadata ay maaari ding i-edit dito kung pumipili ng isang larawan.</string>
     <string name="analytics_sub">Payagan ang pagkolekta ng hindi kilalang istatistika ng paggamit ng app</string>
