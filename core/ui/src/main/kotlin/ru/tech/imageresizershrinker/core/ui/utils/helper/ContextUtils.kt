@@ -35,6 +35,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
@@ -44,7 +45,10 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
@@ -466,42 +470,50 @@ object ContextUtils {
     }
 
     suspend fun Context.createScreenShortcut(
-        screen: Screen
-    ) = coroutineScope {
-        val context = this@createScreenShortcut
+        screen: Screen,
+        onError: (Throwable) -> Unit = {}
+    ) {
+        val dispatcher = Dispatchers.Main.immediate
+            .plus(SupervisorJob())
+            .plus(CoroutineExceptionHandler { _, t -> onError(t) })
 
-        if (ShortcutManagerCompat.isRequestPinShortcutSupported(context) && screen.icon != null) {
-            val imageBitmap = screen.icon!!.toImageBitmap(
-                context = context,
-                width = 256,
-                height = 256
-            )
+        return withContext(dispatcher) {
+            val context = this@createScreenShortcut
 
-            val info = ShortcutInfoCompat.Builder(context, screen.id.toString())
-                .setShortLabel(getString(screen.title))
-                .setLongLabel(getString(screen.subtitle))
-                .setIcon(IconCompat.createWithBitmap(imageBitmap.asAndroidBitmap()))
-                .setIntent(
-                    Intent(context, AppActivityClass).apply {
-                        action = SHORTCUT_OPEN_ACTION
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        putExtra(SCREEN_ID_EXTRA, screen.id)
-                    }
+            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context) && screen.icon != null) {
+                val imageBitmap = screen.icon!!.toImageBitmap(
+                    context = context,
+                    width = 256,
+                    height = 256,
+                    tint = Color(0xFF5F823E)
                 )
-                .build()
 
-            val callbackIntent =
-                ShortcutManagerCompat.createShortcutResultIntent(context, info)
+                val info = ShortcutInfoCompat.Builder(context, screen.id.toString())
+                    .setShortLabel(getString(screen.title))
+                    .setLongLabel(getString(screen.subtitle))
+                    .setIcon(IconCompat.createWithBitmap(imageBitmap.asAndroidBitmap()))
+                    .setIntent(
+                        Intent(context, AppActivityClass).apply {
+                            action = SHORTCUT_OPEN_ACTION
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            putExtra(SCREEN_ID_EXTRA, screen.id)
+                        }
+                    )
+                    .build()
 
-            val successCallback = PendingIntentCompat.getBroadcast(
-                context, 0, callbackIntent, 0, false
-            )
+                val callbackIntent =
+                    ShortcutManagerCompat.createShortcutResultIntent(context, info)
 
-            ShortcutManagerCompat.requestPinShortcut(
-                context,
-                info,
-                successCallback?.intentSender
-            )
+                val successCallback = PendingIntentCompat.getBroadcast(
+                    context, 0, callbackIntent, 0, false
+                )
+
+                ShortcutManagerCompat.requestPinShortcut(
+                    context,
+                    info,
+                    successCallback?.intentSender
+                )
+            }
         }
     }
 

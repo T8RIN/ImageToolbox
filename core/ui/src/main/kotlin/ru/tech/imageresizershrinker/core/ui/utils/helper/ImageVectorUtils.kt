@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import android.content.Context
+import android.graphics.PorterDuff
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,10 +42,13 @@ import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.isUnspecified
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.DefaultFillType
 import androidx.compose.ui.graphics.vector.DefaultGroupName
 import androidx.compose.ui.graphics.vector.DefaultPathName
@@ -919,7 +923,10 @@ internal class DrawCache {
 fun ImageVector.toImageBitmap(
     context: Context,
     width: Int,
-    height: Int
+    height: Int,
+    tint: Color = Color.Unspecified,
+    backgroundColor: Color = Color.Transparent,
+    iconPadding: Int = 0
 ): ImageBitmap {
     val imageBitmap = ImageBitmap(width, height)
     val density = object : Density {
@@ -935,7 +942,12 @@ fun ImageVector.toImageBitmap(
             createGroupComponent(root)
         }
     )
-    val canvas = Canvas(imageBitmap)
+    val canvas = Canvas(imageBitmap).apply {
+        with(nativeCanvas) {
+            drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+            drawColor(backgroundColor.toArgb())
+        }
+    }
 
     CanvasDrawScope().draw(
         density = density,
@@ -943,8 +955,16 @@ fun ImageVector.toImageBitmap(
         canvas = canvas,
         size = Size(width.toFloat(), height.toFloat())
     ) {
-        with(painter) {
-            draw(Size(width.toFloat(), height.toFloat()))
+        translate(iconPadding.toFloat(), iconPadding.toFloat()) {
+            with(painter) {
+                draw(
+                    size = Size(
+                        width = (width - iconPadding * 2).toFloat(),
+                        height = (height - iconPadding * 2).toFloat()
+                    ),
+                    colorFilter = ColorFilter.tint(tint)
+                )
+            }
         }
     }
 
