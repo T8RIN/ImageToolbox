@@ -469,11 +469,10 @@ object ContextUtils {
 
     suspend fun Context.createScreenShortcut(
         screen: Screen,
-        onFailure: (Throwable) -> Unit = {}
+        onFailure: suspend (Throwable) -> Unit = {}
     ) = withContext(Dispatchers.Main.immediate) {
         runCatching {
             val context = this@createScreenShortcut
-
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context) && screen.icon != null) {
                 val imageBitmap = screen.icon!!.toImageBitmap(
                     context = context,
@@ -507,8 +506,15 @@ object ContextUtils {
                     info,
                     successCallback?.intentSender
                 )
+            } else {
+                throw UnsupportedOperationException()
             }
-        }.onFailure(onFailure)
+        }.onFailure {
+            onFailure(it)
+        }
     }
+
+    fun Context.canPinShortcuts(): Boolean =
+        ShortcutManagerCompat.isRequestPinShortcutSupported(this)
 
 }

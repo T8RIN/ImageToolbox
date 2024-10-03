@@ -1447,4 +1447,5 @@
     <string name="stamped_sub">Draws selected shapes along the path with specified spacing</string>
     <string name="zigzag_sub">Draws wavy zigzag along the path</string>
     <string name="zigzag_ratio">Zigzag ratio</string>
+    <string name="create_shortcut">Create Shortcut</string>
 </resources>

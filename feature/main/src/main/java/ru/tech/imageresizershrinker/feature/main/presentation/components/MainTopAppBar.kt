@@ -19,10 +19,16 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Badge
@@ -33,11 +39,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
@@ -45,18 +57,27 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.AppShortcut
 import ru.tech.imageresizershrinker.core.settings.presentation.model.isFirstLaunch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersionPreRelease
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.canPinShortcuts
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.createScreenShortcut
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 
 @Composable
@@ -108,6 +129,76 @@ internal fun MainTopAppBar(
             }
         },
         actions = {
+            val context = LocalContext.current
+
+            if (context.canPinShortcuts()) {
+                val toastHostState = LocalToastHostState.current
+
+                var showShortcutAddingSheet by rememberSaveable {
+                    mutableStateOf(false)
+                }
+                EnhancedIconButton(
+                    onClick = {
+                        showShortcutAddingSheet = true
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.AppShortcut,
+                        contentDescription = null
+                    )
+                }
+                SimpleSheet(
+                    visible = showShortcutAddingSheet,
+                    onDismiss = { showShortcutAddingSheet = it },
+                    confirmButton = {
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = {
+                                showShortcutAddingSheet = false
+                            }
+                        ) {
+                            Text(stringResource(R.string.close))
+                        }
+                    },
+                    title = {
+                        TitleItem(
+                            text = stringResource(R.string.create_shortcut),
+                            icon = Icons.Rounded.AppShortcut
+                        )
+                    }
+                ) {
+                    val screenList by remember(settingsState.screenList) {
+                        derivedStateOf {
+                            settingsState.screenList.mapNotNull {
+                                Screen.entries.find { s -> s.id == it }
+                            }.takeIf { it.isNotEmpty() } ?: Screen.entries
+                        }
+                    }
+
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Adaptive(250.dp),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalItemSpacing = 8.dp,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(screenList) { screen ->
+                            PreferenceItem(
+                                onClick = {
+                                    scope.launch {
+                                        context.createScreenShortcut(screen) {
+                                            toastHostState.showError(context, it)
+                                        }
+                                    }
+                                },
+                                startIcon = screen.icon,
+                                title = stringResource(screen.title),
+                                subtitle = stringResource(screen.subtitle),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                }
+            }
             if (isSheetSlideable || settingsState.useFullscreenSettings) {
                 EnhancedIconButton(
                     containerColor = Color.Transparent,

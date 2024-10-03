@@ -185,7 +185,7 @@ private fun PickLanguageSheet(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = onDismiss
             ) {
-                AutoSizeText(stringResource(R.string.cancel))
+                AutoSizeText(stringResource(R.string.close))
             }
         },
         visible = visible
