@@ -35,10 +35,16 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
+import androidx.core.app.PendingIntentCompat
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
+import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
@@ -193,6 +199,8 @@ object ContextUtils {
             onWantGithubReview()
             return
         }
+
+        if (intent.getScreenOpeningShortcut(onNavigate)) return
 
         runCatching {
             val startsWithImage = intent?.type?.startsWith("image/") == true
@@ -437,6 +445,64 @@ object ContextUtils {
             else -> Locale.forLanguageTag(lang)
         }
         return locale!!.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
+    }
+
+    private const val SCREEN_ID_EXTRA = "screen_id"
+    private const val SHORTCUT_OPEN_ACTION = "shortcut"
+    private fun Intent?.getScreenOpeningShortcut(
+        onNavigate: (Screen) -> Unit
+    ): Boolean {
+        if (this == null) return false
+
+        if (action == SHORTCUT_OPEN_ACTION && hasExtra(SCREEN_ID_EXTRA)) {
+            Screen.entries.find {
+                it.id == getIntExtra(SCREEN_ID_EXTRA, -100)
+            }?.let(onNavigate) ?: return false
+
+            return true
+        }
+
+        return false
+    }
+
+    suspend fun Context.createScreenShortcut(
+        screen: Screen
+    ) = coroutineScope {
+        val context = this@createScreenShortcut
+
+        if (ShortcutManagerCompat.isRequestPinShortcutSupported(context) && screen.icon != null) {
+            val imageBitmap = screen.icon!!.toImageBitmap(
+                context = context,
+                width = 256,
+                height = 256
+            )
+
+            val info = ShortcutInfoCompat.Builder(context, screen.id.toString())
+                .setShortLabel(getString(screen.title))
+                .setLongLabel(getString(screen.subtitle))
+                .setIcon(IconCompat.createWithBitmap(imageBitmap.asAndroidBitmap()))
+                .setIntent(
+                    Intent(context, AppActivityClass).apply {
+                        action = SHORTCUT_OPEN_ACTION
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        putExtra(SCREEN_ID_EXTRA, screen.id)
+                    }
+                )
+                .build()
+
+            val callbackIntent =
+                ShortcutManagerCompat.createShortcutResultIntent(context, info)
+
+            val successCallback = PendingIntentCompat.getBroadcast(
+                context, 0, callbackIntent, 0, false
+            )
+
+            ShortcutManagerCompat.requestPinShortcut(
+                context,
+                info,
+                successCallback?.intentSender
+            )
+        }
     }
 
 }
