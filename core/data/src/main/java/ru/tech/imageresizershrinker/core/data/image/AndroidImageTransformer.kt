@@ -53,6 +53,8 @@ internal class AndroidImageTransformer @Inject constructor(
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
     ): Bitmap? = withContext(defaultDispatcher) {
+        if (transformations.isEmpty()) return@withContext image
+
         val request = ImageRequest
             .Builder(context)
             .data(image)
@@ -74,6 +76,8 @@ internal class AndroidImageTransformer @Inject constructor(
         transformations: List<Transformation<Bitmap>>,
         size: IntegerSize
     ): Bitmap? = withContext(defaultDispatcher) {
+        if (transformations.isEmpty()) return@withContext image
+
         val request = ImageRequest
             .Builder(context)
             .data(image)
@@ -167,6 +171,8 @@ internal class AndroidImageTransformer @Inject constructor(
         image: Bitmap,
         degrees: Float
     ): Bitmap = withContext(defaultDispatcher) {
+        if (degrees == 0f) return@withContext image
+
         if (degrees % 90 == 0f) {
             val matrix = Matrix().apply { postRotate(degrees) }
             Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)

@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -64,7 +65,9 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         transformations: List<Transformation<Bitmap>>,
         onGetByteCount: (Int) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
-        launch {
+        CoroutineScope(encodingDispatcher).launch {
+            onGetByteCount(0)
+            yield()
             onGetByteCount(
                 imageCompressor.calculateImageSize(
                     image = image,
@@ -76,34 +79,51 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         if (!generatePreviews) return@withContext null
 
         if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
-        var width = imageInfo.width
-        var height = imageInfo.height
+        val targetImage: Bitmap
 
-        var scaleFactor = 1f
-        while (!canShow(size = height * width * 4)) {
-            height = (height * 0.85f).roundToInt()
-            width = (width * 0.85f).roundToInt()
-            scaleFactor *= 0.85f
-        }
+        yield()
+        val shouldTransform = transformations.isNotEmpty()
+                || (imageInfo.width != image.width)
+                || (imageInfo.height != image.height)
+                || !imageInfo.quality.isDefault()
+                || (imageInfo.rotationDegrees != 0f)
+                || imageInfo.isFlipped
 
-        val bytes = imageCompressor.compressAndTransform(
-            image = image,
-            imageInfo = imageInfo.copy(
-                width = width,
-                height = height,
-                resizeType = if (imageInfo.resizeType is ResizeType.CenterCrop) {
-                    (imageInfo.resizeType as ResizeType.CenterCrop).copy(scaleFactor = scaleFactor)
-                } else imageInfo.resizeType
-            ),
-            onImageReadyToCompressInterceptor = {
-                imageTransformer.transform(
-                    image = it,
-                    transformations = transformations
-                ) ?: it
+        if (shouldTransform) {
+            var width = imageInfo.width
+            var height = imageInfo.height
+
+            var scaleFactor = 1f
+            while (!canShow(size = height * width * 4)) {
+                height = (height * 0.85f).roundToInt()
+                width = (width * 0.85f).roundToInt()
+                scaleFactor *= 0.85f
             }
-        )
+            yield()
+            val bytes = imageCompressor.compressAndTransform(
+                image = image,
+                imageInfo = imageInfo.copy(
+                    width = width,
+                    height = height,
+                    resizeType = if (imageInfo.resizeType is ResizeType.CenterCrop) {
+                        (imageInfo.resizeType as ResizeType.CenterCrop).copy(scaleFactor = scaleFactor)
+                    } else imageInfo.resizeType
+                ),
+                onImageReadyToCompressInterceptor = {
+                    yield()
+                    imageTransformer.transform(
+                        image = it,
+                        transformations = transformations
+                    ) ?: it
+                }
+            )
 
-        imageScaler.scaleUntilCanShow(imageGetter.getImage(bytes) ?: image)
+            targetImage = imageGetter.getImage(bytes) ?: image
+        } else {
+            targetImage = image
+        }
+        yield()
+        imageScaler.scaleUntilCanShow(targetImage)
     }
 
     override fun canShow(

@@ -57,20 +57,25 @@ fun <T : Any> TopAppBarTitle(
                 Text(
                     stringResource(R.string.loading)
                 )
-            } else if (inp == null || size == null || size <= 0) {
+            } else if (inp == null || size == null) {
                 AnimatedContent(targetState = title) {
                     Text(it)
                 }
             } else {
                 AnimatedContent(originalSize) { originalSize ->
                     val readableOriginal = readableByteCount(originalSize ?: 0)
-                    val readableCompressed = readableByteCount(size)
+                    val readableCompressed = if (size > 0) {
+                        readableByteCount(size)
+                    } else {
+                        "(...)"
+                    }
                     val isSizesEqual =
                         size == originalSize || readableCompressed == readableOriginal
                     val color = takeColorFromScheme {
                         when {
                             isSizesEqual || originalSize == null -> onBackground
                             size > originalSize -> error.blend(errorContainer)
+                            size <= 0 -> tertiary
                             else -> Green
                         }
                     }

@@ -126,7 +126,7 @@ fun QualitySelector(
                                     is Quality.Base -> quality.qualityValue
                                     is Quality.Jxl -> quality.effort
                                     is Quality.PngLossy -> quality.compressionLevel
-                                    is Quality.Heif -> quality.effort
+                                    is Quality.Avif -> quality.effort
                                     is Quality.Tiff -> quality.qualityValue
                                 }
                             }
@@ -150,7 +150,7 @@ fun QualitySelector(
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(effort = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
-                                            is Quality.Heif -> quality.copy(effort = it.toInt())
+                                            is Quality.Avif -> quality.copy(effort = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )
@@ -162,7 +162,7 @@ fun QualitySelector(
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(qualityValue = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
-                                            is Quality.Heif -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Avif -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )

@@ -218,14 +218,14 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
-            val heifQuality = quality as? Quality.Heif ?: Quality.Heif(quality.qualityValue)
+            val avifQuality = quality as? Quality.Avif ?: Quality.Avif(quality.qualityValue)
 
             return HeifCoder(context).encodeAvif(
                 bitmap = image,
-                quality = heifQuality.qualityValue,
+                quality = avifQuality.qualityValue,
                 preciseMode = PreciseMode.LOSSLESS,
                 speed = AvifSpeed.entries.firstOrNull {
-                    it.ordinal == 9 - heifQuality.effort
+                    it.ordinal == 9 - avifQuality.effort
                 } ?: AvifSpeed.SIX
             )
         }
@@ -240,14 +240,14 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
-            val heifQuality = quality as? Quality.Heif ?: Quality.Heif(quality.qualityValue)
+            val avifQuality = quality as? Quality.Avif ?: Quality.Avif(quality.qualityValue)
 
             return HeifCoder(context).encodeAvif(
                 bitmap = image,
-                quality = heifQuality.qualityValue,
+                quality = avifQuality.qualityValue,
                 preciseMode = PreciseMode.LOSSY,
                 speed = AvifSpeed.entries.firstOrNull {
-                    it.ordinal == 9 - heifQuality.effort
+                    it.ordinal == 9 - avifQuality.effort
                 } ?: AvifSpeed.SIX
             )
         }

@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import ru.tech.imageresizershrinker.core.data.image.utils.SimpleCompressor
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
@@ -126,6 +127,7 @@ internal class AndroidImageCompressor @Inject constructor(
             ImageFormat[extension]
         } else imageInfo.imageFormat
 
+        yield()
         compress(
             image = currentImage,
             imageFormat = imageFormat,
@@ -153,7 +155,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 byteArray = it,
                 filename = "temp.${newInfo.imageFormat.extension}"
             )?.toUri()
-                ?.fileSize(context)?.toLong() ?: it.size.toLong()
+                ?.fileSize(context) ?: it.size.toLong()
         }
     }
 

@@ -123,6 +123,7 @@ internal class AndroidImageScaler @Inject constructor(
         image: Bitmap?
     ): Bitmap? = withContext(defaultDispatcher) {
         if (image == null) return@withContext null
+        if (canShow(image.width * image.height * 4)) return@withContext image
 
         var (height, width) = image.run { height to width }
 

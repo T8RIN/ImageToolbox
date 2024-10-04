@@ -27,7 +27,7 @@ sealed class Quality(
     ): Quality {
         return when (imageFormat) {
             is ImageFormat.Jxl -> {
-                val value = this as? Jxl ?: return Jxl(qualityValue.coerceIn(1..100))
+                val value = this as? Jxl ?: return Jxl()
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
                     effort = effort.coerceIn(1..10),
@@ -37,7 +37,7 @@ sealed class Quality(
 
             is ImageFormat.Png.Lossy -> {
                 val value = this as? PngLossy
-                    ?: return PngLossy(compressionLevel = qualityValue.coerceIn(0..9))
+                    ?: return PngLossy()
                 value.copy(
                     maxColors = value.maxColors.coerceIn(2..1024),
                     compressionLevel = compressionLevel.coerceIn(0..9)
@@ -45,8 +45,8 @@ sealed class Quality(
             }
 
             is ImageFormat.Avif -> {
-                val value = this as? Heif
-                    ?: return Heif(qualityValue = qualityValue.coerceIn(1..100))
+                val value = this as? Avif
+                    ?: return Avif()
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
                     effort = effort.coerceIn(0..9)
@@ -68,6 +68,14 @@ sealed class Quality(
         }
     }
 
+    fun isDefault(): Boolean = when (this) {
+        is Base -> qualityValue == 100
+        is Avif -> qualityValue == 50 && effort == 6
+        is Jxl -> qualityValue == 50 && effort == 5 && speed == 0 && channels == Channels.RGBA
+        is PngLossy -> maxColors == 512 && compressionLevel == 7
+        is Tiff -> compressionScheme == 0
+    }
+
     data class Jxl(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
@@ -78,7 +86,7 @@ sealed class Quality(
         val channels: Channels = Channels.RGBA
     ) : Quality(qualityValue)
 
-    data class Heif(
+    data class Avif(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
         @IntRange(from = 0, to = 9)
