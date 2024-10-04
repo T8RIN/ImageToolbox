@@ -69,11 +69,11 @@ sealed class Quality(
     }
 
     fun isDefault(): Boolean = when (this) {
-        is Base -> qualityValue == 100
-        is Avif -> qualityValue == 50 && effort == 6
-        is Jxl -> qualityValue == 50 && effort == 5 && speed == 0 && channels == Channels.RGBA
-        is PngLossy -> maxColors == 512 && compressionLevel == 7
-        is Tiff -> compressionScheme == 0
+        is Base -> this == Base()
+        is Avif -> this == Avif()
+        is Jxl -> this == Jxl()
+        is PngLossy -> this == PngLossy()
+        is Tiff -> this == Tiff()
     }
 
     data class Jxl(
@@ -90,7 +90,7 @@ sealed class Quality(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
         @IntRange(from = 0, to = 9)
-        val effort: Int = 6
+        val effort: Int = 3
     ) : Quality(qualityValue)
 
     data class PngLossy(
