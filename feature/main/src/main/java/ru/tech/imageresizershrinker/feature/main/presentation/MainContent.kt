@@ -171,38 +171,40 @@ fun MainContent(
 
     var showSnowfall by rememberSaveable { mutableStateOf(false) }
 
-    val content = @Composable {
-        val context = LocalContext.current
-        val toastHost = LocalToastHostState.current
-        val scope = rememberCoroutineScope()
-        MainContentImpl(
-            layoutDirection = layoutDirection,
-            isSheetSlideable = isSheetSlideable,
-            sideSheetState = sideSheetState,
-            sheetExpanded = sheetExpanded,
-            isGrid = isGrid,
-            onShowSnowfall = {
-                showSnowfall = true
-            },
-            onGetClipList = onUpdateUris,
-            onTryGetUpdate = {
-                tryGetUpdate(
-                    isNewRequest = true,
-                    onNoUpdates = {
-                        scope.launch {
-                            toastHost.showToast(
-                                icon = Icons.Rounded.FileDownloadOff,
-                                message = context.getString(R.string.no_updates)
-                            )
+    val content = remember {
+        movableContentOf {
+            val context = LocalContext.current
+            val toastHost = LocalToastHostState.current
+            val scope = rememberCoroutineScope()
+            MainContentImpl(
+                layoutDirection = layoutDirection,
+                isSheetSlideable = isSheetSlideable,
+                sideSheetState = sideSheetState,
+                sheetExpanded = sheetExpanded,
+                isGrid = isGrid,
+                onShowSnowfall = {
+                    showSnowfall = true
+                },
+                onGetClipList = onUpdateUris,
+                onTryGetUpdate = {
+                    tryGetUpdate(
+                        isNewRequest = true,
+                        onNoUpdates = {
+                            scope.launch {
+                                toastHost.showToast(
+                                    icon = Icons.Rounded.FileDownloadOff,
+                                    message = context.getString(R.string.no_updates)
+                                )
+                            }
                         }
-                    }
-                )
-            },
-            isUpdateAvailable = isUpdateAvailable,
-            onNavigateToSettings = { onNavigateToSettings() },
-            onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
-            onToggleFavorite = onToggleFavorite
-        )
+                    )
+                },
+                isUpdateAvailable = isUpdateAvailable,
+                onNavigateToSettings = { onNavigateToSettings() },
+                onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
+                onToggleFavorite = onToggleFavorite
+            )
+        }
     }
 
     Box(
