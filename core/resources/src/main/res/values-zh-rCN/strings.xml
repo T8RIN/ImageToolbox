@@ -1414,4 +1414,27 @@
     <string name="closing">正在关闭</string>
     <string name="top_hat">高帽</string>
     <string name="black_hat">黑帽</string>
+    <string name="line_style">线条风格</string>
+    <string name="gap_size">间隙大小</string>
+    <string name="dashed">虚线</string>
+    <string name="dot_dashed">圆点虚线</string>
+    <string name="stamped">盖章</string>
+    <string name="zigzag">之字形</string>
+    <string name="dashed_sub">以指定的间隙大小沿绘制路径绘制虚线</string>
+    <string name="dot_dashed_sub">沿指定路径绘制点和虚线</string>
+    <string name="defaultt_sub">仅默认直线</string>
+    <string name="stamped_sub">按指定间距沿路径绘制选定图形</string>
+    <string name="zigzag_sub">沿着路径画出波浪之字形</string>
+    <string name="zigzag_ratio">之字形比率</string>
+    <string name="create_shortcut">创建快捷方式</string>
+    <string name="create_shortcut_title">选择要固定的工具</string>
+    <string name="create_shortcut_subtitle">该工具将作为快捷方式添加到启动器的主屏幕上，结合 “跳过文件拾取 ”设置使用，即可实现所需的功能</string>
+    <string name="dont_stack_frames">不要堆叠帧</string>
+    <string name="dont_stack_frames_sub">处理预留帧，使其不会相互堆叠</string>
+    <string name="crossfade">交叉渐变</string>
+    <string name="crossfade_sub">帧与帧之间会交叉淡入淡出</string>
+    <string name="crossfade_count">交叉渐变帧数</string>
+    <string name="tone_curves">色调曲线</string>
+    <string name="reset_curves_sub">曲线将回滚到默认值</string>
+    <string name="reset_curves">重置曲线</string>
 </resources>
