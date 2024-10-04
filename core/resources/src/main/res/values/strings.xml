@@ -1455,4 +1455,7 @@
     <string name="crossfade">Crossfade</string>
     <string name="crossfade_sub">Frames will be crossfaded into each other</string>
     <string name="crossfade_count">Crossfade frames count</string>
+    <string name="threshold_one">Threshold One</string>
+    <string name="threshold_two">Threshold Two</string>
+    <string name="canny">Canny</string>
 </resources>

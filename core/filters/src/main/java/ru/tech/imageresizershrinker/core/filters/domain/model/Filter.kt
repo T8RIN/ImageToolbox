@@ -259,6 +259,7 @@ interface Filter<Value> {
     interface MorphologicalGradient : PairFilter<Float, Boolean>
     interface TopHat : PairFilter<Float, Boolean>
     interface BlackHat : PairFilter<Float, Boolean>
+    interface Canny : PairFilter<Float, Float>
 }
 
 interface SimpleFilter : Filter<Unit>

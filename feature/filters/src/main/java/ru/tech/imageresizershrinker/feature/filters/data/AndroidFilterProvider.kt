@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.BulgeDistortionFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.BurkesDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CGAColorSpaceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CandlelightFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CannyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CaramelDarknessFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CelluloidFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CircleBlurFilter
@@ -505,6 +506,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.MorphologicalGradient -> MorphologicalGradientFilter(value)
             is Filter.TopHat -> TopHatFilter(value)
             is Filter.BlackHat -> BlackHatFilter(value)
+            is Filter.Canny -> CannyFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
