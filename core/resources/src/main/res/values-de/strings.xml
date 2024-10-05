@@ -257,7 +257,7 @@
     <string name="features">Eigenschaften</string>
     <string name="compatibility">Kompatibilität</string>
     <string name="cipher">Chiffrieren</string>
-    <string name="cipher_sub">Ver- und entschlüssele beliebige Dateien (nicht nur Bilder) basierend auf dem AES-Verschlüsselungsalgorithmus</string>
+    <string name="cipher_sub">Ver- und Entschlüsselung beliebiger Dateien (nicht nur des Bildes) auf der Grundlage des AES-Verschlüsselungsalgorithmus</string>
     <string name="decrypt">Entschlüsseln</string>
     <string name="implementation">Implementierung</string>
     <string name="encrypt">Verschlüsseln</string>
@@ -1406,4 +1406,24 @@
     <string name="collages_info">Bild halten zum Wechseln, bewegen und zoomen um Position anzupassen</string>
     <string name="histogram">Histogramm</string>
     <string name="image_for_histogram">Dieses Bild wird verwendet, um RGB und Helligkeits-Histogramme zu erzeugen</string>
+    <string name="opening">Wird geöffnet</string>
+    <string name="closing">Wird geschlossen</string>
+    <string name="morphological_gradient">Morphologischer Farbverlauf</string>
+    <string name="black_hat">Schwarzer Hut</string>
+    <string name="stamped">Gestempelt</string>
+    <string name="reset_curves">Kurven zurücksetzen</string>
+    <string name="line_style">Linienstil</string>
+    <string name="gap_size">Lückengröße</string>
+    <string name="dashed">Gestrichelt</string>
+    <string name="dot_dashed">Strichpunktiert</string>
+    <string name="zigzag">Zickzack</string>
+    <string name="dot_dashed_sub">Zeichnet eine gepunktete und gestrichelte Linie entlang eines angegebenen Pfades</string>
+    <string name="zigzag_sub">Zeichnet ein wellenförmiges Zickzack entlang des Pfades</string>
+    <string name="zigzag_ratio">Zickzack-Verhältnis</string>
+    <string name="threshold_one">Schwellenwert Eins</string>
+    <string name="threshold_two">Schwellenwert Zwei</string>
+    <string name="dashed_sub">Zeichnet eine gestrichelte Linie entlang des gezeichneten Pfades mit der angegebenen Lückengröße</string>
+    <string name="defaultt_sub">Nur standardmäßige gerade Linien</string>
+    <string name="stamped_sub">Zeichnet ausgewählte Formen entlang des Pfades mit dem angegebenen Abstand</string>
+    <string name="crossfade">Überblendung</string>
 </resources>
