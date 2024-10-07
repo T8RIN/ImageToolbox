@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class FastBilaterialBlurFilter(
-    override val value: Pair<Float, Float> = 10f to 3f
+    override val value: Triple<Int, Float, Float> = Triple(51, 10f, 3f)
 ) : Transformation<Bitmap>, Filter.FastBilaterialBlur {
 
     override val cacheKey: String
@@ -35,8 +35,9 @@ internal class FastBilaterialBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.fastBilateralBlur(
         bitmap = input,
-        spatialSigma = value.first,
-        rangeSigma = value.second
+        spatialSigma = value.second,
+        rangeSigma = value.third,
+        kernelSize = value.first
     )
 
 }

@@ -23,6 +23,7 @@ import com.awxkee.aire.EdgeMode
 import com.awxkee.aire.MorphKernels
 import com.awxkee.aire.MorphOp
 import com.awxkee.aire.MorphOpMode
+import com.awxkee.aire.Scalar
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -48,144 +49,10 @@ internal class DilationFilter(
         morphOp = MorphOp.DILATE,
         morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
         else MorphOpMode.RGB,
-        borderMode = EdgeMode.REFLECT,
+        borderMode = EdgeMode.REFLECT_101,
         kernelHeight = value.first.toInt(),
-        kernelWidth = value.first.toInt()
-    )
-
-}
-
-internal class OpeningFilter(
-    override val value: Pair<Float, Boolean> = 25f to true
-) : Transformation<Bitmap>, Filter.Opening {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.morphology(
-        bitmap = input,
-        kernel = if (value.second) {
-            MorphKernels.circle(value.first.toInt())
-        } else {
-            MorphKernels.box(value.first.toInt())
-        },
-        morphOp = MorphOp.OPENING,
-        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
-        else MorphOpMode.RGB,
-        borderMode = EdgeMode.REFLECT,
-        kernelHeight = value.first.toInt(),
-        kernelWidth = value.first.toInt()
-    )
-
-}
-
-internal class ClosingFilter(
-    override val value: Pair<Float, Boolean> = 25f to true
-) : Transformation<Bitmap>, Filter.Closing {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.morphology(
-        bitmap = input,
-        kernel = if (value.second) {
-            MorphKernels.circle(value.first.toInt())
-        } else {
-            MorphKernels.box(value.first.toInt())
-        },
-        morphOp = MorphOp.CLOSING,
-        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
-        else MorphOpMode.RGB,
-        borderMode = EdgeMode.REFLECT,
-        kernelHeight = value.first.toInt(),
-        kernelWidth = value.first.toInt()
-    )
-
-}
-
-internal class MorphologicalGradientFilter(
-    override val value: Pair<Float, Boolean> = 25f to true
-) : Transformation<Bitmap>, Filter.MorphologicalGradient {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.morphology(
-        bitmap = input,
-        kernel = if (value.second) {
-            MorphKernels.circle(value.first.toInt())
-        } else {
-            MorphKernels.box(value.first.toInt())
-        },
-        morphOp = MorphOp.GRADIENT,
-        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
-        else MorphOpMode.RGB,
-        borderMode = EdgeMode.REFLECT,
-        kernelHeight = value.first.toInt(),
-        kernelWidth = value.first.toInt()
-    )
-
-}
-
-internal class TopHatFilter(
-    override val value: Pair<Float, Boolean> = 25f to true
-) : Transformation<Bitmap>, Filter.TopHat {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.morphology(
-        bitmap = input,
-        kernel = if (value.second) {
-            MorphKernels.circle(value.first.toInt())
-        } else {
-            MorphKernels.box(value.first.toInt())
-        },
-        morphOp = MorphOp.TOPHAT,
-        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
-        else MorphOpMode.RGB,
-        borderMode = EdgeMode.REFLECT,
-        kernelHeight = value.first.toInt(),
-        kernelWidth = value.first.toInt()
-    )
-
-}
-
-internal class BlackHatFilter(
-    override val value: Pair<Float, Boolean> = 25f to true
-) : Transformation<Bitmap>, Filter.BlackHat {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.morphology(
-        bitmap = input,
-        kernel = if (value.second) {
-            MorphKernels.circle(value.first.toInt())
-        } else {
-            MorphKernels.box(value.first.toInt())
-        },
-        morphOp = MorphOp.BLACKHAT,
-        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
-        else MorphOpMode.RGB,
-        borderMode = EdgeMode.REFLECT,
-        kernelHeight = value.first.toInt(),
-        kernelWidth = value.first.toInt()
+        kernelWidth = value.first.toInt(),
+        borderScalar = Scalar.ZEROS
     )
 
 }

@@ -111,7 +111,7 @@ interface Filter<Value> {
     interface Erode : PairFilter<Float, Boolean>
     interface AnisotropicDiffusion : TripleFilter<Int, Float, Float>
     interface HorizontalWindStagger : TripleFilter<Float, Int, ColorModel>
-    interface FastBilaterialBlur : PairFilter<Float, Float>
+    interface FastBilaterialBlur : TripleFilter<Int, Float, Float>
     interface PoissonBlur : Filter<Float>
     interface LogarithmicToneMapping : Filter<Float>
     interface AcesFilmicToneMapping : Filter<Float>

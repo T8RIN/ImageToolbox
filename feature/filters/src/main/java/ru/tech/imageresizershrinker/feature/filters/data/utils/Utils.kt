@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 
 fun BlurEdgeMode.toEdgeMode(): EdgeMode = when (this) {
     BlurEdgeMode.Clamp -> EdgeMode.CLAMP
-    BlurEdgeMode.Clip -> EdgeMode.KERNEL_CLIP
+    BlurEdgeMode.Reflect101 -> EdgeMode.REFLECT_101
     BlurEdgeMode.Wrap -> EdgeMode.WRAP
     BlurEdgeMode.Reflect -> EdgeMode.REFLECT
 }

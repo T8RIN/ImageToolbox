@@ -22,6 +22,7 @@ import com.awxkee.aire.Aire
 import com.awxkee.aire.EdgeMode
 import com.awxkee.aire.MorphOp
 import com.awxkee.aire.MorphOpMode
+import com.awxkee.aire.Scalar
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -45,9 +46,10 @@ internal class BokehFilter(
         morphOp = MorphOp.DILATE,
         morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
         else MorphOpMode.RGB,
-        borderMode = EdgeMode.REFLECT,
+        borderMode = EdgeMode.REFLECT_101,
         kernelHeight = value.first,
-        kernelWidth = value.first
+        kernelWidth = value.first,
+        borderScalar = Scalar.ZEROS
     )
 
 }

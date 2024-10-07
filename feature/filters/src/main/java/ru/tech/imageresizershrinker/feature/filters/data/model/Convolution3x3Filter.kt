@@ -20,6 +20,10 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.content.Context
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.EdgeMode
+import com.awxkee.aire.KernelShape
+import com.awxkee.aire.MorphOpMode
+import com.awxkee.aire.Scalar
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -42,7 +46,11 @@ internal class Convolution3x3Filter(
         size: IntegerSize
     ): Bitmap = Aire.convolve2D(
         bitmap = input,
-        kernel = value
+        kernel = value,
+        kernelShape = KernelShape(3, 3),
+        edgeMode = EdgeMode.REFLECT_101,
+        scalar = Scalar.ZEROS,
+        mode = MorphOpMode.RGBA
     )
 
 }

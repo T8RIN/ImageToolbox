@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.core.filters.domain.model
 
 enum class BlurEdgeMode {
     Clamp,
-    Clip,
     Wrap,
-    Reflect
+    Reflect,
+    Reflect101
 }

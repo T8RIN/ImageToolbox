@@ -1458,4 +1458,5 @@
     <string name="threshold_one">Threshold One</string>
     <string name="threshold_two">Threshold Two</string>
     <string name="canny">Canny</string>
+    <string name="mirror_101">Mirror 101</string>
 </resources>

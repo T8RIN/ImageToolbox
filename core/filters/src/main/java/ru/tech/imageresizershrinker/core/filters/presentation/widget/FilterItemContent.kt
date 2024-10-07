@@ -53,7 +53,6 @@ import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
@@ -1766,14 +1765,8 @@ private fun <T> EdgeModeSelector(
             end = 12.dp,
         )
     )
-    val entries by remember(filter) {
-        derivedStateOf {
-            BlurEdgeMode.entries.let {
-                if (filter is Filter.GaussianBlur || filter is Filter.LinearGaussianBlur) it
-                else it - BlurEdgeMode.Clip
-            }
-        }
-    }
+    val entries = BlurEdgeMode.entries
+
     ToggleGroupButton(
         inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         items = entries.map { it.translatedName },
@@ -1847,7 +1840,7 @@ private val BlurEdgeMode.translatedName: String
     @Composable
     get() = when (this) {
         BlurEdgeMode.Clamp -> stringResource(R.string.tile_mode_clamp)
-        BlurEdgeMode.Clip -> stringResource(R.string.clip)
+        BlurEdgeMode.Reflect101 -> stringResource(R.string.mirror_101)
         BlurEdgeMode.Wrap -> stringResource(R.string.wrap)
         BlurEdgeMode.Reflect -> stringResource(R.string.tile_mode_mirror)
     }

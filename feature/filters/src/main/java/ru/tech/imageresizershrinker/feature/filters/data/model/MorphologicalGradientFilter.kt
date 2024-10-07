@@ -19,32 +19,39 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
-import com.awxkee.aire.ConvolveKernels
 import com.awxkee.aire.EdgeMode
-import com.awxkee.aire.KernelShape
+import com.awxkee.aire.MorphKernels
+import com.awxkee.aire.MorphOp
 import com.awxkee.aire.MorphOpMode
 import com.awxkee.aire.Scalar
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-internal class CrossBlurFilter(
-    override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.CrossBlur {
+internal class MorphologicalGradientFilter(
+    override val value: Pair<Float, Boolean> = 25f to true
+) : Transformation<Bitmap>, Filter.MorphologicalGradient {
 
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.convolve2D(
+    ): Bitmap = Aire.morphology(
         bitmap = input,
-        kernel = ConvolveKernels.cross(value.toInt()),
-        kernelShape = KernelShape(value.toInt(), value.toInt()),
-        edgeMode = EdgeMode.REFLECT_101,
-        scalar = Scalar.ZEROS,
-        mode = MorphOpMode.RGBA
+        kernel = if (value.second) {
+            MorphKernels.circle(value.first.toInt())
+        } else {
+            MorphKernels.box(value.first.toInt())
+        },
+        morphOp = MorphOp.GRADIENT,
+        morphOpMode = if (input.hasAlpha()) MorphOpMode.RGBA
+        else MorphOpMode.RGB,
+        borderMode = EdgeMode.REFLECT_101,
+        kernelHeight = value.first.toInt(),
+        kernelWidth = value.first.toInt(),
+        borderScalar = Scalar.ZEROS
     )
 
 }
