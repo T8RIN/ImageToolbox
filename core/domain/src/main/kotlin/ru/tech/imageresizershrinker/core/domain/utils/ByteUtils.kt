@@ -37,5 +37,5 @@ fun readableByteCount(bytes: Long): String {
         "%.1f %cB",
         tempBytes / 1000.0,
         ci.current()
-    )
+    ).replace(",0", "")
 }
