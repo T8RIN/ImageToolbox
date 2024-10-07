@@ -1437,4 +1437,7 @@
     <string name="tone_curves">色调曲线</string>
     <string name="reset_curves_sub">曲线将回滚到默认值</string>
     <string name="reset_curves">重置曲线</string>
+    <string name="threshold_one">阈值一</string>
+    <string name="threshold_two">阈值二</string>
+    <string name="canny">Canny</string>
 </resources>
