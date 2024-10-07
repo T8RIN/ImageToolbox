@@ -271,6 +271,11 @@ fun FormatConversionContent(
                     Spacer(Modifier.size(8.dp))
                 }
             }
+            Spacer(Modifier.height(8.dp))
+            ImageFormatSelector(
+                value = imageInfo.imageFormat,
+                onValueChange = viewModel::setImageFormat
+            )
             if (imageInfo.imageFormat.canChangeCompressionValue) {
                 Spacer(Modifier.height(8.dp))
             }
@@ -279,11 +284,6 @@ fun FormatConversionContent(
                 enabled = viewModel.bitmap != null,
                 quality = imageInfo.quality,
                 onQualityChange = viewModel::setQuality
-            )
-            Spacer(Modifier.height(8.dp))
-            ImageFormatSelector(
-                value = imageInfo.imageFormat,
-                onValueChange = viewModel::setImageFormat
             )
         },
         buttons = { actions ->
