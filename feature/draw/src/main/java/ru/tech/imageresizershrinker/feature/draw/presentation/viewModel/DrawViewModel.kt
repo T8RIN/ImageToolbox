@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawOnBackgroundParams
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
@@ -68,8 +69,12 @@ class DrawViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : BaseViewModel(dispatchersHolder) {
+
+    private val _drawOnBackgroundParams: MutableState<DrawOnBackgroundParams?> =
+        mutableStateOf(null)
+    val drawOnBackgroundParams: DrawOnBackgroundParams? by _drawOnBackgroundParams
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -121,6 +126,13 @@ class DrawViewModel @Inject constructor(
             val settingsState = settingsProvider.getSettingsState()
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
         }
+        viewModelScope.launch {
+            val params = fileController.restoreObject(
+                "drawOnBackgroundParams",
+                DrawOnBackgroundParams::class
+            )
+            _drawOnBackgroundParams.update { params }
+        }
     }
 
     private var savingJob: Job? by smartJob {
@@ -129,7 +141,7 @@ class DrawViewModel @Inject constructor(
 
     fun saveBitmap(
         oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        onComplete: (saveResult: SaveResult) -> Unit,
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
@@ -192,7 +204,7 @@ class DrawViewModel @Inject constructor(
 
     fun setUri(
         uri: Uri,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit,
     ) {
         viewModelScope.launch {
             _paths.value = listOf()
@@ -251,7 +263,7 @@ class DrawViewModel @Inject constructor(
     fun startDrawOnBackground(
         reqWidth: Int,
         reqHeight: Int,
-        color: Color
+        color: Color,
     ) {
         val width = reqWidth.takeIf { it > 0 } ?: 1
         val height = reqHeight.takeIf { it > 0 } ?: 1
@@ -269,6 +281,20 @@ class DrawViewModel @Inject constructor(
             )
         }
         _backgroundColor.value = color
+
+        viewModelScope.launch {
+            val newValue = DrawOnBackgroundParams(
+                width = width,
+                height = height,
+                color = color.toArgb()
+            )
+            
+            _drawOnBackgroundParams.update { newValue }
+            fileController.saveObject(
+                key = "drawOnBackgroundParams",
+                value = newValue
+            )
+        }
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
@@ -341,7 +367,7 @@ class DrawViewModel @Inject constructor(
 
     suspend fun filter(
         bitmap: Bitmap,
-        filters: List<Filter<*>>
+        filters: List<Filter<*>>,
     ): Bitmap? = imageTransformer.transform(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }

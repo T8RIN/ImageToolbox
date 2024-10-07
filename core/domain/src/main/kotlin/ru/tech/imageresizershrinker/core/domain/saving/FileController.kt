@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.domain.saving
 
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import kotlin.reflect.KClass
 
 interface FileController {
     val defaultSavingPath: String
@@ -26,7 +27,7 @@ interface FileController {
     suspend fun save(
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean,
-        oneTimeSaveLocationUri: String? = null
+        oneTimeSaveLocationUri: String? = null,
     ): SaveResult
 
     fun getSize(uri: String): Long?
@@ -39,6 +40,17 @@ interface FileController {
 
     suspend fun writeBytes(
         uri: String,
-        block: suspend (Writeable) -> Unit
+        block: suspend (Writeable) -> Unit,
     ): SaveResult
+
+    suspend fun <O : Any> saveObject(
+        key: String,
+        value: O,
+    ): Boolean
+
+    suspend fun <O : Any> restoreObject(
+        key: String,
+        kClass: KClass<O>,
+    ): O?
+
 }

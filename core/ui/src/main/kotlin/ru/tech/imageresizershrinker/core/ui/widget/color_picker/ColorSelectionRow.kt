@@ -92,7 +92,7 @@ fun ColorSelectionRow(
     allowScroll: Boolean = true,
     value: Color,
     onValueChange: (Color) -> Unit,
-    contentPadding: PaddingValues = PaddingValues()
+    contentPadding: PaddingValues = PaddingValues(),
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
@@ -104,6 +104,14 @@ fun ColorSelectionRow(
     LaunchedEffect(value) {
         if (value !in defaultColors) {
             customColor = value
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (value == customColor) {
+            listState.scrollToItem(0)
+        } else if (value in defaultColors) {
+            listState.scrollToItem(defaultColors.indexOf(value))
         }
     }
 

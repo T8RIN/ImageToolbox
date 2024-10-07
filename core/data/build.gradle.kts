@@ -42,6 +42,8 @@ dependencies {
     implementation(libs.aire)
     implementation(libs.jpegli.coder)
 
+    implementation(libs.moshi)
+
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)
 

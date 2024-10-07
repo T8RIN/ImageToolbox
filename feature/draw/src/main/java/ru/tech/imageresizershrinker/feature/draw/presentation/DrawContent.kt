@@ -127,6 +127,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
@@ -192,7 +193,7 @@ fun DrawContent(
     uriState: Uri?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: DrawViewModel = hiltViewModel()
+    viewModel: DrawViewModel = hiltViewModel(),
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
@@ -727,13 +728,13 @@ fun DrawContent(
         }
     }
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp
 
     AnimatedContent(
         transitionSpec = {
             fancySlideTransition(
                 isForward = targetState !is DrawBehavior.None,
-                screenWidthDp = screenWidth
+                screenWidthDp = screenWidthDp
             )
         },
         targetState = viewModel.drawBehavior
@@ -817,14 +818,32 @@ fun DrawContent(
                     }
                 }
 
+                val drawOnBackgroundParams = viewModel.drawOnBackgroundParams
                 val density = LocalDensity.current
-                var height by remember(showBackgroundDrawingSetup, configuration) {
-                    mutableIntStateOf(with(density) { configuration.screenHeightDp.dp.roundToPx() })
+                val screenWidth = with(density) { configuration.screenWidthDp.dp.roundToPx() }
+                val screenHeight = with(density) { configuration.screenHeightDp.dp.roundToPx() }
+
+                var width by remember(
+                    showBackgroundDrawingSetup,
+                    screenWidth,
+                    drawOnBackgroundParams
+                ) {
+                    mutableIntStateOf(drawOnBackgroundParams?.width ?: screenWidth)
                 }
-                var width by remember(showBackgroundDrawingSetup, configuration) {
-                    mutableIntStateOf(with(density) { configuration.screenWidthDp.dp.roundToPx() })
+                var height by remember(
+                    showBackgroundDrawingSetup,
+                    screenHeight,
+                    drawOnBackgroundParams
+                ) {
+                    mutableIntStateOf(drawOnBackgroundParams?.height ?: screenHeight)
                 }
-                var sheetBackgroundColor by remember { mutableStateOf(Color.White) }
+                var sheetBackgroundColor by rememberSaveable(
+                    showBackgroundDrawingSetup,
+                    drawOnBackgroundParams,
+                    stateSaver = ColorSaver
+                ) {
+                    mutableStateOf(drawOnBackgroundParams?.color?.toColor() ?: Color.White)
+                }
                 SimpleSheet(
                     title = {
                         TitleItem(

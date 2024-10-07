@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.data.utils.openWriteableStream
 import ru.tech.imageresizershrinker.core.data.utils.toUiPath
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.json.JsonParser
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.Writeable
@@ -55,8 +56,10 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 
 internal class AndroidFileController @Inject constructor(
@@ -64,7 +67,8 @@ internal class AndroidFileController @Inject constructor(
     private val settingsManager: SettingsManager,
     private val shareProvider: ShareProvider<Bitmap>,
     private val filenameCreator: FilenameCreator,
-    dispatchersHolder: DispatchersHolder
+    private val jsonParser: JsonParser,
+    dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, FileController {
 
     private var _settingsState: SettingsState = SettingsState.Default
@@ -87,7 +91,7 @@ internal class AndroidFileController @Inject constructor(
     override suspend fun save(
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean,
-        oneTimeSaveLocationUri: String?
+        oneTimeSaveLocationUri: String?,
     ): SaveResult = withContext(ioDispatcher) {
         if (!context.isExternalStorageWritable()) {
             return@withContext SaveResult.Error.MissingPermissions
@@ -287,7 +291,7 @@ internal class AndroidFileController @Inject constructor(
     }
 
     override fun clearCache(
-        onComplete: (String) -> Unit
+        onComplete: (String) -> Unit,
     ) = context.clearCache(
         dispatcher = ioDispatcher,
         onComplete = onComplete
@@ -296,7 +300,7 @@ internal class AndroidFileController @Inject constructor(
     override fun getReadableCacheSize(): String = context.cacheSize()
 
     override suspend fun readBytes(
-        uri: String
+        uri: String,
     ): ByteArray = withContext(ioDispatcher) {
         context.contentResolver.openInputStream(uri.toUri())?.use {
             it.buffered().readBytes()
@@ -321,6 +325,39 @@ internal class AndroidFileController @Inject constructor(
         }
 
         return SaveResult.Error.Exception(IllegalStateException())
+    }
+
+    override suspend fun <O : Any> saveObject(
+        key: String,
+        value: O,
+    ): Boolean = withContext(ioDispatcher) {
+        val json = jsonParser.toJson(value, value::class.java) ?: return@withContext false
+        val file = File(context.filesDir, "$key.json")
+
+        runCatching {
+            file.outputStream().use {
+                it.write(json.toByteArray(Charsets.UTF_8))
+            }
+        }.onSuccess {
+            return@withContext true
+        }.onFailure {
+            return@withContext false
+        }
+
+        return@withContext false
+    }
+
+    override suspend fun <O : Any> restoreObject(
+        key: String,
+        kClass: KClass<O>,
+    ): O? = withContext(ioDispatcher) {
+        runCatching {
+            val file = File(context.filesDir, "$key.json").apply {
+                if (!exists()) createNewFile()
+            }
+
+            jsonParser.fromJson<O>(file.readText(Charsets.UTF_8), kClass.java)
+        }.getOrNull()
     }
 
 }
