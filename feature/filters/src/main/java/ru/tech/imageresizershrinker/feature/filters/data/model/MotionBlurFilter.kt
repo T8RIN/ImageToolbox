@@ -19,17 +19,16 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
-import com.awxkee.aire.GaussianPreciseLevel
+import com.awxkee.aire.Scalar
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 
-
-internal class GaussianBlurFilter(
-    override val value: Triple<Float, Float, BlurEdgeMode> = Triple(25f, 10f, BlurEdgeMode.Clamp),
-) : Transformation<Bitmap>, Filter.GaussianBlur {
+internal class MotionBlurFilter(
+    override val value: Triple<Int, Float, BlurEdgeMode> = Triple(51, 45f, BlurEdgeMode.Reflect101),
+) : Transformation<Bitmap>, Filter.MotionBlur {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -37,12 +36,12 @@ internal class GaussianBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize,
-    ): Bitmap = Aire.gaussianBlur(
+    ): Bitmap = Aire.motionBlur(
         bitmap = input,
-        kernelSize = 2 * value.first.toInt() + 1,
-        sigma = value.second,
-        edgeMode = value.third.toEdgeMode(),
-        gaussianPreciseLevel = GaussianPreciseLevel.INTEGRAL
+        kernelSize = value.first,
+        angle = value.second,
+        borderMode = value.third.toEdgeMode(),
+        borderScalar = Scalar.ZEROS
     )
 
 }

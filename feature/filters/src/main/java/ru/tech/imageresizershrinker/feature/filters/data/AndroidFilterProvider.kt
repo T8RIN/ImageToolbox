@@ -176,6 +176,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.MissEtikateFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MorphologicalGradientFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.MotionBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NegativeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NeonFilter
@@ -511,6 +512,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Canny -> CannyFilter(value)
             is Filter.SobelSimple -> SobelSimpleFilter(value)
             is Filter.LaplacianSimple -> LaplacianSimpleFilter(value)
+            is Filter.MotionBlur -> MotionBlurFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

@@ -255,7 +255,8 @@ sealed class UiFilter<T>(
                     UiGaussianBoxBlurFilter(),
                     UiLinearFastGaussianBlurNextFilter(),
                     UiLinearFastGaussianBlurFilter(),
-                    UiLinearGaussianBlurFilter()
+                    UiLinearGaussianBlurFilter(),
+                    UiMotionBlurFilter()
                 ),
                 listOf(
                     UiCrystallizeFilter(),

@@ -262,6 +262,7 @@ interface Filter<Value> {
     interface Canny : PairFilter<Float, Float>
     interface SobelSimple : SimpleFilter
     interface LaplacianSimple : SimpleFilter
+    interface MotionBlur : TripleFilter<Int, Float, BlurEdgeMode>
 }
 
 interface SimpleFilter : Filter<Unit>
