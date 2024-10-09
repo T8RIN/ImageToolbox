@@ -614,7 +614,7 @@
     <string name="center_y">Centrum Y</string>
     <string name="tile_mode">Tegelmodus</string>
     <string name="tile_mode_repeated">Herhaald</string>
-    <string name="tile_mode_mirror">Spiegel</string>
+    <string name="tile_mode_mirror">Spiegelen</string>
     <string name="tile_mode_clamp">Klem</string>
     <string name="tile_mode_decal">Sticker</string>
     <string name="color_stops">Kleur stopt</string>
@@ -1439,4 +1439,6 @@
     <string name="threshold_two">Drempelwaarde 2</string>
     <string name="create_shortcut">Snelkoppeling aanmaken</string>
     <string name="create_shortcut_subtitle">Hulpmiddel wordt als snelkoppeling toegevoegd aan het startscherm, gebruik het in combinatie met de optie \"bestandskeuze overslaan\" om het benodigde gedrag te bereiken</string>
+    <string name="canny">Canny</string>
+    <string name="mirror_101">Spiegelen 101</string>
 </resources>
