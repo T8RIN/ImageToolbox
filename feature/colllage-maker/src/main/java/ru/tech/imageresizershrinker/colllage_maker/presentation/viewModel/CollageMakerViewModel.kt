@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -49,7 +50,7 @@ class CollageMakerViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : BaseViewModel(dispatchersHolder) {
 
     private val _spacing = mutableFloatStateOf(10f)
@@ -57,6 +58,10 @@ class CollageMakerViewModel @Inject constructor(
 
     private val _cornerRadius = mutableFloatStateOf(0f)
     val cornerRadius: Float by _cornerRadius
+
+    private val _aspectRatio: MutableState<DomainAspectRatio> =
+        mutableStateOf(DomainAspectRatio.Numeric(1f, 1f))
+    val aspectRatio by _aspectRatio
 
     private val _backgroundColor = mutableStateOf(Color.Black)
     val backgroundColor: Color by _backgroundColor
@@ -119,7 +124,7 @@ class CollageMakerViewModel @Inject constructor(
 
     fun saveBitmap(
         oneTimeSaveLocationUri: String?,
-        onComplete: (SaveResult) -> Unit
+        onComplete: (SaveResult) -> Unit,
     ) {
         _isSaving.update { true }
         _collageCreationTrigger.update { true }
@@ -156,7 +161,7 @@ class CollageMakerViewModel @Inject constructor(
     }
 
     fun performSharing(
-        onComplete: () -> Unit
+        onComplete: () -> Unit,
     ) {
         _isSaving.update { true }
         _collageCreationTrigger.update { true }
@@ -185,7 +190,7 @@ class CollageMakerViewModel @Inject constructor(
     }
 
     fun cacheImage(
-        onComplete: (Uri) -> Unit
+        onComplete: (Uri) -> Unit,
     ) {
         _isSaving.update { true }
         _collageCreationTrigger.update { true }
@@ -232,5 +237,9 @@ class CollageMakerViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
+    fun setAspectRatio(aspect: DomainAspectRatio) {
+        _aspectRatio.update { aspect }
+    }
 
 }
