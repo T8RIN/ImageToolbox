@@ -92,26 +92,26 @@ object ContextUtils {
 
     fun Context.startActivity(
         clazz: Class<*>,
-        intentBuilder: Intent.() -> Unit
+        intentBuilder: Intent.() -> Unit,
     ) {
         startActivity(buildIntent(clazz, intentBuilder))
     }
 
     fun Context.buildIntent(
         clazz: Class<*>,
-        intentBuilder: Intent.() -> Unit
+        intentBuilder: Intent.() -> Unit,
     ): Intent = Intent(applicationContext, clazz).apply(intentBuilder)
 
     fun Context.postToast(
         textRes: Int,
-        vararg formatArgs: Any
+        vararg formatArgs: Any,
     ) {
         mainLooperAction {
             Toast.makeText(
                 applicationContext,
                 getString(
                     textRes,
-                    formatArgs
+                    *formatArgs
                 ),
                 Toast.LENGTH_SHORT
             ).show()
@@ -121,14 +121,14 @@ object ContextUtils {
     fun Context.postToast(
         textRes: Int,
         isLong: Boolean = false,
-        vararg formatArgs: Any
+        vararg formatArgs: Any,
     ) {
         mainLooperAction {
             Toast.makeText(
                 applicationContext,
                 getString(
                     textRes,
-                    formatArgs
+                    *formatArgs
                 ),
                 if (isLong) {
                     Toast.LENGTH_LONG
@@ -152,7 +152,7 @@ object ContextUtils {
     }
 
     fun Context.adjustFontSize(
-        scale: Float?
+        scale: Float?,
     ): Context {
         val configuration = resources.configuration
         configuration.fontScale = scale ?: resources.configuration.fontScale
@@ -167,7 +167,7 @@ object ContextUtils {
     )
 
     private fun Context.verifyInstallerId(
-        validInstallers: List<String>
+        validInstallers: List<String>,
     ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
 
     private fun Context.getInstallerPackageName(packageName: String): String? {
@@ -192,7 +192,7 @@ object ContextUtils {
         onHasExtraImageType: (String) -> Unit,
         isHasUris: Boolean,
         onWantGithubReview: () -> Unit,
-        isOpenEditInsteadOfPreview: Boolean
+        isOpenEditInsteadOfPreview: Boolean,
     ) {
         onStart()
         if (intent?.type != null && !isHasUris) onColdStart()
@@ -356,7 +356,7 @@ object ContextUtils {
     /** Save a text into the clipboard. */
     fun Context.copyToClipboard(
         label: String,
-        value: String
+        value: String,
     ) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(label, value)
@@ -366,7 +366,7 @@ object ContextUtils {
     fun Context.getStringLocalized(
         @StringRes
         resId: Int,
-        locale: Locale
+        locale: Locale,
     ): String = createConfigurationContext(
         Configuration(resources.configuration).apply { setLocale(locale) }
     ).getText(resId).toString()
@@ -452,7 +452,7 @@ object ContextUtils {
     private const val SCREEN_ID_EXTRA = "screen_id"
     private const val SHORTCUT_OPEN_ACTION = "shortcut"
     private fun Intent?.getScreenOpeningShortcut(
-        onNavigate: (Screen) -> Unit
+        onNavigate: (Screen) -> Unit,
     ): Boolean {
         if (this == null) return false
 
@@ -469,7 +469,7 @@ object ContextUtils {
 
     suspend fun Context.createScreenShortcut(
         screen: Screen,
-        onFailure: suspend (Throwable) -> Unit = {}
+        onFailure: suspend (Throwable) -> Unit = {},
     ) = withContext(Dispatchers.Main.immediate) {
         runCatching {
             val context = this@createScreenShortcut
