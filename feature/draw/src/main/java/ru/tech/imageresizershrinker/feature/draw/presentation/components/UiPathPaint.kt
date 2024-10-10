@@ -17,12 +17,10 @@
 
 package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
-import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -51,13 +49,4 @@ fun PathPaint<Path, Color>.toUiPathPaint() = UiPathPaint(
     canvasSize = canvasSize,
     drawPathMode = drawPathMode,
     drawLineStyle = drawLineStyle
-)
-
-val PtSaver: Saver<Pt, Float> = Saver(
-    save = {
-        it.value
-    },
-    restore = {
-        it.pt
-    }
 )
