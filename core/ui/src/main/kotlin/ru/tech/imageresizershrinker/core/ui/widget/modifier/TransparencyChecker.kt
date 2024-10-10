@@ -22,7 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 fun Modifier.transparencyChecker(
     colorScheme: ColorScheme? = null,
     checkerWidth: Dp = 10.dp,
-    checkerHeight: Dp = 10.dp
+    checkerHeight: Dp = 10.dp,
 ) = this.composed {
     val scheme = colorScheme ?: MaterialTheme.colorScheme
 
-    Modifier.drawBehind {
+    Modifier.drawWithCache {
         val width = this.size.width
         val height = this.size.height
 
@@ -46,16 +46,18 @@ fun Modifier.transparencyChecker(
         val horizontalSteps = (width / checkerWidthPx).toInt()
         val verticalSteps = (height / checkerHeightPx).toInt()
 
-        for (y in 0..verticalSteps) {
-            for (x in 0..horizontalSteps) {
-                val isGrayTile = ((x + y) % 2 == 1)
-                drawRect(
-                    color = if (isGrayTile) {
-                        scheme.surfaceColorAtElevation(20.dp)
-                    } else scheme.surface,
-                    topLeft = Offset(x * checkerWidthPx, y * checkerHeightPx),
-                    size = Size(checkerWidthPx, checkerHeightPx)
-                )
+        onDrawBehind {
+            for (y in 0..verticalSteps) {
+                for (x in 0..horizontalSteps) {
+                    val isGrayTile = ((x + y) % 2 == 1)
+                    drawRect(
+                        color = if (isGrayTile) {
+                            scheme.surfaceColorAtElevation(20.dp)
+                        } else scheme.surface,
+                        topLeft = Offset(x * checkerWidthPx, y * checkerHeightPx),
+                        size = Size(checkerWidthPx, checkerHeightPx)
+                    )
+                }
             }
         }
     }

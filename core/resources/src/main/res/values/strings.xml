@@ -1462,4 +1462,6 @@
     <string name="enhanced_zoom_blur">Enhanced Zoom Blur</string>
     <string name="laplacian_simple">Laplacian Simple</string>
     <string name="sobel_simple">Sobel Simple</string>
+    <string name="helper_grid">Helper Grid</string>
+    <string name="helper_grid_sub">Shows supporting grid above drawing area to help with precise manipulations</string>
 </resources>

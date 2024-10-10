@@ -148,6 +148,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BackgroundColorSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.HelperGridParamsSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -473,6 +474,11 @@ fun DrawContent(
                 value = drawLineStyle,
                 onValueChange = viewModel::updateDrawLineStyle
             )
+            HelperGridParamsSelector(
+                value = viewModel.helperGridParams,
+                onValueChange = viewModel::updateHelperGridParams,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
             val settingsInteractor = LocalSimpleSettingsInteractor.current
             PreferenceRowSwitch(
                 modifier = Modifier
@@ -723,7 +729,8 @@ fun DrawContent(
                 onRequestFiltering = viewModel::filter,
                 drawPathMode = drawPathMode,
                 backgroundColor = viewModel.backgroundColor,
-                drawLineStyle = drawLineStyle
+                drawLineStyle = drawLineStyle,
+                helperGridParams = viewModel.helperGridParams
             )
         }
     }

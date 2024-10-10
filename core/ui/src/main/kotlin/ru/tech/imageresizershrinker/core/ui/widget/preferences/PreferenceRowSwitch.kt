@@ -58,6 +58,7 @@ fun PreferenceRowSwitch(
     onDisabledClick: (() -> Unit)? = null,
     onClick: (Boolean) -> Unit,
     changeAlphaWhenDisabled: Boolean = true,
+    drawContainer: Boolean = true,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     PreferenceRow(
@@ -101,7 +102,8 @@ fun PreferenceRowSwitch(
                 interactionSource = interactionSource
             )
         },
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
+        drawContainer = drawContainer
     )
 }
 
@@ -119,7 +121,8 @@ fun PreferenceRowSwitch(
     contentColor: Color? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     startIcon: ImageVector?,
-    onClick: (Boolean) -> Unit
+    onClick: (Boolean) -> Unit,
+    drawContainer: Boolean = true,
 ) {
     PreferenceRowSwitch(
         modifier = modifier,
@@ -144,6 +147,7 @@ fun PreferenceRowSwitch(
         },
         resultModifier = Modifier.padding(16.dp),
         applyHorizontalPadding = false,
-        onClick = onClick
+        onClick = onClick,
+        drawContainer = drawContainer
     )
 }

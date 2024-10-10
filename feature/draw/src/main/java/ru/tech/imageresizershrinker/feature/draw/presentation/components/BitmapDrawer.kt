@@ -86,6 +86,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.helperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -124,7 +126,8 @@ fun BitmapDrawer(
     backgroundColor: Color,
     panEnabled: Boolean,
     drawColor: Color,
-    drawLineStyle: DrawLineStyle = DrawLineStyle.None
+    drawLineStyle: DrawLineStyle = DrawLineStyle.None,
+    helperGridParams: HelperGridParams = remember { HelperGridParams() },
 ) {
     val scope = rememberCoroutineScope()
 
@@ -742,10 +745,11 @@ fun BitmapDrawer(
                     )
                     .clip(RoundedCornerShape(2.dp))
                     .transparencyChecker()
+                    .helperGrid(helperGridParams)
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.outlineVariant(),
-                        RoundedCornerShape(2.dp)
+                        shape = RoundedCornerShape(2.dp)
                     ),
                 bitmap = previewBitmap,
                 contentDescription = null,

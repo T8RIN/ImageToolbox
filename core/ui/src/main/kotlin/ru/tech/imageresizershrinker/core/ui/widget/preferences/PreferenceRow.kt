@@ -81,7 +81,8 @@ fun PreferenceRow(
     onClick: (() -> Unit)?,
     onDisabledClick: (() -> Unit)? = null,
     autoShadowElevation: Dp = 1.dp,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    drawContainer: Boolean = true,
 ) {
     val haptics = LocalHapticFeedback.current
     val internalColor = contentColor
@@ -105,11 +106,15 @@ fun PreferenceRow(
                         Modifier.padding(horizontal = 16.dp)
                     } else Modifier
                 )
-                .container(
-                    color = color,
-                    shape = shape,
-                    resultPadding = 0.dp,
-                    autoShadowElevation = autoShadowElevation
+                .then(
+                    if (drawContainer) {
+                        Modifier.container(
+                            color = color,
+                            shape = shape,
+                            resultPadding = 0.dp,
+                            autoShadowElevation = autoShadowElevation
+                        )
+                    } else Modifier
                 )
                 .then(
                     onClick
@@ -217,7 +222,7 @@ fun PreferenceRow(
     shape: Shape = RoundedCornerShape(16.dp),
     startIcon: ImageVector?,
     endContent: (@Composable () -> Unit)? = null,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     PreferenceRow(
         modifier = modifier,
