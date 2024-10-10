@@ -155,16 +155,13 @@ class ImagePicker(
                 ImagePickerMode.CameraCapture -> cameraAction()
 
                 ImagePickerMode.GallerySingle,
-                ImagePickerMode.GalleryMultiple,
-                    -> galleryAction()
+                ImagePickerMode.GalleryMultiple -> galleryAction()
 
                 ImagePickerMode.GetContentSingle,
-                ImagePickerMode.GetContentMultiple,
-                    -> getContentAction()
+                ImagePickerMode.GetContentMultiple -> getContentAction()
 
                 ImagePickerMode.Embedded,
-                ImagePickerMode.EmbeddedMultiple,
-                    -> embeddedAction()
+                ImagePickerMode.EmbeddedMultiple -> embeddedAction()
             }
         }.onFailure(onFailure)
     }
