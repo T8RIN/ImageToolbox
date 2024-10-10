@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
@@ -31,10 +29,10 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BorderColor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
-import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
+import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun DefaultDrawColorSettingItem(
@@ -45,19 +43,14 @@ fun DefaultDrawColorSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
 
-    Column(modifier = modifier.container(shape = shape)) {
-        TitleItem(
-            text = stringResource(R.string.default_draw_color),
-            icon = Icons.Outlined.BorderColor,
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .padding(top = 12.dp)
-        )
-        ColorSelectionRow(
-            allowAlpha = true,
-            contentPadding = PaddingValues(12.dp),
-            value = settingsState.defaultDrawColor,
-            onValueChange = { onValueChange(it.toModel()) }
-        )
-    }
+    ColorRowSelector(
+        modifier = modifier.container(shape = shape),
+        value = settingsState.defaultDrawColor,
+        onValueChange = {
+            onValueChange(it.toModel())
+        },
+        icon = Icons.Outlined.BorderColor,
+        title = stringResource(R.string.default_draw_color),
+        defaultColors = ColorSelectionRowDefaults.colorList
+    )
 }

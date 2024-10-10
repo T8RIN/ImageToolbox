@@ -22,6 +22,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,6 +54,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -101,6 +105,9 @@ fun EnhancedSliderItem(
 
     val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
 
+    val tooltipState = rememberTooltipState()
+    val scope = rememberCoroutineScope()
+
     AnimatedVisibility(visible = visible) {
         LocalContentColor.ProvidesValue(internalColor) {
             Column(
@@ -116,7 +123,20 @@ fun EnhancedSliderItem(
                     .alpha(
                         animateFloatAsState(if (enabled) 1f else 0.5f).value
                     )
-                    .animateContentSize(),
+                    .animateContentSize()
+                    .then(
+                        if (isCompactLayout && icon != null) {
+                            Modifier.pointerInput(Unit) {
+                                detectTapGestures(
+                                    onLongPress = {
+                                        scope.launch {
+                                            tooltipState.show()
+                                        }
+                                    }
+                                )
+                            }
+                        } else Modifier
+                    ),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -158,15 +178,16 @@ fun EnhancedSliderItem(
                     ) {
                         AnimatedContent(icon) { icon ->
                             if (icon != null) {
-                                val tooltipState = rememberTooltipState()
-                                val scope = rememberCoroutineScope()
-
                                 TooltipBox(
                                     positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
                                     tooltip = {
                                         RichTooltip(
                                             colors = TooltipDefaults.richTooltipColors(
-                                                containerColor = MaterialTheme.colorScheme.surface
+                                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(
+                                                    0.5f
+                                                ),
+                                                titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer
                                             ),
                                             title = { Text(title) },
                                             text = {
@@ -177,6 +198,7 @@ fun EnhancedSliderItem(
                                     },
                                     state = tooltipState,
                                     content = {
+                                        val haptics = LocalHapticFeedback.current
                                         IconShapeContainer(
                                             enabled = true,
                                             content = {
@@ -196,9 +218,15 @@ fun EnhancedSliderItem(
                                                 )
                                                 .combinedClickable(
                                                     onLongClick = {
+                                                        haptics.performHapticFeedback(
+                                                            HapticFeedbackType.TextHandleMove
+                                                        )
                                                         scope.launch { tooltipState.show() }
                                                     },
                                                     onClick = {
+                                                        haptics.performHapticFeedback(
+                                                            HapticFeedbackType.TextHandleMove
+                                                        )
                                                         scope.launch { tooltipState.show() }
                                                     }
                                                 )

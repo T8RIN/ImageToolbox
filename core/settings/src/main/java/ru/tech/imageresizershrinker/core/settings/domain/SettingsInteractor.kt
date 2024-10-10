@@ -79,7 +79,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
-        onFailure: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit,
     )
 
     suspend fun resetSettings()
@@ -201,5 +201,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleIsSystemBarsVisibleBySwipe()
 
     suspend fun setInitialOcrMode(mode: Int)
+
+    suspend fun toggleUseCompactSelectorsLayout()
 
 }

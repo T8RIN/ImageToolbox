@@ -106,4 +106,5 @@ internal object SettingKeys {
     val SYSTEM_BARS_VISIBILITY = intPreferencesKey("SYSTEM_BARS_VISIBILITY")
     val IS_SYSTEM_BARS_VISIBLE_BY_SWIPE = booleanPreferencesKey("IS_SYSTEM_BARS_VISIBLE_BY_SWIPE")
     val INITIAL_OCR_MODE = intPreferencesKey("INITIAL_OCR_MODE")
+    val USE_COMPACT_SELECTORS_LAYOUT = booleanPreferencesKey("USE_COMPACT_SELECTORS_LAYOUT")
 }

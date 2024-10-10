@@ -56,7 +56,7 @@ class SettingsViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : BaseViewModel(dispatchersHolder) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
@@ -226,7 +226,7 @@ class SettingsViewModel @Inject constructor(
 
     fun createBackup(
         uri: Uri,
-        onResult: (SaveResult) -> Unit
+        onResult: (SaveResult) -> Unit,
     ) {
         viewModelScope.launch(ioDispatcher) {
             fileController.writeBytes(
@@ -239,7 +239,7 @@ class SettingsViewModel @Inject constructor(
     fun restoreBackupFrom(
         uri: Uri,
         onSuccess: () -> Unit,
-        onFailure: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit,
     ) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
@@ -322,7 +322,7 @@ class SettingsViewModel @Inject constructor(
 
     fun addColorTupleFromEmoji(
         getEmoji: (Int?) -> String,
-        showShoeDescription: ((String) -> Unit)? = null
+        showShoeDescription: ((String) -> Unit)? = null,
     ) {
         viewModelScope.launch {
             val emojiUri = getEmoji(settingsState.selectedEmoji)
@@ -615,6 +615,12 @@ class SettingsViewModel @Inject constructor(
     fun toggleIsSystemBarsVisibleBySwipe() {
         viewModelScope.launch {
             settingsManager.toggleIsSystemBarsVisibleBySwipe()
+        }
+    }
+
+    fun toggleUseCompactSelectors() {
+        viewModelScope.launch {
+            settingsManager.toggleUseCompactSelectorsLayout()
         }
     }
 }

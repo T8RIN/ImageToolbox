@@ -1467,4 +1467,6 @@
     <string name="grid_color">Grid Color</string>
     <string name="cell_width">Cell Width</string>
     <string name="cell_height">Cell Height</string>
+    <string name="compact_selectors">Compact Selectors</string>
+    <string name="compact_selectors_sub">Some selection controls will use compact layout to take less space</string>
 </resources>

@@ -21,7 +21,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 sealed class Setting(
     val title: Int,
-    val subtitle: Int?
+    val subtitle: Int?,
 ) {
     data object AddFileSize : Setting(
         title = R.string.add_file_size,
@@ -441,6 +441,11 @@ sealed class Setting(
     data object ShowSystemBarsBySwipe : Setting(
         title = R.string.show_system_bars_by_swipe,
         subtitle = R.string.show_system_bars_by_swipe_sub
+    )
+
+    data object UseCompactSelectors : Setting(
+        title = R.string.compact_selectors,
+        subtitle = R.string.compact_selectors_sub
     )
 
 }

@@ -106,7 +106,7 @@ data class SettingsState(
     val defaultResizeType: ResizeType,
     val systemBarsVisibility: SystemBarsVisibility,
     val isSystemBarsVisibleBySwipe: Boolean,
-    val isCompactSelectorsLayout: Boolean = true,
+    val isCompactSelectorsLayout: Boolean,
 ) {
 
     companion object {

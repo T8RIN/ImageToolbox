@@ -124,6 +124,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SWITCH_TYP
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SYSTEM_BARS_VISIBILITY
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_STYLE
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_COMPACT_SELECTORS_LAYOUT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FORMATTED_TIMESTAMP
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
@@ -140,7 +141,7 @@ import javax.inject.Inject
 internal class AndroidSettingsManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, SettingsManager {
 
     private val default = SettingsState.Default
@@ -286,7 +287,9 @@ internal class AndroidSettingsManager @Inject constructor(
             systemBarsVisibility = SystemBarsVisibility.fromOrdinal(prefs[SYSTEM_BARS_VISIBILITY])
                 ?: default.systemBarsVisibility,
             isSystemBarsVisibleBySwipe = prefs[IS_SYSTEM_BARS_VISIBLE_BY_SWIPE]
-                ?: default.isSystemBarsVisibleBySwipe
+                ?: default.isSystemBarsVisibleBySwipe,
+            isCompactSelectorsLayout = prefs[USE_COMPACT_SELECTORS_LAYOUT]
+                ?: default.isCompactSelectorsLayout
         )
     }.onEach { currentSettings = it }
 
@@ -472,7 +475,7 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
-        onFailure: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit,
     ) = withContext(defaultDispatcher) {
         runCatching {
             val uri = backupFileUri.toUri()
@@ -868,7 +871,7 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun toggleFavoriteColor(
         color: ColorModel,
-        forceExclude: Boolean
+        forceExclude: Boolean,
     ) {
         val current = currentSettings.favoriteColors
         val newColors = if (color in current) {
@@ -1044,6 +1047,15 @@ internal class AndroidSettingsManager @Inject constructor(
         }
     }
 
+    override suspend fun toggleUseCompactSelectorsLayout() {
+        dataStore.edit {
+            it.toggle(
+                key = USE_COMPACT_SELECTORS_LAYOUT,
+                defaultValue = default.isCompactSelectorsLayout
+            )
+        }
+    }
+
     private suspend fun setFavoriteScreens(data: List<Int>) {
         dataStore.edit { prefs ->
             prefs[FAVORITE_SCREENS] = data.joinToString("/") { it.toString() }
@@ -1058,7 +1070,7 @@ internal class AndroidSettingsManager @Inject constructor(
 
     private fun MutablePreferences.toggle(
         key: Preferences.Key<Boolean>,
-        defaultValue: Boolean
+        defaultValue: Boolean,
     ) {
         val value = this[key] ?: defaultValue
         this[key] = !value

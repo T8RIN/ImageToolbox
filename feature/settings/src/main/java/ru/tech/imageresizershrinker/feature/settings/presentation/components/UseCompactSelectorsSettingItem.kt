@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material.icons.outlined.ViewCompactAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -31,7 +31,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun AddTimestampToFilenameSettingItem(
+fun UseCompactSelectorsSettingItem(
     onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
@@ -43,10 +43,9 @@ fun AddTimestampToFilenameSettingItem(
         onClick = {
             onClick()
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        title = stringResource(R.string.add_timestamp),
-        subtitle = stringResource(R.string.add_timestamp_sub),
-        checked = settingsState.addTimestampToFilename,
-        startIcon = Icons.Outlined.Timer
+        title = stringResource(R.string.compact_selectors),
+        subtitle = stringResource(R.string.compact_selectors_sub),
+        checked = settingsState.isCompactSelectorsLayout,
+        startIcon = Icons.Outlined.ViewCompactAlt
     )
 }

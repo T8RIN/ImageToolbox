@@ -50,12 +50,12 @@ internal fun SettingItem(
     viewModel: SettingsViewModel,
     onTryGetUpdate: (
         isNewRequest: Boolean,
-        onNoUpdates: () -> Unit
+        onNoUpdates: () -> Unit,
     ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Boolean,
     isUpdateAvailable: Boolean,
-    containerColor: Color = MaterialTheme.colorScheme.surface
+    containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -71,7 +71,7 @@ internal fun SettingItem(
                     message = context.getString(R.string.no_updates)
                 )
             }
-        }
+        },
     ) = onTryGetUpdate(isNewRequest, onNoUpdates)
 
     ProvideContainerDefaults(
@@ -523,6 +523,10 @@ internal fun SettingItem(
 
             Setting.ShowSystemBarsBySwipe -> {
                 ShowSystemBarsBySwipeSettingItem(onClick = viewModel::toggleIsSystemBarsVisibleBySwipe)
+            }
+
+            Setting.UseCompactSelectors -> {
+                UseCompactSelectorsSettingItem(onClick = viewModel::toggleUseCompactSelectors)
             }
         }
     }

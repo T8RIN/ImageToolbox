@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,6 +46,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -57,6 +60,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -74,13 +78,33 @@ fun ColorRowSelector(
     titleFontWeight: FontWeight = FontWeight.Bold,
 ) {
     val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
+    val tooltipState = rememberTooltipState()
+    val scope = rememberCoroutineScope()
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier.then(
+            if (isCompactLayout && icon != null) {
+                Modifier.pointerInput(Unit) {
+                    detectTapGestures(
+                        onLongPress = {
+                            scope.launch {
+                                tooltipState.show()
+                            }
+                        }
+                    )
+                }
+            } else Modifier
+        ),
+    ) {
         if (!isCompactLayout) {
             TitleItem(
                 icon = icon,
                 text = title,
-                modifier = Modifier.padding(top = 12.dp, start = contentHorizontalPadding),
+                modifier = Modifier.padding(
+                    top = 12.dp,
+                    start = contentHorizontalPadding,
+                    end = contentHorizontalPadding
+                ),
                 fontWeight = titleFontWeight
             )
         }
@@ -91,29 +115,34 @@ fun ColorRowSelector(
                 Box {
                     AnimatedContent(icon) { icon ->
                         if (icon != null) {
-                            val tooltipState = rememberTooltipState()
-                            val scope = rememberCoroutineScope()
-
                             TooltipBox(
                                 positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
                                 tooltip = {
                                     RichTooltip(
                                         colors = TooltipDefaults.richTooltipColors(
-                                            containerColor = MaterialTheme.colorScheme.surface
+                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(
+                                                0.5f
+                                            ),
+                                            titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer
                                         ),
                                         title = { Text(title) },
                                         text = {
                                             Box(
                                                 modifier = Modifier
                                                     .size(24.dp)
-                                                    .clip(CircleShape)
-                                                    .background(value)
+                                                    .container(
+                                                        shape = CircleShape,
+                                                        color = value,
+                                                        resultPadding = 0.dp
+                                                    )
                                             )
                                         }
                                     )
                                 },
                                 state = tooltipState,
                                 content = {
+                                    val haptics = LocalHapticFeedback.current
                                     IconShapeContainer(
                                         enabled = true,
                                         content = {
@@ -132,9 +161,15 @@ fun ColorRowSelector(
                                             )
                                             .combinedClickable(
                                                 onLongClick = {
+                                                    haptics.performHapticFeedback(
+                                                        HapticFeedbackType.TextHandleMove
+                                                    )
                                                     scope.launch { tooltipState.show() }
                                                 },
                                                 onClick = {
+                                                    haptics.performHapticFeedback(
+                                                        HapticFeedbackType.TextHandleMove
+                                                    )
                                                     scope.launch { tooltipState.show() }
                                                 }
                                             )

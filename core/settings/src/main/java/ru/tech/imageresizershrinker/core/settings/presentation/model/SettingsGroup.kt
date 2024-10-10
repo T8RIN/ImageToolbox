@@ -50,7 +50,7 @@ sealed class SettingsGroup(
     val titleId: Int,
     val icon: ImageVector,
     val settingsList: List<Setting>,
-    val initialState: Boolean
+    val initialState: Boolean,
 ) {
     data object ContactMe : SettingsGroup(
         icon = Icons.Rounded.PersonSearch,
@@ -83,6 +83,7 @@ sealed class SettingsGroup(
             Setting.BorderThickness,
             Setting.SwitchType,
             Setting.DragHandleWidth,
+            Setting.UseCompactSelectors,
             Setting.FabAlignment
         ),
         initialState = false

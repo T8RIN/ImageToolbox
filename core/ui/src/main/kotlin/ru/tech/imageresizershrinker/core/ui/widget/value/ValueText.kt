@@ -22,7 +22,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -32,10 +31,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
 fun ValueText(
@@ -49,19 +51,29 @@ fun ValueText(
     onClick: () -> Unit,
     backgroundColor: Color = Color.Transparent,
 ) {
+    val haptics = LocalHapticFeedback.current
     AnimatedContent(
         targetState = value,
         transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) },
         modifier = modifier
             .clip(CircleShape)
-            .background(backgroundColor)
+            .container(
+                shape = CircleShape,
+                color = backgroundColor,
+                resultPadding = 0.dp
+            )
     ) {
         Text(
             text = "${it.toString().trimTrailingZero()}$valueSuffix",
             color = LocalContentColor.current.copy(0.5f),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .clickable(enabled = enabled, onClick = onClick)
+                .clickable(enabled = enabled) {
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                    onClick()
+                }
                 .padding(horizontal = 16.dp, vertical = 6.dp),
             lineHeight = 18.sp
         )
