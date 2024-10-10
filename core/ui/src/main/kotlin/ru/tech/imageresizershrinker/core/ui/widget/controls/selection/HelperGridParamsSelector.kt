@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.TableRows
 import androidx.compose.material.icons.outlined.ViewColumn
 import androidx.compose.material.icons.rounded.GridOn
@@ -87,7 +88,9 @@ fun HelperGridParamsSelector(
                             shape = ContainerShapeDefaults.topShape,
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 0.dp
-                        ),
+                        )
+                        .padding(start = 4.dp),
+                    icon = Icons.Outlined.ColorLens,
                     title = stringResource(R.string.grid_color)
                 )
                 EnhancedSliderItem(

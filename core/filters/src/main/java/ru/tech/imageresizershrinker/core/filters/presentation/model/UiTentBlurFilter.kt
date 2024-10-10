@@ -30,7 +30,7 @@ class UiTentBlurFilter(
     paramsInfo = listOf(
         FilterParam(
             title = null,
-            valueRange = 1f..100f,
+            valueRange = 1f..300f,
             roundTo = NEAREST_ODD_ROUNDING
         )
     )

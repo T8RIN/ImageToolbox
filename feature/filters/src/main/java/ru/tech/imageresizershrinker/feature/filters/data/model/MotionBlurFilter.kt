@@ -22,6 +22,8 @@ import com.awxkee.aire.Aire
 import com.awxkee.aire.Scalar
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.domain.utils.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
@@ -38,7 +40,7 @@ internal class MotionBlurFilter(
         size: IntegerSize,
     ): Bitmap = Aire.motionBlur(
         bitmap = input,
-        kernelSize = value.first,
+        kernelSize = value.first.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
         angle = value.second,
         borderMode = value.third.toEdgeMode(),
         borderScalar = Scalar.ZEROS

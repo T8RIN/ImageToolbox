@@ -17,23 +17,48 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.FormatColorFill
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ColorRowSelector(
@@ -41,28 +66,111 @@ fun ColorRowSelector(
     onValueChange: (Color) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.background_color),
+    icon: ImageVector? = Icons.Rounded.FormatColorFill,
     allowAlpha: Boolean = true,
+    allowScroll: Boolean = true,
     defaultColors: List<Color> = defaultColorList,
+    contentHorizontalPadding: Dp = 12.dp,
+    titleFontWeight: FontWeight = FontWeight.Bold,
 ) {
+    val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
+
     Column(modifier = modifier) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                fontWeight = FontWeight.Medium,
+        if (!isCompactLayout) {
+            TitleItem(
+                icon = icon,
                 text = title,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 12.dp, start = contentHorizontalPadding),
+                fontWeight = titleFontWeight
             )
         }
-        ColorSelectionRow(
-            defaultColors = defaultColors,
-            allowAlpha = allowAlpha,
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            value = value,
-            onValueChange = onValueChange
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (isCompactLayout) {
+                Box {
+                    AnimatedContent(icon) { icon ->
+                        if (icon != null) {
+                            val tooltipState = rememberTooltipState()
+                            val scope = rememberCoroutineScope()
+
+                            TooltipBox(
+                                positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+                                tooltip = {
+                                    RichTooltip(
+                                        colors = TooltipDefaults.richTooltipColors(
+                                            containerColor = MaterialTheme.colorScheme.surface
+                                        ),
+                                        title = { Text(title) },
+                                        text = {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(24.dp)
+                                                    .clip(CircleShape)
+                                                    .background(value)
+                                            )
+                                        }
+                                    )
+                                },
+                                state = tooltipState,
+                                content = {
+                                    IconShapeContainer(
+                                        enabled = true,
+                                        content = {
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null
+                                            )
+                                        },
+                                        modifier = Modifier
+                                            .padding(
+                                                start = contentHorizontalPadding
+                                            )
+                                            .clip(
+                                                LocalSettingsState.current.iconShape?.shape
+                                                    ?: CircleShape
+                                            )
+                                            .combinedClickable(
+                                                onLongClick = {
+                                                    scope.launch { tooltipState.show() }
+                                                },
+                                                onClick = {
+                                                    scope.launch { tooltipState.show() }
+                                                }
+                                            )
+                                    )
+                                }
+                            )
+                        }
+                    }
+                    BoxAnimatedVisibility(icon == null) {
+                        Text(
+                            text = title,
+                            modifier = Modifier
+                                .padding(
+                                    start = contentHorizontalPadding
+                                )
+                                .widthIn(max = 100.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            lineHeight = 16.sp
+                        )
+                    }
+                }
+                Spacer(Modifier.width(12.dp))
+            }
+            ColorSelectionRow(
+                defaultColors = defaultColors,
+                allowAlpha = allowAlpha,
+                contentPadding = PaddingValues(
+                    start = if (isCompactLayout) 0.dp else contentHorizontalPadding,
+                    end = contentHorizontalPadding
+                ),
+                allowScroll = allowScroll,
+                value = value,
+                onValueChange = onValueChange,
+                modifier = Modifier.weight(1f)
+            )
+        }
     }
 }
 

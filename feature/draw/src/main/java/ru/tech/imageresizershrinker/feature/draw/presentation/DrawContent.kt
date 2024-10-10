@@ -355,8 +355,8 @@ fun DrawContent(
                 exit = fadeOut() + shrinkVertically()
             ) {
                 DrawColorSelector(
-                    drawColor = drawColor,
-                    onColorChange = { drawColor = it },
+                    value = drawColor,
+                    onValueChange = { drawColor = it },
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }

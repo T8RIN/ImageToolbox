@@ -314,7 +314,7 @@ fun ColorSelectionRow(
                             }
                             LazyRow(
                                 state = rowState,
-                                modifier = modifier
+                                modifier = Modifier
                                     .fillMaxWidth()
                                     .fadingEdges(rowState),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),

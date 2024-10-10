@@ -19,12 +19,14 @@ package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.BorderColor
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -33,15 +35,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 fun DrawColorSelector(
     modifier: Modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-    drawColor: Color,
-    onColorChange: (Color) -> Unit,
+    value: Color,
+    onValueChange: (Color) -> Unit,
     color: Color = Color.Unspecified,
     titleText: String = stringResource(R.string.paint_color),
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {
     ColorRowSelector(
-        value = color,
-        onValueChange = onColorChange,
+        value = value,
+        onValueChange = onValueChange,
         modifier = modifier
             .container(
                 shape = RoundedCornerShape(24.dp),
@@ -49,6 +51,7 @@ fun DrawColorSelector(
             ),
         title = titleText,
         allowAlpha = false,
+        icon = Icons.Outlined.BorderColor,
         defaultColors = defaultColors
     )
 }

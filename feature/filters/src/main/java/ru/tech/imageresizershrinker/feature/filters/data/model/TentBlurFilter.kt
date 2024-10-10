@@ -21,10 +21,12 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.domain.utils.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class TentBlurFilter(
-    override val value: Float = 15f
+    override val value: Float = 15f,
 ) : Transformation<Bitmap>, Filter.TentBlur {
 
     override val cacheKey: String
@@ -32,10 +34,10 @@ internal class TentBlurFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: IntegerSize
+        size: IntegerSize,
     ): Bitmap = Aire.tentBlur(
         bitmap = input,
-        radius = value.toInt()
+        radius = value.roundTo(NEAREST_ODD_ROUNDING).toInt()
     )
 
 }

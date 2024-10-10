@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -57,6 +58,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
@@ -167,7 +169,10 @@ fun EnhancedSliderItem(
                                                 containerColor = MaterialTheme.colorScheme.surface
                                             ),
                                             title = { Text(title) },
-                                            text = { Text("$value$valueSuffix") }
+                                            text = {
+                                                val trimmed = value.toString().trimTrailingZero()
+                                                Text("$trimmed$valueSuffix")
+                                            }
                                         )
                                     },
                                     state = tooltipState,
@@ -201,6 +206,19 @@ fun EnhancedSliderItem(
                                     }
                                 )
                             }
+                        }
+                        AnimatedVisibility(icon == null) {
+                            Text(
+                                text = title,
+                                modifier = Modifier
+                                    .padding(
+                                        top = topContentPadding,
+                                        start = 12.dp
+                                    )
+                                    .widthIn(max = 100.dp),
+                                style = MaterialTheme.typography.bodyMedium,
+                                lineHeight = 16.sp
+                            )
                         }
                         Row(
                             modifier = Modifier.weight(1f)

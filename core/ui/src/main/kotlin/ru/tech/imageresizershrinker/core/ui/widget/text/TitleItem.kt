@@ -84,7 +84,8 @@ fun TitleItem(
     subtitle: String? = null,
     iconEndPadding: Dp = 8.dp,
     iconContainerColor: Color = IconShapeDefaults.containerColor,
-    iconContentColor: Color = IconShapeDefaults.contentColor
+    iconContentColor: Color = IconShapeDefaults.contentColor,
+    fontWeight: FontWeight = FontWeight.Bold,
 ) {
     Row(
         modifier = modifier,
@@ -111,7 +112,7 @@ fun TitleItem(
         ) {
             Text(
                 text = text,
-                fontWeight = FontWeight.Bold,
+                fontWeight = fontWeight,
                 fontSize = 16.sp,
                 lineHeight = 18.sp
             )

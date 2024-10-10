@@ -21,12 +21,14 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.domain.utils.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
 internal class LinearTentBlurFilter(
-    override val value: Pair<Int, TransferFunc> = 25 to TransferFunc.SRGB
+    override val value: Pair<Int, TransferFunc> = 25 to TransferFunc.SRGB,
 ) : Transformation<Bitmap>, Filter.LinearTentBlur {
 
     override val cacheKey: String
@@ -34,10 +36,10 @@ internal class LinearTentBlurFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: IntegerSize
+        size: IntegerSize,
     ): Bitmap = Aire.linearTentBlur(
         bitmap = input,
-        radius = value.first,
+        radius = value.first.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
         transferFunction = value.second.toFunc()
     )
 

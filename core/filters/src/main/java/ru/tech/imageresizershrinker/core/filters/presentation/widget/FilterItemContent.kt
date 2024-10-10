@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -44,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
@@ -52,12 +52,12 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpace
 import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
@@ -79,8 +79,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRo
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FileSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import kotlin.math.absoluteValue
@@ -102,7 +105,6 @@ internal fun <T> FilterItemContent(
                         Box(
                             modifier = Modifier.padding(
                                 start = 16.dp,
-                                top = 16.dp,
                                 end = 16.dp
                             )
                         ) {
@@ -290,40 +292,32 @@ internal fun <T> FilterItemContent(
                             var color2 by remember(value) { mutableStateOf((value.second as ColorModel).toColor()) }
 
                             Column {
-                                Text(
-                                    text = stringResource(R.string.first_color),
-                                    modifier = Modifier
-                                        .padding(
-                                            bottom = 16.dp,
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                        )
-                                )
-                                ColorSelectionRow(
+                                ColorRowSelector(
+                                    title = stringResource(R.string.first_color),
                                     value = color1,
-                                    allowScroll = !previewOnly,
-                                    onValueChange = { color ->
-                                        color1 = color
+                                    onValueChange = {
+                                        color1 = it
                                         onFilterChange(color1.toModel() to color2.toModel())
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                                 Spacer(Modifier.height(8.dp))
-                                Text(
-                                    text = stringResource(R.string.second_color),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            bottom = 16.dp,
-                                            end = 16.dp
-                                        )
-                                )
-                                ColorSelectionRow(
+                                ColorRowSelector(
+                                    title = stringResource(R.string.second_color),
                                     value = color2,
-                                    allowScroll = !previewOnly,
-                                    onValueChange = { color ->
-                                        color2 = color
+                                    onValueChange = {
+                                        color2 = it
                                         onFilterChange(color1.toModel() to color2.toModel())
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                             }
                         }
@@ -358,30 +352,23 @@ internal fun <T> FilterItemContent(
                         Box(
                             modifier = Modifier.padding(
                                 start = 16.dp,
-                                top = 16.dp,
                                 end = 16.dp
                             )
                         ) {
-                            Column {
-                                Text(
-                                    text = stringResource(filter.paramsInfo[1].title!!),
-                                    modifier = Modifier
-                                        .padding(
-                                            bottom = 16.dp,
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                        )
-                                )
-                                ColorSelectionRow(
-                                    value = color1,
-                                    allowScroll = !previewOnly,
-                                    allowAlpha = true,
-                                    onValueChange = { color ->
-                                        color1 = color
-                                        onFilterChange(sliderState1 to color1.toModel())
-                                    }
-                                )
-                            }
+                            ColorRowSelector(
+                                title = stringResource(filter.paramsInfo[1].title!!),
+                                value = color1,
+                                onValueChange = {
+                                    color1 = it
+                                    onFilterChange(sliderState1 to color1.toModel())
+                                },
+                                allowScroll = !previewOnly,
+                                icon = null,
+                                defaultColors = ColorSelectionRowDefaults.colorList,
+                                titleFontWeight = FontWeight.Normal,
+                                contentHorizontalPadding = 0.dp,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
                         }
                     }
 
@@ -635,36 +622,49 @@ internal fun <T> FilterItemContent(
                             valueRange = filter.paramsInfo[0].valueRange,
                             behaveAsContainer = false
                         )
-                        Text(
-                            text = stringResource(filter.paramsInfo[1].title!!),
-                            modifier = Modifier.padding(
-                                top = 8.dp,
-                                start = 12.dp,
-                                end = 12.dp,
-                            )
-                        )
-                        val entries by remember(filter) {
-                            derivedStateOf {
-                                PaletteTransferSpace.entries
-                            }
-                        }
-                        ToggleGroupButton(
-                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                            items = entries.map { it.translatedName },
-                            selectedIndex = entries.indexOf(colorSpace1),
-                            onIndexChange = {
-                                colorSpace1 = entries[it]
-                                onFilterChange(
-                                    Triple(
-                                        sliderState1,
-                                        colorSpace1,
-                                        uri1.toImageModel()
-                                    )
+                        Spacer(Modifier.height(8.dp))
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .container(
+                                    shape = ContainerShapeDefaults.topShape,
+                                    color = MaterialTheme.colorScheme.surfaceContainerLow
                                 )
+                        ) {
+                            Text(
+                                text = stringResource(filter.paramsInfo[1].title!!),
+                                modifier = Modifier.padding(
+                                    top = 8.dp,
+                                    start = 12.dp,
+                                    end = 12.dp,
+                                )
+                            )
+                            val entries by remember(filter) {
+                                derivedStateOf {
+                                    PaletteTransferSpace.entries
+                                }
                             }
-                        )
+                            ToggleGroupButton(
+                                inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                items = entries.map { it.translatedName },
+                                selectedIndex = entries.indexOf(colorSpace1),
+                                onIndexChange = {
+                                    colorSpace1 = entries[it]
+                                    onFilterChange(
+                                        Triple(
+                                            sliderState1,
+                                            colorSpace1,
+                                            uri1.toImageModel()
+                                        )
+                                    )
+                                }
+                            )
+                        }
+                        Spacer(Modifier.height(4.dp))
                         ImageSelector(
-                            modifier = Modifier.padding(16.dp),
+                            modifier = Modifier.padding(
+                                horizontal = 16.dp
+                            ),
                             value = uri1,
                             title = filter.paramsInfo[2].title?.let {
                                 stringResource(it)
@@ -679,8 +679,10 @@ internal fun <T> FilterItemContent(
                                     )
                                 )
                             },
-                            subtitle = null
+                            subtitle = null,
+                            shape = ContainerShapeDefaults.bottomShape
                         )
+                        Spacer(Modifier.height(16.dp))
                     }
 
                     value.first is Number && value.second is Number && value.third is Number -> {
@@ -770,7 +772,11 @@ internal fun <T> FilterItemContent(
                         }
 
                         Column(
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(
+                                top = 8.dp,
+                                start = 8.dp,
+                                end = 8.dp
+                            )
                         ) {
                             paramsInfo.forEach { (state, info) ->
                                 val (title, valueRange, roundTo) = info
@@ -789,18 +795,19 @@ internal fun <T> FilterItemContent(
                                 )
                             }
                         }
-                        Text(
-                            text = stringResource(filter.paramsInfo[2].title!!),
-                            modifier = Modifier.padding(16.dp)
-                        )
-                        ColorSelectionRow(
+
+                        ColorRowSelector(
+                            title = stringResource(filter.paramsInfo[2].title!!),
                             value = color3,
-                            allowScroll = !previewOnly,
-                            allowAlpha = true,
-                            onValueChange = { color ->
-                                color3 = color
+                            onValueChange = {
+                                color3 = it
                             },
-                            contentPadding = PaddingValues(horizontal = 16.dp)
+                            allowScroll = !previewOnly,
+                            icon = null,
+                            defaultColors = ColorSelectionRowDefaults.colorList,
+                            titleFontWeight = FontWeight.Normal,
+                            contentHorizontalPadding = 16.dp,
+                            modifier = Modifier.padding(start = 4.dp)
                         )
                     }
 
@@ -845,21 +852,11 @@ internal fun <T> FilterItemContent(
                             )
                         ) {
                             Column {
-                                Text(
-                                    text = stringResource(filter.paramsInfo[1].title!!),
-                                    modifier = Modifier
-                                        .padding(
-                                            bottom = 16.dp,
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                        )
-                                )
-                                ColorSelectionRow(
+                                ColorRowSelector(
+                                    title = stringResource(filter.paramsInfo[1].title!!),
                                     value = color1,
-                                    allowScroll = !previewOnly,
-                                    allowAlpha = true,
-                                    onValueChange = { color ->
-                                        color1 = color
+                                    onValueChange = {
+                                        color1 = it
                                         onFilterChange(
                                             Triple(
                                                 sliderState1,
@@ -867,24 +864,19 @@ internal fun <T> FilterItemContent(
                                                 color2.toModel()
                                             )
                                         )
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                                 Spacer(Modifier.height(8.dp))
-                                Text(
-                                    text = stringResource(filter.paramsInfo[2].title!!),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            bottom = 16.dp,
-                                            end = 16.dp
-                                        )
-                                )
-                                ColorSelectionRow(
-                                    value = color2,
-                                    allowScroll = !previewOnly,
-                                    allowAlpha = true,
-                                    onValueChange = { color ->
-                                        color2 = color
+                                ColorRowSelector(
+                                    title = stringResource(filter.paramsInfo[2].title!!),
+                                    value = color1,
+                                    onValueChange = {
+                                        color2 = it
                                         onFilterChange(
                                             Triple(
                                                 sliderState1,
@@ -892,7 +884,12 @@ internal fun <T> FilterItemContent(
                                                 color2.toModel()
                                             )
                                         )
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                             }
                         }
@@ -1026,20 +1023,11 @@ internal fun <T> FilterItemContent(
                             var color3 by remember(value) { mutableStateOf((value.third as ColorModel).toColor()) }
 
                             Column {
-                                Text(
-                                    text = stringResource(R.string.first_color),
-                                    modifier = Modifier
-                                        .padding(
-                                            bottom = 16.dp,
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                        )
-                                )
-                                ColorSelectionRow(
+                                ColorRowSelector(
+                                    title = stringResource(R.string.first_color),
                                     value = color1,
-                                    allowScroll = !previewOnly,
-                                    onValueChange = { color ->
-                                        color1 = color
+                                    onValueChange = {
+                                        color1 = it
                                         onFilterChange(
                                             Triple(
                                                 color1.toModel(),
@@ -1047,23 +1035,19 @@ internal fun <T> FilterItemContent(
                                                 color3.toModel()
                                             )
                                         )
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                                 Spacer(Modifier.height(8.dp))
-                                Text(
-                                    text = stringResource(R.string.second_color),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            bottom = 16.dp,
-                                            end = 16.dp
-                                        )
-                                )
-                                ColorSelectionRow(
+                                ColorRowSelector(
+                                    title = stringResource(R.string.second_color),
                                     value = color2,
-                                    allowScroll = !previewOnly,
-                                    onValueChange = { color ->
-                                        color2 = color
+                                    onValueChange = {
+                                        color2 = it
                                         onFilterChange(
                                             Triple(
                                                 color1.toModel(),
@@ -1071,23 +1055,19 @@ internal fun <T> FilterItemContent(
                                                 color3.toModel()
                                             )
                                         )
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                                 Spacer(Modifier.height(8.dp))
-                                Text(
-                                    text = stringResource(R.string.third_color),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            bottom = 16.dp,
-                                            end = 16.dp
-                                        )
-                                )
-                                ColorSelectionRow(
+                                ColorRowSelector(
+                                    title = stringResource(R.string.third_color),
                                     value = color3,
-                                    allowScroll = !previewOnly,
-                                    onValueChange = { color ->
-                                        color3 = color
+                                    onValueChange = {
+                                        color3 = it
                                         onFilterChange(
                                             Triple(
                                                 color1.toModel(),
@@ -1095,7 +1075,12 @@ internal fun <T> FilterItemContent(
                                                 color3.toModel()
                                             )
                                         )
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                             }
                         }
@@ -1142,21 +1127,11 @@ internal fun <T> FilterItemContent(
                             )
                         ) {
                             Column {
-                                Text(
-                                    text = stringResource(filter.paramsInfo[1].title!!),
-                                    modifier = Modifier
-                                        .padding(
-                                            bottom = 16.dp,
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                        )
-                                )
-                                ColorSelectionRow(
+                                ColorRowSelector(
+                                    title = stringResource(filter.paramsInfo[1].title!!),
                                     value = color1,
-                                    allowScroll = !previewOnly,
-                                    allowAlpha = true,
-                                    onValueChange = { color ->
-                                        color1 = color
+                                    onValueChange = {
+                                        color1 = it
                                         onFilterChange(
                                             Triple(
                                                 sliderState1,
@@ -1164,7 +1139,12 @@ internal fun <T> FilterItemContent(
                                                 blendMode1
                                             )
                                         )
-                                    }
+                                    },
+                                    allowScroll = !previewOnly,
+                                    icon = null,
+                                    defaultColors = ColorSelectionRowDefaults.colorList,
+                                    titleFontWeight = FontWeight.Normal,
+                                    contentHorizontalPadding = 0.dp
                                 )
                                 Text(
                                     text = stringResource(filter.paramsInfo[2].title!!),

@@ -21,10 +21,12 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.domain.utils.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class FastBilaterialBlurFilter(
-    override val value: Triple<Int, Float, Float> = Triple(51, 10f, 3f)
+    override val value: Triple<Int, Float, Float> = Triple(51, 10f, 3f),
 ) : Transformation<Bitmap>, Filter.FastBilaterialBlur {
 
     override val cacheKey: String
@@ -32,12 +34,12 @@ internal class FastBilaterialBlurFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: IntegerSize
+        size: IntegerSize,
     ): Bitmap = Aire.fastBilateralBlur(
         bitmap = input,
         spatialSigma = value.second,
         rangeSigma = value.third,
-        kernelSize = value.first
+        kernelSize = value.first.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt()
     )
 
 }
