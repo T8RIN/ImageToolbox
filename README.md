@@ -44,6 +44,10 @@
   <a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
       <img src="https://img.shields.io/f-droid/v/ru.tech.imageresizershrinker?color=purple&include_prereleases&logo=FDROID&style=for-the-badge"/>
   </a>
+</br>
+    </br>
+   <a href="https://hellogithub.com/repository/4c5f2fae4eb545ab87cad9ffd19870ca" target="_blank"><img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=4c5f2fae4eb545ab87cad9ffd19870ca&claim_uid=ubtZe5aXVz0n2QA&theme=dark" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+   
 </p>
 
 <div align="center">
