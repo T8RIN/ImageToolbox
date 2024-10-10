@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -28,6 +29,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -65,7 +67,7 @@ class ImagePicker(
     private val takePhoto: ManagedActivityResultLauncher<Uri, Boolean>,
     private val onCreateTakePhotoUri: (Uri) -> Unit,
     private val imageExtension: String,
-    private val onFailure: (Throwable) -> Unit
+    private val onFailure: (Throwable) -> Unit,
 ) {
     fun pickImage() {
         val cameraAction = {
@@ -153,13 +155,16 @@ class ImagePicker(
                 ImagePickerMode.CameraCapture -> cameraAction()
 
                 ImagePickerMode.GallerySingle,
-                ImagePickerMode.GalleryMultiple -> galleryAction()
+                ImagePickerMode.GalleryMultiple,
+                    -> galleryAction()
 
                 ImagePickerMode.GetContentSingle,
-                ImagePickerMode.GetContentMultiple -> getContentAction()
+                ImagePickerMode.GetContentMultiple,
+                    -> getContentAction()
 
                 ImagePickerMode.Embedded,
-                ImagePickerMode.EmbeddedMultiple -> embeddedAction()
+                ImagePickerMode.EmbeddedMultiple,
+                    -> embeddedAction()
             }
         }.onFailure(onFailure)
     }
@@ -184,10 +189,10 @@ enum class Picker {
 @Composable
 fun localImagePickerMode(
     picker: Picker = Picker.Single,
-    mode: PicturePickerMode = LocalSettingsState.current.picturePickerMode
+    mode: PicturePickerMode = LocalSettingsState.current.picturePickerMode,
 ): ImagePickerMode {
     val multiple = picker == Picker.Multiple
-    return remember(mode) {
+    return remember(mode, multiple) {
         derivedStateOf {
             when (mode) {
                 PicturePickerMode.Embedded -> if (multiple) ImagePickerMode.EmbeddedMultiple else ImagePickerMode.Embedded
@@ -262,46 +267,64 @@ fun rememberImagePicker(
     val toastHostState = LocalToastHostState.current
     val currentAccent = LocalDynamicThemeState.current.colorTuple.value.primary
 
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (!isGranted) {
+            scope.launch {
+                toastHostState.showToast(
+                    message = context.getString(R.string.grant_camera_permission_to_capture_image),
+                    icon = Icons.Outlined.CameraAlt
+                )
+            }
+        }
+    }
+
     return remember(
         imageExtension,
         currentAccent,
         photoPickerSingle,
         photoPickerMultiple,
         getContent,
-        takePhoto
+        takePhoto,
+        mode
     ) {
-        ImagePicker(
-            context = context,
-            mode = mode,
-            currentAccent = currentAccent,
-            photoPickerSingle = photoPickerSingle,
-            photoPickerMultiple = photoPickerMultiple,
-            getContent = getContent,
-            takePhoto = takePhoto,
-            onCreateTakePhotoUri = {
-                takePhotoUri = it
-            },
-            imageExtension = imageExtension,
-            onFailure = {
-                onFailure()
+        derivedStateOf {
+            ImagePicker(
+                context = context,
+                mode = mode,
+                currentAccent = currentAccent,
+                photoPickerSingle = photoPickerSingle,
+                photoPickerMultiple = photoPickerMultiple,
+                getContent = getContent,
+                takePhoto = takePhoto,
+                onCreateTakePhotoUri = {
+                    takePhotoUri = it
+                },
+                imageExtension = imageExtension,
+                onFailure = {
+                    onFailure()
 
-                scope.launch {
-                    if (it is ActivityNotFoundException) {
-                        toastHostState.showToast(
-                            message = context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
-                        )
-                    } else {
-                        toastHostState.showError(
-                            context = context,
-                            error = it
-                        )
+                    scope.launch {
+                        if (it is ActivityNotFoundException) {
+                            toastHostState.showToast(
+                                message = context.getString(R.string.activate_files),
+                                icon = Icons.Outlined.FolderOff,
+                                duration = ToastDuration.Long
+                            )
+                        } else if (mode == ImagePickerMode.CameraCapture && it is SecurityException) {
+                            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+                        } else {
+                            toastHostState.showError(
+                                context = context,
+                                error = it
+                            )
+                        }
                     }
                 }
-            }
-        )
-    }
+            )
+        }
+    }.value
 }
 
 private const val DefaultExtension: String = "*"
