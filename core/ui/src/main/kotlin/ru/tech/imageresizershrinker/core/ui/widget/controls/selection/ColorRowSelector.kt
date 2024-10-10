@@ -31,7 +31,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FormatColorFill
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RichTooltip
@@ -70,7 +70,7 @@ fun ColorRowSelector(
     onValueChange: (Color) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.background_color),
-    icon: ImageVector? = Icons.Rounded.FormatColorFill,
+    icon: ImageVector? = Icons.Outlined.Palette,
     allowAlpha: Boolean = true,
     allowScroll: Boolean = true,
     defaultColors: List<Color> = defaultColorList,

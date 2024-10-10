@@ -72,6 +72,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
@@ -392,6 +393,7 @@ fun DrawContent(
                 ColorRowSelector(
                     value = viewModel.backgroundColor,
                     onValueChange = viewModel::updateBackgroundColor,
+                    icon = Icons.Rounded.FormatColorFill,
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .container(
@@ -927,6 +929,7 @@ fun DrawContent(
                                 ColorRowSelector(
                                     value = sheetBackgroundColor,
                                     onValueChange = { sheetBackgroundColor = it },
+                                    icon = Icons.Rounded.FormatColorFill,
                                     modifier = Modifier
                                         .padding(
                                             start = 16.dp,

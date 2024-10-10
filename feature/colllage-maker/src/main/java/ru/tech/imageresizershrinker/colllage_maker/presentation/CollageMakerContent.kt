@@ -48,6 +48,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.material.icons.rounded.RoundedCorner
 import androidx.compose.material.icons.rounded.Tune
@@ -312,9 +313,9 @@ fun CollageMakerContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .container(
-                    shape = RoundedCornerShape(24.dp),
-                    resultPadding = 0.dp
+                    shape = RoundedCornerShape(24.dp)
                 ),
+            icon = Icons.Rounded.FormatColorFill,
             value = viewModel.backgroundColor,
             onValueChange = viewModel::setBackgroundColor
         )
