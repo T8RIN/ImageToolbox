@@ -522,7 +522,9 @@ fun SingleEditContent(
         addPath = viewModel::addPathToEraseList,
         drawPathMode = viewModel.drawPathMode,
         onUpdateDrawPathMode = viewModel::updateDrawPathMode,
-        autoBackgroundRemover = viewModel.getBackgroundRemover()
+        autoBackgroundRemover = viewModel.getBackgroundRemover(),
+        helperGridParams = viewModel.helperGridParams,
+        onUpdateHelperGridParams = viewModel::updateHelperGridParams
     )
 
     ToneCurvesEditOption(

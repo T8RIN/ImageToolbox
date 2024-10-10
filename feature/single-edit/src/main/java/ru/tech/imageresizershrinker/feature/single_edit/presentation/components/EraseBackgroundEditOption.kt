@@ -77,6 +77,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.HelperGridParamsSelector
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
@@ -118,7 +120,9 @@ fun EraseBackgroundEditOption(
     drawPathMode: DrawPathMode,
     onUpdateDrawPathMode: (DrawPathMode) -> Unit,
     addPath: (UiPathPaint) -> Unit,
-    autoBackgroundRemover: AutoBackgroundRemover<Bitmap>
+    autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
+    helperGridParams: HelperGridParams,
+    onUpdateHelperGridParams: (HelperGridParams) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val confettiHostState = LocalConfettiHostState.current
@@ -302,6 +306,15 @@ fun EraseBackgroundEditOption(
                             top = 8.dp,
                         )
                     )
+                    HelperGridParamsSelector(
+                        value = helperGridParams,
+                        onValueChange = onUpdateHelperGridParams,
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 8.dp,
+                        )
+                    )
                     val settingsInteractor = LocalSimpleSettingsInteractor.current
                     PreferenceRowSwitch(
                         modifier = Modifier
@@ -404,7 +417,8 @@ fun EraseBackgroundEditOption(
                         panEnabled = panEnabled,
                         drawPathMode = drawPathMode,
                         originalImagePreviewAlpha = originalImagePreviewAlpha,
-                        onErased = { erasedBitmap = it }
+                        onErased = { erasedBitmap = it },
+                        helperGridParams = helperGridParams
                     )
                 }
 

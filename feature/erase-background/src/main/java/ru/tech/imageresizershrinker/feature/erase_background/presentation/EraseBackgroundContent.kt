@@ -123,6 +123,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.HelperGridParamsSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -161,7 +162,7 @@ fun EraseBackgroundContent(
     uriState: Uri?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: EraseBackgroundViewModel = hiltViewModel()
+    viewModel: EraseBackgroundViewModel = hiltViewModel(),
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
@@ -345,7 +346,8 @@ fun EraseBackgroundContent(
                     .fillMaxSize(),
                 panEnabled = panEnabled,
                 originalImagePreviewAlpha = originalImagePreviewAlpha,
-                drawPathMode = drawPathMode
+                drawPathMode = drawPathMode,
+                helperGridParams = viewModel.helperGridParams
             )
         }
     }
@@ -555,6 +557,11 @@ fun EraseBackgroundContent(
             TrimImageToggle(
                 checked = viewModel.trimImage,
                 onCheckedChange = { viewModel.setTrimImage(it) },
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+            )
+            HelperGridParamsSelector(
+                value = viewModel.helperGridParams,
+                onValueChange = viewModel::updateHelperGridParams,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             val settingsInteractor = LocalSimpleSettingsInteractor.current

@@ -78,6 +78,8 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.helperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -98,7 +100,8 @@ fun BitmapEraser(
     isRecoveryOn: Boolean = false,
     modifier: Modifier,
     onErased: (Bitmap) -> Unit = {},
-    panEnabled: Boolean
+    panEnabled: Boolean,
+    helperGridParams: HelperGridParams = remember { HelperGridParams() },
 ) {
     val zoomState = rememberZoomState(maxScale = 30f)
     val scope = rememberCoroutineScope()
@@ -457,6 +460,7 @@ fun BitmapEraser(
                             }
                         }
                     }
+                    .helperGrid(helperGridParams)
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.outlineVariant(),

@@ -29,6 +29,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -39,8 +40,10 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
@@ -56,7 +59,7 @@ class EraseBackgroundViewModel @Inject constructor(
     private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : BaseViewModel(dispatchersHolder) {
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -97,6 +100,20 @@ class EraseBackgroundViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
+    private val _helperGridParams: MutableState<HelperGridParams> =
+        mutableStateOf(HelperGridParams())
+    val helperGridParams: HelperGridParams by _helperGridParams
+
+    init {
+        viewModelScope.launch {
+            val params = fileController.restoreObject(
+                "helperGridParams",
+                HelperGridParams::class
+            ) ?: HelperGridParams()
+            _helperGridParams.update { params }
+        }
+    }
+
     private fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
@@ -108,7 +125,7 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun setUri(
         uri: Uri,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit,
     ) {
         _uri.value = uri
         autoEraseCount = 0
@@ -141,7 +158,7 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun saveBitmap(
         oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        onComplete: (saveResult: SaveResult) -> Unit,
     ) {
         _isSaving.value = false
         savingJob?.cancel()
@@ -268,7 +285,7 @@ class EraseBackgroundViewModel @Inject constructor(
     private var autoEraseCount: Int = 0
     fun autoEraseBackground(
         onSuccess: () -> Unit,
-        onFailure: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit,
     ) {
         viewModelScope.launch(defaultDispatcher) {
             getErasedBitmap(false)?.let { bitmap1 ->
@@ -339,5 +356,19 @@ class EraseBackgroundViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
+    private var smartSavingJob: Job? by smartJob()
+
+    fun updateHelperGridParams(params: HelperGridParams) {
+        _helperGridParams.update { params }
+
+        smartSavingJob = viewModelScope.launch {
+            delay(200)
+            fileController.saveObject(
+                key = "helperGridParams",
+                value = params
+            )
+        }
+    }
 
 }
