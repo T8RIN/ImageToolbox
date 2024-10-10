@@ -17,7 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -35,7 +37,7 @@ object ContainerShapeDefaults {
     fun shapeForIndex(
         index: Int,
         size: Int,
-        forceDefault: Boolean = false
+        forceDefault: Boolean = false,
     ): RoundedCornerShape {
         val internalShape by remember(index, size, forceDefault) {
             derivedStateOf {
@@ -94,19 +96,24 @@ private val CornerSize.dp: Dp
 
 @Composable
 fun animateShape(
-    shape: RoundedCornerShape
+    targetValue: RoundedCornerShape,
+    animationSpec: AnimationSpec<Dp> = tween(300),
 ): RoundedCornerShape {
     val topStart by animateDpAsState(
-        shape.topStart.dp
+        targetValue = targetValue.topStart.dp,
+        animationSpec = animationSpec
     )
     val topEnd by animateDpAsState(
-        shape.topEnd.dp
+        targetValue = targetValue.topEnd.dp,
+        animationSpec = animationSpec
     )
     val bottomStart by animateDpAsState(
-        shape.bottomStart.dp
+        targetValue = targetValue.bottomStart.dp,
+        animationSpec = animationSpec
     )
     val bottomEnd by animateDpAsState(
-        shape.bottomEnd.dp
+        targetValue = targetValue.bottomEnd.dp,
+        animationSpec = animationSpec
     )
     return RoundedCornerShape(
         topStart = topStart,

@@ -91,7 +91,7 @@ fun ImageStitchingContent(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageStitchingViewModel = hiltViewModel()
+    viewModel: ImageStitchingViewModel = hiltViewModel(),
 ) {
     val settingsState = LocalSettingsState.current
 

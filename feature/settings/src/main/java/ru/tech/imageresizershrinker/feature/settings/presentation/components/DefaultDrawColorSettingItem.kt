@@ -41,7 +41,7 @@ fun DefaultDrawColorSettingItem(
     onValueChange: (ColorModel) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
-        .padding(horizontal = 8.dp)
+        .padding(horizontal = 8.dp),
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -55,7 +55,7 @@ fun DefaultDrawColorSettingItem(
         )
         ColorSelectionRow(
             allowAlpha = true,
-            contentPadding = PaddingValues(16.dp),
+            contentPadding = PaddingValues(12.dp),
             value = settingsState.defaultDrawColor,
             onValueChange = { onValueChange(it.toModel()) }
         )

@@ -17,7 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -43,6 +45,7 @@ import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.ContentPasteGo
+import androidx.compose.material.icons.rounded.DoneAll
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -59,6 +62,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
@@ -74,6 +79,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSim
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -115,36 +121,50 @@ fun ColorSelectionRow(
         }
     }
 
+    val itemSize = 42.dp
+
     LazyRow(
         state = listState,
         modifier = modifier
             .fillMaxWidth()
-            .height(1.2.dp * 40 + 32.dp)
+            .height(64.dp)
             .fadingEdges(listState),
         userScrollEnabled = allowScroll,
         contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         item {
             val background = customColor ?: MaterialTheme.colorScheme.primary
+            val isSelected = customColor != null
+            val shape = animateShape(
+                if (isSelected) RoundedCornerShape(8.dp)
+                else RoundedCornerShape(itemSize / 2)
+            )
+
             Box(
                 Modifier
-                    .size(
-                        animateDpAsState(
-                            40.dp.times(
-                                if (customColor != null) 1.3f else 1f
-                            )
+                    .size(itemSize)
+                    .aspectRatio(1f)
+                    .scale(
+                        animateFloatAsState(
+                            targetValue = if (isSelected) 0.7f else 1f,
+                            animationSpec = tween(400)
                         ).value
                     )
-                    .aspectRatio(1f)
+                    .rotate(
+                        animateFloatAsState(
+                            targetValue = if (isSelected) 45f else 0f,
+                            animationSpec = tween(400)
+                        ).value
+                    )
                     .container(
-                        shape = CircleShape,
+                        shape = shape,
                         color = background,
                         resultPadding = 0.dp
                     )
                     .transparencyChecker()
-                    .background(background, CircleShape)
+                    .background(background, shape)
                     .combinedClickable(
                         onLongClick = {
                             context.pasteColorFromClipboard(
@@ -181,37 +201,76 @@ fun ColorSelectionRow(
                         .size(32.dp)
                         .background(
                             color = background.copy(alpha = 1f),
-                            shape = CircleShape
+                            shape = shape
                         )
                         .padding(4.dp)
+                        .rotate(
+                            animateFloatAsState(
+                                targetValue = if (isSelected) -45f else 0f,
+                                animationSpec = tween(400)
+                            ).value
+                        )
                 )
             }
         }
         items(defaultColors) { color ->
+            val isSelected = value == color && customColor == null
+            val shape = animateShape(
+                if (isSelected) RoundedCornerShape(8.dp)
+                else RoundedCornerShape(itemSize / 2)
+            )
+
             Box(
                 Modifier
-                    .size(
-                        animateDpAsState(
-                            40.dp.times(
-                                if (value == color && customColor == null) {
-                                    1.3f
-                                } else 1f
-                            )
+                    .size(itemSize)
+                    .aspectRatio(1f)
+                    .scale(
+                        animateFloatAsState(
+                            targetValue = if (isSelected) 0.7f else 1f,
+                            animationSpec = tween(400)
                         ).value
                     )
-                    .aspectRatio(1f)
+                    .rotate(
+                        animateFloatAsState(
+                            targetValue = if (isSelected) 45f else 0f,
+                            animationSpec = tween(400)
+                        ).value
+                    )
                     .container(
-                        shape = CircleShape,
+                        shape = shape,
                         color = color,
                         resultPadding = 0.dp
                     )
                     .transparencyChecker()
-                    .background(color, CircleShape)
+                    .background(color, shape)
                     .clickable {
                         onValueChange(color)
                         customColor = null
-                    }
-            )
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                AnimatedVisibility(isSelected) {
+                    Icon(
+                        imageVector = Icons.Rounded.DoneAll,
+                        contentDescription = null,
+                        tint = color.inverse(
+                            fraction = {
+                                if (it) 0.8f
+                                else 0.5f
+                            },
+                            darkMode = color.luminance() < 0.3f
+                        ),
+                        modifier = Modifier
+                            .size(24.dp)
+                            .rotate(
+                                animateFloatAsState(
+                                    targetValue = if (isSelected) -45f else 0f,
+                                    animationSpec = tween(400)
+                                ).value
+                            )
+                    )
+                }
+            }
         }
     }
     var tempColor by remember(showColorPicker) {
