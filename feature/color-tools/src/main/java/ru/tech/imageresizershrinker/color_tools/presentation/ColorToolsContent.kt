@@ -92,7 +92,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BackgroundColorSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -107,7 +107,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ColorToolsContent(
-    onGoBack: () -> Unit
+    onGoBack: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
@@ -213,7 +213,7 @@ fun ColorToolsContent(
             if (isPortrait) {
                 Spacer(modifier = Modifier.height(20.dp))
             }
-            BackgroundColorSelector(
+            ColorRowSelector(
                 value = selectedColor,
                 onValueChange = { selectedColor = it },
                 modifier = Modifier
@@ -373,7 +373,7 @@ fun ColorToolsContent(
                             bottom = 8.dp
                         ),
                     ) {
-                        BackgroundColorSelector(
+                        ColorRowSelector(
                             value = colorToMix,
                             onValueChange = { colorToMix = it },
                             modifier = Modifier

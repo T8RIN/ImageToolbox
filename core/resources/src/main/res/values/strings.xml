@@ -1464,4 +1464,7 @@
     <string name="sobel_simple">Sobel Simple</string>
     <string name="helper_grid">Helper Grid</string>
     <string name="helper_grid_sub">Shows supporting grid above drawing area to help with precise manipulations</string>
+    <string name="grid_color">Grid Color</string>
+    <string name="cell_width">Cell Width</string>
+    <string name="cell_height">Cell Height</string>
 </resources>

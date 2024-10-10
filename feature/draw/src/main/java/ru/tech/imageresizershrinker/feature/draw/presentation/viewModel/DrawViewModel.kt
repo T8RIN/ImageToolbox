@@ -31,6 +31,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -418,9 +419,13 @@ class DrawViewModel @Inject constructor(
         _drawLineStyle.update { style }
     }
 
+    private var smartSavingJob: Job? by smartJob()
+
     fun updateHelperGridParams(params: HelperGridParams) {
         _helperGridParams.update { params }
-        viewModelScope.launch {
+
+        smartSavingJob = viewModelScope.launch {
+            delay(200)
             fileController.saveObject(
                 key = "helperGridParams",
                 value = params

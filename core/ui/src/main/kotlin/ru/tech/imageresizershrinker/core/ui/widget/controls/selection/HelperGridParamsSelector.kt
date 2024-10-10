@@ -17,16 +17,31 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.TableRows
+import androidx.compose.material.icons.outlined.ViewColumn
 import androidx.compose.material.icons.rounded.GridOn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.toColor
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
@@ -45,7 +60,7 @@ fun HelperGridParamsSelector(
         )
     ) {
         PreferenceRowSwitch(
-            modifier = Modifier,
+            modifier = Modifier.clip(shape),
             startIcon = Icons.Rounded.GridOn,
             drawContainer = false,
             checked = value.enabled,
@@ -55,5 +70,60 @@ fun HelperGridParamsSelector(
             title = stringResource(R.string.helper_grid),
             subtitle = stringResource(R.string.helper_grid_sub)
         )
+        AnimatedVisibility(value.enabled) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Spacer(Modifier.height(4.dp))
+                ColorRowSelector(
+                    value = value.color.toColor(),
+                    onValueChange = {
+                        onValueChange(value.copy(color = it.toArgb()))
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .container(
+                            shape = ContainerShapeDefaults.topShape,
+                            color = MaterialTheme.colorScheme.surface,
+                            resultPadding = 0.dp
+                        ),
+                    title = stringResource(R.string.grid_color)
+                )
+                EnhancedSliderItem(
+                    value = value.cellWidth,
+                    title = stringResource(R.string.cell_width),
+                    icon = Icons.Outlined.ViewColumn,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    valueSuffix = " Pt",
+                    shape = ContainerShapeDefaults.centerShape,
+                    onValueChange = {
+                        onValueChange(value.copy(cellWidth = it))
+                    },
+                    valueRange = 1f..100f,
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                EnhancedSliderItem(
+                    value = value.cellHeight,
+                    title = stringResource(R.string.cell_height),
+                    icon = Icons.Outlined.TableRows,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    valueSuffix = " Pt",
+                    shape = ContainerShapeDefaults.bottomShape,
+                    onValueChange = {
+                        onValueChange(value.copy(cellHeight = it))
+                    },
+                    valueRange = 1f..100f,
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+            }
+        }
     }
 }

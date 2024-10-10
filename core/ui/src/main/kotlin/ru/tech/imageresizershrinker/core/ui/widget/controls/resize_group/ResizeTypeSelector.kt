@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.UseBlurredBackgroundToggle
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BackgroundColorSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PositionSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -79,7 +79,7 @@ fun ResizeTypeSelector(
     modifier: Modifier = Modifier,
     enabled: Boolean,
     value: ResizeType,
-    onValueChange: (ResizeType) -> Unit
+    onValueChange: (ResizeType) -> Unit,
 ) {
     var isSheetVisible by rememberSaveable { mutableStateOf(false) }
     var canvasColor by rememberSaveable(stateSaver = ColorSaver) {
@@ -269,7 +269,7 @@ fun ResizeTypeSelector(
                             shape = ContainerShapeDefaults.bottomShape
                         )
                     } else {
-                        BackgroundColorSelector(
+                        ColorRowSelector(
                             modifier = Modifier
                                 .container(
                                     shape = ContainerShapeDefaults.bottomShape,
@@ -325,7 +325,7 @@ fun ResizeTypeSelector(
                             shape = ContainerShapeDefaults.bottomShape
                         )
                     } else {
-                        BackgroundColorSelector(
+                        ColorRowSelector(
                             modifier = Modifier
                                 .container(
                                     shape = ContainerShapeDefaults.bottomShape,

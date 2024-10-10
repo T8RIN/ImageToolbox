@@ -76,7 +76,7 @@ fun EnhancedSliderItem(
     enabled: Boolean = true,
     titleHorizontalPadding: Dp = if (behaveAsContainer) 16.dp
     else 6.dp,
-    additionalContent: (@Composable () -> Unit)? = null
+    additionalContent: (@Composable () -> Unit)? = null,
 ) {
     val internalColor = contentColor
         ?: if (color == MaterialTheme.colorScheme.surfaceContainer) {
@@ -84,7 +84,7 @@ fun EnhancedSliderItem(
         } else contentColorFor(backgroundColor = color)
 
     var showValueDialog by rememberSaveable { mutableStateOf(false) }
-    var internalState by remember(value) { mutableStateOf(value) }
+    val internalState = remember(value) { mutableStateOf(value) }
     AnimatedVisibility(visible = visible) {
         LocalContentColor.ProvidesValue(internalColor) {
             Column(
@@ -141,7 +141,7 @@ fun EnhancedSliderItem(
                     )
                     ValueText(
                         enabled = valueTextTapEnabled && enabled,
-                        value = internalStateTransformation(internalState.toFloat()),
+                        value = internalStateTransformation(internalState.value.toFloat()),
                         valueSuffix = valueSuffix,
                         modifier = Modifier.padding(
                             top = topContentPadding,
@@ -162,14 +162,14 @@ fun EnhancedSliderItem(
                     EnhancedSlider(
                         modifier = sliderModifier,
                         enabled = enabled,
-                        value = internalState.toFloat(),
+                        value = internalState.value.toFloat(),
                         onValueChange = {
-                            internalState = internalStateTransformation(it)
+                            internalState.value = internalStateTransformation(it)
                             onValueChange(it)
                         },
                         onValueChangeFinished = onValueChangeFinished?.let {
                             {
-                                it(internalState.toFloat())
+                                it(internalState.value.toFloat())
                             }
                         },
                         valueRange = valueRange,

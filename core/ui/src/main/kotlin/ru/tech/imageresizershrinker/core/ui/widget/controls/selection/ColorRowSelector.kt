@@ -36,11 +36,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRo
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 
 @Composable
-fun BackgroundColorSelector(
+fun ColorRowSelector(
     value: Color,
     onValueChange: (Color) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.background_color),
+    allowAlpha: Boolean = true,
+    defaultColors: List<Color> = defaultColorList,
 ) {
     Column(modifier = modifier) {
         Row(
@@ -55,8 +57,8 @@ fun BackgroundColorSelector(
             )
         }
         ColorSelectionRow(
-            defaultColors = defaultColorList,
-            allowAlpha = true,
+            defaultColors = defaultColors,
+            allowAlpha = allowAlpha,
             contentPadding = PaddingValues(horizontal = 12.dp),
             value = value,
             onValueChange = onValueChange

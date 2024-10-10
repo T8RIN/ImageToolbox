@@ -25,20 +25,17 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 
 @Stable
 @Immutable
 data class HelperGridParams(
-    val color: Color = Color.Black,
-    val cellWidth: Pt = 20.pt,
-    val cellHeight: Pt = 20.pt,
-    val linesWidth: Dp = 1.dp,
+    val color: Int = Color.Black.toArgb(),
+    val cellWidth: Float = 20f,
+    val cellHeight: Float = 20f,
+    val linesWidth: Float = 0f,
     val enabled: Boolean = false,
 ) {
 
@@ -46,19 +43,19 @@ data class HelperGridParams(
         val Saver = listSaver<HelperGridParams, Float>(
             save = {
                 listOf(
-                    it.color.toArgb().toFloat(),
-                    it.cellWidth.value,
-                    it.cellHeight.value,
-                    it.linesWidth.value,
+                    it.color.toFloat(),
+                    it.cellWidth,
+                    it.cellHeight,
+                    it.linesWidth,
                     if (it.enabled) 1f else 0f
                 )
             },
             restore = {
                 HelperGridParams(
-                    color = it[0].toInt().toColor(),
-                    cellWidth = it[1].pt,
-                    cellHeight = it[2].pt,
-                    linesWidth = it[3].dp,
+                    color = it[0].toInt(),
+                    cellWidth = it[1],
+                    cellHeight = it[2],
+                    linesWidth = it[3],
                     enabled = if (it[4] > 0f) true else false
                 )
             }
@@ -79,11 +76,15 @@ fun Modifier.helperGrid(
             height = height.toInt()
         )
 
-        val cellWidthPx = cellWidth.toPx(canvasSize)
-        val cellHeightPx = cellHeight.toPx(canvasSize)
+        val cellWidthPx = cellWidth.pt.toPx(canvasSize)
+        val cellHeightPx = cellHeight.pt.toPx(canvasSize)
+
+        val linesWidthPx = linesWidth.pt.toPx(canvasSize)
 
         val horizontalSteps = (width / cellWidthPx).toInt()
         val verticalSteps = (height / cellHeightPx).toInt()
+
+        val composeColor = color.toColor()
 
         onDrawWithContent {
             drawContent()
@@ -91,17 +92,19 @@ fun Modifier.helperGrid(
             if (enabled) {
                 for (x in 0..horizontalSteps) {
                     drawLine(
-                        color = color,
+                        color = composeColor,
                         start = Offset(x = x * cellWidthPx, y = 0f),
                         end = Offset(x = x * cellWidthPx, y = height),
+                        strokeWidth = linesWidthPx
                     )
                 }
 
                 for (y in 0..verticalSteps) {
                     drawLine(
-                        color = color,
+                        color = composeColor,
                         start = Offset(x = 0f, y = y * cellHeightPx),
                         end = Offset(x = width, y = y * cellHeightPx),
+                        strokeWidth = linesWidthPx
                     )
                 }
             }

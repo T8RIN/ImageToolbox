@@ -147,7 +147,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BackgroundColorSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.HelperGridParamsSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -389,7 +389,7 @@ fun DrawContent(
                 )
             }
             if (viewModel.drawBehavior is DrawBehavior.Background) {
-                BackgroundColorSelector(
+                ColorRowSelector(
                     value = viewModel.backgroundColor,
                     onValueChange = viewModel::updateBackgroundColor,
                     modifier = Modifier
@@ -924,7 +924,7 @@ fun DrawContent(
                                             ),
                                     )
                                 }
-                                BackgroundColorSelector(
+                                ColorRowSelector(
                                     value = sheetBackgroundColor,
                                     onValueChange = { sheetBackgroundColor = it },
                                     modifier = Modifier

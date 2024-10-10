@@ -17,24 +17,16 @@
 
 package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -47,29 +39,16 @@ fun DrawColorSelector(
     titleText: String = stringResource(R.string.paint_color),
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {
-    Column(
+    ColorRowSelector(
+        value = color,
+        onValueChange = onColorChange,
         modifier = modifier
             .container(
                 shape = RoundedCornerShape(24.dp),
                 color = color
-            )
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = titleText,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
-        ColorSelectionRow(
-            defaultColors = defaultColors,
-            value = drawColor,
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            onValueChange = onColorChange
-        )
-    }
+            ),
+        title = titleText,
+        allowAlpha = false,
+        defaultColors = defaultColors
+    )
 }
