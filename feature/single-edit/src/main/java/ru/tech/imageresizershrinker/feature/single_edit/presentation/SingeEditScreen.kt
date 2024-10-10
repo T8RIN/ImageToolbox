@@ -497,7 +497,9 @@ fun SingleEditContent(
         drawPathMode = viewModel.drawPathMode,
         onUpdateDrawPathMode = viewModel::updateDrawPathMode,
         drawLineStyle = viewModel.drawLineStyle,
-        onUpdateDrawLineStyle = viewModel::updateDrawLineStyle
+        onUpdateDrawLineStyle = viewModel::updateDrawLineStyle,
+        helperGridParams = viewModel.helperGridParams,
+        onUpdateHelperGridParams = viewModel::updateHelperGridParams
     )
 
     EraseBackgroundEditOption(

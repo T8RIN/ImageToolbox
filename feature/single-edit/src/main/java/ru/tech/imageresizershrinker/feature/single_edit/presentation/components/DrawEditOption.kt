@@ -82,6 +82,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.HelperGridParamsSelector
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
@@ -125,6 +127,8 @@ fun DrawEditOption(
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
+    helperGridParams: HelperGridParams,
+    onUpdateHelperGridParams: (HelperGridParams) -> Unit,
 ) {
     bitmap?.let {
         var panEnabled by rememberSaveable { mutableStateOf(false) }
@@ -355,6 +359,11 @@ fun DrawEditOption(
                         value = drawLineStyle,
                         onValueChange = onUpdateDrawLineStyle
                     )
+                    HelperGridParamsSelector(
+                        value = helperGridParams,
+                        onValueChange = onUpdateHelperGridParams,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
                     val settingsInteractor = LocalSimpleSettingsInteractor.current
                     val scope = rememberCoroutineScope()
                     PreferenceRowSwitch(
@@ -448,7 +457,8 @@ fun DrawEditOption(
                         },
                         drawPathMode = drawPathMode,
                         backgroundColor = Color.Transparent,
-                        drawLineStyle = drawLineStyle
+                        drawLineStyle = drawLineStyle,
+                        helperGridParams = helperGridParams
                     )
                 }
             }

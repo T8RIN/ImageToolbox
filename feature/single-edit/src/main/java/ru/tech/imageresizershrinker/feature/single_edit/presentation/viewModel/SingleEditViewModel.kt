@@ -64,6 +64,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -83,7 +84,7 @@ class SingleEditViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : BaseViewModel(dispatchersHolder) {
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
@@ -172,6 +173,10 @@ class SingleEditViewModel @Inject constructor(
     private val _drawLineStyle: MutableState<DrawLineStyle> = mutableStateOf(DrawLineStyle.None)
     val drawLineStyle: DrawLineStyle by _drawLineStyle
 
+    private val _helperGridParams: MutableState<HelperGridParams> =
+        mutableStateOf(HelperGridParams())
+    val helperGridParams: HelperGridParams by _helperGridParams
+
     init {
         viewModelScope.launch {
             val settingsState = settingsProvider.getSettingsState()
@@ -179,6 +184,13 @@ class SingleEditViewModel @Inject constructor(
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
             }
+        }
+        viewModelScope.launch {
+            val params = fileController.restoreObject(
+                "helperGridParams",
+                HelperGridParams::class
+            ) ?: HelperGridParams()
+            _helperGridParams.update { params }
         }
     }
 
@@ -233,7 +245,7 @@ class SingleEditViewModel @Inject constructor(
     }
 
     private suspend fun updatePreview(
-        bitmap: Bitmap
+        bitmap: Bitmap,
     ): Bitmap? = withContext(defaultDispatcher) {
         return@withContext imageInfo.run {
             _showWarning.update {
@@ -281,7 +293,7 @@ class SingleEditViewModel @Inject constructor(
 
     fun updateBitmapAfterEditing(
         bitmap: Bitmap?,
-        saveOriginalSize: Boolean = false
+        saveOriginalSize: Boolean = false,
     ) {
         viewModelScope.launch {
             if (!saveOriginalSize) {
@@ -424,7 +436,7 @@ class SingleEditViewModel @Inject constructor(
 
     fun decodeBitmapByUri(
         uri: Uri,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit,
     ) {
         _isImageLoading.update { true }
         _imageInfo.update {
@@ -541,7 +553,7 @@ class SingleEditViewModel @Inject constructor(
 
     fun updateExifByTag(
         tag: MetadataTag,
-        value: String
+        value: String,
     ) {
         val exifInterface = _exif.value
         exifInterface?.setAttribute(tag.key, value)
@@ -550,7 +562,7 @@ class SingleEditViewModel @Inject constructor(
 
     fun setCropAspectRatio(
         domainAspectRatio: DomainAspectRatio,
-        aspectRatio: AspectRatio
+        aspectRatio: AspectRatio,
     ) {
         _cropProperties.update { properties ->
             properties.copy(
@@ -577,7 +589,7 @@ class SingleEditViewModel @Inject constructor(
     fun <T : Any> updateFilter(
         value: T,
         index: Int,
-        showError: (Throwable) -> Unit
+        showError: (Throwable) -> Unit,
     ) {
         val list = _filterList.value.toMutableList()
         runCatching {
@@ -705,14 +717,14 @@ class SingleEditViewModel @Inject constructor(
 
     suspend fun filter(
         bitmap: Bitmap,
-        filters: List<Filter<*>>
+        filters: List<Filter<*>>,
     ): Bitmap? = imageTransformer.transform(
         image = bitmap,
         transformations = mapFilters(filters)
     )
 
     fun mapFilters(
-        filters: List<Filter<*>>
+        filters: List<Filter<*>>,
     ): List<Transformation<Bitmap>> = filters.map { filterProvider.filterToTransformation(it) }
 
     fun updateDrawMode(drawMode: DrawMode) {
@@ -731,6 +743,20 @@ class SingleEditViewModel @Inject constructor(
 
     fun updateDrawLineStyle(style: DrawLineStyle) {
         _drawLineStyle.update { style }
+    }
+
+    private var smartSavingJob: Job? by smartJob()
+
+    fun updateHelperGridParams(params: HelperGridParams) {
+        _helperGridParams.update { params }
+
+        smartSavingJob = viewModelScope.launch {
+            delay(200)
+            fileController.saveObject(
+                key = "helperGridParams",
+                value = params
+            )
+        }
     }
 
 }
