@@ -146,7 +146,7 @@ fun ImagePreviewContent(
         }
     }
 
-    val pickImageLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple),
         onSuccess = { list ->
             list.takeIf { it.isNotEmpty() }?.let {
@@ -179,7 +179,7 @@ fun ImagePreviewContent(
     )
 
     val pickImage = {
-        pickImageLauncher.pickImage()
+        imagePicker.pickImage()
     }
 
     val toastHostState = LocalToastHostState.current

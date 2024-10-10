@@ -165,7 +165,7 @@ fun PickColorFromImageContent(
         }
     }
 
-    val pickImageLauncher =
+    val imagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
@@ -180,7 +180,7 @@ fun PickColorFromImageContent(
                 }
         }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,

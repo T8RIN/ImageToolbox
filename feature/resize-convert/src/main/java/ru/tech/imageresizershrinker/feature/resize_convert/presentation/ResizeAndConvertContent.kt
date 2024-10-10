@@ -79,6 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PresetSele
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
@@ -137,7 +138,7 @@ fun ResizeAndConvertContent(
         }
     }
 
-    val pickImageLauncher =
+    val imagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
@@ -150,7 +151,7 @@ fun ResizeAndConvertContent(
             }
         }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,
@@ -395,6 +396,9 @@ fun ResizeAndConvertContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
@@ -406,6 +410,9 @@ fun ResizeAndConvertContent(
                 },
                 actions = {
                     if (isPortrait) actions()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
                 }
             )
             if (showFolderSelectionDialog) {
@@ -415,6 +422,12 @@ fun ResizeAndConvertContent(
                     formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         topAppBarPersistentActions = {
             if (viewModel.bitmap == null) TopAppBarEmoji()

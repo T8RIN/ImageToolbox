@@ -163,7 +163,41 @@ class ImagePicker(
                 ImagePickerMode.Embedded,
                 ImagePickerMode.EmbeddedMultiple -> embeddedAction()
             }
-        }.onFailure(onFailure)
+        }.onFailure {
+            if (it is SecurityException && mode == ImagePickerMode.CameraCapture) onFailure(
+                CameraException
+            )
+            else onFailure(it)
+        }
+    }
+
+    fun pickImageWithMode(
+        picker: Picker,
+        picturePickerMode: PicturePickerMode
+    ) {
+        val multiple = picker == Picker.Multiple
+        val mode = when (picturePickerMode) {
+            PicturePickerMode.Embedded -> if (multiple) ImagePickerMode.EmbeddedMultiple else ImagePickerMode.Embedded
+            PicturePickerMode.PhotoPicker -> if (multiple) ImagePickerMode.PhotoPickerMultiple else ImagePickerMode.PhotoPickerSingle
+            PicturePickerMode.Gallery -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
+            PicturePickerMode.GetContent -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
+            PicturePickerMode.CameraCapture -> ImagePickerMode.CameraCapture
+        }
+
+        val basePicker = ImagePicker(
+            context = context,
+            mode = mode,
+            currentAccent = currentAccent,
+            photoPickerSingle = photoPickerSingle,
+            photoPickerMultiple = photoPickerMultiple,
+            getContent = getContent,
+            takePhoto = takePhoto,
+            onCreateTakePhotoUri = onCreateTakePhotoUri,
+            imageExtension = imageExtension,
+            onFailure = onFailure
+        )
+
+        basePicker.pickImage()
     }
 }
 
@@ -303,25 +337,35 @@ fun rememberImagePicker(
                     onFailure()
 
                     scope.launch {
-                        if (it is ActivityNotFoundException) {
-                            toastHostState.showToast(
-                                message = context.getString(R.string.activate_files),
-                                icon = Icons.Outlined.FolderOff,
-                                duration = ToastDuration.Long
-                            )
-                        } else if (mode == ImagePickerMode.CameraCapture && it is SecurityException) {
-                            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-                        } else {
-                            toastHostState.showError(
-                                context = context,
-                                error = it
-                            )
+                        when (it) {
+                            is ActivityNotFoundException -> {
+                                toastHostState.showToast(
+                                    message = context.getString(R.string.activate_files),
+                                    icon = Icons.Outlined.FolderOff,
+                                    duration = ToastDuration.Long
+                                )
+                            }
+
+                            is CameraException -> {
+                                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+                            }
+
+                            else -> {
+                                toastHostState.showError(
+                                    context = context,
+                                    error = it
+                                )
+                            }
                         }
                     }
                 }
             )
         }
     }.value
+}
+
+private object CameraException : Throwable("No Camera permission") {
+    private fun readResolve(): Any = CameraException
 }
 
 private const val DefaultExtension: String = "*"

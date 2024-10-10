@@ -189,7 +189,7 @@ fun CropContent(
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
-    val pickImageLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
@@ -202,7 +202,7 @@ fun CropContent(
         }
     }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,

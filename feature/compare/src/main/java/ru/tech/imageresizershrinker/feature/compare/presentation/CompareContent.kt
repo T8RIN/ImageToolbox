@@ -130,7 +130,7 @@ fun CompareContent(
         }
     }
 
-    val pickImageLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.let {
@@ -160,7 +160,7 @@ fun CompareContent(
         }
     }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,

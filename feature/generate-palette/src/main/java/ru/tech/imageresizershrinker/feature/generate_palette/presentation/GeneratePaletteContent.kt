@@ -69,6 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
@@ -134,7 +135,7 @@ fun GeneratePaletteContent(
         }
     }
 
-    val pickImageLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }
@@ -150,7 +151,7 @@ fun GeneratePaletteContent(
     }
 
     AutoFilePicker(
-        onAutoPick = pickImageLauncher::pickImage,
+        onAutoPick = imagePicker::pickImage,
         isPickedAlready = uriState != null
     )
 
@@ -187,7 +188,7 @@ fun GeneratePaletteContent(
     val pickImage = when (useMaterialYouPalette) {
         true -> materialYouImageLauncher::pickImage
         false -> paletteImageLauncher::pickImage
-        null -> pickImageLauncher::pickImage
+        null -> imagePicker::pickImage
     }
 
     val isPortrait by isPortraitOrientationAsState()
@@ -324,6 +325,10 @@ fun GeneratePaletteContent(
             }
         },
         buttons = { actions ->
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+
             BottomButtonsBlock(
                 targetState = (useMaterialYouPalette == null || viewModel.bitmap == null) to isPortrait,
                 onSecondaryButtonClick = pickImage,
@@ -332,7 +337,17 @@ fun GeneratePaletteContent(
                 showNullDataButtonAsContainer = true,
                 actions = {
                     if (isPortrait) actions()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
                 }
+            )
+
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Single,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
             )
         },
         contentPadding = animateDpAsState(

@@ -63,7 +63,7 @@ fun ImageSelector(
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     shape: Shape = RoundedCornerShape(20.dp)
 ) {
-    val pickImageLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)
     ) { list ->
         list.firstOrNull()?.let(onValueChange)
@@ -72,7 +72,7 @@ fun ImageSelector(
     PreferenceItemOverload(
         title = title,
         subtitle = subtitle,
-        onClick = pickImageLauncher::pickImage,
+        onClick = imagePicker::pickImage,
         autoShadowElevation = autoShadowElevation,
         startIcon = {
             Picture(

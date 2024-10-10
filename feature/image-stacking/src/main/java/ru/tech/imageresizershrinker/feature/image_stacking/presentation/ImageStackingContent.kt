@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
@@ -122,29 +123,27 @@ fun ImageStackingContent(
         }
     }
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.updateUris(uris)
-            }
+    val imagePicker = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let { uris ->
+            viewModel.updateUris(uris)
         }
-
-    val addImagesLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.addUrisToEnd(uris)
-            }
-        }
-
-    val addImages = {
-        addImagesLauncher.pickImage()
     }
 
-    val pickImage = pickImageLauncher::pickImage
+    val addImagesImagePicker = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let { uris ->
+            viewModel.addUrisToEnd(uris)
+        }
+    }
+
+    val addImages = {
+        addImagesImagePicker.pickImage()
+    }
+
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,
@@ -339,6 +338,9 @@ fun ImageStackingContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 isPrimaryButtonVisible = viewModel.stackImages.isNotEmpty(),
                 targetState = (viewModel.stackImages.isEmpty()) to isPortrait,
@@ -351,6 +353,9 @@ fun ImageStackingContent(
                 },
                 actions = {
                     if (isPortrait) actions()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
                 }
             )
             if (showFolderSelectionDialog) {
@@ -360,6 +365,12 @@ fun ImageStackingContent(
                     formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         noDataControls = {
             if (!viewModel.isImageLoading) {

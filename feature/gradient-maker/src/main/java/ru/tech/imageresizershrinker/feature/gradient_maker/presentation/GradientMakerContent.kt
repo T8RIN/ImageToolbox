@@ -81,6 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -179,8 +180,7 @@ fun GradientMakerContent(
     }
 
 
-    val pickImageLauncher =
-        rememberImagePicker(
+    val imagePicker = rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.let {
@@ -194,9 +194,7 @@ fun GradientMakerContent(
             }
         }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = imagePicker::pickImage
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -439,6 +437,9 @@ fun GradientMakerContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (allowPickingImage == null) to isPortrait,
                 onSecondaryButtonClick = pickImage,
@@ -453,6 +454,9 @@ fun GradientMakerContent(
                 },
                 actions = {
                     if (isPortrait) actions()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
                 }
             )
             if (showFolderSelectionDialog) {
@@ -462,6 +466,12 @@ fun GradientMakerContent(
                     formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         forceImagePreviewToMax = showOriginal,
         contentPadding = animateDpAsState(

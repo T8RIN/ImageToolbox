@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PresetSele
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
@@ -142,24 +143,23 @@ fun SingleEditContent(
 
     val imageInfo = viewModel.imageInfo
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it)
-                viewModel.decodeBitmapByUri(
-                    uri = it,
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+    val imagePicker = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Single)
+    ) { uris ->
+        uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+            viewModel.setUri(it)
+            viewModel.decodeBitmapByUri(
+                uri = it,
+                onError = {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
-                )
-            }
+                }
+            )
         }
+    }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,
@@ -392,9 +392,15 @@ fun SingleEditContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.uri == Uri.EMPTY) to isPortrait,
                 onSecondaryButtonClick = pickImage,
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
+                },
                 onPrimaryButtonClick = {
                     saveBitmap(null)
                 },
@@ -412,6 +418,12 @@ fun SingleEditContent(
                     formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Single,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         canShowScreenData = viewModel.bitmap != null,
         noDataControls = {

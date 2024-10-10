@@ -103,6 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
@@ -141,12 +142,11 @@ fun ApngToolsContent(
         typeState?.let { viewModel.setType(it) }
     }
 
-    val pickImagesLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let(viewModel::setImageUris)
-        }
+    val imagePicker = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let(viewModel::setImageUris)
+    }
 
     val pickSingleApngLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
@@ -521,6 +521,9 @@ fun ApngToolsContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
                 onSecondaryButtonClick = {
@@ -540,7 +543,7 @@ fun ApngToolsContent(
                             )
                         }
 
-                        else -> pickImagesLauncher.pickImage()
+                        else -> imagePicker.pickImage()
                     }
                 },
                 isPrimaryButtonVisible = viewModel.canSave,
@@ -555,7 +558,12 @@ fun ApngToolsContent(
                 actions = {
                     if (isPortrait) it()
                 },
-                showNullDataButtonAsContainer = true
+                showNullDataButtonAsContainer = true,
+                onSecondaryButtonLongClick = if (viewModel.type is Screen.ApngTools.Type.ImageToApng) {
+                    {
+                        showOneTimeImagePickingDialog = true
+                    }
+                } else null
             )
             if (showFolderSelectionDialog) {
                 OneTimeSaveLocationSelectionDialog(
@@ -563,6 +571,12 @@ fun ApngToolsContent(
                     onSaveRequest = saveBitmaps
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         noDataControls = {
             val types = remember {
@@ -574,7 +588,7 @@ fun ApngToolsContent(
                     subtitle = stringResource(types[0].subtitle),
                     startIcon = types[0].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = pickImagesLauncher::pickImage
+                    onClick = imagePicker::pickImage
                 )
             }
             val preference2 = @Composable {

@@ -244,7 +244,7 @@ fun DrawContent(
         }
     }
 
-    val pickImageLauncher =
+    val imagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
@@ -258,7 +258,7 @@ fun DrawContent(
         }
 
     val pickImage = {
-        pickImageLauncher.pickImage()
+        imagePicker.pickImage()
     }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {

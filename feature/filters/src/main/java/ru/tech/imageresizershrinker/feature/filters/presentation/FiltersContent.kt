@@ -130,6 +130,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
@@ -209,7 +210,7 @@ fun FiltersContent(
         }
     }
 
-    val pickImagesLauncher =
+    val imagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
@@ -373,11 +374,14 @@ fun FiltersContent(
         var showFolderSelectionDialog by rememberSaveable {
             mutableStateOf(false)
         }
+        var showOneTimeImagePickingDialog by rememberSaveable {
+            mutableStateOf(false)
+        }
         BottomButtonsBlock(
             targetState = (viewModel.basicFilterState.uris.isNullOrEmpty() && viewModel.maskingFilterState.uri == null) to isPortrait,
             onSecondaryButtonClick = {
                 when (filterType) {
-                    is Screen.Filter.Type.Basic -> pickImagesLauncher.pickImage()
+                    is Screen.Filter.Type.Basic -> imagePicker.pickImage()
                     is Screen.Filter.Type.Masking -> pickSingleImageLauncher.pickImage()
                 }
             },
@@ -418,6 +422,9 @@ fun FiltersContent(
             },
             actions = {
                 if (isPortrait) actions()
+            },
+            onSecondaryButtonLongClick = {
+                showOneTimeImagePickingDialog = true
             }
         )
         if (showFolderSelectionDialog) {
@@ -427,6 +434,16 @@ fun FiltersContent(
                 formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
             )
         }
+        OneTimeImagePickingDialog(
+            onDismiss = { showOneTimeImagePickingDialog = false },
+            picker = if (filterType is Screen.Filter.Type.Basic) {
+                Picker.Multiple
+            } else {
+                Picker.Single
+            },
+            imagePicker = imagePicker,
+            visible = showOneTimeImagePickingDialog
+        )
     }
 
     val controls: @Composable (filterType: Screen.Filter.Type) -> Unit = { filterType ->
@@ -997,7 +1014,7 @@ fun FiltersContent(
                                             PreferenceItem(
                                                 onClick = {
                                                     when (it) {
-                                                        is Screen.Filter.Type.Basic -> pickImagesLauncher.pickImage()
+                                                        is Screen.Filter.Type.Basic -> imagePicker.pickImage()
                                                         is Screen.Filter.Type.Masking -> pickSingleImageLauncher.pickImage()
                                                     }
                                                 },

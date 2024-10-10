@@ -199,7 +199,7 @@ fun EraseBackgroundContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
 
-    val pickImageLauncher =
+    val imagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
@@ -212,7 +212,7 @@ fun EraseBackgroundContent(
             }
         }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,

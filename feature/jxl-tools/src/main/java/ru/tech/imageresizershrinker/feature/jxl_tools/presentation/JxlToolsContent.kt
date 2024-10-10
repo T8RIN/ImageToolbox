@@ -97,6 +97,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
@@ -191,7 +192,7 @@ fun JxlToolsContent(
         }
     }
 
-    val pickImagesLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
@@ -202,7 +203,7 @@ fun JxlToolsContent(
         }
     }
 
-    val addImagesLauncher = rememberImagePicker(
+    val addImagesImagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
@@ -256,7 +257,7 @@ fun JxlToolsContent(
     fun pickImage(type: Screen.JxlTools.Type? = null) {
         runCatching {
             when (type ?: viewModel.type) {
-                is Screen.JxlTools.Type.ImageToJxl -> pickImagesLauncher.pickImage()
+                is Screen.JxlTools.Type.ImageToJxl -> imagePicker.pickImage()
                 is Screen.JxlTools.Type.JpegToJxl -> pickJpegsLauncher.launch(
                     arrayOf(
                         "image/jpeg",
@@ -281,7 +282,7 @@ fun JxlToolsContent(
     val addImages: () -> Unit = {
         runCatching {
             when (viewModel.type) {
-                is Screen.JxlTools.Type.ImageToJxl -> addImagesLauncher.pickImage()
+                is Screen.JxlTools.Type.ImageToJxl -> addImagesImagePicker.pickImage()
                 is Screen.JxlTools.Type.JpegToJxl -> addJpegsLauncher.launch(
                     arrayOf(
                         "image/jpeg",
@@ -566,9 +567,12 @@ fun JxlToolsContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
-                onSecondaryButtonClick = { pickImage() },
+                onSecondaryButtonClick = ::pickImage,
                 isPrimaryButtonVisible = viewModel.canSave,
                 onPrimaryButtonClick = {
                     save(null)
@@ -590,7 +594,12 @@ fun JxlToolsContent(
                         }
                     }
                 },
-                showNullDataButtonAsContainer = true
+                showNullDataButtonAsContainer = true,
+                onSecondaryButtonLongClick = if (viewModel.type is Screen.JxlTools.Type.ImageToJxl) {
+                    {
+                        showOneTimeImagePickingDialog = true
+                    }
+                } else null
             )
             if (showFolderSelectionDialog) {
                 OneTimeSaveLocationSelectionDialog(
@@ -598,6 +607,12 @@ fun JxlToolsContent(
                     onSaveRequest = save
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         noDataControls = {
             val types = remember {

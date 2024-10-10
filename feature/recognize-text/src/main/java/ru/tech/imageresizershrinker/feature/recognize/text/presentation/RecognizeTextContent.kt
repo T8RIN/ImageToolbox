@@ -175,7 +175,7 @@ fun RecognizeTextContent(
 
     val imagePickerMode = localImagePickerMode(Picker.Single)
 
-    val pickImageLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = imagePickerMode
     ) { list ->
         list.firstOrNull()?.let {
@@ -193,7 +193,7 @@ fun RecognizeTextContent(
 
     val captureImage = captureImageLauncher::pickImage
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,

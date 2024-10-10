@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.settings.presentation.model.PicturePickerMode
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 
 val ColorSaver: Saver<Color, Int> = Saver(
@@ -39,5 +40,14 @@ val DpSaver: Saver<Dp, Float> = Saver(
     },
     restore = {
         it.dp
+    }
+)
+
+val PicturePickerModeSaver: Saver<PicturePickerMode, Int> = Saver(
+    save = {
+        PicturePickerMode.entries.indexOf(it)
+    },
+    restore = {
+        PicturePickerMode.entries[it]
     }
 )

@@ -79,7 +79,7 @@ internal fun ImagePreviewGrid(
     contentPadding: PaddingValues? = null,
     initialShowImagePreviewDialog: Boolean = false
 ) {
-    val pickImageLauncher =
+    val imagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
@@ -161,7 +161,7 @@ internal fun ImagePreviewGrid(
                             resultPadding = 0.dp,
                             color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f)
                         )
-                        .clickable(onClick = pickImageLauncher::pickImage),
+                        .clickable(onClick = imagePicker::pickImage),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(

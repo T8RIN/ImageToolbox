@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
@@ -107,18 +108,18 @@ fun SvgMakerContent(
         else onGoBack()
     }
 
-    val pickImagesLauncher = rememberImagePicker(
+    val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let(viewModel::setUris)
     }
 
     AutoFilePicker(
-        onAutoPick = pickImagesLauncher::pickImage,
+        onAutoPick = imagePicker::pickImage,
         isPickedAlready = !uriState.isNullOrEmpty()
     )
 
-    val addImagesLauncher = rememberImagePicker(
+    val addImagesImagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let(viewModel::addUris)
@@ -189,7 +190,7 @@ fun SvgMakerContent(
                 onRemoveUri = viewModel::removeUri,
                 onAddUris = {
                     runCatching {
-                        addImagesLauncher.pickImage()
+                        addImagesImagePicker.pickImage()
                     }.onFailure {
                         scope.launch {
                             toastHostState.showToast(
@@ -204,7 +205,7 @@ fun SvgMakerContent(
         },
         showImagePreviewAsStickyHeader = false,
         noDataControls = {
-            ImageNotPickedWidget(onPickImage = pickImagesLauncher::pickImage)
+            ImageNotPickedWidget(onPickImage = imagePicker::pickImage)
         },
         controls = {
             SvgParamsSelector(
@@ -227,11 +228,14 @@ fun SvgMakerContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = viewModel.uris.isEmpty() to isPortrait,
                 onSecondaryButtonClick = {
                     runCatching {
-                        pickImagesLauncher.pickImage()
+                        imagePicker.pickImage()
                     }.onFailure {
                         scope.launch {
                             toastHostState.showToast(
@@ -251,6 +255,9 @@ fun SvgMakerContent(
                 },
                 actions = {
                     if (isPortrait) it()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
                 }
             )
             if (showFolderSelectionDialog) {
@@ -259,6 +266,12 @@ fun SvgMakerContent(
                     onSaveRequest = save
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         canShowScreenData = viewModel.uris.isNotEmpty(),
         isPortrait = isPortrait

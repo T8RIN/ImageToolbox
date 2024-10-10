@@ -61,6 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -102,16 +103,15 @@ fun ImageSplitterContent(
         }
     }
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { list ->
-            list.firstOrNull()?.let { uri ->
-                viewModel.updateUri(uri)
-            }
+    val imagePicker = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Single)
+    ) { list ->
+        list.firstOrNull()?.let { uri ->
+            viewModel.updateUri(uri)
         }
+    }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,
@@ -243,6 +243,9 @@ fun ImageSplitterContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
@@ -254,6 +257,9 @@ fun ImageSplitterContent(
                 },
                 actions = {
                     if (isPortrait) actions()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
                 }
             )
             if (showFolderSelectionDialog) {
@@ -262,6 +268,12 @@ fun ImageSplitterContent(
                     onSaveRequest = saveBitmaps
                 )
             }
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Single,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         },
         topAppBarPersistentActions = {
             if (viewModel.uri == null) TopAppBarEmoji()

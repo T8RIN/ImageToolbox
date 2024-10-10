@@ -122,7 +122,7 @@ fun ImageStitchingContent(
         }
     }
 
-    val pickImageLauncher =
+    val imagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
@@ -131,7 +131,7 @@ fun ImageStitchingContent(
             }
         }
 
-    val addImagesLauncher =
+    val addImagesImagePicker =
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
@@ -141,10 +141,10 @@ fun ImageStitchingContent(
         }
 
     val addImages = {
-        addImagesLauncher.pickImage()
+        addImagesImagePicker.pickImage()
     }
 
-    val pickImage = pickImageLauncher::pickImage
+    val pickImage = imagePicker::pickImage
 
     AutoFilePicker(
         onAutoPick = pickImage,
