@@ -62,6 +62,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 fun BottomButtonsBlock(
     targetState: Pair<Boolean, Boolean>,
     onSecondaryButtonClick: () -> Unit,
+    onSecondaryButtonLongClick: (() -> Unit)? = null,
     secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlternate,
     secondaryButtonText: String = stringResource(R.string.pick_image_alt),
     onPrimaryButtonClick: () -> Unit,
@@ -80,6 +81,7 @@ fun BottomButtonsBlock(
             val button = @Composable {
                 EnhancedFloatingActionButton(
                     onClick = onSecondaryButtonClick,
+                    onLongClick = onSecondaryButtonLongClick,
                     modifier = Modifier
                         .navigationBarsPadding()
                         .padding(16.dp),
@@ -114,6 +116,7 @@ fun BottomButtonsBlock(
                         AnimatedVisibility(visible = isSecondaryButtonVisible) {
                             EnhancedFloatingActionButton(
                                 onClick = onSecondaryButtonClick,
+                                onLongClick = onSecondaryButtonLongClick,
                                 containerColor = takeColorFromScheme {
                                     if (isPrimaryButtonVisible) tertiaryContainer
                                     else primaryContainer
@@ -167,6 +170,7 @@ fun BottomButtonsBlock(
                 AnimatedVisibility(visible = isSecondaryButtonVisible) {
                     EnhancedFloatingActionButton(
                         onClick = onSecondaryButtonClick,
+                        onLongClick = onSecondaryButtonLongClick,
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer
                     ) {
                         Icon(

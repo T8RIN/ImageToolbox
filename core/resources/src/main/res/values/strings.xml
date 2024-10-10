@@ -1469,4 +1469,5 @@
     <string name="cell_height">Cell Height</string>
     <string name="compact_selectors">Compact Selectors</string>
     <string name="compact_selectors_sub">Some selection controls will use compact layout to take less space</string>
+    <string name="grant_camera_permission_to_capture_image">Grant camera permission in settings to capture image</string>
 </resources>
