@@ -105,7 +105,8 @@ data class SettingsState(
     val favoriteColors: List<ColorModel>,
     val defaultResizeType: ResizeType,
     val systemBarsVisibility: SystemBarsVisibility,
-    val isSystemBarsVisibleBySwipe: Boolean
+    val isSystemBarsVisibleBySwipe: Boolean,
+    val isCompactSelectorsLayout: Boolean = false,
 ) {
 
     companion object {
@@ -190,7 +191,8 @@ data class SettingsState(
                 favoriteColors = emptyList(),
                 defaultResizeType = ResizeType.Explicit,
                 systemBarsVisibility = SystemBarsVisibility.Auto,
-                isSystemBarsVisibleBySwipe = true
+                isSystemBarsVisibleBySwipe = true,
+                isCompactSelectorsLayout = false
             )
         }
     }

@@ -130,11 +130,12 @@ data class UiSettingsState(
     val favoriteColors: List<Color>,
     val defaultResizeType: ResizeType,
     val systemBarsVisibility: SystemBarsVisibility,
-    val isSystemBarsVisibleBySwipe: Boolean
+    val isSystemBarsVisibleBySwipe: Boolean,
+    val isCompactSelectorsLayout: Boolean,
 )
 
 fun UiSettingsState.isFirstLaunch(
-    approximate: Boolean = true
+    approximate: Boolean = true,
 ) = if (approximate) {
     appOpenCount <= 3f
 } else appOpenCount <= 1f
@@ -144,7 +145,7 @@ fun SettingsState.toUiState(
     allEmojis: ImmutableList<Uri>,
     allIconShapes: ImmutableList<IconShape>,
     getEmojiColorTuple: suspend (String) -> ColorTuple?,
-    randomEmojiKey: Any? = null
+    randomEmojiKey: Any? = null,
 ): UiSettingsState {
     val selectedEmojiIndex by remember(selectedEmoji, useRandomEmojis, randomEmojiKey) {
         derivedStateOf {
@@ -305,7 +306,8 @@ fun SettingsState.toUiState(
         }.value,
         defaultResizeType = defaultResizeType,
         systemBarsVisibility = systemBarsVisibility,
-        isSystemBarsVisibleBySwipe = isSystemBarsVisibleBySwipe
+        isSystemBarsVisibleBySwipe = isSystemBarsVisibleBySwipe,
+        isCompactSelectorsLayout = isCompactSelectorsLayout
     )
 }
 
