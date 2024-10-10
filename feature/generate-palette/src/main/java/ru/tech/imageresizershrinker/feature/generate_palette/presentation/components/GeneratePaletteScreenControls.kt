@@ -79,7 +79,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.core.resources.icons.Swatch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.shapes.SmallMaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
@@ -103,7 +102,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 internal fun GeneratePaletteScreenControls(
     bitmap: Bitmap,
-    useMaterialYouPalette: Boolean?
+    useMaterialYouPalette: Boolean?,
 ) {
     val context = LocalContext.current
     val toastHostState = LocalToastHostState.current
@@ -155,7 +154,7 @@ internal fun GeneratePaletteScreenControls(
                         modifier = Modifier
                             .size(56.dp)
                             .container(
-                                shape = SmallMaterialStarShape,
+                                shape = RoundedCornerShape(8.dp),
                                 resultPadding = 0.dp
                             )
                     )

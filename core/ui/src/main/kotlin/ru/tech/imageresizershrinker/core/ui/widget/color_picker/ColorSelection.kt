@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 fun ColorSelection(
     color: Int,
     onColorChange: (Int) -> Unit,
+    infoContainerColor: Color = Color.Unspecified,
 ) {
     val color1 = Color(color)
     val hsv = ColorUtil.colorToHSV(color1)
@@ -56,13 +57,18 @@ fun ColorSelection(
         ColorInfo(
             color = color1.copy(1f).toArgb(),
             onColorChange = onColorChange,
+            infoContainerColor = infoContainerColor
         )
         Spacer(Modifier.height(16.dp))
         SelectorRectSaturationValueHSV(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(4 / 3f)
-                .container(RoundedCornerShape(2.dp), resultPadding = 0.dp)
+                .aspectRatio(4 / 2.5f)
+                .container(
+                    shape = RoundedCornerShape(size = 2.dp),
+                    resultPadding = 0.dp,
+                    color = infoContainerColor
+                )
                 .clip(RoundedCornerShape(3.dp)),
             hue = hue,
             saturation = saturation,
@@ -89,7 +95,8 @@ fun ColorSelection(
                     shape = CircleShape,
                     resultPadding = 0.dp,
                     clip = false,
-                    isShadowClip = true
+                    isShadowClip = true,
+                    color = infoContainerColor
                 )
                 .padding(horizontal = 10.dp)
         )

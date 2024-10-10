@@ -72,7 +72,7 @@ fun ColorTuplePicker(
     onDismiss: () -> Unit,
     colorTuple: ColorTuple,
     title: String = stringResource(R.string.color_scheme),
-    onColorChange: (ColorTuple) -> Unit
+    onColorChange: (ColorTuple) -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -212,7 +212,8 @@ fun ColorTuplePicker(
                                         surface = Color(it).calculateSurfaceColor()
                                     }
                                     primary = it
-                                }
+                                },
+                                infoContainerColor = MaterialTheme.colorScheme.surface
                             )
                         }
                     }
@@ -229,7 +230,8 @@ fun ColorTuplePicker(
                                     color = secondary,
                                     onColorChange = {
                                         secondary = it
-                                    }
+                                    },
+                                    infoContainerColor = MaterialTheme.colorScheme.surface
                                 )
                             }
                         }
@@ -245,7 +247,8 @@ fun ColorTuplePicker(
                                     color = tertiary,
                                     onColorChange = {
                                         tertiary = it
-                                    }
+                                    },
+                                    infoContainerColor = MaterialTheme.colorScheme.surface
                                 )
                             }
                         }
@@ -261,7 +264,8 @@ fun ColorTuplePicker(
                                     color = surface,
                                     onColorChange = {
                                         surface = it
-                                    }
+                                    },
+                                    infoContainerColor = MaterialTheme.colorScheme.surface
                                 )
                             }
                         }

@@ -92,7 +92,8 @@ fun ColorInfo(
         )
     },
     supportButtonIcon: ImageVector = Icons.Rounded.Shuffle,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    infoContainerColor: Color = Color.Unspecified,
 ) {
     val context = LocalContext.current
     val colorPasteError = rememberSaveable { mutableStateOf<String?>(null) }
@@ -173,7 +174,7 @@ fun ColorInfo(
                 .padding(start = 16.dp)
                 .container(
                     shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colorScheme.surfaceContainer
+                    color = infoContainerColor
                 ),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent,
