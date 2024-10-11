@@ -1441,4 +1441,17 @@
     <string name="create_shortcut_subtitle">Hulpmiddel wordt als snelkoppeling toegevoegd aan het startscherm, gebruik het in combinatie met de optie \"bestandskeuze overslaan\" om het benodigde gedrag te bereiken</string>
     <string name="canny">Canny</string>
     <string name="mirror_101">Spiegelen 101</string>
+    <string name="enhanced_zoom_blur">Verbeterde zoomvervaging</string>
+    <string name="sobel_simple">Sobel Eenvoudig</string>
+    <string name="laplacian_simple">Laplaciaans Eenvoudig</string>
+    <string name="helper_grid">Hulpraster</string>
+    <string name="helper_grid_sub">Toont ondersteunend raster over het tekengebied om te helpen bij nauwkeurige manipulaties</string>
+    <string name="grid_color">Rasterkleur</string>
+    <string name="cell_width">Celbreedte</string>
+    <string name="cell_height">Celhoogte</string>
+    <string name="compact_selectors_sub">Sommige selectiebesturingselementen gebruiken een compacte lay-out om minder ruimte in te nemen</string>
+    <string name="grant_camera_permission_to_capture_image">Geef de camera toestemming in de instellingen om een afbeelding vast te leggen</string>
+    <string name="layout">Opmaak</string>
+    <string name="main_screen_title">Titel van het hoofdscherm</string>
+    <string name="compact_selectors">Compacte keuzeschakelaars</string>
 </resources>
