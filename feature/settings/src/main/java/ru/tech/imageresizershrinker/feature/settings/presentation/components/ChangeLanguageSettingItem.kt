@@ -17,7 +17,10 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -42,7 +45,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
@@ -57,6 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -66,7 +69,6 @@ fun ChangeLanguageSettingItem(
     shape: Shape = ContainerShapeDefaults.topShape
 ) {
     val context = LocalContext.current
-    val linkHandler = LocalUriHandler.current
     var showEmbeddedLanguagePicker by rememberSaveable { mutableStateOf(false) }
 
     Column(Modifier.animateContentSize()) {
@@ -82,7 +84,12 @@ fun ChangeLanguageSettingItem(
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi() && !ContextUtils.isRedMagic()) {
                     runCatching {
-                        linkHandler.openUri("package:${context.packageName}")
+                        context.startActivity(
+                            Intent(
+                                Settings.ACTION_APP_LOCALE_SETTINGS,
+                                Uri.parse("package:${context.packageName}")
+                            )
+                        )
                     }.onFailure {
                         showEmbeddedLanguagePicker = true
                     }
@@ -160,7 +167,7 @@ private fun PickLanguageSheet(
                                 if (isSelected) MaterialTheme
                                     .colorScheme
                                     .secondaryContainer
-                                else MaterialTheme.colorScheme.surfaceContainerHigh
+                                else SimpleSheetDefaults.containerColor
                             ).value,
                             shape = ContainerShapeDefaults.shapeForIndex(
                                 index = index,
