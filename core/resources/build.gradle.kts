@@ -23,6 +23,8 @@ plugins {
 android {
     namespace = "ru.tech.imageresizershrinker.core.resources"
 
+    defaultConfig.vectorDrawables.useSupportLibrary = true
+
     buildFeatures {
         buildConfig = true
     }

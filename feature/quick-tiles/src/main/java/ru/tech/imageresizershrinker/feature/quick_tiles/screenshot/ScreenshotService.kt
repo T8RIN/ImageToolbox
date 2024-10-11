@@ -98,7 +98,7 @@ class ScreenshotService : Service() {
                     startForeground(
                         channelId,
                         Notification.Builder(applicationContext, channelId.toString())
-                            .setSmallIcon(R.drawable.ic_launcher_monochrome)
+                            .setSmallIcon(R.drawable.ic_launcher_foreground)
                             .build(),
                         ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
                     )
@@ -106,7 +106,7 @@ class ScreenshotService : Service() {
                     startForeground(
                         channelId,
                         Notification.Builder(applicationContext, channelId.toString())
-                            .setSmallIcon(R.drawable.ic_launcher_monochrome)
+                            .setSmallIcon(R.drawable.ic_launcher_foreground)
                             .build()
                     )
                 }

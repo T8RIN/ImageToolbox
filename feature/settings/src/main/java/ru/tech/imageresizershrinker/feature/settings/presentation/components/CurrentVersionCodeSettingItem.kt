@@ -69,7 +69,7 @@ fun CurrentVersionCodeSettingItem(
         startIcon = Icons.Outlined.Verified,
         endContent = {
             Icon(
-                painter = painterResource(R.drawable.ic_launcher_monochrome),
+                painter = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = null,
                 tint = animateColorAsState(
                     if (settingsState.isNightMode) {

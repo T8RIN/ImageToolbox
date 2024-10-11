@@ -113,7 +113,7 @@ fun EasterEggContent(
         }
     }
 
-    val painter = painterResource(R.drawable.ic_launcher_monochrome)
+    val painter = painterResource(R.drawable.ic_launcher_foreground)
 
     Column(
         modifier = Modifier.fillMaxSize()

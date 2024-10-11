@@ -36,6 +36,8 @@ android {
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+        
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
         targetSdk = libs.versions.androidTargetSdk.get().toIntOrNull()
