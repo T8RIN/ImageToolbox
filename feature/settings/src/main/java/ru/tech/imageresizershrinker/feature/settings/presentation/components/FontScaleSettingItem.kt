@@ -31,7 +31,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -67,13 +66,8 @@ fun FontScaleSettingItem(
             )
             .animateContentSize()
     ) {
-        val derivedValue by remember(settingsState) {
-            derivedStateOf {
-                settingsState.fontScale ?: 0f
-            }
-        }
-        var sliderValue by remember(derivedValue) {
-            mutableFloatStateOf(derivedValue)
+        var sliderValue by remember {
+            mutableFloatStateOf(settingsState.fontScale ?: 0f)
         }
         Row(
             verticalAlignment = Alignment.CenterVertically

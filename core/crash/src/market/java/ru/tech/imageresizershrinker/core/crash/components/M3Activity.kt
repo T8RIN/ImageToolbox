@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -39,6 +40,7 @@ import ru.tech.imageresizershrinker.core.crash.CrashActivity
 import ru.tech.imageresizershrinker.core.crash.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.di.entryPoint
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
@@ -98,9 +100,11 @@ abstract class M3Activity : AppCompatActivity() {
         handleSystemBarsBehavior()
     }
 
+    private var recreationJob: Job? by smartJob()
+
     override fun recreate() {
-        lifecycleScope.launch {
-            delay(10L)
+        recreationJob = lifecycleScope.launch {
+            delay(200L)
             super.recreate()
         }
     }
