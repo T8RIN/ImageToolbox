@@ -528,6 +528,10 @@ internal fun SettingItem(
             Setting.UseCompactSelectors -> {
                 UseCompactSelectorsSettingItem(onClick = viewModel::toggleUseCompactSelectors)
             }
+
+            Setting.MainScreenTitle -> {
+                MainScreenTitleSettingItem(onValueChange = viewModel::setMainScreenTitle)
+            }
         }
     }
 }

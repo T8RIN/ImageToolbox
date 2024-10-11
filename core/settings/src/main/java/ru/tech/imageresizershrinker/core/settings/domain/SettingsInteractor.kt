@@ -204,4 +204,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleUseCompactSelectorsLayout()
 
+    suspend fun setMainScreenTitle(title: String)
+
 }

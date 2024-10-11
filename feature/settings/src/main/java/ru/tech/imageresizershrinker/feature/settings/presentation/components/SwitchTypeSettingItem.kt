@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun SwitchTypeSettingItem(
     onValueChange: (SwitchType) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

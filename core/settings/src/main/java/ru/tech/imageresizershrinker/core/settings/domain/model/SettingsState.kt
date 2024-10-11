@@ -107,6 +107,7 @@ data class SettingsState(
     val systemBarsVisibility: SystemBarsVisibility,
     val isSystemBarsVisibleBySwipe: Boolean,
     val isCompactSelectorsLayout: Boolean,
+    val mainScreenTitle: String,
 ) {
 
     companion object {
@@ -192,7 +193,8 @@ data class SettingsState(
                 defaultResizeType = ResizeType.Explicit,
                 systemBarsVisibility = SystemBarsVisibility.Auto,
                 isSystemBarsVisibleBySwipe = true,
-                isCompactSelectorsLayout = false
+                isCompactSelectorsLayout = false,
+                mainScreenTitle = ""
             )
         }
     }

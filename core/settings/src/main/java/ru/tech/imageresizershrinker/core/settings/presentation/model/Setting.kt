@@ -448,4 +448,9 @@ sealed class Setting(
         subtitle = R.string.compact_selectors_sub
     )
 
+    data object MainScreenTitle : Setting(
+        title = R.string.main_screen_title,
+        subtitle = null
+    )
+
 }

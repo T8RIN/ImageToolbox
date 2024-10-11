@@ -34,6 +34,7 @@ import androidx.compose.material.icons.rounded.ShieldMoon
 import androidx.compose.material.icons.rounded.SortByAlpha
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
 import androidx.compose.material.icons.rounded.Vibration
+import androidx.compose.material.icons.rounded.ViewCarousel
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.core.resources.R
@@ -81,8 +82,17 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.ColorBlindScheme,
             Setting.BorderThickness,
-            Setting.SwitchType,
             Setting.DragHandleWidth,
+            Setting.MainScreenTitle
+        ),
+        initialState = false
+    )
+
+    data object Layout : SettingsGroup(
+        icon = Icons.Rounded.ViewCarousel,
+        titleId = R.string.layout,
+        settingsList = listOf(
+            Setting.SwitchType,
             Setting.UseCompactSelectors,
             Setting.FabAlignment
         ),
@@ -344,6 +354,7 @@ sealed class SettingsGroup(
                 PrimaryCustomization,
                 SecondaryCustomization,
                 NightMode,
+                Layout,
                 Emoji,
                 Confetti,
                 Shadows,

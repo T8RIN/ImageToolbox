@@ -1470,4 +1470,6 @@
     <string name="compact_selectors">Compact Selectors</string>
     <string name="compact_selectors_sub">Some selection controls will use compact layout to take less space</string>
     <string name="grant_camera_permission_to_capture_image">Grant camera permission in settings to capture image</string>
+    <string name="layout">Layout</string>
+    <string name="main_screen_title">Main Screen Title</string>
 </resources>

@@ -19,6 +19,7 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -98,7 +99,7 @@ internal fun MainTopAppBar(
         type = EnhancedTopAppBarType.Large,
         title = {
             LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
-                val titleText = remember {
+                val badgeText = remember {
                     "${Screen.FEATURES_COUNT}".plus(
                         if (BuildConfig.FLAVOR == "market") {
                             AppVersionPreRelease
@@ -112,10 +113,12 @@ internal fun MainTopAppBar(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.marquee()
                 ) {
-                    Text(stringResource(R.string.app_name))
+                    AnimatedContent(settingsState.mainScreenTitle) { title ->
+                        Text(title)
+                    }
                     Badge(
                         content = {
-                            Text(titleText)
+                            Text(badgeText)
                         },
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         contentColor = MaterialTheme.colorScheme.onTertiary,

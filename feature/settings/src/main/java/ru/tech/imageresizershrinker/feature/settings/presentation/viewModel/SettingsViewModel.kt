@@ -623,4 +623,10 @@ class SettingsViewModel @Inject constructor(
             settingsManager.toggleUseCompactSelectorsLayout()
         }
     }
+
+    fun setMainScreenTitle(title: String) {
+        viewModelScope.launch {
+            settingsManager.setMainScreenTitle(title)
+        }
+    }
 }

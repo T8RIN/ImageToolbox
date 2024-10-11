@@ -104,6 +104,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_SYSTEM_
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.IS_TELEGRAM_GROUP_OPENED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.MAGNIFIER_ENABLED
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.MAIN_SCREEN_TITLE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.NIGHT_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ONE_TIME_SAVE_LOCATIONS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.OPEN_EDIT_INSTEAD_OF_PREVIEW
@@ -289,7 +290,8 @@ internal class AndroidSettingsManager @Inject constructor(
             isSystemBarsVisibleBySwipe = prefs[IS_SYSTEM_BARS_VISIBLE_BY_SWIPE]
                 ?: default.isSystemBarsVisibleBySwipe,
             isCompactSelectorsLayout = prefs[USE_COMPACT_SELECTORS_LAYOUT]
-                ?: default.isCompactSelectorsLayout
+                ?: default.isCompactSelectorsLayout,
+            mainScreenTitle = prefs[MAIN_SCREEN_TITLE] ?: default.mainScreenTitle
         )
     }.onEach { currentSettings = it }
 
@@ -1053,6 +1055,12 @@ internal class AndroidSettingsManager @Inject constructor(
                 key = USE_COMPACT_SELECTORS_LAYOUT,
                 defaultValue = default.isCompactSelectorsLayout
             )
+        }
+    }
+
+    override suspend fun setMainScreenTitle(title: String) {
+        dataStore.edit {
+            it[MAIN_SCREEN_TITLE] = title
         }
     }
 

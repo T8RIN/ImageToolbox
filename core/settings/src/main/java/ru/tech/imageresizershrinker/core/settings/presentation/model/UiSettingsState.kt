@@ -30,6 +30,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -43,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
@@ -132,6 +134,7 @@ data class UiSettingsState(
     val systemBarsVisibility: SystemBarsVisibility,
     val isSystemBarsVisibleBySwipe: Boolean,
     val isCompactSelectorsLayout: Boolean,
+    val mainScreenTitle: String,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -307,7 +310,10 @@ fun SettingsState.toUiState(
         defaultResizeType = defaultResizeType,
         systemBarsVisibility = systemBarsVisibility,
         isSystemBarsVisibleBySwipe = isSystemBarsVisibleBySwipe,
-        isCompactSelectorsLayout = isCompactSelectorsLayout
+        isCompactSelectorsLayout = isCompactSelectorsLayout,
+        mainScreenTitle = mainScreenTitle.ifEmpty {
+            stringResource(R.string.app_name)
+        }
     )
 }
 
