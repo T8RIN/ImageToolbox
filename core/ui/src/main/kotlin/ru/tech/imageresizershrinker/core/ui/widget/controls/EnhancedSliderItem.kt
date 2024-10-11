@@ -265,10 +265,7 @@ fun EnhancedSliderItem(
                                 ),
                             onClick = {
                                 showValueDialog = true
-                            },
-                            backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                0.38f
-                            )
+                            }
                         )
                     }
                 } else {

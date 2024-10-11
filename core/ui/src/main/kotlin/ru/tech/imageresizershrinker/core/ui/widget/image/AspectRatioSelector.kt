@@ -97,7 +97,12 @@ fun AspectRatioSelector(
         Text(
             text = stringResource(id = R.string.aspect_ratio),
             modifier = Modifier
-                .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+                .padding(
+                    start = 8.dp,
+                    end = 8.dp,
+                    top = 16.dp,
+                    bottom = 8.dp
+                ),
             fontWeight = FontWeight.Medium
         )
     },

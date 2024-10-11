@@ -293,7 +293,7 @@ fun CollageMakerContent(
                     .fillMaxWidth()
                     .height(100.dp)
                     .fadingEdges(state),
-                contentPadding = PaddingValues(10.dp),
+                contentPadding = PaddingValues(16.dp),
                 shape = RoundedCornerShape(12.dp),
                 itemModifierFactory = { isSelected ->
                     Modifier

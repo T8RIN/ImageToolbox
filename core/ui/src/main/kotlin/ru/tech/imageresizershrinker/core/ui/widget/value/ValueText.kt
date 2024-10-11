@@ -26,6 +26,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -49,7 +50,9 @@ fun ValueText(
     enabled: Boolean = true,
     valueSuffix: String = "",
     onClick: () -> Unit,
-    backgroundColor: Color = Color.Transparent,
+    backgroundColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
+        0.25f
+    )
 ) {
     val haptics = LocalHapticFeedback.current
     AnimatedContent(
@@ -60,7 +63,9 @@ fun ValueText(
             .container(
                 shape = CircleShape,
                 color = backgroundColor,
-                resultPadding = 0.dp
+                resultPadding = 0.dp,
+                composeColorOnTopOfBackground = false,
+                autoShadowElevation = if (backgroundColor == Color.Transparent) 0.dp else 1.dp
             )
     ) {
         Text(
