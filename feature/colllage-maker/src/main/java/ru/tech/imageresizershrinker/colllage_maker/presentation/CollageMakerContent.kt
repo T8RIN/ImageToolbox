@@ -89,6 +89,8 @@ import com.t8rin.collages.CollageTypeSelection
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel.CollageMakerViewModel
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
@@ -241,6 +243,7 @@ fun CollageMakerContent(
 
         Box(
             modifier = Modifier
+                .zoomable(rememberZoomState())
                 .container(
                     shape = RoundedCornerShape(4.dp),
                     resultPadding = 0.dp
@@ -549,7 +552,7 @@ fun CollageMakerContent(
                 sheetContent = {
                     Column(
                         Modifier
-                            .fillMaxHeight(0.6f)
+                            .fillMaxHeight(0.75f)
                             .pointerInput(Unit) {
                                 detectTapGestures { focus.clearFocus() }
                             }
