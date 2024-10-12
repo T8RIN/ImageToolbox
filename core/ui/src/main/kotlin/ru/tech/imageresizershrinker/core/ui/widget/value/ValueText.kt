@@ -29,6 +29,9 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -48,25 +51,31 @@ fun ValueText(
     value: Number,
     enabled: Boolean = true,
     valueSuffix: String = "",
+    customText: String? = null,
     onClick: () -> Unit,
     backgroundColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         0.25f
     )
 ) {
     val haptics = LocalHapticFeedback.current
+    val text by remember(customText, value, valueSuffix) {
+        derivedStateOf {
+            customText ?: "${value.toString().trimTrailingZero()}$valueSuffix"
+        }
+    }
     AnimatedContent(
-        targetState = value,
+        targetState = text,
         transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) },
         modifier = modifier
             .container(
                 shape = CircleShape,
                 color = backgroundColor,
                 resultPadding = 0.dp,
-                autoShadowElevation = 0.7.dp
+                autoShadowElevation = if (enabled) 0.7.dp else 0.dp
             )
     ) {
         Text(
-            text = "${it.toString().trimTrailingZero()}$valueSuffix",
+            text = it,
             color = LocalContentColor.current.copy(0.5f),
             textAlign = TextAlign.Center,
             modifier = Modifier

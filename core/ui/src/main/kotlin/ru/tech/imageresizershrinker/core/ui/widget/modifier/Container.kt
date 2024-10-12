@@ -51,10 +51,10 @@ fun Modifier.container(
     resultPadding: Dp = 4.dp,
     borderWidth: Dp = Dp.Unspecified,
     borderColor: Color? = null,
-    autoShadowElevation: Dp = 1.dp,
+    autoShadowElevation: Dp = if (color != Color.Transparent) 1.dp else 0.dp,
     clip: Boolean = true,
-    composeColorOnTopOfBackground: Boolean = true,
-    isShadowClip: Boolean = false,
+    composeColorOnTopOfBackground: Boolean = color != Color.Transparent,
+    isShadowClip: Boolean = color.alpha < 1f,
     isStandaloneContainer: Boolean = true,
     shadowColor: Color = Color.Black
 ) = this.composed {

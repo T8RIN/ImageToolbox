@@ -66,6 +66,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -98,6 +100,7 @@ fun EnhancedSliderItem(
     enabled: Boolean = true,
     titleHorizontalPadding: Dp = if (behaveAsContainer) 16.dp
     else 6.dp,
+    valuesPreviewMapping: ImmutableMap<Float, String> = remember { persistentMapOf() },
     additionalContent: (@Composable () -> Unit)? = null,
 ) {
     val internalColor = contentColor
@@ -148,19 +151,27 @@ fun EnhancedSliderItem(
             ) {
                 val slider = @Composable {
                     AnimatedContent(
-                        targetState = Triple(
+                        targetState = Pair(
                             valueRange,
-                            steps,
-                            sliderModifier
+                            steps
                         )
-                    ) { (valueRange, steps, sliderModifier) ->
+                    ) { (valueRange, steps) ->
                         EnhancedSlider(
-                            modifier = if (isCompactLayout) Modifier.padding(
-                                top = topContentPadding,
-                                start = 12.dp,
-                                end = 12.dp
-                            )
-                            else sliderModifier,
+                            modifier = if (isCompactLayout) {
+                                Modifier.padding(
+                                    top = topContentPadding,
+                                    start = 12.dp,
+                                    end = 12.dp
+                                )
+                            } else {
+                                sliderModifier
+//                                Modifier.padding(
+//                                    top = 6.dp,
+//                                    bottom = 6.dp,
+//                                    end = 6.dp,
+//                                    start = titleHorizontalPadding
+//                                )
+                            },
                             enabled = enabled,
                             value = internalState.value.toFloat(),
                             onValueChange = {
@@ -203,8 +214,12 @@ fun EnhancedSliderItem(
                                                     title = { Text(title) },
                                                     text = {
                                                         val trimmed =
-                                                            value.toString().trimTrailingZero()
-                                                        Text("$trimmed$valueSuffix")
+                                                            internalState.value.toString()
+                                                                .trimTrailingZero()
+                                                        Text(
+                                                            valuesPreviewMapping[internalState.value.toFloat()]
+                                                                ?: "$trimmed$valueSuffix"
+                                                        )
                                                     }
                                                 )
                                             },
@@ -269,6 +284,7 @@ fun EnhancedSliderItem(
                                     enabled = valueTextTapEnabled && enabled,
                                     value = internalStateTransformation(internalState.value.toFloat()),
                                     valueSuffix = valueSuffix,
+                                    customText = valuesPreviewMapping[internalState.value.toFloat()],
                                     modifier = Modifier
                                         .width(108.dp)
                                         .padding(
@@ -319,6 +335,7 @@ fun EnhancedSliderItem(
                                 ValueText(
                                     enabled = valueTextTapEnabled && enabled,
                                     value = internalStateTransformation(internalState.value.toFloat()),
+                                    customText = valuesPreviewMapping[internalState.value.toFloat()],
                                     valueSuffix = valueSuffix,
                                     modifier = Modifier.padding(
                                         top = topContentPadding,

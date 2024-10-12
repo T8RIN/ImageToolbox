@@ -369,7 +369,6 @@ fun CustomSlider(
             steps,
             onValueChangeFinished,
             valueRange
-
         )
     }
 
