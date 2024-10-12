@@ -1426,4 +1426,23 @@
     <string name="defaultt_sub">Nur standardmäßige gerade Linien</string>
     <string name="stamped_sub">Zeichnet ausgewählte Formen entlang des Pfades mit dem angegebenen Abstand</string>
     <string name="crossfade">Überblendung</string>
+    <string name="top_hat">Zylinderhut</string>
+    <string name="tone_curves">Tonwertkurven</string>
+    <string name="reset_curves_sub">Die Kurven werden auf den Standardwert zurückgesetzt</string>
+    <string name="create_shortcut">Verknüpfung erstellen</string>
+    <string name="create_shortcut_title">Werkzeug zum Anheften auswählen</string>
+    <string name="create_shortcut_subtitle">Das Werkzeug wird dem Startbildschirm deines Starters als Verknüpfung hinzugefügt, verwende es in Kombination mit der Einstellung „Dateiauswahl überspringen“, um das gewünschte Verhalten zu erreichen</string>
+    <string name="collage_maker_sub">Verschiedene Collagen aus 2..10 Bildern erstellen</string>
+    <string name="mirror_101">Spiegel 101</string>
+    <string name="enhanced_zoom_blur">Verbesserte Zoom-Unschärfe</string>
+    <string name="grid_color">Rasterfarbe</string>
+    <string name="helper_grid">Hilfsraster</string>
+    <string name="helper_grid_sub">Zeigt ein Hilfsraster über der Zeichenfläche an, um präzise Manipulationen zu ermöglichen</string>
+    <string name="cell_width">Zellenbreite</string>
+    <string name="cell_height">Zellenhöhe</string>
+    <string name="compact_selectors">Kompakte Selektoren</string>
+    <string name="compact_selectors_sub">Einige Auswahlkontrollen verwenden ein kompaktes Layout, um weniger Platz zu benötigen</string>
+    <string name="layout">Layout</string>
+    <string name="main_screen_title">Titel des Hauptbildschirms</string>
+    <string name="grant_camera_permission_to_capture_image">Gewähre der Kamera in den Einstellungen die Berechtigung, ein Bild aufzunehmen</string>
 </resources>
