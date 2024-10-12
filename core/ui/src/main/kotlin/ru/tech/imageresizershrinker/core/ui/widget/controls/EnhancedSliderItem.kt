@@ -21,6 +21,11 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -109,6 +114,7 @@ fun EnhancedSliderItem(
     val scope = rememberCoroutineScope()
 
     AnimatedVisibility(visible = visible) {
+
         LocalContentColor.ProvidesValue(internalColor) {
             Column(
                 modifier = modifier
@@ -171,34 +177,116 @@ fun EnhancedSliderItem(
                         )
                     }
                 }
-                if (isCompactLayout) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    ) {
-                        AnimatedContent(icon) { icon ->
-                            if (icon != null) {
-                                TooltipBox(
-                                    positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-                                    tooltip = {
-                                        RichTooltip(
-                                            colors = TooltipDefaults.richTooltipColors(
-                                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(
-                                                    0.5f
-                                                ),
-                                                titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                                            ),
-                                            title = { Text(title) },
-                                            text = {
-                                                val trimmed = value.toString().trimTrailingZero()
-                                                Text("$trimmed$valueSuffix")
+                AnimatedContent(
+                    targetState = isCompactLayout,
+                    transitionSpec = { fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically() }
+                ) { isCompactLayout ->
+                    Column {
+                        if (isCompactLayout) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            ) {
+                                AnimatedContent(icon) { icon ->
+                                    if (icon != null) {
+                                        TooltipBox(
+                                            positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+                                            tooltip = {
+                                                RichTooltip(
+                                                    colors = TooltipDefaults.richTooltipColors(
+                                                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(
+                                                            0.5f
+                                                        ),
+                                                        titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                                                    ),
+                                                    title = { Text(title) },
+                                                    text = {
+                                                        val trimmed =
+                                                            value.toString().trimTrailingZero()
+                                                        Text("$trimmed$valueSuffix")
+                                                    }
+                                                )
+                                            },
+                                            state = tooltipState,
+                                            content = {
+                                                val haptics = LocalHapticFeedback.current
+                                                IconShapeContainer(
+                                                    enabled = true,
+                                                    content = {
+                                                        Icon(
+                                                            imageVector = icon,
+                                                            contentDescription = null
+                                                        )
+                                                    },
+                                                    modifier = Modifier
+                                                        .padding(
+                                                            top = topContentPadding,
+                                                            start = 12.dp
+                                                        )
+                                                        .clip(
+                                                            LocalSettingsState.current.iconShape?.shape
+                                                                ?: CircleShape
+                                                        )
+                                                        .combinedClickable(
+                                                            onLongClick = {
+                                                                haptics.performHapticFeedback(
+                                                                    HapticFeedbackType.TextHandleMove
+                                                                )
+                                                                scope.launch { tooltipState.show() }
+                                                            },
+                                                            onClick = {
+                                                                haptics.performHapticFeedback(
+                                                                    HapticFeedbackType.TextHandleMove
+                                                                )
+                                                                scope.launch { tooltipState.show() }
+                                                            }
+                                                        )
+                                                )
                                             }
                                         )
-                                    },
-                                    state = tooltipState,
-                                    content = {
-                                        val haptics = LocalHapticFeedback.current
+                                    }
+                                }
+                                AnimatedVisibility(icon == null) {
+                                    Text(
+                                        text = title,
+                                        modifier = Modifier
+                                            .padding(
+                                                top = topContentPadding,
+                                                start = 12.dp
+                                            )
+                                            .widthIn(max = 100.dp),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        lineHeight = 16.sp
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    slider()
+                                }
+                                ValueText(
+                                    enabled = valueTextTapEnabled && enabled,
+                                    value = internalStateTransformation(internalState.value.toFloat()),
+                                    valueSuffix = valueSuffix,
+                                    modifier = Modifier
+                                        .width(108.dp)
+                                        .padding(
+                                            top = topContentPadding,
+                                            end = 8.dp
+                                        ),
+                                    onClick = {
+                                        showValueDialog = true
+                                    }
+                                )
+                            }
+                        } else {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            ) {
+                                AnimatedContent(icon) { icon ->
+                                    if (icon != null) {
                                         IconShapeContainer(
                                             enabled = true,
                                             content = {
@@ -207,117 +295,43 @@ fun EnhancedSliderItem(
                                                     contentDescription = null
                                                 )
                                             },
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = topContentPadding,
-                                                    start = 12.dp
-                                                )
-                                                .clip(
-                                                    LocalSettingsState.current.iconShape?.shape
-                                                        ?: CircleShape
-                                                )
-                                                .combinedClickable(
-                                                    onLongClick = {
-                                                        haptics.performHapticFeedback(
-                                                            HapticFeedbackType.TextHandleMove
-                                                        )
-                                                        scope.launch { tooltipState.show() }
-                                                    },
-                                                    onClick = {
-                                                        haptics.performHapticFeedback(
-                                                            HapticFeedbackType.TextHandleMove
-                                                        )
-                                                        scope.launch { tooltipState.show() }
-                                                    }
-                                                )
+                                            modifier = Modifier.padding(
+                                                top = topContentPadding,
+                                                start = 12.dp
+                                            )
                                         )
+                                    }
+                                }
+                                Text(
+                                    text = title,
+                                    modifier = Modifier
+                                        .padding(
+                                            top = topContentPadding,
+                                            end = titleHorizontalPadding,
+                                            start = titleHorizontalPadding
+                                        )
+                                        .weight(1f),
+                                    lineHeight = 18.sp,
+                                    fontWeight = if (behaveAsContainer) {
+                                        FontWeight.Medium
+                                    } else FontWeight.Normal
+                                )
+                                ValueText(
+                                    enabled = valueTextTapEnabled && enabled,
+                                    value = internalStateTransformation(internalState.value.toFloat()),
+                                    valueSuffix = valueSuffix,
+                                    modifier = Modifier.padding(
+                                        top = topContentPadding,
+                                        end = 8.dp
+                                    ),
+                                    onClick = {
+                                        showValueDialog = true
                                     }
                                 )
                             }
-                        }
-                        AnimatedVisibility(icon == null) {
-                            Text(
-                                text = title,
-                                modifier = Modifier
-                                    .padding(
-                                        top = topContentPadding,
-                                        start = 12.dp
-                                    )
-                                    .widthIn(max = 100.dp),
-                                style = MaterialTheme.typography.bodyMedium,
-                                lineHeight = 16.sp
-                            )
-                        }
-                        Row(
-                            modifier = Modifier.weight(1f)
-                        ) {
                             slider()
                         }
-                        ValueText(
-                            enabled = valueTextTapEnabled && enabled,
-                            value = internalStateTransformation(internalState.value.toFloat()),
-                            valueSuffix = valueSuffix,
-                            modifier = Modifier
-                                .width(108.dp)
-                                .padding(
-                                    top = topContentPadding,
-                                    end = 8.dp
-                                ),
-                            onClick = {
-                                showValueDialog = true
-                            }
-                        )
                     }
-                } else {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    ) {
-                        AnimatedContent(icon) { icon ->
-                            if (icon != null) {
-                                IconShapeContainer(
-                                    enabled = true,
-                                    content = {
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null
-                                        )
-                                    },
-                                    modifier = Modifier.padding(
-                                        top = topContentPadding,
-                                        start = 12.dp
-                                    )
-                                )
-                            }
-                        }
-                        Text(
-                            text = title,
-                            modifier = Modifier
-                                .padding(
-                                    top = topContentPadding,
-                                    end = titleHorizontalPadding,
-                                    start = titleHorizontalPadding
-                                )
-                                .weight(1f),
-                            lineHeight = 18.sp,
-                            fontWeight = if (behaveAsContainer) {
-                                FontWeight.Medium
-                            } else FontWeight.Normal
-                        )
-                        ValueText(
-                            enabled = valueTextTapEnabled && enabled,
-                            value = internalStateTransformation(internalState.value.toFloat()),
-                            valueSuffix = valueSuffix,
-                            modifier = Modifier.padding(
-                                top = topContentPadding,
-                                end = 8.dp
-                            ),
-                            onClick = {
-                                showValueDialog = true
-                            }
-                        )
-                    }
-                    slider()
                 }
                 additionalContent?.invoke()
             }

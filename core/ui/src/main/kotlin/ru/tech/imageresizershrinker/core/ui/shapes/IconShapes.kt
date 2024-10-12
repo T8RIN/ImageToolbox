@@ -130,7 +130,7 @@ fun IconShapeContainer(
                     Modifier.container(
                         shape = iconShapeAnimated.shape,
                         color = containerColor,
-                        autoShadowElevation = 0.5.dp,
+                        autoShadowElevation = 0.65.dp,
                         resultPadding = iconShapeAnimated.padding,
                         composeColorOnTopOfBackground = false,
                         isShadowClip = true

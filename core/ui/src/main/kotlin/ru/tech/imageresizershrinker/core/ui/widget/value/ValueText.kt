@@ -30,7 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -59,13 +58,11 @@ fun ValueText(
         targetState = value,
         transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) },
         modifier = modifier
-            .clip(CircleShape)
             .container(
                 shape = CircleShape,
                 color = backgroundColor,
                 resultPadding = 0.dp,
-                composeColorOnTopOfBackground = false,
-                autoShadowElevation = if (backgroundColor == Color.Transparent) 0.dp else 1.dp
+                autoShadowElevation = 0.7.dp
             )
     ) {
         Text(
