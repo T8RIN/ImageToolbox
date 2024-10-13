@@ -83,7 +83,7 @@ internal object ImageLoaderModule {
                 add(AnimatedWebPDecoder.Factory())
             }
             add(SvgDecoder.Factory())
-            if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
+            if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
             add(AnimatedJxlDecoder.Factory(context))
             add(Jpeg2000Decoder.Factory())
             add(TiffDecoder.Factory())

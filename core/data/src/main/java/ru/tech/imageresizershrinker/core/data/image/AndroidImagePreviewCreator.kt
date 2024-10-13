@@ -65,7 +65,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         transformations: List<Transformation<Bitmap>>,
         onGetByteCount: (Int) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
-        CoroutineScope(encodingDispatcher).launch {
+        launch(encodingDispatcher) {
             onGetByteCount(0)
             yield()
             onGetByteCount(

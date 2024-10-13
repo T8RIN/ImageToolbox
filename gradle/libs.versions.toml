@@ -10,10 +10,10 @@ jvmTarget = "17"
 compose-compiler = "1.5.15"
 
 imageToolboxLibs = "2.9.6"
-trickle = "1.1.4"
+trickle = "1.1.5"
 
-avifCoder = "1.8.0"
-avifCoderCoil = "1.8.0.1"
+avifCoder = "2.0.0"
+avifCoderCoil = "2.0.0"
 aire = "0.15.1"
 jxlCoder = "2.3.0"
 jxlCoderCoil = "2.3.0.1"
@@ -77,7 +77,7 @@ moshi = "1.15.1"
 
 [libraries]
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
-trickle = { module = "com.github.T8RIN:Trickle", version.ref = "trickle" }
+trickle = { module = "com.github.t8rin:trickle", version.ref = "trickle" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
 quickie-bundled = { module = "com.github.T8RIN.QuickieExtended:quickie-bundled", version.ref = "quickie" }
