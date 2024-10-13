@@ -46,8 +46,8 @@ fun FontScaleSettingItem(
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
 
-    var sliderValue by remember {
-        mutableFloatStateOf(settingsState.fontScale ?: 0f)
+    var sliderValue by remember(settingsState.fontScale) {
+        mutableFloatStateOf(settingsState.fontScale ?: 0.45f)
     }
 
     EnhancedSliderItem(
@@ -57,16 +57,21 @@ fun FontScaleSettingItem(
         title = stringResource(R.string.font_scale),
         icon = Icons.Rounded.TextFields,
         onValueChange = {
-            sliderValue = if (it == 0.45f) 0f
-            else it.roundToTwoDigits()
+            sliderValue = it.roundToTwoDigits()
+        },
+        internalStateTransformation = {
+            it.roundToTwoDigits()
         },
         onValueChangeFinished = {
-            onValueChange(sliderValue)
+            onValueChange(
+                if (sliderValue < 0.5f) 0f
+                else sliderValue
+            )
         },
         valueRange = 0.45f..1.5f,
         steps = 20,
         valuesPreviewMapping = remember {
-            persistentMapOf(0f to context.getString(R.string.defaultt))
+            persistentMapOf(0.45f to context.getString(R.string.defaultt))
         },
         valueTextTapEnabled = false
     )

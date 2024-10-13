@@ -25,7 +25,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -38,7 +37,6 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -47,7 +45,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -102,21 +99,6 @@ fun EnhancedSlider(
     )
 
     val thumb: @Composable (SliderState) -> Unit = {
-        val interaction by interactionSource.interactions.collectAsState(initial = null)
-        val focus = LocalFocusManager.current
-
-        LaunchedEffect(interaction) {
-            if (interaction is PressInteraction.Press) {
-                focus.clearFocus()
-            }
-        }
-
-        val elevation = if (interaction is PressInteraction.Press) {
-            6.dp
-        } else {
-            1.dp
-        }
-
         Spacer(
             Modifier
                 .zIndex(100f)
@@ -131,7 +113,7 @@ fun EnhancedSlider(
                 .hoverable(interactionSource = interactionSource)
                 .materialShadow(
                     shape = thumbShape,
-                    elevation = elevation,
+                    elevation = 1.dp,
                     enabled = LocalSettingsState.current.drawSliderShadows
                 )
                 .background(thumbColor, thumbShape)

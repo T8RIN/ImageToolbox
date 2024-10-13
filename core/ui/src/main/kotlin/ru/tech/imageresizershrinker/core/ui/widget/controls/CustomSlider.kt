@@ -361,17 +361,16 @@ fun CustomSlider(
 ) {
     val state = remember(
         steps,
-        valueRange,
-        onValueChangeFinished
+        valueRange
     ) {
         SliderState(
             value,
             steps,
-            onValueChangeFinished,
             valueRange
         )
     }
 
+    state.onValueChangeFinished = onValueChangeFinished
     state.onValueChange = onValueChange
     state.value = value
 
@@ -1650,7 +1649,6 @@ class SliderState(
     value: Float = 0f,
     @IntRange(from = 0)
     val steps: Int = 0,
-    val onValueChangeFinished: (() -> Unit)? = null,
     val valueRange: ClosedFloatingPointRange<Float> = 0f..1f
 ) : DraggableState {
 
@@ -1697,6 +1695,8 @@ class SliderState(
             }
         }
     }
+
+    var onValueChangeFinished: (() -> Unit)? = null
 
     /**
      * callback in which value should be updated
