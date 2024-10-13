@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -41,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun ValueText(
@@ -74,7 +74,7 @@ fun ValueText(
                 autoShadowElevation = if (enabled) 0.7.dp else 0.dp
             )
     ) {
-        Text(
+        AutoSizeText(
             text = it,
             color = LocalContentColor.current.copy(0.5f),
             textAlign = TextAlign.Center,
