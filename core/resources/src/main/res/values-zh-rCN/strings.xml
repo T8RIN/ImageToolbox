@@ -281,7 +281,7 @@
     <string name="group_options_by_type_sub">对主屏幕上的选项按选项类型分组，代替按自定义列表排列</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">启用功能分组时无法更改排列</string>
     <string name="create">创作</string>
-    <string name="cipher_sub">基于 AES 密码算法对任何文件（不限于图片）进行加密和解密</string>
+    <string name="cipher_sub">基于 AES 加密算法对任何文件（不限于图片）进行加密和解密</string>
     <string name="store_file_desc">将此文件存储在您的设备上，或使用共享操作将其传送至任何位置</string>
     <string name="file_size_sub">最大文件大小受 Android 系统和可用内存的限制，这取决于您的设备。
 \n请注意：内存 (RAM) 不是存储 (ROM)。</string>
@@ -1440,4 +1440,18 @@
     <string name="threshold_one">阈值一</string>
     <string name="threshold_two">阈值二</string>
     <string name="canny">Canny</string>
+    <string name="mirror_101">镜子 101</string>
+    <string name="enhanced_zoom_blur">增强缩放模糊</string>
+    <string name="laplacian_simple">简易拉普拉斯</string>
+    <string name="helper_grid">辅助网格</string>
+    <string name="helper_grid_sub">在绘图区域上方显示辅助网格，以帮助进行精确操作。</string>
+    <string name="sobel_simple">简易索贝尔</string>
+    <string name="grid_color">网格颜色</string>
+    <string name="cell_width">单元格宽度</string>
+    <string name="cell_height">单元格高度</string>
+    <string name="compact_selectors">紧凑型选择器</string>
+    <string name="compact_selectors_sub">一些选择控件将使用紧凑型布局以占用更少的空间。</string>
+    <string name="grant_camera_permission_to_capture_image">在设置中授予相机权限以捕获图像。</string>
+    <string name="layout">布局</string>
+    <string name="main_screen_title">主屏幕标题</string>
 </resources>
