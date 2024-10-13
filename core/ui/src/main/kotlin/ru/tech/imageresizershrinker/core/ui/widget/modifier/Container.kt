@@ -53,7 +53,7 @@ fun Modifier.container(
     borderColor: Color? = null,
     autoShadowElevation: Dp = if (color != Color.Transparent) 1.dp else 0.dp,
     clip: Boolean = true,
-    composeColorOnTopOfBackground: Boolean = color != Color.Transparent,
+    composeColorOnTopOfBackground: Boolean = true,
     isShadowClip: Boolean = color.alpha < 1f,
     isStandaloneContainer: Boolean = true,
     shadowColor: Color = Color.Black
