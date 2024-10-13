@@ -226,7 +226,7 @@ internal abstract class SimpleCompressor {
                 preciseMode = PreciseMode.LOSSLESS,
                 speed = AvifSpeed.entries.firstOrNull {
                     it.ordinal == (9 - avifQuality.effort)
-                } ?: AvifSpeed.SIX
+                } ?: AvifSpeed.NINE
             )
         }
 
@@ -248,7 +248,7 @@ internal abstract class SimpleCompressor {
                 preciseMode = PreciseMode.LOSSY,
                 speed = AvifSpeed.entries.firstOrNull {
                     it.ordinal == (9 - avifQuality.effort)
-                } ?: AvifSpeed.SIX
+                } ?: AvifSpeed.NINE
             )
         }
 
