@@ -90,7 +90,7 @@ sealed class Quality(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
         @IntRange(from = 0, to = 9)
-        val effort: Int = 3
+        val effort: Int = 0
     ) : Quality(qualityValue)
 
     data class PngLossy(
