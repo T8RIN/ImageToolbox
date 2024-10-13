@@ -222,6 +222,7 @@ fun MediaPickerGrid(
                                 text = stringResource(R.string.manage_storage_extra_types),
                                 color = MaterialTheme.colorScheme.error,
                                 style = MaterialTheme.typography.bodyLarge,
+                                lineHeight = 18.sp,
                                 modifier = Modifier.weight(1f, false)
                             )
                         }
