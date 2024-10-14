@@ -12,7 +12,7 @@ compose-compiler = "1.5.15"
 imageToolboxLibs = "2.9.6"
 trickle = "1.1.5"
 
-avifCoder = "2.0.1"
+avifCoder = "2.0.4"
 avifCoderCoil = "2.0.1"
 aire = "0.15.2"
 jxlCoder = "2.3.0"
