@@ -67,18 +67,7 @@ internal abstract class SimpleCompressor {
             context: Context,
             imageScaler: ImageScaler<Bitmap>
         ): SimpleCompressor = when (imageFormat) {
-            ImageFormat.Avif.Lossless -> AvifLossless
-            ImageFormat.Avif.Lossy -> AvifLossy
             ImageFormat.Bmp -> Bmp
-            ImageFormat.Heic.Lossless,
-            ImageFormat.Heif.Lossless -> HeicLossless
-
-            ImageFormat.Heic.Lossy,
-            ImageFormat.Heif.Lossy -> HeicLossy
-
-            ImageFormat.Jpeg,
-            ImageFormat.Jpg -> Jpg
-
             ImageFormat.Png.Lossless -> PngLossless
             ImageFormat.Webp.Lossless -> WebpLossless
             ImageFormat.Webp.Lossy -> WebpLossy
@@ -89,12 +78,23 @@ internal abstract class SimpleCompressor {
             ImageFormat.Jpegli -> Jpegli
             ImageFormat.Jpeg2000.J2k -> J2k
             ImageFormat.Jpeg2000.Jp2 -> Jp2
+            ImageFormat.Qoi -> Qoi
+            ImageFormat.Ico -> Ico(imageScaler)
+
+            ImageFormat.Jpeg,
+            ImageFormat.Jpg -> Jpg
+
             ImageFormat.Tif,
             ImageFormat.Tiff -> Tiff(context)
 
-            ImageFormat.Qoi -> Qoi
+            ImageFormat.Heic.Lossless,
+            ImageFormat.Heif.Lossless -> HeicLossless
 
-            ImageFormat.Ico -> Ico(imageScaler)
+            ImageFormat.Heic.Lossy,
+            ImageFormat.Heif.Lossy -> HeicLossy
+
+            ImageFormat.Avif.Lossless -> AvifLossless
+            ImageFormat.Avif.Lossy -> AvifLossy
         }
 
     }
@@ -185,11 +185,16 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = HeifCoder().encodeHeic(
-            bitmap = image,
-            quality = quality.qualityValue,
-            preciseMode = PreciseMode.LOSSLESS
-        )
+        ): ByteArray {
+            val heicQuality = quality as? Quality.Heic ?: Quality.Heic()
+
+            return HeifCoder().encodeHeic(
+                bitmap = image,
+                quality = heicQuality.qualityValue,
+                preciseMode = PreciseMode.LOSSLESS,
+                crf = heicQuality.constantRateFactor
+            )
+        }
 
     }
 
@@ -198,11 +203,16 @@ internal abstract class SimpleCompressor {
         override suspend fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = HeifCoder().encodeHeic(
-            bitmap = image,
-            quality = quality.qualityValue,
-            preciseMode = PreciseMode.LOSSY
-        )
+        ): ByteArray {
+            val heicQuality = quality as? Quality.Heic ?: Quality.Heic()
+
+            return HeifCoder().encodeHeic(
+                bitmap = image,
+                quality = heicQuality.qualityValue,
+                preciseMode = PreciseMode.LOSSY,
+                crf = heicQuality.constantRateFactor
+            )
+        }
 
     }
 
@@ -212,7 +222,7 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
-            val avifQuality = quality as? Quality.Avif ?: Quality.Avif(quality.qualityValue)
+            val avifQuality = quality as? Quality.Avif ?: Quality.Avif()
 
             return HeifCoder().encodeAvif(
                 bitmap = image,
@@ -232,7 +242,7 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
-            val avifQuality = quality as? Quality.Avif ?: Quality.Avif(quality.qualityValue)
+            val avifQuality = quality as? Quality.Avif ?: Quality.Avif()
 
             return HeifCoder().encodeAvif(
                 bitmap = image,
@@ -284,7 +294,7 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
-            val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
+            val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl()
             return JxlCoder.encode(
                 bitmap = if (jxlQuality.channels is Quality.Channels.Monochrome) {
                     Aire.grayscale(image)
@@ -309,7 +319,7 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
-            val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
+            val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl()
             return JxlCoder.encode(
                 bitmap = if (jxlQuality.channels is Quality.Channels.Monochrome) {
                     Aire.grayscale(image)
@@ -360,7 +370,7 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray {
-            val tiffQuality = quality as? Quality.Tiff ?: Quality.Tiff(quality.qualityValue)
+            val tiffQuality = quality as? Quality.Tiff ?: Quality.Tiff()
 
             val file = File(context.cacheDir, "temp")
             val options = SaveOptions().apply {

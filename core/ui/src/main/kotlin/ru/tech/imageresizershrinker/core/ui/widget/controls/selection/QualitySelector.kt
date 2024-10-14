@@ -36,6 +36,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridS
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
+import androidx.compose.material.icons.rounded.Compress
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
@@ -128,6 +129,7 @@ fun QualitySelector(
                                     is Quality.PngLossy -> quality.compressionLevel
                                     is Quality.Avif -> quality.effort
                                     is Quality.Tiff -> quality.qualityValue
+                                    is Quality.Heic -> quality.constantRateFactor
                                 }
                             }
 
@@ -152,6 +154,7 @@ fun QualitySelector(
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                             is Quality.Avif -> quality.copy(effort = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
+                                            is Quality.Heic -> quality.copy(constantRateFactor = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )
                                 }
@@ -164,6 +167,7 @@ fun QualitySelector(
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                             is Quality.Avif -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
+                                            is Quality.Heic -> quality.copy(qualityValue = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )
                                 }
@@ -348,6 +352,45 @@ fun QualitySelector(
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+                AnimatedVisibility(imageFormat is ImageFormat.Heic || imageFormat is ImageFormat.Heif) {
+                    val heicQuality = quality as? Quality.Heic
+                    Column {
+                        EnhancedSliderItem(
+                            value = heicQuality?.constantRateFactor ?: 0,
+                            title = stringResource(R.string.constant_rate_factor),
+                            icon = Icons.Rounded.Compress,
+                            valueRange = 0f..51f,
+                            steps = 50,
+                            internalStateTransformation = {
+                                it.toInt().coerceIn(0..51).toFloat()
+                            },
+                            onValueChange = {
+                                heicQuality?.copy(
+                                    constantRateFactor = it.toInt()
+                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            },
+                            behaveAsContainer = false
+                        ) {
+                            Text(
+                                text = stringResource(
+                                    R.string.crf_sub,
+                                    0, 51
+                                ),
+                                fontSize = 12.sp,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 12.sp,
+                                color = LocalContentColor.current.copy(0.5f),
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .container(
+                                        shape = RoundedCornerShape(20.dp),
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
+                                    .padding(6.dp)
+                            )
                         }
                     }
                 }

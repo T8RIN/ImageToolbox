@@ -142,41 +142,47 @@ sealed class ImageFormat(
 
     sealed class Heif(
         title: String,
-        canChangeCompressionValue: Boolean
+        compressionTypes: List<CompressionType>
     ) : ImageFormat(
         title = title,
         extension = "heif",
         mimeType = "image/heif",
-        canChangeCompressionValue = canChangeCompressionValue
+        compressionTypes = compressionTypes,
+        canChangeCompressionValue = compressionTypes.isNotEmpty()
     ) {
         data object Lossless : Heif(
             title = "HEIF Lossless",
-            canChangeCompressionValue = false
+            compressionTypes = listOf()
         )
 
         data object Lossy : Heif(
             title = "HEIF Lossy",
-            canChangeCompressionValue = true
+            compressionTypes = listOf(
+                CompressionType.Quality(0..100)
+            )
         )
     }
 
     sealed class Heic(
         title: String,
-        canChangeCompressionValue: Boolean
+        compressionTypes: List<CompressionType>
     ) : ImageFormat(
         title = title,
         extension = "heic",
         mimeType = "image/heic",
-        canChangeCompressionValue = canChangeCompressionValue
+        compressionTypes = compressionTypes,
+        canChangeCompressionValue = compressionTypes.isNotEmpty()
     ) {
         data object Lossless : Heic(
             title = "HEIC Lossless",
-            canChangeCompressionValue = false
+            compressionTypes = listOf()
         )
 
         data object Lossy : Heic(
             title = "HEIC Lossy",
-            canChangeCompressionValue = true
+            compressionTypes = listOf(
+                CompressionType.Quality(0..100)
+            )
         )
     }
 

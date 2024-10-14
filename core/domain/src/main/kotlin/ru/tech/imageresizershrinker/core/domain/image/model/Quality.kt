@@ -62,6 +62,17 @@ sealed class Quality(
                 )
             }
 
+            is ImageFormat.Heic,
+            is ImageFormat.Heif -> {
+                val value = this as? Heic
+                    ?: return Heic()
+
+                value.copy(
+                    qualityValue = qualityValue.coerceIn(0..100),
+                    constantRateFactor = constantRateFactor.coerceIn(0..51)
+                )
+            }
+
             else -> {
                 Base(qualityValue.coerceIn(0..100))
             }
@@ -74,6 +85,7 @@ sealed class Quality(
         is Jxl -> this == Jxl()
         is PngLossy -> this == PngLossy()
         is Tiff -> this == Tiff()
+        is Heic -> this == Heic()
     }
 
     data class Jxl(
@@ -103,6 +115,13 @@ sealed class Quality(
     data class Tiff(
         val compressionScheme: Int = 0
     ) : Quality(compressionScheme)
+
+    data class Heic(
+        @IntRange(from = 1, to = 100)
+        override val qualityValue: Int = 50,
+        @IntRange(from = 0, to = 51)
+        val constantRateFactor: Int = 40
+    ) : Quality(qualityValue)
 
     data class Base(
         override val qualityValue: Int = 100
