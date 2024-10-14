@@ -978,4 +978,25 @@
     <string name="legacy_and_lstm">Légende &amp; LSTM</string>
     <string name="lanczos_bessel">Lanczos Bessel</string>
     <string name="path_omit">Chemin d\'accès Omit</string>
+    <string name="tag_focal_length_in_35mm_film">Longueur focale en équivalent 35 mm</string>
+    <string name="tag_scene_capture_type">Type de capture de scène</string>
+    <string name="tag_gain_control">Contrôle de gain</string>
+    <string name="tag_contrast">Contraste</string>
+    <string name="tag_saturation">Saturation</string>
+    <string name="tag_sharpness">Netteté</string>
+    <string name="tag_device_setting_description">Description des paramètres de l\'appareil</string>
+    <string name="tag_subject_distance_range">Plage de distance du sujet</string>
+    <string name="helper_grid_sub">Affiche une grille de soutien au-dessus de la zone de dessin pour aider à des manipulations précises</string>
+    <string name="enhanced_zoom_blur">Flou de zoom amélioré</string>
+    <string name="laplacian_simple">Laplacien simple</string>
+    <string name="sobel_simple">Sobel simple</string>
+    <string name="helper_grid">Grille d\'aide</string>
+    <string name="grid_color">Couleur de la grille</string>
+    <string name="cell_width">Largeur de cellule</string>
+    <string name="cell_height">Hauteur de cellule</string>
+    <string name="main_screen_title">Titre de l\'écran principal</string>
+    <string name="compact_selectors">Sélecteurs compacts</string>
+    <string name="compact_selectors_sub">Certains contrôles de sélection utiliseront un agencement compact pour prendre moins de place</string>
+    <string name="grant_camera_permission_to_capture_image">Accordez la permission d\'accès à la caméra dans les paramètres pour capturer une image</string>
+    <string name="layout">Mise en page</string>
 </resources>
