@@ -53,4 +53,9 @@ interface FileController {
         kClass: KClass<O>,
     ): O?
 
+    suspend fun <M> writeMetadata(
+        imageUri: String,
+        metadata: M?
+    )
+
 }

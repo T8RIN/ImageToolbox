@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.data.saving
 
+import ru.tech.imageresizershrinker.core.domain.saving.Readable
 import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 import java.io.InputStream
 import java.io.OutputStream
@@ -25,9 +26,24 @@ internal class StreamWriteable(
     private val stream: OutputStream
 ) : Writeable {
 
-    override fun copyFrom(inputStream: InputStream) = inputStream.copyTo(stream)
+    override fun copyFrom(readable: Readable) = writeBytes(readable.readBytes())
 
     override fun writeBytes(byteArray: ByteArray) = stream.write(byteArray)
+
+    override fun close() {
+        stream.flush()
+        stream.close()
+    }
+
+}
+
+internal class StreamReadable(
+    private val stream: InputStream
+) : Readable {
+
+    override fun readBytes(): ByteArray = stream.readBytes()
+
+    override fun copyTo(writeable: Writeable) = writeable.writeBytes(readBytes())
 
     override fun close() = stream.close()
 

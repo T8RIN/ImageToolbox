@@ -17,10 +17,16 @@
 
 package ru.tech.imageresizershrinker.core.data.saving
 
+import ru.tech.imageresizershrinker.core.domain.saving.Readable
 import ru.tech.imageresizershrinker.core.domain.saving.Writeable
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 
 internal class FileWriteable(
     private val file: File
 ) : Writeable by StreamWriteable(FileOutputStream(file))
+
+internal class FileReadable(
+    private val file: File
+) : Readable by StreamReadable(FileInputStream(file))

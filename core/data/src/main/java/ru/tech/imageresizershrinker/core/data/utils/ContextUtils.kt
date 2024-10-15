@@ -64,14 +64,22 @@ suspend fun Context.copyMetadata(
             exif?.copyTo(ex)
             ex.saveAttributes()
         }
-    } else Unit
+    } else {
+        getFileDescriptorFor(fileUri)?.use {
+            val ex = ExifInterface(it.fileDescriptor)
+            MetadataTag.entries.forEach { tag ->
+                ex.setAttribute(tag.key, null)
+            }
+            ex.saveAttributes()
+        }
+    }
 }
 
 suspend infix fun ExifInterface.copyTo(
     newExif: ExifInterface
 ) = coroutineScope {
     MetadataTag.entries.forEach { attr ->
-        getAttribute(attr.key)?.let { newExif.setAttribute(attr.key, it) }
+        getAttribute(attr.key).let { newExif.setAttribute(attr.key, it) }
     }
     newExif.saveAttributes()
 }

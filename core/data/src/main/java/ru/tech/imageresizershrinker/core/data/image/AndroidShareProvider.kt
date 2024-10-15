@@ -89,7 +89,6 @@ internal class AndroidShareProvider @Inject constructor(
                 byteArray = byteArray,
                 filename = realFilename
             )
-
         }.getOrNull()
     }
 

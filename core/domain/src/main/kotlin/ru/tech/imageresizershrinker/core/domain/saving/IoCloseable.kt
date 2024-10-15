@@ -17,23 +17,32 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving
 
-import java.io.InputStream
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-interface Writeable {
+interface IoCloseable {
+    fun close()
+}
 
-    fun copyFrom(inputStream: InputStream): Long
+interface Writeable : IoCloseable {
+
+    fun copyFrom(readable: Readable)
 
     fun writeBytes(byteArray: ByteArray)
 
-    fun close()
+}
+
+interface Readable : IoCloseable {
+
+    fun readBytes(): ByteArray
+
+    fun copyTo(writeable: Writeable)
 
 }
 
 @OptIn(ExperimentalContracts::class)
-inline fun <T : Writeable?, R> T.use(block: (T) -> R): R {
+inline fun <T : IoCloseable?, R> T.use(block: (T) -> R): R {
     contract {
         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
     }
@@ -50,7 +59,7 @@ inline fun <T : Writeable?, R> T.use(block: (T) -> R): R {
 
 @SinceKotlin("1.1")
 @PublishedApi
-internal fun Writeable?.closeFinally(cause: Throwable?) = when {
+internal fun IoCloseable?.closeFinally(cause: Throwable?) = when {
     this == null -> {}
     cause == null -> close()
     else ->

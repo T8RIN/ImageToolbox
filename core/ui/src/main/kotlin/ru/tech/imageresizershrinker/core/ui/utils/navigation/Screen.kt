@@ -728,6 +728,7 @@ sealed class Screen(
                     Crop(),
                     WeightResize(),
                     LimitResize(),
+                    DeleteExif(),
                 ) to Triple(
                     R.string.edit,
                     Icons.Rounded.ImageSync,
@@ -743,7 +744,6 @@ sealed class Screen(
                     ImageSplitting(),
                     Watermarking(),
                     GradientMaker(),
-                    DeleteExif(),
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,

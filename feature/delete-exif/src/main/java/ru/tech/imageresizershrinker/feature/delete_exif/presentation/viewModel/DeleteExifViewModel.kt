@@ -30,12 +30,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
@@ -50,7 +50,7 @@ class DeleteExifViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageCompressor: ImageCompressor<Bitmap>,
+    private val filenameCreator: FilenameCreator,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
@@ -154,7 +154,8 @@ class DeleteExifViewModel @Inject constructor(
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value,
                                 metadata = metadata,
-                                data = imageCompressor.compressAndTransform(it.image, it.imageInfo)
+                                data = ByteArray(0),
+                                readFromUriInsteadOfData = true
                             ),
                             keepOriginalMetadata = false,
                             oneTimeSaveLocationUri = oneTimeSaveLocationUri
@@ -191,49 +192,29 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
-            _isSaving.value = true
-            shareProvider.shareImages(
-                uris = uris?.map { it.toString() } ?: emptyList(),
-                imageLoader = { uri ->
-                    imageGetter.getImage(uri)?.let {
-                        it.image to it.imageInfo
-                    }
-                },
-                onProgressChange = {
-                    if (it == -1) {
-                        onComplete()
-                        _isSaving.value = false
-                        _done.value = 0
-                    } else {
-                        _done.value = it
-                    }
-                }
-            )
+        _isSaving.update { true }
+        cacheImages { uris ->
+            savingJob = viewModelScope.launch {
+                shareProvider.shareUris(uris.map(Uri::toString))
+                onComplete()
+                _isSaving.update { false }
+            }
         }
     }
 
     fun cancelSaving() {
-        _isSaving.value = false
+        _isSaving.update { false }
         savingJob?.cancel()
         savingJob = null
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
-            _isSaving.value = true
-            imageGetter.getImage(
-                selectedUri.toString()
-            )?.let { (image, imageInfo) ->
-                shareProvider.cacheImage(
-                    image = image,
-                    imageInfo = imageInfo.copy(originalUri = selectedUri.toString())
-                )?.let { uri ->
-                    onComplete(uri.toUri())
-                }
+        cacheImages(
+            uris = listOfNotNull(selectedUri),
+            onComplete = {
+                if (it.isNotEmpty()) onComplete(it.first())
             }
-            _isSaving.value = false
-        }
+        )
     }
 
     fun addTag(tag: MetadataTag) {
@@ -245,20 +226,44 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun cacheImages(
+        uris: List<Uri>? = this.uris,
         onComplete: (List<Uri>) -> Unit
     ) {
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             _done.value = 0
             val list = mutableListOf<Uri>()
-            uris?.forEach {
+            uris?.forEach { uri ->
                 imageGetter.getImage(
-                    it.toString()
-                )?.let { (image, imageInfo) ->
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = imageInfo.copy(originalUri = it.toString())
+                    uri.toString()
+                )?.let {
+                    val metadata: ExifInterface? = if (selectedTags.isNotEmpty()) {
+                        it.metadata?.apply {
+                            selectedTags.forEach { tag ->
+                                setAttribute(tag.key, null)
+                            }
+                        }
+                    } else null
+                    shareProvider.cacheData(
+                        writeData = { w ->
+                            w.writeBytes(
+                                fileController.readBytes(uri.toString())
+                            )
+                        },
+                        filename = filenameCreator.constructImageFilename(
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = it.imageInfo.copy(originalUri = uri.toString()),
+                                originalUri = uri.toString(),
+                                sequenceNumber = done,
+                                metadata = metadata,
+                                data = ByteArray(0)
+                            )
+                        )
                     )?.let { uri ->
+                        fileController.writeMetadata(
+                            imageUri = uri,
+                            metadata = metadata
+                        )
                         list.add(uri.toUri())
                     }
                 }
