@@ -19,13 +19,11 @@ package ru.tech.imageresizershrinker.core.settings.presentation.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Architecture
-import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.IntegrationInstructions
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhoneAndroid
@@ -38,12 +36,14 @@ import androidx.compose.material.icons.rounded.ViewCarousel
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.ClipboardFile
 import ru.tech.imageresizershrinker.core.resources.icons.Draw
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.Firebase
 import ru.tech.imageresizershrinker.core.resources.icons.FolderOpened
 import ru.tech.imageresizershrinker.core.resources.icons.ImageSearch
 import ru.tech.imageresizershrinker.core.resources.icons.LabelPercent
+import ru.tech.imageresizershrinker.core.resources.icons.Mop
 import ru.tech.imageresizershrinker.core.resources.icons.Shadow
 import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 
@@ -214,7 +214,7 @@ sealed class SettingsGroup(
     )
 
     data object Cache : SettingsGroup(
-        icon = Icons.Rounded.Cached,
+        icon = Icons.Rounded.Mop,
         titleId = R.string.cache,
         settingsList = listOf(
             Setting.ClearCache,
@@ -279,7 +279,7 @@ sealed class SettingsGroup(
     )
 
     data object Clipboard : SettingsGroup(
-        icon = Icons.Rounded.IntegrationInstructions,
+        icon = Icons.Rounded.ClipboardFile,
         titleId = R.string.clipboard,
         settingsList = listOf(
             Setting.AutoPinClipboard,
