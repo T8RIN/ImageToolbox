@@ -1454,4 +1454,6 @@
     <string name="grant_camera_permission_to_capture_image">在设置中授予相机权限以捕获图像。</string>
     <string name="layout">布局</string>
     <string name="main_screen_title">主屏幕标题</string>
+    <string name="constant_rate_factor">恒定比率系数 (CRF)</string>
+    <string name="crf_sub">%1$d 表示压缩速度较慢，因此文件相对较小。%2$d 表示压缩速度较快，因此文件较大。</string>
 </resources>
