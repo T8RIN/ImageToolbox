@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiStackBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 25,
+    override val value: Pair<Float, Int> = 0.5f to 10,
 ) : UiFilter<Pair<Float, Int>>(
     title = R.string.stack_blur,
     value = value,

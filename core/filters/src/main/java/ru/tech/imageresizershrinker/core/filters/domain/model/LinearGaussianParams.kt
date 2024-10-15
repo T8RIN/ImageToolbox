@@ -26,9 +26,9 @@ data class LinearGaussianParams(
     companion object {
         val Default by lazy {
             LinearGaussianParams(
-                kernelSize = 50,
+                kernelSize = 25,
                 sigma = 10f,
-                edgeMode = BlurEdgeMode.Clamp,
+                edgeMode = BlurEdgeMode.Reflect101,
                 transferFunction = TransferFunc.SRGB
             )
         }

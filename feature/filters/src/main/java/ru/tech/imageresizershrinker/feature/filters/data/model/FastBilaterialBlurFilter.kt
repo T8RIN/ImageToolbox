@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class FastBilaterialBlurFilter(
-    override val value: Triple<Int, Float, Float> = Triple(51, 10f, 3f),
+    override val value: Triple<Int, Float, Float> = Triple(11, 10f, 3f),
 ) : Transformation<Bitmap>, Filter.FastBilaterialBlur {
 
     override val cacheKey: String

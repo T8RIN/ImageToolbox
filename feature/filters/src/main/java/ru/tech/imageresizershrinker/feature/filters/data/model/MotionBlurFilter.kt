@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 
 internal class MotionBlurFilter(
-    override val value: Triple<Int, Float, BlurEdgeMode> = Triple(51, 45f, BlurEdgeMode.Reflect101),
+    override val value: Triple<Int, Float, BlurEdgeMode> = Triple(25, 45f, BlurEdgeMode.Reflect101),
 ) : Transformation<Bitmap>, Filter.MotionBlur {
 
     override val cacheKey: String

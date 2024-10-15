@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiFastBilaterialBlurFilter(
-    override val value: Triple<Int, Float, Float> = Triple(51, 10f, 3f),
+    override val value: Triple<Int, Float, Float> = Triple(11, 10f, 3f),
 ) : UiFilter<Triple<Int, Float, Float>>(
     title = R.string.fast_bilaterial_blur,
     value = value,

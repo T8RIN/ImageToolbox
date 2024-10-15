@@ -18,13 +18,16 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
 import com.t8rin.trickle.Trickle
+import ru.tech.imageresizershrinker.core.data.image.utils.ColorUtils.toModel
+import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SandPaintingFilter(
-    override val value: Pair<Int, Int> = 2000 to 50
+    override val value: Triple<Int, Int, ColorModel> = Triple(5000, 50, Color.Black.toModel())
 ) : Transformation<Bitmap>, Filter.SandPainting {
 
     override val cacheKey: String
@@ -33,10 +36,13 @@ internal class SandPaintingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Trickle.sandPainting(
-        input = input,
-        alphaOrPointCount = value.first.toFloat(),
-        threshold = value.second
+    ): Bitmap = Trickle.drawColorBehind(
+        input = Trickle.sandPainting(
+            input = input,
+            alphaOrPointCount = value.first.toFloat(),
+            threshold = value.second
+        ),
+        color = value.third.colorInt
     )
 
 }

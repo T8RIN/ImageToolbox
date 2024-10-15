@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
 internal class LinearTentBlurFilter(
-    override val value: Pair<Int, TransferFunc> = 25 to TransferFunc.SRGB,
+    override val value: Pair<Int, TransferFunc> = 11 to TransferFunc.SRGB,
 ) : Transformation<Bitmap>, Filter.LinearTentBlur {
 
     override val cacheKey: String

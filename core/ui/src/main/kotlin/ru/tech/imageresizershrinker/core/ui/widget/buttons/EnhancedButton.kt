@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
@@ -202,7 +203,10 @@ fun EnhancedIconButton(
                             delay(viewConfiguration.longPressTimeoutMillis)
                             isLongClick = true
                             onLongClick()
-                            focus.clearFocus()
+                            launch {
+                                delay(500)
+                                focus.clearFocus()
+                            }
                             haptics.performHapticFeedback(
                                 HapticFeedbackType.LongPress
                             )
@@ -211,7 +215,10 @@ fun EnhancedIconButton(
                         is PressInteraction.Release -> {
                             if (!isLongClick) {
                                 onClick()
-                                focus.clearFocus()
+                                launch {
+                                    delay(500)
+                                    focus.clearFocus()
+                                }
                                 haptics.performHapticFeedback(
                                     HapticFeedbackType.TextHandleMove
                                 )

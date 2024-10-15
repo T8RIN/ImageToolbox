@@ -100,7 +100,7 @@ interface Filter<Value> {
     interface FalseFloydSteinbergDithering : PairFilter<Float, Boolean>
     interface LeftToRightDithering : PairFilter<Float, Boolean>
     interface SimpleThresholdDithering : PairFilter<Float, Boolean>
-    interface MedianBlur : PairFilter<Float, Int>
+    interface MedianBlur : Filter<Float>
     interface NativeStackBlur : Filter<Float>
     interface RadialTiltShift : Filter<RadialTiltShiftParams>
     interface Glitch : TripleFilter<Float, Float, Float>
@@ -214,7 +214,7 @@ interface Filter<Value> {
     interface LinearFastGaussianBlur : TripleFilter<Int, TransferFunc, BlurEdgeMode>
     interface LinearGaussianBlur : Filter<LinearGaussianParams>
     interface LowPoly : PairFilter<Int, Boolean>
-    interface SandPainting : PairFilter<Int, Int>
+    interface SandPainting : TripleFilter<Int, Int, ColorModel>
     interface PaletteTransfer : PairFilter<Float, ImageModel>
     interface EnhancedOil : Filter<Float>
     interface SimpleOldTv : SimpleFilter

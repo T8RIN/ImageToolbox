@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiTentBlurFilter(
-    override val value: Float = 15f,
+    override val value: Float = 10f,
 ) : UiFilter<Float>(
     title = R.string.tent_blur,
     value = value,

@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiFastBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 25,
+    override val value: Pair<Float, Int> = 0.5f to 5,
 ) : UiFilter<Pair<Float, Int>>(
     title = R.string.fast_blur,
     value = value,

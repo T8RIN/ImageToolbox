@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
 enum class PaletteTransferSpace {
-    LALPHABETA,
-    LAB,
     OKLAB,
-    LUV
+    LAB,
+    LUV,
+    LALPHABETA
 }

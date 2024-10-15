@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import kotlin.math.roundToInt
 
 internal class GaussianBoxBlurFilter(
-    override val value: Float = 25f
+    override val value: Float = 10f
 ) : Transformation<Bitmap>, Filter.GaussianBoxBlur {
 
     override val cacheKey: String

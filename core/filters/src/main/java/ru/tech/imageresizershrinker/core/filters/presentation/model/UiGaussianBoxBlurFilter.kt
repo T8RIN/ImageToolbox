@@ -22,7 +22,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiGaussianBoxBlurFilter(
-    override val value: Float = 25f
+    override val value: Float = 10f
 ) : UiFilter<Float>(
     title = R.string.gaussian_box_blur,
     value = value,

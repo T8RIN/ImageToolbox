@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.toEdgeMode
 import kotlin.math.roundToInt
 
 internal class FastGaussianBlur2DFilter(
-    override val value: Pair<Float, BlurEdgeMode> = 25f to BlurEdgeMode.Clamp
+    override val value: Pair<Float, BlurEdgeMode> = 10f to BlurEdgeMode.Reflect101
 ) : Transformation<Bitmap>, Filter.FastGaussianBlur2D {
 
     override val cacheKey: String

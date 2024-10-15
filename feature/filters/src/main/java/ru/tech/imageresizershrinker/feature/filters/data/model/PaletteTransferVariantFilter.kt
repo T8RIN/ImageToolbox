@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.toSpace
 internal class PaletteTransferVariantFilter @AssistedInject constructor(
     @Assisted override val value: Triple<Float, PaletteTransferSpace, ImageModel> = Triple(
         first = 1f,
-        second = PaletteTransferSpace.LALPHABETA,
+        second = PaletteTransferSpace.OKLAB,
         third = ImageModel(R.drawable.filter_preview_source_2)
     ),
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
@@ -67,7 +67,7 @@ internal class PaletteTransferVariantFilter @AssistedInject constructor(
         operator fun invoke(
             @Assisted value: Triple<Float, PaletteTransferSpace, ImageModel> = Triple(
                 first = 1f,
-                second = PaletteTransferSpace.LALPHABETA,
+                second = PaletteTransferSpace.OKLAB,
                 third = ImageModel(R.drawable.filter_preview_source_2)
             )
         ): PaletteTransferVariantFilter

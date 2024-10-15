@@ -29,11 +29,11 @@ data class EnhancedZoomBlurParams(
         val Default by lazy {
             EnhancedZoomBlurParams(
                 radius = 25,
-                sigma = 3f,
+                sigma = 5f,
                 centerX = 0.5f,
                 centerY = 0.5f,
-                strength = 0.5f,
-                angle = 90f
+                strength = 1f,
+                angle = 135f
             )
         }
     }

@@ -22,10 +22,10 @@ import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import kotlin.math.roundToInt
 
 internal class MedianBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 10
+    override val value: Float = 10f
 ) : Transformation<Bitmap>, Filter.MedianBlur {
 
     override val cacheKey: String
@@ -35,16 +35,9 @@ internal class MedianBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.createScaledBitmap(
-        (input.width * value.first).toInt(),
-        (input.height * value.first).toInt()
+    ): Bitmap = Aire.medianBlur(
+        bitmap = input,
+        kernelSize = 2 * value.roundToInt() + 1
     )
-        .let {
-            Aire.medianBlur(
-                bitmap = it,
-                kernelSize = 2 * value.second + 1
-            )
-        }
-        .createScaledBitmap(input.width, input.height)
 
 }

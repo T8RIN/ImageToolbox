@@ -21,7 +21,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiFastGaussianBlur4DFilter(
-    override val value: Float = 25f
+    override val value: Float = 10f
 ) : UiFilter<Float>(
     title = R.string.fast_gaussian_blur_4d,
     value = value,

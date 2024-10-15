@@ -25,9 +25,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 class UiLinearFastGaussianBlurNextFilter(
     override val value: Triple<Int, TransferFunc, BlurEdgeMode> = Triple(
-        first = 25,
+        first = 10,
         second = TransferFunc.SRGB,
-        third = BlurEdgeMode.Clamp
+        third = BlurEdgeMode.Reflect101
     )
 ) : UiFilter<Triple<Int, TransferFunc, BlurEdgeMode>>(
     title = R.string.linear_fast_gaussian_blur_next,

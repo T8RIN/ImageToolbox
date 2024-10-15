@@ -25,7 +25,11 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiGaussianBlurFilter(
-    override val value: Triple<Float, Float, BlurEdgeMode> = Triple(25f, 10f, BlurEdgeMode.Clamp),
+    override val value: Triple<Float, Float, BlurEdgeMode> = Triple(
+        25f,
+        10f,
+        BlurEdgeMode.Reflect101
+    ),
 ) : UiFilter<Triple<Float, Float, BlurEdgeMode>>(
     title = R.string.gaussian_blur,
     value = value,

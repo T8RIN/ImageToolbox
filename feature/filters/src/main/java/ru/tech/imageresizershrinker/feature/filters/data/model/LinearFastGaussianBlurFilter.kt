@@ -29,9 +29,9 @@ import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
 internal class LinearFastGaussianBlurFilter(
     override val value: Triple<Int, TransferFunc, BlurEdgeMode> = Triple(
-        first = 25,
+        first = 10,
         second = TransferFunc.SRGB,
-        third = BlurEdgeMode.Clamp
+        third = BlurEdgeMode.Reflect101
     )
 ) : Transformation<Bitmap>, Filter.LinearFastGaussianBlur {
 

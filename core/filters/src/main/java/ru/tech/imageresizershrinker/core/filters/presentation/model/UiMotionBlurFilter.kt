@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiMotionBlurFilter(
-    override val value: Triple<Int, Float, BlurEdgeMode> = Triple(51, 45f, BlurEdgeMode.Reflect101),
+    override val value: Triple<Int, Float, BlurEdgeMode> = Triple(25, 45f, BlurEdgeMode.Reflect101),
 ) : UiFilter<Triple<Int, Float, BlurEdgeMode>>(
     title = R.string.motion_blur,
     value = value,

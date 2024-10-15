@@ -13,7 +13,7 @@ imageToolboxLibs = "2.9.6"
 trickle = "1.1.6"
 
 avifCoder = "2.0.4"
-avifCoderCoil = "2.0.4"
+avifCoderCoil = "2.0.4.1"
 aire = "0.15.2"
 jxlCoder = "2.3.0"
 jxlCoderCoil = "2.3.0.1"
@@ -41,7 +41,7 @@ detekt = "1.23.7"
 detektCompose = "0.4.15"
 
 kotlin = "1.9.25"
-agp = "8.7.0"
+agp = "8.7.1"
 hilt = "2.52"
 gms = "4.4.2"
 

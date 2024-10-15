@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiFastGaussianBlur3DFilter(
-    override val value: Pair<Float, BlurEdgeMode> = 25f to BlurEdgeMode.Clamp
+    override val value: Pair<Float, BlurEdgeMode> = 10f to BlurEdgeMode.Reflect101
 ) : UiFilter<Pair<Float, BlurEdgeMode>>(
     title = R.string.fast_gaussian_blur_3d,
     value = value,

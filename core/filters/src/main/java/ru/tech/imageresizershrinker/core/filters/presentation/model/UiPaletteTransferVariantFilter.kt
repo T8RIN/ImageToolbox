@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 class UiPaletteTransferVariantFilter(
     override val value: Triple<Float, PaletteTransferSpace, ImageModel> = Triple(
         first = 1f,
-        second = PaletteTransferSpace.LALPHABETA,
+        second = PaletteTransferSpace.OKLAB,
         third = ImageModel(R.drawable.filter_preview_source_2)
     )
 ) : UiFilter<Triple<Float, PaletteTransferSpace, ImageModel>>(

@@ -26,7 +26,7 @@ import kotlin.math.roundToInt
 
 
 internal class FastBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 25,
+    override val value: Pair<Float, Int> = 0.5f to 5,
 ) : Transformation<Bitmap>, Filter.FastBlur {
     override val cacheKey: String
         get() = (value).hashCode().toString()

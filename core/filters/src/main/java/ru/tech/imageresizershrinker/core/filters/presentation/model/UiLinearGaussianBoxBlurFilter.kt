@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiLinearGaussianBoxBlurFilter(
-    override val value: Pair<Int, TransferFunc> = 25 to TransferFunc.SRGB
+    override val value: Pair<Int, TransferFunc> = 10 to TransferFunc.SRGB
 ) : UiFilter<Pair<Int, TransferFunc>>(
     title = R.string.linear_gaussian_box_blur,
     value = value,
