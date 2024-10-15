@@ -59,11 +59,11 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageConvert
 import ru.tech.imageresizershrinker.core.resources.icons.ImageDownload
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.ImageLimit
-import ru.tech.imageresizershrinker.core.resources.icons.ImageSync
 import ru.tech.imageresizershrinker.core.resources.icons.ImageText
 import ru.tech.imageresizershrinker.core.resources.icons.ImageWeight
 import ru.tech.imageresizershrinker.core.resources.icons.Jpg
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
 import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.core.resources.icons.Stack
@@ -731,8 +731,8 @@ sealed class Screen(
                     DeleteExif(),
                 ) to Triple(
                     R.string.edit,
-                    Icons.Rounded.ImageSync,
-                    Icons.Outlined.ImageSync
+                    Icons.Rounded.MiniEditLarge,
+                    Icons.Outlined.MiniEditLarge
                 ),
                 listOf(
                     Filter(),
