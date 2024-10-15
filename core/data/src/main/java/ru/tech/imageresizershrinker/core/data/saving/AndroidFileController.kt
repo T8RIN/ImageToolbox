@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import okio.use
+import ru.tech.imageresizershrinker.core.data.saving.io.StreamWriteable
 import ru.tech.imageresizershrinker.core.data.utils.cacheSize
 import ru.tech.imageresizershrinker.core.data.utils.clearCache
 import ru.tech.imageresizershrinker.core.data.utils.copyMetadata
@@ -46,11 +47,11 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.json.JsonParser
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
-import ru.tech.imageresizershrinker.core.domain.saving.Writeable
+import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
+import ru.tech.imageresizershrinker.core.domain.saving.io.use
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
-import ru.tech.imageresizershrinker.core.domain.saving.use
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode

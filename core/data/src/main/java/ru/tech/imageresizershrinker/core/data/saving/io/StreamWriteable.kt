@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.saving
+package ru.tech.imageresizershrinker.core.data.saving.io
 
-import ru.tech.imageresizershrinker.core.domain.saving.Readable
-import ru.tech.imageresizershrinker.core.domain.saving.Writeable
+import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
+import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import java.io.InputStream
 import java.io.OutputStream
 

@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving
 
+import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import kotlin.reflect.KClass

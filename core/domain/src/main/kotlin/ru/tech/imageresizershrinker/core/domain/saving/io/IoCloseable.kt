@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.saving
+package ru.tech.imageresizershrinker.core.domain.saving.io
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
@@ -23,22 +23,6 @@ import kotlin.contracts.contract
 
 interface IoCloseable {
     fun close()
-}
-
-interface Writeable : IoCloseable {
-
-    fun copyFrom(readable: Readable)
-
-    fun writeBytes(byteArray: ByteArray)
-
-}
-
-interface Readable : IoCloseable {
-
-    fun readBytes(): ByteArray
-
-    fun copyTo(writeable: Writeable)
-
 }
 
 @OptIn(ExperimentalContracts::class)

@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.core.domain.image
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.saving.Writeable
+import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 
 interface ShareProvider<I> {
 

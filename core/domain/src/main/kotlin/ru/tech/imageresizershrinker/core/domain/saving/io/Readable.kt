@@ -15,18 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.saving
+package ru.tech.imageresizershrinker.core.domain.saving.io
 
-import ru.tech.imageresizershrinker.core.domain.saving.Readable
-import ru.tech.imageresizershrinker.core.domain.saving.Writeable
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
+interface Readable : IoCloseable {
 
-internal class FileWriteable(
-    private val file: File
-) : Writeable by StreamWriteable(FileOutputStream(file))
+    fun readBytes(): ByteArray
 
-internal class FileReadable(
-    private val file: File
-) : Readable by StreamReadable(FileInputStream(file))
+    fun copyTo(writeable: Writeable)
+
+}
