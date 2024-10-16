@@ -1092,7 +1092,7 @@
     <string name="frame_color">Цвет рамки</string>
     <string name="color_to_ignore">Цвет для игнорирования</string>
     <string name="template">Шаблон</string>
-    <string name="no_template_filters">Нет добавленных фильтров шаблона</string>
+    <string name="no_template_filters">Нет добавленных шаблонных фильтров</string>
     <string name="create_new">Создать новый</string>
     <string name="scanned_qr_code_isnt_filter_template">Сканированный QR-код не является допустимым шаблоном фильтра</string>
     <string name="scan_qr_code">Сканировать QR-код</string>

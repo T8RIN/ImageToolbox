@@ -1474,4 +1474,6 @@
     <string name="main_screen_title">Main Screen Title</string>
     <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
     <string name="crf_sub">A value of %1$d means a slow compression, resulting in a relatively small file size. %2$d means a faster compression, resulting in a large file.</string>
+    <string name="lut_library">Lut Library</string>
+    <string name="lut_library_sub">Download collection of luts, which you can apply after downloading</string>
 </resources>

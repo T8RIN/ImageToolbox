@@ -63,7 +63,9 @@ fun ExpandableItem(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     shape: Shape = RoundedCornerShape(20.dp),
     color: Color = Color.Unspecified,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    canExpand: Boolean = true,
+    onClick: () -> Unit = {}
 ) {
     val haptics = LocalHapticFeedback.current
     Column(
@@ -88,7 +90,10 @@ fun ExpandableItem(
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )
-                    expanded = !expanded
+                    if (canExpand) {
+                        expanded = !expanded
+                    }
+                    onClick()
                 }
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -96,17 +101,19 @@ fun ExpandableItem(
             Row(Modifier.weight(1f)) {
                 visibleContent(expanded)
             }
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = { expanded = !expanded }
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.KeyboardArrowDown,
-                    contentDescription = "Expand",
-                    modifier = Modifier.rotate(rotation)
-                )
+            if (canExpand) {
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    contentColor = LocalContentColor.current,
+                    enableAutoShadowAndBorder = false,
+                    onClick = { expanded = !expanded }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowDown,
+                        contentDescription = "Expand",
+                        modifier = Modifier.rotate(rotation)
+                    )
+                }
             }
         }
         AnimatedVisibility(expanded) {

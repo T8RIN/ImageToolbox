@@ -40,6 +40,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -398,13 +399,21 @@ fun AddEditMaskSheet(
                                         title = stringResource(R.string.histogram),
                                         subtitle = stringResource(R.string.histogram_sub),
                                         endIcon = {
-                                            ImageHistogram(
-                                                image = viewModel.previewBitmap,
-                                                modifier = Modifier
-                                                    .width(100.dp)
-                                                    .height(50.dp),
-                                                bordersColor = Color.White
-                                            )
+                                            AnimatedContent(viewModel.previewBitmap != null) {
+                                                if (it) {
+                                                    ImageHistogram(
+                                                        image = viewModel.previewBitmap,
+                                                        modifier = Modifier
+                                                            .width(100.dp)
+                                                            .height(65.dp),
+                                                        bordersColor = Color.White
+                                                    )
+                                                } else {
+                                                    Box(modifier = Modifier.size(56.dp)) {
+                                                        Loading()
+                                                    }
+                                                }
+                                            }
                                         },
                                         shape = RoundedCornerShape(24.dp),
                                         modifier = Modifier

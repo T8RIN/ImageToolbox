@@ -23,6 +23,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.remote.RemoteResource
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesStore
@@ -54,8 +55,13 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
             availableFiles?.let {
                 RemoteResources(
                     name = name,
-                    uris = availableFiles.mapNotNull {
+                    list = availableFiles.mapNotNull {
                         it.toUri().toString()
+                    }.map { uri ->
+                        RemoteResource(
+                            uri = uri,
+                            name = uri.takeLastWhile { it != '/' }
+                        )
                     }
                 )
             }
@@ -110,7 +116,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                 items = newItems
             }
 
-            val downloadedUris = mutableListOf<String>()
+            val downloadedUris = mutableListOf<RemoteResource>()
 
             onProgress(
                 RemoteResourcesDownloadProgress(
@@ -123,6 +129,8 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
             for (i in 0..<items.length()) {
                 val item = items.getJSONObject(i)
+                val fileName = item.get("name") as String
+
                 val conn = URL(
                     item.get("download_url") as String
                 ).openStream()
@@ -139,7 +147,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
                 val outFile = File(
                     savingDir,
-                    item.get("name") as String
+                    fileName
                 ).apply {
                     delete()
                     createNewFile()
@@ -172,7 +180,12 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                 }.isSuccess
 
                 if (isSuccess) {
-                    downloadedUris.add(outFile.toUri().toString())
+                    downloadedUris.add(
+                        RemoteResource(
+                            uri = outFile.toUri().toString(),
+                            name = fileName
+                        )
+                    )
                     onProgress(
                         RemoteResourcesDownloadProgress(
                             currentPercent = 100f,
@@ -187,13 +200,18 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
             if (downloadedUris.isNotEmpty()) {
                 RemoteResources(
                     name = name,
-                    uris = downloadedUris
+                    list = downloadedUris
                 )
             } else {
                 RemoteResources(
                     name = name,
-                    uris = savingDir.listFiles()?.mapNotNull {
+                    list = savingDir.listFiles()?.mapNotNull {
                         it.toUri().toString()
+                    }?.map { uri ->
+                        RemoteResource(
+                            uri = uri,
+                            name = uri.takeLastWhile { it != '/' }
+                        )
                     } ?: emptyList()
                 )
             }

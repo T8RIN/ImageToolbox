@@ -47,6 +47,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -90,6 +91,7 @@ fun PreferenceItemOverload(
     onDisabledClick: (() -> Unit)? = null,
     drawStartIconContainer: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    bottomContent: (@Composable () -> Unit)? = null
 ) {
     val haptics = LocalHapticFeedback.current
     CompositionLocalProvider(
@@ -112,40 +114,6 @@ fun PreferenceItemOverload(
                     color = color,
                     autoShadowElevation = autoShadowElevation
                 )
-                .then(
-                    onClick
-                        ?.let {
-                            if (enabled) {
-                                Modifier.combinedClickable(
-                                    interactionSource = interactionSource,
-                                    indication = LocalIndication.current,
-                                    onClick = {
-                                        haptics.performHapticFeedback(
-                                            HapticFeedbackType.LongPress
-                                        )
-                                        onClick()
-                                    },
-                                    onLongClick = onLongClick?.let {
-                                        {
-                                            haptics.performHapticFeedback(
-                                                HapticFeedbackType.LongPress
-                                            )
-                                            onLongClick()
-                                        }
-                                    }
-                                )
-                            } else {
-                                if (onDisabledClick != null) {
-                                    Modifier.clickable {
-                                        haptics.performHapticFeedback(
-                                            HapticFeedbackType.LongPress
-                                        )
-                                        onDisabledClick()
-                                    }
-                                } else Modifier
-                            }
-                        } ?: Modifier
-                )
                 .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent,
@@ -153,7 +121,43 @@ fun PreferenceItemOverload(
             )
         ) {
             Row(
-                modifier = resultModifier,
+                modifier = Modifier
+                    .clip(shape)
+                    .then(
+                        onClick
+                            ?.let {
+                                if (enabled) {
+                                    Modifier.combinedClickable(
+                                        interactionSource = interactionSource,
+                                        indication = LocalIndication.current,
+                                        onClick = {
+                                            haptics.performHapticFeedback(
+                                                HapticFeedbackType.LongPress
+                                            )
+                                            onClick()
+                                        },
+                                        onLongClick = onLongClick?.let {
+                                            {
+                                                haptics.performHapticFeedback(
+                                                    HapticFeedbackType.LongPress
+                                                )
+                                                onLongClick()
+                                            }
+                                        }
+                                    )
+                                } else {
+                                    if (onDisabledClick != null) {
+                                        Modifier.clickable {
+                                            haptics.performHapticFeedback(
+                                                HapticFeedbackType.LongPress
+                                            )
+                                            onDisabledClick()
+                                        }
+                                    } else Modifier
+                                }
+                            } ?: Modifier
+                    )
+                    .then(resultModifier),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 startIcon?.let {
@@ -210,6 +214,7 @@ fun PreferenceItemOverload(
                     endIcon?.invoke()
                 }
             }
+            bottomContent?.invoke()
         }
     }
 }

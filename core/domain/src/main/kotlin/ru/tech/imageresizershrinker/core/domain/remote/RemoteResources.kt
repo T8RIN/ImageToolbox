@@ -19,11 +19,21 @@ package ru.tech.imageresizershrinker.core.domain.remote
 
 data class RemoteResources(
     val name: String,
-    val uris: List<String>
+    val list: List<RemoteResource>
 ) {
 
     companion object {
         const val CUBE_LUT = "cubelut"
+
+        val CubeLutDefault = RemoteResources(
+            name = CUBE_LUT,
+            list = emptyList()
+        )
     }
 
 }
+
+data class RemoteResource(
+    val uri: String,
+    val name: String
+)

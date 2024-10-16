@@ -143,6 +143,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsLandscapePadd
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
+import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -491,13 +492,21 @@ fun FiltersContent(
                 title = stringResource(R.string.histogram),
                 subtitle = stringResource(R.string.histogram_sub),
                 endIcon = {
-                    ImageHistogram(
-                        image = viewModel.previewBitmap,
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(50.dp),
-                        bordersColor = Color.White
-                    )
+                    AnimatedContent(viewModel.previewBitmap != null) {
+                        if (it) {
+                            ImageHistogram(
+                                image = viewModel.previewBitmap,
+                                modifier = Modifier
+                                    .width(100.dp)
+                                    .height(65.dp),
+                                bordersColor = Color.White
+                            )
+                        } else {
+                            Box(modifier = Modifier.size(56.dp)) {
+                                Loading()
+                            }
+                        }
+                    }
                 },
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier.fillMaxWidth()

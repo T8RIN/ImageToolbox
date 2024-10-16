@@ -28,6 +28,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
@@ -180,7 +182,13 @@ object ContextUtils {
         return null
     }
 
-    fun Context.getFilename(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
+    fun Context.getFilename(
+        uri: Uri
+    ): String? = if (uri.toString().startsWith("file:///")) {
+        uri.toString().takeLastWhile { it != '/' }
+    } else {
+        DocumentFile.fromSingleUri(this, uri)?.name
+    }
 
     fun Context.parseImageFromIntent(
         intent: Intent?,
@@ -517,4 +525,22 @@ object ContextUtils {
     fun Context.canPinShortcuts(): Boolean =
         ShortcutManagerCompat.isRequestPinShortcutSupported(this)
 
+    fun Context.isNetworkAvailable(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            return connectivityManager.activeNetworkInfo?.isConnected ?: false
+        }
+    }
 }

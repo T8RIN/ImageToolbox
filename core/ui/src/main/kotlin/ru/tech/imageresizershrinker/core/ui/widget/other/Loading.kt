@@ -123,6 +123,7 @@ fun BoxScope.Loading(
 @Composable
 fun BoxScope.Loading(
     progress: Float,
+    loaderSize: Dp = 56.dp,
     additionalContent: @Composable (Dp) -> Unit = {}
 ) {
     val borderWidth = LocalSettingsState.current.borderWidth
@@ -151,7 +152,7 @@ fun BoxScope.Loading(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BoxWithConstraints(
-            modifier = Modifier.size(56.dp),
+            modifier = Modifier.size(loaderSize),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(

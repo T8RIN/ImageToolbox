@@ -132,6 +132,9 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
+import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
+import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesStore
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -140,6 +143,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteracto
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiCubeLutFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.collectAsUiState
@@ -169,6 +173,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -196,6 +201,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteInteractor: FavoriteFiltersInteractor,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val remoteResourcesStore: RemoteResourcesStore,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
@@ -206,6 +212,69 @@ private class AddFiltersSheetViewModel @Inject constructor(
 
     private val _isPreviewLoading: MutableState<Boolean> = mutableStateOf(false)
     val isPreviewLoading by _isPreviewLoading
+
+    private val _cubeLutRemoteResources: MutableState<RemoteResources> =
+        mutableStateOf(RemoteResources.CubeLutDefault)
+    val cubeLutRemoteResources by _cubeLutRemoteResources
+
+    private val _cubeLutDownloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
+        mutableStateOf(null)
+    val cubeLutDownloadProgress by _cubeLutDownloadProgress
+
+    init {
+        updateCubeLuts(
+            startDownloadIfNeeded = false,
+            forceUpdate = false,
+            onFailure = {},
+            downloadOnlyNewData = false
+        )
+    }
+
+    fun updateCubeLuts(
+        startDownloadIfNeeded: Boolean,
+        forceUpdate: Boolean,
+        onFailure: (Throwable) -> Unit,
+        downloadOnlyNewData: Boolean = false
+    ) {
+        viewModelScope.launch {
+            remoteResourcesStore.getResources(
+                name = RemoteResources.CUBE_LUT,
+                forceUpdate = forceUpdate,
+                onDownloadRequest = { name ->
+                    if (startDownloadIfNeeded) {
+                        remoteResourcesStore.downloadResources(
+                            name = name,
+                            onProgress = { progress ->
+                                _cubeLutDownloadProgress.update { progress }
+                            },
+                            onFailure = onFailure,
+                            downloadOnlyNewData = downloadOnlyNewData
+                        )
+                    } else null
+                }
+            )?.let { data ->
+                _cubeLutRemoteResources.update { data }
+            }
+            _cubeLutDownloadProgress.update { null }
+        }
+    }
+
+    fun downloadCubeLuts(
+        onProgress: (RemoteResourcesDownloadProgress) -> Unit,
+        onFailure: (Throwable) -> Unit,
+        downloadOnlyNewData: Boolean = false
+    ) {
+        viewModelScope.launch {
+            remoteResourcesStore.downloadResources(
+                name = RemoteResources.CUBE_LUT,
+                onProgress = onProgress,
+                onFailure = onFailure,
+                downloadOnlyNewData = downloadOnlyNewData
+            )?.let { data ->
+                _cubeLutRemoteResources.update { data }
+            }
+        }
+    }
 
     fun setPreviewData(data: UiFilter<*>?) {
         _previewData.update { data?.let { listOf(it) } }
@@ -743,7 +812,7 @@ fun AddFiltersSheet(
                                                     start = 24.dp,
                                                     end = 24.dp,
                                                     top = 8.dp,
-                                                    bottom = 8.dp
+                                                    bottom = 16.dp
                                                 )
                                             )
                                             Icon(
@@ -942,9 +1011,13 @@ fun AddFiltersSheet(
                                                         onOpenPreview = {
                                                             viewModel.setPreviewData(filter)
                                                         },
-                                                        onClick = {
+                                                        onClick = { custom ->
                                                             onVisibleChange(false)
-                                                            onFilterPicked(filter)
+                                                            if (custom != null) {
+                                                                onFilterPickedWithParams(custom)
+                                                            } else {
+                                                                onFilterPicked(filter)
+                                                            }
                                                         },
                                                         onRequestFilterMapping = onRequestFilterMapping,
                                                         shape = ContainerShapeDefaults.shapeForIndex(
@@ -960,7 +1033,28 @@ fun AddFiltersSheet(
                                                                     if (isDragging) 1.05f
                                                                     else 1f
                                                                 ).value
+                                                            ),
+                                                        cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
+                                                            viewModel.cubeLutRemoteResources
+                                                        } else null,
+                                                        cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
+                                                            viewModel.cubeLutDownloadProgress
+                                                        } else null,
+                                                        onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
+                                                            viewModel.updateCubeLuts(
+                                                                startDownloadIfNeeded = true,
+                                                                forceUpdate = forceUpdate,
+                                                                onFailure = {
+                                                                    scope.launch {
+                                                                        toastHostState.showError(
+                                                                            context,
+                                                                            it
+                                                                        )
+                                                                    }
+                                                                },
+                                                                downloadOnlyNewData = downloadOnlyNewData
                                                             )
+                                                        }
                                                     )
                                                 }
                                             }
@@ -1069,9 +1163,13 @@ fun AddFiltersSheet(
                                             onOpenPreview = {
                                                 viewModel.setPreviewData(filter)
                                             },
-                                            onClick = {
+                                            onClick = { custom ->
                                                 onVisibleChange(false)
-                                                onFilterPicked(filter)
+                                                if (custom != null) {
+                                                    onFilterPickedWithParams(custom)
+                                                } else {
+                                                    onFilterPicked(filter)
+                                                }
                                             },
                                             onRequestFilterMapping = onRequestFilterMapping,
                                             shape = ContainerShapeDefaults.shapeForIndex(
@@ -1082,7 +1180,25 @@ fun AddFiltersSheet(
                                                 viewModel.toggleFavorite(filter)
                                             },
                                             isFavoritePage = false,
-                                            modifier = Modifier.animateItem()
+                                            modifier = Modifier.animateItem(),
+                                            cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
+                                                viewModel.cubeLutRemoteResources
+                                            } else null,
+                                            cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
+                                                viewModel.cubeLutDownloadProgress
+                                            } else null,
+                                            onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
+                                                viewModel.updateCubeLuts(
+                                                    startDownloadIfNeeded = true,
+                                                    forceUpdate = forceUpdate,
+                                                    onFailure = {
+                                                        scope.launch {
+                                                            toastHostState.showError(context, it)
+                                                        }
+                                                    },
+                                                    downloadOnlyNewData = downloadOnlyNewData
+                                                )
+                                            }
                                         )
                                     }
                                 }

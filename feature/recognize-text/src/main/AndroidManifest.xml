@@ -15,7 +15,4 @@
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-</manifest>
+<manifest></manifest>
