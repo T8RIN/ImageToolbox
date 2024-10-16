@@ -65,7 +65,8 @@ interface RemoteResourcesStore {
     suspend fun downloadResources(
         name: String,
         onProgress: (RemoteResourcesDownloadProgress) -> Unit,
-        onFailure: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit,
+        downloadOnlyNewData: Boolean = false
     ): RemoteResources?
 
 }

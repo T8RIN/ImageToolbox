@@ -65,7 +65,8 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
     override suspend fun downloadResources(
         name: String,
         onProgress: (RemoteResourcesDownloadProgress) -> Unit,
-        onFailure: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit,
+        downloadOnlyNewData: Boolean
     ): RemoteResources? = withContext(defaultDispatcher) {
         runCatching {
             val connection = URL(getResourcesLink(name)).openConnection() as HttpURLConnection
@@ -88,7 +89,26 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                 }
             }
 
-            val items = JSONArray(result.toString())
+            var items = JSONArray(result.toString())
+
+            val savingDir = getSavingDir(name)
+
+            if (downloadOnlyNewData) {
+                val newItems = JSONArray()
+                for (i in 0..<items.length()) {
+                    val item = items.getJSONObject(i)
+
+                    val file = savingDir.listFiles()?.find {
+                        it.name == item.get("name") && it.length() > 0L
+                    }
+
+                    if (file == null) {
+                        newItems.put(item)
+                    }
+                }
+
+                items = newItems
+            }
 
             val downloadedUris = mutableListOf<String>()
 
@@ -100,8 +120,6 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                     itemsDownloaded = 0
                 )
             )
-
-            val savingDir = getSavingDir(name)
 
             for (i in 0..<items.length()) {
                 val item = items.getJSONObject(i)
@@ -166,10 +184,19 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                 }
             }
 
-            RemoteResources(
-                name = name,
-                uris = downloadedUris
-            )
+            if (downloadedUris.isNotEmpty()) {
+                RemoteResources(
+                    name = name,
+                    uris = downloadedUris
+                )
+            } else {
+                RemoteResources(
+                    name = name,
+                    uris = savingDir.listFiles()?.mapNotNull {
+                        it.toUri().toString()
+                    } ?: emptyList()
+                )
+            }
         }.onFailure(onFailure).getOrNull()
     }
 
