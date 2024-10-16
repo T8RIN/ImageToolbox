@@ -891,7 +891,7 @@
     <string name="request">Verzoek</string>
     <string name="legacy">Verouderd</string>
     <string name="lstm_network">LSTM-netwerk</string>
-    <string name="legacy_and_lstm">Verouderd &amp; LSTM</string>
+    <string name="legacy_and_lstm"><![CDATA[Verouderd & LSTM]]></string>
     <string name="auto_paste">Automatisch plakken</string>
     <string name="harmonization_color">Kleurharmonisatie</string>
     <string name="harmonization_level">Harmonisatieniveau</string>
@@ -1454,4 +1454,6 @@
     <string name="layout">Opmaak</string>
     <string name="main_screen_title">Titel van het hoofdscherm</string>
     <string name="compact_selectors">Compacte keuzeschakelaars</string>
+    <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
+    <string name="crf_sub">Een waarde %1$d betekent een langzame compressie, resulterend in een relatief kleine bestandsgrootte. %2$d betekent een snellere compressie, resulterend in een groot bestand.</string>
 </resources>
