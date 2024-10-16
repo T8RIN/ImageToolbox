@@ -64,6 +64,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -286,7 +287,9 @@ internal fun FilterSelectionItem(
                                         forceUpdate = true
                                         downloadOnlyNewData = false
                                     },
-                                    containerColor = MaterialTheme.colorScheme.primary
+                                    containerColor = if (resources.list.isEmpty()) {
+                                        MaterialTheme.colorScheme.secondary
+                                    } else Color.Transparent
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Download,
@@ -299,8 +302,7 @@ internal fun FilterSelectionItem(
                                             showDownloadDialog = true
                                             forceUpdate = true
                                             downloadOnlyNewData = true
-                                        },
-                                        containerColor = MaterialTheme.colorScheme.primary
+                                        }
                                     ) {
                                         Icon(
                                             imageVector = Icons.Rounded.Update,
@@ -346,7 +348,8 @@ internal fun FilterSelectionItem(
                             if (resources.list.isEmpty()) {
                                 showDownloadDialog = true
                             }
-                        }
+                        },
+                        expansionIconContainerColor = MaterialTheme.colorScheme.secondary
                     )
                 }
             }
@@ -365,7 +368,10 @@ internal fun FilterSelectionItem(
             title = { Text(stringResource(id = R.string.cube_lut)) },
             text = {
                 Text(
-                    stringResource(R.string.lut_library_sub)
+                    stringResource(
+                        if (downloadOnlyNewData) R.string.lut_library_update_sub
+                        else R.string.lut_library_sub
+                    )
                 )
             },
             onDismissRequest = {},

@@ -208,7 +208,7 @@ fun FiltersContent(
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
-        }
+        } ?: themeState.updateColorTuple(appColorTuple)
     }
 
     val imagePicker =
@@ -233,7 +233,6 @@ fun FiltersContent(
         if (viewModel.haveChanges) showExitDialog = true
         else if (viewModel.filterType != null) {
             viewModel.clearType()
-            themeState.updateColorTuple(appColorTuple)
         } else onGoBack()
     }
 
