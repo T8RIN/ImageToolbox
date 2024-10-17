@@ -47,7 +47,7 @@ gms = "4.4.2"
 
 coil = "2.7.0"
 appCompat = "1.7.0"
-androidxCore = "1.15.0-beta01"
+androidxCore = "1.15.0-rc01"
 androidxLifecycle = "2.9.0-alpha04"
 desugaring = "2.1.2"
 activityCompose = "1.10.0-alpha02"
