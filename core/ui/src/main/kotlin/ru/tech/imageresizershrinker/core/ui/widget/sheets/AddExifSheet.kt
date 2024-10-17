@@ -17,23 +17,40 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddCircleOutline
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
-import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.SearchOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -45,15 +62,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedName
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -91,109 +112,182 @@ fun AddExifSheet(
         }
     }
     val context = LocalContext.current
-    var query by rememberSaveable { mutableStateOf("") }
-    val list by remember(tags, query) {
+    var isSearching by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var searchKeyword by rememberSaveable(isSearching) {
+        mutableStateOf("")
+    }
+    val list by remember(tags, searchKeyword) {
         derivedStateOf {
             tags.filter {
-                it.localizedName(context).contains(query, true)
-                        || it.localizedName(context, Locale.ENGLISH).contains(query, true)
+                it.localizedName(context).contains(searchKeyword, true)
+                        || it.localizedName(context, Locale.ENGLISH).contains(searchKeyword, true)
             }
         }
     }
     SimpleSheet(
         visible = visible,
         onDismiss = onDismiss,
-        dragHandle = {
-            SimpleDragHandle {
-                Column {
-                    RoundedTextField(
-                        textStyle = LocalTextStyle.current.copy(
-                            textAlign = TextAlign.Start
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        shape = RoundedCornerShape(30),
-                        label = stringResource(R.string.search_here),
-                        onValueChange = { query = it },
-                        value = query
-                    )
-                    Spacer(Modifier.height(8.dp))
+        confirmButton = {},
+        enableBottomContentWeight = false,
+        title = {
+            AnimatedContent(
+                targetState = isSearching
+            ) { searching ->
+                if (searching) {
+                    BackHandler {
+                        searchKeyword = ""
+                        isSearching = false
+                    }
+                    ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                        RoundedTextField(
+                            maxLines = 1,
+                            hint = { Text(stringResource(id = R.string.search_here)) },
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                imeAction = ImeAction.Search,
+                                autoCorrectEnabled = null
+                            ),
+                            value = searchKeyword,
+                            onValueChange = {
+                                searchKeyword = it
+                            },
+                            startIcon = {
+                                EnhancedIconButton(
+                                    onClick = {
+                                        searchKeyword = ""
+                                        isSearching = false
+                                    },
+                                    modifier = Modifier.padding(start = 4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                        contentDescription = stringResource(R.string.exit),
+                                        tint = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                            },
+                            endIcon = {
+                                AnimatedVisibility(
+                                    visible = searchKeyword.isNotEmpty(),
+                                    enter = fadeIn() + scaleIn(),
+                                    exit = fadeOut() + scaleOut()
+                                ) {
+                                    EnhancedIconButton(
+                                        containerColor = Color.Transparent,
+                                        contentColor = LocalContentColor.current,
+                                        enableAutoShadowAndBorder = false,
+                                        onClick = {
+                                            searchKeyword = ""
+                                        },
+                                        modifier = Modifier.padding(end = 4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = stringResource(R.string.close),
+                                            tint = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                }
+                            },
+                            shape = CircleShape
+                        )
+                    }
+                } else {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TitleItem(
+                            text = stringResource(R.string.add_tag),
+                            icon = Icons.Rounded.Exif
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        EnhancedIconButton(
+                            onClick = { isSearching = true },
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = stringResource(R.string.search_here)
+                            )
+                        }
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = { onDismiss(false) }
+                        ) {
+                            AutoSizeText(stringResource(R.string.close))
+                        }
+                        Spacer(Modifier.width(8.dp))
+                    }
                 }
             }
         },
-        confirmButton = {
-            EnhancedButton(
-                onClick = { onDismiss(false) }
-            ) {
-                AutoSizeText(stringResource(R.string.ok))
-            }
-        },
-        title = {
-            TitleItem(
-                text = stringResource(R.string.add_tag),
-                icon = Icons.Rounded.Exif
-            )
-        },
         sheetContent = {
-            Column {
-                LazyColumn(
-                    contentPadding = PaddingValues(bottom = 8.dp),
-                    modifier = Modifier.weight(1f, false),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    item {
-                        Spacer(Modifier.height(4.dp))
+            AnimatedContent(list.isNotEmpty()) { haveData ->
+                if (haveData) {
+                    LazyColumn(
+                        contentPadding = PaddingValues(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        itemsIndexed(list) { index, tag ->
+                            val isSelected by remember(isTagsRemovable, tag, selectedTags) {
+                                derivedStateOf {
+                                    isTagsRemovable && tag in selectedTags
+                                }
+                            }
+                            val endIcon by remember(isSelected) {
+                                derivedStateOf {
+                                    if (isSelected) {
+                                        Icons.Rounded.RemoveCircleOutline
+                                    } else Icons.Rounded.AddCircleOutline
+                                }
+                            }
+                            PreferenceItem(
+                                title = tag.localizedName,
+                                modifier = Modifier,
+                                endIcon = endIcon,
+                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    animateFloatAsState(if (isSelected) 0.35f else 0.1f).value
+                                ),
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index = index,
+                                    size = list.size
+                                ),
+                                onClick = {
+                                    onTagSelected(tag)
+                                }
+                            )
+                        }
                     }
-                    itemsIndexed(list) { index, tag ->
-                        val isSelected by remember(isTagsRemovable, tag, selectedTags) {
-                            derivedStateOf {
-                                isTagsRemovable && tag in selectedTags
-                            }
-                        }
-                        val endIcon by remember(isSelected) {
-                            derivedStateOf {
-                                if (isSelected) {
-                                    Icons.Rounded.RemoveCircleOutline
-                                } else Icons.Rounded.AddCircleOutline
-                            }
-                        }
-                        PreferenceItem(
-                            title = tag.localizedName,
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            endIcon = endIcon,
-                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                animateFloatAsState(if (isSelected) 0.35f else 0.1f).value
-                            ),
-                            shape = ContainerShapeDefaults.shapeForIndex(
-                                index = index,
-                                size = list.size
-                            ),
-                            onClick = {
-                                onTagSelected(tag)
-                            }
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.5f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = stringResource(R.string.nothing_found_by_search),
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(
+                                start = 24.dp,
+                                end = 24.dp,
+                                top = 8.dp,
+                                bottom = 8.dp
+                            )
                         )
-                    }
-                    if (list.isEmpty()) {
-                        item {
-                            Box(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        top = 16.dp,
-                                        bottom = 16.dp,
-                                        start = 24.dp,
-                                        end = 24.dp
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.nothing_found_by_search),
-                                    modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                        }
+                        Icon(
+                            imageVector = Icons.Rounded.SearchOff,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .weight(2f)
+                                .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                .fillMaxSize()
+                        )
+                        Spacer(Modifier.weight(1f))
                     }
                 }
             }
