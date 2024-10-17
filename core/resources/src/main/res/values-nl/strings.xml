@@ -1456,4 +1456,7 @@
     <string name="compact_selectors">Compacte keuzeschakelaars</string>
     <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
     <string name="crf_sub">Een waarde %1$d betekent een langzame compressie, resulterend in een relatief kleine bestandsgrootte. %2$d betekent een snellere compressie, resulterend in een groot bestand.</string>
+    <string name="lut_library">Lut-bilbiotheek</string>
+    <string name="lut_library_sub">Download een verzameling LUT\'s die je vervolgens kunt toepassen</string>
+    <string name="lut_library_update_sub">Collectie LUT\'s bijwerken (alleen nieuwe worden in de wachtrij geplaatst), die je vervolgens kunt toepassen</string>
 </resources>
