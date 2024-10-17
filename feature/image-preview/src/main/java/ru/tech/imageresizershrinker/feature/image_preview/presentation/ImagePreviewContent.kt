@@ -97,6 +97,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
@@ -178,9 +179,7 @@ fun ImagePreviewContent(
         }
     )
 
-    val pickImage = {
-        imagePicker.pickImage()
-    }
+    val pickImage = imagePicker::pickImage
 
     val toastHostState = LocalToastHostState.current
     val pickDirectory: () -> Unit = {
@@ -215,6 +214,10 @@ fun ImagePreviewContent(
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+
             Column(Modifier.fillMaxSize()) {
                 EnhancedTopAppBar(
                     type = EnhancedTopAppBarType.Large,
@@ -381,6 +384,9 @@ fun ImagePreviewContent(
                     } else {
                         EnhancedFloatingActionButton(
                             onClick = pickImage,
+                            onLongClick = {
+                                showOneTimeImagePickingDialog = true
+                            },
                             content = {
                                 Spacer(Modifier.width(16.dp))
                                 Icon(
@@ -426,6 +432,13 @@ fun ImagePreviewContent(
                     }
                 }
             }
+
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
 
             ProcessImagesPreferenceSheet(
                 uris = selectedUris,

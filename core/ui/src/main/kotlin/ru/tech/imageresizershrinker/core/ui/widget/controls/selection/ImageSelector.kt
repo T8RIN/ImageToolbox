@@ -31,6 +31,10 @@ import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -49,6 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilenam
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 
@@ -69,10 +74,17 @@ fun ImageSelector(
         list.firstOrNull()?.let(onValueChange)
     }
 
+    var showOneTimeImagePickingDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     PreferenceItemOverload(
         title = title,
         subtitle = subtitle,
         onClick = imagePicker::pickImage,
+        onLongClick = {
+            showOneTimeImagePickingDialog = true
+        },
         autoShadowElevation = autoShadowElevation,
         startIcon = {
             Picture(
@@ -107,6 +119,13 @@ fun ImageSelector(
         shape = shape,
         color = color,
         drawStartIconContainer = false
+    )
+
+    OneTimeImagePickingDialog(
+        onDismiss = { showOneTimeImagePickingDialog = false },
+        picker = Picker.Single,
+        imagePicker = imagePicker,
+        visible = showOneTimeImagePickingDialog
     )
 }
 

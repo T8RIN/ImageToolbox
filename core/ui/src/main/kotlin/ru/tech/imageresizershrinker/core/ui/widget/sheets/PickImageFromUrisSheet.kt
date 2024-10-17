@@ -125,17 +125,17 @@ fun PickImageFromUrisSheet(
                                     modifier = Modifier
                                         .aspectRatio(1f)
                                         .clip(RoundedCornerShape(pictureShape))
+                                        .padding(padding)
+                                        .clip(RoundedCornerShape(pictureShape))
                                         .clickable {
                                             onUriPicked(uri)
                                             onDismiss()
                                         }
-                                        .padding(padding)
                                         .border(
                                             width = borderWidth,
                                             color = borderColor,
                                             shape = RoundedCornerShape(pictureShape)
-                                        )
-                                        .clip(RoundedCornerShape(pictureShape)),
+                                        ),
                                     shape = RectangleShape,
                                     contentScale = ContentScale.Fit
                                 )

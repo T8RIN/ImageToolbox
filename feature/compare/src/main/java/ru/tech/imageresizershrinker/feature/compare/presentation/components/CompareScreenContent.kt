@@ -48,7 +48,10 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -67,8 +70,11 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -81,11 +87,15 @@ fun CompareScreenContent(
     isPortrait: Boolean,
     compareProgress: Float,
     onCompareProgressChange: (Float) -> Unit,
-    onPickImage: () -> Unit,
+    imagePicker: ImagePicker,
     isLabelsEnabled: Boolean
 ) {
     AnimatedContent(bitmapData == null) { nil ->
         bitmapData.takeIf { !nil }?.let { bitmapPair ->
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+
             val zoomEnabled = compareType != CompareType.SideBySide
             val zoomState = rememberZoomState(30f, key = compareType)
             val zoomModifier = Modifier
@@ -157,7 +167,10 @@ fun CompareScreenContent(
                             ),
                         floatingActionButton = {
                             EnhancedFloatingActionButton(
-                                onClick = onPickImage
+                                onClick = imagePicker::pickImage,
+                                onLongClick = {
+                                    showOneTimeImagePickingDialog = true
+                                },
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.AddPhotoAlternate,
@@ -326,7 +339,10 @@ fun CompareScreenContent(
                         }
 
                         EnhancedFloatingActionButton(
-                            onClick = onPickImage
+                            onClick = imagePicker::pickImage,
+                            onLongClick = {
+                                showOneTimeImagePickingDialog = true
+                            },
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.AddPhotoAlternate,
@@ -336,11 +352,18 @@ fun CompareScreenContent(
                     }
                 }
             }
+
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
         } ?: Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
             ImageNotPickedWidget(
-                onPickImage = onPickImage,
+                onPickImage = imagePicker::pickImage,
                 modifier = Modifier
                     .padding(bottom = 88.dp, top = 20.dp, start = 20.dp, end = 20.dp)
                     .navigationBarsPadding(),

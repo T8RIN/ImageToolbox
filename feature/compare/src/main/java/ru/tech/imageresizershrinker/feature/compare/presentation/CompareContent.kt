@@ -207,7 +207,7 @@ fun CompareContent(
                 onCompareProgressChange = {
                     compareProgress = it
                 },
-                onPickImage = pickImage,
+                imagePicker = imagePicker,
                 isLabelsEnabled = isLabelsEnabled
             )
         }

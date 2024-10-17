@@ -216,6 +216,12 @@ fun ToggleGroupButton(
                                         } else inactiveButtonColor
                                     )
                                 ).value,
+                                disabledInactiveContainerColor = MaterialTheme.colorScheme.outlineVariant.copy(
+                                    0.38f
+                                ).compositeOver(MaterialTheme.colorScheme.surface),
+                                disabledActiveContainerColor = MaterialTheme.colorScheme.outlineVariant.copy(
+                                    0.38f
+                                ).compositeOver(MaterialTheme.colorScheme.surface)
                             ),
                             modifier = if (!(settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows)) {
                                 Modifier.rsBlurShadow(

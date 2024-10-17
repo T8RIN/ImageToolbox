@@ -57,7 +57,7 @@ import java.io.File
 import kotlin.random.Random
 
 
-class ImagePicker(
+private class ImagePickerImpl(
     private val context: Context,
     private val mode: ImagePickerMode,
     private val currentAccent: Color,
@@ -68,8 +68,8 @@ class ImagePicker(
     private val onCreateTakePhotoUri: (Uri) -> Unit,
     private val imageExtension: String,
     private val onFailure: (Throwable) -> Unit,
-) {
-    fun pickImage() {
+) : ImagePicker {
+    override fun pickImage() {
         val cameraAction = {
             val imagesFolder = File(context.cacheDir, "images")
             runCatching {
@@ -171,7 +171,7 @@ class ImagePicker(
         }
     }
 
-    fun pickImageWithMode(
+    override fun pickImageWithMode(
         picker: Picker,
         picturePickerMode: PicturePickerMode
     ) {
@@ -184,7 +184,7 @@ class ImagePicker(
             PicturePickerMode.CameraCapture -> ImagePickerMode.CameraCapture
         }
 
-        val basePicker = ImagePicker(
+        val basePicker = ImagePickerImpl(
             context = context,
             mode = mode,
             currentAccent = currentAccent,
@@ -199,6 +199,16 @@ class ImagePicker(
 
         basePicker.pickImage()
     }
+}
+
+interface ImagePicker {
+
+    fun pickImage()
+
+    fun pickImageWithMode(
+        picker: Picker,
+        picturePickerMode: PicturePickerMode
+    )
 }
 
 enum class ImagePickerMode {
@@ -321,7 +331,7 @@ fun rememberImagePicker(
         mode
     ) {
         derivedStateOf {
-            ImagePicker(
+            ImagePickerImpl(
                 context = context,
                 mode = mode,
                 currentAccent = currentAccent,

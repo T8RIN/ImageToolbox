@@ -106,6 +106,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -225,6 +226,10 @@ fun PickColorFromImageContent(
                 contentDescription = stringResource(R.string.magnifier)
             )
         }
+    }
+
+    var showOneTimeImagePickingDialog by rememberSaveable {
+        mutableStateOf(false)
     }
 
     Box(
@@ -576,7 +581,10 @@ fun PickColorFromImageContent(
                                 switch()
                                 Spacer(modifier = Modifier.height(16.dp))
                                 EnhancedFloatingActionButton(
-                                    onClick = pickImage
+                                    onClick = pickImage,
+                                    onLongClick = {
+                                        showOneTimeImagePickingDialog = true
+                                    },
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.AddPhotoAlternate,
@@ -616,7 +624,10 @@ fun PickColorFromImageContent(
                     },
                     floatingActionButton = {
                         EnhancedFloatingActionButton(
-                            onClick = pickImage
+                            onClick = pickImage,
+                            onLongClick = {
+                                showOneTimeImagePickingDialog = true
+                            },
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.AddPhotoAlternate,
@@ -631,6 +642,9 @@ fun PickColorFromImageContent(
         if (viewModel.bitmap == null) {
             EnhancedFloatingActionButton(
                 onClick = pickImage,
+                onLongClick = {
+                    showOneTimeImagePickingDialog = true
+                },
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
@@ -647,6 +661,13 @@ fun PickColorFromImageContent(
             }
         }
     }
+
+    OneTimeImagePickingDialog(
+        onDismiss = { showOneTimeImagePickingDialog = false },
+        picker = Picker.Single,
+        imagePicker = imagePicker,
+        visible = showOneTimeImagePickingDialog
+    )
 
     if (viewModel.isImageLoading) LoadingDialog(canCancel = false)
 
