@@ -140,16 +140,17 @@ internal fun FilterSelectionItem(
     modifier: Modifier,
     cubeLutRemoteResources: RemoteResources? = null,
     cubeLutDownloadProgress: RemoteResourcesDownloadProgress? = null,
-    onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> }
+    onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> },
+    previewModel: Any = remember { R.drawable.filter_preview_source } //TODO: Add selection of this
 ) {
     val haptics = LocalHapticFeedback.current
 
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val model = remember(filter) {
+    val model = remember(filter, previewModel) {
         ImageRequest.Builder(context)
-            .data(R.drawable.filter_preview_source)
+            .data(previewModel)
             .error(R.drawable.filter_preview_source)
             .transformations(onRequestFilterMapping(filter))
             .diskCacheKey(filter::class.simpleName)
@@ -493,9 +494,9 @@ internal fun FilterSelectionItem(
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
                                                         Picture(
-                                                            model = remember(uri) {
+                                                            model = remember(uri, previewModel) {
                                                                 ImageRequest.Builder(context)
-                                                                    .data(R.drawable.filter_preview_source)
+                                                                    .data(previewModel)
                                                                     .error(R.drawable.filter_preview_source)
                                                                     .transformations(
                                                                         onRequestFilterMapping(
