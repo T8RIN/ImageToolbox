@@ -48,6 +48,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -584,7 +585,7 @@ fun AddFiltersSheet(
         var isSearching by rememberSaveable {
             mutableStateOf(false)
         }
-        var searchKeyword by rememberSaveable {
+        var searchKeyword by rememberSaveable(isSearching) {
             mutableStateOf("")
         }
         var filtersForSearch by remember {
@@ -1224,9 +1225,6 @@ fun AddFiltersSheet(
                                 },
                                 startIcon = {
                                     EnhancedIconButton(
-                                        containerColor = Color.Transparent,
-                                        contentColor = LocalContentColor.current,
-                                        enableAutoShadowAndBorder = false,
                                         onClick = {
                                             searchKeyword = ""
                                             isSearching = false
@@ -1290,6 +1288,7 @@ fun AddFiltersSheet(
                             ) {
                                 AutoSizeText(stringResource(R.string.close))
                             }
+                            Spacer(Modifier.width(8.dp))
                         }
                     }
                 }

@@ -17,7 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -32,21 +34,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.outlined.TableChart
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material.icons.rounded.Update
@@ -54,7 +63,9 @@ import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -76,6 +87,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -109,6 +121,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -347,87 +361,216 @@ internal fun FilterSelectionItem(
                         }
                     }
 
+                    var isSearching by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+                    var searchKeyword by rememberSaveable(isSearching) {
+                        mutableStateOf("")
+                    }
                     SimpleSheet(
                         visible = showSelection,
                         onDismiss = { showSelection = it },
-                        confirmButton = {
-                            EnhancedButton(
-                                onClick = {
-                                    showSelection = false
-                                }
-                            ) {
-                                Text(stringResource(R.string.close))
-                            }
-                        },
+                        confirmButton = {},
+                        enableBottomContentWeight = false,
                         title = {
-                            TitleItem(
-                                text = stringResource(R.string.lut_library),
-                                icon = Icons.Rounded.TableChart
-                            )
+                            AnimatedContent(
+                                targetState = isSearching
+                            ) { searching ->
+                                if (searching) {
+                                    BackHandler {
+                                        searchKeyword = ""
+                                        isSearching = false
+                                    }
+                                    ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                                        RoundedTextField(
+                                            maxLines = 1,
+                                            hint = { Text(stringResource(id = R.string.search_here)) },
+                                            keyboardOptions = KeyboardOptions.Default.copy(
+                                                imeAction = ImeAction.Search,
+                                                autoCorrectEnabled = null
+                                            ),
+                                            value = searchKeyword,
+                                            onValueChange = {
+                                                searchKeyword = it
+                                            },
+                                            startIcon = {
+                                                EnhancedIconButton(
+                                                    onClick = {
+                                                        searchKeyword = ""
+                                                        isSearching = false
+                                                    },
+                                                    modifier = Modifier.padding(start = 4.dp)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                                        contentDescription = stringResource(R.string.exit),
+                                                        tint = MaterialTheme.colorScheme.onSurface
+                                                    )
+                                                }
+                                            },
+                                            endIcon = {
+                                                AnimatedVisibility(
+                                                    visible = searchKeyword.isNotEmpty(),
+                                                    enter = fadeIn() + scaleIn(),
+                                                    exit = fadeOut() + scaleOut()
+                                                ) {
+                                                    EnhancedIconButton(
+                                                        containerColor = Color.Transparent,
+                                                        contentColor = LocalContentColor.current,
+                                                        enableAutoShadowAndBorder = false,
+                                                        onClick = {
+                                                            searchKeyword = ""
+                                                        },
+                                                        modifier = Modifier.padding(end = 4.dp)
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Rounded.Close,
+                                                            contentDescription = stringResource(R.string.close),
+                                                            tint = MaterialTheme.colorScheme.onSurface
+                                                        )
+                                                    }
+                                                }
+                                            },
+                                            shape = CircleShape
+                                        )
+                                    }
+                                } else {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        TitleItem(
+                                            text = stringResource(R.string.lut_library),
+                                            icon = Icons.Rounded.TableChart
+                                        )
+                                        Spacer(modifier = Modifier.weight(1f))
+                                        EnhancedIconButton(
+                                            onClick = { isSearching = true },
+                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Search,
+                                                contentDescription = stringResource(R.string.search_here)
+                                            )
+                                        }
+                                        EnhancedButton(
+                                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                            onClick = { showSelection = false }
+                                        ) {
+                                            AutoSizeText(stringResource(R.string.close))
+                                        }
+                                        Spacer(Modifier.width(8.dp))
+                                    }
+                                }
+                            }
                         }
                     ) {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                            contentPadding = PaddingValues(8.dp)
-                        ) {
-                            resources.list.forEachIndexed { index, (uri, name) ->
-                                item {
-                                    PreferenceItemOverload(
-                                        title = remember(name) {
-                                            name.removeSuffix(".cube")
-                                                .removeSuffix("_LUT")
-                                                .replace("_", " ")
-                                        },
-                                        drawStartIconContainer = false,
-                                        startIcon = {
-                                            Row(
-                                                verticalAlignment = Alignment.CenterVertically
-                                            ) {
-                                                Picture(
-                                                    model = remember(uri) {
-                                                        ImageRequest.Builder(context)
-                                                            .data(R.drawable.filter_preview_source)
-                                                            .error(R.drawable.filter_preview_source)
-                                                            .transformations(
-                                                                onRequestFilterMapping(
-                                                                    UiCubeLutFilter(
-                                                                        1f to FileModel(uri)
+                        val data by remember(resources.list, searchKeyword) {
+                            derivedStateOf {
+                                if (searchKeyword.isEmpty()) resources.list
+                                else resources.list.filter {
+                                    it.name.trim()
+                                        .contains(searchKeyword.trim(), true)
+                                }
+                            }
+                        }
+                        AnimatedContent(data.isNotEmpty()) { haveData ->
+                            if (haveData) {
+                                LazyColumn(
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                    contentPadding = PaddingValues(8.dp)
+                                ) {
+                                    data.forEachIndexed { index, (uri, name) ->
+                                        item {
+                                            PreferenceItemOverload(
+                                                title = remember(name) {
+                                                    name.removeSuffix(".cube")
+                                                        .removeSuffix("_LUT")
+                                                        .replace("_", " ")
+                                                },
+                                                drawStartIconContainer = false,
+                                                startIcon = {
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically
+                                                    ) {
+                                                        Picture(
+                                                            model = remember(uri) {
+                                                                ImageRequest.Builder(context)
+                                                                    .data(R.drawable.filter_preview_source)
+                                                                    .error(R.drawable.filter_preview_source)
+                                                                    .transformations(
+                                                                        onRequestFilterMapping(
+                                                                            UiCubeLutFilter(
+                                                                                1f to FileModel(uri)
+                                                                            )
+                                                                        )
                                                                     )
-                                                                )
-                                                            )
-                                                            .diskCacheKey(uri)
-                                                            .memoryCacheKey(uri)
-                                                            .crossfade(true)
-                                                            .size(300, 300)
-                                                            .build()
-                                                    },
-                                                    shape = MaterialTheme.shapes.medium,
-                                                    contentScale = ContentScale.Crop,
-                                                    modifier = Modifier
-                                                        .size(48.dp)
-                                                        .scale(1.2f)
-                                                )
-                                                Spacer(Modifier.width(16.dp))
-                                                Box(
-                                                    modifier = Modifier
-                                                        .height(36.dp)
-                                                        .width(1.dp)
-                                                        .background(MaterialTheme.colorScheme.outlineVariant())
-                                                )
-                                            }
-                                        },
-                                        onClick = {
-                                            showSelection = false
-                                            onClick(
-                                                UiCubeLutFilter(1f to FileModel(uri))
+                                                                    .diskCacheKey(uri)
+                                                                    .memoryCacheKey(uri)
+                                                                    .crossfade(true)
+                                                                    .size(300, 300)
+                                                                    .build()
+                                                            },
+                                                            shape = MaterialTheme.shapes.medium,
+                                                            contentScale = ContentScale.Crop,
+                                                            modifier = Modifier
+                                                                .size(48.dp)
+                                                                .scale(1.2f)
+                                                        )
+                                                        Spacer(Modifier.width(16.dp))
+                                                        Box(
+                                                            modifier = Modifier
+                                                                .height(36.dp)
+                                                                .width(1.dp)
+                                                                .background(MaterialTheme.colorScheme.outlineVariant())
+                                                        )
+                                                    }
+                                                },
+                                                onClick = {
+                                                    showSelection = false
+                                                    onClick(
+                                                        UiCubeLutFilter(1f to FileModel(uri))
+                                                    )
+                                                },
+                                                shape = ContainerShapeDefaults.shapeForIndex(
+                                                    index = index,
+                                                    size = data.size
+                                                ),
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .animateItem()
                                             )
-                                        },
-                                        shape = ContainerShapeDefaults.shapeForIndex(
-                                            index = index,
-                                            size = resources.list.size
-                                        ),
-                                        modifier = Modifier.fillMaxWidth()
+                                        }
+                                    }
+                                }
+                            } else {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Spacer(Modifier.weight(1f))
+                                    Text(
+                                        text = stringResource(R.string.nothing_found_by_search),
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(
+                                            start = 24.dp,
+                                            end = 24.dp,
+                                            top = 8.dp,
+                                            bottom = 8.dp
+                                        )
                                     )
+                                    Icon(
+                                        imageVector = Icons.Rounded.SearchOff,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .weight(2f)
+                                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                            .fillMaxSize()
+                                    )
+                                    Spacer(Modifier.weight(1f))
                                 }
                             }
                         }
