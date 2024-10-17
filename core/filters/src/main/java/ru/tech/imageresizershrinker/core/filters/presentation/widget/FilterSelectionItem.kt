@@ -96,6 +96,7 @@ import coil.request.ImageRequest
 import coil.transform.Transformation
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
@@ -108,6 +109,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -141,7 +143,7 @@ internal fun FilterSelectionItem(
     cubeLutRemoteResources: RemoteResources? = null,
     cubeLutDownloadProgress: RemoteResourcesDownloadProgress? = null,
     onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> },
-    previewModel: Any = remember { R.drawable.filter_preview_source } //TODO: Add selection of this
+    previewModel: ImageModel = remember { R.drawable.filter_preview_source.toImageModel() } //TODO: Add selection of this
 ) {
     val haptics = LocalHapticFeedback.current
 
@@ -150,7 +152,7 @@ internal fun FilterSelectionItem(
     val context = LocalContext.current
     val model = remember(filter, previewModel) {
         ImageRequest.Builder(context)
-            .data(previewModel)
+            .data(previewModel.data)
             .error(R.drawable.filter_preview_source)
             .transformations(onRequestFilterMapping(filter))
             .diskCacheKey(filter::class.simpleName)
@@ -496,7 +498,7 @@ internal fun FilterSelectionItem(
                                                         Picture(
                                                             model = remember(uri, previewModel) {
                                                                 ImageRequest.Builder(context)
-                                                                    .data(previewModel)
+                                                                    .data(previewModel.data)
                                                                     .error(R.drawable.filter_preview_source)
                                                                     .transformations(
                                                                         onRequestFilterMapping(
