@@ -1057,7 +1057,7 @@
     <string name="legacy">Legacy</string>
     <string name="image_stacking">Bild stapeln</string>
     <string name="image_stacking_sub">Stapel Bilder mit ausgewählten Mischmodi übereinander</string>
-    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
+    <string name="legacy_and_lstm"><![CDATA[Legacy & LSTM]]></string>
     <string name="tag_strip_byte_counts">Strip Byte-Zahlen</string>
     <string name="tag_jpeg_interchange_format">JPEG Interchange Format</string>
     <string name="quadratic_threshold">Quadratischer Schwellenwert</string>
