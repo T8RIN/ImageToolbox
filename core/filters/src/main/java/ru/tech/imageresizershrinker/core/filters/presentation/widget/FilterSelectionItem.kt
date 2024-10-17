@@ -98,6 +98,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkA
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -106,7 +107,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -121,7 +121,7 @@ internal fun FilterSelectionItem(
     onOpenPreview: () -> Unit,
     onClick: (UiFilter<*>?) -> Unit,
     onToggleFavorite: () -> Unit,
-    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
+    onRequestFilterMapping: ((UiFilter<*>) -> Transformation),
     shape: Shape,
     modifier: Modifier,
     cubeLutRemoteResources: RemoteResources? = null,
@@ -134,17 +134,15 @@ internal fun FilterSelectionItem(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val model = remember(filter) {
-        if (onRequestFilterMapping != null) {
-            ImageRequest.Builder(context)
-                .data(R.drawable.filter_preview_source)
-                .error(R.drawable.filter_preview_source)
-                .transformations(onRequestFilterMapping(filter))
-                .diskCacheKey(filter::class.simpleName)
-                .memoryCacheKey(filter::class.simpleName)
-                .crossfade(true)
-                .size(300, 300)
-                .build()
-        } else null
+        ImageRequest.Builder(context)
+            .data(R.drawable.filter_preview_source)
+            .error(R.drawable.filter_preview_source)
+            .transformations(onRequestFilterMapping(filter))
+            .diskCacheKey(filter::class.simpleName)
+            .memoryCacheKey(filter::class.simpleName)
+            .crossfade(true)
+            .size(300, 300)
+            .build()
     }
     var isBitmapDark by remember {
         mutableStateOf(true)
@@ -183,19 +181,17 @@ internal fun FilterSelectionItem(
             startIcon = {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(contentAlignment = Alignment.Center) {
-                        if (onRequestFilterMapping != null) {
-                            Image(
-                                painter = painter,
-                                contentScale = ContentScale.Crop,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .scale(1.2f)
-                                    .clip(MaterialTheme.shapes.medium)
-                                    .transparencyChecker()
-                                    .shimmer(loading)
-                            )
-                        }
+                        Image(
+                            painter = painter,
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .scale(1.2f)
+                                .clip(MaterialTheme.shapes.medium)
+                                .transparencyChecker()
+                                .shimmer(loading)
+                        )
                         if (canOpenPreview) {
                             Box(
                                 modifier = Modifier
@@ -376,11 +372,49 @@ internal fun FilterSelectionItem(
                         ) {
                             resources.list.forEachIndexed { index, (uri, name) ->
                                 item {
-                                    PreferenceItem(
+                                    PreferenceItemOverload(
                                         title = remember(name) {
                                             name.removeSuffix(".cube")
                                                 .removeSuffix("_LUT")
                                                 .replace("_", " ")
+                                        },
+                                        drawStartIconContainer = false,
+                                        startIcon = {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Picture(
+                                                    model = remember(uri) {
+                                                        ImageRequest.Builder(context)
+                                                            .data(R.drawable.filter_preview_source)
+                                                            .error(R.drawable.filter_preview_source)
+                                                            .transformations(
+                                                                onRequestFilterMapping(
+                                                                    UiCubeLutFilter(
+                                                                        1f to FileModel(uri)
+                                                                    )
+                                                                )
+                                                            )
+                                                            .diskCacheKey(uri)
+                                                            .memoryCacheKey(uri)
+                                                            .crossfade(true)
+                                                            .size(300, 300)
+                                                            .build()
+                                                    },
+                                                    shape = MaterialTheme.shapes.medium,
+                                                    contentScale = ContentScale.Crop,
+                                                    modifier = Modifier
+                                                        .size(48.dp)
+                                                        .scale(1.2f)
+                                                )
+                                                Spacer(Modifier.width(16.dp))
+                                                Box(
+                                                    modifier = Modifier
+                                                        .height(36.dp)
+                                                        .width(1.dp)
+                                                        .background(MaterialTheme.colorScheme.outlineVariant())
+                                                )
+                                            }
                                         },
                                         onClick = {
                                             showSelection = false

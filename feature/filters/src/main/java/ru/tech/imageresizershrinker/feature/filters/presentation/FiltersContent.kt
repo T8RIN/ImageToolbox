@@ -1193,7 +1193,7 @@ fun FiltersContent(
                     onDismiss = {
                         showReorderSheet = false
                     },
-                    updateOrder = viewModel::updateFiltersOrder
+                    onReorder = viewModel::updateFiltersOrder
                 )
             } else if (viewModel.filterType is Screen.Filter.Type.Masking) {
                 AddEditMaskSheet(
@@ -1212,7 +1212,7 @@ fun FiltersContent(
                     onDismiss = {
                         showReorderSheet = false
                     },
-                    updateOrder = viewModel::updateMasksOrder
+                    onReorder = viewModel::updateMasksOrder
                 )
             }
 

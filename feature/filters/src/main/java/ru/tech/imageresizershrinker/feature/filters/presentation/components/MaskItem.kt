@@ -55,6 +55,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -86,7 +87,8 @@ fun MaskItem(
     onLongPress: (() -> Unit)? = null,
     onRemove: () -> Unit,
     imageUri: Uri? = null,
-    previousMasks: List<UiFilterMask> = emptyList()
+    previousMasks: List<UiFilterMask> = emptyList(),
+    shape: Shape = MaterialTheme.shapes.extraLarge
 ) {
     var showMaskRemoveDialog by rememberSaveable { mutableStateOf(false) }
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
@@ -95,7 +97,10 @@ fun MaskItem(
     Box {
         Row(
             modifier = modifier
-                .container(color = backgroundColor, shape = MaterialTheme.shapes.extraLarge)
+                .container(
+                    color = backgroundColor,
+                    shape = shape
+                )
                 .animateContentSize()
                 .then(
                     onLongPress?.let {
@@ -284,7 +289,10 @@ fun MaskItem(
             }
         }
         if (previewOnly) {
-            Surface(color = Color.Transparent, modifier = Modifier.matchParentSize()) {}
+            Surface(
+                color = Color.Transparent,
+                modifier = modifier.matchParentSize()
+            ) {}
         }
     }
 

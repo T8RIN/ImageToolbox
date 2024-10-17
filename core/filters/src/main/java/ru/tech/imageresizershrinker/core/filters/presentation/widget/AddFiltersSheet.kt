@@ -50,6 +50,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -119,10 +120,6 @@ import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -186,6 +183,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContaine
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberForeverLazyListState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -256,23 +255,6 @@ private class AddFiltersSheetViewModel @Inject constructor(
                 _cubeLutRemoteResources.update { data }
             }
             _cubeLutDownloadProgress.update { null }
-        }
-    }
-
-    fun downloadCubeLuts(
-        onProgress: (RemoteResourcesDownloadProgress) -> Unit,
-        onFailure: (Throwable) -> Unit,
-        downloadOnlyNewData: Boolean = false
-    ) {
-        viewModelScope.launch {
-            remoteResourcesStore.downloadResources(
-                name = RemoteResources.CUBE_LUT,
-                onProgress = onProgress,
-                onFailure = onFailure,
-                downloadOnlyNewData = downloadOnlyNewData
-            )?.let { data ->
-                _cubeLutRemoteResources.update { data }
-            }
         }
     }
 
@@ -962,14 +944,13 @@ fun AddFiltersSheet(
                                         val data = remember {
                                             mutableStateOf(favoriteFilters)
                                         }
+                                        val listState = rememberLazyListState()
                                         val state = rememberReorderableLazyListState(
+                                            lazyListState = listState,
                                             onMove = { from, to ->
                                                 data.value = data.value.toMutableList().apply {
                                                     add(to.index, removeAt(from.index))
                                                 }
-                                            },
-                                            onDragEnd = { _, _ ->
-                                                viewModel.reorderFavoriteFilters(data.value)
                                             }
                                         )
                                         LaunchedEffect(favoriteFilters) {
@@ -978,11 +959,8 @@ fun AddFiltersSheet(
                                             }
                                         }
                                         LazyColumn(
-                                            state = state.listState,
-                                            modifier = Modifier
-                                                .fillMaxHeight()
-                                                .reorderable(state)
-                                                .detectReorderAfterLongPress(state),
+                                            state = listState,
+                                            modifier = Modifier.fillMaxHeight(),
                                             verticalArrangement = Arrangement.spacedBy(
                                                 space = 4.dp,
                                                 alignment = Alignment.CenterVertically
@@ -994,12 +972,7 @@ fun AddFiltersSheet(
                                                 key = { _, f -> f.hashCode() }
                                             ) { index, filter ->
                                                 ReorderableItem(
-                                                    modifier = Modifier.then(
-                                                        if (state.draggingItemKey == null) {
-                                                            Modifier.animateItem()
-                                                        } else Modifier
-                                                    ),
-                                                    reorderableState = state,
+                                                    state = state,
                                                     key = filter.hashCode()
                                                 ) { isDragging ->
                                                     FilterSelectionItem(
@@ -1028,6 +1001,11 @@ fun AddFiltersSheet(
                                                             viewModel.toggleFavorite(filter)
                                                         },
                                                         modifier = Modifier
+                                                            .longPressDraggableHandle {
+                                                                viewModel.reorderFavoriteFilters(
+                                                                    data.value
+                                                                )
+                                                            }
                                                             .scale(
                                                                 animateFloatAsState(
                                                                     if (isDragging) 1.05f

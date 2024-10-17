@@ -9,8 +9,8 @@ versionCode = "154"
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "2.9.6"
-trickle = "1.1.8"
+imageToolboxLibs = "2.9.8"
+trickle = "1.1.9"
 
 avifCoder = "2.0.5"
 avifCoderCoil = "2.0.5"
@@ -53,7 +53,7 @@ desugaring = "2.1.2"
 activityCompose = "1.10.0-alpha02"
 kotlinxCollectionsImmutable = "0.3.8"
 scrollbar = "2.2.0"
-reorderable = "0.9.6"
+reorderable = "2.4.0-beta01"
 reviewKtx = "2.0.1"
 splashScreen = "1.2.0-alpha02"
 
@@ -155,7 +155,7 @@ androidxCore = { module = "androidx.core:core-ktx", version.ref = "androidxCore"
 scrollbar = { module = "com.github.nanihadesuka:LazyColumnScrollbar", version.ref = "scrollbar" }
 mlkit-segmentation-selfie = { module = "com.google.mlkit:segmentation-selfie", version.ref = "google-segmentationSelfie" }
 mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "google-subjectSegmentation" }
-reorderable = { module = "org.burnoutcrew.composereorderable:reorderable", version.ref = "reorderable" }
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }

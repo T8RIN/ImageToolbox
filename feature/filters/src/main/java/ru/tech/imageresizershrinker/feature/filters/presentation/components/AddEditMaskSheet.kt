@@ -606,7 +606,7 @@ fun AddEditMaskSheet(
             onDismiss = {
                 showReorderSheet = false
             },
-            updateOrder = viewModel::updateFiltersOrder
+            onReorder = viewModel::updateFiltersOrder
         )
 
         ExitWithoutSavingDialog(

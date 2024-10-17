@@ -227,7 +227,7 @@ fun <T> FilterItem(
         if (previewOnly) {
             Surface(
                 color = Color.Transparent,
-                modifier = Modifier.matchParentSize()
+                modifier = modifier.matchParentSize()
             ) {}
         }
     }

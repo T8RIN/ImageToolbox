@@ -17,43 +17,39 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Reorder
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Composable
 fun FilterReorderSheet(
     filterList: List<UiFilter<*>>,
     visible: Boolean,
     onDismiss: () -> Unit,
-    updateOrder: (List<UiFilter<*>>) -> Unit
+    onReorder: (List<UiFilter<*>>) -> Unit
 ) {
     SimpleSheet(
         sheetContent = {
@@ -61,36 +57,44 @@ fun FilterReorderSheet(
 
             Box {
                 val data = remember { mutableStateOf(filterList) }
+                val listState = rememberLazyListState()
                 val state = rememberReorderableLazyListState(
                     onMove = { from, to ->
                         data.value = data.value.toMutableList().apply {
                             add(to.index, removeAt(from.index))
                         }
                     },
-                    onDragEnd = { _, _ ->
-                        updateOrder(data.value)
-                    }
+                    lazyListState = listState
                 )
                 LazyColumn(
-                    state = state.listState,
-                    modifier = Modifier
-                        .reorderable(state)
-                        .detectReorderAfterLongPress(state),
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    state = listState,
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(data.value, key = { it.hashCode() }) { filter ->
-                        ReorderableItem(state, key = filter.hashCode()) { isDragging ->
-                            val elevation by animateDpAsState(if (isDragging) 16.dp else 0.dp)
-                            val tonalElevation by animateDpAsState(if (isDragging) 16.dp else 1.dp)
+                    itemsIndexed(
+                        items = data.value,
+                        key = { _, v -> v.hashCode() }
+                    ) { index, filter ->
+                        ReorderableItem(
+                            state = state,
+                            key = filter.hashCode()
+                        ) { isDragging ->
                             FilterItem(
                                 filter = filter,
                                 onFilterChange = {},
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .shadow(elevation, RoundedCornerShape(16.dp)),
-                                backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    tonalElevation
+                                    .draggableHandle {
+                                        onReorder(data.value)
+                                    }
+                                    .scale(
+                                        animateFloatAsState(
+                                            if (isDragging) 1.05f
+                                            else 1f
+                                        ).value
+                                    ),
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index = index,
+                                    size = data.value.size
                                 ),
                                 previewOnly = true,
                                 showDragHandle = filterList.size >= 2,

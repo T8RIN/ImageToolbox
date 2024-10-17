@@ -336,7 +336,7 @@ fun FilterEditOption(
             onDismiss = {
                 showReorderSheet = false
             },
-            updateOrder = updateOrder
+            onReorder = updateOrder
         )
 
         PickColorFromImageSheet(

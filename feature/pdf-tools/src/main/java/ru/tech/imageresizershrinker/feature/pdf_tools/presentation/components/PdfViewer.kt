@@ -163,7 +163,7 @@ fun PdfViewer(
                             }?.also {
                                 onGetPagesCount(it.pageCount)
                                 repeat(it.pageCount) { index ->
-                                    it.openPage(index)?.use { page ->
+                                    it.openPage(index).use { page ->
                                         val size = IntegerSize(
                                             width = page.width,
                                             height = page.height
