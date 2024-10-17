@@ -20,13 +20,17 @@ package ru.tech.imageresizershrinker.core.ui.widget.sheets
 import android.net.Uri
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -43,6 +47,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -54,6 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -94,11 +100,16 @@ fun PickImageFromUrisSheet(
                         items(uris, key = { it.toString() }) { uri ->
                             val selected = selectedUri == uri
                             val color by animateColorAsState(
-                                if (selected) MaterialTheme.colorScheme.primary.copy(0.5f)
+                                if (selected) MaterialTheme.colorScheme.surface
                                 else MaterialTheme.colorScheme.surfaceContainerHigh
                             )
                             val padding by animateDpAsState(if (selected) 12.dp else 4.dp)
                             val pictureShape by animateDpAsState(if (selected) 20.dp else 8.dp)
+                            val borderWidth by animateDpAsState(if (selected) 1.5.dp else (-1).dp)
+                            val borderColor by animateColorAsState(
+                                if (selected) MaterialTheme.colorScheme.primaryContainer
+                                else Color.Transparent
+                            )
                             Box(
                                 modifier = Modifier
                                     .container(
@@ -119,24 +130,60 @@ fun PickImageFromUrisSheet(
                                             onDismiss()
                                         }
                                         .padding(padding)
+                                        .border(
+                                            width = borderWidth,
+                                            color = borderColor,
+                                            shape = RoundedCornerShape(pictureShape)
+                                        )
                                         .clip(RoundedCornerShape(pictureShape)),
                                     shape = RectangleShape,
                                     contentScale = ContentScale.Fit
                                 )
+                                BoxAnimatedVisibility(
+                                    visible = selected,
+                                    modifier = Modifier.align(Alignment.TopEnd)
+                                ) {
+                                    Box {
+                                        Box(
+                                            modifier = Modifier
+                                                .padding(1.dp)
+                                                .size(36.dp)
+                                                .clip(
+                                                    RoundedCornerShape(
+                                                        bottomStartPercent = 50
+                                                    )
+                                                )
+                                                .background(MaterialTheme.colorScheme.primaryContainer)
+                                        )
+                                        Box(
+                                            modifier = Modifier
+                                                .width(38.dp)
+                                                .height(padding)
+                                                .background(color)
+                                        )
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.BottomEnd)
+                                                .width(padding)
+                                                .height(38.dp)
+                                                .background(color)
+                                        )
+                                    }
+                                }
                                 EnhancedIconButton(
                                     onClick = {
                                         onUriRemoved(uri)
                                     },
                                     forceMinimumInteractiveComponentSize = false,
-                                    containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(
-                                        0.7f
-                                    ),
+                                    containerColor = color,
                                     enabled = hasUris,
-                                    contentColor = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier
-                                        .padding(8.dp)
                                         .size(36.dp)
-                                        .align(Alignment.TopEnd)
+                                        .align(Alignment.TopEnd),
+                                    enableAutoShadowAndBorder = false,
+                                    shape = RoundedCornerShape(
+                                        bottomStartPercent = 50
+                                    )
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.RemoveCircleOutline,
