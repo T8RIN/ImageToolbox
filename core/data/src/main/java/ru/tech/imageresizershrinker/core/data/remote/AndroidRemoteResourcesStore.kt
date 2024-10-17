@@ -63,7 +63,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                             uri = uri,
                             name = uri.takeLastWhile { it != '/' }.decodeEscaped()
                         )
-                    }
+                    }.sortedBy { it.name }
                 )
             }
         }
@@ -210,12 +210,12 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
             if (downloadedUris.isNotEmpty()) {
                 RemoteResources(
                     name = name,
-                    list = (savedAlready + downloadedUris).distinct()
+                    list = (savedAlready + downloadedUris).distinct().sortedBy { it.name }
                 )
             } else {
                 RemoteResources(
                     name = name,
-                    list = savedAlready
+                    list = savedAlready.sortedBy { it.name }
                 )
             }
         }.onFailure(onFailure).getOrNull()
