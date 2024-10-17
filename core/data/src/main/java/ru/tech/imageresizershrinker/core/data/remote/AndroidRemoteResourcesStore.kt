@@ -22,6 +22,7 @@ import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
+import ru.tech.imageresizershrinker.core.data.utils.decodeEscaped
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResource
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
@@ -60,7 +61,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                     }.map { uri ->
                         RemoteResource(
                             uri = uri,
-                            name = uri.takeLastWhile { it != '/' }
+                            name = uri.takeLastWhile { it != '/' }.decodeEscaped()
                         )
                     }
                 )
@@ -147,7 +148,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
                 val outFile = File(
                     savingDir,
-                    fileName
+                    fileName.decodeEscaped()
                 ).apply {
                     delete()
                     createNewFile()
@@ -183,7 +184,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                     downloadedUris.add(
                         RemoteResource(
                             uri = outFile.toUri().toString(),
-                            name = fileName
+                            name = fileName.decodeEscaped()
                         )
                     )
                     onProgress(
@@ -197,22 +198,24 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                 }
             }
 
+            val savedAlready = savingDir.listFiles()?.mapNotNull {
+                it.toUri().toString()
+            }?.map { uri ->
+                RemoteResource(
+                    uri = uri,
+                    name = uri.takeLastWhile { it != '/' }.decodeEscaped()
+                )
+            } ?: emptyList()
+
             if (downloadedUris.isNotEmpty()) {
                 RemoteResources(
                     name = name,
-                    list = downloadedUris
+                    list = (savedAlready + downloadedUris).distinct()
                 )
             } else {
                 RemoteResources(
                     name = name,
-                    list = savingDir.listFiles()?.mapNotNull {
-                        it.toUri().toString()
-                    }?.map { uri ->
-                        RemoteResource(
-                            uri = uri,
-                            name = uri.takeLastWhile { it != '/' }
-                        )
-                    } ?: emptyList()
+                    list = savedAlready
                 )
             }
         }.onFailure(onFailure).getOrNull()

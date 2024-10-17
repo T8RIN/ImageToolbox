@@ -188,7 +188,7 @@ object ContextUtils {
         uri.toString().takeLastWhile { it != '/' }
     } else {
         DocumentFile.fromSingleUri(this, uri)?.name
-    }
+    }?.decodeEscaped()
 
     fun Context.parseImageFromIntent(
         intent: Intent?,

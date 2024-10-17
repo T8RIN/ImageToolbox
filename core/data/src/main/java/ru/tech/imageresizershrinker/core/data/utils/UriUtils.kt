@@ -28,6 +28,7 @@ import androidx.documentfile.provider.DocumentFile
 import okio.use
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.resources.R
+import java.net.URLDecoder
 
 fun ImageModel.toUri(): Uri? = when (data) {
     is Uri -> data as Uri
@@ -106,3 +107,12 @@ internal fun Uri.tryGetLocation(context: Context): Uri {
 fun Uri.getFilename(
     context: Context
 ): String? = DocumentFile.fromSingleUri(context, this)?.name
+
+@Suppress("DEPRECATION")
+fun String.decodeEscaped(): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        URLDecoder.decode(URLDecoder.decode(this, Charsets.UTF_8), Charsets.UTF_8)
+    } else {
+        URLDecoder.decode(URLDecoder.decode(this))
+    }
+}

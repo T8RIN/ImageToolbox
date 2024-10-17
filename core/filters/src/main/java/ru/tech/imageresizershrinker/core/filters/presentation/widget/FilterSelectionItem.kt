@@ -29,6 +29,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +39,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
@@ -46,7 +48,9 @@ import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Slideshow
+import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material.icons.rounded.Update
+import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Icon
@@ -96,14 +100,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -269,54 +274,108 @@ internal fun FilterSelectionItem(
             drawStartIconContainer = false,
             bottomContent = {
                 cubeLutRemoteResources?.let { resources ->
-                    ExpandableItem(
-                        visibleContent = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                TitleItem(
-                                    text = stringResource(R.string.lut_library),
-                                    modifier = Modifier
-                                        .padding(start = 8.dp)
-                                        .weight(1f)
+                    var showSelection by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(
+                                start = 8.dp,
+                                end = 8.dp,
+                                bottom = 8.dp
+                            )
+                            .container(
+                                color = MaterialTheme.colorScheme.surface,
+                                resultPadding = 0.dp,
+                                shape = shape
+                            )
+                            .clickable {
+                                haptics.performHapticFeedback(
+                                    HapticFeedbackType.LongPress
                                 )
-                                Spacer(Modifier.width(8.dp))
-                                EnhancedIconButton(
-                                    onClick = {
-                                        showDownloadDialog = true
-                                        forceUpdate = true
-                                        downloadOnlyNewData = false
-                                    },
-                                    containerColor = if (resources.list.isEmpty()) {
-                                        MaterialTheme.colorScheme.secondary
-                                    } else Color.Transparent
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Download,
-                                        contentDescription = null
-                                    )
-                                }
-                                if (resources.list.isNotEmpty()) {
-                                    EnhancedIconButton(
-                                        onClick = {
-                                            showDownloadDialog = true
-                                            forceUpdate = true
-                                            downloadOnlyNewData = true
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Update,
-                                            contentDescription = null
-                                        )
-                                    }
+                                if (resources.list.isEmpty()) {
+                                    showDownloadDialog = true
+                                } else {
+                                    showSelection = true
                                 }
                             }
+                            .padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        TitleItem(
+                            text = stringResource(R.string.lut_library),
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .weight(1f)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        EnhancedIconButton(
+                            onClick = {
+                                showDownloadDialog = true
+                                forceUpdate = true
+                                downloadOnlyNewData = false
+                            },
+                            containerColor = if (resources.list.isEmpty()) {
+                                MaterialTheme.colorScheme.secondary
+                            } else Color.Transparent
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Download,
+                                contentDescription = null
+                            )
+                        }
+                        if (resources.list.isNotEmpty()) {
+                            EnhancedIconButton(
+                                onClick = {
+                                    showDownloadDialog = true
+                                    forceUpdate = true
+                                    downloadOnlyNewData = true
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Update,
+                                    contentDescription = null
+                                )
+                            }
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.secondary,
+                                onClick = {
+                                    showSelection = true
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Visibility,
+                                    contentDescription = "View"
+                                )
+                            }
+                        }
+                    }
+
+                    SimpleSheet(
+                        visible = showSelection,
+                        onDismiss = { showSelection = it },
+                        confirmButton = {
+                            EnhancedButton(
+                                onClick = {
+                                    showSelection = false
+                                }
+                            ) {
+                                Text(stringResource(R.string.close))
+                            }
                         },
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = shape,
-                        expandableContent = {
-                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                resources.list.forEachIndexed { index, (uri, name) ->
+                        title = {
+                            TitleItem(
+                                text = stringResource(R.string.lut_library),
+                                icon = Icons.Rounded.TableChart
+                            )
+                        }
+                    ) {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            contentPadding = PaddingValues(8.dp)
+                        ) {
+                            resources.list.forEachIndexed { index, (uri, name) ->
+                                item {
                                     PreferenceItem(
                                         title = remember(name) {
                                             name.removeSuffix(".cube")
@@ -324,33 +383,21 @@ internal fun FilterSelectionItem(
                                                 .replace("_", " ")
                                         },
                                         onClick = {
+                                            showSelection = false
                                             onClick(
                                                 UiCubeLutFilter(1f to FileModel(uri))
                                             )
                                         },
-                                        color = MaterialTheme.colorScheme.surfaceContainerLow,
                                         shape = ContainerShapeDefaults.shapeForIndex(
                                             index = index,
                                             size = resources.list.size
                                         ),
-                                        modifier = Modifier.padding(horizontal = 8.dp)
+                                        modifier = Modifier.fillMaxWidth()
                                     )
                                 }
                             }
-                        },
-                        modifier = Modifier.padding(
-                            start = 8.dp,
-                            end = 8.dp,
-                            bottom = 8.dp
-                        ),
-                        canExpand = resources.list.isNotEmpty(),
-                        onClick = {
-                            if (resources.list.isEmpty()) {
-                                showDownloadDialog = true
-                            }
-                        },
-                        expansionIconContainerColor = MaterialTheme.colorScheme.secondary
-                    )
+                        }
+                    }
                 }
             }
         )

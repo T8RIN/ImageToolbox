@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.provider.DocumentsContract
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
@@ -29,6 +30,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import java.net.URLDecoder
 import java.util.LinkedList
 
 
@@ -163,3 +165,12 @@ fun ImageModel.toUri(): Uri? = when (data) {
 fun Any.toImageModel() = ImageModel(this)
 
 fun String.toFileModel() = FileModel(this)
+
+@Suppress("DEPRECATION")
+fun String.decodeEscaped(): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        URLDecoder.decode(URLDecoder.decode(this, Charsets.UTF_8), Charsets.UTF_8)
+    } else {
+        URLDecoder.decode(URLDecoder.decode(this))
+    }
+}
