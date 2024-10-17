@@ -19,18 +19,22 @@ package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun WantCancelLoadingDialog(
     visible: Boolean,
@@ -63,11 +67,17 @@ fun WantCancelLoadingDialog(
                 }
             },
             icon = {
-                CircularProgressIndicator(
+                CircularWavyProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    strokeCap = StrokeCap.Round,
                     trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                    strokeWidth = 3.dp
+                    trackStroke = Stroke(
+                        width = with(LocalDensity.current) { 3.dp.toPx() },
+                        cap = StrokeCap.Round
+                    ),
+                    stroke = Stroke(
+                        width = with(LocalDensity.current) { 3.dp.toPx() },
+                        cap = StrokeCap.Round
+                    )
                 )
             },
         )

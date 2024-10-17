@@ -28,14 +28,14 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
     val borderWidth = LocalSettingsState.current.borderWidth
@@ -81,13 +82,12 @@ fun Loading(modifier: Modifier = Modifier) {
                 shape = MaterialStarShape
             )
     ) {
-        CircularProgressIndicator(
+        CircularWavyProgressIndicator(
             modifier = Modifier
                 .align(
                     Alignment.Center
                 )
                 .size(minHeight / 2),
-            strokeCap = StrokeCap.Round,
             trackColor = MaterialTheme.colorScheme.secondary.copy(0.3f),
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
@@ -120,6 +120,7 @@ fun BoxScope.Loading(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BoxScope.Loading(
     progress: Float,
@@ -155,19 +156,17 @@ fun BoxScope.Loading(
             modifier = Modifier.size(loaderSize),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator(
+            CircularWavyProgressIndicator(
                 modifier = Modifier.size(maxWidth),
                 color = MaterialTheme.colorScheme.secondary.copy(0.3f),
-                trackColor = MaterialTheme.colorScheme.surfaceContainer,
-                strokeCap = StrokeCap.Round,
+                trackColor = MaterialTheme.colorScheme.surfaceContainer
             )
             val progressAnimated by animateFloatAsState(targetValue = progress)
-            CircularProgressIndicator(
+            CircularWavyProgressIndicator(
                 modifier = Modifier.size(maxWidth),
                 progress = { progressAnimated },
                 color = MaterialTheme.colorScheme.primary,
-                trackColor = Color.Transparent,
-                strokeCap = StrokeCap.Round,
+                trackColor = Color.Transparent
             )
             additionalContent(maxWidth)
         }

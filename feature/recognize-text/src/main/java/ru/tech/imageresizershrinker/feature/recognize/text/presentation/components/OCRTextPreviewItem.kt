@@ -36,7 +36,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -52,7 +51,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 
 @Composable
 internal fun OCRTextPreviewItem(
@@ -92,21 +91,16 @@ internal fun OCRTextPreviewItem(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(24.dp),
-                        color = MaterialTheme.colorScheme.tertiary.copy(0.5f),
-                        trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        strokeCap = StrokeCap.Round
-                    )
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(24.dp),
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        strokeCap = StrokeCap.Round,
-                        trackColor = Color.Transparent,
-                        progress = {
-                            loadingProgress / 100f
-                        }
-                    )
+                    Box(
+                        modifier = Modifier
+                            .padding(24.dp)
+                            .size(72.dp)
+                    ) {
+                        Loading(
+                            progress = loadingProgress / 100f,
+                            loaderSize = 36.dp
+                        )
+                    }
                 }
             } else {
                 Column(
