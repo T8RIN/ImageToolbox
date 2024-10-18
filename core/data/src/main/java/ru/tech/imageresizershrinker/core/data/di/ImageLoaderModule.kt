@@ -31,7 +31,6 @@ import coil.util.Logger
 import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.github.awxkee.avifcoil.decoder.HeifDecoder
-import com.github.awxkee.avifcoil.decoder.animation.AnimatedAvifDecoder
 import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.psd.coil.PsdDecoder
@@ -85,7 +84,6 @@ internal object ImageLoaderModule {
             }
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) {
-                add(AnimatedAvifDecoder.Factory(preheatFrames = 12))
                 add(HeifDecoder.Factory())
             }
             add(AnimatedJxlDecoder.Factory(context))
