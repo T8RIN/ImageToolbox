@@ -999,4 +999,7 @@
     <string name="compact_selectors_sub">Certains contrôles de sélection utiliseront un agencement compact pour prendre moins de place</string>
     <string name="grant_camera_permission_to_capture_image">Accordez la permission d\'accès à la caméra dans les paramètres pour capturer une image</string>
     <string name="layout">Mise en page</string>
+    <string name="lut_library">Bibliothèque LUT</string>
+    <string name="lut_library_sub">Téléchargez une collection de LUTs que vous pouvez appliquer après le téléchargement</string>
+    <string name="lut_library_update_sub">Mettez à jour la collection de LUTs (seules les nouvelles seront mises en file d\'attente), que vous pouvez appliquer après le téléchargement</string>
 </resources>
