@@ -160,7 +160,7 @@
     <string name="options_arrangement">Disposizione delle opzioni</string>
     <string name="edit">Modificare</string>
     <string name="order">Ordine</string>
-    <string name="order_sub">Determina l\'ordine delle opzioni sulla schermata principale</string>
+    <string name="order_sub">Modifica l\'ordine delle opzioni sulla schermata principale</string>
     <string name="emojis_count">Contano gli emoji</string>
     <string name="replace_sequence_number">Sostituisci il numero di sequenza</string>
     <string name="replace_sequence_number_sub">Se abilitato, sostituisce il timestamp standard al numero di sequenza dell\'immagine se si utilizza l\'elaborazione batch</string>
@@ -292,7 +292,7 @@
     <string name="key">Chiave</string>
     <string name="implementation_sub">AES-256, modalità GCM, nessuna spaziatura interna, IV casuali a 12 byte. Le chiavi vengono utilizzate come hash SHA-3 (256 bit).</string>
     <string name="file_size">Dimensione del file</string>
-    <string name="presets_sub" formatted="false">Se hai selezionato preset 125, l\'immagine verrà salvata con il 125% della dimensione dell\'immagine originale. Se hai scelto il preset 50, allora l\'immagine verrà salvata con il 50% della dimensione.</string>
+    <string name="presets_sub" formatted="false">Se hai selezionato il preset 125, l\'immagine verrà salvata con il 125% della dimensione originale. Se hai scelto il preset 50, allora l\'immagine verrà salvata con il 50% della dimensione.</string>
     <string name="reset_settings_sub">In questo modo verranno ripristinate le impostazioni ai valori predefiniti. Si noti che questa operazione non può essere annullata senza un file di backup menzionato sopra.</string>
     <string name="something_went_wrong_emphasis">Ooops… Qualcosa è andato storto. Puoi scrivermi utilizzando le opzioni di seguito e cercherò di trovare una soluzione</string>
     <string name="tg_chat">Chat Telegram</string>
@@ -865,4 +865,11 @@
     <string name="compose">Componi</string>
     <string name="speed_sub">Controlla la velocità di decodifica del risultato per renderne l\'apertura più rapida. Un valore di %1$d indica la decodifica più lenta, mentre %2$d la più veloce. Quest\'impostazione può aumentare le dimensioni dell\'immagine finale.</string>
     <string name="lossy_compression_sub">Usa una compressione con perdita di dati per ridurre le dimensioni del file invece di una senza perdita.</string>
+    <string name="material_you_switch_sub">Usa Material Your basato sulla vista, è molto meglio degli altri e ha belle animazioni</string>
+    <string name="compose_switch_sub">Utilizza il Material You Jetpack Compose che cambi, non è così bello come quello basato sulla vista</string>
+    <string name="max">Max</string>
+    <string name="resize_anchor">Ridimensiona Ancora</string>
+    <string name="pixel_switch">Pixel</string>
+    <string name="fluent_switch_sub">Usa interruttori in stile Windows 11 basati sul sistema di design \"Fluent\"</string>
+    <string name="fluent_switch">Fluent</string>
 </resources>

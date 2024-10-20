@@ -1427,7 +1427,7 @@
     <string name="stamped_sub">Zeichnet ausgewählte Formen entlang des Pfades mit dem angegebenen Abstand</string>
     <string name="crossfade">Überblendung</string>
     <string name="top_hat">Zylinderhut</string>
-    <string name="tone_curves">Tonwertkurven</string>
+    <string name="tone_curves">Tonkurven</string>
     <string name="reset_curves_sub">Die Kurven werden auf den Standardwert zurückgesetzt</string>
     <string name="create_shortcut">Verknüpfung erstellen</string>
     <string name="create_shortcut_title">Werkzeug zum Anheften auswählen</string>
@@ -1445,4 +1445,18 @@
     <string name="layout">Layout</string>
     <string name="main_screen_title">Titel des Hauptbildschirms</string>
     <string name="grant_camera_permission_to_capture_image">Gewähre der Kamera in den Einstellungen die Berechtigung, ein Bild aufzunehmen</string>
+    <string name="constant_rate_factor">Konstanter Ratenfaktor (KRF)</string>
+    <string name="crf_sub">Ein Wert von %1$d bedeutet eine langsame Komprimierung, was zu einer relativ kleinen Dateigröße führt. %2$d bedeutet eine schnellere Komprimierung, was zu einer großen Datei führt.</string>
+    <string name="lut_library">Lut Bücherei</string>
+    <string name="lut_library_sub">Download einer Sammlung von LUTs, die du nach dem Herunterladen anwenden kannst</string>
+    <string name="use_circle_kernel">Circle Kernel verwenden</string>
+    <string name="lut_library_update_sub">Aktualisiere LUT-Sammlung (nur neue werden in die Warteschlange gestellt), die du nach dem Herunterladen anwenden kannst</string>
+    <string name="domain_warp">Domain Warp</string>
+    <string name="dont_stack_frames">Keine Rahmen stapeln</string>
+    <string name="dont_stack_frames_sub">Ermöglicht die Entsorgung von Prevoius-Rahmen, so dass sie nicht übereinander gestapelt werden</string>
+    <string name="crossfade_sub">Frames werden ineinander überblendet</string>
+    <string name="crossfade_count">Anzahl der Überblendungsbilder</string>
+    <string name="canny">Canny</string>
+    <string name="laplacian_simple">Laplacian Einfach</string>
+    <string name="sobel_simple">Sobel Einfach</string>
 </resources>

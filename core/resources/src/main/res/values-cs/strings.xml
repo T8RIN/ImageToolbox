@@ -163,7 +163,7 @@
     <string name="options_arrangement">Uspořádání možností</string>
     <string name="edit">Upravit</string>
     <string name="order">Objednat</string>
-    <string name="order_sub">Určuje pořadí možností na hlavní obrazovce</string>
+    <string name="order_sub">Určuje pořadí nástrojů na hlavní obrazovce</string>
     <string name="replace_sequence_number">Nahraďte pořadové číslo</string>
     <string name="replace_sequence_number_sub">Pokud je povoleno, nahradí standardní časové razítko pořadovým číslem obrázku, pokud používáte dávkové zpracování</string>
     <string name="load_image_from_net_sub">Načtěte jakýkoli obrázek z internetu, zobrazte jeho náhled, přibližujte jej a také jej uložte nebo upravte, pokud chcete</string>
