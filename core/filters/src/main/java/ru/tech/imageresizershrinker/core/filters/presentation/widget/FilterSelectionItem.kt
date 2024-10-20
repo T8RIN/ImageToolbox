@@ -143,7 +143,7 @@ internal fun FilterSelectionItem(
     cubeLutRemoteResources: RemoteResources? = null,
     cubeLutDownloadProgress: RemoteResourcesDownloadProgress? = null,
     onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> },
-    previewModel: ImageModel = remember { R.drawable.filter_preview_source.toImageModel() } //TODO: Add selection of this
+    previewModel: ImageModel = remember { R.drawable.filter_preview_source.toImageModel() }
 ) {
     val haptics = LocalHapticFeedback.current
 
@@ -155,9 +155,8 @@ internal fun FilterSelectionItem(
             .data(previewModel.data)
             .error(R.drawable.filter_preview_source)
             .transformations(onRequestFilterMapping(filter))
-            .diskCacheKey(filter::class.simpleName)
-            .memoryCacheKey(filter::class.simpleName)
-            .crossfade(true)
+            .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
+            .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
             .size(300, 300)
             .build()
     }
@@ -507,9 +506,8 @@ internal fun FilterSelectionItem(
                                                                             )
                                                                         )
                                                                     )
-                                                                    .diskCacheKey(uri)
-                                                                    .memoryCacheKey(uri)
-                                                                    .crossfade(true)
+                                                                    .diskCacheKey(uri + previewModel.data.hashCode())
+                                                                    .memoryCacheKey(uri + previewModel.data.hashCode())
                                                                     .size(300, 300)
                                                                     .build()
                                                             },

@@ -62,6 +62,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -404,11 +405,15 @@ fun ScanQrCodeContent(
                                 modifier = Modifier
                                     .fillMaxHeight()
                                     .padding(start = 8.dp)
-                                    .container(color = MaterialTheme.colorScheme.errorContainer)
-                                    .padding(horizontal = 8.dp)
+                                    .clip(RoundedCornerShape(16.dp))
                                     .clickable {
                                         qrImageUri = null
-                                    },
+                                    }
+                                    .container(
+                                        color = MaterialTheme.colorScheme.errorContainer,
+                                        resultPadding = 0.dp
+                                    )
+                                    .padding(horizontal = 8.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(

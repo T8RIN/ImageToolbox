@@ -20,15 +20,23 @@
 package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.content.Context
+import android.graphics.Bitmap
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
@@ -46,7 +54,10 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.feature.filters.di.FilterInteractorDataStore
+import java.io.File
 import javax.inject.Inject
 import kotlin.reflect.full.primaryConstructor
 
@@ -54,6 +65,8 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     @ApplicationContext private val context: Context,
     @FilterInteractorDataStore private val dataStore: DataStore<Preferences>,
     private val fileController: FileController,
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : FavoriteFiltersInteractor {
 
     override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
@@ -108,6 +121,42 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     override suspend fun reorderFavoriteFilters(newOrder: List<Filter<*>>) {
         dataStore.edit { prefs ->
             prefs[FAVORITE_FILTERS] = newOrder.toDatastoreString()
+        }
+    }
+
+    override fun getFilterPreviewModel(): Flow<ImageModel> = dataStore.data.map { prefs ->
+        prefs[PREVIEW_MODEL]?.let {
+            when (it) {
+                "0" -> R.drawable.filter_preview_source
+                "1" -> R.drawable.filter_preview_source_3
+                else -> it
+            }.toImageModel()
+        } ?: R.drawable.filter_preview_source.toImageModel()
+    }
+
+    override suspend fun setFilterPreviewModel(uri: String) {
+        if (uri.any { !it.isDigit() }) {
+            imageGetter.getImage(
+                data = uri,
+                size = 300
+            )?.let { image ->
+                fileController.writeBytes(
+                    File(context.filesDir, "filterPreview.png").apply {
+                        createNewFile()
+                    }.toUri().toString()
+                ) { writeable ->
+                    writeable.writeBytes(
+                        imageCompressor.compress(
+                            image = image,
+                            imageFormat = ImageFormat.Png.Lossless,
+                            quality = Quality.Base(100)
+                        )
+                    )
+                }
+            }
+        }
+        dataStore.edit {
+            it[PREVIEW_MODEL] = uri
         }
     }
 
@@ -520,3 +569,4 @@ private const val PROPERTIES_SEPARATOR = "$"
 
 private val FAVORITE_FILTERS = stringPreferencesKey("FAVORITE_FILTERS")
 private val TEMPLATE_FILTERS = stringPreferencesKey("TEMPLATE_FILTERS")
+private val PREVIEW_MODEL = stringPreferencesKey("PREVIEW_MODEL")

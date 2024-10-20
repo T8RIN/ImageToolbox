@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.filters.domain
 
 import kotlinx.coroutines.flow.Flow
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 
@@ -50,5 +51,9 @@ interface FavoriteFiltersInteractor {
     fun isValidTemplateFilter(string: String): Boolean
 
     suspend fun reorderFavoriteFilters(newOrder: List<Filter<*>>)
+
+    fun getFilterPreviewModel(): Flow<ImageModel>
+
+    suspend fun setFilterPreviewModel(uri: String)
 
 }

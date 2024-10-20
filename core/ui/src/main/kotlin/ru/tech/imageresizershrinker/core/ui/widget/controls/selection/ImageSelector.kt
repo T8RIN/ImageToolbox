@@ -66,7 +66,8 @@ fun ImageSelector(
     modifier: Modifier = Modifier,
     autoShadowElevation: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
-    shape: Shape = RoundedCornerShape(20.dp)
+    shape: Shape = RoundedCornerShape(20.dp),
+    contentScale: ContentScale = ContentScale.Inside
 ) {
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)
@@ -88,7 +89,7 @@ fun ImageSelector(
         autoShadowElevation = autoShadowElevation,
         startIcon = {
             Picture(
-                contentScale = ContentScale.Inside,
+                contentScale = contentScale,
                 model = value,
                 shape = CloverShape,
                 modifier = Modifier.size(48.dp),
@@ -100,7 +101,7 @@ fun ImageSelector(
                             .fillMaxSize()
                             .clip(CloverShape)
                             .background(
-                                MaterialTheme.colorScheme.secondaryContainer
+                                color = MaterialTheme.colorScheme.secondaryContainer
                                     .copy(0.5f)
                                     .compositeOver(color)
                             )

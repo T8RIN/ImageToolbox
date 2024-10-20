@@ -1477,4 +1477,6 @@
     <string name="lut_library">Lut Library</string>
     <string name="lut_library_sub">Download collection of LUTs, which you can apply after downloading</string>
     <string name="lut_library_update_sub">Update collection of LUTs (only new ones will be queued), which you can apply after downloading</string>
+    <string name="filter_preview_image_sub">Change default image preview for filters</string>
+    <string name="filter_preview_image">Preview Image</string>
 </resources>

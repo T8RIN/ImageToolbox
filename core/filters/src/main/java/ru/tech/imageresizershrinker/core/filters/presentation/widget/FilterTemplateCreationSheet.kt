@@ -68,8 +68,11 @@ import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
@@ -79,6 +82,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -108,6 +112,8 @@ internal fun FilterTemplateCreationSheet(
 ) {
     ScopedViewModelContainer<FilterTemplateCreationSheetViewModel> { disposable ->
         val viewModel = this
+
+        val previewModel = viewModel.previewModel
 
         val isPortrait by isPortraitOrientationAsState()
 
@@ -258,7 +264,7 @@ internal fun FilterTemplateCreationSheet(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 ImageSelector(
-                                    value = selectedUri ?: R.drawable.filter_preview_source,
+                                    value = selectedUri ?: previewModel.data,
                                     onValueChange = { selectedUri = it },
                                     subtitle = stringResource(id = R.string.select_template_preview),
                                     shape = RoundedCornerShape(16.dp),
@@ -378,6 +384,12 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
+
+    private val _previewModel: MutableState<ImageModel> = mutableStateOf(
+        R.drawable.filter_preview_source.toImageModel()
+    )
+    val previewModel: ImageModel by _previewModel
+
     private val _filterList: MutableState<List<UiFilter<*>>> = mutableStateOf(emptyList())
     val filterList by _filterList
 
@@ -392,6 +404,13 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
     private val _previewLoading: MutableState<Boolean> = mutableStateOf(false)
     val previewLoading by _previewLoading
 
+    init {
+        favoriteFiltersInteractor
+            .getFilterPreviewModel().onEach { data ->
+                _previewModel.update { data }
+            }.launchIn(viewModelScope)
+    }
+
     fun updateTemplateName(newName: String) {
         _templateName.update { newName.filter { it.isLetter() || it.isWhitespace() }.trim() }
     }
@@ -401,7 +420,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
             _previewLoading.update { true }
             _previewBitmap.update {
                 imageGetter.getImageWithTransformations(
-                    data = bitmapUri ?: R.drawable.filter_preview_source,
+                    data = bitmapUri ?: previewModel.data,
                     transformations = filterList.map { filterProvider.filterToTransformation(it) },
                     size = IntegerSize(1000, 1000)
                 )

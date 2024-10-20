@@ -81,6 +81,7 @@ import coil.transform.Transformation
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
@@ -110,7 +111,8 @@ internal fun FilterTemplateInfoSheet(
     onRemoveTemplateFilter: (TemplateFilter) -> Unit,
     onShareFile: (content: String) -> Unit,
     onRequestTemplateFilename: () -> String,
-    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?
+    onRequestFilterMapping: (UiFilter<*>) -> Transformation,
+    previewModel: ImageModel
 ) {
     SimpleSheet(
         visible = visible,
@@ -164,20 +166,14 @@ internal fun FilterTemplateInfoSheet(
         ) {
             item {
                 Column(Modifier.capturable(captureController)) {
-                    if (onRequestFilterMapping != null) {
-                        Spacer(modifier = Modifier.height(32.dp))
-                    }
+                    Spacer(modifier = Modifier.height(32.dp))
                     BoxWithConstraints(
-                        modifier = Modifier.then(
-                            if (onRequestFilterMapping != null) {
-                                Modifier
-                                    .background(
-                                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                                        shape = RoundedCornerShape(16.dp)
-                                    )
-                                    .padding(16.dp)
-                            } else Modifier
-                        )
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(16.dp)
                     ) {
                         val targetSize = min(min(maxWidth, maxHeight), 300.dp)
                         Column(
@@ -186,11 +182,7 @@ internal fun FilterTemplateInfoSheet(
                             QrCode(
                                 content = filterContent,
                                 modifier = Modifier
-                                    .then(
-                                        if (onRequestFilterMapping != null) {
-                                            Modifier.padding(top = 36.dp, bottom = 16.dp)
-                                        } else Modifier
-                                    )
+                                    .padding(top = 36.dp, bottom = 16.dp)
                                     .size(targetSize)
                             )
 
@@ -202,16 +194,15 @@ internal fun FilterTemplateInfoSheet(
                             )
                         }
 
-                        if (onRequestFilterMapping != null) {
-                            TemplateFilterPreviewItem(
-                                modifier = Modifier
-                                    .align(Alignment.TopCenter)
-                                    .offset(y = (-48).dp)
-                                    .size(64.dp),
-                                templateFilter = templateFilter,
-                                onRequestFilterMapping = onRequestFilterMapping
-                            )
-                        }
+                        TemplateFilterPreviewItem(
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .offset(y = (-48).dp)
+                                .size(64.dp),
+                            templateFilter = templateFilter,
+                            onRequestFilterMapping = onRequestFilterMapping,
+                            previewModel = previewModel
+                        )
                     }
                 }
 
@@ -292,7 +283,8 @@ internal fun FilterTemplateInfoSheet(
                                 )
                                 .aspectRatio(1f),
                             templateFilter = templateFilter,
-                            onRequestFilterMapping = onRequestFilterMapping
+                            onRequestFilterMapping = onRequestFilterMapping,
+                            previewModel = previewModel
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(stringResource(R.string.delete_template_warn))
@@ -425,22 +417,20 @@ internal fun FilterTemplateInfoSheet(
 @Composable
 internal fun TemplateFilterPreviewItem(
     modifier: Modifier,
-    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
-    templateFilter: TemplateFilter
+    onRequestFilterMapping: (UiFilter<*>) -> Transformation,
+    templateFilter: TemplateFilter,
+    previewModel: ImageModel
 ) {
     val context = LocalContext.current
-    val model = remember(templateFilter) {
-        if (onRequestFilterMapping != null) {
-            ImageRequest.Builder(context)
-                .data(R.drawable.filter_preview_source)
-                .error(R.drawable.filter_preview_source)
-                .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
-                .diskCacheKey(templateFilter.toString())
-                .memoryCacheKey(templateFilter.toString())
-                .crossfade(true)
-                .size(300, 300)
-                .build()
-        } else null
+    val model = remember(templateFilter, previewModel) {
+        ImageRequest.Builder(context)
+            .data(previewModel.data)
+            .error(R.drawable.filter_preview_source)
+            .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
+            .diskCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+            .memoryCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+            .size(300, 300)
+            .build()
     }
     var loading by remember {
         mutableStateOf(false)
@@ -455,15 +445,13 @@ internal fun TemplateFilterPreviewItem(
         }
     )
 
-    if (onRequestFilterMapping != null) {
-        Image(
-            painter = painter,
-            contentScale = ContentScale.Crop,
-            contentDescription = null,
-            modifier = modifier
-                .clip(MaterialTheme.shapes.medium)
-                .transparencyChecker()
-                .shimmer(loading)
-        )
-    }
+    Image(
+        painter = painter,
+        contentScale = ContentScale.Crop,
+        contentDescription = null,
+        modifier = modifier
+            .clip(MaterialTheme.shapes.medium)
+            .transparencyChecker()
+            .shimmer(loading)
+    )
 }

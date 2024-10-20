@@ -55,6 +55,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
@@ -63,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -73,24 +75,22 @@ internal fun TemplateFilterSelectionItem(
     templateFilter: TemplateFilter,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
-    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
+    onRequestFilterMapping: (UiFilter<*>) -> Transformation,
     onInfoClick: () -> Unit,
     shape: Shape,
-    modifier: Modifier
+    modifier: Modifier,
+    previewModel: ImageModel = remember { R.drawable.filter_preview_source.toImageModel() }
 ) {
     val context = LocalContext.current
-    val model = remember(templateFilter) {
-        if (onRequestFilterMapping != null) {
-            ImageRequest.Builder(context)
-                .data(R.drawable.filter_preview_source)
-                .error(R.drawable.filter_preview_source)
-                .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
-                .diskCacheKey(templateFilter.toString())
-                .memoryCacheKey(templateFilter.toString())
-                .crossfade(true)
-                .size(300, 300)
-                .build()
-        } else null
+    val model = remember(templateFilter, previewModel) {
+        ImageRequest.Builder(context)
+            .data(previewModel.data)
+            .error(R.drawable.filter_preview_source)
+            .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
+            .diskCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+            .memoryCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+            .size(300, 300)
+            .build()
     }
     var loading by remember {
         mutableStateOf(false)
@@ -118,19 +118,17 @@ internal fun TemplateFilterSelectionItem(
         startIcon = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {
-                    if (onRequestFilterMapping != null) {
-                        Image(
-                            painter = painter,
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(48.dp)
-                                .scale(1.2f)
-                                .clip(MaterialTheme.shapes.medium)
-                                .transparencyChecker()
-                                .shimmer(loading)
-                        )
-                    }
+                    Image(
+                        painter = painter,
+                        contentScale = ContentScale.Crop,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .scale(1.2f)
+                            .clip(MaterialTheme.shapes.medium)
+                            .transparencyChecker()
+                            .shimmer(loading)
+                    )
                     val haptics = LocalHapticFeedback.current
                     Box(
                         modifier = Modifier

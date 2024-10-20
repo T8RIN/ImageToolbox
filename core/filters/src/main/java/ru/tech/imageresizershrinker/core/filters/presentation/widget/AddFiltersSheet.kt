@@ -31,9 +31,11 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -87,6 +89,7 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -121,6 +124,8 @@ import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -129,6 +134,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
@@ -157,10 +163,12 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAs
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
@@ -190,326 +198,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-
-
-@HiltViewModel
-private class AddFiltersSheetViewModel @Inject constructor(
-    private val filterProvider: FilterProvider<Bitmap>,
-    private val imageTransformer: ImageTransformer<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
-    private val fileController: FileController,
-    private val imageCompressor: ImageCompressor<Bitmap>,
-    private val favoriteInteractor: FavoriteFiltersInteractor,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val remoteResourcesStore: RemoteResourcesStore,
-    dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
-    private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
-    val previewData by _previewData
-
-    private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val previewBitmap by _previewBitmap
-
-    private val _isPreviewLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isPreviewLoading by _isPreviewLoading
-
-    private val _cubeLutRemoteResources: MutableState<RemoteResources> =
-        mutableStateOf(RemoteResources.CubeLutDefault)
-    val cubeLutRemoteResources by _cubeLutRemoteResources
-
-    private val _cubeLutDownloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
-        mutableStateOf(null)
-    val cubeLutDownloadProgress by _cubeLutDownloadProgress
-
-    init {
-        updateCubeLuts(
-            startDownloadIfNeeded = false,
-            forceUpdate = false,
-            onFailure = {},
-            downloadOnlyNewData = false
-        )
-    }
-
-    fun updateCubeLuts(
-        startDownloadIfNeeded: Boolean,
-        forceUpdate: Boolean,
-        onFailure: (Throwable) -> Unit,
-        downloadOnlyNewData: Boolean = false
-    ) {
-        viewModelScope.launch {
-            remoteResourcesStore.getResources(
-                name = RemoteResources.CUBE_LUT,
-                forceUpdate = forceUpdate,
-                onDownloadRequest = { name ->
-                    if (startDownloadIfNeeded) {
-                        remoteResourcesStore.downloadResources(
-                            name = name,
-                            onProgress = { progress ->
-                                _cubeLutDownloadProgress.update { progress }
-                            },
-                            onFailure = onFailure,
-                            downloadOnlyNewData = downloadOnlyNewData
-                        )
-                    } else null
-                }
-            )?.let { data ->
-                _cubeLutRemoteResources.update { data }
-            }
-            _cubeLutDownloadProgress.update { null }
-        }
-    }
-
-    fun setPreviewData(data: UiFilter<*>?) {
-        _previewData.update { data?.let { listOf(it) } }
-    }
-
-    fun setPreviewData(data: List<Filter<*>>) {
-        _previewData.update { data.map { it.toUiFilter() } }
-    }
-
-    fun filterToTransformation(
-        filter: UiFilter<*>
-    ): Transformation = filterProvider.filterToTransformation(filter).toCoil()
-
-    fun updatePreview(previewBitmap: Bitmap) {
-        viewModelScope.launch {
-            _isPreviewLoading.update { true }
-            _previewBitmap.update {
-                imageTransformer.transform(
-                    image = previewBitmap,
-                    transformations = previewData?.map {
-                        filterProvider.filterToTransformation(it)
-                    } ?: emptyList(),
-                    size = IntegerSize(2000, 2000)
-                )
-            }
-            _isPreviewLoading.update { false }
-        }
-    }
-
-    fun removeFilterAtIndex(index: Int) {
-        _previewData.update {
-            it?.toMutableList()?.apply {
-                removeAt(index)
-            }
-        }
-    }
-
-    fun <T : Any> updateFilter(
-        value: T,
-        index: Int
-    ) {
-        val list = (previewData ?: emptyList()).toMutableList()
-        runCatching {
-            list[index] = list[index].copy(value)
-            _previewData.update { list }
-        }.onFailure {
-            list[index] = list[index].newInstance()
-            _previewData.update { list }
-        }
-    }
-
-    fun shareImage(
-        bitmap: Bitmap,
-        onComplete: () -> Unit
-    ) {
-        viewModelScope.launch {
-            shareProvider.shareImage(
-                imageInfo = ImageInfo(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    imageFormat = ImageFormat.Png.Lossless
-                ),
-                image = bitmap,
-                onComplete = onComplete
-            )
-        }
-    }
-
-    fun saveImage(
-        bitmap: Bitmap,
-        onComplete: (result: SaveResult) -> Unit,
-    ) {
-        viewModelScope.launch {
-            val imageInfo = ImageInfo(
-                width = bitmap.width,
-                height = bitmap.height,
-                imageFormat = ImageFormat.Png.Lossless
-            )
-            onComplete(
-                fileController.save(
-                    saveTarget = ImageSaveTarget<ExifInterface>(
-                        imageInfo = imageInfo,
-                        originalUri = "",
-                        sequenceNumber = null,
-                        data = imageCompressor.compress(
-                            image = bitmap,
-                            imageFormat = imageInfo.imageFormat,
-                            quality = Quality.Base()
-                        )
-                    ),
-                    keepOriginalMetadata = true
-                )
-            )
-        }
-    }
-
-    fun saveContentTo(
-        content: String,
-        fileUri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
-        viewModelScope.launch(ioDispatcher) {
-            fileController.writeBytes(
-                uri = fileUri.toString(),
-                block = { it.writeBytes(content.toByteArray()) }
-            ).also(onResult).onSuccess(::registerSave)
-        }
-    }
-
-    fun shareContent(
-        content: String,
-        filename: String,
-        onComplete: () -> Unit
-    ) {
-        viewModelScope.launch {
-            shareProvider.shareData(
-                writeData = { it.writeBytes(content.toByteArray()) },
-                filename = filename,
-                onComplete = onComplete
-            )
-        }
-    }
-
-    fun createTemplateFilename(templateFilter: TemplateFilter): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date())
-        return "template(${templateFilter.name})$timeStamp.imtbx_template"
-    }
-
-    fun reorderFavoriteFilters(value: List<UiFilter<*>>) {
-        viewModelScope.launch {
-            favoriteInteractor.reorderFavoriteFilters(value)
-        }
-    }
-
-    val favoritesFlow: Flow<List<Filter<*>>>
-        get() = favoriteInteractor.getFavoriteFilters()
-
-    val templatesFlow: Flow<List<TemplateFilter>>
-        get() = favoriteInteractor.getTemplateFilters()
-
-    fun toggleFavorite(filter: UiFilter<*>) {
-        viewModelScope.launch {
-            favoriteInteractor.toggleFavorite(filter)
-        }
-    }
-
-    fun removeTemplateFilter(templateFilter: TemplateFilter) {
-        viewModelScope.launch {
-            favoriteInteractor.removeTemplateFilter(templateFilter)
-        }
-    }
-
-    suspend fun convertTemplateFilterToString(
-        templateFilter: TemplateFilter
-    ): String = favoriteInteractor.convertTemplateFilterToString(templateFilter)
-
-    fun addTemplateFilterFromString(
-        string: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
-    ) {
-        viewModelScope.launch {
-            favoriteInteractor.addTemplateFilterFromString(
-                string = string,
-                onSuccess = onSuccess,
-                onError = onError
-            )
-        }
-    }
-
-    fun addTemplateFilterFromUri(
-        uri: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
-    ) {
-        viewModelScope.launch {
-            favoriteInteractor.addTemplateFilterFromUri(
-                uri = uri,
-                onSuccess = onSuccess,
-                onError = onError
-            )
-        }
-    }
-
-    fun cacheNeutralLut(onComplete: (Uri) -> Unit) {
-        viewModelScope.launch {
-            imageGetter.getImage(R.drawable.lookup)?.let {
-                shareProvider.cacheImage(
-                    image = it,
-                    imageInfo = ImageInfo(
-                        width = 512,
-                        height = 512,
-                        imageFormat = ImageFormat.Png.Lossless
-                    )
-                )?.let { uri ->
-                    onComplete(uri.toUri())
-                }
-            }
-        }
-    }
-
-    fun shareNeutralLut(onComplete: () -> Unit) {
-        viewModelScope.launch {
-            imageGetter.getImage(R.drawable.lookup)?.let {
-                shareProvider.shareImage(
-                    image = it,
-                    imageInfo = ImageInfo(
-                        width = 512,
-                        height = 512,
-                        imageFormat = ImageFormat.Png.Lossless
-                    ),
-                    onComplete = onComplete
-                )
-            }
-        }
-    }
-
-    fun saveNeutralLut(
-        oneTimeSaveLocationUri: String? = null,
-        onComplete: (result: SaveResult) -> Unit,
-    ) {
-        viewModelScope.launch {
-            imageGetter.getImage(R.drawable.lookup)?.let { bitmap ->
-                val imageInfo = ImageInfo(
-                    width = 512,
-                    height = 512,
-                    imageFormat = ImageFormat.Png.Lossless
-                )
-                onComplete(
-                    fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
-                            imageInfo = imageInfo,
-                            originalUri = "",
-                            sequenceNumber = null,
-                            data = imageCompressor.compress(
-                                image = bitmap,
-                                imageFormat = imageInfo.imageFormat,
-                                quality = Quality.Base()
-                            )
-                        ),
-                        keepOriginalMetadata = false,
-                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
-                    )
-                )
-            }
-        }
-    }
-
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -547,6 +235,8 @@ fun AddFiltersSheet(
         val viewModel = this
 
         val onRequestFilterMapping = viewModel::filterToTransformation
+
+        val previewModel = viewModel.previewModel
 
         val scope = rememberCoroutineScope()
         val confettiHostState = LocalConfettiHostState.current
@@ -842,7 +532,8 @@ fun AddFiltersSheet(
                                                         index = index,
                                                         size = templateFilters.size
                                                     ),
-                                                    modifier = Modifier.animateItem()
+                                                    modifier = Modifier.animateItem(),
+                                                    previewModel = previewModel
                                                 )
                                                 FilterTemplateInfoSheet(
                                                     visible = showFilterTemplateInfoSheet,
@@ -894,7 +585,8 @@ fun AddFiltersSheet(
                                                             ),
                                                             onComplete = showConfetti
                                                         )
-                                                    }
+                                                    },
+                                                    previewModel = previewModel
                                                 )
                                             }
                                             item {
@@ -1033,7 +725,8 @@ fun AddFiltersSheet(
                                                                 },
                                                                 downloadOnlyNewData = downloadOnlyNewData
                                                             )
-                                                        }
+                                                        },
+                                                        previewModel = previewModel
                                                     )
                                                 }
                                             }
@@ -1047,6 +740,92 @@ fun AddFiltersSheet(
                                     verticalArrangement = Arrangement.spacedBy(4.dp),
                                     contentPadding = PaddingValues(16.dp)
                                 ) {
+                                    if (tabs[page].first == Icons.Rounded.Speed) {
+                                        item {
+                                            Row(
+                                                modifier = Modifier
+                                                    .padding(bottom = 8.dp)
+                                                    .height(intrinsicSize = IntrinsicSize.Max)
+                                            ) {
+                                                ImageSelector(
+                                                    value = previewModel.data,
+                                                    onValueChange = {
+                                                        viewModel.setFilterPreviewModel(it.toString())
+                                                    },
+                                                    title = stringResource(R.string.filter_preview_image),
+                                                    subtitle = stringResource(R.string.filter_preview_image_sub),
+                                                    contentScale = ContentScale.Crop,
+                                                    color = Color.Unspecified,
+                                                    modifier = Modifier
+                                                        .weight(1f)
+                                                        .fillMaxHeight(),
+                                                    shape = RoundedCornerShape(
+                                                        topEnd = 4.dp,
+                                                        topStart = 16.dp,
+                                                        bottomEnd = 4.dp,
+                                                        bottomStart = 16.dp
+                                                    )
+                                                )
+                                                Column(
+                                                    modifier = Modifier
+                                                        .fillMaxHeight()
+                                                        .padding(start = 4.dp),
+                                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                                ) {
+                                                    repeat(2) { index ->
+                                                        val shape = if (index == 0) {
+                                                            RoundedCornerShape(
+                                                                topEnd = 16.dp,
+                                                                topStart = 4.dp,
+                                                                bottomEnd = 4.dp,
+                                                                bottomStart = 4.dp
+                                                            )
+                                                        } else {
+                                                            RoundedCornerShape(
+                                                                topEnd = 4.dp,
+                                                                topStart = 4.dp,
+                                                                bottomEnd = 16.dp,
+                                                                bottomStart = 4.dp
+                                                            )
+                                                        }
+                                                        val containerColor by animateColorAsState(
+                                                            if (previewModel.data == R.drawable.filter_preview_source && index == 0) {
+                                                                MaterialTheme.colorScheme.secondary
+                                                            } else if (previewModel.data == R.drawable.filter_preview_source_3 && index == 1) {
+                                                                MaterialTheme.colorScheme.secondary
+                                                            } else {
+                                                                MaterialTheme.colorScheme.secondaryContainer
+                                                            }
+                                                        )
+                                                        Box(
+                                                            modifier = Modifier
+                                                                .weight(1f)
+                                                                .clip(shape)
+                                                                .clickable {
+                                                                    viewModel.setFilterPreviewModel(
+                                                                        index.toString()
+                                                                    )
+                                                                }
+                                                                .container(
+                                                                    color = containerColor,
+                                                                    shape = shape,
+                                                                    resultPadding = 0.dp
+                                                                )
+                                                                .padding(horizontal = 12.dp),
+                                                            contentAlignment = Alignment.Center
+                                                        ) {
+                                                            AutoSizeText(
+                                                                text = (index + 1).toString(),
+                                                                color = contentColorFor(
+                                                                    containerColor
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                     if (tabs[page].first == Icons.Rounded.TableChart) {
                                         item {
                                             PreferenceItemOverload(
@@ -1177,7 +956,8 @@ fun AddFiltersSheet(
                                                     },
                                                     downloadOnlyNewData = downloadOnlyNewData
                                                 )
-                                            }
+                                            },
+                                            previewModel = previewModel
                                         )
                                     }
                                 }
@@ -1485,4 +1265,339 @@ fun AddFiltersSheet(
             }
         )
     }
+}
+
+@HiltViewModel
+private class AddFiltersSheetViewModel @Inject constructor(
+    private val filterProvider: FilterProvider<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>,
+    private val fileController: FileController,
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    private val favoriteInteractor: FavoriteFiltersInteractor,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val remoteResourcesStore: RemoteResourcesStore,
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
+
+    private val _previewModel: MutableState<ImageModel> = mutableStateOf(
+        R.drawable.filter_preview_source.toImageModel()
+    )
+    val previewModel: ImageModel by _previewModel
+
+    private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
+    val previewData by _previewData
+
+    private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val previewBitmap by _previewBitmap
+
+    private val _isPreviewLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isPreviewLoading by _isPreviewLoading
+
+    private val _cubeLutRemoteResources: MutableState<RemoteResources> =
+        mutableStateOf(RemoteResources.CubeLutDefault)
+    val cubeLutRemoteResources by _cubeLutRemoteResources
+
+    private val _cubeLutDownloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
+        mutableStateOf(null)
+    val cubeLutDownloadProgress by _cubeLutDownloadProgress
+
+    init {
+        updateCubeLuts(
+            startDownloadIfNeeded = false,
+            forceUpdate = false,
+            onFailure = {},
+            downloadOnlyNewData = false
+        )
+        favoriteInteractor
+            .getFilterPreviewModel().onEach { data ->
+                _previewModel.update { data }
+            }.launchIn(viewModelScope)
+    }
+
+    fun setFilterPreviewModel(uri: String) {
+        viewModelScope.launch {
+            favoriteInteractor.setFilterPreviewModel(uri)
+        }
+    }
+
+    fun updateCubeLuts(
+        startDownloadIfNeeded: Boolean,
+        forceUpdate: Boolean,
+        onFailure: (Throwable) -> Unit,
+        downloadOnlyNewData: Boolean = false
+    ) {
+        viewModelScope.launch {
+            remoteResourcesStore.getResources(
+                name = RemoteResources.CUBE_LUT,
+                forceUpdate = forceUpdate,
+                onDownloadRequest = { name ->
+                    if (startDownloadIfNeeded) {
+                        remoteResourcesStore.downloadResources(
+                            name = name,
+                            onProgress = { progress ->
+                                _cubeLutDownloadProgress.update { progress }
+                            },
+                            onFailure = onFailure,
+                            downloadOnlyNewData = downloadOnlyNewData
+                        )
+                    } else null
+                }
+            )?.let { data ->
+                _cubeLutRemoteResources.update { data }
+            }
+            _cubeLutDownloadProgress.update { null }
+        }
+    }
+
+    fun setPreviewData(data: UiFilter<*>?) {
+        _previewData.update { data?.let { listOf(it) } }
+    }
+
+    fun setPreviewData(data: List<Filter<*>>) {
+        _previewData.update { data.map { it.toUiFilter() } }
+    }
+
+    fun filterToTransformation(
+        filter: UiFilter<*>
+    ): Transformation = filterProvider.filterToTransformation(filter).toCoil()
+
+    fun updatePreview(previewBitmap: Bitmap) {
+        viewModelScope.launch {
+            _isPreviewLoading.update { true }
+            _previewBitmap.update {
+                imageTransformer.transform(
+                    image = previewBitmap,
+                    transformations = previewData?.map {
+                        filterProvider.filterToTransformation(it)
+                    } ?: emptyList(),
+                    size = IntegerSize(2000, 2000)
+                )
+            }
+            _isPreviewLoading.update { false }
+        }
+    }
+
+    fun removeFilterAtIndex(index: Int) {
+        _previewData.update {
+            it?.toMutableList()?.apply {
+                removeAt(index)
+            }
+        }
+    }
+
+    fun <T : Any> updateFilter(
+        value: T,
+        index: Int
+    ) {
+        val list = (previewData ?: emptyList()).toMutableList()
+        runCatching {
+            list[index] = list[index].copy(value)
+            _previewData.update { list }
+        }.onFailure {
+            list[index] = list[index].newInstance()
+            _previewData.update { list }
+        }
+    }
+
+    fun shareImage(
+        bitmap: Bitmap,
+        onComplete: () -> Unit
+    ) {
+        viewModelScope.launch {
+            shareProvider.shareImage(
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = ImageFormat.Png.Lossless
+                ),
+                image = bitmap,
+                onComplete = onComplete
+            )
+        }
+    }
+
+    fun saveImage(
+        bitmap: Bitmap,
+        onComplete: (result: SaveResult) -> Unit,
+    ) {
+        viewModelScope.launch {
+            val imageInfo = ImageInfo(
+                width = bitmap.width,
+                height = bitmap.height,
+                imageFormat = ImageFormat.Png.Lossless
+            )
+            onComplete(
+                fileController.save(
+                    saveTarget = ImageSaveTarget<ExifInterface>(
+                        imageInfo = imageInfo,
+                        originalUri = "",
+                        sequenceNumber = null,
+                        data = imageCompressor.compress(
+                            image = bitmap,
+                            imageFormat = imageInfo.imageFormat,
+                            quality = Quality.Base()
+                        )
+                    ),
+                    keepOriginalMetadata = true
+                )
+            )
+        }
+    }
+
+    fun saveContentTo(
+        content: String,
+        fileUri: Uri,
+        onResult: (SaveResult) -> Unit
+    ) {
+        viewModelScope.launch(ioDispatcher) {
+            fileController.writeBytes(
+                uri = fileUri.toString(),
+                block = { it.writeBytes(content.toByteArray()) }
+            ).also(onResult).onSuccess(::registerSave)
+        }
+    }
+
+    fun shareContent(
+        content: String,
+        filename: String,
+        onComplete: () -> Unit
+    ) {
+        viewModelScope.launch {
+            shareProvider.shareData(
+                writeData = { it.writeBytes(content.toByteArray()) },
+                filename = filename,
+                onComplete = onComplete
+            )
+        }
+    }
+
+    fun createTemplateFilename(templateFilter: TemplateFilter): String {
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date())
+        return "template(${templateFilter.name})$timeStamp.imtbx_template"
+    }
+
+    fun reorderFavoriteFilters(value: List<UiFilter<*>>) {
+        viewModelScope.launch {
+            favoriteInteractor.reorderFavoriteFilters(value)
+        }
+    }
+
+    val favoritesFlow: Flow<List<Filter<*>>>
+        get() = favoriteInteractor.getFavoriteFilters()
+
+    val templatesFlow: Flow<List<TemplateFilter>>
+        get() = favoriteInteractor.getTemplateFilters()
+
+    fun toggleFavorite(filter: UiFilter<*>) {
+        viewModelScope.launch {
+            favoriteInteractor.toggleFavorite(filter)
+        }
+    }
+
+    fun removeTemplateFilter(templateFilter: TemplateFilter) {
+        viewModelScope.launch {
+            favoriteInteractor.removeTemplateFilter(templateFilter)
+        }
+    }
+
+    suspend fun convertTemplateFilterToString(
+        templateFilter: TemplateFilter
+    ): String = favoriteInteractor.convertTemplateFilterToString(templateFilter)
+
+    fun addTemplateFilterFromString(
+        string: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
+            favoriteInteractor.addTemplateFilterFromString(
+                string = string,
+                onSuccess = onSuccess,
+                onError = onError
+            )
+        }
+    }
+
+    fun addTemplateFilterFromUri(
+        uri: String,
+        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onError: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
+            favoriteInteractor.addTemplateFilterFromUri(
+                uri = uri,
+                onSuccess = onSuccess,
+                onError = onError
+            )
+        }
+    }
+
+    fun cacheNeutralLut(onComplete: (Uri) -> Unit) {
+        viewModelScope.launch {
+            imageGetter.getImage(R.drawable.lookup)?.let {
+                shareProvider.cacheImage(
+                    image = it,
+                    imageInfo = ImageInfo(
+                        width = 512,
+                        height = 512,
+                        imageFormat = ImageFormat.Png.Lossless
+                    )
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+        }
+    }
+
+    fun shareNeutralLut(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageGetter.getImage(R.drawable.lookup)?.let {
+                shareProvider.shareImage(
+                    image = it,
+                    imageInfo = ImageInfo(
+                        width = 512,
+                        height = 512,
+                        imageFormat = ImageFormat.Png.Lossless
+                    ),
+                    onComplete = onComplete
+                )
+            }
+        }
+    }
+
+    fun saveNeutralLut(
+        oneTimeSaveLocationUri: String? = null,
+        onComplete: (result: SaveResult) -> Unit,
+    ) {
+        viewModelScope.launch {
+            imageGetter.getImage(R.drawable.lookup)?.let { bitmap ->
+                val imageInfo = ImageInfo(
+                    width = 512,
+                    height = 512,
+                    imageFormat = ImageFormat.Png.Lossless
+                )
+                onComplete(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget<ExifInterface>(
+                            imageInfo = imageInfo,
+                            originalUri = "",
+                            sequenceNumber = null,
+                            data = imageCompressor.compress(
+                                image = bitmap,
+                                imageFormat = imageInfo.imageFormat,
+                                quality = Quality.Base()
+                            )
+                        ),
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                    )
+                )
+            }
+        }
+    }
+
 }
