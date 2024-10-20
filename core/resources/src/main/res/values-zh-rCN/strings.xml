@@ -893,7 +893,7 @@
     <string name="engine_mode">引擎模式</string>
     <string name="legacy">传统</string>
     <string name="lstm_network">LSTM 网络</string>
-    <string name="legacy_and_lstm">传统 &amp; LSTM</string>
+    <string name="legacy_and_lstm"><![CDATA[传统 & LSTM]]></string>
     <string name="convert">转换</string>
     <string name="convert_sub">将批量图片转换为给定格式</string>
     <string name="add_new_folder">添加新文件夹</string>
@@ -1456,4 +1456,9 @@
     <string name="main_screen_title">主屏幕标题</string>
     <string name="constant_rate_factor">恒定比率系数 (CRF)</string>
     <string name="crf_sub">%1$d 表示压缩速度较慢，因此文件相对较小。%2$d 表示压缩速度较快，因此文件较大。</string>
+    <string name="filter_preview_image">预览图片</string>
+    <string name="lut_library">Lut 库</string>
+    <string name="lut_library_sub">下载 LUT 集合，你可以在下载后应用它们</string>
+    <string name="filter_preview_image_sub">更改滤镜的默认图片预览</string>
+    <string name="lut_library_update_sub">更新 LUT 集合（只有新的 LUT 会被加入队列），你可以在下载后应用它们</string>
 </resources>
