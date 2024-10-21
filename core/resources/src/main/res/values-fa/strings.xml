@@ -902,7 +902,7 @@
     <string name="tag_x_resolution">رزولوشن X</string>
     <string name="tag_y_resolution">رزولوشن Y</string>
     <string name="tag_resolution_unit">واحد رزولوشن</string>
-    <string name="tag_jpeg_interchange_format">تعویض فرمت JPEG</string>
+    <string name="tag_jpeg_interchange_format">تغییر فرمت JPEG</string>
     <string name="tag_transfer_function">تابع انتقال</string>
     <string name="tag_white_point">نقطه سفید</string>
     <string name="tag_reference_black_white">مرجع سیاه سفید</string>
@@ -972,4 +972,20 @@
     <string name="tag_gps_status">وضعیت GPS</string>
     <string name="tag_gps_measure_mode">حالت اندازه گیری GPS</string>
     <string name="tag_gps_speed">سرعت GPS</string>
+    <string name="tag_datetime">داده زمان</string>
+    <string name="tag_copyright">حق چاپ</string>
+    <string name="tag_offset_time">زمان افست</string>
+    <string name="tag_offset_time_original">افست زمان اصلی</string>
+    <string name="tag_offset_time_digitized">زمان دیجیتالی افست</string>
+    <string name="tag_sensitivity_type">نوع حساسیت</string>
+    <string name="tag_subject_distance">فاصله موضوع</string>
+    <string name="tag_metering_mode">حالت اندازه گیری</string>
+    <string name="filter_preview_image">پیش نمایش تصویر</string>
+    <string name="lut_library_sub">مجموعه LUT ها را دانلود کنید که پس از دانلود می توانید آن را اعمال کنید</string>
+    <string name="filter_preview_image_sub">پیش نمایش تصویر پیش فرض را برای فیلترها تغییر دهید</string>
+    <string name="dont_stack_frames">فریم ها را روی هم قرار ندهید</string>
+    <string name="create_shortcut_subtitle">ابزار به عنوان میانبر به صفحه اصلی راه‌انداز شما اضافه می‌شود، از ترکیب آن با تنظیمات «پرش از انتخاب فایل» برای دستیابی به رفتار مورد نیاز استفاده کنید.</string>
+    <string name="create_shortcut">ایجاد میانبر</string>
+    <string name="main_screen_title">عنوان صفحه اصلی</string>
+    <string name="compact_selectors">انتخابگرهای فشرده</string>
 </resources>
