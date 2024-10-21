@@ -1459,4 +1459,6 @@
     <string name="lut_library">Lut-bilbiotheek</string>
     <string name="lut_library_sub">Download een verzameling LUT\'s die je vervolgens kunt toepassen</string>
     <string name="lut_library_update_sub">Collectie LUT\'s bijwerken (alleen nieuwe worden in de wachtrij geplaatst), die je vervolgens kunt toepassen</string>
+    <string name="filter_preview_image">Voorbeeldweergave</string>
+    <string name="filter_preview_image_sub">Standaard voorbeeldweergave voor filters wijzigen</string>
 </resources>
