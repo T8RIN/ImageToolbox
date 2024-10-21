@@ -1459,4 +1459,5 @@
     <string name="canny">Canny</string>
     <string name="laplacian_simple">Laplacian Einfach</string>
     <string name="sobel_simple">Sobel Einfach</string>
+    <string name="filter_preview_image">Vorschaubild</string>
 </resources>
