@@ -19,6 +19,9 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -30,6 +33,8 @@ sealed class UiFilter<T>(
     val paramsInfo: List<FilterParam> = listOf(),
     override val value: T,
 ) : Filter<T> {
+
+    override var isVisible: Boolean by mutableStateOf(true)
 
     constructor(
         @StringRes title: Int,
@@ -50,10 +55,16 @@ sealed class UiFilter<T>(
             this::class.primaryConstructor?.run {
                 callBy(mapOf(parameters[0] to value))
             }
-        }.getOrNull() ?: newInstance()
+        }.getOrNull()?.also { it.isVisible = this.isVisible } ?: newInstance()
     }
 
-    fun newInstance(): UiFilter<*> = this::class.primaryConstructor!!.callBy(emptyMap())
+    fun newInstance(): UiFilter<*> {
+        val instance = this::class.primaryConstructor!!.callBy(emptyMap())
+
+        return if (this.value is Unit) {
+            instance.also { it.isVisible = this.isVisible }
+        } else instance
+    }
 
     companion object {
         val groupedEntries by lazy {
@@ -327,11 +338,17 @@ sealed class UiFilter<T>(
 
 private val sealedValues = UiFilter::class.sealedSubclasses
 
-fun Filter<*>.toUiFilter(): UiFilter<*> = sealedValues.first {
+fun Filter<*>.toUiFilter(
+    preserveVisibility: Boolean = true
+): UiFilter<*> = sealedValues.first {
     it.java.isAssignableFrom(this::class.java)
 }.primaryConstructor!!.run {
     if (parameters.isNotEmpty()) callBy(mapOf(parameters[0] to value))
     else callBy(emptyMap())
+}.also {
+    if (preserveVisibility) {
+        it.isVisible = isVisible
+    }
 }
 
 

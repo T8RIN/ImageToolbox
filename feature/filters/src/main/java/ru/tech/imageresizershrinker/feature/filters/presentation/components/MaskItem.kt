@@ -46,6 +46,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -252,9 +253,14 @@ fun MaskItem(
                                 modifier = Modifier.padding(horizontal = 8.dp)
                             ) {
                                 mask.filters.forEachIndexed { index, filter ->
+                                    val uiFilter by remember(filter) {
+                                        derivedStateOf {
+                                            filter.toUiFilter()
+                                        }
+                                    }
                                     FilterItem(
                                         backgroundColor = MaterialTheme.colorScheme.surface,
-                                        filter = filter.toUiFilter(),
+                                        filter = uiFilter,
                                         showDragHandle = false,
                                         onRemove = {
                                             onMaskChange(
@@ -266,8 +272,7 @@ fun MaskItem(
                                                 mask.copy(
                                                     filters = mask.filters.toMutableList()
                                                         .apply {
-                                                            this[index] =
-                                                                filter.toUiFilter().copy(value)
+                                                            this[index] = uiFilter.copy(value)
                                                         }
                                                 )
                                             )

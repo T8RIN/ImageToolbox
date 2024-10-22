@@ -698,7 +698,6 @@ private class AddMaskSheetViewModel @Inject constructor(
                 filterMaskApplier.filterByMasks(
                     filterMasks = initialMasks.takeWhile { it != initialMask },
                     image = bmp
-
                 )
             }
         }

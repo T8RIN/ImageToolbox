@@ -1120,7 +1120,13 @@ fun AddFiltersSheet(
                                 contentColor = LocalContentColor.current,
                                 enableAutoShadowAndBorder = false,
                                 onClick = {
-                                    previewSheetData?.forEach(onFilterPickedWithParams)
+                                    previewSheetData?.forEach { filter ->
+                                        onFilterPickedWithParams(
+                                            filter.copy(filter.value!!).also {
+                                                it.isVisible = true
+                                            }
+                                        )
+                                    }
                                     viewModel.setPreviewData(null)
                                     onVisibleChange(false)
                                 }
@@ -1257,7 +1263,7 @@ fun AddFiltersSheet(
                     }
                 }
             },
-            visible = previewData != null,
+            visible = previewSheetData != null,
             onDismiss = {
                 if (!it) {
                     viewModel.setPreviewData(null)
@@ -1351,7 +1357,13 @@ private class AddFiltersSheetViewModel @Inject constructor(
     }
 
     fun setPreviewData(data: UiFilter<*>?) {
-        _previewData.update { data?.let { listOf(it) } }
+        _previewData.update {
+            data?.let { filter ->
+                listOf(
+                    filter.copy(filter.value!!).also { it.isVisible = true }
+                )
+            }
+        }
     }
 
     fun setPreviewData(data: List<Filter<*>>) {

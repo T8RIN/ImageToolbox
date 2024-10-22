@@ -40,3 +40,8 @@ class GenericTransformation<T>(
         size: IntegerSize
     ): T = action(input, size)
 }
+
+class EmptyTransformation<T> : Transformation<T> by GenericTransformation(
+    key = Random.nextInt(),
+    action = { i -> i }
+)

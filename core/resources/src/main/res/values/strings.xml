@@ -1415,9 +1415,9 @@
     <string name="histogram_sub">RGB or Brightness image histogram to help you make adjustments</string>
     <string name="image_for_histogram">This image will be used to generate RGB and Brightness histograms</string>
     <string name="tesseract_options">Tesseract Options</string>
-    <string name="tesseract_options_sub">Appy some input variables for tesseract engine</string>
+    <string name="tesseract_options_sub">Apply some input variables for tesseract engine</string>
     <string name="custom_options">Custom Options</string>
-    <string name="custom_params_info">Options should be entered following this pattern: \"--{option_name} {value}\"</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">Options should be entered following this pattern: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Auto Crop</string>
     <string name="free_corners">Free Corners</string>
     <string name="free_corners_sub">Crop image by polygon, this also corrects perspective</string>
@@ -1479,4 +1479,6 @@
     <string name="lut_library_update_sub">Update collection of LUTs (only new ones will be queued), which you can apply after downloading</string>
     <string name="filter_preview_image_sub">Change default image preview for filters</string>
     <string name="filter_preview_image">Preview Image</string>
+    <string name="hide">Hide</string>
+    <string name="show">Show</string>
 </resources>

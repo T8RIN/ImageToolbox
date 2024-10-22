@@ -35,9 +35,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
+import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -59,13 +62,16 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedDropdownMenu
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueText
 
@@ -84,6 +90,8 @@ fun <T> FilterItem(
     var isControlsExpanded by rememberSaveable {
         mutableStateOf(true)
     }
+
+    val isVisible = filter.isVisible
 
     Box(
         modifier = Modifier.then(
@@ -126,16 +134,73 @@ fun <T> FilterItem(
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (!previewOnly) {
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = onRemove
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.RemoveCircleOutline,
-                                contentDescription = stringResource(R.string.remove)
-                            )
+                        Box {
+                            var showPopup by remember {
+                                mutableStateOf(false)
+                            }
+
+                            EnhancedIconButton(
+                                onClick = {
+                                    showPopup = true
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.MoreVert,
+                                    contentDescription = "more"
+                                )
+                            }
+
+                            EnhancedDropdownMenu(
+                                expanded = showPopup,
+                                onDismissRequest = { showPopup = false },
+                                shape = MaterialTheme.shapes.extraLarge
+                            ) {
+                                EnhancedButton(
+                                    modifier = Modifier
+                                        .padding(horizontal = 8.dp)
+                                        .width(128.dp),
+                                    onClick = {
+                                        onRemove()
+                                        showPopup = false
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.tertiary
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.RemoveCircleOutline,
+                                        contentDescription = stringResource(R.string.remove)
+                                    )
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(stringResource(R.string.remove))
+                                }
+                                Spacer(Modifier.height(4.dp))
+                                EnhancedButton(
+                                    modifier = Modifier
+                                        .padding(horizontal = 8.dp)
+                                        .width(128.dp),
+                                    onClick = {
+                                        filter.isVisible = !isVisible
+                                        onFilterChange(filter.value as Any)
+                                        showPopup = false
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                ) {
+                                    Icon(
+                                        imageVector = if (isVisible) {
+                                            Icons.Outlined.VisibilityOff
+                                        } else {
+                                            Icons.Rounded.Visibility
+                                        },
+                                        contentDescription = stringResource(R.string.remove)
+                                    )
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(
+                                        stringResource(
+                                            if (isVisible) R.string.hide
+                                            else R.string.show
+                                        )
+                                    )
+                                }
+                            }
                         }
                     }
                     Row(
@@ -146,13 +211,19 @@ fun <T> FilterItem(
                             text = stringResource(filter.title),
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier
+                                .alpha(
+                                    animateFloatAsState(if (isVisible) 1f else 0.5f).value
+                                )
                                 .padding(
                                     top = 8.dp,
                                     end = 8.dp,
                                     start = 16.dp,
                                     bottom = 8.dp
                                 )
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
+                            textDecoration = if (!isVisible) {
+                                TextDecoration.LineThrough
+                            } else null
                         )
                     }
                     if (!filter.value.isSingle() && !previewOnly) {

@@ -20,9 +20,10 @@ package ru.tech.imageresizershrinker.core.filters.domain.model
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
+import ru.tech.imageresizershrinker.core.domain.model.VisibilityOwner
 
 
-interface Filter<Value> {
+interface Filter<Value> : VisibilityOwner {
     val value: Value
 
     interface BilaterialBlur : TripleFilter<Float, Float, Float>
