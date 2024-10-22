@@ -217,7 +217,7 @@
     <string name="quantizationLevels">量化等級</string>
     <string name="posterize">色調分離</string>
     <string name="toon">卡通化</string>
-    <string name="snooth_toon">細緻卡通化</string>
+    <string name="smooth_toon">細緻卡通化</string>
     <string name="non_maximum_suppression">非極大值抑制 (NMS)</string>
     <string name="crosshatch">交叉底紋</string>
     <string name="blur">模糊化</string>
@@ -504,7 +504,7 @@
     <string name="side_by_side">並排</string>
     <string name="transparency">透明度</string>
     <string name="allow_multiple_languages">允許多種語言</string>
-    <string name="force_exif_widget_inital_value">強制初始值</string>
+    <string name="force_exif_widget_initial_value">強制初始值</string>
     <string name="saved_to_original">在原始路徑覆蓋了名稱為 %s 的檔案</string>
     <string name="magnifier">放大鏡</string>
     <string name="magnifier_sub">在繪圖模式中，在手指頂端啟用放大鏡以達到更好可及性</string>
@@ -605,7 +605,7 @@
     <string name="gradient_maker_type_image_sub">合成給定圖像頂部的任意梯度</string>
     <string name="use_pixel_switch">使用畫素開關</string>
     <string name="use_pixel_switch_sub">將使用類似畫素的開關，而不是基於谷歌自帶的開關</string>
-    <string name="force_exif_widget_inital_value_sub">強制初始檢查 EXIF 部件</string>
+    <string name="force_exif_widget_initial_value_sub">強制初始檢查 EXIF 部件</string>
     <string name="repeat_watermark_sub">在圖片上重複水印，而不是在給定位置重複單個水印</string>
     <string name="offset_x">偏移 X</string>
     <string name="offset_y">偏移 Y</string>

@@ -217,7 +217,7 @@
     <string name="glass_sphere_refraction">Refracția sferei de sticlă</string>
     <string name="color_matrix">Matricea de culori</string>
     <string name="quantizationLevels">Niveluri de cuantizare</string>
-    <string name="snooth_toon">Toon neted</string>
+    <string name="smooth_toon">Toon neted</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterizați</string>
     <string name="convolution3x3">Convoluție 3x3</string>
@@ -761,8 +761,8 @@
     <string name="saved_to_original">Fișier suprascris cu numele %s la destinația inițială</string>
     <string name="magnifier">Lupă</string>
     <string name="magnifier_sub">Activează lupa în partea de sus a degetului în modurile de desen pentru o mai bună accesibilitate</string>
-    <string name="force_exif_widget_inital_value">Forțați valoarea inițială</string>
-    <string name="force_exif_widget_inital_value_sub">Forțează ca widgetul exif să fie verificat inițial</string>
+    <string name="force_exif_widget_initial_value">Forțați valoarea inițială</string>
+    <string name="force_exif_widget_initial_value_sub">Forțează ca widgetul exif să fie verificat inițial</string>
     <string name="favorite">Favorit</string>
     <string name="b_spline">B Spline</string>
     <string name="native_stack_blur">Estompare nativă a stivei</string>

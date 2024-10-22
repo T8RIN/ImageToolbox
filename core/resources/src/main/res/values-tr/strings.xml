@@ -226,7 +226,7 @@
     <string name="sketch">Kroki</string>
     <string name="threshold">Eşik</string>
     <string name="quantizationLevels">Niceleme seviyeleri</string>
-    <string name="snooth_toon">Pürüzsüz çizgi</string>
+    <string name="smooth_toon">Pürüzsüz çizgi</string>
     <string name="toon">çizgi film</string>
     <string name="posterize">posterleştir</string>
     <string name="non_maximum_suppression">Maksimum olmayan bastırma</string>
@@ -746,8 +746,8 @@
     <string name="saved_to_original">Orijinal hedefte %s adlı dosyanın üzerine yazıldı</string>
     <string name="magnifier">Büyüteç</string>
     <string name="magnifier_sub">Daha iyi erişilebilirlik için çizim modlarında büyüteci parmağınızın üstünde etkinleştirir</string>
-    <string name="force_exif_widget_inital_value">Başlangıç değerini zorla</string>
-    <string name="force_exif_widget_inital_value_sub">Exif widget\'ını başlangıçta kontrol edilmeye zorlar</string>
+    <string name="force_exif_widget_initial_value">Başlangıç değerini zorla</string>
+    <string name="force_exif_widget_initial_value_sub">Exif widget\'ını başlangıçta kontrol edilmeye zorlar</string>
     <string name="allow_multiple_languages">Birden Çok Dile İzin Ver</string>
     <string name="favorite">Favori</string>
     <string name="no_favorite_filters">Henüz favori filtre eklenmedi</string>

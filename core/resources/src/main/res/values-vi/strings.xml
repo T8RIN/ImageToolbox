@@ -225,7 +225,7 @@
     <string name="sketch">Phác thảo</string>
     <string name="threshold">Ngưỡng</string>
     <string name="quantizationLevels">Mức độ lượng tử hóa</string>
-    <string name="snooth_toon">Hoạt hình mượt mà</string>
+    <string name="smooth_toon">Hoạt hình mượt mà</string>
     <string name="toon">hoạt hình</string>
     <string name="posterize">Poster hóa</string>
     <string name="non_maximum_suppression">Ngăn chặn không tối đa</string>
@@ -556,8 +556,8 @@
     <string name="saved_to_original">Tệp bị ghi đè có tên %s tại đích ban đầu</string>
     <string name="magnifier">Kính lúp</string>
     <string name="magnifier_sub">Bật kính lúp ở đầu ngón tay trong chế độ vẽ để có khả năng truy cập tốt hơn</string>
-    <string name="force_exif_widget_inital_value">Buộc giá trị ban đầu</string>
-    <string name="force_exif_widget_inital_value_sub">Buộc kiểm tra tiện ích Exif ban đầu</string>
+    <string name="force_exif_widget_initial_value">Buộc giá trị ban đầu</string>
+    <string name="force_exif_widget_initial_value_sub">Buộc kiểm tra tiện ích Exif ban đầu</string>
     <string name="allow_multiple_languages">Cho phép nhiều ngôn ngữ</string>
     <string name="slide">Trượt</string>
     <string name="side_by_side">Bên cạnh nhau</string>

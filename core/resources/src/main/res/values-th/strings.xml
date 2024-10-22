@@ -215,7 +215,7 @@
     <string name="sketch">ร่าง</string>
     <string name="threshold">เกณฑ์</string>
     <string name="quantizationLevels">ระดับปริมาณ</string>
-    <string name="snooth_toon">ตูนเนียน</string>
+    <string name="smooth_toon">ตูนเนียน</string>
     <string name="toon">ตูน</string>
     <string name="posterize">โปสเตอร์</string>
     <string name="non_maximum_suppression">การปราบปรามไม่สูงสุด</string>
@@ -426,8 +426,8 @@
     <string name="saved_to_original">ไฟล์ที่ถูกเขียนทับด้วยชื่อ %s ที่ปลายทางเดิม</string>
     <string name="magnifier">แว่นขยาย</string>
     <string name="magnifier_sub">เปิดใช้งานแว่นขยายที่ด้านบนของนิ้วในโหมดการวาดภาพเพื่อให้เข้าถึงได้ดีขึ้น</string>
-    <string name="force_exif_widget_inital_value">บังคับค่าเริ่มต้น</string>
-    <string name="force_exif_widget_inital_value_sub">บังคับให้มีการตรวจสอบวิดเจ็ต exif ในขั้นต้น</string>
+    <string name="force_exif_widget_initial_value">บังคับค่าเริ่มต้น</string>
+    <string name="force_exif_widget_initial_value_sub">บังคับให้มีการตรวจสอบวิดเจ็ต exif ในขั้นต้น</string>
     <string name="allow_multiple_languages">อนุญาตให้มีหลายภาษา</string>
     <string name="segmentation_mode_single_block_vert_text">ข้อความแนวตั้งบล็อกเดียว</string>
     <string name="segmentation_mode_single_line">แถวเดียว</string>

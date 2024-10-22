@@ -146,7 +146,7 @@
     <string name="sketch">Скица</string>
     <string name="threshold">Праг</string>
     <string name="quantizationLevels">Нивои квантизације</string>
-    <string name="snooth_toon">Смоотх тоон</string>
+    <string name="smooth_toon">Смоотх тоон</string>
     <string name="toon">Тоон</string>
     <string name="non_maximum_suppression">Не максимално сузбијање</string>
     <string name="emoji">Емоји</string>
@@ -464,7 +464,7 @@
     <string name="magnifier_sub">Омогућава лупу на врху прста у режимима цртања ради боље приступачности</string>
     <string name="lanczos_sub">Метода поновног узорковања која одржава интерполацију високог квалитета применом пондерисане синк функције на вредности пиксела</string>
     <string name="spline_sub">Користи полиномске функције дефинисане по комадима за глатку интерполацију и апроксимацију криве или површине, флексибилно и континуирано представљање облика</string>
-    <string name="force_exif_widget_inital_value_sub">Форсира екиф виџет да се прво провери</string>
+    <string name="force_exif_widget_initial_value_sub">Форсира екиф виџет да се прво провери</string>
     <string name="allow_multiple_languages">Дозволи више језика</string>
     <string name="segmentation_mode_auto_osd">Аутоматска оријентација &amp; Детекција скрипте</string>
     <string name="segmentation_mode_auto_only">Само аутоматски</string>
@@ -748,7 +748,7 @@
     <string name="transparency">Транспарентност</string>
     <string name="saved_to_original">Замењена датотека са именом %s на оригиналном одредишту</string>
     <string name="magnifier">Лупа</string>
-    <string name="force_exif_widget_inital_value">Присилна почетна вредност</string>
+    <string name="force_exif_widget_initial_value">Присилна почетна вредност</string>
     <string name="favorite">Фаворите</string>
     <string name="no_favorite_filters">Још увек није додат ниједан омиљени филтер</string>
     <string name="b_spline">Б Сплине</string>

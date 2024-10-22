@@ -225,7 +225,7 @@
     <string name="sketch">ਸਕੈਚ</string>
     <string name="threshold">ਥ੍ਰੈਸ਼ਹੋਲਡ</string>
     <string name="quantizationLevels">ਕੁਆਂਟਾਇਜ਼ੇਸ਼ਨ ਪੱਧਰ</string>
-    <string name="snooth_toon">ਨਿਰਵਿਘਨ ਟੂਨ</string>
+    <string name="smooth_toon">ਨਿਰਵਿਘਨ ਟੂਨ</string>
     <string name="toon">ਟੂਨ</string>
     <string name="posterize">ਪੋਸਟਰਾਈਜ਼ ਕਰੋ</string>
     <string name="non_maximum_suppression">ਗੈਰ ਅਧਿਕਤਮ ਦਮਨ</string>
@@ -556,8 +556,8 @@
     <string name="saved_to_original">ਮੂਲ ਮੰਜ਼ਿਲ \'ਤੇ ਨਾਮ %s ਨਾਲ ਓਵਰਰਾਈਟ ਕੀਤੀ ਫਾਈਲ</string>
     <string name="magnifier">ਵੱਡਦਰਸ਼ੀ</string>
     <string name="magnifier_sub">ਬਿਹਤਰ ਪਹੁੰਚਯੋਗਤਾ ਲਈ ਡਰਾਇੰਗ ਮੋਡਾਂ ਵਿੱਚ ਉਂਗਲੀ ਦੇ ਸਿਖਰ \'ਤੇ ਵੱਡਦਰਸ਼ੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਂਦਾ ਹੈ</string>
-    <string name="force_exif_widget_inital_value">ਸ਼ੁਰੂਆਤੀ ਮੁੱਲ ਨੂੰ ਜ਼ੋਰ ਦਿਓ</string>
-    <string name="force_exif_widget_inital_value_sub">ਸ਼ੁਰੂਆਤੀ ਤੌਰ \'ਤੇ exif ਵਿਜੇਟ ਦੀ ਜਾਂਚ ਕਰਨ ਲਈ ਮਜ਼ਬੂਰ ਕਰਦਾ ਹੈ</string>
+    <string name="force_exif_widget_initial_value">ਸ਼ੁਰੂਆਤੀ ਮੁੱਲ ਨੂੰ ਜ਼ੋਰ ਦਿਓ</string>
+    <string name="force_exif_widget_initial_value_sub">ਸ਼ੁਰੂਆਤੀ ਤੌਰ \'ਤੇ exif ਵਿਜੇਟ ਦੀ ਜਾਂਚ ਕਰਨ ਲਈ ਮਜ਼ਬੂਰ ਕਰਦਾ ਹੈ</string>
     <string name="allow_multiple_languages">ਕਈ ਭਾਸ਼ਾਵਾਂ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
     <string name="slide">ਸਲਾਈਡ</string>
     <string name="side_by_side">ਨਾਲ ਨਾਲ</string>

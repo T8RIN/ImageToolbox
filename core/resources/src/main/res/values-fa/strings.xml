@@ -242,7 +242,7 @@
     <string name="sketch">طرح</string>
     <string name="threshold">آستانه</string>
     <string name="quantizationLevels">سطوح کوانتیزاسیون</string>
-    <string name="snooth_toon">تون صاف</string>
+    <string name="smooth_toon">تون صاف</string>
     <string name="toon">تون</string>
     <string name="posterize">پوستر کردن</string>
     <string name="non_maximum_suppression">عدم سرکوب حداکثری</string>
@@ -569,8 +569,8 @@
     <string name="saved_to_original">فایل بازنویسی شده با نام %s در مقصد اصلی</string>
     <string name="magnifier">ذره بین</string>
     <string name="magnifier_sub">برای دسترسی بهتر، ذره بین را در بالای انگشت در حالت های طراحی فعال می کند</string>
-    <string name="force_exif_widget_inital_value">اجباری مقدار اولیه</string>
-    <string name="force_exif_widget_inital_value_sub">ویجت exif را وادار می کند که در ابتدا بررسی شود</string>
+    <string name="force_exif_widget_initial_value">اجباری مقدار اولیه</string>
+    <string name="force_exif_widget_initial_value_sub">ویجت exif را وادار می کند که در ابتدا بررسی شود</string>
     <string name="allow_multiple_languages">اجازه دادن به چند زبان</string>
     <string name="slide">اسلاید</string>
     <string name="side_by_side">ساید بای ساید</string>

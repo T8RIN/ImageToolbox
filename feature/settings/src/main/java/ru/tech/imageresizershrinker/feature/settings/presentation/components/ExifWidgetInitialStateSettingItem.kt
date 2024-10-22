@@ -40,8 +40,8 @@ fun ExifWidgetInitialStateSettingItem(
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.force_exif_widget_inital_value),
-        subtitle = stringResource(R.string.force_exif_widget_inital_value_sub),
+        title = stringResource(R.string.force_exif_widget_initial_value),
+        subtitle = stringResource(R.string.force_exif_widget_initial_value_sub),
         checked = settingsState.exifWidgetInitialState,
         onClick = {
             onClick()

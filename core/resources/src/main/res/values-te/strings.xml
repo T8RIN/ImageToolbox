@@ -234,7 +234,7 @@
     <string name="sketch">స్కెచ్</string>
     <string name="threshold">థ్రెషోల్డ్</string>
     <string name="quantizationLevels">పరిమాణీకరణ స్థాయిలు</string>
-    <string name="snooth_toon">స్మూత్ టూన్</string>
+    <string name="smooth_toon">స్మూత్ టూన్</string>
     <string name="toon">టూన్</string>
     <string name="posterize">పోస్టరైజ్ చేయండి</string>
     <string name="non_maximum_suppression">నాన్ గరిష్ట అణచివేత</string>
@@ -427,8 +427,8 @@
     <string name="saved_to_original">అసలు గమ్యస్థానంలో %s పేరుతో ఓవర్‌రైట్ చేయబడిన ఫైల్</string>
     <string name="magnifier">మాగ్నిఫైయర్</string>
     <string name="magnifier_sub">మెరుగైన ప్రాప్యత కోసం డ్రాయింగ్ మోడ్‌లలో వేలు ఎగువన మాగ్నిఫైయర్‌ని ప్రారంభిస్తుంది</string>
-    <string name="force_exif_widget_inital_value">ప్రారంభ విలువను బలవంతం చేయండి</string>
-    <string name="force_exif_widget_inital_value_sub">ఎక్సిఫ్ విడ్జెట్‌ని మొదట్లో తనిఖీ చేయమని బలవంతం చేస్తుంది</string>
+    <string name="force_exif_widget_initial_value">ప్రారంభ విలువను బలవంతం చేయండి</string>
+    <string name="force_exif_widget_initial_value_sub">ఎక్సిఫ్ విడ్జెట్‌ని మొదట్లో తనిఖీ చేయమని బలవంతం చేస్తుంది</string>
     <string name="allow_multiple_languages">బహుళ భాషలను అనుమతించండి</string>
     <string name="segmentation_mode_auto_osd">ఆటో ఓరియంటేషన్ &amp; స్క్రిప్ట్ డిటెక్షన్</string>
     <string name="segmentation_mode_auto_only">ఆటో మాత్రమే</string>

@@ -225,7 +225,7 @@
     <string name="sketch">Esboço</string>
     <string name="threshold">Limite</string>
     <string name="quantizationLevels">Níveis de quantização</string>
-    <string name="snooth_toon">Desenho suave</string>
+    <string name="smooth_toon">Desenho suave</string>
     <string name="toon">Desenho animado</string>
     <string name="posterize">Posterizar</string>
     <string name="non_maximum_suppression">Supressão não máxima</string>
@@ -556,8 +556,8 @@
     <string name="saved_to_original">Arquivo sobrescrito com nome %s no destino original</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Ativa a lupa na parte superior do dedo nos modos de desenho para melhor acessibilidade</string>
-    <string name="force_exif_widget_inital_value">Forçar valor inicial</string>
-    <string name="force_exif_widget_inital_value_sub">Força o widget exif a ser verificado inicialmente</string>
+    <string name="force_exif_widget_initial_value">Forçar valor inicial</string>
+    <string name="force_exif_widget_initial_value_sub">Força o widget exif a ser verificado inicialmente</string>
     <string name="allow_multiple_languages">Permitir vários idiomas</string>
     <string name="slide">Deslizar</string>
     <string name="side_by_side">Lado a lado</string>

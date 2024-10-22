@@ -199,7 +199,7 @@
     <string name="sketch">Ескіз</string>
     <string name="threshold">Поріг</string>
     <string name="quantizationLevels">Рівні квантування</string>
-    <string name="snooth_toon">Гладкий мультфільм</string>
+    <string name="smooth_toon">Гладкий мультфільм</string>
     <string name="toon">Мультфільм</string>
     <string name="posterize">Постеризувати</string>
     <string name="non_maximum_suppression">Не максимальне придушення</string>
@@ -743,8 +743,8 @@
     <string name="saved_to_original">Перезаписаний файл із назвою %s у початковому місці призначення</string>
     <string name="magnifier">лупа</string>
     <string name="magnifier_sub">Вмикає лупу у верхній частині пальця в режимах малювання для кращої доступності</string>
-    <string name="force_exif_widget_inital_value">Примусове початкове значення</string>
-    <string name="force_exif_widget_inital_value_sub">Примусово спочатку перевіряє віджет exif</string>
+    <string name="force_exif_widget_initial_value">Примусове початкове значення</string>
+    <string name="force_exif_widget_initial_value_sub">Примусово спочатку перевіряє віджет exif</string>
     <string name="allow_multiple_languages">Дозволити кілька мов</string>
     <string name="favorite">улюблений</string>
     <string name="no_favorite_filters">Вибраних фільтрів ще не додано</string>

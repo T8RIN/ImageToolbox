@@ -151,7 +151,7 @@
     <string name="sketch">סְקִיצָה</string>
     <string name="threshold">מפתן</string>
     <string name="quantizationLevels">רמות קוונטיזציה</string>
-    <string name="snooth_toon">טון חלק</string>
+    <string name="smooth_toon">טון חלק</string>
     <string name="toon">טון</string>
     <string name="non_maximum_suppression">דיכוי לא מקסימלי</string>
     <string name="weak_pixel_inclusion">הכללת פיקסלים חלשה</string>
@@ -721,8 +721,8 @@
     <string name="saved_to_original">קובץ שהוחלף עם השם %s ביעד המקורי</string>
     <string name="magnifier">זכוכית מגדלת</string>
     <string name="magnifier_sub">מאפשר זכוכית מגדלת בחלק העליון של האצבע במצבי ציור עבור נגישות טובה יותר</string>
-    <string name="force_exif_widget_inital_value">לכפות ערך התחלתי</string>
-    <string name="force_exif_widget_inital_value_sub">מאלץ את הווידג\'ט של ה-exif להיבדק תחילה</string>
+    <string name="force_exif_widget_initial_value">לכפות ערך התחלתי</string>
+    <string name="force_exif_widget_initial_value_sub">מאלץ את הווידג\'ט של ה-exif להיבדק תחילה</string>
     <string name="favorite">אהוב</string>
     <string name="no_favorite_filters">עדיין לא נוספו מסננים מועדפים</string>
     <string name="b_spline">B Spline</string>

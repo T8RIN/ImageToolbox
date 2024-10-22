@@ -218,7 +218,7 @@
     <string name="sketch">रेखाचित्र</string>
     <string name="threshold">सीमा</string>
     <string name="quantizationLevels">परिमाणीकरण स्तर</string>
-    <string name="snooth_toon">चिकना तून</string>
+    <string name="smooth_toon">चिकना तून</string>
     <string name="toon">तून</string>
     <string name="posterize">पोस्टरीकरण</string>
     <string name="flexible_description">चौड़ाई या ऊंचाई पैरामीटर द्वारा दिए गए लंबे पक्ष के साथ छवियों का आकार बदलता है, सहेजने के बाद सभी आकार की गणना की जाएगी - पहलू अनुपात रखता है</string>
@@ -688,8 +688,8 @@
     <string name="transparency">पारदर्शिता</string>
     <string name="magnifier">आवर्धक</string>
     <string name="magnifier_sub">बेहतर पहुंच के लिए आरेखण मोड में उंगली के शीर्ष पर आवर्धक सक्षम करता है</string>
-    <string name="force_exif_widget_inital_value">आरंभिक मान को बाध्य करें</string>
-    <string name="force_exif_widget_inital_value_sub">Exif विजेट को प्रारंभ में जाँचने के लिए बाध्य करता है</string>
+    <string name="force_exif_widget_initial_value">आरंभिक मान को बाध्य करें</string>
+    <string name="force_exif_widget_initial_value_sub">Exif विजेट को प्रारंभ में जाँचने के लिए बाध्य करता है</string>
     <string name="b_spline">B स्प्लाइन</string>
     <string name="native_stack_blur">मूल स्टैक ब्लर</string>
     <string name="tilt_shift">झुकाव शिफ्ट</string>

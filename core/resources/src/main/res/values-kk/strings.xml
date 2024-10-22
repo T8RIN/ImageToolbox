@@ -611,8 +611,8 @@
     <string name="saved_to_original">Бастапқы тағайындалған жерде %s атымен қайта жазылған файл</string>
     <string name="magnifier">Үлкейткіш</string>
     <string name="magnifier_sub">Жақсырақ қол жетімділік үшін сурет салу режимдерінде саусақтың жоғарғы жағындағы ұлғайтқышты қосады</string>
-    <string name="force_exif_widget_inital_value">Бастапқы мәнді мәжбүрлеу</string>
-    <string name="force_exif_widget_inital_value_sub">Бастапқыда exif виджетін тексеруге мәжбүрлейді</string>
+    <string name="force_exif_widget_initial_value">Бастапқы мәнді мәжбүрлеу</string>
+    <string name="force_exif_widget_initial_value_sub">Бастапқыда exif виджетін тексеруге мәжбүрлейді</string>
     <string name="allow_multiple_languages">Бірнеше тілге рұқсат ету</string>
     <string name="favorite">Таңдаулы</string>
     <string name="no_favorite_filters">Таңдаулы сүзгілер әлі қосылмаған</string>
@@ -656,7 +656,7 @@
     <string name="sketch">Эскиз</string>
     <string name="threshold">Табалдырық</string>
     <string name="quantizationLevels">Кванттау деңгейлері</string>
-    <string name="snooth_toon">Тегіс тон</string>
+    <string name="smooth_toon">Тегіс тон</string>
     <string name="toon">Тон</string>
     <string name="posterize">Постеризация</string>
     <string name="non_maximum_suppression">Максималды емес басу</string>
@@ -718,7 +718,7 @@
     <string name="blur_radius">Бұлыңғырлық радиусы</string>
     <string name="draw_mode">Сурет салу режимі</string>
     <string name="create_issue">Мәселе жасау</string>
-    <string name="something_went_wrong_emphasis">Ой... Бірдеңе дұрыс болмады. Төмендегі опцияларды пайдаланып маған жаза аласыз, мен шешім табуға тырысамын</string>
+    <string name="something_went_wrong_emphasis">Ой… Бірдеңе дұрыс болмады. Төмендегі опцияларды пайдаланып маған жаза аласыз, мен шешім табуға тырысамын</string>
     <string name="resize_and_convert">Өлшемін өзгерту және түрлендіру</string>
     <string name="resize_and_convert_sub">Берілген кескіндердің өлшемін өзгертіңіз немесе оларды басқа пішімдерге түрлендіріңіз. Бір суретті таңдасаңыз, EXIF метадеректерін де осы жерде өңдеуге болады.</string>
     <string name="max_colors_count">Максималды түс саны</string>

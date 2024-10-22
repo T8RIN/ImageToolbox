@@ -183,7 +183,7 @@
     <string name="color_matrix">Matriu de color</string>
     <string name="limits_resize">Límits del redimensionat</string>
     <string name="threshold">Llindar</string>
-    <string name="snooth_toon">Toon suau</string>
+    <string name="smooth_toon">Toon suau</string>
     <string name="non_maximum_suppression">Supressió no màxima</string>
     <string name="lookup">Cerca</string>
     <string name="blur_center_x">Centre del difuminat x</string>
@@ -587,8 +587,8 @@
     <string name="saved_to_original">Fitxer sobreescrit amb el nom %s a la destinació original</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Activa la lupa a la part superior del dit en els modes de dibuix per a una millor accessibilitat</string>
-    <string name="force_exif_widget_inital_value">Força el valor inicial</string>
-    <string name="force_exif_widget_inital_value_sub">Força el giny exif a comprovar inicialment</string>
+    <string name="force_exif_widget_initial_value">Força el valor inicial</string>
+    <string name="force_exif_widget_initial_value_sub">Força el giny exif a comprovar inicialment</string>
     <string name="allow_multiple_languages">Permet diversos idiomes</string>
     <string name="slide">Diapositiva</string>
     <string name="side_by_side">Al costat de l\'altre</string>

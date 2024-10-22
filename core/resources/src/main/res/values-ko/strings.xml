@@ -225,7 +225,7 @@
     <string name="sketch">스케치</string>
     <string name="threshold">한계점</string>
     <string name="quantizationLevels">양자화 수준</string>
-    <string name="snooth_toon">부드러운 툰</string>
+    <string name="smooth_toon">부드러운 툰</string>
     <string name="toon">인도 마호가니</string>
     <string name="posterize">포스터라이즈</string>
     <string name="weak_pixel_inclusion">약한 픽셀 포함</string>
@@ -445,9 +445,9 @@
     <string name="use_pixel_switch_sub">귀하가 기반으로 한 Google의 자료 대신 픽셀과 유사한 스위치가 사용됩니다.</string>
     <string name="saved_to_original">원래 대상에 이름이 %s인 파일을 덮어썼습니다.</string>
     <string name="magnifier">돋보기</string>
-    <string name="force_exif_widget_inital_value">강제 초기값</string>
+    <string name="force_exif_widget_initial_value">강제 초기값</string>
     <string name="magnifier_sub">더 나은 접근성을 위해 그리기 모드에서 손가락 상단에 돋보기를 활성화합니다.</string>
-    <string name="force_exif_widget_inital_value_sub">EXIF 위젯을 처음에 강제로 확인합니다.</string>
+    <string name="force_exif_widget_initial_value_sub">EXIF 위젯을 처음에 강제로 확인합니다.</string>
     <string name="allow_multiple_languages">다중 언어 허용</string>
     <string name="toggle_tap">탭 전환</string>
     <string name="rate_app_sub">이 앱은 완전 무료입니다. 앱이 더 커지길 원한다면 Github에서 프로젝트에 별표를 표시해 주세요 😄</string>

@@ -276,7 +276,7 @@
     <string name="limits_resize_sub">Pas het formaat van geselecteerde afbeeldingen aan om de gegeven breedte- en hoogtelimieten te volgen, terwijl de beeldverhouding behouden blijft</string>
     <string name="threshold">Drempelwaarde</string>
     <string name="quantizationLevels">Kwantiseringsniveaus</string>
-    <string name="snooth_toon">Vlotte toon</string>
+    <string name="smooth_toon">Vlotte toon</string>
     <string name="posterize">Posterformaat</string>
     <string name="non_maximum_suppression">Niet-maximale onderdrukking</string>
     <string name="weak_pixel_inclusion">Zwakke pixelopname</string>
@@ -577,8 +577,8 @@
     <string name="saved_to_original">Overschreven bestand met naam %s op oorspronkelijke bestemming</string>
     <string name="magnifier">Vergrootglas</string>
     <string name="magnifier_sub">Schakelt vergrootglas aan de bovenkant van de vinger in tekenmodi in voor betere toegankelijkheid</string>
-    <string name="force_exif_widget_inital_value">Beginwaarde forceren</string>
-    <string name="force_exif_widget_inital_value_sub">Forceert dat de exif-widget in eerste instantie wordt gecontroleerd</string>
+    <string name="force_exif_widget_initial_value">Beginwaarde forceren</string>
+    <string name="force_exif_widget_initial_value_sub">Forceert dat de exif-widget in eerste instantie wordt gecontroleerd</string>
     <string name="segmentation_mode_single_line">Enkele lijn</string>
     <string name="segmentation_mode_single_word">Een woord</string>
     <string name="allow_multiple_languages">Meerdere talen toestaan</string>

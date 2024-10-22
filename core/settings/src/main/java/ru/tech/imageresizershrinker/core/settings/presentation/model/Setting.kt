@@ -299,8 +299,8 @@ sealed class Setting(
     )
 
     data object ExifWidgetInitialState : Setting(
-        title = R.string.force_exif_widget_inital_value,
-        subtitle = R.string.force_exif_widget_inital_value_sub
+        title = R.string.force_exif_widget_initial_value,
+        subtitle = R.string.force_exif_widget_initial_value_sub
     )
 
     data object BrightnessEnforcement : Setting(

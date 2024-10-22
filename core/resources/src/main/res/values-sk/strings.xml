@@ -219,7 +219,7 @@
     <string name="color_matrix">Farebná matrica</string>
     <string name="opacity">Nepriehľadnosť</string>
     <string name="quantizationLevels">Úrovne kvantovania</string>
-    <string name="snooth_toon">Hladký toon</string>
+    <string name="smooth_toon">Hladký toon</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterizovať</string>
     <string name="lookup">Vyhľadať</string>
@@ -725,8 +725,8 @@
     <string name="saved_to_original">Prepisana datoteka z imenom %s na prvotnem cilju</string>
     <string name="magnifier">Povečevalno steklo</string>
     <string name="magnifier_sub">Omogoči lupo na vrhu prsta v načinih risanja za boljšo dostopnost</string>
-    <string name="force_exif_widget_inital_value">Vsili začetno vrednost</string>
-    <string name="force_exif_widget_inital_value_sub">Vsili prvotno preverjanje pripomočka exif</string>
+    <string name="force_exif_widget_initial_value">Vsili začetno vrednost</string>
+    <string name="force_exif_widget_initial_value_sub">Vsili prvotno preverjanje pripomočka exif</string>
     <string name="allow_multiple_languages">Dovoli več jezikov</string>
     <string name="favorite">Najljubša</string>
     <string name="no_favorite_filters">Dodanih še ni nobenih priljubljenih filtrov</string>

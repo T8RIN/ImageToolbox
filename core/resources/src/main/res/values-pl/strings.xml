@@ -138,7 +138,7 @@
     <string name="sketch">Szkic</string>
     <string name="threshold">Próg</string>
     <string name="quantizationLevels">Poziomy kwantyzacji</string>
-    <string name="snooth_toon">Gładki toon</string>
+    <string name="smooth_toon">Gładki toon</string>
     <string name="stack_blur">Rozmycie stosu</string>
     <string name="convolution3x3">Konwolucja 3x3</string>
     <string name="rgb_filter">Filtr RGB</string>
@@ -653,8 +653,8 @@
     <string name="saved_to_original">Nadpisano plik o nazwie %s w oryginalnym miejscu docelowym</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Włącza lupę w trybach rysowania dla lepszej dostępności.</string>
-    <string name="force_exif_widget_inital_value">Wymuś wartość początkową</string>
-    <string name="force_exif_widget_inital_value_sub">Wymusza wstępne sprawdzenie widżetu exif</string>
+    <string name="force_exif_widget_initial_value">Wymuś wartość początkową</string>
+    <string name="force_exif_widget_initial_value_sub">Wymusza wstępne sprawdzenie widżetu exif</string>
     <string name="allow_multiple_languages">Zezwalaj na wiele języków</string>
     <string name="b_spline">B Spline</string>
     <string name="native_stack_blur">Natywne rozmycie stosu</string>

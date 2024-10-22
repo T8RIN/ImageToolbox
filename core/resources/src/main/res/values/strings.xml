@@ -235,7 +235,7 @@
     <string name="sketch">Sketch</string>
     <string name="threshold">Threshold</string>
     <string name="quantizationLevels">Quantization levels</string>
-    <string name="snooth_toon">Smooth toon</string>
+    <string name="smooth_toon">Smooth toon</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterize</string>
     <string name="non_maximum_suppression">Non maximum suppression</string>
@@ -355,7 +355,7 @@
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Draw mode</string>
     <string name="create_issue">Create Issue</string>
-    <string name="something_went_wrong_emphasis">Ooops… Something went wrong. You can write to me using options below and i\'ll try to find solution</string>
+    <string name="something_went_wrong_emphasis">Oops… Something went wrong. You can write to me using options below and i\'ll try to find solution</string>
     <string name="resize_and_convert">Resize and Convert</string>
     <string name="resize_and_convert_sub">Change size of given images or convert them to other formats. EXIF metadata can also be edited here if picking a single image.</string>
     <string name="max_colors_count">Max color count</string>
@@ -573,8 +573,8 @@
     <string name="saved_to_original">Overwritten file with name %s at original destination</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">Enables magnifier at the top of finger in drawing modes for better accessibility</string>
-    <string name="force_exif_widget_inital_value">Force initial value</string>
-    <string name="force_exif_widget_inital_value_sub">Forces exif widget to be checked initially</string>
+    <string name="force_exif_widget_initial_value">Force initial value</string>
+    <string name="force_exif_widget_initial_value_sub">Forces exif widget to be checked initially</string>
     <string name="exif" translatable="false">EXIF</string>
     <string name="allow_multiple_languages">Allow Multiple Languages</string>
     <string name="slide">Slide</string>
@@ -1345,7 +1345,7 @@
     <string name="greenish">Greenish</string>
     <string name="retro_yellow">Retro Yellow</string>
     <string name="links_preview">Links Preview</string>
-    <string name="links_preview_sub">Enables link preview retrieveing in places where you can obtain text (QRCode, OCR etc)</string>
+    <string name="links_preview_sub">Enables link preview retrieving in places where you can obtain text (QRCode, OCR etc)</string>
     <string name="links">Links</string>
     <string name="ico_size_warning">Ico Files can be saved only at maximum size of 256*256, larger values will be coerced in resulting image</string>
     <string name="gif_type_to_webp">GIF to WEBP</string>
@@ -1441,7 +1441,7 @@
     <string name="dot_dashed">Dot Dashed</string>
     <string name="stamped">Stamped</string>
     <string name="zigzag">Zigzag</string>
-    <string name="dashed_sub">Draws dahed line along the drawn path with specified gap size</string>
+    <string name="dashed_sub">Draws dated line along the drawn path with specified gap size</string>
     <string name="dot_dashed_sub">Draws dot and dashed line along given path</string>
     <string name="defaultt_sub">Just default straight lines</string>
     <string name="stamped_sub">Draws selected shapes along the path with specified spacing</string>
@@ -1451,7 +1451,7 @@
     <string name="create_shortcut_title">Choose tool to pin</string>
     <string name="create_shortcut_subtitle">Tool will be added to home screen of your launcher as shortcut, use it combining with \"Skip file picking\" setting to achieve needed behavior</string>
     <string name="dont_stack_frames">Don\'t stack frames</string>
-    <string name="dont_stack_frames_sub">Enables disposing of prevoius frames, so they will not stack on each other</string>
+    <string name="dont_stack_frames_sub">Enables disposing of previous frames, so they will not stack on each other</string>
     <string name="crossfade">Crossfade</string>
     <string name="crossfade_sub">Frames will be crossfaded into each other</string>
     <string name="crossfade_count">Crossfade frames count</string>

@@ -208,7 +208,7 @@
     <string name="limits_resize_sub">تاللانغان رەسىملەرنىڭ چوڭ-كىچىكلىكى ۋە كەڭلىك چەكلىمىسى بويىچە ئەگىشىڭ</string>
     <string name="threshold">Threshold</string>
     <string name="quantizationLevels">مىقدارلاشتۇرۇش دەرىجىسى</string>
-    <string name="snooth_toon">يۇمىلاق چىش</string>
+    <string name="smooth_toon">يۇمىلاق چىش</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterize</string>
     <string name="non_maximum_suppression">ئەڭ چوڭ باستۇرۇش</string>
@@ -540,8 +540,8 @@
     <string name="saved_to_original">ئەسلى مەنزىلدە {8 name ئىسمى يېزىلغان ھۆججەتتمت الكتابة فوق الملف بالاسم %s في الوجهة الأصلية</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">تېخىمۇ ياخشى زىيارەت قىلىش ئۈچۈن رەسىم سىزىش شەكلىدە بارماقنىڭ ئۈستىدىكى چوڭايتىشنى قوزغىتىدۇ</string>
-    <string name="force_exif_widget_inital_value_sub">كىچىك قوراللار دەسلەپتە تەكشۈرۈلىدۇ</string>
-    <string name="force_exif_widget_inital_value">دەسلەپكى قىممەتنى زورلاڭ</string>
+    <string name="force_exif_widget_initial_value_sub">كىچىك قوراللار دەسلەپتە تەكشۈرۈلىدۇ</string>
+    <string name="force_exif_widget_initial_value">دەسلەپكى قىممەتنى زورلاڭ</string>
     <string name="allow_multiple_languages">كۆپ خىل تىللارغا يول قويۇڭ</string>
     <string name="slide">تام تەسۋىر</string>
     <string name="side_by_side">Side by Side</string>

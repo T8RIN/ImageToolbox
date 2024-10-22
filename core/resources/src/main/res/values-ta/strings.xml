@@ -252,7 +252,7 @@
     <string name="sketch">ஓவியம்</string>
     <string name="threshold">வாசல்</string>
     <string name="quantizationLevels">அளவீட்டு நிலைகள்</string>
-    <string name="snooth_toon">மென்மையான டூன்</string>
+    <string name="smooth_toon">மென்மையான டூன்</string>
     <string name="toon">டூன்</string>
     <string name="posterize">போஸ்டரைடு</string>
     <string name="non_maximum_suppression">அதிகபட்ச அடக்கம் அல்ல</string>
@@ -424,8 +424,8 @@
     <string name="saved_to_original">அசல் இலக்கில் %s என்ற பெயரில் மேலெழுதப்பட்ட கோப்பு</string>
     <string name="magnifier">உருப்பெருக்கி</string>
     <string name="magnifier_sub">சிறந்த அணுகலுக்காக வரைதல் முறைகளில் விரலின் மேற்பகுதியில் உருப்பெருக்கியை இயக்குகிறது</string>
-    <string name="force_exif_widget_inital_value">ஆரம்ப மதிப்பை கட்டாயப்படுத்தவும்</string>
-    <string name="force_exif_widget_inital_value_sub">exif விட்ஜெட்டை முதலில் சரிபார்க்க வேண்டும்</string>
+    <string name="force_exif_widget_initial_value">ஆரம்ப மதிப்பை கட்டாயப்படுத்தவும்</string>
+    <string name="force_exif_widget_initial_value_sub">exif விட்ஜெட்டை முதலில் சரிபார்க்க வேண்டும்</string>
     <string name="allow_multiple_languages">பல மொழிகளை அனுமதிக்கவும்</string>
     <string name="slide">ஸ்லைடு</string>
     <string name="side_by_side">சைட் பை சைட்</string>

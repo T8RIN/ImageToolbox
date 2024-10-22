@@ -224,7 +224,7 @@
     <string name="sketch">Esquisse</string>
     <string name="threshold">Seuil</string>
     <string name="quantizationLevels">Niveaux de quantification</string>
-    <string name="snooth_toon">Lisse cartoon</string>
+    <string name="smooth_toon">Lisse cartoon</string>
     <string name="toon">Dessin animé</string>
     <string name="posterize">Postériser</string>
     <string name="lookup">Consultation</string>
@@ -537,8 +537,8 @@
     <string name="use_pixel_switch_sub">Un commutateur de type pixel sera utilisé à la place du matériel de Google que vous avez basé sur celui-ci.</string>
     <string name="magnifier">Loupe</string>
     <string name="magnifier_sub">Active la loupe sur le dessus du doigt dans les modes de dessin pour une meilleure accessibilité</string>
-    <string name="force_exif_widget_inital_value">Forcer la valeur initiale</string>
-    <string name="force_exif_widget_inital_value_sub">Force la vérification initiale du widget exif</string>
+    <string name="force_exif_widget_initial_value">Forcer la valeur initiale</string>
+    <string name="force_exif_widget_initial_value_sub">Force la vérification initiale du widget exif</string>
     <string name="allow_multiple_languages">Autoriser plusieurs langues</string>
     <string name="toggle_tap">Appuyez sur</string>
     <string name="transparency">Transparence</string>

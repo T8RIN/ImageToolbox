@@ -222,7 +222,7 @@
     <string name="sketch">Schizzo</string>
     <string name="threshold">Soglia</string>
     <string name="quantizationLevels">Livelli di quantizzazione</string>
-    <string name="snooth_toon">Tono liscio</string>
+    <string name="smooth_toon">Tono liscio</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterizza</string>
     <string name="non_maximum_suppression">Soppressione non massima</string>
@@ -480,8 +480,8 @@
     <string name="saved_to_original">File sovrascritto con nome %s nella destinazione originale</string>
     <string name="magnifier">Lente d\'ingrandimento</string>
     <string name="magnifier_sub">Abilita la lente d\'ingrandimento sulla parte superiore del dito nelle modalità di disegno per una migliore accessibilità</string>
-    <string name="force_exif_widget_inital_value">Forza il valore iniziale</string>
-    <string name="force_exif_widget_inital_value_sub">Forza il controllo iniziale del widget EXIF</string>
+    <string name="force_exif_widget_initial_value">Forza il valore iniziale</string>
+    <string name="force_exif_widget_initial_value_sub">Forza il controllo iniziale del widget EXIF</string>
     <string name="allow_multiple_languages">Consenti più lingue</string>
     <string name="segmentation_mode_auto_osd">Orientamento automatico &amp; Rilevamento script</string>
     <string name="segmentation_mode_auto_only">Solo automatico</string>

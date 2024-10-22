@@ -220,7 +220,7 @@
     <string name="sketch">草图</string>
     <string name="threshold">临界点</string>
     <string name="quantizationLevels">量化级别</string>
-    <string name="snooth_toon">平滑色调</string>
+    <string name="smooth_toon">平滑色调</string>
     <string name="toon">卡通化</string>
     <string name="convolution3x3">3x3 卷积矩阵</string>
     <string name="rgb_filter">RGB 滤镜</string>
@@ -555,13 +555,13 @@
     <string name="use_pixel_switch">使用 Pixel 开关</string>
     <string name="saved_to_original">在原始目标位置覆盖了名称为 %s 的文件</string>
     <string name="magnifier_sub">在绘图模式下，在手指顶部启用放大镜，以提高易用性</string>
-    <string name="force_exif_widget_inital_value_sub">强制初始检查 EXIF 部件</string>
+    <string name="force_exif_widget_initial_value_sub">强制初始检查 EXIF 部件</string>
     <string name="slide">滑动</string>
     <string name="side_by_side">并排</string>
     <string name="toggle_tap">切换轻触</string>
     <string name="transparency">透明度</string>
     <string name="magnifier">放大镜</string>
-    <string name="force_exif_widget_inital_value">强制初始值</string>
+    <string name="force_exif_widget_initial_value">强制初始值</string>
     <string name="allow_multiple_languages">允许多种语言</string>
     <string name="rate_app">给应用程序评分</string>
     <string name="rate">评分</string>
@@ -1391,7 +1391,7 @@
     <string name="collage_maker">拼贴画制作器</string>
     <string name="collage_type">拼贴画类型</string>
     <string name="pick_up_to_ten_images">最多可选取10张图片</string>
-    <string name="collage_maker_sub">用 2-10 张图片制作各种拼贴画</string>
+    <string name="collage_maker_sub">用 2–10 张图片制作各种拼贴画</string>
     <string name="collages_info">按住图像进行交换、移动和缩放以调整位置</string>
     <string name="image_for_histogram">该图像将用于生成 RGB 和亮度直方图</string>
     <string name="histogram">柱状图</string>

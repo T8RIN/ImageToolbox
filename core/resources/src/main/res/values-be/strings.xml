@@ -342,7 +342,7 @@
     <string name="no_data">Даных няма</string>
     <string name="download">Спампаваць</string>
     <string name="no_connection">Няма падключэння, праверце і паўтарыце спробу, каб спампаваць мадэлі цягнікоў</string>
-    <string name="force_exif_widget_inital_value_sub">Прымушае першапачатковую праверку віджэта exif</string>
+    <string name="force_exif_widget_initial_value_sub">Прымушае першапачатковую праверку віджэта exif</string>
     <string name="segmentation_mode_auto_only">Толькі аўто</string>
     <string name="segmentation_mode_auto">Аўто</string>
     <string name="segmentation_mode_single_word">Адно слова</string>
@@ -563,7 +563,7 @@
     <string name="vignette">Віньетка</string>
     <string name="opacity">Непразрыстасць</string>
     <string name="threshold">Парог</string>
-    <string name="snooth_toon">Гладкі мульцік</string>
+    <string name="smooth_toon">Гладкі мульцік</string>
     <string name="toon">Мультфільм</string>
     <string name="posterize">Постэрызацыі</string>
     <string name="lookup">Шукаць</string>
@@ -732,7 +732,7 @@
     <string name="saved_to_original">Перазапісаны файл з назвай %s у першапачатковым месцы прызначэння</string>
     <string name="magnifier">Лупа</string>
     <string name="magnifier_sub">Ўключае лупу ў верхняй частцы пальца ў рэжымах малявання для лепшай даступнасці</string>
-    <string name="force_exif_widget_inital_value">Прымусовае пачатковае значэнне</string>
+    <string name="force_exif_widget_initial_value">Прымусовае пачатковае значэнне</string>
     <string name="favorite">Любімая</string>
     <string name="no_favorite_filters">Яшчэ не дададзены любімыя фільтры</string>
     <string name="b_spline">Б Сплайн</string>

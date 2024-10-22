@@ -225,7 +225,7 @@
     <string name="sketch">スケッチ</string>
     <string name="threshold">しきい値</string>
     <string name="quantizationLevels">量子化レベル</string>
-    <string name="snooth_toon">滑らかなトゥーン</string>
+    <string name="smooth_toon">滑らかなトゥーン</string>
     <string name="toon">東温</string>
     <string name="posterize">ポスタリゼーション</string>
     <string name="weak_pixel_inclusion">弱いピクセルの包含</string>
@@ -458,8 +458,8 @@
     <string name="spline_sub">区分的に定義された多項式関数を利用して、曲線または曲面を滑らかに補間および近似し、柔軟で連続的な形状表現を実現します。</string>
     <string name="only_clip_sub">ストレージへの保存は行われず、画像はクリップボードへの保存のみが試行されます。</string>
     <string name="restore_background_sub">ブラシは背景を消去するのではなく復元します</string>
-    <string name="force_exif_widget_inital_value">初期値を強制する</string>
-    <string name="force_exif_widget_inital_value_sub">exif ウィジェットを最初に強制的にチェックします</string>
+    <string name="force_exif_widget_initial_value">初期値を強制する</string>
+    <string name="force_exif_widget_initial_value_sub">exif ウィジェットを最初に強制的にチェックします</string>
     <string name="allow_multiple_languages">複数の言語を許可する</string>
     <string name="slide">滑り台</string>
     <string name="side_by_side">並んで</string>

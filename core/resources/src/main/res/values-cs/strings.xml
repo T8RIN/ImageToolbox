@@ -146,7 +146,7 @@
     <string name="sketch">Skica</string>
     <string name="threshold">Práh</string>
     <string name="quantizationLevels">Kvantizační úrovně</string>
-    <string name="snooth_toon">Hladký toon</string>
+    <string name="smooth_toon">Hladký toon</string>
     <string name="toon">Toon</string>
     <string name="non_maximum_suppression">Ne maximální potlačení</string>
     <string name="weak_pixel_inclusion">Slabé zahrnutí pixelů</string>
@@ -729,8 +729,8 @@
     <string name="saved_to_original">Přepsaný soubor s názvem %s v původním umístění</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Povolí lupu v horní části prstu v režimech kreslení pro lepší přístupnost</string>
-    <string name="force_exif_widget_inital_value">Vynutit počáteční hodnotu</string>
-    <string name="force_exif_widget_inital_value_sub">Vynutí počáteční kontrolu widgetu exif</string>
+    <string name="force_exif_widget_initial_value">Vynutit počáteční hodnotu</string>
+    <string name="force_exif_widget_initial_value_sub">Vynutí počáteční kontrolu widgetu exif</string>
     <string name="allow_multiple_languages">Povolit více jazyků</string>
     <string name="favorite">Oblíbený</string>
     <string name="no_favorite_filters">Zatím nebyly přidány žádné oblíbené filtry</string>

@@ -226,7 +226,7 @@
     <string name="color_matrix">Kulay matrix</string>
     <string name="opacity">Opacity</string>
     <string name="quantizationLevels">Mga antas ng quantization</string>
-    <string name="snooth_toon">Smooth toon</string>
+    <string name="smooth_toon">Smooth toon</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterize</string>
     <string name="weak_pixel_inclusion">Mahinang pagsasama ng pixel</string>
@@ -446,7 +446,7 @@
     <string name="lanczos_sub">Paraan ng resampling na nagpapanatili ng mataas na kalidad na interpolation sa pamamagitan ng paglalapat ng weighted sinc function sa mga pixel value</string>
     <string name="mitchell_sub">Paraan ng resampling na gumagamit ng convolution filter na may mga adjustable na parameter para magkaroon ng balanse sa pagitan ng sharpness at anti-aliasing sa naka-scale na imahe</string>
     <string name="spline_sub">Gumagamit ng piecewise-defined polynomial functions upang maayos na i-interpolate at tantiyahin ang isang curve o surface, flexible at tuluy-tuloy na representasyon ng hugis</string>
-    <string name="force_exif_widget_inital_value_sub">Pinipilit ang exif widget na masuri sa simula</string>
+    <string name="force_exif_widget_initial_value_sub">Pinipilit ang exif widget na masuri sa simula</string>
     <string name="allow_multiple_languages">Payagan ang Maramihang Wika</string>
     <string name="segmentation_mode_auto_osd">Auto Orientation &amp; Script Detection</string>
     <string name="segmentation_mode_auto_only">Auto lang</string>
@@ -737,7 +737,7 @@
     <string name="saved_to_original">Na-overwrite na file na may pangalang %s sa orihinal na destinasyon</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">Pinapagana ang magnifier sa tuktok ng daliri sa mga mode ng pagguhit para sa mas mahusay na accessibility</string>
-    <string name="force_exif_widget_inital_value">Pilitin ang paunang halaga</string>
+    <string name="force_exif_widget_initial_value">Pilitin ang paunang halaga</string>
     <string name="favorite">Paborito</string>
     <string name="no_favorite_filters">Wala pang naidagdag na mga paboritong filter</string>
     <string name="b_spline">B Spline</string>

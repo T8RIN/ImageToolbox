@@ -154,7 +154,7 @@
     <string name="sketch">Bosquejo</string>
     <string name="threshold">Límite</string>
     <string name="quantizationLevels">Niveles de cuantificación</string>
-    <string name="snooth_toon">Toon suave</string>
+    <string name="smooth_toon">Toon suave</string>
     <string name="toon">Toon</string>
     <string name="non_maximum_suppression">Supresión no máxima</string>
     <string name="weak_pixel_inclusion">Inclusión de píxeles débiles</string>
@@ -471,8 +471,8 @@
     <string name="segmentation_mode">Modo de segmentación</string>
     <string name="saved_to_original">Archivo sobrescrito con nombre %s en el destino original</string>
     <string name="magnifier_sub">Habilita la lupa en la parte superior del dedo en los modos de dibujo para una mejor accesibilidad</string>
-    <string name="force_exif_widget_inital_value">Forzar valor inicial</string>
-    <string name="force_exif_widget_inital_value_sub">Obliga a que el widget exif se compruebe inicialmente</string>
+    <string name="force_exif_widget_initial_value">Forzar valor inicial</string>
+    <string name="force_exif_widget_initial_value_sub">Obliga a que el widget exif se compruebe inicialmente</string>
     <string name="segmentation_mode_auto">Auto</string>
     <string name="segmentation_mode_single_column">Una sola columna</string>
     <string name="segmentation_mode_single_block_vert_text">Texto vertical de un solo bloque</string>

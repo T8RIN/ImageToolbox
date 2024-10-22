@@ -225,7 +225,7 @@
     <string name="color_matrix">Matriks warna</string>
     <string name="opacity">Kegelapan</string>
     <string name="quantizationLevels">Tingkat kuantisasi</string>
-    <string name="snooth_toon">Toon halus</string>
+    <string name="smooth_toon">Toon halus</string>
     <string name="toon">Toon</string>
     <string name="posterize">Buat poster</string>
     <string name="weak_pixel_inclusion">Inklusi piksel lemah</string>
@@ -730,8 +730,8 @@
     <string name="saved_to_original">File yang ditimpa dengan nama %s di tujuan aslinya</string>
     <string name="magnifier">Kaca pembesar</string>
     <string name="magnifier_sub">Mengaktifkan kaca pembesar di bagian atas jari dalam mode menggambar untuk aksesibilitas yang lebih baik</string>
-    <string name="force_exif_widget_inital_value">Paksa nilai awal</string>
-    <string name="force_exif_widget_inital_value_sub">Memaksa widget exic untuk diperiksa terlebih dahulu</string>
+    <string name="force_exif_widget_initial_value">Paksa nilai awal</string>
+    <string name="force_exif_widget_initial_value_sub">Memaksa widget exic untuk diperiksa terlebih dahulu</string>
     <string name="allow_multiple_languages">Izinkan Banyak Bahasa</string>
     <string name="favorite">Favorit</string>
     <string name="no_favorite_filters">Belum ada filter favorit yang ditambahkan</string>

@@ -224,7 +224,7 @@
     <string name="quantizationLevels">Количественный уровень</string>
     <string name="posterize">Постеризация</string>
     <string name="sketch">Эскиз (Рисунок)</string>
-    <string name="snooth_toon">Гладкий мультяшный</string>
+    <string name="smooth_toon">Гладкий мультяшный</string>
     <string name="threshold">Порог</string>
     <string name="toon">Мультяшный</string>
     <string name="non_maximum_suppression">Немаксимальное подавление</string>
@@ -555,10 +555,10 @@
     <string name="use_pixel_switch_sub">Будет использоваться переключатель, как на телефонах Pixel, вместо стандартного из Material You</string>
     <string name="saved_to_original">Перезаписан файл с именем %s в оригинальной папке</string>
     <string name="magnifier_sub">Включает лупу над пальцем во время рисования для лучшего понимания происходящего</string>
-    <string name="force_exif_widget_inital_value_sub">EXIF переключатель будет в положении ВКЛ автоматически</string>
+    <string name="force_exif_widget_initial_value_sub">EXIF переключатель будет в положении ВКЛ автоматически</string>
     <string name="allow_multiple_languages">Разрешить несколько языков</string>
     <string name="magnifier">Лупа</string>
-    <string name="force_exif_widget_inital_value">Начальное значение</string>
+    <string name="force_exif_widget_initial_value">Начальное значение</string>
     <string name="side_by_side">Бок о бок</string>
     <string name="transparency">Прозрачность</string>
     <string name="rate">Оценить</string>

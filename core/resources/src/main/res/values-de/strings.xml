@@ -225,7 +225,7 @@
     <string name="threshold">Schwellenwert</string>
     <string name="quantizationLevels">Stärke des Effekts</string>
     <string name="limits_resize_sub">Bewahrt das Seitenverhältnis und passt die Bilder in das durch deine Werte vorgegebene Format ein.</string>
-    <string name="snooth_toon">Geglätteter Cartoon</string>
+    <string name="smooth_toon">Geglätteter Cartoon</string>
     <string name="limits_resize">Größenbegrenzung</string>
     <string name="lookup">Lookup</string>
     <string name="non_maximum_suppression">Nicht-Maximales unterdrücken</string>
@@ -762,8 +762,8 @@
     <string name="saved_to_original">Überschriebene Datei mit dem Namen %s am ursprünglichen Ziel</string>
     <string name="magnifier">Lupe</string>
     <string name="magnifier_sub">Aktiviert die Lupe im Zeichenmodus für bessere Zugänglichkeit oben am Finger</string>
-    <string name="force_exif_widget_inital_value">Anfangswert erzwingen</string>
-    <string name="force_exif_widget_inital_value_sub">Erzwingt die anfängliche Überprüfung des Exif-Widgets</string>
+    <string name="force_exif_widget_initial_value">Anfangswert erzwingen</string>
+    <string name="force_exif_widget_initial_value_sub">Erzwingt die anfängliche Überprüfung des Exif-Widgets</string>
     <string name="allow_multiple_languages">Mehrere Sprachen zulassen</string>
     <string name="favorite">Favorit</string>
     <string name="b_spline">B-Spline</string>

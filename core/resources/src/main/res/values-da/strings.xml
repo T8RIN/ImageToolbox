@@ -216,7 +216,7 @@
     <string name="opacity">Gennemsigtighed</string>
     <string name="sketch">Skitse</string>
     <string name="threshold">Grænseværdi</string>
-    <string name="snooth_toon">Glat tone</string>
+    <string name="smooth_toon">Glat tone</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterize</string>
     <string name="lookup">Kig op</string>
@@ -727,8 +727,8 @@
     <string name="saved_to_original">Overskrevet fil med navn %s på den oprindelige destination</string>
     <string name="magnifier">Forstørrelsesglas</string>
     <string name="magnifier_sub">Aktiverer forstørrelsesglas øverst på fingeren i tegnetilstande for bedre tilgængelighed</string>
-    <string name="force_exif_widget_inital_value">Tving startværdi</string>
-    <string name="force_exif_widget_inital_value_sub">Tvinger exif-widget til at blive tjekket indledningsvis</string>
+    <string name="force_exif_widget_initial_value">Tving startværdi</string>
+    <string name="force_exif_widget_initial_value_sub">Tvinger exif-widget til at blive tjekket indledningsvis</string>
     <string name="allow_multiple_languages">Tillad flere sprog</string>
     <string name="favorite">Favorit</string>
     <string name="no_favorite_filters">Ingen favoritfiltre tilføjet endnu</string>

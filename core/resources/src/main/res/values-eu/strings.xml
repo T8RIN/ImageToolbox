@@ -216,7 +216,7 @@
     <string name="color_matrix">Kolore-matrizea</string>
     <string name="limits_resize_sub">Aldatu tamaina emandako irudiak emandako zabalera eta altuera mugak aspektu-erlazioa gordetzeko</string>
     <string name="quantizationLevels">Kuantizazio-mailak</string>
-    <string name="snooth_toon">Toon leuna</string>
+    <string name="smooth_toon">Toon leuna</string>
     <string name="posterize">Posterizatu</string>
     <string name="weak_pixel_inclusion">Pixelen inklusio ahula</string>
     <string name="convolution3x3">Bilaketa 3x3</string>
@@ -475,8 +475,8 @@
     <string name="saved_to_original">Gainidatzitako fitxategia %s izena duen jatorrizko helmugan</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Irisgarritasun hobea lortzeko, hatzaren goiko aldean lupa gaitzen du marrazketa moduetan</string>
-    <string name="force_exif_widget_inital_value">Indartu hasierako balioa</string>
-    <string name="force_exif_widget_inital_value_sub">Exif widget-a hasiera batean egiaztatzea behartzen du</string>
+    <string name="force_exif_widget_initial_value">Indartu hasierako balioa</string>
+    <string name="force_exif_widget_initial_value_sub">Exif widget-a hasiera batean egiaztatzea behartzen du</string>
     <string name="toggle_tap">Aktibatu/Sakatu</string>
     <string name="rate_app_sub">Aplikazio hau guztiz doakoa da, handiagoa izan nahi baduzu, izarra ezazu proiektua Github-en 😄</string>
     <string name="segmentation_mode_auto">Autoa</string>

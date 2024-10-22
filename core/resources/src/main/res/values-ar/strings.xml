@@ -223,7 +223,7 @@
     <string name="limits_resize">يحد من تغيير الحجم</string>
     <string name="limits_resize_sub">قم بتغيير حجم الصور المحددة لتتبع حدود العرض والارتفاع المحددة مع حفظ نسبة العرض إلى الارتفاع</string>
     <string name="quantizationLevels">مستويات التكميم</string>
-    <string name="snooth_toon">السلس تون</string>
+    <string name="smooth_toon">السلس تون</string>
     <string name="toon">تون</string>
     <string name="posterize">تتالي</string>
     <string name="content_scale">مقياس المحتوى</string>
@@ -443,8 +443,8 @@
     <string name="use_pixel_switch_sub">سيتم استخدام مفتاح يشبه البكسل بدلاً من مادة Google التي تعتمد عليها</string>
     <string name="saved_to_original">تمت الكتابة فوق الملف بالاسم %s في الوجهة الأصلية</string>
     <string name="magnifier_sub">لتمكين المكبر الموجود أعلى الإصبع في أوضاع الرسم لتسهيل الوصول إليه</string>
-    <string name="force_exif_widget_inital_value">قوة القيمة الأولية</string>
-    <string name="force_exif_widget_inital_value_sub">يفرض فحص عنصر واجهة المستخدم exif في البداية</string>
+    <string name="force_exif_widget_initial_value">قوة القيمة الأولية</string>
+    <string name="force_exif_widget_initial_value_sub">يفرض فحص عنصر واجهة المستخدم exif في البداية</string>
     <string name="allow_multiple_languages">السماح بعدة لغات</string>
     <string name="slide">الانزلاق</string>
     <string name="side_by_side">جنباألى جنب</string>
