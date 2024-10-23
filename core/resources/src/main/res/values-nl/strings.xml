@@ -118,7 +118,7 @@
     <string name="both">Beide</string>
     <string name="mask_preview">Maskervoorbeeld</string>
     <string name="inverse_fill_type_sub">Indien ingeschakeld worden alle niet-gemaskeerde gebieden gefilterd in plaats van het standaardgedrag</string>
-    <string name="delete_mask_warn">U staat op het punt het geselecteerde filtermasker te verwijderen. Deze bewerking kan niet ongedaan worden gemaakt</string>
+    <string name="delete_mask_warn">Je staat op het punt het geselecteerde filtermasker te verwijderen. Deze bewerking kan niet ongedaan worden gemaakt</string>
     <string name="double_arrow_sub">Tekent een dubbel wijzende pijl vanaf een bepaald pad</string>
     <string name="oval_sub">Tekent een ovaal van beginpunt tot eindpunt</string>
     <string name="outlined_oval_sub">Tekent een omlijnd ovaal van beginpunt tot eindpunt</string>
@@ -346,7 +346,7 @@
     <string name="saved_to">Opgeslagen in map %1$s met naam %2$s</string>
     <string name="saved_to_without_filename">Opgeslagen in map %1$s</string>
     <string name="tg_chat">Telegram-chat</string>
-    <string name="tg_chat_sub">Bespreek de app en krijg feedback van andere gebruikers. U kunt hier ook bèta-updates en inzichten krijgen.</string>
+    <string name="tg_chat_sub">Bespreek de app en krijg feedback van andere gebruikers. Je kunt hier ook bèta-updates en inzichten krijgen.</string>
     <string name="crop_mask">Masker bijsnijden</string>
     <string name="aspect_ratio">Beeldverhouding</string>
     <string name="image_crop_mask_sub">Gebruik dit maskertype om een masker te maken van een bepaalde afbeelding. Merk op dat het een alfakanaal MOET hebben</string>
@@ -360,7 +360,7 @@
     <string name="contact_me">Neem contact met mij op</string>
     <string name="reset_settings_sub">Hiermee worden de instellingen teruggezet naar de standaardwaarden. Merk op dat dit niet ongedaan kan worden gemaakt zonder een hierboven vermeld back-upbestand.</string>
     <string name="delete">Verwijderen</string>
-    <string name="delete_color_scheme_warn">U staat op het punt het geselecteerde kleurenschema te verwijderen. Deze bewerking kan niet ongedaan worden gemaakt</string>
+    <string name="delete_color_scheme_warn">Je staat op het punt het geselecteerde kleurenschema te verwijderen. Deze bewerking kan niet ongedaan worden gemaakt</string>
     <string name="delete_color_scheme_title">Schema verwijderen</string>
     <string name="font">Lettertype</string>
     <string name="text">Tekst</string>
@@ -384,7 +384,7 @@
     <string name="auto_erase_background">Achtergrond automatisch wissen</string>
     <string name="restore_image">Afbeelding herstellen</string>
     <string name="erase_mode">Wismodus</string>
-    <string name="something_went_wrong_emphasis">Oeps... Er is iets misgegaan. U kunt mij schrijven via de onderstaande opties en ik zal proberen een oplossing te vinden</string>
+    <string name="something_went_wrong_emphasis">Oeps... Er is iets misgegaan. Je kunt mij schrijven via de onderstaande opties en ik zal proberen een oplossing te vinden</string>
     <string name="resize_and_convert">Formaat wijzigen en converteren</string>
     <string name="resize_and_convert_sub">Wijzig de grootte van bepaalde afbeeldingen of converteer ze naar andere formaten. EXIF-metagegevens kunnen hier ook worden bewerkt als u een enkele afbeelding kiest.</string>
     <string name="max_colors_count">Maximaal aantal kleuren</string>
@@ -1098,7 +1098,7 @@
     <string name="save_as_file">Opslaan als bestand</string>
     <string name="save_as_qr_code_image">Opslaan als QR-code afbeelding</string>
     <string name="delete_template">Sjabloon verwijderen</string>
-    <string name="delete_template_warn">U staat op het punt het geselecteerde sjabloonfilter te verwijderen. Deze operatie kan niet ongedaan worden gemaakt.</string>
+    <string name="delete_template_warn">Je staat op het punt het geselecteerde sjabloonfilter te verwijderen. Deze operatie kan niet ongedaan worden gemaakt.</string>
     <string name="added_filter_template">Filtersjabloon toegevoegd met naam \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Filtervoorbeeld</string>
     <string name="qr_code">QR-code</string>
@@ -1328,7 +1328,7 @@
     <string name="grant_camera_permission_to_scan_document_scanner">Geef camera toestemming in Instellingen om Document-scanner te scannen</string>
     <string name="links_preview">Links Voorbeeld</string>
     <string name="links">Links</string>
-    <string name="links_preview_sub">Hiermee kunt u een voorbeeld van een link ophalen op plaatsen waar u tekst kunt verkrijgen (QRCode, OCR etc)</string>
+    <string name="links_preview_sub">Hiermee kun je een voorbeeld van een link ophalen op plaatsen waar je tekst kunt verkrijgen (QRCode, OCR etc)</string>
     <string name="ico_size_warning">Ico-bestanden kunnen alleen worden opgeslagen met een maximale grootte van 256*256, grotere waarden worden naar deze afmetingen verkleind</string>
     <string name="webp_type_to_webp_sub">Converteer een reeks afbeeldingen naar een WEBP-bestand</string>
     <string name="webp_type_to_webp">Images naar WEBP</string>
@@ -1461,4 +1461,6 @@
     <string name="lut_library_update_sub">Collectie LUT\'s bijwerken (alleen nieuwe worden in de wachtrij geplaatst), die je vervolgens kunt toepassen</string>
     <string name="filter_preview_image">Voorbeeldweergave</string>
     <string name="filter_preview_image_sub">Standaard voorbeeldweergave voor filters wijzigen</string>
+    <string name="hide">Verbergen</string>
+    <string name="show">Weergeven</string>
 </resources>
