@@ -975,7 +975,7 @@
     <string name="cupertino_switch_sub">Utilise iOS comme un commutateur basé sur le système de conception de Cupertino</string>
     <string name="legacy">Légende</string>
     <string name="engine_mode">Mode moteur</string>
-    <string name="legacy_and_lstm">Légende &amp; LSTM</string>
+    <string name="legacy_and_lstm"><![CDATA[Légende & LSTM]]></string>
     <string name="lanczos_bessel">Lanczos Bessel</string>
     <string name="path_omit">Chemin d\'accès Omit</string>
     <string name="tag_focal_length_in_35mm_film">Longueur focale en équivalent 35 mm</string>
@@ -1002,4 +1002,7 @@
     <string name="lut_library">Bibliothèque LUT</string>
     <string name="lut_library_sub">Téléchargez une collection de LUTs que vous pouvez appliquer après le téléchargement</string>
     <string name="lut_library_update_sub">Mettez à jour la collection de LUTs (seules les nouvelles seront mises en file d\'attente), que vous pouvez appliquer après le téléchargement</string>
+    <string name="tag_image_unique_id">Identifiant unique d\'image</string>
+    <string name="tag_camera_owner_name">Nom du propriétaire de caméra</string>
+    <string name="tag_lens_specification">Spécification de lentils</string>
 </resources>
