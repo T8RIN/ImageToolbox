@@ -344,7 +344,7 @@
     <string name="restore_image">Bild wiederherstellen</string>
     <string name="create_issue">Fehlermeldung anlegen</string>
     <string name="resize_and_convert_sub">Ändere die Größe bestimmter Bilder oder konvertiere sie in andere Formate, außerdem kannst Du bei Auswahl eines einzelnen Bildes EXIF-Metadaten bearbeiten</string>
-    <string name="something_went_wrong_emphasis">Upps… Irgendetwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
+    <string name="something_went_wrong_emphasis">Ups… Irgendetwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
     <string name="resize_and_convert">Größenänderung und Konvertierung</string>
     <string name="max_colors_count">Höchstzahl an Farben</string>
     <string name="crashlytics_sub">Erlaubt der App, Absturzberichte manuell zu erfassen</string>
@@ -1327,7 +1327,7 @@
     <string name="coffee">Kaffee</string>
     <string name="celluloid">Zelluloid</string>
     <string name="links_preview">Links Vorschau</string>
-    <string name="links_preview_sub">Aktiviert das Abrufen der Linkvorschau an Stellen, an denen du Text erhalten kannst (QR Code, OCR usw.)</string>
+    <string name="links_preview_sub">Aktiviert das Abrufen der Linkvorschau an Stellen, an denen du Text erhalten kannst (QR-Code, OCR usw.)</string>
     <string name="links">Links</string>
     <string name="ico_size_warning">Ico-Dateien können nur mit einer maximalen Größe von 256x256 gespeichert werden, größere Werte werden im resultierenden Bild erzwungen</string>
     <string name="default_draw_color">Standard-Zeichenfarbe</string>
@@ -1453,11 +1453,14 @@
     <string name="lut_library_update_sub">Aktualisiere LUT-Sammlung (nur neue werden in die Warteschlange gestellt), die du nach dem Herunterladen anwenden kannst</string>
     <string name="domain_warp">Domain Warp</string>
     <string name="dont_stack_frames">Keine Rahmen stapeln</string>
-    <string name="dont_stack_frames_sub">Ermöglicht die Entsorgung von Prevoius-Rahmen, so dass sie nicht übereinander gestapelt werden</string>
+    <string name="dont_stack_frames_sub">Ermöglicht die Entsorgung von Previous-Rahmen, sodass sie nicht übereinander gestapelt werden</string>
     <string name="crossfade_sub">Frames werden ineinander überblendet</string>
     <string name="crossfade_count">Anzahl der Überblendungsbilder</string>
     <string name="canny">Canny</string>
     <string name="laplacian_simple">Laplacian Einfach</string>
     <string name="sobel_simple">Sobel Einfach</string>
     <string name="filter_preview_image">Vorschaubild</string>
+    <string name="filter_preview_image_sub">Standardbildvorschau für Filter ändern</string>
+    <string name="hide">Ausblenden</string>
+    <string name="show">Anzeigen</string>
 </resources>

@@ -342,7 +342,7 @@
     <string name="pipette">吸管</string>
     <string name="draw_mode">绘画模式</string>
     <string name="create_issue">创建问题</string>
-    <string name="something_went_wrong_emphasis">哎呀，软件出错了。您可以使用下面的选项给我写信，我会试着找到解决它</string>
+    <string name="something_went_wrong_emphasis">哎呀，软件出错了。您可以使用下面的选项给我写信，我会试着找到解决方法</string>
     <string name="resize_and_convert">调整大小和转换</string>
     <string name="resize_and_convert_sub">更改给定图片的大小或将其转换为其他格式。如果选择单个图片，还可以编辑 EXIF 元数据</string>
     <string name="alphabet_and_numbers">你好，世界！字体示例Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
@@ -1397,7 +1397,7 @@
     <string name="histogram">柱状图</string>
     <string name="histogram_sub">RGB 或亮度图像直方图来帮助您进行调整</string>
     <string name="tesseract_options">魔方选项</string>
-    <string name="tesseract_options_sub">为魔方引擎应用一些输入变量</string>
+    <string name="tesseract_options_sub">为 tesseract 引擎应用一些输入变量</string>
     <string name="custom_options">自定义选项</string>
     <string name="custom_params_info">应按照以下模式输入选项 \"--{选项名} {值}\"</string>
     <string name="free_corners">自由圆角</string>
@@ -1412,7 +1412,7 @@
     <string name="use_circle_kernel">使用圆形内核</string>
     <string name="opening">正在开启</string>
     <string name="closing">正在关闭</string>
-    <string name="top_hat">高帽</string>
+    <string name="top_hat">顶帽</string>
     <string name="black_hat">黑帽</string>
     <string name="line_style">线条风格</string>
     <string name="gap_size">间隙大小</string>
@@ -1461,4 +1461,6 @@
     <string name="lut_library_sub">下载 LUT 集合，你可以在下载后应用它们</string>
     <string name="filter_preview_image_sub">更改滤镜的默认图片预览</string>
     <string name="lut_library_update_sub">更新 LUT 集合（只有新的 LUT 会被加入队列），你可以在下载后应用它们</string>
+    <string name="hide">隐藏</string>
+    <string name="show">显示</string>
 </resources>
