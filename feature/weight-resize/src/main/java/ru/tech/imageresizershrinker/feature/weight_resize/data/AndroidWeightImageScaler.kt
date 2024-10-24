@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.weight_resize.data
 
 import android.graphics.Bitmap
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -64,6 +65,7 @@ internal class AndroidWeightImageScaler @Inject constructor(
 
                 if (imageFormat.canChangeCompressionValue) {
                     while (outArray.size > targetSize) {
+                        ensureActive()
                         outArray = imageCompressor.compressAndTransform(
                             image = image,
                             imageInfo = ImageInfo(
@@ -82,6 +84,7 @@ internal class AndroidWeightImageScaler @Inject constructor(
                 }
 
                 while (abs(outArray.size - targetSize) > 2048) {
+                    ensureActive()
                     val temp = if (outArray.size > targetSize) {
                         scaleImage(
                             image = image,
