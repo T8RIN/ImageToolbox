@@ -1453,11 +1453,14 @@
     <string name="lut_library_update_sub">Aktualisiere LUT-Sammlung (nur neue werden in die Warteschlange gestellt), die du nach dem Herunterladen anwenden kannst</string>
     <string name="domain_warp">Domain Warp</string>
     <string name="dont_stack_frames">Keine Rahmen stapeln</string>
-    <string name="dont_stack_frames_sub">Ermöglicht die Entsorgung von Prevoius-Rahmen, so dass sie nicht übereinander gestapelt werden</string>
+    <string name="dont_stack_frames_sub">Ermöglicht die Entsorgung von Previous-Rahmen, sodass sie nicht übereinander gestapelt werden</string>
     <string name="crossfade_sub">Frames werden ineinander überblendet</string>
     <string name="crossfade_count">Anzahl der Überblendungsbilder</string>
     <string name="canny">Canny</string>
     <string name="laplacian_simple">Laplacian Einfach</string>
     <string name="sobel_simple">Sobel Einfach</string>
     <string name="filter_preview_image">Vorschaubild</string>
+    <string name="filter_preview_image_sub">Standardbildvorschau für Filter ändern</string>
+    <string name="hide">Ausblenden</string>
+    <string name="show">Anzeigen</string>
 </resources>
