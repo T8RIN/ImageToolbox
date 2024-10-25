@@ -33,6 +33,7 @@ import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -78,8 +79,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -108,6 +111,7 @@ import androidx.core.net.toUri
 import com.t8rin.histogram.ImageHistogram
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.toggleScale
@@ -122,6 +126,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
@@ -131,8 +136,9 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.isHeaderKe
 import kotlin.math.roundToInt
 
 @Composable
-fun MediaPickerGrid(
+internal fun MediaPickerGrid(
     state: MediaState,
+    isSelectionOfAll: Boolean,
     selectedMedia: SnapshotStateList<Media>,
     allowSelection: Boolean,
     isButtonVisible: Boolean,
@@ -168,9 +174,64 @@ fun MediaPickerGrid(
     }
 
     val layoutDirection = LocalLayoutDirection.current
+    val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
+    LaunchedEffect(autoScrollSpeed.value) {
+        if (autoScrollSpeed.value != 0f) {
+            while (isActive) {
+                gridState.scrollBy(autoScrollSpeed.value)
+                delay(10)
+            }
+        }
+    }
+    val privateSelection = remember {
+        mutableStateOf(emptySet<Int>())
+    }
+
+    LaunchedEffect(state.mappedMedia, isSelectionOfAll, selectedMedia.size) {
+        if (isSelectionOfAll) {
+            privateSelection.value = state.mappedMedia.mapIndexedNotNull { index, item ->
+                if (item is MediaItem.MediaViewItem && item.media in selectedMedia) {
+                    index
+                } else null
+            }.toSet()
+        }
+    }
+
+    LaunchedEffect(selectedMedia.size) {
+        if (selectedMedia.isEmpty() && isSelectionOfAll) {
+            privateSelection.value = emptySet()
+        }
+    }
+
     LazyVerticalGrid(
         state = gridState,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .dragHandler(
+                enabled = isSelectionOfAll,
+                key = state.mappedMedia,
+                lazyGridState = gridState,
+                isVertical = true,
+                haptics = LocalHapticFeedback.current,
+                selectedItems = privateSelection,
+                onSelectionChange = {
+                    val data = state.mappedMedia.mapIndexedNotNull { index, mediaItem ->
+                        if (index in it && mediaItem is MediaItem.MediaViewItem) mediaItem.media
+                        else null
+                    }
+                    selectedMedia.clear()
+                    selectedMedia.addAll(data)
+                },
+                autoScrollSpeed = autoScrollSpeed,
+                autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() },
+                onLongTap = {
+                    if (selectedMedia.isEmpty()) {
+                        imagePreviewUri =
+                            (state.mappedMedia[it + 1] as? MediaItem.MediaViewItem)?.media?.uri
+                    }
+                },
+                shouldHandleLongTap = selectedMedia.isNotEmpty()
+            ),
         columns = GridCells.Adaptive(100.dp),
         horizontalArrangement = Arrangement.spacedBy(1.dp),
         verticalArrangement = Arrangement.spacedBy(1.dp),
@@ -301,12 +362,15 @@ fun MediaPickerGrid(
                         modifier = Modifier.animateItem(),
                         media = item.media,
                         selectionState = selectionState,
-                        canClick = true,
+                        canClick = !isSelectionOfAll,
                         onItemClick = {
                             hapticFeedback.performHapticFeedback(
                                 HapticFeedbackType.TextHandleMove
                             )
                             onMediaClick(it)
+                        },
+                        onItemLongClick = {
+                            imagePreviewUri = it.uri
                         },
                         selectionIndex = remember(selectedMedia, item.media) {
                             derivedStateOf {
@@ -319,10 +383,7 @@ fun MediaPickerGrid(
                             derivedStateOf {
                                 selectedMedia.contains(item.media)
                             }
-                        }.value,
-                        onItemLongClick = {
-                            imagePreviewUri = it.uri
-                        }
+                        }.value
                     )
                 }
             }

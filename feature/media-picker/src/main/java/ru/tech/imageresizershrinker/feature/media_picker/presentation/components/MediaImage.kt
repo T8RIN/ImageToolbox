@@ -25,7 +25,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -66,7 +65,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MediaImage(
     modifier: Modifier = Modifier,
@@ -104,14 +102,17 @@ fun MediaImage(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
-            .combinedClickable(
-                enabled = canClick,
-                onClick = {
-                    onItemClick(media)
-                },
-                onLongClick = {
-                    onItemLongClick(media)
-                },
+            .then(
+                if (canClick) {
+                    Modifier.combinedClickable(
+                        onClick = {
+                            onItemClick(media)
+                        },
+                        onLongClick = {
+                            onItemLongClick(media)
+                        },
+                    )
+                } else Modifier
             )
             .aspectRatio(1f)
     ) {

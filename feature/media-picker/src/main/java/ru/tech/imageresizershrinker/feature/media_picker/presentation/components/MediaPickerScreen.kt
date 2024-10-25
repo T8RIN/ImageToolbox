@@ -173,6 +173,7 @@ fun MediaPickerScreen(
                 val isButtonVisible = !allowSelection || selectedMedia.isNotEmpty()
                 MediaPickerGrid(
                     state = mediaState,
+                    isSelectionOfAll = selectedAlbumIndex == -1L,
                     selectedMedia = selectedMedia,
                     allowSelection = allowSelection,
                     isButtonVisible = isButtonVisible,
