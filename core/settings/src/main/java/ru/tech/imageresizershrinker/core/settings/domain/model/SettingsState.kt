@@ -108,7 +108,7 @@ data class SettingsState(
     val isSystemBarsVisibleBySwipe: Boolean,
     val isCompactSelectorsLayout: Boolean,
     val mainScreenTitle: String,
-    val sliderType: SliderType = SliderType.Fancy
+    val sliderType: SliderType //TODO: Add setting
 ) {
 
     companion object {

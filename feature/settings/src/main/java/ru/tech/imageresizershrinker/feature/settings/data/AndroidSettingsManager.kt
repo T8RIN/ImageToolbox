@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_SEQ_NUM_TO_FILENAME
@@ -121,6 +122,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SELECTED_F
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_SETTINGS_IN_LANDSCAPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SKIP_IMAGE_PICKING
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SLIDER_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SWITCH_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SYSTEM_BARS_VISIBILITY
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
@@ -291,7 +293,10 @@ internal class AndroidSettingsManager @Inject constructor(
                 ?: default.isSystemBarsVisibleBySwipe,
             isCompactSelectorsLayout = prefs[USE_COMPACT_SELECTORS_LAYOUT]
                 ?: default.isCompactSelectorsLayout,
-            mainScreenTitle = prefs[MAIN_SCREEN_TITLE] ?: default.mainScreenTitle
+            mainScreenTitle = prefs[MAIN_SCREEN_TITLE] ?: default.mainScreenTitle,
+            sliderType = prefs[SLIDER_TYPE]?.let {
+                SliderType.fromInt(it)
+            } ?: default.sliderType,
         )
     }.onEach { currentSettings = it }
 
@@ -1061,6 +1066,12 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setMainScreenTitle(title: String) {
         dataStore.edit {
             it[MAIN_SCREEN_TITLE] = title
+        }
+    }
+
+    override suspend fun setSliderType(type: SliderType) {
+        dataStore.edit {
+            it[SLIDER_TYPE] = type.ordinal
         }
     }
 

@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
 interface SettingsInteractor : SimpleSettingsInteractor {
@@ -205,5 +206,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleUseCompactSelectorsLayout()
 
     suspend fun setMainScreenTitle(title: String)
+
+    suspend fun setSliderType(type: SliderType)
 
 }
