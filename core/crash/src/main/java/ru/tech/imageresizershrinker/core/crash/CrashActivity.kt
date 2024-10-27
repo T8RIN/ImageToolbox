@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -49,6 +48,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.RestartAlt
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -178,7 +178,8 @@ class CrashActivity : CrashHandler() {
                                     modifier = Modifier.padding(16.dp)
                                 )
                                 Spacer(modifier = Modifier.height(24.dp))
-                                val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+                                val screenWidth =
+                                    LocalConfiguration.current.screenWidthDp.dp - 32.dp
                                 Row(
                                     modifier = Modifier
                                         .padding(horizontal = 16.dp)
@@ -194,13 +195,14 @@ class CrashActivity : CrashHandler() {
                                         modifier = Modifier
                                             .padding(end = 8.dp)
                                             .weight(1f)
-                                            .widthIn(max = screenWidth / 2f)
+                                            .width(screenWidth / 2f)
                                             .height(50.dp),
                                         containerColor = Blue,
                                         contentColor = White,
                                         borderColor = MaterialTheme.colorScheme.outlineVariant(
                                             onTopOf = Blue
-                                        )
+                                        ),
+                                        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
                                     ) {
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically,
@@ -224,13 +226,14 @@ class CrashActivity : CrashHandler() {
                                         },
                                         modifier = Modifier
                                             .weight(1f)
-                                            .widthIn(max = screenWidth / 2f)
+                                            .width(screenWidth / 2f)
                                             .height(50.dp),
                                         containerColor = Black,
                                         contentColor = White,
                                         borderColor = MaterialTheme.colorScheme.outlineVariant(
                                             onTopOf = Black
-                                        )
+                                        ),
+                                        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
                                     ) {
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically,
