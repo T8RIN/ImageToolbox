@@ -17,7 +17,7 @@
 
 @file:Suppress("SameParameterValue")
 
-package ru.tech.imageresizershrinker.core.ui.widget.controls
+package ru.tech.imageresizershrinker.core.ui.widget.sliders
 
 import androidx.annotation.IntRange
 import androidx.compose.foundation.Canvas

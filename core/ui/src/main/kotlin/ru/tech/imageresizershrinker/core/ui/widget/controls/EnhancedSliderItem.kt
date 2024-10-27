@@ -117,7 +117,6 @@ fun EnhancedSliderItem(
     val scope = rememberCoroutineScope()
 
     AnimatedVisibility(visible = visible) {
-
         LocalContentColor.ProvidesValue(internalColor) {
             Column(
                 modifier = modifier
@@ -339,7 +338,7 @@ fun EnhancedSliderItem(
                                     valueSuffix = valueSuffix,
                                     modifier = Modifier.padding(
                                         top = topContentPadding,
-                                        end = 8.dp
+                                        end = 14.dp
                                     ),
                                     onClick = {
                                         showValueDialog = true
