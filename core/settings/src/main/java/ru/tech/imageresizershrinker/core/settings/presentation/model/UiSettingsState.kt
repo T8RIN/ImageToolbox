@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMo
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
 @Stable
@@ -135,6 +136,7 @@ data class UiSettingsState(
     val isSystemBarsVisibleBySwipe: Boolean,
     val isCompactSelectorsLayout: Boolean,
     val mainScreenTitle: String,
+    val sliderType: SliderType,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -349,7 +351,8 @@ fun SettingsState.toUiState(
                 systemBarsVisibility = systemBarsVisibility,
                 isSystemBarsVisibleBySwipe = isSystemBarsVisibleBySwipe,
                 isCompactSelectorsLayout = isCompactSelectorsLayout,
-                mainScreenTitle = mainScreenTitle
+                mainScreenTitle = mainScreenTitle,
+                sliderType = sliderType
             )
         }
     }.value

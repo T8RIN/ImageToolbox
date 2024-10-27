@@ -31,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
@@ -39,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.FancySlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.M2Slider
@@ -56,11 +56,8 @@ fun EnhancedSlider(
     colors: SliderColors? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
-    var sliderType: SliderType by remember {
-        mutableStateOf(SliderType.Fancy)
-    }
-
-    val realColors = colors ?: when (sliderType) {
+    val settingsState = LocalSettingsState.current
+    val realColors = colors ?: when (settingsState.sliderType) {
         SliderType.Fancy -> {
             SliderDefaults.colors(
                 activeTickColor = MaterialTheme.colorScheme.inverseSurface,
@@ -99,7 +96,7 @@ fun EnhancedSlider(
     }
 
     AnimatedContent(
-        targetState = sliderType,
+        targetState = settingsState.sliderType,
         transitionSpec = {
             fadeIn() togetherWith fadeOut() using SizeTransform(false)
         }

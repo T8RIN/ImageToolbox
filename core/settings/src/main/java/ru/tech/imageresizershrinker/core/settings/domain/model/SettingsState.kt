@@ -108,6 +108,7 @@ data class SettingsState(
     val isSystemBarsVisibleBySwipe: Boolean,
     val isCompactSelectorsLayout: Boolean,
     val mainScreenTitle: String,
+    val sliderType: SliderType = SliderType.Fancy
 ) {
 
     companion object {
@@ -194,7 +195,8 @@ data class SettingsState(
                 systemBarsVisibility = SystemBarsVisibility.Auto,
                 isSystemBarsVisibleBySwipe = true,
                 isCompactSelectorsLayout = false,
-                mainScreenTitle = ""
+                mainScreenTitle = "",
+                sliderType = SliderType.Fancy
             )
         }
     }
