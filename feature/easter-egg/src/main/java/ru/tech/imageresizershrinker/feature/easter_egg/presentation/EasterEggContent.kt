@@ -78,6 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import kotlin.math.roundToInt
@@ -138,7 +139,8 @@ fun EasterEggContent(
                         contentDescription = stringResource(R.string.exit)
                     )
                 }
-            }
+            },
+            type = EnhancedTopAppBarType.Center
         )
 
         BoxWithConstraints(
