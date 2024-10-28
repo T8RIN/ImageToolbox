@@ -532,6 +532,10 @@ internal fun SettingItem(
             Setting.MainScreenTitle -> {
                 MainScreenTitleSettingItem(onValueChange = viewModel::setMainScreenTitle)
             }
+
+            Setting.SliderType -> {
+                SliderTypeSettingItem(onValueChange = viewModel::setSliderType)
+            }
         }
     }
 }

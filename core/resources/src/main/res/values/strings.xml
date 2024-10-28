@@ -1481,4 +1481,10 @@
     <string name="filter_preview_image">Preview Image</string>
     <string name="hide">Hide</string>
     <string name="show">Show</string>
+    <string name="slider_type">Slider Type</string>
+    <string name="fancy">Fancy</string>
+    <string name="material_2">Material 2</string>
+    <string name="fancy_sub">Custom fancy looking slider with animations, this is default for this app</string>
+    <string name="material_2_sub">Material 2 based slider, not modern, simple and straightforward</string>
+    <string name="material_you_slider_sub">Modern Material You slider, futuristic, fresh, acessible</string>
 </resources>

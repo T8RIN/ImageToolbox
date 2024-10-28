@@ -453,4 +453,9 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object SliderType : Setting(
+        title = R.string.slider_type,
+        subtitle = null
+    )
+
 }

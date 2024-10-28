@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMo
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -627,6 +628,12 @@ class SettingsViewModel @Inject constructor(
     fun setMainScreenTitle(title: String) {
         viewModelScope.launch {
             settingsManager.setMainScreenTitle(title)
+        }
+    }
+
+    fun setSliderType(sliderType: SliderType) {
+        viewModelScope.launch {
+            settingsManager.setSliderType(sliderType)
         }
     }
 }

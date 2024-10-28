@@ -17,48 +17,34 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ViewSidebar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.FabPreview
-import kotlin.math.roundToInt
 
 @Composable
 fun FabAlignmentSettingItem(
@@ -69,119 +55,70 @@ fun FabAlignmentSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
 
-    Box(
+    Row(
         modifier
+            .height(IntrinsicSize.Max)
             .container(
                 shape = shape
             )
             .animateContentSize()
+            .padding(
+                start = 4.dp,
+                top = 4.dp,
+                bottom = 4.dp,
+                end = 4.dp
+            ),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 4.dp,
-                    top = 4.dp,
-                    bottom = 4.dp,
-                    end = 8.dp
-                ),
-            verticalAlignment = Alignment.CenterVertically
+        val derivedValue by remember(settingsState) {
+            derivedStateOf {
+                when (settingsState.fabAlignment) {
+                    Alignment.BottomStart -> 0
+                    Alignment.BottomCenter -> 1
+                    else -> 2
+                }
+            }
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .padding(end = 12.dp)
         ) {
-            val derivedValue by remember(settingsState) {
-                derivedStateOf {
-                    when (settingsState.fabAlignment) {
-                        Alignment.BottomStart -> 0
-                        Alignment.BottomCenter -> 1
-                        else -> 2
-                    }
-                }
-            }
-            var sliderValue by remember(derivedValue) {
-                mutableFloatStateOf(derivedValue.toFloat())
-            }
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Row(
-                    modifier = Modifier.padding(end = 12.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    IconShapeContainer(
-                        enabled = true,
-                        content = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Outlined.ViewSidebar,
-                                contentDescription = null
-                            )
-                        },
-                        modifier = Modifier.padding(end = 16.dp, start = 8.dp)
-                    )
-                    Column {
-                        Text(
-                            text = stringResource(R.string.fab_alignment),
-                            lineHeight = 18.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                        AnimatedContent(
-                            targetState = sliderValue,
-                            transitionSpec = {
-                                fadeIn() togetherWith fadeOut()
-                            }
-                        ) { value ->
-                            Text(
-                                text = stringResource(
-                                    when (value.roundToInt()) {
-                                        0 -> R.string.start_position
-                                        1 -> R.string.center_position
-                                        else -> R.string.end_position
-                                    }
-                                ),
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(
-                                    top = 2.dp,
-                                    bottom = 8.dp
-                                ),
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Normal,
-                                lineHeight = 14.sp,
-                            )
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                EnhancedSlider(
-                    modifier = Modifier
-                        .padding(
-                            start = 8.dp,
-                            end = 16.dp,
-                            top = 8.dp
-                        ),
-                    value = sliderValue,
-                    onValueChange = {
-                        sliderValue = it
-                        onValueChange(sliderValue)
-                    },
-                    colors = SliderDefaults.colors(
-                        activeTickColor = MaterialTheme.colorScheme.inverseSurface,
-                        inactiveTickColor = MaterialTheme.colorScheme.inverseSurface,
-                        activeTrackColor = Color.Transparent,
-                        inactiveTrackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                            0.15f
-                        ),
-                        thumbColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    valueRange = 0f..2f,
-                    steps = 1
+            TitleItem(
+                text = stringResource(R.string.fab_alignment),
+                icon = Icons.AutoMirrored.Outlined.ViewSidebar,
+                modifier = Modifier.padding(
+                    start = 8.dp,
+                    top = 6.dp
                 )
-            }
-            FabPreview(
-                alignment = settingsState.fabAlignment,
-                modifier = Modifier
-                    .width(75.dp)
-                    .height(110.dp)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            ToggleGroupButton(
+                modifier = Modifier.padding(horizontal = 4.dp),
+                itemCount = 3,
+                itemContent = {
+                    Text(
+                        stringResource(
+                            when (it) {
+                                0 -> R.string.start_position
+                                1 -> R.string.center_position
+                                else -> R.string.end_position
+                            }
+                        )
+                    )
+                },
+                onIndexChange = {
+                    onValueChange(it.toFloat())
+                },
+                selectedIndex = derivedValue
             )
         }
+        FabPreview(
+            alignment = settingsState.fabAlignment,
+            modifier = Modifier
+                .width(75.dp)
+                .fillMaxHeight()
+        )
     }
 }

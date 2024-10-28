@@ -93,6 +93,7 @@ sealed class SettingsGroup(
         titleId = R.string.layout,
         settingsList = listOf(
             Setting.SwitchType,
+            Setting.SliderType,
             Setting.UseCompactSelectors,
             Setting.FabAlignment
         ),

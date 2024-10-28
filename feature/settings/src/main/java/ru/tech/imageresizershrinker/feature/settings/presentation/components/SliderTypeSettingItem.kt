@@ -26,9 +26,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ToggleOff
-import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.rounded.Android
+import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.MaterialTheme
@@ -46,12 +45,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.Cube
-import ru.tech.imageresizershrinker.core.resources.icons.IOS
 import ru.tech.imageresizershrinker.core.resources.icons.MaterialDesign
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.resources.icons.Windows
-import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.resources.icons.Slider
+import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -62,9 +59,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
-fun SwitchTypeSettingItem(
-    onValueChange: (SwitchType) -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+fun SliderTypeSettingItem(
+    onValueChange: (SliderType) -> Unit,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
@@ -75,9 +72,9 @@ fun SwitchTypeSettingItem(
 
     PreferenceItem(
         modifier = modifier,
-        title = stringResource(id = R.string.switch_type),
-        startIcon = Icons.Outlined.ToggleOn,
-        subtitle = settingsState.switchType.title,
+        title = stringResource(id = R.string.slider_type),
+        startIcon = Icons.Rounded.Slider,
+        subtitle = settingsState.sliderType.title,
         onClick = {
             showSheet = true
         },
@@ -90,8 +87,8 @@ fun SwitchTypeSettingItem(
         onDismiss = { showSheet = it },
         title = {
             TitleItem(
-                text = stringResource(id = R.string.switch_type),
-                icon = Icons.Outlined.ToggleOff
+                text = stringResource(id = R.string.slider_type),
+                icon = Icons.Rounded.Slider
             )
         },
         confirmButton = {
@@ -112,11 +109,11 @@ fun SwitchTypeSettingItem(
                 .padding(8.dp)
         ) {
             val entries = remember {
-                SwitchType.entries
+                SliderType.entries
             }
 
             entries.forEachIndexed { index, type ->
-                val selected = type == settingsState.switchType
+                val selected = type == settingsState.sliderType
                 PreferenceItem(
                     onClick = { onValueChange(type) },
                     title = type.title,
@@ -148,32 +145,26 @@ fun SwitchTypeSettingItem(
     }
 }
 
-private val SwitchType.title: String
+private val SliderType.title: String
     @Composable
     get() = when (this) {
-        SwitchType.MaterialYou -> stringResource(R.string.material_you)
-        SwitchType.Compose -> stringResource(R.string.compose)
-        SwitchType.Pixel -> stringResource(R.string.pixel_switch)
-        SwitchType.Fluent -> stringResource(R.string.fluent_switch)
-        SwitchType.Cupertino -> stringResource(R.string.cupertino_switch)
+        SliderType.Fancy -> stringResource(R.string.fancy)
+        SliderType.Material -> stringResource(R.string.material_2)
+        SliderType.MaterialYou -> stringResource(R.string.material_you)
     }
 
-private val SwitchType.subtitle: String
+private val SliderType.subtitle: String
     @Composable
     get() = when (this) {
-        SwitchType.MaterialYou -> stringResource(R.string.material_you_switch_sub)
-        SwitchType.Compose -> stringResource(R.string.compose_switch_sub)
-        SwitchType.Pixel -> stringResource(R.string.use_pixel_switch_sub)
-        SwitchType.Fluent -> stringResource(R.string.fluent_switch_sub)
-        SwitchType.Cupertino -> stringResource(R.string.cupertino_switch_sub)
+        SliderType.Fancy -> stringResource(R.string.fancy_sub)
+        SliderType.Material -> stringResource(R.string.material_2_sub)
+        SliderType.MaterialYou -> stringResource(R.string.material_you_slider_sub)
     }
 
 
-private val SwitchType.icon: ImageVector
+private val SliderType.icon: ImageVector
     get() = when (this) {
-        SwitchType.MaterialYou -> Icons.Outlined.MaterialDesign
-        SwitchType.Compose -> Icons.Rounded.Cube
-        SwitchType.Pixel -> Icons.Rounded.Android
-        SwitchType.Fluent -> Icons.Rounded.Windows
-        SwitchType.Cupertino -> Icons.Rounded.IOS
+        SliderType.Fancy -> Icons.Rounded.AutoAwesome
+        SliderType.Material -> Icons.Rounded.Android
+        SliderType.MaterialYou -> Icons.Outlined.MaterialDesign
     }
