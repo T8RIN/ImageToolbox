@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -17,4 +17,14 @@
     <string name="app_closing_sub">Haluatko todella sulkea ohjelman?</string>
     <string name="app_closing">Ohjelma sulkeutuu</string>
     <string name="close">Sulje</string>
+    <string name="reset_image_sub">Kuvanmuutokset palautuvat alku tilanteeseen</string>
+    <string name="values_reset">Arvot asianmukaisesti asetettu</string>
+    <string name="reset">Nollaa</string>
+    <string name="copied">Kopioitu leikepöydälle</string>
+    <string name="no_exif">EXIF tietoja ei löytynyt</string>
+    <string name="something_went_wrong">Jotakin meni väärin</string>
+    <string name="restart_app">Käynnistä sovellus uudelleen</string>
+    <string name="edit_exif">Muokkaa EXIF</string>
+    <string name="ok" tools:ignore="ButtonCase,Typos">Ok</string>
+    <string name="exception">Poikkeus</string>
 </resources>
