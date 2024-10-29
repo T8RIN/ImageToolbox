@@ -1441,7 +1441,7 @@
     <string name="dot_dashed">Dot Dashed</string>
     <string name="stamped">Stamped</string>
     <string name="zigzag">Zigzag</string>
-    <string name="dashed_sub">Draws dated line along the drawn path with specified gap size</string>
+    <string name="dashed_sub">Draws dashed line along the drawn path with specified gap size</string>
     <string name="dot_dashed_sub">Draws dot and dashed line along given path</string>
     <string name="defaultt_sub">Just default straight lines</string>
     <string name="stamped_sub">Draws selected shapes along the path with specified spacing</string>
