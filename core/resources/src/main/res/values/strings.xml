@@ -911,7 +911,7 @@
     <string name="engine_mode">Engine Mode</string>
     <string name="legacy">Legacy</string>
     <string name="lstm_network">LSTM network</string>
-    <string name="legacy_and_lstm"><![CDATA[Legacy & LSTM]]></string>
+    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">Convert</string>
     <string name="convert_sub">Convert image batches to given format</string>
     <string name="add_new_folder">Add New Folder</string>
