@@ -72,6 +72,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
@@ -207,7 +208,11 @@ fun LazyListScope.imageStickyHeader(
                                     onTopOf = MaterialTheme.colorScheme.tertiaryContainer
                                 ).copy(0.5f),
                                 activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f),
-                                thumbColor = MaterialTheme.colorScheme.onTertiary
+                                thumbColor = if (settingsState.sliderType == SliderType.Fancy) {
+                                    MaterialTheme.colorScheme.onTertiary
+                                } else MaterialTheme.colorScheme.tertiary,
+                                activeTickColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                inactiveTickColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
                             ),
                             steps = 3,
                             valueRange = 0f..4f

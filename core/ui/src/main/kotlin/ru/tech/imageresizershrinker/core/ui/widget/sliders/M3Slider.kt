@@ -69,8 +69,8 @@ fun M3Slider(
                     )
                     .copy(0.3f),
                 color = SafeLocalContainerColor
-                    .copy(0.5f)
-                    .compositeOver(MaterialTheme.colorScheme.surface)
+                    .copy(0.3f)
+                    .compositeOver(MaterialTheme.colorScheme.surfaceContainerLowest)
                     .copy(colors.activeTrackColor.alpha),
                 composeColorOnTopOfBackground = false
             )

@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ViewSidebar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -111,7 +112,8 @@ fun FabAlignmentSettingItem(
                 onIndexChange = {
                     onValueChange(it.toFloat())
                 },
-                selectedIndex = derivedValue
+                selectedIndex = derivedValue,
+                inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
             )
         }
         FabPreview(

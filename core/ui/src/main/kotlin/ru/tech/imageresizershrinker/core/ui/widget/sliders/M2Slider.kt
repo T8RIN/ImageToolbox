@@ -67,7 +67,7 @@ fun M2Slider(
                     )
                     .copy(0.3f),
                 color = SafeLocalContainerColor
-                    .copy(0.5f)
+                    .copy(0.3f)
                     .compositeOver(MaterialTheme.colorScheme.surface)
                     .copy(colors.activeTrackColor.alpha),
                 composeColorOnTopOfBackground = false
