@@ -1,2 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="width">Leveys %1$s</string>
+    <string name="height">Korkeus %1$s</string>
+    <string name="quality">Laatu</string>
+    <string name="extension">Lisäosa</string>
+    <string name="resize_type">Koon muunto tyyppi</string>
+    <string name="explicit">Selkeää</string>
+    <string name="pick_image_alt">Valitse kuva</string>
+    <string name="stay">Pysy</string>
+    <string name="smth_went_wrong">Jokin meni väärin: %1$s</string>
+    <string name="size">Koko %1$s</string>
+    <string name="image_too_large_preview">Kuva on liian iso esikatseltavaksi, mutta tallennusta yritetään kuitenkin</string>
+    <string name="pick_image">Valitse kuva aloittaaksesi</string>
+    <string name="flexible">Joustava</string>
+    <string name="reset_image">Palauta kuva</string>
+    <string name="app_closing_sub">Haluatko todella sulkea ohjelman?</string>
+    <string name="app_closing">Ohjelma sulkeutuu</string>
+    <string name="close">Sulje</string>
+</resources>
