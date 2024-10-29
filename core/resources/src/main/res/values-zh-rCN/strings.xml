@@ -1463,4 +1463,10 @@
     <string name="lut_library_update_sub">更新 LUT 集合（只有新的 LUT 会被加入队列），你可以在下载后应用它们</string>
     <string name="hide">隐藏</string>
     <string name="show">显示</string>
+    <string name="fancy">精致</string>
+    <string name="material_2">材质 2</string>
+    <string name="slider_type">滑块类型</string>
+    <string name="material_2_sub">基于材质 2 的滑块，不具现代感，简单且直接</string>
+    <string name="fancy_sub">带有动画效果的定制的精美滑块，这是这款应用程序的默认设置</string>
+    <string name="material_you_slider_sub">现代基于 Material You 设计的滑块，充满未来感、新颖独特，方便易用</string>
 </resources>
