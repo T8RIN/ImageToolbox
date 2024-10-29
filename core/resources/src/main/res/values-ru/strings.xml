@@ -1454,4 +1454,19 @@
     <string name="histogram">Гистограмма</string>
     <string name="histogram_sub">Гистограмма изображения RGB или яркости, которая поможет вам внести коррективы</string>
     <string name="image_for_histogram">Это изображение будет использовано для создания гистограмм RGB и яркости</string>
+    <string name="constant_rate_factor">Фактор постоянной скорости (CRF)</string>
+    <string name="lut_library_update_sub">Обновление коллекции LUT (в очередь будут поставлены только новые), которые можно применить после загрузки</string>
+    <string name="filter_preview_image">Предварительный просмотр изображения</string>
+    <string name="material_2">Material 2</string>
+    <string name="material_2_sub">Слайдер на основе Material 2, не современный, простой и понятный</string>
+    <string name="material_you_slider_sub">Современный слайдер Material You, футуристический, свежий, доступный</string>
+    <string name="crf_sub">Значение %1$d означает медленное сжатие, приводящее к относительно небольшому размеру файла. %2$d означает более быстрое сжатие, приводящее к большому размеру файла.</string>
+    <string name="lut_library">Библиотека LUT</string>
+    <string name="lut_library_sub">Загрузите коллекцию LUT, которую вы сможете применить после загрузки</string>
+    <string name="filter_preview_image_sub">Изменить предварительный просмотр изображения по умолчанию для фильтров</string>
+    <string name="slider_type">Тип слайдера</string>
+    <string name="fancy">Изысканный</string>
+    <string name="fancy_sub">Пользовательский слайдер с красивым дизайном и анимацией, это слайдер по умолчанию для этого приложения</string>
+    <string name="hide">Скрыть</string>
+    <string name="show">Показать</string>
 </resources>
