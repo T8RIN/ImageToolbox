@@ -200,7 +200,7 @@ fun EnhancedSliderItem(
                                 AnimatedContent(icon) { icon ->
                                     if (icon != null) {
                                         TooltipBox(
-                                            positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+                                            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
                                             tooltip = {
                                                 RichTooltip(
                                                     colors = TooltipDefaults.richTooltipColors(
