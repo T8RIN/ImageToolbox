@@ -1487,4 +1487,5 @@
     <string name="fancy_sub">Custom fancy looking slider with animations, this is default for this app</string>
     <string name="material_2_sub">Material 2 based slider, not modern, simple and straightforward</string>
     <string name="material_you_slider_sub">Modern Material You slider, futuristic, fresh, acessible</string>
+    <string name="apply">Apply</string>
 </resources>

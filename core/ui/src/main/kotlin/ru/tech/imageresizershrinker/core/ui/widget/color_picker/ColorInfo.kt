@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
@@ -47,6 +48,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -245,10 +247,32 @@ fun ColorInfo(
                         modifier = Modifier.alertDialogBorder(),
                         onDismissRequest = { expanded = false },
                         icon = {
-                            Icon(
-                                imageVector = Icons.Outlined.Palette,
-                                contentDescription = null
-                            )
+                            val hexColorInt by remember(value) {
+                                derivedStateOf {
+                                    if (hexWithAlphaRegex.matches(value)) {
+                                        HexUtil.hexToColor(value).toArgb()
+                                    } else null
+                                }
+                            }
+                            AnimatedContent(hexColorInt) { colorFromHex ->
+                                if (colorFromHex != null) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(28.dp)
+                                            .container(
+                                                shape = CircleShape,
+                                                color = Color(colorFromHex),
+                                                resultPadding = 0.dp
+                                            )
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Palette,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+
                         },
                         title = {
                             Text(stringResource(R.string.color))
@@ -259,9 +283,11 @@ fun ColorInfo(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
+                                val style =
+                                    MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center)
                                 OutlinedTextField(
                                     shape = RoundedCornerShape(16.dp),
-                                    textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
+                                    textStyle = style,
                                     maxLines = 1,
                                     value = value.removePrefix("#"),
                                     visualTransformation = HexVisualTransformation(true),
@@ -279,6 +305,12 @@ fun ColorInfo(
                                                 value = "#${it.uppercase()}"
                                             }
                                         }
+                                    },
+                                    placeholder = {
+                                        Text(
+                                            text = "#AARRGGBB",
+                                            style = style
+                                        )
                                     }
                                 )
                             }
@@ -293,7 +325,7 @@ fun ColorInfo(
                                     expanded = false
                                 }
                             ) {
-                                Text(stringResource(R.string.ok))
+                                Text(stringResource(R.string.apply))
                             }
                         }
                     )

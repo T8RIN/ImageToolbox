@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.smarttoolfactory.colorpicker.selector.SelectorRectSaturationValueHSV
 import com.smarttoolfactory.colorpicker.slider.SliderHueHSV
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -96,7 +97,9 @@ fun ColorSelection(
                     resultPadding = 0.dp,
                     clip = false,
                     isShadowClip = true,
-                    color = infoContainerColor
+                    color = infoContainerColor,
+                    autoShadowElevation = if (LocalSettingsState.current.drawSliderShadows) 1.dp
+                    else 0.dp
                 )
                 .padding(horizontal = 10.dp)
         )

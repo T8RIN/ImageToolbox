@@ -22,7 +22,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,7 +32,6 @@ import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -46,10 +44,10 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
-import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BlendingModeSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontResSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
@@ -200,59 +198,43 @@ fun WatermarkParamsSelectionGroup(
                             color = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        Column(
+                        ColorRowSelector(
+                            value = type.color.toColor(),
+                            onValueChange = {
+                                onValueChange(
+                                    value.copy(
+                                        watermarkingType = type.copy(
+                                            color = it.toArgb()
+                                        )
+                                    )
+                                )
+                            },
+                            title = stringResource(R.string.background_color),
+                            titleFontWeight = FontWeight.Medium,
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
                                 color = MaterialTheme.colorScheme.surface
                             )
-                        ) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                text = stringResource(R.string.text_color),
-                                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
-                            )
-                            ColorSelectionRow(
-                                allowAlpha = true,
-                                contentPadding = PaddingValues(16.dp),
-                                value = type.color.toColor(),
-                                onValueChange = {
-                                    onValueChange(
-                                        value.copy(
-                                            watermarkingType = type.copy(
-                                                color = it.toArgb()
-                                            )
-                                        )
-                                    )
-                                }
-                            )
-                        }
+                        )
                         Spacer(modifier = Modifier.height(4.dp))
-                        Column(
+                        ColorRowSelector(
+                            value = type.backgroundColor.toColor(),
+                            onValueChange = {
+                                onValueChange(
+                                    value.copy(
+                                        watermarkingType = type.copy(
+                                            backgroundColor = it.toArgb()
+                                        )
+                                    )
+                                )
+                            },
+                            title = stringResource(R.string.text_color),
+                            titleFontWeight = FontWeight.Medium,
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
                                 color = MaterialTheme.colorScheme.surface
                             )
-                        ) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                text = stringResource(R.string.background_color),
-                                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
-                            )
-                            ColorSelectionRow(
-                                allowAlpha = true,
-                                contentPadding = PaddingValues(16.dp),
-                                value = type.backgroundColor.toColor(),
-                                onValueChange = {
-                                    onValueChange(
-                                        value.copy(
-                                            watermarkingType = type.copy(
-                                                backgroundColor = it.toArgb()
-                                            )
-                                        )
-                                    )
-                                }
-                            )
-                        }
+                        )
                     }
                 }
                 AnimatedVisibility(visible = value.watermarkingType is WatermarkingType.Image) {
