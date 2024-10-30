@@ -66,8 +66,11 @@ fun AlphaColorSelection(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f)
-                .container(RoundedCornerShape(2.dp), resultPadding = 0.dp)
-                .clip(RoundedCornerShape(3.dp)),
+                .container(
+                    RoundedCornerShape(size = 6.dp),
+                    resultPadding = 0.dp
+                )
+                .clip(RoundedCornerShape(6.dp)),
             hue = hue,
             saturation = saturation,
             value = value

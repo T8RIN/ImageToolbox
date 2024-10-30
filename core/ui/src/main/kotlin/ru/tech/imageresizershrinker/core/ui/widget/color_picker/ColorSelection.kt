@@ -65,11 +65,11 @@ fun ColorSelection(
                 .fillMaxWidth()
                 .aspectRatio(4 / 2.5f)
                 .container(
-                    shape = RoundedCornerShape(size = 2.dp),
+                    shape = RoundedCornerShape(6.dp),
                     resultPadding = 0.dp,
                     color = infoContainerColor
                 )
-                .clip(RoundedCornerShape(3.dp)),
+                .clip(RoundedCornerShape(6.dp)),
             hue = hue,
             saturation = saturation,
             value = value
