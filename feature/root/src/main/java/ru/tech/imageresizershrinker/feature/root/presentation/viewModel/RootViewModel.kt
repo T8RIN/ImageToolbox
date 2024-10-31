@@ -23,18 +23,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.value.Value
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.logger.makeLog
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olshevski.navigation.reimagined.navController
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
+import ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel.CollageMakerViewModel
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -48,23 +55,100 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
+import ru.tech.imageresizershrinker.feature.apng_tools.presentation.viewModel.ApngToolsViewModel
+import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.CipherViewModel
+import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.CompareViewModel
+import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropViewModel
+import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifViewModel
+import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel.DocumentScannerViewModel
+import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
+import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterViewModel
+import ru.tech.imageresizershrinker.feature.format_conversion.presentation.viewModel.FormatConversionViewModel
+import ru.tech.imageresizershrinker.feature.generate_palette.presentation.viewModel.GeneratePaletteViewModel
+import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.GifToolsViewModel
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewModel.GradientMakerViewModel
+import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewViewModel
+import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewModel.ImageStackingViewModel
+import ru.tech.imageresizershrinker.feature.image_stitch.presentation.viewModel.ImageStitchingViewModel
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel.JxlToolsViewModel
+import ru.tech.imageresizershrinker.feature.limits_resize.presentation.viewModel.LimitsResizeViewModel
+import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewModel.LoadNetImageViewModel
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel.PdfToolsViewModel
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.PickColorViewModel
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextViewModel
+import ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel.ResizeAndConvertViewModel
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.SingleEditViewModel
+import ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel.SvgMakerViewModel
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.WatermarkingViewModel
+import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.WebpToolsViewModel
+import ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel.WeightResizeViewModel
+import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipViewModel
+import ru.tech.imageresizershrinker.image_splitting.presentation.viewModel.ImageSplitterViewModel
+import ru.tech.imageresizershrinker.noise_generation.presentation.viewModel.NoiseGenerationViewModel
 import java.net.URL
-import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory
 
-@HiltViewModel
-class RootViewModel @Inject constructor(
+class RootViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     fileController: FileController,
-    dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+    dispatchersHolder: DispatchersHolder,
+    private val apngToolsComponentFactory: ApngToolsViewModel.Factory,
+    private val cipherComponentFactory: CipherViewModel.Factory,
+    private val collageMakerComponentFactory: CollageMakerViewModel.Factory,
+    private val compareComponentFactory: CompareViewModel.Factory,
+    private val cropComponentFactory: CropViewModel.Factory,
+    private val deleteExifComponentFactory: DeleteExifViewModel.Factory,
+    private val documentScannerComponentFactory: DocumentScannerViewModel.Factory,
+    private val drawComponentFactory: DrawViewModel.Factory,
+    private val eraseBackgroundComponentFactory: EraseBackgroundViewModel.Factory,
+    private val filterComponentFactory: FilterViewModel.Factory,
+    private val formatConversionComponentFactory: FormatConversionViewModel.Factory,
+    private val generatePaletteComponentFactory: GeneratePaletteViewModel.Factory,
+    private val gifToolsComponentFactory: GifToolsViewModel.Factory,
+    private val gradientMakerComponentFactory: GradientMakerViewModel.Factory,
+    private val imagePreviewComponentFactory: ImagePreviewViewModel.Factory,
+    private val imageSplittingComponentFactory: ImageSplitterViewModel.Factory,
+    private val imageStackingComponentFactory: ImageStackingViewModel.Factory,
+    private val imageStitchingComponentFactory: ImageStitchingViewModel.Factory,
+    private val jxlToolsComponentFactory: JxlToolsViewModel.Factory,
+    private val limitResizeComponentFactory: LimitsResizeViewModel.Factory,
+    private val loadNetImageComponentFactory: LoadNetImageViewModel.Factory,
+    private val noiseGenerationComponentFactory: NoiseGenerationViewModel.Factory,
+    private val pdfToolsComponentFactory: PdfToolsViewModel.Factory,
+    private val pickColorFromImageComponentFactory: PickColorViewModel.Factory,
+    private val recognizeTextComponentFactory: RecognizeTextViewModel.Factory,
+    private val resizeAndConvertComponentFactory: ResizeAndConvertViewModel.Factory,
+    private val scanQrCodeComponentFactory: ScanQrCodeViewModel.Factory,
+    private val settingsComponentFactory: SettingsViewModel.Factory,
+    private val singleEditComponentFactory: SingleEditViewModel.Factory,
+    private val svgMakerComponentFactory: SvgMakerViewModel.Factory,
+    private val watermarkingComponentFactory: WatermarkingViewModel.Factory,
+    private val webpToolsComponentFactory: WebpToolsViewModel.Factory,
+    private val weightResizeComponentFactory: WeightResizeViewModel.Factory,
+    private val zipComponentFactory: ZipViewModel.Factory,
+) : BaseViewModel(dispatchersHolder, componentContext) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
 
-    val navController = navController<Screen>(Screen.Main)
+    val navController = StackNavigation<Screen>()
+
+    val childStack: Value<ChildStack<Screen, Child>> =
+        childStack(
+            source = navController,
+            initialConfiguration = Screen.Main,
+            serializer = Screen.serializer(),
+            handleBackButton = true,
+            childFactory = ::child,
+        )
+
+    fun onBackClicked() = navController.pop()
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -383,6 +467,247 @@ class RootViewModel @Inject constructor(
         viewModelScope.launch {
             settingsManager.registerTelegramGroupOpen()
         }
+    }
+
+    sealed class Child {
+        class ApngTools(val component: ApngToolsViewModel) : Child()
+        class Cipher(val component: CipherViewModel) : Child()
+        class CollageMaker(val component: CollageMakerViewModel) : Child()
+        data object ColorTools : Child()
+        class Compare(val component: CompareViewModel) : Child()
+        class Crop(val component: CropViewModel) : Child()
+        class DeleteExif(val component: DeleteExifViewModel) : Child()
+        class DocumentScanner(val component: DocumentScannerViewModel) : Child()
+        class Draw(val component: DrawViewModel) : Child()
+        data object EasterEgg : Child()
+        class EraseBackground(val component: EraseBackgroundViewModel) : Child()
+        class Filter(val component: FilterViewModel) : Child()
+        class FormatConversion(val component: FormatConversionViewModel) : Child()
+        class GeneratePalette(val component: GeneratePaletteViewModel) : Child()
+        class GifTools(val component: GifToolsViewModel) : Child()
+        class GradientMaker(val component: GradientMakerViewModel) : Child()
+        class ImagePreview(val component: ImagePreviewViewModel) : Child()
+        class ImageSplitting(val component: ImageSplitterViewModel) : Child()
+        class ImageStacking(val component: ImageStackingViewModel) : Child()
+        class ImageStitching(val component: ImageStitchingViewModel) : Child()
+        class JxlTools(val component: JxlToolsViewModel) : Child()
+        class LimitResize(val component: LimitsResizeViewModel) : Child()
+        class LoadNetImage(val component: LoadNetImageViewModel) : Child()
+        data object Main : Child()
+        class NoiseGeneration(val component: NoiseGenerationViewModel) : Child()
+        class PdfTools(val component: PdfToolsViewModel) : Child()
+        class PickColorFromImage(val component: PickColorViewModel) : Child()
+        class RecognizeText(val component: RecognizeTextViewModel) : Child()
+        class ResizeAndConvert(val component: ResizeAndConvertViewModel) : Child()
+        class ScanQrCode(val component: ScanQrCodeViewModel) : Child()
+        class Settings(val component: SettingsViewModel) : Child()
+        class SingleEdit(val component: SingleEditViewModel) : Child()
+        class SvgMaker(val component: SvgMakerViewModel) : Child()
+        class Watermarking(val component: WatermarkingViewModel) : Child()
+        class WebpTools(val component: WebpToolsViewModel) : Child()
+        class WeightResize(val component: WeightResizeViewModel) : Child()
+        class Zip(val component: ZipViewModel) : Child()
+    }
+
+    private fun child(
+        config: Screen,
+        componentContext: ComponentContext
+    ): Child = when (config) {
+        is Screen.ApngTools -> Child.ApngTools(
+            apngToolsComponentFactory(
+                componentContext,
+                config.type
+            )
+        )
+
+        is Screen.Cipher -> Child.Cipher(cipherComponentFactory(componentContext, config.uri))
+        is Screen.CollageMaker -> Child.CollageMaker(
+            collageMakerComponentFactory(
+                componentContext,
+                config.uris
+            )
+        )
+
+        Screen.ColorTools -> Child.ColorTools
+        is Screen.Compare -> Child.Compare(
+            compareComponentFactory(componentContext, config.uris
+                ?.takeIf { it.size == 2 }
+                ?.let { it[0] to it[1] })
+        )
+
+        is Screen.Crop -> Child.Crop(cropComponentFactory(componentContext, config.uri))
+        is Screen.DeleteExif -> Child.DeleteExif(
+            deleteExifComponentFactory(
+                componentContext,
+                config.uris
+            )
+        )
+
+        Screen.DocumentScanner -> Child.DocumentScanner(
+            documentScannerComponentFactory(componentContext)
+        )
+
+        is Screen.Draw -> Child.Draw(drawComponentFactory(componentContext, config.uri))
+        Screen.EasterEgg -> Child.EasterEgg
+        is Screen.EraseBackground -> Child.EraseBackground(
+            eraseBackgroundComponentFactory(
+                componentContext, config.uri
+            )
+        )
+
+        is Screen.Filter -> Child.Filter(filterComponentFactory(componentContext, config.type))
+        is Screen.FormatConversion -> Child.FormatConversion(
+            formatConversionComponentFactory(
+                componentContext, config.uris
+            )
+        )
+
+        is Screen.GeneratePalette -> Child.GeneratePalette(
+            generatePaletteComponentFactory(
+                componentContext, config.uri
+            )
+        )
+
+        is Screen.GifTools -> Child.GifTools(
+            gifToolsComponentFactory(
+                componentContext,
+                config.type
+            )
+        )
+
+        is Screen.GradientMaker -> Child.GradientMaker(
+            gradientMakerComponentFactory(
+                componentContext, config.uris
+            )
+        )
+
+        is Screen.ImagePreview -> Child.ImagePreview(
+            imagePreviewComponentFactory(
+                componentContext,
+                config.uris
+            )
+        )
+
+        is Screen.ImageSplitting -> Child.ImageSplitting(
+            imageSplittingComponentFactory(
+                componentContext, config.uri
+            )
+        )
+
+        is Screen.ImageStacking -> Child.ImageStacking(
+            imageStackingComponentFactory(
+                componentContext, config.uris
+            )
+        )
+
+        is Screen.ImageStitching -> Child.ImageStitching(
+            imageStitchingComponentFactory(
+                componentContext, config.uris
+            )
+        )
+
+        is Screen.JxlTools -> Child.JxlTools(
+            jxlToolsComponentFactory(
+                componentContext,
+                config.type
+            )
+        )
+
+        is Screen.LimitResize -> Child.LimitResize(
+            limitResizeComponentFactory(
+                componentContext,
+                config.uris
+            )
+        )
+
+        is Screen.LoadNetImage -> Child.LoadNetImage(
+            loadNetImageComponentFactory(
+                componentContext,
+                config.url
+            )
+        )
+
+        Screen.Main -> Child.Main
+        Screen.NoiseGeneration -> Child.NoiseGeneration(
+            noiseGenerationComponentFactory(
+                componentContext
+            )
+        )
+
+        is Screen.PdfTools -> Child.PdfTools(
+            pdfToolsComponentFactory(
+                componentContext,
+                config.type
+            )
+        )
+
+        is Screen.PickColorFromImage -> Child.PickColorFromImage(
+            pickColorFromImageComponentFactory(
+                componentContext, config.uri
+            )
+        )
+
+        is Screen.RecognizeText -> Child.RecognizeText(
+            recognizeTextComponentFactory(
+                componentContext, config.uri
+            )
+        )
+
+        is Screen.ResizeAndConvert -> Child.ResizeAndConvert(
+            resizeAndConvertComponentFactory(
+                componentContext, config.uris
+            )
+        )
+
+        is Screen.ScanQrCode -> Child.ScanQrCode(
+            scanQrCodeComponentFactory(
+                componentContext,
+                config.qrCodeContent
+            )
+        )
+
+        Screen.Settings -> Child.Settings(settingsComponentFactory(componentContext))
+        is Screen.SingleEdit -> Child.SingleEdit(
+            singleEditComponentFactory(
+                componentContext,
+                config.uri
+            )
+        )
+
+        is Screen.SvgMaker -> Child.SvgMaker(
+            svgMakerComponentFactory(
+                componentContext,
+                config.uris
+            )
+        )
+
+        is Screen.Watermarking -> Child.Watermarking(
+            watermarkingComponentFactory(
+                componentContext,
+                config.uris
+            )
+        )
+
+        is Screen.WebpTools -> Child.WebpTools(
+            webpToolsComponentFactory(
+                componentContext,
+                config.type
+            )
+        )
+
+        is Screen.WeightResize -> Child.WeightResize(
+            weightResizeComponentFactory(
+                componentContext,
+                config.uris
+            )
+        )
+
+        is Screen.Zip -> Child.Zip(zipComponentFactory(componentContext, config.uris))
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(componentContext: ComponentContext): RootViewModel
     }
 
 }

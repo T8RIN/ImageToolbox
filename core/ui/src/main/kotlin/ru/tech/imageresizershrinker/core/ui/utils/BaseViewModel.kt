@@ -19,8 +19,7 @@ package ru.tech.imageresizershrinker.core.ui.utils
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -29,14 +28,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.coroutineScope
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.launch as internalLaunch
 
 abstract class BaseViewModel(
-    private val dispatchersHolder: DispatchersHolder
-) : ViewModel(), DispatchersHolder by dispatchersHolder {
+    private val dispatchersHolder: DispatchersHolder,
+    private val componentContext: ComponentContext
+) : ComponentContext by componentContext, DispatchersHolder by dispatchersHolder {
+
+    val viewModelScope = coroutineScope
 
     protected open val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
     open val isImageLoading: Boolean

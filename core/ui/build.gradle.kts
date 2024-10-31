@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.image.toolbox.library)
     alias(libs.plugins.image.toolbox.hilt)
     alias(libs.plugins.image.toolbox.compose)
+    kotlin("plugin.serialization")
 }
 
 android.namespace = "ru.tech.imageresizershrinker.core.ui"
@@ -29,8 +30,8 @@ dependencies {
     implementation(projects.core.settings)
 
     // Navigation
-    api(libs.reimagined)
-    api(libs.reimagined.hilt)
+    api(libs.decompose)
+    api(libs.decomposeExtensions)
 
     //AndroidX
     api(libs.activityCompose)

@@ -27,8 +27,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -57,8 +58,9 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-@HiltViewModel
 class ApngToolsViewModel @Inject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted initialType: Screen.ApngTools.Type?,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
@@ -66,7 +68,11 @@ class ApngToolsViewModel @Inject constructor(
     private val apngConverter: ApngConverter,
     private val shareProvider: ShareProvider<Bitmap>,
     defaultDispatchersHolder: DispatchersHolder
-) : BaseViewModel(defaultDispatchersHolder) {
+) : BaseViewModel(defaultDispatchersHolder, componentContext) {
+
+    init {
+        initialType?.let(::setType)
+    }
 
     private val _type: MutableState<Screen.ApngTools.Type?> = mutableStateOf(null)
     val type by _type
@@ -483,4 +489,11 @@ class ApngToolsViewModel @Inject constructor(
         }
     }
 
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialType: Screen.ApngTools.Type?,
+        ): ApngToolsViewModel
+    }
 }

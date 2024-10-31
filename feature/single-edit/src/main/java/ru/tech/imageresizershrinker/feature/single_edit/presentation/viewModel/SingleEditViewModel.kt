@@ -24,14 +24,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
+import com.arkivanov.decompose.ComponentContext
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.t8rin.curves.ImageCurvesEditorState
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -70,10 +72,11 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
-import javax.inject.Inject
 
-@HiltViewModel
-class SingleEditViewModel @Inject constructor(
+
+class SingleEditViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUri: Uri?,
     private val fileController: FileController,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
@@ -85,7 +88,11 @@ class SingleEditViewModel @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUri?.let(::setUri)
+    }
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
     val originalSize by _originalSize
@@ -432,12 +439,10 @@ class SingleEditViewModel @Inject constructor(
 
     fun setUri(uri: Uri) {
         _uri.update { uri }
+        decodeBitmapByUri(uri)
     }
 
-    fun decodeBitmapByUri(
-        uri: Uri,
-        onError: (Throwable) -> Unit,
-    ) {
+    private fun decodeBitmapByUri(uri: Uri) {
         _isImageLoading.update { true }
         _imageInfo.update {
             it.copy(originalUri = uri.toString())
@@ -448,7 +453,6 @@ class SingleEditViewModel @Inject constructor(
             onGetImage = ::setImageData,
             onError = {
                 _isImageLoading.update { false }
-                onError(it)
             }
         )
     }
@@ -759,4 +763,12 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUri: Uri?,
+        ): SingleEditViewModel
+    }
 }

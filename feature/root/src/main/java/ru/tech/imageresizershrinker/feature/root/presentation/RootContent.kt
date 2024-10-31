@@ -37,7 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import dev.olshevski.navigation.reimagined.navigate
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.arkivanov.decompose.router.stack.push
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
@@ -53,7 +54,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
@@ -83,7 +83,7 @@ fun RootContent(
         mutableIntStateOf(0)
     }
 
-    val currentDestination = viewModel.navController.currentDestination()
+    val currentDestination = viewModel.childStack.subscribeAsState().value.backStack
     LaunchedEffect(currentDestination) {
         delay(200L) // Delay for transition
         randomEmojiKey++
@@ -163,7 +163,7 @@ fun RootContent(
                     onDismiss = { showSelectSheet = it },
                     onNavigate = { screen ->
                         GlobalExceptionHandler.registerScreenOpen(screen)
-                        viewModel.navController.navigate(screen)
+                        viewModel.navController.push(screen)
                         showSelectSheet = false
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             runCatching {

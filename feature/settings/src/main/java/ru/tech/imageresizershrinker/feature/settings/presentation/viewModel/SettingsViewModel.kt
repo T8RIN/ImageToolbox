@@ -24,10 +24,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
+import com.arkivanov.decompose.ComponentContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
@@ -50,15 +52,14 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import javax.inject.Inject
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder,
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
@@ -635,5 +636,10 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             settingsManager.setSliderType(sliderType)
         }
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(componentContext: ComponentContext): SettingsViewModel
     }
 }

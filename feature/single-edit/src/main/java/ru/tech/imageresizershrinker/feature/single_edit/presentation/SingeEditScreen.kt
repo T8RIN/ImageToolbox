@@ -40,7 +40,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
@@ -81,7 +80,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EditExifSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -96,10 +94,9 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.S
 
 @Composable
 fun SingleEditContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: SingleEditViewModel = hiltViewModel(),
+    viewModel: SingleEditViewModel,
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
@@ -112,20 +109,6 @@ fun SingleEditContent(
     val showConfetti: () -> Unit = {
         scope.launch {
             confettiHostState.showConfetti()
-        }
-    }
-
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.setUri(it)
-            viewModel.decodeBitmapByUri(
-                uri = it,
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
-                }
-            )
         }
     }
 
@@ -148,14 +131,6 @@ fun SingleEditContent(
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
             viewModel.setUri(it)
-            viewModel.decodeBitmapByUri(
-                uri = it,
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
-                }
-            )
         }
     }
 
@@ -163,7 +138,7 @@ fun SingleEditContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {

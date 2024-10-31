@@ -25,8 +25,9 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -47,15 +48,26 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.components.Comp
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-@HiltViewModel
 class CompareViewModel @Inject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialComparableUris: Pair<Uri, Uri>?,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialComparableUris?.let {
+            updateUris(
+                uris = it,
+                onError = {},
+                onSuccess = {}
+            )
+        }
+    }
 
     private val _bitmapData: MutableState<Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>?> =
         mutableStateOf(null)
@@ -250,6 +262,14 @@ class CompareViewModel @Inject constructor(
             }
             _isImageLoading.value = false
         }
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            @Assisted componentContext: ComponentContext,
+            @Assisted initialComparableUris: Pair<Uri, Uri>?,
+        ): CompareViewModel
     }
 
 }

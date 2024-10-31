@@ -19,20 +19,26 @@ package ru.tech.imageresizershrinker.app.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import com.arkivanov.decompose.retainedComponent
+import com.arkivanov.decompose.router.stack.push
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.feature.root.presentation.RootContent
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AppActivity : M3Activity() {
 
-    private val viewModel by viewModels<RootViewModel>()
+    @Inject
+    private lateinit var viewModelFactory: RootViewModel.Factory
+
+    private val viewModel: RootViewModel by lazy {
+        retainedComponent(factory = viewModelFactory::invoke)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +65,7 @@ class AppActivity : M3Activity() {
             onShowToast = viewModel::showToast,
             onNavigate = { screen ->
                 GlobalExceptionHandler.registerScreenOpen(screen)
-                viewModel.navController.navigate(screen)
+                viewModel.navController.push(screen)
             },
             isHasUris = !viewModel.uris.isNullOrEmpty(),
             onWantGithubReview = viewModel::onWantGithubReview,

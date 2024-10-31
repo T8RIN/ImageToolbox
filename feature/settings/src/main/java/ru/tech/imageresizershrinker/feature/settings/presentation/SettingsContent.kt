@@ -79,7 +79,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
@@ -110,7 +109,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.Sett
 
 @Composable
 fun SettingsContent(
-    viewModel: SettingsViewModel = hiltViewModel(),
+    viewModel: SettingsViewModel,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: Lambda

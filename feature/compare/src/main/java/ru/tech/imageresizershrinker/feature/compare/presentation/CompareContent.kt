@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.compare.presentation
 
-import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,7 +50,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -78,9 +76,8 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.Compa
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompareContent(
-    comparableUris: Pair<Uri, Uri>?,
     onGoBack: () -> Unit,
-    viewModel: CompareViewModel = hiltViewModel()
+    viewModel: CompareViewModel
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -108,25 +105,6 @@ fun CompareContent(
                         .blend(b.second.extractPrimaryColor(), 0.5f)
                 )
             }
-        }
-    }
-
-    LaunchedEffect(comparableUris) {
-        comparableUris?.let {
-            viewModel.updateUris(
-                onSuccess = {
-                    compareProgress = 50f
-                },
-                uris = it,
-                onError = {
-                    scope.launch {
-                        toastHostState.showToast(
-                            context.getString(R.string.something_went_wrong),
-                            Icons.Rounded.ErrorOutline
-                        )
-                    }
-                }
-            )
         }
     }
 
@@ -164,7 +142,7 @@ fun CompareContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = comparableUris != null
+        isPickedAlready = viewModel.initialComparableUris != null
     )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
