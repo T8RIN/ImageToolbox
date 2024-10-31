@@ -306,6 +306,7 @@ fun RecognizeTextContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = true,
         title = {
             AnimatedContent(
                 targetState = viewModel.recognitionData

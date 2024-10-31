@@ -253,6 +253,7 @@ fun GeneratePaletteContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = useMaterialYouPalette == null,
         title = {
             TopAppBarTitle(
                 title = if (useMaterialYouPalette == true) {

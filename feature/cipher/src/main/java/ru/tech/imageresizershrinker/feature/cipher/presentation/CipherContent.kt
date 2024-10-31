@@ -789,6 +789,9 @@ fun CipherContent(
         }
     )
 
-    BackHandler(onBack = onBack)
+    BackHandler(
+        enabled = viewModel.uri != null && (key.isNotEmpty() || viewModel.byteArray != null),
+        onBack = onBack
+    )
 
 }

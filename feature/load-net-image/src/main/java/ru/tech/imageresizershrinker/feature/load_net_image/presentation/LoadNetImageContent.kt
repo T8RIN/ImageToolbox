@@ -176,6 +176,7 @@ fun LoadNetImageContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = true,
         title = {
             Text(
                 text = stringResource(R.string.load_image_from_net),

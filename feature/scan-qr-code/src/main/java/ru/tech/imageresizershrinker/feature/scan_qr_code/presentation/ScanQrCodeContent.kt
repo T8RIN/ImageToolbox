@@ -274,6 +274,7 @@ fun ScanQrCodeContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = true,
         title = {
             Text(
                 text = stringResource(R.string.qr_code),

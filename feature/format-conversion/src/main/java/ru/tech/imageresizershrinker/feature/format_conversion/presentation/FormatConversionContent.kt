@@ -175,6 +175,7 @@ fun FormatConversionContent(
     )
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.format_conversion),

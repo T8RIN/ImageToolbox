@@ -70,12 +70,15 @@ class GradientMakerViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let {
-            setUris(
-                uris = it,
-                onError = {}
-            )
-            updateGradientAlpha(0.5f)
+        debounceInit {
+            initialUris?.let {
+                setUris(
+                    uris = it,
+                    onError = {}
+                )
+            }
+            clearState()
+            _gradientAlpha.update { 0.5f }
         }
     }
 

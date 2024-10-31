@@ -41,6 +41,15 @@ abstract class BaseViewModel(
 
     val viewModelScope = coroutineScope
 
+    inline fun debounceInit(
+        crossinline block: () -> Unit
+    ) {
+        viewModelScope.launch {
+            delay(200)
+            block()
+        }
+    }
+
     protected open val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
     open val isImageLoading: Boolean
         get() = _isImageLoading.value

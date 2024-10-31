@@ -132,7 +132,7 @@ fun GradientMakerContent(
     val toastHostState = LocalToastHostState.current
 
     var allowPickingImage by rememberSaveable(viewModel.initialUris) {
-        mutableStateOf<Boolean?>(
+        mutableStateOf(
             if (viewModel.initialUris.isNullOrEmpty()) null
             else true
         )
@@ -193,6 +193,7 @@ fun GradientMakerContent(
     var showOriginal by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         isPortrait = isPortrait,
         canShowScreenData = allowPickingImage != null,
         title = {

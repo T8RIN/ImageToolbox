@@ -144,6 +144,7 @@ fun ColorToolsContent(
                 modifier = Modifier.marquee()
             )
         },
+        shouldDisableBackHandler = true,
         onGoBack = onGoBack,
         actions = {},
         topAppBarPersistentActions = {

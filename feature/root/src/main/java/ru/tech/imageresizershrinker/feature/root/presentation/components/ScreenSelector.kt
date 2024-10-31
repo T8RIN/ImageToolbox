@@ -27,6 +27,7 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatable
 import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
@@ -127,7 +128,8 @@ internal fun ScreenSelector(
         animation = predictiveBackAnimation(
             backHandler = viewModel.backHandler,
             fallbackAnimation = stackAnimation(fade() + scale() + slide()),
-            onBack = viewModel::onBackClicked
+            onBack = onGoBack,
+            selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
         )
     ) { screen ->
         when (val instance = screen.instance) {
@@ -150,7 +152,10 @@ internal fun ScreenSelector(
             }
 
             is RootViewModel.Child.EasterEgg -> {
-                EasterEggContent(onGoBack = onGoBack)
+                EasterEggContent(
+                    onGoBack = onGoBack,
+                    viewModel = instance.component
+                )
             }
 
             is RootViewModel.Child.Main -> {

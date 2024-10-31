@@ -19,7 +19,6 @@
 
 package ru.tech.imageresizershrinker.feature.easter_egg.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -86,7 +85,8 @@ import kotlin.random.Random
 
 @Composable
 fun EasterEggContent(
-    onGoBack: () -> Unit
+    onGoBack: () -> Unit,
+    viewModel: EasterEggViewModel
 ) {
     val confettiHostState = LocalConfettiHostState.current
     val themeState = LocalDynamicThemeState.current
@@ -117,7 +117,9 @@ fun EasterEggContent(
     val painter = painterResource(R.drawable.ic_launcher_foreground)
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         EnhancedTopAppBar(
             title = {
@@ -277,6 +279,4 @@ fun EasterEggContent(
             }
         }
     }
-
-    BackHandler(onBack = onGoBack)
 }

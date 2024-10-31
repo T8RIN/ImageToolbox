@@ -231,6 +231,7 @@ fun ApngToolsContent(
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = when (viewModel.type) {

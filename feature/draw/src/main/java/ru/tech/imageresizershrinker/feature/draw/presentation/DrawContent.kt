@@ -1152,7 +1152,10 @@ fun DrawContent(
         visible = showExitDialog
     )
 
-    BackHandler(onBack = onBack)
+    BackHandler(
+        enabled = viewModel.drawBehavior !is DrawBehavior.None,
+        onBack = onBack
+    )
 
     DrawLockScreenOrientation()
 }

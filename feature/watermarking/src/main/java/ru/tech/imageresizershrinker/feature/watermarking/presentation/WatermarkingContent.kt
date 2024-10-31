@@ -154,6 +154,7 @@ fun WatermarkingContent(
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.watermarking),

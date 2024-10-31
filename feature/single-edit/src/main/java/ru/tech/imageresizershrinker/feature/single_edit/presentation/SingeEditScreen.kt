@@ -186,6 +186,7 @@ fun SingleEditContent(
 
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             val originalSize = viewModel.uri.fileSize(context) ?: 0
             val compressedSize = viewModel.imageInfo.sizeInBytes.toLong()

@@ -138,6 +138,7 @@ fun NoiseGenerationContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = true,
         title = {
             Text(
                 text = stringResource(R.string.noise_generation),

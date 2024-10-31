@@ -632,7 +632,7 @@ fun CollageMakerContent(
         }
     }
 
-    BackHandler(onBack = onBack)
+    BackHandler(enabled = viewModel.haveChanges, onBack = onBack)
 
     ExitWithoutSavingDialog(
         onExit = onGoBack,

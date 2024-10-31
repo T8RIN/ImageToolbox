@@ -122,6 +122,7 @@ fun SvgMakerContent(
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             Text(
                 text = stringResource(R.string.images_to_svg),

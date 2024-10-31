@@ -444,7 +444,7 @@ fun ImagePreviewContent(
                 }
             )
 
-            BackHandler(onBack = onBack)
+            BackHandler(enabled = !viewModel.uris.isNullOrEmpty(), onBack = onBack)
         }
     }
 

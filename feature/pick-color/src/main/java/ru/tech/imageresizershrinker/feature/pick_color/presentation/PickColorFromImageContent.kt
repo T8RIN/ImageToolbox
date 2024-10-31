@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.pick_color.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -241,9 +240,7 @@ fun PickColorFromImageContent(
                                 containerColor = Color.Transparent,
                                 contentColor = LocalContentColor.current,
                                 enableAutoShadowAndBorder = false,
-                                onClick = {
-                                    onGoBack()
-                                }
+                                onClick = onGoBack
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
@@ -279,9 +276,7 @@ fun PickColorFromImageContent(
                                             containerColor = Color.Transparent,
                                             contentColor = LocalContentColor.current,
                                             enableAutoShadowAndBorder = false,
-                                            onClick = {
-                                                onGoBack()
-                                            },
+                                            onClick = onGoBack,
                                             modifier = Modifier.statusBarsPadding()
                                         ) {
                                             Icon(
@@ -657,8 +652,4 @@ fun PickColorFromImageContent(
     )
 
     if (viewModel.isImageLoading) LoadingDialog(canCancel = false)
-
-    BackHandler {
-        onGoBack()
-    }
 }

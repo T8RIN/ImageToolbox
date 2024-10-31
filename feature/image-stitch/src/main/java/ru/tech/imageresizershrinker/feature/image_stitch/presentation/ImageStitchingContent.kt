@@ -174,6 +174,7 @@ fun ImageStitchingContent(
     )
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.image_stitching),

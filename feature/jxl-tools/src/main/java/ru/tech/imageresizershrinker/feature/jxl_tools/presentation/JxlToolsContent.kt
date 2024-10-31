@@ -314,6 +314,7 @@ fun JxlToolsContent(
     } ?: emptyList()
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = when (viewModel.type) {

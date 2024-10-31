@@ -156,6 +156,7 @@ fun DeleteExifContent(
     )
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.delete_exif),

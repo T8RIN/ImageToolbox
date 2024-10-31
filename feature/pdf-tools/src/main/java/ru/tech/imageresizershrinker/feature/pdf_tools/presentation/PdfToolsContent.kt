@@ -948,5 +948,8 @@ fun PdfToolsContent(
         visible = showExitDialog
     )
 
-    BackHandler(onBack = onBack)
+    BackHandler(
+        enabled = (viewModel.pdfType !is Screen.PdfTools.Type.Preview && viewModel.pdfType != null) || viewModel.haveChanges,
+        onBack = onBack
+    )
 }

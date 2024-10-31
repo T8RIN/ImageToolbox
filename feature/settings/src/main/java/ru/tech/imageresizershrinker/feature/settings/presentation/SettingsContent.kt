@@ -173,9 +173,12 @@ fun SettingsContent(
 
     Column(
         modifier = if (isStandaloneScreen) {
-            Modifier.nestedScroll(
-                scrollBehavior.nestedScrollConnection
-            )
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface)
+                .nestedScroll(
+                    scrollBehavior.nestedScrollConnection
+                )
         } else Modifier
     ) {
         EnhancedTopAppBar(
@@ -467,9 +470,5 @@ fun SettingsContent(
                 }
             }
         }
-    }
-
-    onGoBack?.let {
-        BackHandler(onBack = it)
     }
 }

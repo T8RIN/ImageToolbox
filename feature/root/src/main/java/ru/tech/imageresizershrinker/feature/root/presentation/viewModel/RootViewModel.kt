@@ -28,7 +28,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.Value
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
@@ -62,6 +61,7 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropView
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel.DocumentScannerViewModel
 import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggViewModel
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
 import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.feature.format_conversion.presentation.viewModel.FormatConversionViewModel
@@ -132,6 +132,7 @@ class RootViewModel @AssistedInject constructor(
     private val webpToolsComponentFactory: WebpToolsViewModel.Factory,
     private val weightResizeComponentFactory: WeightResizeViewModel.Factory,
     private val zipComponentFactory: ZipViewModel.Factory,
+    private val easterEggComponentFactory: EasterEggViewModel.Factory
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
@@ -147,8 +148,6 @@ class RootViewModel @AssistedInject constructor(
             handleBackButton = true,
             childFactory = ::child,
         )
-
-    fun onBackClicked() = navController.pop()
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -479,7 +478,7 @@ class RootViewModel @AssistedInject constructor(
         class DeleteExif(val component: DeleteExifViewModel) : Child()
         class DocumentScanner(val component: DocumentScannerViewModel) : Child()
         class Draw(val component: DrawViewModel) : Child()
-        data object EasterEgg : Child()
+        class EasterEgg(val component: EasterEggViewModel) : Child()
         class EraseBackground(val component: EraseBackgroundViewModel) : Child()
         class Filter(val component: FilterViewModel) : Child()
         class FormatConversion(val component: FormatConversionViewModel) : Child()
@@ -514,7 +513,11 @@ class RootViewModel @AssistedInject constructor(
         componentContext: ComponentContext
     ): Child = when (config) {
         Screen.ColorTools -> Child.ColorTools
-        Screen.EasterEgg -> Child.EasterEgg
+        Screen.EasterEgg -> Child.EasterEgg(
+            easterEggComponentFactory(
+                componentContext = componentContext
+            )
+        )
 
         Screen.Main -> Child.Main(
             settingsComponentFactory(

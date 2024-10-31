@@ -1232,7 +1232,10 @@ fun FiltersContent(
                 visible = showExitDialog
             )
 
-            BackHandler(onBack = onBack)
+            BackHandler(
+                enabled = viewModel.haveChanges || viewModel.filterType != null,
+                onBack = onBack
+            )
         }
     }
 }

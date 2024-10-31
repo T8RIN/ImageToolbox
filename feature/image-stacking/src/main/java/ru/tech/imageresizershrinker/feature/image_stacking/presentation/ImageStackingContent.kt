@@ -173,6 +173,7 @@ fun ImageStackingContent(
     )
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.image_stacking),

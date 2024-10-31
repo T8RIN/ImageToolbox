@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.compare.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -257,6 +256,4 @@ fun CompareContent(
     if (viewModel.isImageLoading) {
         LoadingDialog(viewModel::cancelSaving)
     }
-
-    BackHandler(onBack = onGoBack)
 }

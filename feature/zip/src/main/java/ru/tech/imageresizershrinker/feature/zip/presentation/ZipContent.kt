@@ -156,6 +156,7 @@ fun ZipContent(
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !(viewModel.uris.isNotEmpty() && viewModel.byteArray != null),
         title = {
             Text(
                 text = stringResource(R.string.zip),

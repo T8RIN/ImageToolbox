@@ -717,5 +717,8 @@ fun CropContent(
         visible = showExitDialog
     )
 
-    BackHandler(onBack = onBack)
+    BackHandler(
+        enabled = viewModel.bitmap != null,
+        onBack = onBack
+    )
 }

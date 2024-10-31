@@ -177,6 +177,7 @@ fun WeightResizeContent(
     )
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !viewModel.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.by_bytes_resize),

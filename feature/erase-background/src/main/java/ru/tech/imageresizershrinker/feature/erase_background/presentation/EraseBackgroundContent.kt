@@ -812,7 +812,10 @@ fun EraseBackgroundContent(
         visible = showExitDialog
     )
 
-    BackHandler(onBack = onBack)
+    BackHandler(
+        enabled = viewModel.haveChanges,
+        onBack = onBack
+    )
 
     DrawLockScreenOrientation()
 }
