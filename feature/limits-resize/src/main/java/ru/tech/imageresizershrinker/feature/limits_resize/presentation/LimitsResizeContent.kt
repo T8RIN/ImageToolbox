@@ -76,13 +76,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.components.AutoRotateLimitBoxToggle
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.components.LimitsResizeSelector
-import ru.tech.imageresizershrinker.feature.limits_resize.presentation.viewModel.LimitsResizeComponent
+import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
 
 @Composable
 fun LimitsResizeContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: LimitsResizeComponent
+    component: LimitsResizeComponent
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -99,8 +99,8 @@ fun LimitsResizeContent(
         }
     }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -111,7 +111,7 @@ fun LimitsResizeContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris) {
+            component.updateUris(uris) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
@@ -123,18 +123,18 @@ fun LimitsResizeContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmaps(it) { results ->
+        component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 scope = scope,
                 results = results,
@@ -153,7 +153,7 @@ fun LimitsResizeContent(
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
+        data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -161,34 +161,34 @@ fun LimitsResizeContent(
     )
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.limits_resize),
-                input = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
-                size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
+                size = component.selectedUri?.fileSize(LocalContext.current) ?: 0L
             )
         },
         onGoBack = onBack,
         actions = {
-            if (viewModel.previewBitmap != null) {
+            if (component.previewBitmap != null) {
                 var editSheetData by remember {
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
-                    enabled = viewModel.canSave,
+                    enabled = component.canSave,
                     onShare = {
-                        viewModel.shareBitmaps(showConfetti)
+                        component.shareBitmaps(showConfetti)
                     },
                     onCopy = { manager ->
-                        viewModel.cacheCurrentImage { uri ->
+                        component.cacheCurrentImage { uri ->
                             manager.setClip(uri.asClip(context))
                             showConfetti()
                         }
                     },
                     onEdit = {
-                        viewModel.cacheImages {
+                        component.cacheImages {
                             editSheetData = it
                         }
                     }
@@ -212,76 +212,76 @@ fun LimitsResizeContent(
             }
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.bitmap != null,
+                visible = component.bitmap != null,
             )
         },
         imagePreview = {
             ImageContainer(
                 modifier = Modifier
                     .detectSwipes(
-                        onSwipeRight = viewModel::selectLeftUri,
-                        onSwipeLeft = viewModel::selectRightUri
+                        onSwipeRight = component::selectLeftUri,
+                        onSwipeLeft = component::selectRightUri
                     ),
                 imageInside = isPortrait,
                 showOriginal = false,
-                previewBitmap = viewModel.previewBitmap,
-                originalBitmap = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
+                previewBitmap = component.previewBitmap,
+                originalBitmap = component.bitmap,
+                isLoading = component.isImageLoading,
                 shouldShowPreview = true
             )
         },
         controls = {
             ImageCounter(
-                imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                imageCount = component.uris?.size?.takeIf { it > 1 },
                 onRepick = {
                     showPickImageFromUrisSheet = true
                 }
             )
             ResizeImageField(
-                imageInfo = viewModel.imageInfo,
-                originalSize = viewModel.originalSize,
-                onWidthChange = viewModel::updateWidth,
-                onHeightChange = viewModel::updateHeight
+                imageInfo = component.imageInfo,
+                originalSize = component.originalSize,
+                onWidthChange = component::updateWidth,
+                onHeightChange = component::updateHeight
             )
             Spacer(Modifier.size(8.dp))
             SaveExifWidget(
-                imageFormat = viewModel.imageInfo.imageFormat,
-                checked = viewModel.keepExif,
-                onCheckedChange = viewModel::setKeepExif
+                imageFormat = component.imageInfo.imageFormat,
+                checked = component.keepExif,
+                onCheckedChange = component::setKeepExif
             )
-            if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
+            if (component.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                 Modifier.size(8.dp)
             )
             QualitySelector(
-                imageFormat = viewModel.imageInfo.imageFormat,
-                enabled = viewModel.bitmap != null,
-                quality = viewModel.imageInfo.quality,
-                onQualityChange = viewModel::setQuality
+                imageFormat = component.imageInfo.imageFormat,
+                enabled = component.bitmap != null,
+                quality = component.imageInfo.quality,
+                onQualityChange = component::setQuality
             )
             Spacer(Modifier.size(8.dp))
             ImageFormatSelector(
-                value = viewModel.imageInfo.imageFormat,
-                onValueChange = viewModel::setImageFormat
+                value = component.imageInfo.imageFormat,
+                onValueChange = component::setImageFormat
             )
             Spacer(Modifier.size(8.dp))
             AutoRotateLimitBoxToggle(
-                value = viewModel.resizeType.autoRotateLimitBox,
-                onClick = viewModel::toggleAutoRotateLimitBox
+                value = component.resizeType.autoRotateLimitBox,
+                onClick = component::toggleAutoRotateLimitBox
             )
             Spacer(Modifier.size(8.dp))
             LimitsResizeSelector(
-                enabled = viewModel.bitmap != null,
-                value = viewModel.resizeType,
-                onValueChange = viewModel::setResizeType
+                enabled = component.bitmap != null,
+                value = component.resizeType,
+                onValueChange = component::setResizeType
             )
             Spacer(Modifier.height(8.dp))
             ScaleModeSelector(
-                value = viewModel.imageInfo.imageScaleMode,
-                onValueChange = viewModel::setImageScaleMode
+                value = component.imageInfo.imageScaleMode,
+                onValueChange = component::setImageScaleMode
             )
         },
         noDataControls = {
-            if (!viewModel.isImageLoading) {
+            if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
@@ -293,8 +293,8 @@ fun LimitsResizeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                isPrimaryButtonVisible = viewModel.canSave,
-                targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
+                isPrimaryButtonVisible = component.canSave,
+                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -313,7 +313,7 @@ fun LimitsResizeContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
             OneTimeImagePickingDialog(
@@ -324,25 +324,25 @@ fun LimitsResizeContent(
             )
         },
         topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) {
+            if (component.bitmap == null) {
                 TopAppBarEmoji()
             }
         },
-        canShowScreenData = viewModel.bitmap != null,
+        canShowScreenData = component.bitmap != null,
         isPortrait = isPortrait
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.uris?.size ?: 1,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.uris?.size ?: 1,
+            onCancelLoading = component::cancelSaving
         )
     }
 
     PickImageFromUrisSheet(
         transformations = listOf(
-            viewModel.imageInfoTransformationFactory(
+            component.imageInfoTransformationFactory(
                 imageInfo = ImageInfo()
             )
         ),
@@ -350,11 +350,11 @@ fun LimitsResizeContent(
         onDismiss = {
             showPickImageFromUrisSheet = false
         },
-        uris = viewModel.uris,
-        selectedUri = viewModel.selectedUri,
+        uris = component.uris,
+        selectedUri = component.selectedUri,
         onUriPicked = { uri ->
             try {
-                viewModel.updateSelectedUri(uri = uri)
+                component.updateSelectedUri(uri = uri)
             } catch (e: Exception) {
                 scope.launch {
                     toastHostState.showError(context, e)
@@ -362,7 +362,7 @@ fun LimitsResizeContent(
             }
         },
         onUriRemoved = { uri ->
-            viewModel.updateUrisSilently(removedUri = uri)
+            component.updateUrisSilently(removedUri = uri)
         },
         columns = if (isPortrait) 2 else 4,
     )

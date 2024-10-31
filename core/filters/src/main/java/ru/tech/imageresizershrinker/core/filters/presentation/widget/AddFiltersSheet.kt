@@ -201,8 +201,8 @@ import java.util.Locale
 
 @Composable
 fun AddFiltersSheet(
-    viewModel: AddFiltersSheetComponent,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent,
+    component: AddFiltersSheetComponent,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     previewBitmap: Bitmap?,
@@ -232,9 +232,9 @@ fun AddFiltersSheet(
         initialPage = 2
     )
 
-    val onRequestFilterMapping = viewModel::filterToTransformation
+    val onRequestFilterMapping = component::filterToTransformation
 
-    val previewModel = viewModel.previewModel
+    val previewModel = component.previewModel
 
     val scope = rememberCoroutineScope()
     val confettiHostState = LocalConfettiHostState.current
@@ -245,8 +245,8 @@ fun AddFiltersSheet(
     }
     val toastHostState = LocalToastHostState.current
 
-    val favoriteFilters by viewModel.favoritesFlow.collectAsUiState()
-    val templateFilters by viewModel.templatesFlow.collectAsUiState()
+    val favoriteFilters by component.favoritesFlow.collectAsUiState()
+    val templateFilters by component.templatesFlow.collectAsUiState()
 
     val tabs by remember(canAddTemplates) {
         derivedStateOf {
@@ -303,7 +303,7 @@ fun AddFiltersSheet(
         }.sortedBy { context.getString(it.title) }
     }
 
-    val previewSheetData = viewModel.previewData
+    val previewSheetData = component.previewData
 
     SimpleSheet(
         dragHandle = {
@@ -397,10 +397,10 @@ fun AddFiltersSheet(
                                         canOpenPreview = previewBitmap != null,
                                         favoriteFilters = favoriteFilters,
                                         onLongClick = {
-                                            viewModel.setPreviewData(filter)
+                                            component.setPreviewData(filter)
                                         },
                                         onOpenPreview = {
-                                            viewModel.setPreviewData(filter)
+                                            component.setPreviewData(filter)
                                         },
                                         onClick = {
                                             onVisibleChange(false)
@@ -412,7 +412,7 @@ fun AddFiltersSheet(
                                             size = filtersForSearch.size
                                         ),
                                         onToggleFavorite = {
-                                            viewModel.toggleFavorite(filter)
+                                            component.toggleFavorite(filter)
                                         },
                                         modifier = Modifier.animateItem()
                                     )
@@ -493,9 +493,9 @@ fun AddFiltersSheet(
                                                 .fillMaxSize()
                                         )
                                         FilterTemplateAddingGroup(
-                                            onAddTemplateFilterFromString = viewModel::addTemplateFilterFromString,
-                                            onAddTemplateFilterFromUri = viewModel::addTemplateFilterFromUri,
-                                            viewModel = filterTemplateCreationSheetViewModel
+                                            onAddTemplateFilterFromString = component::addTemplateFilterFromString,
+                                            onAddTemplateFilterFromUri = component::addTemplateFilterFromUri,
+                                            component = filterTemplateCreationSheetComponent
                                         )
                                         Spacer(Modifier.weight(1f))
                                     }
@@ -519,7 +519,7 @@ fun AddFiltersSheet(
                                                     }
                                                 },
                                                 onLongClick = {
-                                                    viewModel.setPreviewData(templateFilter.filters)
+                                                    component.setPreviewData(templateFilter.filters)
                                                 },
                                                 onInfoClick = {
                                                     showFilterTemplateInfoSheet = true
@@ -540,10 +540,10 @@ fun AddFiltersSheet(
                                                 templateFilter = templateFilter,
                                                 onRequestFilterMapping = onRequestFilterMapping,
                                                 onShareImage = {
-                                                    viewModel.shareImage(it, showConfetti)
+                                                    component.shareImage(it, showConfetti)
                                                 },
                                                 onSaveImage = {
-                                                    viewModel.saveImage(it) { saveResult ->
+                                                    component.saveImage(it) { saveResult ->
                                                         context.parseSaveResult(
                                                             saveResult = saveResult,
                                                             onSuccess = showConfetti,
@@ -553,7 +553,7 @@ fun AddFiltersSheet(
                                                     }
                                                 },
                                                 onSaveFile = { fileUri, content ->
-                                                    viewModel.saveContentTo(
+                                                    component.saveContentTo(
                                                         content = content,
                                                         fileUri = fileUri
                                                     ) { result ->
@@ -567,31 +567,31 @@ fun AddFiltersSheet(
                                                         )
                                                     }
                                                 },
-                                                onConvertTemplateFilterToString = viewModel::convertTemplateFilterToString,
-                                                onRemoveTemplateFilter = viewModel::removeTemplateFilter,
+                                                onConvertTemplateFilterToString = component::convertTemplateFilterToString,
+                                                onRemoveTemplateFilter = component::removeTemplateFilter,
                                                 onRequestTemplateFilename = {
-                                                    viewModel.createTemplateFilename(
+                                                    component.createTemplateFilename(
                                                         templateFilter
                                                     )
                                                 },
                                                 onShareFile = { content ->
-                                                    viewModel.shareContent(
+                                                    component.shareContent(
                                                         content = content,
-                                                        filename = viewModel.createTemplateFilename(
+                                                        filename = component.createTemplateFilename(
                                                             templateFilter
                                                         ),
                                                         onComplete = showConfetti
                                                     )
                                                 },
                                                 previewModel = previewModel,
-                                                viewModel = filterTemplateCreationSheetViewModel
+                                                component = filterTemplateCreationSheetComponent
                                             )
                                         }
                                         item {
                                             FilterTemplateAddingGroup(
-                                                onAddTemplateFilterFromString = viewModel::addTemplateFilterFromString,
-                                                onAddTemplateFilterFromUri = viewModel::addTemplateFilterFromUri,
-                                                viewModel = filterTemplateCreationSheetViewModel
+                                                onAddTemplateFilterFromString = component::addTemplateFilterFromString,
+                                                onAddTemplateFilterFromUri = component::addTemplateFilterFromUri,
+                                                component = filterTemplateCreationSheetComponent
                                             )
                                         }
                                     }
@@ -674,7 +674,7 @@ fun AddFiltersSheet(
                                                     favoriteFilters = favoriteFilters,
                                                     onLongClick = null,
                                                     onOpenPreview = {
-                                                        viewModel.setPreviewData(filter)
+                                                        component.setPreviewData(filter)
                                                     },
                                                     onClick = { custom ->
                                                         onVisibleChange(false)
@@ -690,11 +690,11 @@ fun AddFiltersSheet(
                                                         size = favoriteFilters.size
                                                     ),
                                                     onToggleFavorite = {
-                                                        viewModel.toggleFavorite(filter)
+                                                        component.toggleFavorite(filter)
                                                     },
                                                     modifier = Modifier
                                                         .longPressDraggableHandle {
-                                                            viewModel.reorderFavoriteFilters(
+                                                            component.reorderFavoriteFilters(
                                                                 data.value
                                                             )
                                                         }
@@ -705,13 +705,13 @@ fun AddFiltersSheet(
                                                             ).value
                                                         ),
                                                     cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
-                                                        viewModel.cubeLutRemoteResources
+                                                        component.cubeLutRemoteResources
                                                     } else null,
                                                     cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
-                                                        viewModel.cubeLutDownloadProgress
+                                                        component.cubeLutDownloadProgress
                                                     } else null,
                                                     onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
-                                                        viewModel.updateCubeLuts(
+                                                        component.updateCubeLuts(
                                                             startDownloadIfNeeded = true,
                                                             forceUpdate = forceUpdate,
                                                             onFailure = {
@@ -749,7 +749,7 @@ fun AddFiltersSheet(
                                             ImageSelector(
                                                 value = previewModel.data,
                                                 onValueChange = {
-                                                    viewModel.setFilterPreviewModel(it.toString())
+                                                    component.setFilterPrecomponent(it.toString())
                                                 },
                                                 title = stringResource(R.string.filter_preview_image),
                                                 subtitle = stringResource(R.string.filter_preview_image_sub),
@@ -801,7 +801,7 @@ fun AddFiltersSheet(
                                                             .weight(1f)
                                                             .clip(shape)
                                                             .clickable {
-                                                                viewModel.setFilterPreviewModel(
+                                                                component.setFilterPrecomponent(
                                                                     index.toString()
                                                                 )
                                                             }
@@ -854,7 +854,7 @@ fun AddFiltersSheet(
                                                         mutableStateOf(false)
                                                     }
                                                     val saveNeutralLut: (String?) -> Unit = {
-                                                        viewModel.saveNeutralLut(it) { saveResult ->
+                                                        component.saveNeutralLut(it) { saveResult ->
                                                             context.parseSaveResult(
                                                                 saveResult = saveResult,
                                                                 onSuccess = showConfetti,
@@ -866,12 +866,12 @@ fun AddFiltersSheet(
                                                     Row {
                                                         ShareButton(
                                                             onShare = {
-                                                                viewModel.shareNeutralLut(
+                                                                component.shareNeutralLut(
                                                                     showConfetti
                                                                 )
                                                             },
                                                             onCopy = { manager ->
-                                                                viewModel.cacheNeutralLut { uri ->
+                                                                component.cacheNeutralLut { uri ->
                                                                     manager.setClip(
                                                                         uri.asClip(context)
                                                                     )
@@ -915,10 +915,10 @@ fun AddFiltersSheet(
                                         canOpenPreview = previewBitmap != null,
                                         favoriteFilters = favoriteFilters,
                                         onLongClick = {
-                                            viewModel.setPreviewData(filter)
+                                            component.setPreviewData(filter)
                                         },
                                         onOpenPreview = {
-                                            viewModel.setPreviewData(filter)
+                                            component.setPreviewData(filter)
                                         },
                                         onClick = { custom ->
                                             onVisibleChange(false)
@@ -934,18 +934,18 @@ fun AddFiltersSheet(
                                             size = filters.size
                                         ),
                                         onToggleFavorite = {
-                                            viewModel.toggleFavorite(filter)
+                                            component.toggleFavorite(filter)
                                         },
                                         isFavoritePage = false,
                                         modifier = Modifier.animateItem(),
                                         cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
-                                            viewModel.cubeLutRemoteResources
+                                            component.cubeLutRemoteResources
                                         } else null,
                                         cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
-                                            viewModel.cubeLutDownloadProgress
+                                            component.cubeLutDownloadProgress
                                         } else null,
                                         onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
-                                            viewModel.updateCubeLuts(
+                                            component.updateCubeLuts(
                                                 startDownloadIfNeeded = true,
                                                 forceUpdate = forceUpdate,
                                                 onFailure = {
@@ -1084,7 +1084,7 @@ fun AddFiltersSheet(
             if (previewSheetData.size == 1 && previewSheetData.firstOrNull()?.value is Unit) {
                 imageState = imageState.copy(position = 2)
             }
-            viewModel.updatePreview(previewBitmap)
+            component.updatePreview(previewBitmap)
         }
     }
 
@@ -1101,7 +1101,7 @@ fun AddFiltersSheet(
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
                             onClick = {
-                                viewModel.setPreviewData(null)
+                                component.setPreviewData(null)
                             }
                         ) {
                             Icon(
@@ -1126,7 +1126,7 @@ fun AddFiltersSheet(
                                         }
                                     )
                                 }
-                                viewModel.setPreviewData(null)
+                                component.setPreviewData(null)
                                 onVisibleChange(false)
                             }
                         ) {
@@ -1162,12 +1162,12 @@ fun AddFiltersSheet(
             ) {
                 val imageBlock = @Composable {
                     AnimatedContent(
-                        targetState = viewModel.previewBitmap == null,
+                        targetState = component.previewBitmap == null,
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
                     ) { isNull ->
                         if (isNull) {
                             Box(
-                                modifier = if (viewModel.previewBitmap == null) {
+                                modifier = if (component.previewBitmap == null) {
                                     Modifier
                                         .aspectRatio(
                                             previewBitmap?.safeAspectRatio ?: (1 / 2f)
@@ -1178,8 +1178,8 @@ fun AddFiltersSheet(
                             )
                         } else {
                             SimplePicture(
-                                bitmap = viewModel.previewBitmap,
-                                loading = viewModel.isPreviewLoading,
+                                bitmap = component.previewBitmap,
+                                loading = component.isPreviewLoading,
                                 modifier = Modifier
                             )
                         }
@@ -1236,11 +1236,11 @@ fun AddFiltersSheet(
                                         showDragHandle = false,
                                         onRemove = {
                                             if (list.size == 1) {
-                                                viewModel.setPreviewData(null)
-                                            } else viewModel.removeFilterAtIndex(index)
+                                                component.setPreviewData(null)
+                                            } else component.removeFilterAtIndex(index)
                                         },
                                         onFilterChange = { value ->
-                                            viewModel.updateFilter(value, index)
+                                            component.updateFilter(value, index)
                                         }
                                     )
                                     if (index != list.lastIndex) {
@@ -1265,7 +1265,7 @@ fun AddFiltersSheet(
         visible = previewSheetData != null,
         onDismiss = {
             if (!it) {
-                viewModel.setPreviewData(null)
+                component.setPreviewData(null)
             }
         }
     )
@@ -1314,14 +1314,14 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             downloadOnlyNewData = false
         )
         favoriteInteractor
-            .getFilterPreviewModel().onEach { data ->
+            .getFilterPrecomponent().onEach { data ->
                 _previewModel.update { data }
-            }.launchIn(viewModelScope)
+            }.launchIn(componentScope)
     }
 
-    fun setFilterPreviewModel(uri: String) {
-        viewModelScope.launch {
-            favoriteInteractor.setFilterPreviewModel(uri)
+    fun setFilterPrecomponent(uri: String) {
+        componentScope.launch {
+            favoriteInteractor.setFilterPrecomponent(uri)
         }
     }
 
@@ -1331,7 +1331,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit,
         downloadOnlyNewData: Boolean = false
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             remoteResourcesStore.getResources(
                 name = RemoteResources.CUBE_LUT,
                 forceUpdate = forceUpdate,
@@ -1373,7 +1373,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     ): Transformation = filterProvider.filterToTransformation(filter).toCoil()
 
     fun updatePreview(previewBitmap: Bitmap) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isPreviewLoading.update { true }
             _previewBitmap.update {
                 imageTransformer.transform(
@@ -1414,7 +1414,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         bitmap: Bitmap,
         onComplete: () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             shareProvider.shareImage(
                 imageInfo = ImageInfo(
                     width = bitmap.width,
@@ -1431,7 +1431,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         bitmap: Bitmap,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             val imageInfo = ImageInfo(
                 width = bitmap.width,
                 height = bitmap.height,
@@ -1460,7 +1460,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         fileUri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        viewModelScope.launch(ioDispatcher) {
+        componentScope.launch(ioDispatcher) {
             fileController.writeBytes(
                 uri = fileUri.toString(),
                 block = { it.writeBytes(content.toByteArray()) }
@@ -1473,7 +1473,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         filename: String,
         onComplete: () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             shareProvider.shareData(
                 writeData = { it.writeBytes(content.toByteArray()) },
                 filename = filename,
@@ -1491,7 +1491,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun reorderFavoriteFilters(value: List<UiFilter<*>>) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.reorderFavoriteFilters(value)
         }
     }
@@ -1503,13 +1503,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         get() = favoriteInteractor.getTemplateFilters()
 
     fun toggleFavorite(filter: UiFilter<*>) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.toggleFavorite(filter)
         }
     }
 
     fun removeTemplateFilter(templateFilter: TemplateFilter) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.removeTemplateFilter(templateFilter)
         }
     }
@@ -1523,7 +1523,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.addTemplateFilterFromString(
                 string = string,
                 onSuccess = onSuccess,
@@ -1537,7 +1537,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.addTemplateFilterFromUri(
                 uri = uri,
                 onSuccess = onSuccess,
@@ -1547,7 +1547,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun cacheNeutralLut(onComplete: (Uri) -> Unit) {
-        viewModelScope.launch {
+        componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.cacheImage(
                     image = it,
@@ -1564,7 +1564,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun shareNeutralLut(onComplete: () -> Unit) {
-        viewModelScope.launch {
+        componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.shareImage(
                     image = it,
@@ -1583,7 +1583,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String? = null,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let { bitmap ->
                 val imageInfo = ImageInfo(
                     width = 512,

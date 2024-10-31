@@ -118,13 +118,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.PickColorComponent
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickColorFromImageContent(
     onGoBack: () -> Unit,
-    viewModel: PickColorComponent
+    component: PickColorComponent
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
@@ -138,17 +138,17 @@ fun PickColorFromImageContent(
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
         }
     }
 
-    LaunchedEffect(viewModel.color) {
-        if (!viewModel.color.isUnspecified) {
-            if (allowChangeColor) themeState.updateColor(viewModel.color)
+    LaunchedEffect(component.color) {
+        if (!component.color.isUnspecified) {
+            if (allowChangeColor) themeState.updateColor(component.color)
         }
     }
 
@@ -159,7 +159,7 @@ fun PickColorFromImageContent(
             uris.takeIf { it.isNotEmpty() }
                 ?.firstOrNull()
                 ?.let {
-                    viewModel.setUri(it) {
+                    component.setUri(it) {
                         scope.launch {
                             toastHostState.showError(context, it)
                         }
@@ -171,7 +171,7 @@ fun PickColorFromImageContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -223,11 +223,11 @@ fun PickColorFromImageContent(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) {
-        val color = viewModel.color
+        val color = component.color
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             AnimatedContent(
                 modifier = Modifier.drawHorizontalStroke(),
-                targetState = viewModel.bitmap == null,
+                targetState = component.bitmap == null,
                 transitionSpec = { fadeIn() togetherWith fadeOut() }
             ) { noBmp ->
                 if (noBmp) {
@@ -255,7 +255,7 @@ fun PickColorFromImageContent(
                             )
                         },
                         actions = {
-                            if (viewModel.bitmap == null) {
+                            if (component.bitmap == null) {
                                 TopAppBarEmoji()
                             }
                         }
@@ -487,7 +487,7 @@ fun PickColorFromImageContent(
             Box(
                 modifier = Modifier.weight(1f)
             ) {
-                viewModel.bitmap?.let {
+                component.bitmap?.let {
                     if (isPortrait) {
                         AnimatedContent(
                             targetState = it
@@ -495,7 +495,7 @@ fun PickColorFromImageContent(
                             ImageColorDetector(
                                 panEnabled = panEnabled,
                                 imageBitmap = bitmap.asImageBitmap(),
-                                color = viewModel.color,
+                                color = component.color,
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(16.dp)
@@ -504,7 +504,7 @@ fun PickColorFromImageContent(
                                     .clip(RoundedCornerShape(12.dp))
                                     .transparencyChecker(),
                                 isMagnifierEnabled = settingsState.magnifierEnabled,
-                                onColorChange = viewModel::updateColor
+                                onColorChange = component::updateColor
                             )
                         }
                     } else {
@@ -520,7 +520,7 @@ fun PickColorFromImageContent(
                                         ImageColorDetector(
                                             panEnabled = panEnabled,
                                             imageBitmap = bitmap.asImageBitmap(),
-                                            color = viewModel.color,
+                                            color = component.color,
                                             modifier = Modifier
                                                 .fillMaxSize()
                                                 .padding(20.dp)
@@ -535,7 +535,7 @@ fun PickColorFromImageContent(
                                                 .clip(RoundedCornerShape(12.dp))
                                                 .transparencyChecker(),
                                             isMagnifierEnabled = settingsState.magnifierEnabled,
-                                            onColorChange = viewModel::updateColor
+                                            onColorChange = component::updateColor
                                         )
                                     }
                                 }
@@ -585,7 +585,7 @@ fun PickColorFromImageContent(
                     )
                 }
             }
-            if (viewModel.bitmap != null && isPortrait) {
+            if (component.bitmap != null && isPortrait) {
                 BottomAppBar(
                     modifier = Modifier
                         .drawHorizontalStroke(true),
@@ -621,7 +621,7 @@ fun PickColorFromImageContent(
             }
         }
 
-        if (viewModel.bitmap == null) {
+        if (component.bitmap == null) {
             EnhancedFloatingActionButton(
                 onClick = pickImage,
                 onLongClick = {
@@ -651,5 +651,5 @@ fun PickColorFromImageContent(
         visible = showOneTimeImagePickingDialog
     )
 
-    if (viewModel.isImageLoading) LoadingDialog(canCancel = false)
+    if (component.isImageLoading) LoadingDialog(canCancel = false)
 }

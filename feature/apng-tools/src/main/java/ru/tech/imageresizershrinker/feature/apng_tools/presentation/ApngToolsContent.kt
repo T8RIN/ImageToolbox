@@ -116,13 +116,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.components.ApngParamsSelector
-import ru.tech.imageresizershrinker.feature.apng_tools.presentation.viewModel.ApngToolsComponent
+import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 
 @Composable
 fun ApngToolsContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ApngToolsComponent
+    component: ApngToolsComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -138,7 +138,7 @@ fun ApngToolsContent(
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(viewModel::setImageUris)
+        list.takeIf { it.isNotEmpty() }?.let(component::setImageUris)
     }
 
     val pickSingleApngLauncher = rememberLauncherForActivityResult(
@@ -146,7 +146,7 @@ fun ApngToolsContent(
     ) { uri ->
         uri?.let {
             if (it.isApng(context)) {
-                viewModel.setApngUri(it)
+                component.setApngUri(it)
             } else {
                 scope.launch {
                     toastHostState.showToast(
@@ -172,7 +172,7 @@ fun ApngToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
+                component.setType(
                     Screen.ApngTools.Type.ApngToJxl(uris)
                 )
             }
@@ -193,9 +193,9 @@ fun ApngToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
+                component.setType(
                     Screen.ApngTools.Type.ApngToJxl(
-                        (viewModel.type as? Screen.ApngTools.Type.ApngToJxl)?.apngUris?.plus(uris)
+                        (component.type as? Screen.ApngTools.Type.ApngToJxl)?.apngUris?.plus(uris)
                             ?.distinct()
                     )
                 )
@@ -207,7 +207,7 @@ fun ApngToolsContent(
         contract = ActivityResultContracts.CreateDocument("image/apng"),
         onResult = {
             it?.let { uri ->
-                viewModel.saveApngTo(uri) { result ->
+                component.saveApngTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -224,17 +224,17 @@ fun ApngToolsContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = when (viewModel.type) {
+                title = when (component.type) {
                     is Screen.ApngTools.Type.ApngToImage -> {
                         stringResource(R.string.apng_type_to_image)
                     }
@@ -249,22 +249,22 @@ fun ApngToolsContent(
 
                     null -> stringResource(R.string.apng_tools)
                 },
-                input = viewModel.type,
-                isLoading = viewModel.isLoading,
+                input = component.type,
+                isLoading = component.isLoading,
                 size = null
             )
         },
         onGoBack = onBack,
         topAppBarPersistentActions = {
-            if (viewModel.type == null) TopAppBarEmoji()
-            val pagesSize by remember(viewModel.imageFrames, viewModel.convertedImageUris) {
+            if (component.type == null) TopAppBarEmoji()
+            val pagesSize by remember(component.imageFrames, component.convertedImageUris) {
                 derivedStateOf {
-                    viewModel.imageFrames.getFramePositions(viewModel.convertedImageUris.size).size
+                    component.imageFrames.getFramePositions(component.convertedImageUris.size).size
                 }
             }
-            val isApngToImage = viewModel.type is Screen.ApngTools.Type.ApngToImage
+            val isApngToImage = component.type is Screen.ApngTools.Type.ApngToImage
             AnimatedVisibility(
-                visible = isApngToImage && pagesSize != viewModel.convertedImageUris.size,
+                visible = isApngToImage && pagesSize != component.convertedImageUris.size,
                 enter = fadeIn() + scaleIn() + expandHorizontally(),
                 exit = fadeOut() + scaleOut() + shrinkHorizontally()
             ) {
@@ -272,7 +272,7 @@ fun ApngToolsContent(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
-                    onClick = viewModel::selectAllConvertedImages
+                    onClick = component::selectAllConvertedImages
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.SelectAll,
@@ -307,7 +307,7 @@ fun ApngToolsContent(
                         containerColor = Color.Transparent,
                         contentColor = LocalContentColor.current,
                         enableAutoShadowAndBorder = false,
-                        onClick = viewModel::clearConvertedImagesSelection
+                        onClick = component::clearConvertedImagesSelection
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
@@ -322,12 +322,12 @@ fun ApngToolsContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = !viewModel.isLoading && viewModel.type != null,
+                enabled = !component.isLoading && component.type != null,
                 onShare = {
-                    viewModel.performSharing(showConfetti)
+                    component.performSharing(showConfetti)
                 },
                 onEdit = {
-                    viewModel.cacheImages {
+                    component.cacheImages {
                         editSheetData = it
                     }
                 }
@@ -351,7 +351,7 @@ fun ApngToolsContent(
         },
         imagePreview = {
             AnimatedContent(
-                targetState = viewModel.isLoading to viewModel.type
+                targetState = component.isLoading to component.type
             ) { (loading, type) ->
                 Box(
                     contentAlignment = Alignment.Center,
@@ -365,11 +365,11 @@ fun ApngToolsContent(
                         when (type) {
                             is Screen.ApngTools.Type.ApngToImage -> {
                                 ImagesPreviewWithSelection(
-                                    imageUris = viewModel.convertedImageUris,
-                                    imageFrames = viewModel.imageFrames,
-                                    onFrameSelectionChange = viewModel::updateApngFrames,
+                                    imageUris = component.convertedImageUris,
+                                    imageFrames = component.imageFrames,
+                                    onFrameSelectionChange = component::updateApngFrames,
                                     isPortrait = isPortrait,
-                                    isLoadingImages = viewModel.isLoadingApngImages
+                                    isLoadingImages = component.isLoadingApngImages
                                 )
                             }
 
@@ -396,7 +396,7 @@ fun ApngToolsContent(
                                     uris = type.apngUris ?: emptyList(),
                                     isPortrait = true,
                                     onRemoveUri = {
-                                        viewModel.setType(
+                                        component.setType(
                                             Screen.ApngTools.Type.ApngToJxl(type.apngUris?.minus(it))
                                         )
                                     },
@@ -414,24 +414,24 @@ fun ApngToolsContent(
                 }
             }
         },
-        placeImagePreview = viewModel.type !is Screen.ApngTools.Type.ImageToApng,
+        placeImagePreview = component.type !is Screen.ApngTools.Type.ImageToApng,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
-            when (val type = viewModel.type) {
+            when (val type = component.type) {
                 is Screen.ApngTools.Type.ApngToImage -> {
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageFormatSelector(
-                        value = viewModel.imageFormat,
-                        onValueChange = viewModel::setImageFormat,
+                        value = component.imageFormat,
+                        onValueChange = component::setImageFormat,
                         entries = ImageFormatGroup.alphaContainedEntries
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     QualitySelector(
-                        imageFormat = viewModel.imageFormat,
+                        imageFormat = component.imageFormat,
                         enabled = true,
-                        quality = viewModel.params.quality,
-                        onQualityChange = viewModel::setQuality
+                        quality = component.params.quality,
+                        onQualityChange = component::setQuality
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -440,19 +440,19 @@ fun ApngToolsContent(
                     val addImagesToPdfPicker = rememberImagePicker(
                         mode = localImagePickerMode(Picker.Multiple)
                     ) { list ->
-                        list.takeIf { it.isNotEmpty() }?.let(viewModel::addImageToUris)
+                        list.takeIf { it.isNotEmpty() }?.let(component::addImageToUris)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,
-                        onReorder = viewModel::reorderImageUris,
+                        onReorder = component::reorderImageUris,
                         onNeedToAddImage = addImagesToPdfPicker::pickImage,
-                        onNeedToRemoveImageAt = viewModel::removeImageAt
+                        onNeedToRemoveImageAt = component::removeImageAt
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     ApngParamsSelector(
-                        value = viewModel.params,
-                        onValueChange = viewModel::updateParams
+                        value = component.params,
+                        onValueChange = component::updateParams
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -461,8 +461,8 @@ fun ApngToolsContent(
                     QualitySelector(
                         imageFormat = ImageFormat.Jxl.Lossy,
                         enabled = true,
-                        quality = viewModel.jxlQuality,
-                        onQualityChange = viewModel::setJxlQuality
+                        quality = component.jxlQuality,
+                        onQualityChange = component::setJxlQuality
                     )
                 }
 
@@ -470,13 +470,13 @@ fun ApngToolsContent(
             }
         },
         contentPadding = animateDpAsState(
-            if (viewModel.type == null) 12.dp
+            if (component.type == null) 12.dp
             else 20.dp
         ).value,
         buttons = {
             val settingsState = LocalSettingsState.current
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-                viewModel.saveBitmaps(
+                component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
                     onApngSaveResult = { name ->
                         runCatching {
@@ -519,9 +519,9 @@ fun ApngToolsContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.type == null) to isPortrait,
+                targetState = (component.type == null) to isPortrait,
                 onSecondaryButtonClick = {
-                    when (viewModel.type) {
+                    when (component.type) {
                         is Screen.ApngTools.Type.ApngToImage -> {
                             pickSingleApngLauncher.launch(
                                 arrayOf("image/png", "image/apng")
@@ -540,12 +540,12 @@ fun ApngToolsContent(
                         else -> imagePicker.pickImage()
                     }
                 },
-                isPrimaryButtonVisible = viewModel.canSave,
+                isPrimaryButtonVisible = component.canSave,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
                 },
                 onPrimaryButtonLongClick = {
-                    if (viewModel.type is Screen.ApngTools.Type.ImageToApng) {
+                    if (component.type is Screen.ApngTools.Type.ImageToApng) {
                         saveBitmaps(null)
                     } else showFolderSelectionDialog = true
                 },
@@ -553,7 +553,7 @@ fun ApngToolsContent(
                     if (isPortrait) it()
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (viewModel.type is Screen.ApngTools.Type.ImageToApng) {
+                onSecondaryButtonLongClick = if (component.type is Screen.ApngTools.Type.ImageToApng) {
                     {
                         showOneTimeImagePickingDialog = true
                     }
@@ -641,25 +641,25 @@ fun ApngToolsContent(
             }
         },
         isPortrait = isPortrait,
-        canShowScreenData = viewModel.type != null
+        canShowScreenData = component.type != null
     )
 
-    if (viewModel.isSaving) {
-        if (viewModel.left != -1) {
+    if (component.isSaving) {
+        if (component.left != -1) {
             LoadingDialog(
-                done = viewModel.done,
-                left = viewModel.left,
-                onCancelLoading = viewModel::cancelSaving
+                done = component.done,
+                left = component.left,
+                onCancelLoading = component::cancelSaving
             )
         } else {
             LoadingDialog(
-                onCancelLoading = viewModel::cancelSaving
+                onCancelLoading = component::cancelSaving
             )
         }
     }
 
     ExitWithoutSavingDialog(
-        onExit = viewModel::clearAll,
+        onExit = component::clearAll,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

@@ -108,12 +108,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 
 @Composable
 internal fun FilterTemplateCreationSheet(
-    viewModel: FilterTemplateCreationSheetComponent,
+    component: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onDismiss: () -> Unit,
     initialTemplateFilter: TemplateFilter? = null
 ) {
-    val previewModel = viewModel.previewModel
+    val previewModel = component.previewModel
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -127,7 +127,7 @@ internal fun FilterTemplateCreationSheet(
 
     var showReorderSheet by rememberSaveable { mutableStateOf(false) }
 
-    val canSave = viewModel.filterList.isNotEmpty()
+    val canSave = component.filterList.isNotEmpty()
 
     SimpleSheet(
         visible = visible,
@@ -144,10 +144,10 @@ internal fun FilterTemplateCreationSheet(
         },
         confirmButton = {
             EnhancedButton(
-                enabled = canSave && viewModel.templateName.isNotEmpty(),
+                enabled = canSave && component.templateName.isNotEmpty(),
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
-                    viewModel.saveTemplate(initialTemplateFilter)
+                    component.saveTemplate(initialTemplateFilter)
                     onDismiss()
                 }
             ) {
@@ -185,12 +185,12 @@ internal fun FilterTemplateCreationSheet(
         }
 
         LaunchedEffect(selectedUri) {
-            viewModel.setUri(selectedUri)
+            component.setUri(selectedUri)
         }
 
         LaunchedEffect(initialTemplateFilter) {
             initialTemplateFilter?.let {
-                viewModel.setInitialTemplateFilter(it)
+                component.setInitialTemplateFilter(it)
             }
         }
 
@@ -216,14 +216,14 @@ internal fun FilterTemplateCreationSheet(
                             .surfaceContainer
                             .copy(0.8f)
                     )
-                    .shimmer(viewModel.previewBitmap == null && viewModel.previewLoading),
+                    .shimmer(component.previewBitmap == null && component.previewLoading),
                 contentAlignment = Alignment.Center
             ) {
                 SimplePicture(
                     enableContainer = false,
                     boxModifier = Modifier.padding(24.dp),
-                    bitmap = viewModel.previewBitmap,
-                    loading = viewModel.previewLoading
+                    bitmap = component.previewBitmap,
+                    loading = component.previewLoading
                 )
             }
         }
@@ -253,7 +253,7 @@ internal fun FilterTemplateCreationSheet(
                 )
                 item {
                     AnimatedContent(
-                        targetState = viewModel.filterList.isNotEmpty(),
+                        targetState = component.filterList.isNotEmpty(),
                         transitionSpec = {
                             fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
                         }
@@ -279,8 +279,8 @@ internal fun FilterTemplateCreationSheet(
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Text
                                 ),
-                                onValueChange = viewModel::updateTemplateName,
-                                value = viewModel.templateName,
+                                onValueChange = component::updateTemplateName,
+                                value = component.templateName,
                                 label = stringResource(R.string.template_name)
                             )
                             if (notEmpty) {
@@ -295,12 +295,12 @@ internal fun FilterTemplateCreationSheet(
                                         verticalArrangement = Arrangement.spacedBy(8.dp),
                                         modifier = Modifier.padding(8.dp)
                                     ) {
-                                        viewModel.filterList.forEachIndexed { index, filter ->
+                                        component.filterList.forEachIndexed { index, filter ->
                                             FilterItem(
                                                 backgroundColor = MaterialTheme.colorScheme.surface,
                                                 filter = filter,
                                                 onFilterChange = {
-                                                    viewModel.updateFilter(
+                                                    component.updateFilter(
                                                         value = it,
                                                         index = index,
                                                         showError = {
@@ -318,7 +318,7 @@ internal fun FilterTemplateCreationSheet(
                                                 },
                                                 showDragHandle = false,
                                                 onRemove = {
-                                                    viewModel.removeFilterAtIndex(
+                                                    component.removeFilterAtIndex(
                                                         index
                                                     )
                                                 }
@@ -352,23 +352,23 @@ internal fun FilterTemplateCreationSheet(
     }
 
     AddFiltersSheet(
-        viewModel = viewModel.addFiltersSheetViewModel,
+        component = component.addFiltersSheetComponent,
         visible = showAddFilterSheet,
         onVisibleChange = { showAddFilterSheet = it },
         canAddTemplates = false,
-        previewBitmap = viewModel.previewBitmap,
-        onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-        onFilterPickedWithParams = { viewModel.addFilter(it) },
-        filterTemplateCreationSheetViewModel = viewModel
+        previewBitmap = component.previewBitmap,
+        onFilterPicked = { component.addFilter(it.newInstance()) },
+        onFilterPickedWithParams = { component.addFilter(it) },
+        filterTemplateCreationSheetComponent = component
     )
 
     FilterReorderSheet(
-        filterList = viewModel.filterList,
+        filterList = component.filterList,
         visible = showReorderSheet,
         onDismiss = {
             showReorderSheet = false
         },
-        onReorder = viewModel::updateFiltersOrder
+        onReorder = component::updateFiltersOrder
     )
 
     ExitWithoutSavingDialog(
@@ -384,14 +384,13 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
-    addFiltersSheetViewModelFactory: AddFiltersSheetComponent.Factory
+    addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    val addFiltersSheetViewModel: AddFiltersSheetComponent = addFiltersSheetViewModelFactory(
+    val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
-            key = "addFiltersTemplate",
-
-            )
+            key = "addFiltersTemplate"
+        )
     )
 
     private val _previewModel: MutableState<ImageModel> = mutableStateOf(
@@ -415,9 +414,9 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
 
     init {
         favoriteFiltersInteractor
-            .getFilterPreviewModel().onEach { data ->
+            .getFilterPrecomponent().onEach { data ->
                 _previewModel.update { data }
-            }.launchIn(viewModelScope)
+            }.launchIn(componentScope)
     }
 
     fun updateTemplateName(newName: String) {
@@ -425,7 +424,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     }
 
     private fun updatePreview() {
-        viewModelScope.launch {
+        componentScope.launch {
             _previewLoading.update { true }
             _previewBitmap.update {
                 imageGetter.getImageWithTransformations(
@@ -477,7 +476,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     }
 
     fun saveTemplate(initialTemplateFilter: TemplateFilter?) {
-        viewModelScope.launch {
+        componentScope.launch {
             if (initialTemplateFilter != null) {
                 favoriteFiltersInteractor.removeTemplateFilter(initialTemplateFilter)
             }

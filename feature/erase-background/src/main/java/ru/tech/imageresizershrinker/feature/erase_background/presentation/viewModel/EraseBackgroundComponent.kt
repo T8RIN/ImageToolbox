@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.erase_background.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -118,7 +118,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     val helperGridParams: HelperGridParams by _helperGridParams
 
     init {
-        viewModelScope.launch {
+        componentScope.launch {
             val params = fileController.restoreObject(
                 "helperGridParams",
                 HelperGridParams::class
@@ -128,7 +128,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     }
 
     private fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _internalBitmap.value = _bitmap.value
@@ -143,7 +143,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
         _uri.value = uri
         autoEraseCount = 0
         _isImageLoading.value = true
-        viewModelScope.launch {
+        componentScope.launch {
             _paths.value = listOf()
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
@@ -175,7 +175,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             getErasedBitmap(true)?.let { localBitmap ->
                 onComplete(
@@ -225,7 +225,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        viewModelScope.launch {
+        componentScope.launch {
             getErasedBitmap(true)?.let {
                 _isSaving.value = true
                 shareProvider.shareImage(
@@ -300,7 +300,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
     ) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             getErasedBitmap(false)?.let { bitmap1 ->
                 _isErasingBG.value = true
                 autoBackgroundRemover.removeBackgroundFromImage(
@@ -325,7 +325,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     }
 
     fun resetImage() {
-        viewModelScope.launch {
+        componentScope.launch {
             autoEraseCount = 0
             _bitmap.value = _internalBitmap.value
             _paths.value = listOf()
@@ -346,7 +346,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getErasedBitmap(true)?.let { image ->
                 shareProvider.cacheImage(
@@ -375,7 +375,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     fun updateHelperGridParams(params: HelperGridParams) {
         _helperGridParams.update { params }
 
-        smartSavingJob = viewModelScope.launch {
+        smartSavingJob = componentScope.launch {
             delay(200)
             fileController.saveObject(
                 key = "helperGridParams",

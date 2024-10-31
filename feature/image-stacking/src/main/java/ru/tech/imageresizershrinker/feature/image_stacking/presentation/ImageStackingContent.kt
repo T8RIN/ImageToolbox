@@ -84,13 +84,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackImageItem
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackingParamsSelector
-import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewModel.ImageStackingComponent
+import ru.tech.imageresizershrinker.feature.image_stacking.presentation.screenLogic.ImageStackingComponent
 
 @Composable
 fun ImageStackingContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageStackingComponent
+    component: ImageStackingComponent
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -107,8 +107,8 @@ fun ImageStackingContent(
         }
     }
 
-    LaunchedEffect(viewModel.previewBitmap) {
-        viewModel.previewBitmap?.let {
+    LaunchedEffect(component.previewBitmap) {
+        component.previewBitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -119,7 +119,7 @@ fun ImageStackingContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris)
+            component.updateUris(uris)
         }
     }
 
@@ -127,7 +127,7 @@ fun ImageStackingContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.addUrisToEnd(uris)
+            component.addUrisToEnd(uris)
         }
     }
 
@@ -139,18 +139,18 @@ fun ImageStackingContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmaps(it) { saveResult ->
+        component.saveBitmaps(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
@@ -165,7 +165,7 @@ fun ImageStackingContent(
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
+        data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -173,13 +173,13 @@ fun ImageStackingContent(
     )
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.image_stacking),
-                input = viewModel.stackImages,
-                isLoading = viewModel.isImageLoading,
-                size = viewModel.imageByteSize?.toLong(),
+                input = component.stackImages,
+                isLoading = component.isImageLoading,
+                size = component.imageByteSize?.toLong(),
                 updateOnSizeChange = false
             )
         },
@@ -189,18 +189,18 @@ fun ImageStackingContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = viewModel.previewBitmap != null,
+                enabled = component.previewBitmap != null,
                 onShare = {
-                    viewModel.shareBitmap(showConfetti)
+                    component.shareBitmap(showConfetti)
                 },
                 onCopy = { manager ->
-                    viewModel.cacheCurrentImage { uri ->
+                    component.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
                     }
                 },
                 onEdit = {
-                    viewModel.cacheCurrentImage {
+                    component.cacheCurrentImage {
                         editSheetData = listOf(it)
                     }
                 }
@@ -223,21 +223,21 @@ fun ImageStackingContent(
             )
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.previewBitmap != null,
+                visible = component.previewBitmap != null,
             )
         },
         imagePreview = {
             ImageContainer(
                 imageInside = isPortrait,
                 showOriginal = false,
-                previewBitmap = viewModel.previewBitmap,
+                previewBitmap = component.previewBitmap,
                 originalBitmap = null,
-                isLoading = viewModel.isImageLoading,
+                isLoading = component.isImageLoading,
                 shouldShowPreview = true
             )
         },
         topAppBarPersistentActions = {
-            if (viewModel.stackImages.isEmpty()) {
+            if (component.stackImages.isEmpty()) {
                 TopAppBarEmoji()
             }
         },
@@ -247,24 +247,24 @@ fun ImageStackingContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ImageReorderCarousel(
-                    images = remember(viewModel.stackImages) {
+                    images = remember(component.stackImages) {
                         derivedStateOf {
-                            viewModel.stackImages.map { it.uri.toUri() }
+                            component.stackImages.map { it.uri.toUri() }
                         }
                     }.value,
-                    onReorder = viewModel::reorderUris,
+                    onReorder = component::reorderUris,
                     onNeedToAddImage = addImages,
-                    onNeedToRemoveImageAt = viewModel::removeImageAt
+                    onNeedToRemoveImageAt = component::removeImageAt
                 )
                 StackingParamsSelector(
-                    value = viewModel.stackingParams,
-                    onValueChange = viewModel::updateParams
+                    value = component.stackingParams,
+                    onValueChange = component::updateParams
                 )
                 Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
                     TitleItem(
                         text = stringResource(
                             R.string.images,
-                            viewModel.stackImages.size
+                            component.stackImages.size
                         )
                     )
                     Column(
@@ -274,13 +274,13 @@ fun ImageStackingContent(
                         ),
                         modifier = Modifier.padding(8.dp)
                     ) {
-                        viewModel.stackImages.forEachIndexed { index, stackImage ->
+                        component.stackImages.forEachIndexed { index, stackImage ->
                             StackImageItem(
                                 backgroundColor = MaterialTheme.colorScheme.surface,
                                 stackImage = stackImage,
                                 index = index,
                                 onStackImageChange = { image: StackImage ->
-                                    viewModel.updateStackImage(
+                                    component.updateStackImage(
                                         value = image,
                                         index = index,
                                         showError = {
@@ -293,9 +293,9 @@ fun ImageStackingContent(
                                         }
                                     )
                                 },
-                                isRemoveVisible = viewModel.stackImages.size > 2,
+                                isRemoveVisible = component.stackImages.size > 2,
                                 onRemove = {
-                                    viewModel.removeImageAt(index)
+                                    component.removeImageAt(index)
                                 }
                             )
                         }
@@ -316,14 +316,14 @@ fun ImageStackingContent(
                     }
                 }
                 QualitySelector(
-                    imageFormat = viewModel.imageInfo.imageFormat,
-                    enabled = viewModel.stackImages.isNotEmpty(),
-                    quality = viewModel.imageInfo.quality,
-                    onQualityChange = viewModel::setQuality
+                    imageFormat = component.imageInfo.imageFormat,
+                    enabled = component.stackImages.isNotEmpty(),
+                    quality = component.imageInfo.quality,
+                    onQualityChange = component::setQuality
                 )
                 ImageFormatSelector(
-                    value = viewModel.imageInfo.imageFormat,
-                    onValueChange = viewModel::setImageFormat
+                    value = component.imageInfo.imageFormat,
+                    onValueChange = component::setImageFormat
                 )
             }
         },
@@ -335,8 +335,8 @@ fun ImageStackingContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                isPrimaryButtonVisible = viewModel.stackImages.isNotEmpty(),
-                targetState = (viewModel.stackImages.isEmpty()) to isPortrait,
+                isPrimaryButtonVisible = component.stackImages.isNotEmpty(),
+                targetState = (component.stackImages.isEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -355,7 +355,7 @@ fun ImageStackingContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
             OneTimeImagePickingDialog(
@@ -366,19 +366,19 @@ fun ImageStackingContent(
             )
         },
         noDataControls = {
-            if (!viewModel.isImageLoading) {
+            if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
-        canShowScreenData = viewModel.stackImages.isNotEmpty(),
+        canShowScreenData = component.stackImages.isNotEmpty(),
         isPortrait = isPortrait
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.stackImages.size,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.stackImages.size,
+            onCancelLoading = component::cancelSaving
         )
     }
 

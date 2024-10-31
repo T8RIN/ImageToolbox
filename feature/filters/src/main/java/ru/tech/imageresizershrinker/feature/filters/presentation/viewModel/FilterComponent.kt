@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic
 
 
 import android.graphics.Bitmap
@@ -76,9 +76,9 @@ class FilterComponent @AssistedInject internal constructor(
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
-    addFiltersSheetViewModelFactory: AddFiltersSheetComponent.Factory,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent.Factory,
-    addMaskSheetViewModelFactory: AddMaskSheetComponent.Factory,
+    addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent.Factory,
+    addMaskSheetComponentFactory: AddMaskSheetComponent.Factory,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     init {
@@ -87,22 +87,22 @@ class FilterComponent @AssistedInject internal constructor(
         }
     }
 
-    val addFiltersSheetViewModel: AddFiltersSheetComponent = addFiltersSheetViewModelFactory(
+    val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
             key = "addFiltersFilters"
         )
     )
 
-    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent =
-        filterTemplateCreationSheetViewModel(
+    val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
+        filterTemplateCreationSheetComponent(
             componentContext = componentContext.childContext(
-                key = "filterTemplateCreationSheetViewModelFilters"
+                key = "filterTemplateCreationSheetComponentFilters"
             )
         )
 
-    val addMaskSheetViewModel: AddMaskSheetComponent = addMaskSheetViewModelFactory(
+    val addMaskSheetComponent: AddMaskSheetComponent = addMaskSheetComponentFactory(
         componentContext = componentContext.childContext(
-            key = "addMaskSheetViewModelFactoryFilters"
+            key = "addMaskSheetComponentFactoryFilters"
         )
     )
 
@@ -162,7 +162,7 @@ class FilterComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             val state = _basicFilterState.value
             if (state.selectedUri == removedUri) {
                 val index = state.uris?.indexOf(removedUri) ?: -1
@@ -205,7 +205,7 @@ class FilterComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -251,7 +251,7 @@ class FilterComponent @AssistedInject internal constructor(
     }
 
     fun updateSelectedUri(uri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _isImageLoading.update { true }
             val req = imageGetter.getImage(uri = uri.toString())
             val tempBitmap = req?.image
@@ -338,7 +338,7 @@ class FilterComponent @AssistedInject internal constructor(
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
 
     fun performSharing(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             when (filterType) {
@@ -410,7 +410,7 @@ class FilterComponent @AssistedInject internal constructor(
 
     private fun updatePreview() {
         _bitmap.value?.let { bitmap ->
-            filterJob = viewModelScope.launch(defaultDispatcher) {
+            filterJob = componentScope.launch(defaultDispatcher) {
                 delay(200L)
                 _isImageLoading.value = true
                 when (filterType) {
@@ -489,7 +489,7 @@ class FilterComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _done.value = 0
             _left.value = maskingFilterState.masks.size
@@ -582,7 +582,7 @@ class FilterComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             when (filterType) {
                 is Screen.Filter.Type.Basic -> {
@@ -639,7 +639,7 @@ class FilterComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val list = mutableListOf<Uri>()
             when (filterType) {

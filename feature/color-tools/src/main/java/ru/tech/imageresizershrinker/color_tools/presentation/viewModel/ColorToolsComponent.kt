@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.color_tools.presentation.viewModel
+package ru.tech.imageresizershrinker.color_tools.presentation.screenLogic
 
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted

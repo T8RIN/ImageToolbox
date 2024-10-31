@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.draw.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.draw.presentation.screenLogic
 
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
@@ -77,8 +77,8 @@ class DrawComponent @AssistedInject internal constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
-    addFiltersSheetViewModelFactory: AddFiltersSheetComponent.Factory,
-    filterTemplateCreationSheetViewModelFactory: FilterTemplateCreationSheetComponent.Factory
+    addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
+    filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     init {
@@ -92,17 +92,17 @@ class DrawComponent @AssistedInject internal constructor(
         }
     }
 
-    val addFiltersSheetViewModel: AddFiltersSheetComponent = addFiltersSheetViewModelFactory(
+    val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
             key = "addFilters",
 
             )
     )
 
-    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent =
-        filterTemplateCreationSheetViewModelFactory(
+    val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
+        filterTemplateCreationSheetComponentFactory(
             componentContext = componentContext.childContext(
-                key = "filterTemplateCreationSheetViewModelDraw"
+                key = "filterTemplateCreationSheetComponentDraw"
             )
         )
 
@@ -160,18 +160,18 @@ class DrawComponent @AssistedInject internal constructor(
     val helperGridParams: HelperGridParams by _helperGridParams
 
     init {
-        viewModelScope.launch {
+        componentScope.launch {
             val settingsState = settingsProvider.getSettingsState()
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
         }
-        viewModelScope.launch {
+        componentScope.launch {
             val params = fileController.restoreObject(
                 "drawOnBackgroundParams",
                 DrawOnBackgroundParams::class
             )
             _drawOnBackgroundParams.update { params }
         }
-        viewModelScope.launch {
+        componentScope.launch {
             val params = fileController.restoreObject(
                 "helperGridParams",
                 HelperGridParams::class
@@ -188,7 +188,7 @@ class DrawComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit,
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
                 onComplete(
@@ -240,7 +240,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     private fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false
@@ -251,7 +251,7 @@ class DrawComponent @AssistedInject internal constructor(
         uri: Uri,
         onError: (Throwable) -> Unit,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             _paths.value = listOf()
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
@@ -287,7 +287,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun openColorPicker() {
-        viewModelScope.launch {
+        componentScope.launch {
             _colorPickerBitmap.value = getDrawingBitmap()
         }
     }
@@ -327,7 +327,7 @@ class DrawComponent @AssistedInject internal constructor(
         }
         _backgroundColor.value = color
 
-        viewModelScope.launch {
+        componentScope.launch {
             val newValue = DrawOnBackgroundParams(
                 width = width,
                 height = height,
@@ -343,7 +343,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getDrawingBitmap()?.let {
                 shareProvider.shareImage(
@@ -419,7 +419,7 @@ class DrawComponent @AssistedInject internal constructor(
     )
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getDrawingBitmap()?.let { image ->
                 shareProvider.cacheImage(
@@ -456,7 +456,7 @@ class DrawComponent @AssistedInject internal constructor(
     fun updateHelperGridParams(params: HelperGridParams) {
         _helperGridParams.update { params }
 
-        smartSavingJob = viewModelScope.launch {
+        smartSavingJob = componentScope.launch {
             delay(200)
             fileController.saveObject(
                 key = "helperGridParams",

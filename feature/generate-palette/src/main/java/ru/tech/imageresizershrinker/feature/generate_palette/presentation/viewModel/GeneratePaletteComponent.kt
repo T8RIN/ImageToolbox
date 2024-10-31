@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.generate_palette.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.generate_palette.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -71,7 +71,7 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
             uri = uri.toString(),
             originalSize = false,
             onGetImage = {
-                viewModelScope.launch {
+                componentScope.launch {
                     _isImageLoading.value = true
                     _bitmap.value = imageScaler.scaleUntilCanShow(it.image)
                     _isImageLoading.value = false

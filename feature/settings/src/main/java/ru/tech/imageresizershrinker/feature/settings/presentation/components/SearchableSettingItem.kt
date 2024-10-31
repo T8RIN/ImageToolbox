@@ -43,7 +43,7 @@ import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsComponent
+import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
 @Composable
 internal fun SearchableSettingItem(
@@ -51,7 +51,7 @@ internal fun SearchableSettingItem(
     group: SettingsGroup,
     setting: Setting,
     shape: Shape,
-    viewModel: SettingsComponent,
+    component: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: () -> Unit
@@ -103,7 +103,7 @@ internal fun SearchableSettingItem(
         ProvideContainerDefaults(itemShape) {
             SettingItem(
                 setting = setting,
-                viewModel = viewModel,
+                component = component,
                 onTryGetUpdate = onTryGetUpdate,
                 isUpdateAvailable = isUpdateAvailable,
                 onNavigateToEasterEgg = onNavigateToEasterEgg,

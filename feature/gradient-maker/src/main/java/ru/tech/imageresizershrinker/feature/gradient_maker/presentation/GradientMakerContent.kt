@@ -103,13 +103,13 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.componen
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientTypeSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.TileModeSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.rememberGradientState
-import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewModel.GradientMakerComponent
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
 @Composable
 fun GradientMakerContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: GradientMakerComponent
+    component: GradientMakerComponent
 ) {
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
@@ -131,17 +131,17 @@ fun GradientMakerContent(
     }
     val toastHostState = LocalToastHostState.current
 
-    var allowPickingImage by rememberSaveable(viewModel.initialUris) {
+    var allowPickingImage by rememberSaveable(component.initialUris) {
         mutableStateOf(
-            if (viewModel.initialUris.isNullOrEmpty()) null
+            if (component.initialUris.isNullOrEmpty()) null
             else true
         )
     }
 
-    LaunchedEffect(viewModel.brush, viewModel.selectedUri) {
+    LaunchedEffect(component.brush, component.selectedUri) {
         if (allowChangeColor && allowPickingImage != null) {
-            viewModel.createGradientBitmap(
-                data = viewModel.selectedUri,
+            component.createGradientBitmap(
+                data = component.selectedUri,
                 integerSize = IntegerSize(1000, 1000)
             )?.let { bitmap ->
                 themeState.updateColorByImage(bitmap)
@@ -151,19 +151,19 @@ fun GradientMakerContent(
 
     LaunchedEffect(allowPickingImage) {
         if (allowPickingImage != true) {
-            viewModel.clearState()
+            component.clearState()
         }
     }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val colorScheme = MaterialTheme.colorScheme
-    LaunchedEffect(viewModel.colorStops) {
-        if (viewModel.colorStops.isEmpty()) {
+    LaunchedEffect(component.colorStops) {
+        if (component.colorStops.isEmpty()) {
             colorScheme.apply {
-                viewModel.addColorStop(0f to primary.blend(primaryContainer, 0.5f))
-                viewModel.addColorStop(0.5f to secondary.blend(secondaryContainer, 0.5f))
-                viewModel.addColorStop(1f to tertiary.blend(tertiaryContainer, 0.5f))
+                component.addColorStop(0f to primary.blend(primaryContainer, 0.5f))
+                component.addColorStop(0.5f to secondary.blend(secondaryContainer, 0.5f))
+                component.addColorStop(1f to tertiary.blend(tertiaryContainer, 0.5f))
             }
         }
     }
@@ -174,12 +174,12 @@ fun GradientMakerContent(
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.let {
             allowPickingImage = true
-            viewModel.setUris(it) {
+            component.setUris(it) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
             }
-            viewModel.updateGradientAlpha(0.5f)
+            component.updateGradientAlpha(0.5f)
         }
     }
 
@@ -193,7 +193,7 @@ fun GradientMakerContent(
     var showOriginal by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         isPortrait = isPortrait,
         canShowScreenData = allowPickingImage != null,
         title = {
@@ -207,11 +207,11 @@ fun GradientMakerContent(
             )
         },
         onGoBack = {
-            if (viewModel.haveChanges) showExitDialog = true
+            if (component.haveChanges) showExitDialog = true
             else onGoBack()
         },
         actions = {
-            if (viewModel.uris.isNotEmpty()) {
+            if (component.uris.isNotEmpty()) {
                 ShowOriginalButton(
                     canShow = true,
                     onStateChange = {
@@ -223,18 +223,18 @@ fun GradientMakerContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = viewModel.brush != null,
+                enabled = component.brush != null,
                 onShare = {
-                    viewModel.shareBitmaps(showConfetti)
+                    component.shareBitmaps(showConfetti)
                 },
                 onCopy = { manager ->
-                    viewModel.cacheCurrentImage { uri ->
+                    component.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
                     }
                 },
                 onEdit = {
-                    viewModel.cacheImages {
+                    component.cacheImages {
                         editSheetData = it
                     }
                 }
@@ -262,34 +262,34 @@ fun GradientMakerContent(
             }
             CompareButton(
                 onClick = { showCompareSheet = true },
-                visible = viewModel.brush != null && allowPickingImage == true && viewModel.selectedUri != Uri.EMPTY
+                visible = component.brush != null && allowPickingImage == true && component.selectedUri != Uri.EMPTY
             )
         },
         imagePreview = {
             Box(
                 modifier = Modifier
                     .detectSwipes(
-                        onSwipeRight = viewModel::selectLeftUri,
-                        onSwipeLeft = viewModel::selectRightUri
+                        onSwipeRight = component::selectLeftUri,
+                        onSwipeLeft = component::selectRightUri
                     )
                     .container()
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
                 GradientPreview(
-                    brush = viewModel.brush,
-                    gradientAlpha = if (showOriginal) 0f else viewModel.gradientAlpha,
+                    brush = component.brush,
+                    gradientAlpha = if (showOriginal) 0f else component.gradientAlpha,
                     allowPickingImage = allowPickingImage,
-                    gradientSize = viewModel.gradientSize,
-                    onSizeChanged = viewModel::setPreviewSize,
-                    selectedUri = viewModel.selectedUri,
-                    imageAspectRatio = viewModel.imageAspectRatio
+                    gradientSize = component.gradientSize,
+                    onSizeChanged = component::setPreviewSize,
+                    selectedUri = component.selectedUri,
+                    imageAspectRatio = component.imageAspectRatio
                 )
             }
         },
         controls = {
             ImageCounter(
-                imageCount = viewModel.uris.size.takeIf { it > 1 },
+                imageCount = component.uris.size.takeIf { it > 1 },
                 onRepick = {
                     showPickImageFromUrisSheet = true
                 }
@@ -299,55 +299,55 @@ fun GradientMakerContent(
             ) { canChangeSize ->
                 if (canChangeSize) {
                     GradientSizeSelector(
-                        value = viewModel.gradientSize,
-                        onWidthChange = viewModel::updateWidth,
-                        onHeightChange = viewModel::updateHeight
+                        value = component.gradientSize,
+                        onWidthChange = component::updateWidth,
+                        onHeightChange = component::updateHeight
                     )
                 } else {
                     AlphaSelector(
-                        value = viewModel.gradientAlpha,
-                        onValueChange = viewModel::updateGradientAlpha,
+                        value = component.gradientAlpha,
+                        onValueChange = component::updateGradientAlpha,
                         modifier = Modifier
                     )
                 }
             }
             Spacer(Modifier.height(8.dp))
             GradientTypeSelector(
-                value = viewModel.gradientType,
-                onValueChange = viewModel::setGradientType
+                value = component.gradientType,
+                onValueChange = component::setGradientType
             ) {
                 GradientPropertiesSelector(
-                    gradientType = viewModel.gradientType,
-                    linearAngle = viewModel.angle,
-                    onLinearAngleChange = viewModel::updateLinearAngle,
-                    centerFriction = viewModel.centerFriction,
-                    radiusFriction = viewModel.radiusFriction,
-                    onRadialDimensionsChange = viewModel::setRadialProperties
+                    gradientType = component.gradientType,
+                    linearAngle = component.angle,
+                    onLinearAngleChange = component::updateLinearAngle,
+                    centerFriction = component.centerFriction,
+                    radiusFriction = component.radiusFriction,
+                    onRadialDimensionsChange = component::setRadialProperties
                 )
             }
             Spacer(Modifier.height(8.dp))
             ColorStopSelection(
-                colorStops = viewModel.colorStops,
-                onRemoveClick = viewModel::removeColorStop,
-                onValueChange = viewModel::updateColorStop,
-                onAddColorStop = viewModel::addColorStop
+                colorStops = component.colorStops,
+                onRemoveClick = component::removeColorStop,
+                onValueChange = component::updateColorStop,
+                onAddColorStop = component::addColorStop
             )
             Spacer(Modifier.height(8.dp))
             TileModeSelector(
-                value = viewModel.tileMode,
-                onValueChange = viewModel::setTileMode
+                value = component.tileMode,
+                onValueChange = component::setTileMode
             )
             Spacer(Modifier.height(8.dp))
             SaveExifWidget(
-                checked = viewModel.keepExif,
-                imageFormat = viewModel.imageFormat,
-                onCheckedChange = viewModel::toggleKeepExif
+                checked = component.keepExif,
+                imageFormat = component.imageFormat,
+                onCheckedChange = component::toggleKeepExif
             )
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
-                value = viewModel.imageFormat,
+                value = component.imageFormat,
                 forceEnabled = allowPickingImage == false,
-                onValueChange = viewModel::setImageFormat,
+                onValueChange = component::setImageFormat,
                 backgroundColor = MaterialTheme.colorScheme.surfaceContainer
             )
         },
@@ -401,8 +401,8 @@ fun GradientMakerContent(
         },
         buttons = { actions ->
             val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-                if (viewModel.brush != null) {
-                    viewModel.saveBitmaps(
+                if (component.brush != null) {
+                    component.saveBitmaps(
                         oneTimeSaveLocationUri = it,
                         onStandaloneGradientSaveResult = { saveResult ->
                             context.parseSaveResult(
@@ -434,7 +434,7 @@ fun GradientMakerContent(
                 targetState = (allowPickingImage == null) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 isSecondaryButtonVisible = allowPickingImage == true,
-                isPrimaryButtonVisible = viewModel.brush != null,
+                isPrimaryButtonVisible = component.brush != null,
                 showNullDataButtonAsContainer = true,
                 onPrimaryButtonClick = {
                     saveBitmap(null)
@@ -453,7 +453,7 @@ fun GradientMakerContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmap,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
             OneTimeImagePickingDialog(
@@ -471,10 +471,10 @@ fun GradientMakerContent(
     )
 
     PickImageFromUrisSheet(
-        transformations = remember(viewModel.brush) {
+        transformations = remember(component.brush) {
             derivedStateOf {
                 listOf(
-                    viewModel.getGradientTransformation()
+                    component.getGradientTransformation()
                 )
             }
         }.value,
@@ -482,17 +482,17 @@ fun GradientMakerContent(
         onDismiss = {
             showPickImageFromUrisSheet = false
         },
-        uris = viewModel.uris,
-        selectedUri = viewModel.selectedUri,
+        uris = component.uris,
+        selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            viewModel.updateSelectedUri(uri = uri) {
+            component.updateSelectedUri(uri = uri) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
             }
         },
         onUriRemoved = { uri ->
-            viewModel.updateUrisSilently(removedUri = uri)
+            component.updateUrisSilently(removedUri = uri)
         },
         columns = if (isPortrait) 2 else 4,
     )
@@ -500,36 +500,36 @@ fun GradientMakerContent(
     CompareSheet(
         beforeContent = {
             Picture(
-                model = viewModel.selectedUri,
+                model = component.selectedUri,
                 modifier = Modifier.aspectRatio(
-                    viewModel.imageAspectRatio
+                    component.imageAspectRatio
                 ),
                 shape = MaterialTheme.shapes.medium
             )
         },
         afterContent = {
             val gradientState = rememberGradientState()
-            LaunchedEffect(viewModel.brush) {
-                gradientState.gradientType = viewModel.gradientType
-                gradientState.linearGradientAngle = viewModel.angle
-                gradientState.centerFriction = viewModel.centerFriction
-                gradientState.radiusFriction = viewModel.radiusFriction
+            LaunchedEffect(component.brush) {
+                gradientState.gradientType = component.gradientType
+                gradientState.linearGradientAngle = component.angle
+                gradientState.centerFriction = component.centerFriction
+                gradientState.radiusFriction = component.radiusFriction
                 gradientState.colorStops.apply {
                     clear()
-                    addAll(viewModel.colorStops)
+                    addAll(component.colorStops)
                 }
-                gradientState.tileMode = viewModel.tileMode
+                gradientState.tileMode = component.tileMode
             }
             GradientPreview(
                 brush = gradientState.brush,
-                gradientAlpha = viewModel.gradientAlpha,
+                gradientAlpha = component.gradientAlpha,
                 allowPickingImage = allowPickingImage,
-                gradientSize = viewModel.gradientSize,
+                gradientSize = component.gradientSize,
                 onSizeChanged = {
                     gradientState.size = it
                 },
-                selectedUri = viewModel.selectedUri,
-                imageAspectRatio = viewModel.imageAspectRatio
+                selectedUri = component.selectedUri,
+                imageAspectRatio = component.imageAspectRatio
             )
         },
         visible = showCompareSheet,
@@ -539,17 +539,17 @@ fun GradientMakerContent(
         shape = MaterialTheme.shapes.medium
     )
 
-    if (viewModel.isSaving || viewModel.isImageLoading) {
-        if (viewModel.left != -1) {
+    if (component.isSaving || component.isImageLoading) {
+        if (component.left != -1) {
             LoadingDialog(
-                done = viewModel.done,
-                left = viewModel.left,
-                onCancelLoading = viewModel::cancelSaving
+                done = component.done,
+                left = component.left,
+                onCancelLoading = component::cancelSaving
             )
         } else {
             LoadingDialog(
-                canCancel = viewModel.isSaving,
-                onCancelLoading = viewModel::cancelSaving
+                canCancel = component.isSaving,
+                onCancelLoading = component::cancelSaving
             )
         }
     }
@@ -559,7 +559,7 @@ fun GradientMakerContent(
             if (allowPickingImage != null) {
                 allowPickingImage = null
                 themeState.updateColorTuple(appColorTuple)
-                viewModel.clearState()
+                component.clearState()
             } else onGoBack()
         },
         onDismiss = { showExitDialog = false },

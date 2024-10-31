@@ -166,7 +166,7 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskFilterPreference
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterComponent
+import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FilterComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -174,7 +174,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun FiltersContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: FilterComponent
+    component: FilterComponent
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -197,8 +197,8 @@ fun FiltersContent(
         }
     }
 
-    LaunchedEffect(viewModel.previewBitmap) {
-        viewModel.previewBitmap?.let {
+    LaunchedEffect(component.previewBitmap) {
+        component.previewBitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -209,13 +209,13 @@ fun FiltersContent(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let(viewModel::setBasicFilter)
+            list.takeIf { it.isNotEmpty() }?.let(component::setBasicFilter)
         }
 
     val pickSingleImageLauncher = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.firstOrNull()?.let(viewModel::setMaskFilter)
+        list.takeIf { it.isNotEmpty() }?.firstOrNull()?.let(component::setMaskFilter)
     }
 
     var showAddMaskSheet by rememberSaveable { mutableStateOf(false) }
@@ -224,9 +224,9 @@ fun FiltersContent(
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
-        else if (viewModel.filterType != null) {
-            viewModel.clearType()
+        if (component.haveChanges) showExitDialog = true
+        else if (component.filterType != null) {
+            component.clearType()
         } else onGoBack()
     }
 
@@ -257,23 +257,23 @@ fun FiltersContent(
     var showReorderSheet by rememberSaveable { mutableStateOf(false) }
     val actions: @Composable RowScope.() -> Unit = {
         Spacer(modifier = Modifier.width(8.dp))
-        if (viewModel.bitmap != null) {
+        if (component.bitmap != null) {
             var editSheetData by remember {
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = viewModel.canSave,
+                enabled = component.canSave,
                 onShare = {
-                    viewModel.performSharing(showConfetti)
+                    component.performSharing(showConfetti)
                 },
                 onCopy = { manager ->
-                    viewModel.cacheCurrentImage { uri ->
+                    component.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
                     }
                 },
                 onEdit = {
-                    viewModel.cacheImages {
+                    component.cacheImages {
                         editSheetData = it
                     }
                 }
@@ -295,7 +295,7 @@ fun FiltersContent(
                 }
             )
             ShowOriginalButton(
-                canShow = viewModel.canShow(),
+                canShow = component.canShow(),
                 onStateChange = {
                     showOriginal = it
                 }
@@ -303,9 +303,9 @@ fun FiltersContent(
         }
         CompareButton(
             onClick = { showCompareSheet = true },
-            visible = viewModel.previewBitmap != null
+            visible = component.previewBitmap != null
         )
-        if (viewModel.bitmap != null && (viewModel.basicFilterState.filters.size >= 2 || viewModel.maskingFilterState.masks.size >= 2)) {
+        if (component.bitmap != null && (component.basicFilterState.filters.size >= 2 || component.maskingFilterState.masks.size >= 2)) {
             EnhancedIconButton(
                 containerColor = Color.Transparent,
                 contentColor = LocalContentColor.current,
@@ -324,14 +324,14 @@ fun FiltersContent(
         ImageContainer(
             modifier = Modifier
                 .detectSwipes(
-                    onSwipeRight = viewModel::selectLeftUri,
-                    onSwipeLeft = viewModel::selectRightUri
+                    onSwipeRight = component::selectLeftUri,
+                    onSwipeLeft = component::selectRightUri
                 ),
             imageInside = isPortrait,
             showOriginal = showOriginal,
-            previewBitmap = viewModel.previewBitmap,
-            originalBitmap = viewModel.bitmap,
-            isLoading = viewModel.isImageLoading,
+            previewBitmap = component.previewBitmap,
+            originalBitmap = component.bitmap,
+            isLoading = component.isImageLoading,
             shouldShowPreview = true,
             animatePreviewChange = false
         )
@@ -342,7 +342,7 @@ fun FiltersContent(
         val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
             when (filterType) {
                 is Screen.Filter.Type.Basic -> {
-                    viewModel.saveBitmaps(it) { results ->
+                    component.saveBitmaps(it) { results ->
                         context.parseSaveResults(
                             scope = scope,
                             results = results,
@@ -354,7 +354,7 @@ fun FiltersContent(
                 }
 
                 is Screen.Filter.Type.Masking -> {
-                    viewModel.saveMaskedBitmap(it) { saveResult ->
+                    component.saveMaskedBitmap(it) { saveResult ->
                         context.parseSaveResult(
                             saveResult = saveResult,
                             onSuccess = showConfetti,
@@ -372,7 +372,7 @@ fun FiltersContent(
             mutableStateOf(false)
         }
         BottomButtonsBlock(
-            targetState = (viewModel.basicFilterState.uris.isNullOrEmpty() && viewModel.maskingFilterState.uri == null) to isPortrait,
+            targetState = (component.basicFilterState.uris.isNullOrEmpty() && component.maskingFilterState.uri == null) to isPortrait,
             onSecondaryButtonClick = {
                 when (filterType) {
                     is Screen.Filter.Type.Basic -> imagePicker.pickImage()
@@ -385,7 +385,7 @@ fun FiltersContent(
             onPrimaryButtonLongClick = {
                 showFolderSelectionDialog = true
             },
-            isPrimaryButtonVisible = viewModel.canSave,
+            isPrimaryButtonVisible = component.canSave,
             columnarFab = {
                 EnhancedFloatingActionButton(
                     onClick = {
@@ -425,7 +425,7 @@ fun FiltersContent(
             OneTimeSaveLocationSelectionDialog(
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = saveBitmaps,
-                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
             )
         }
         OneTimeImagePickingDialog(
@@ -450,8 +450,8 @@ fun FiltersContent(
                         .asPaddingValues()
                         .calculateBottomPadding() + WindowInsets.ime
                         .asPaddingValues()
-                        .calculateBottomPadding() + (if (!isPortrait && viewModel.bitmap != null) 20.dp else 100.dp),
-                    top = if (viewModel.bitmap == null || !isPortrait) 20.dp else 0.dp,
+                        .calculateBottomPadding() + (if (!isPortrait && component.bitmap != null) 20.dp else 100.dp),
+                    top = if (component.bitmap == null || !isPortrait) 20.dp else 0.dp,
                     start = 20.dp,
                     end = 20.dp
                 ),
@@ -460,7 +460,7 @@ fun FiltersContent(
                     .clipToBounds()
             ) {
                 imageStickyHeader(
-                    visible = isPortrait && viewModel.bitmap != null,
+                    visible = isPortrait && component.bitmap != null,
                     internalHeight = internalHeight,
                     imageState = imageState,
                     onStateChange = { imageState = it },
@@ -470,7 +470,7 @@ fun FiltersContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .navBarsLandscapePadding(viewModel.bitmap == null),
+                            .navBarsLandscapePadding(component.bitmap == null),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -485,10 +485,10 @@ fun FiltersContent(
                 title = stringResource(R.string.histogram),
                 subtitle = stringResource(R.string.histogram_sub),
                 endIcon = {
-                    AnimatedContent(viewModel.previewBitmap != null) {
+                    AnimatedContent(component.previewBitmap != null) {
                         if (it) {
                             ImageHistogram(
-                                image = viewModel.previewBitmap,
+                                image = component.previewBitmap,
                                 modifier = Modifier
                                     .width(100.dp)
                                     .height(65.dp),
@@ -510,11 +510,11 @@ fun FiltersContent(
         when (filterType) {
             is Screen.Filter.Type.Basic -> {
                 baseControls {
-                    val filterList = viewModel.basicFilterState.filters
-                    if (isPortrait && viewModel.bitmap == null) imageBlock()
-                    if (viewModel.bitmap != null) {
+                    val filterList = component.basicFilterState.filters
+                    if (isPortrait && component.bitmap == null) imageBlock()
+                    if (component.bitmap != null) {
                         ImageCounter(
-                            imageCount = viewModel.basicFilterState.uris?.size?.takeIf { it > 1 },
+                            imageCount = component.basicFilterState.uris?.size?.takeIf { it > 1 },
                             onRepick = {
                                 showPickImageFromUrisSheet = true
                             }
@@ -541,7 +541,7 @@ fun FiltersContent(
                                                 backgroundColor = MaterialTheme.colorScheme.surface,
                                                 filter = filter,
                                                 onFilterChange = {
-                                                    viewModel.updateFilter(
+                                                    component.updateFilter(
                                                         value = it,
                                                         index = index,
                                                         showError = {
@@ -559,7 +559,7 @@ fun FiltersContent(
                                                 },
                                                 showDragHandle = false,
                                                 onRemove = {
-                                                    viewModel.removeFilterAtIndex(index)
+                                                    component.removeFilterAtIndex(index)
                                                 }
                                             )
                                         }
@@ -587,24 +587,24 @@ fun FiltersContent(
                         Spacer(Modifier.size(8.dp))
                         if (filterList.isEmpty()) histogramItem()
                         SaveExifWidget(
-                            imageFormat = viewModel.imageInfo.imageFormat,
-                            checked = viewModel.keepExif,
-                            onCheckedChange = viewModel::setKeepExif
+                            imageFormat = component.imageInfo.imageFormat,
+                            checked = component.keepExif,
+                            onCheckedChange = component::setKeepExif
                         )
-                        if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
+                        if (component.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                             Modifier.size(8.dp)
                         )
                         QualitySelector(
-                            imageFormat = viewModel.imageInfo.imageFormat,
-                            enabled = viewModel.bitmap != null,
-                            quality = viewModel.imageInfo.quality,
-                            onQualityChange = viewModel::setQuality
+                            imageFormat = component.imageInfo.imageFormat,
+                            enabled = component.bitmap != null,
+                            quality = component.imageInfo.quality,
+                            onQualityChange = component::setQuality
                         )
                         Spacer(Modifier.size(8.dp))
                         ImageFormatSelector(
-                            value = viewModel.imageInfo.imageFormat,
+                            value = component.imageInfo.imageFormat,
                             onValueChange = {
-                                viewModel.setImageFormat(it)
+                                component.setImageFormat(it)
                             }
                         )
                     }
@@ -614,9 +614,9 @@ fun FiltersContent(
 
             is Screen.Filter.Type.Masking -> {
                 baseControls {
-                    val maskList = viewModel.maskingFilterState.masks
-                    if (isPortrait && viewModel.bitmap == null) imageBlock()
-                    if (viewModel.bitmap != null) {
+                    val maskList = component.maskingFilterState.masks
+                    if (isPortrait && component.bitmap == null) imageBlock()
+                    if (component.bitmap != null) {
                         if (maskList.isNotEmpty()) histogramItem()
                         AnimatedContent(
                             targetState = maskList.isNotEmpty(),
@@ -637,7 +637,7 @@ fun FiltersContent(
                                         maskList.forEachIndexed { index, mask ->
                                             MaskItem(
                                                 backgroundColor = MaterialTheme.colorScheme.surface,
-                                                imageUri = viewModel.maskingFilterState.uri,
+                                                imageUri = component.maskingFilterState.uri,
                                                 previousMasks = maskList.take(index),
                                                 mask = mask,
                                                 titleText = stringResource(
@@ -645,7 +645,7 @@ fun FiltersContent(
                                                     index + 1
                                                 ),
                                                 onMaskChange = {
-                                                    viewModel.updateMask(
+                                                    component.updateMask(
                                                         value = it,
                                                         index = index,
                                                         showError = {
@@ -663,9 +663,9 @@ fun FiltersContent(
                                                 },
                                                 showDragHandle = false,
                                                 onRemove = {
-                                                    viewModel.removeMaskAtIndex(index)
+                                                    component.removeMaskAtIndex(index)
                                                 },
-                                                addMaskSheetViewModel = viewModel.addMaskSheetViewModel
+                                                addMaskSheetComponent = component.addMaskSheetComponent
                                             )
                                         }
                                         EnhancedButton(
@@ -710,24 +710,24 @@ fun FiltersContent(
                         Spacer(Modifier.size(8.dp))
                         if (maskList.isEmpty()) histogramItem()
                         SaveExifWidget(
-                            imageFormat = viewModel.imageInfo.imageFormat,
-                            checked = viewModel.keepExif,
-                            onCheckedChange = viewModel::setKeepExif
+                            imageFormat = component.imageInfo.imageFormat,
+                            checked = component.keepExif,
+                            onCheckedChange = component::setKeepExif
                         )
-                        if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
+                        if (component.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                             Modifier.size(8.dp)
                         )
                         QualitySelector(
-                            imageFormat = viewModel.imageInfo.imageFormat,
-                            enabled = viewModel.bitmap != null,
-                            quality = viewModel.imageInfo.quality,
-                            onQualityChange = viewModel::setQuality
+                            imageFormat = component.imageInfo.imageFormat,
+                            enabled = component.bitmap != null,
+                            quality = component.imageInfo.quality,
+                            onQualityChange = component::setQuality
                         )
                         Spacer(Modifier.size(8.dp))
                         ImageFormatSelector(
-                            value = viewModel.imageInfo.imageFormat,
+                            value = component.imageInfo.imageFormat,
                             onValueChange = {
-                                viewModel.setImageFormat(it)
+                                component.setImageFormat(it)
                             }
                         )
                     }
@@ -767,12 +767,12 @@ fun FiltersContent(
                 controls(filterType)
             }
 
-            if (!isPortrait && viewModel.bitmap != null) {
+            if (!isPortrait && component.bitmap != null) {
                 buttons(filterType)
             }
         }
 
-        if (isPortrait || viewModel.bitmap == null) {
+        if (isPortrait || component.bitmap == null) {
             Box(
                 modifier = Modifier.align(settingsState.fabAlignment)
             ) {
@@ -792,13 +792,13 @@ fun FiltersContent(
         onDismiss = {
             showColorPicker = false
         },
-        bitmap = viewModel.previewBitmap,
+        bitmap = component.previewBitmap,
         onColorChange = { tempColor = it },
         color = tempColor
     )
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
+        data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -806,7 +806,7 @@ fun FiltersContent(
     )
 
     CompareSheet(
-        data = viewModel.bitmap to viewModel.previewBitmap,
+        data = component.bitmap to component.previewBitmap,
         visible = showCompareSheet,
         onDismiss = {
             showCompareSheet = false
@@ -829,14 +829,14 @@ fun FiltersContent(
         uris.takeIf { it.isNotEmpty() }?.let {
             tempSelectionUris = it
             if (uris.size > 1) {
-                viewModel.setBasicFilter(tempSelectionUris)
+                component.setBasicFilter(tempSelectionUris)
             } else showSelectionFilterPicker = true
         }
     }
 
     AutoFilePicker(
         onAutoPick = selectionFilterPicker::pickImage,
-        isPickedAlready = viewModel.initialType != null
+        isPickedAlready = component.initialType != null
     )
 
     Surface(
@@ -862,7 +862,7 @@ fun FiltersContent(
                     scrollBehavior = scrollBehavior,
                     title = {
                         AnimatedContent(
-                            targetState = viewModel.filterType?.let {
+                            targetState = component.filterType?.let {
                                 stringResource(it.title)
                             }
                         ) { title ->
@@ -898,9 +898,9 @@ fun FiltersContent(
                             } else {
                                 TopAppBarTitle(
                                     title = title,
-                                    input = viewModel.bitmap,
-                                    isLoading = viewModel.isImageLoading,
-                                    size = viewModel.imageInfo.sizeInBytes.toLong()
+                                    input = component.bitmap,
+                                    isLoading = component.isImageLoading,
+                                    size = component.imageInfo.sizeInBytes.toLong()
                                 )
                             }
                         }
@@ -919,7 +919,7 @@ fun FiltersContent(
                         }
                     },
                     actions = {
-                        if (viewModel.previewBitmap != null) {
+                        if (component.previewBitmap != null) {
                             EnhancedIconButton(
                                 containerColor = Color.Transparent,
                                 contentColor = LocalContentColor.current,
@@ -927,7 +927,7 @@ fun FiltersContent(
                                 onClick = {
                                     showColorPicker = true
                                 },
-                                enabled = viewModel.previewBitmap != null
+                                enabled = component.previewBitmap != null
                             ) {
                                 Icon(
                                     imageVector = Icons.Outlined.Colorize,
@@ -936,15 +936,15 @@ fun FiltersContent(
                             }
                             ZoomButton(
                                 onClick = { showZoomSheet = true },
-                                visible = viewModel.bitmap != null,
+                                visible = component.bitmap != null,
                             )
                         }
-                        if (viewModel.bitmap == null) {
+                        if (component.bitmap == null) {
                             TopAppBarEmoji()
                         }
-                        if (viewModel.bitmap != null && !isPortrait) actions()
-                        if (viewModel.bitmap != null && isPortrait) {
-                            when (viewModel.filterType) {
+                        if (component.bitmap != null && !isPortrait) actions()
+                        if (component.bitmap != null && isPortrait) {
+                            when (component.filterType) {
                                 is Screen.Filter.Type.Basic -> {
                                     EnhancedIconButton(
                                         containerColor = MaterialTheme.colorScheme.mixedContainer,
@@ -984,7 +984,7 @@ fun FiltersContent(
                             screenWidthDp = screenWidth
                         )
                     },
-                    targetState = viewModel.filterType
+                    targetState = component.filterType
                 ) { filterType ->
                     when (filterType) {
                         null -> {
@@ -1091,7 +1091,7 @@ fun FiltersContent(
                                         item {
                                             BasicFilterPreference(
                                                 onClick = {
-                                                    viewModel.setBasicFilter(tempSelectionUris)
+                                                    component.setBasicFilter(tempSelectionUris)
                                                     showSelectionFilterPicker = false
                                                 },
                                                 modifier = Modifier.fillMaxWidth()
@@ -1100,7 +1100,7 @@ fun FiltersContent(
                                         item {
                                             MaskFilterPreference(
                                                 onClick = {
-                                                    viewModel.setMaskFilter(tempSelectionUris?.firstOrNull())
+                                                    component.setMaskFilter(tempSelectionUris?.firstOrNull())
                                                     showSelectionFilterPicker = false
                                                 },
                                                 modifier = Modifier.fillMaxWidth()
@@ -1120,16 +1120,16 @@ fun FiltersContent(
                         else -> {
                             Box(Modifier.fillMaxSize()) {
                                 if (filterType is Screen.Filter.Type.Basic) {
-                                    val filterList = viewModel.basicFilterState.filters
+                                    val filterList = component.basicFilterState.filters
 
                                     content(filterType)
 
                                     PickImageFromUrisSheet(
                                         transformations = listOf(
-                                            viewModel.imageInfoTransformationFactory(
-                                                imageInfo = viewModel.imageInfo,
+                                            component.imageInfoTransformationFactory(
+                                                imageInfo = component.imageInfo,
                                                 transformations = filterList.map {
-                                                    viewModel.filterProvider.filterToTransformation(
+                                                    component.filterProvider.filterToTransformation(
                                                         it
                                                     )
                                                 }
@@ -1139,11 +1139,11 @@ fun FiltersContent(
                                         onDismiss = {
                                             showPickImageFromUrisSheet = false
                                         },
-                                        uris = viewModel.basicFilterState.uris,
-                                        selectedUri = viewModel.basicFilterState.selectedUri,
+                                        uris = component.basicFilterState.uris,
+                                        selectedUri = component.basicFilterState.selectedUri,
                                         onUriPicked = { uri ->
                                             try {
-                                                viewModel.updateSelectedUri(uri = uri)
+                                                component.updateSelectedUri(uri = uri)
                                             } catch (e: Exception) {
                                                 scope.launch {
                                                     toastHostState.showError(context, e)
@@ -1151,7 +1151,7 @@ fun FiltersContent(
                                             }
                                         },
                                         onUriRemoved = { uri ->
-                                            viewModel.updateUrisSilently(removedUri = uri)
+                                            component.updateUrisSilently(removedUri = uri)
                                         },
                                         columns = if (isPortrait) 2 else 4,
                                     )
@@ -1159,7 +1159,7 @@ fun FiltersContent(
 
                                     content(filterType)
 
-                                    if (isPortrait || viewModel.bitmap == null) {
+                                    if (isPortrait || component.bitmap == null) {
                                         Box(
                                             modifier = Modifier.align(settingsState.fabAlignment)
                                         ) {
@@ -1173,59 +1173,59 @@ fun FiltersContent(
                 }
             }
 
-            if (viewModel.filterType is Screen.Filter.Type.Basic) {
+            if (component.filterType is Screen.Filter.Type.Basic) {
                 AddFiltersSheet(
                     visible = showAddFilterSheet,
                     onVisibleChange = { showAddFilterSheet = it },
-                    previewBitmap = viewModel.previewBitmap,
-                    onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-                    onFilterPickedWithParams = { viewModel.addFilter(it) },
-                    viewModel = viewModel.addFiltersSheetViewModel,
-                    filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel
+                    previewBitmap = component.previewBitmap,
+                    onFilterPicked = { component.addFilter(it.newInstance()) },
+                    onFilterPickedWithParams = { component.addFilter(it) },
+                    component = component.addFiltersSheetComponent,
+                    filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent
                 )
 
                 FilterReorderSheet(
-                    filterList = viewModel.basicFilterState.filters,
+                    filterList = component.basicFilterState.filters,
                     visible = showReorderSheet,
                     onDismiss = {
                         showReorderSheet = false
                     },
-                    onReorder = viewModel::updateFiltersOrder
+                    onReorder = component::updateFiltersOrder
                 )
-            } else if (viewModel.filterType is Screen.Filter.Type.Masking) {
+            } else if (component.filterType is Screen.Filter.Type.Masking) {
                 AddEditMaskSheet(
                     visible = showAddMaskSheet,
-                    targetBitmapUri = viewModel.maskingFilterState.uri,
-                    onMaskPicked = viewModel::addMask,
+                    targetBitmapUri = component.maskingFilterState.uri,
+                    onMaskPicked = component::addMask,
                     onDismiss = {
                         showAddMaskSheet = false
                     },
-                    masks = viewModel.maskingFilterState.masks,
-                    viewModel = viewModel.addMaskSheetViewModel
+                    masks = component.maskingFilterState.masks,
+                    component = component.addMaskSheetComponent
                 )
 
                 MaskReorderSheet(
-                    maskList = viewModel.maskingFilterState.masks,
+                    maskList = component.maskingFilterState.masks,
                     visible = showReorderSheet,
                     onDismiss = {
                         showReorderSheet = false
                     },
-                    onReorder = viewModel::updateMasksOrder
+                    onReorder = component::updateMasksOrder
                 )
             }
 
-            if (viewModel.isSaving) {
+            if (component.isSaving) {
                 LoadingDialog(
-                    done = viewModel.done,
-                    left = viewModel.left,
-                    onCancelLoading = viewModel::cancelSaving
+                    done = component.done,
+                    left = component.left,
+                    onCancelLoading = component::cancelSaving
                 )
             }
 
             ExitWithoutSavingDialog(
                 onExit = {
-                    if (viewModel.filterType != null) {
-                        viewModel.clearType()
+                    if (component.filterType != null) {
+                        component.clearType()
                     } else onGoBack()
                 },
                 onDismiss = { showExitDialog = false },
@@ -1233,7 +1233,7 @@ fun FiltersContent(
             )
 
             BackHandler(
-                enabled = viewModel.haveChanges || viewModel.filterType != null,
+                enabled = component.haveChanges || component.filterType != null,
                 onBack = onBack
             )
         }

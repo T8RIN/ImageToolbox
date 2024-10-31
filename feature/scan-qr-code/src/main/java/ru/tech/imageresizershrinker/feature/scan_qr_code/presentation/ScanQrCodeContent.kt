@@ -106,14 +106,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeComponent
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
 fun ScanQrCodeContent(
     onGoBack: () -> Unit,
-    viewModel: ScanQrCodeComponent
+    component: ScanQrCodeComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -122,8 +122,8 @@ fun ScanQrCodeContent(
 
     val scope = rememberCoroutineScope()
 
-    var qrContent by rememberSaveable(viewModel.initialQrCodeContent) {
-        mutableStateOf(viewModel.initialQrCodeContent ?: "")
+    var qrContent by rememberSaveable(component.initialQrCodeContent) {
+        mutableStateOf(component.initialQrCodeContent ?: "")
     }
 
     val scanner = rememberQrCodeScanner {
@@ -131,7 +131,7 @@ fun ScanQrCodeContent(
     }
 
     LaunchedEffect(qrContent) {
-        viewModel.addTemplateFilterFromString(
+        component.addTemplateFilterFromString(
             string = qrContent,
             onSuccess = { filterName, filtersCount ->
                 toastHostState.showToast(
@@ -171,7 +171,7 @@ fun ScanQrCodeContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?, bitmap: Bitmap) -> Unit =
         { oneTimeSaveLocationUri, bitmap ->
-            viewModel.saveBitmap(bitmap, oneTimeSaveLocationUri) { saveResult ->
+            component.saveBitmap(bitmap, oneTimeSaveLocationUri) { saveResult ->
                 context.parseSaveResult(
                     saveResult = saveResult,
                     onSuccess = {
@@ -289,13 +289,13 @@ fun ScanQrCodeContent(
                 onShare = {
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        viewModel.shareImage(bitmap, showConfetti)
+                        component.shareImage(bitmap, showConfetti)
                     }
                 },
                 onCopy = { manager ->
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        viewModel.cacheImage(bitmap) { uri ->
+                        component.cacheImage(bitmap) { uri ->
                             manager.setClip(uri.asClip(context))
                             showConfetti()
                         }
@@ -499,7 +499,7 @@ fun ScanQrCodeContent(
                             saveBitmap(it, bitmap)
                         }
                     },
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
         },
@@ -507,9 +507,9 @@ fun ScanQrCodeContent(
         isPortrait = !isLandscape
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            onCancelLoading = viewModel::cancelSaving
+            onCancelLoading = component::cancelSaving
         )
     }
 }

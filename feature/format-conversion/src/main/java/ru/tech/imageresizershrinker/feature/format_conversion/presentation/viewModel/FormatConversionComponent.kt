@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.format_conversion.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.format_conversion.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -135,7 +135,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
         removedUri: Uri,
         onError: (Throwable) -> Unit
     ) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -194,7 +194,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     }
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job = viewModelScope.launch {
+        job = componentScope.launch {
             _isImageLoading.update { true }
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
@@ -249,7 +249,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -299,7 +299,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
         onError: (Throwable) -> Unit = {}
     ) {
         _selectedUri.value = uri
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             runCatching {
                 _isImageLoading.update { true }
                 val bitmap = imageGetter.getImage(
@@ -329,7 +329,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
@@ -366,7 +366,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             imageGetter.getImage(selectedUri.toString())?.image?.let { bmp ->
                 bmp to imageInfo.copy(
@@ -393,7 +393,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             val list = mutableListOf<Uri>()

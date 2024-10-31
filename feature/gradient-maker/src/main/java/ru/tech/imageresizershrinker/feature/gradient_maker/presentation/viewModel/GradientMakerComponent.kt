@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -156,7 +156,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
         onStandaloneGradientSaveResult: (SaveResult) -> Unit,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _left.value = -1
             _isSaving.value = true
             if (uris.isEmpty()) {
@@ -228,7 +228,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _left.value = -1
             _isSaving.value = true
             if (uris.isEmpty()) {
@@ -355,7 +355,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     fun updateSelectedUri(
         uri: Uri,
         onError: (Throwable) -> Unit = {}
-    ) = viewModelScope.launch {
+    ) = componentScope.launch {
         _selectedUri.value = uri
         _isImageLoading.value = true
         imageGetter.getImageAsync(
@@ -390,7 +390,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     fun updateUrisSilently(
         removedUri: Uri
-    ) = viewModelScope.launch(defaultDispatcher) {
+    ) = componentScope.launch(defaultDispatcher) {
         if (selectedUri == removedUri) {
             val index = uris.indexOf(removedUri)
             if (index == 0) {
@@ -430,7 +430,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             createGradientBitmap(
                 data = selectedUri,
@@ -454,7 +454,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             val list = mutableListOf<Uri>()
 
             _left.value = -1

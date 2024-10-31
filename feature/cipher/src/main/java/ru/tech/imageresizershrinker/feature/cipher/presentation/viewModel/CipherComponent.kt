@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -78,7 +78,7 @@ class CipherComponent @AssistedInject internal constructor(
         onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             if (_uri.value == null) {
                 onComplete(null)
@@ -115,7 +115,7 @@ class CipherComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             byteArray?.let { byteArray ->
                 fileController.writeBytes(
@@ -134,7 +134,7 @@ class CipherComponent @AssistedInject internal constructor(
         filename: String,
         onComplete: () -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             shareProvider.shareByteArray(
                 byteArray = it,

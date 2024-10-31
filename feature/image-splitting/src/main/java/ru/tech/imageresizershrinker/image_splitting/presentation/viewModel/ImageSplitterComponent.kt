@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.image_splitting.presentation.viewModel
+package ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -109,7 +109,7 @@ class ImageSplitterComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -141,7 +141,7 @@ class ImageSplitterComponent @AssistedInject internal constructor(
 
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             shareProvider.shareUris(
                 uris = uris.map { it.toString() }
@@ -160,7 +160,7 @@ class ImageSplitterComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             onComplete(uris)

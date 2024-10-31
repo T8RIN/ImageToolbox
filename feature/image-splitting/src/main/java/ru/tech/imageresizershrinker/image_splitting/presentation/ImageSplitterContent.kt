@@ -73,13 +73,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.image_splitting.presentation.components.SplitParamsSelector
-import ru.tech.imageresizershrinker.image_splitting.presentation.viewModel.ImageSplitterComponent
+import ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic.ImageSplitterComponent
 
 @Composable
 fun ImageSplitterContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageSplitterComponent
+    component: ImageSplitterComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -98,7 +98,7 @@ fun ImageSplitterContent(
         mode = localImagePickerMode(Picker.Single)
     ) { list ->
         list.firstOrNull()?.let { uri ->
-            viewModel.updateUri(uri)
+            component.updateUri(uri)
         }
     }
 
@@ -106,11 +106,11 @@ fun ImageSplitterContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmaps(it) { results ->
+        component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 scope = scope,
                 results = results,
@@ -126,7 +126,7 @@ fun ImageSplitterContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
@@ -137,7 +137,7 @@ fun ImageSplitterContent(
                 mutableFloatStateOf(2f / 1f)
             }
             Picture(
-                model = viewModel.uri,
+                model = component.uri,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = if (isPortrait) 20.dp else 0.dp)
@@ -152,7 +152,7 @@ fun ImageSplitterContent(
             )
         } else {
             UrisPreview(
-                uris = viewModel.uris.ifEmpty {
+                uris = component.uris.ifEmpty {
                     listOf(Uri.EMPTY, Uri.EMPTY)
                 },
                 modifier = Modifier
@@ -161,7 +161,7 @@ fun ImageSplitterContent(
                 isPortrait = true,
                 onRemoveUri = null,
                 onAddUris = null,
-                isAddUrisVisible = viewModel.isImageLoading,
+                isAddUrisVisible = component.isImageLoading,
                 addUrisContent = { width ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -175,12 +175,12 @@ fun ImageSplitterContent(
     }
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.image_splitting),
-                input = viewModel.uri,
-                isLoading = viewModel.isImageLoading,
+                input = component.uri,
+                isLoading = component.isImageLoading,
                 size = null
             )
         },
@@ -190,12 +190,12 @@ fun ImageSplitterContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = viewModel.uri != null,
+                enabled = component.uri != null,
                 onShare = {
-                    viewModel.shareBitmaps(showConfetti)
+                    component.shareBitmaps(showConfetti)
                 },
                 onEdit = {
-                    viewModel.cacheImages {
+                    component.cacheImages {
                         editSheetData = it
                     }
                 }
@@ -225,10 +225,10 @@ fun ImageSplitterContent(
             Spacer(Modifier.height(8.dp))
             ImagePreview(!isPortrait)
             Spacer(Modifier.height(8.dp))
-            val params = viewModel.params
+            val params = component.params
             SplitParamsSelector(
                 value = params,
-                onValueChange = viewModel::updateParams
+                onValueChange = component::updateParams
             )
         },
         buttons = { actions ->
@@ -239,7 +239,7 @@ fun ImageSplitterContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.uris.isEmpty()) to isPortrait,
+                targetState = (component.uris.isEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -268,11 +268,11 @@ fun ImageSplitterContent(
             )
         },
         topAppBarPersistentActions = {
-            if (viewModel.uri == null) TopAppBarEmoji()
+            if (component.uri == null) TopAppBarEmoji()
         },
-        canShowScreenData = viewModel.uri != null,
+        canShowScreenData = component.uri != null,
         noDataControls = {
-            if (!viewModel.isImageLoading) {
+            if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
@@ -285,11 +285,11 @@ fun ImageSplitterContent(
         visible = showExitDialog
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.uris.size,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.uris.size,
+            onCancelLoading = component::cancelSaving
         )
     }
 }

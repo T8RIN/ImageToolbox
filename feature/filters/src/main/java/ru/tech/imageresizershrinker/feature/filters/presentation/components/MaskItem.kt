@@ -78,7 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun MaskItem(
-    addMaskSheetViewModel: AddMaskSheetComponent?,
+    addMaskSheetComponent: AddMaskSheetComponent?,
     mask: UiFilterMask,
     modifier: Modifier = Modifier,
     titleText: String,
@@ -302,7 +302,7 @@ fun MaskItem(
         }
     }
 
-    addMaskSheetViewModel?.let {
+    addMaskSheetComponent?.let {
         AddFiltersSheet(
             visible = showAddFilterSheet,
             onVisibleChange = { showAddFilterSheet = it },
@@ -321,8 +321,8 @@ fun MaskItem(
                     )
                 )
             },
-            viewModel = addMaskSheetViewModel.addFiltersSheetViewModel,
-            filterTemplateCreationSheetViewModel = addMaskSheetViewModel.filterTemplateCreationSheetViewModel
+            component = addMaskSheetComponent.addFiltersSheetComponent,
+            filterTemplateCreationSheetComponent = addMaskSheetComponent.filterTemplateCreationSheetComponent
         )
 
         AddEditMaskSheet(
@@ -334,7 +334,7 @@ fun MaskItem(
                 showEditMaskSheet = false
             },
             onMaskPicked = onMaskChange,
-            viewModel = addMaskSheetViewModel
+            component = addMaskSheetComponent
         )
     }
 }

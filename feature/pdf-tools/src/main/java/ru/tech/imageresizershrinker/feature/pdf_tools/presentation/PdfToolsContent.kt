@@ -149,13 +149,13 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.Pd
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewer
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewerOrientation
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
-import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel.PdfToolsComponent
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PdfToolsContent(
     onGoBack: () -> Unit,
-    viewModel: PdfToolsComponent
+    component: PdfToolsComponent
 ) {
     val context = LocalContext.current as Activity
     val toastHostState = LocalToastHostState.current
@@ -177,11 +177,11 @@ fun PdfToolsContent(
     }
 
     val onBack = {
-        if (viewModel.pdfType is Screen.PdfTools.Type.Preview) onGoBack()
+        if (component.pdfType is Screen.PdfTools.Type.Preview) onGoBack()
         else {
-            if (viewModel.haveChanges) showExitDialog = true
-            else if (viewModel.pdfType != null) {
-                viewModel.clearType()
+            if (component.haveChanges) showExitDialog = true
+            else if (component.pdfType != null) {
+                component.clearType()
             } else onGoBack()
         }
     }
@@ -196,7 +196,7 @@ fun PdfToolsContent(
         contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
             it?.let { uri ->
-                viewModel.savePdfTo(uri) { result ->
+                component.savePdfTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -214,7 +214,7 @@ fun PdfToolsContent(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.let {
-                viewModel.setPdfToImagesUri(it)
+                component.setPdfToImagesUri(it)
             }
         }
     )
@@ -223,7 +223,7 @@ fun PdfToolsContent(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.let {
-                viewModel.setPdfPreview(it)
+                component.setPdfPreview(it)
             }
         }
     )
@@ -273,7 +273,7 @@ fun PdfToolsContent(
                 item {
                     PreviewPdfPreference(
                         onClick = {
-                            viewModel.setPdfPreview(tempSelectionUri)
+                            component.setPdfPreview(tempSelectionUri)
                             showSelectionPdfPicker = false
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -282,7 +282,7 @@ fun PdfToolsContent(
                 item {
                     PdfToImagesPreference(
                         onClick = {
-                            viewModel.setPdfToImagesUri(tempSelectionUri)
+                            component.setPdfToImagesUri(tempSelectionUri)
                             showSelectionPdfPicker = false
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -299,7 +299,7 @@ fun PdfToolsContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.setImagesToPdf(uris)
+            component.setImagesToPdf(uris)
         }
     }
 
@@ -307,7 +307,7 @@ fun PdfToolsContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.addImagesToPdf(uris)
+            component.addImagesToPdf(uris)
         }
     }
 
@@ -316,11 +316,11 @@ fun PdfToolsContent(
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = topAppBarState,
-        canScroll = { (viewModel.pdfType !is Screen.PdfTools.Type.Preview && portrait) || viewModel.pdfType == null }
+        canScroll = { (component.pdfType !is Screen.PdfTools.Type.Preview && portrait) || component.pdfType == null }
     )
 
-    LaunchedEffect(viewModel.pdfType) {
-        while (viewModel.pdfType is Screen.PdfTools.Type.Preview || (viewModel.pdfType != null && !portrait)) {
+    LaunchedEffect(component.pdfType) {
+        while (component.pdfType is Screen.PdfTools.Type.Preview || (component.pdfType != null && !portrait)) {
             topAppBarState.apply {
                 heightOffset = (heightOffset - 10).coerceAtLeast(heightOffsetLimit)
             }
@@ -340,7 +340,7 @@ fun PdfToolsContent(
         ) {
             ShareButton(
                 onShare = {
-                    viewModel.preformSharing(showConfetti)
+                    component.preformSharing(showConfetti)
                 }
             )
         }
@@ -380,9 +380,9 @@ fun PdfToolsContent(
             )
         }
         if (pdfType !is Screen.PdfTools.Type.Preview) {
-            val visible by remember(viewModel.pdfToImageState?.pages, pdfType) {
+            val visible by remember(component.pdfToImageState?.pages, pdfType) {
                 derivedStateOf {
-                    (viewModel.pdfToImageState?.pages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
+                    (component.pdfToImageState?.pages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
                 }
             }
             if (visible) {
@@ -399,7 +399,7 @@ fun PdfToolsContent(
                 exit = fadeOut() + scaleOut() + shrinkOut()
             ) {
                 val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
-                    viewModel.savePdfToImages(it) { results ->
+                    component.savePdfToImages(it) { results ->
                         context.parseSaveResults(
                             scope = scope,
                             results = results,
@@ -414,9 +414,9 @@ fun PdfToolsContent(
                 }
                 EnhancedFloatingActionButton(
                     onClick = {
-                        if (pdfType is Screen.PdfTools.Type.ImagesToPdf && viewModel.imagesToPdfState != null) {
-                            val name = viewModel.generatePdfFilename()
-                            viewModel.convertImagesToPdf {
+                        if (pdfType is Screen.PdfTools.Type.ImagesToPdf && component.imagesToPdfState != null) {
+                            val name = component.generatePdfFilename()
+                            component.convertImagesToPdf {
                                 runCatching {
                                     savePdfLauncher.launch("$name.pdf")
                                 }.onFailure {
@@ -459,29 +459,29 @@ fun PdfToolsContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ImageReorderCarousel(
-                    images = viewModel.imagesToPdfState,
-                    onReorder = viewModel::reorderImagesToPdf,
+                    images = component.imagesToPdfState,
+                    onReorder = component::reorderImagesToPdf,
                     onNeedToAddImage = { addImagesToPdfPicker.pickImage() },
-                    onNeedToRemoveImageAt = viewModel::removeImageToPdfAt
+                    onNeedToRemoveImageAt = component::removeImageToPdfAt
                 )
                 Spacer(Modifier.height(8.dp))
                 PresetSelector(
-                    value = viewModel.presetSelected,
+                    value = component.presetSelected,
                     includeTelegramOption = false,
                     onValueChange = {
                         if (it is Preset.Percentage) {
-                            viewModel.selectPreset(it)
+                            component.selectPreset(it)
                         }
                     },
-                    showWarning = viewModel.showOOMWarning
+                    showWarning = component.showOOMWarning
                 )
                 Spacer(
                     Modifier.height(8.dp)
                 )
                 ScaleSmallImagesToLargeToggle(
-                    checked = viewModel.scaleSmallImagesToLarge,
+                    checked = component.scaleSmallImagesToLarge,
                     onCheckedChange = {
-                        viewModel.toggleScaleSmallImagesToLarge()
+                        component.toggleScaleSmallImagesToLarge()
                     }
                 )
             }
@@ -493,32 +493,32 @@ fun PdfToolsContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 PresetSelector(
-                    value = viewModel.presetSelected,
+                    value = component.presetSelected,
                     includeTelegramOption = false,
                     onValueChange = {
                         if (it is Preset.Percentage) {
-                            viewModel.selectPreset(it)
+                            component.selectPreset(it)
                         }
                     },
-                    showWarning = viewModel.showOOMWarning
+                    showWarning = component.showOOMWarning
                 )
-                if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) {
+                if (component.imageInfo.imageFormat.canChangeCompressionValue) {
                     Spacer(
                         Modifier.height(8.dp)
                     )
                 }
                 QualitySelector(
-                    imageFormat = viewModel.imageInfo.imageFormat,
+                    imageFormat = component.imageInfo.imageFormat,
                     enabled = true,
-                    quality = viewModel.imageInfo.quality,
-                    onQualityChange = viewModel::setQuality
+                    quality = component.imageInfo.quality,
+                    onQualityChange = component::setQuality
                 )
                 Spacer(
                     Modifier.height(8.dp)
                 )
                 ImageFormatSelector(
-                    value = viewModel.imageInfo.imageFormat,
-                    onValueChange = viewModel::updateImageFormat
+                    value = component.imageInfo.imageFormat,
+                    onValueChange = component::updateImageFormat
                 )
             }
         }
@@ -543,7 +543,7 @@ fun PdfToolsContent(
                 Column(Modifier.fillMaxSize()) {
                     val title = @Composable {
                         AnimatedContent(
-                            targetState = viewModel.pdfType to viewModel.pdfPreviewUri,
+                            targetState = component.pdfType to component.pdfPreviewUri,
                             transitionSpec = { fadeIn() togetherWith fadeOut() },
                             modifier = Modifier.marquee()
                         ) { (pdfType, previewUri) ->
@@ -570,22 +570,22 @@ fun PdfToolsContent(
                     }
                     val actions: @Composable RowScope.() -> Unit = {
                         if (!portrait) {
-                            actionButtons(viewModel.pdfType)
+                            actionButtons(component.pdfType)
                         }
-                        if (viewModel.pdfType == null) {
+                        if (component.pdfType == null) {
                             TopAppBarEmoji()
                         } else {
-                            val pagesSize = viewModel.pdfToImageState?.pages?.size
+                            val pagesSize = component.pdfToImageState?.pages?.size
                             val visible by remember(
-                                viewModel.pdfToImageState?.pages,
-                                viewModel.pdfType
+                                component.pdfToImageState?.pages,
+                                component.pdfType
                             ) {
                                 derivedStateOf {
-                                    (pagesSize != 0 && viewModel.pdfType is Screen.PdfTools.Type.PdfToImages)
+                                    (pagesSize != 0 && component.pdfType is Screen.PdfTools.Type.PdfToImages)
                                 }
                             }
                             AnimatedVisibility(
-                                visible = viewModel.pdfType is Screen.PdfTools.Type.PdfToImages,
+                                visible = component.pdfType is Screen.PdfTools.Type.PdfToImages,
                                 enter = fadeIn() + scaleIn() + expandHorizontally(),
                                 exit = fadeOut() + scaleOut() + shrinkHorizontally()
                             ) {
@@ -596,7 +596,7 @@ fun PdfToolsContent(
                                     onClick = {
                                         selectAllToggle.value = true
                                     },
-                                    enabled = viewModel.pdfType != null
+                                    enabled = component.pdfType != null
                                 ) {
                                     Icon(
                                         imageVector = Icons.Outlined.SelectAll,
@@ -662,7 +662,7 @@ fun PdfToolsContent(
                                 screenWidthDp = screenWidth
                             )
                         },
-                        targetState = viewModel.pdfType
+                        targetState = component.pdfType
                     ) { pdfType ->
                         when (pdfType) {
                             null -> {
@@ -799,7 +799,7 @@ fun PdfToolsContent(
                                                 if (pdfType is Screen.PdfTools.Type.Preview) {
                                                     PdfViewer(
                                                         modifier = Modifier.fillMaxWidth(),
-                                                        uriState = viewModel.pdfPreviewUri,
+                                                        uriState = component.pdfPreviewUri,
                                                         contentPadding = PaddingValues(
                                                             start = 20.dp + WindowInsets.displayCutout
                                                                 .asPaddingValues()
@@ -839,14 +839,14 @@ fun PdfToolsContent(
                                                                     .calculateStartPadding(direction)
                                                             ),
                                                             onGetPagesCount = { pagesCount = it },
-                                                            uriState = viewModel.pdfToImageState?.uri,
+                                                            uriState = component.pdfToImageState?.uri,
                                                             orientation = PdfViewerOrientation.Grid,
                                                             enableSelection = true,
                                                             selectAllToggle = selectAllToggle,
                                                             deselectAllToggle = deselectAllToggle,
-                                                            selectedPages = viewModel.pdfToImageState?.pages
+                                                            selectedPages = component.pdfToImageState?.pages
                                                                 ?: emptyList(),
-                                                            updateSelectedPages = viewModel::updatePdfToImageSelection,
+                                                            updateSelectedPages = component::updatePdfToImageSelection,
                                                             spacing = 4.dp
                                                         )
                                                         if (portrait) {
@@ -923,15 +923,15 @@ fun PdfToolsContent(
                     }
                 }
 
-                if (viewModel.isSaving) {
-                    if (viewModel.left != 0) {
+                if (component.isSaving) {
+                    if (component.left != 0) {
                         LoadingDialog(
-                            done = viewModel.done,
-                            left = viewModel.left,
-                            onCancelLoading = viewModel::cancelSaving
+                            done = component.done,
+                            left = component.left,
+                            onCancelLoading = component::cancelSaving
                         )
                     } else {
-                        LoadingDialog(viewModel::cancelSaving)
+                        LoadingDialog(component::cancelSaving)
                     }
                 }
             }
@@ -940,8 +940,8 @@ fun PdfToolsContent(
 
     ExitWithoutSavingDialog(
         onExit = {
-            if (viewModel.pdfType != null) {
-                viewModel.clearType()
+            if (component.pdfType != null) {
+                component.clearType()
             } else onGoBack()
         },
         onDismiss = { showExitDialog = false },
@@ -949,7 +949,7 @@ fun PdfToolsContent(
     )
 
     BackHandler(
-        enabled = (viewModel.pdfType !is Screen.PdfTools.Type.Preview && viewModel.pdfType != null) || viewModel.haveChanges,
+        enabled = (component.pdfType !is Screen.PdfTools.Type.Preview && component.pdfType != null) || component.haveChanges,
         onBack = onBack
     )
 }

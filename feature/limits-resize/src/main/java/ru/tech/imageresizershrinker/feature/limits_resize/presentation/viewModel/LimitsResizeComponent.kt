@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.limits_resize.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic
 
 
 import android.graphics.Bitmap
@@ -120,7 +120,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
         if (uris != null) {
-            viewModelScope.launch {
+            componentScope.launch {
                 imageGetter.getImageAsync(
                     uri = uris[0].toString(),
                     originalSize = true,
@@ -135,7 +135,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -162,7 +162,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         bitmap: Bitmap?,
         preview: Bitmap? = null
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             val size = bitmap?.let { it.width to it.height }
             _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
@@ -185,7 +185,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -234,7 +234,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     }
 
     fun updateSelectedUri(uri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             updateBitmap(imageGetter.getImage(uri.toString())?.image)
             _selectedUri.value = uri
@@ -263,7 +263,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         _isSaving.value = false
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
@@ -327,7 +327,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             imageGetter.getImage(
                 uri = selectedUri.toString()
@@ -359,7 +359,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             val list = mutableListOf<Uri>()

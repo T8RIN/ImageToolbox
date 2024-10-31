@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -172,7 +172,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private fun loadLanguages(
         onComplete: suspend () -> Unit = {}
     ) {
-        loadingJob = viewModelScope.launch {
+        loadingJob = componentScope.launch {
             delay(200L)
             if (!isRecognitionTypeSet) {
                 _recognitionType.update {
@@ -199,7 +199,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     init {
         loadLanguages()
-        viewModelScope.launch {
+        componentScope.launch {
             val languageCodes = settingsManager.getInitialOCRLanguageCodes().map {
                 imageTextReader.getLanguageForCode(it)
             }
@@ -219,7 +219,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     ) {
         _uri.update { uri }
         uri?.let {
-            viewModelScope.launch {
+            componentScope.launch {
                 _isImageLoading.value = true
                 imageGetter.getImage(data = uri, false)?.let {
                     updateBitmap(it, onImageSet)
@@ -233,7 +233,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         bitmap: Bitmap,
         onComplete: () -> Unit = {}
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             internalBitmap.update { previewBitmap }
@@ -250,7 +250,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onError: (Throwable) -> Unit,
         onRequestDownload: (List<DownloadData>) -> Unit
     ) {
-        recognitionJob = viewModelScope.launch {
+        recognitionJob = componentScope.launch {
             if (uri == null) return@launch
             delay(400L)
             _textLoadingProgress.update { 0 }
@@ -292,7 +292,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     fun setRecognitionType(recognitionType: RecognitionType) {
         _recognitionType.update { recognitionType }
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setInitialOcrMode(recognitionType.ordinal)
         }
         loadLanguages()
@@ -305,7 +305,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onProgress: (Float, Long) -> Unit,
         onComplete: () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             downloadMutex.withLock {
                 imageTextReader.downloadTrainingData(
                     type = type,
@@ -326,7 +326,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     fun onLanguagesSelected(ocrLanguages: List<OCRLanguage>) {
         if (ocrLanguages.isNotEmpty()) {
-            viewModelScope.launch {
+            componentScope.launch {
                 settingsManager.setInitialOCRLanguageCodes(
                     ocrLanguages.filter {
                         it.downloaded.isNotEmpty()
@@ -349,7 +349,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         types: List<RecognitionType>,
         onSuccess: () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             imageTextReader.deleteLanguage(language, types)
             onLanguagesSelected(selectedLanguages - language)
             val availableTypes = language.downloaded - types.toSet()
@@ -454,7 +454,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        languagesJob = viewModelScope.launch(ioDispatcher) {
+        languagesJob = componentScope.launch(ioDispatcher) {
             _isExporting.value = true
             imageTextReader.exportLanguagesToZip()?.let { zipUri ->
                 fileController.writeBytes(
@@ -487,7 +487,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
-        languagesJob = viewModelScope.launch(ioDispatcher) {
+        languagesJob = componentScope.launch(ioDispatcher) {
             _isExporting.value = true
             imageTextReader.importLanguagesFromUri(uri.toString())
                 .onSuccess {
@@ -505,7 +505,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onResult: (SaveResult) -> Unit
     ) {
         recognitionData?.text?.takeIf { it.isNotEmpty() }?.let { data ->
-            viewModelScope.launch {
+            componentScope.launch {
                 fileController.writeBytes(
                     uri = uri.toString(),
                     block = {

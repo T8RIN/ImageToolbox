@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel
+package ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -109,7 +109,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun updateUris(uris: List<Uri>?) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.update { true }
             _uris.update { uris }
             _isImageLoading.update { false }
@@ -137,7 +137,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _isSaving.update { true }
         _collageCreationTrigger.update { true }
         requestedOperation = {
-            savingJob = viewModelScope.launch(defaultDispatcher) {
+            savingJob = componentScope.launch(defaultDispatcher) {
                 collageBitmap?.let { image ->
                     _isSaving.update { true }
                     val imageInfo = ImageInfo(
@@ -175,7 +175,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _collageCreationTrigger.update { true }
         requestedOperation = {
             collageBitmap?.let { image ->
-                savingJob = viewModelScope.launch {
+                savingJob = componentScope.launch {
                     _isSaving.update { true }
                     shareProvider.cacheImage(
                         image = image,
@@ -204,7 +204,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _collageCreationTrigger.update { true }
         requestedOperation = {
             collageBitmap?.let { image ->
-                savingJob = viewModelScope.launch {
+                savingJob = componentScope.launch {
                     _isSaving.update { true }
                     shareProvider.cacheImage(
                         image = image,

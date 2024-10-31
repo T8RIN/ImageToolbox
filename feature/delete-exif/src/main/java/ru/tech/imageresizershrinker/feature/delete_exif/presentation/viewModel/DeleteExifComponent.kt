@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.delete_exif.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -101,7 +101,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -127,7 +127,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     }
 
     private fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             _bitmap.value = bitmap
             _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
@@ -144,7 +144,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -188,7 +188,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     fun updateSelectedUri(
         uri: Uri,
         onError: (Throwable) -> Unit = {}
-    ) = viewModelScope.launch(defaultDispatcher) {
+    ) = componentScope.launch(defaultDispatcher) {
         _isImageLoading.value = true
         _selectedUri.value = uri
         imageGetter.getImageAsync(
@@ -207,7 +207,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     fun shareBitmaps(onComplete: () -> Unit) {
         _isSaving.update { true }
         cacheImages { uris ->
-            savingJob = viewModelScope.launch {
+            savingJob = componentScope.launch {
                 shareProvider.shareUris(uris.map(Uri::toString))
                 onComplete()
                 _isSaving.update { false }
@@ -242,7 +242,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
         uris: List<Uri>? = this.uris,
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             val list = mutableListOf<Uri>()

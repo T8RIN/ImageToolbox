@@ -14,7 +14,7 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
-package ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
@@ -106,7 +106,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private var albumJob: Job? by smartJob()
 
     private fun getAlbums(allowedMedia: AllowedMedia) {
-        albumJob = viewModelScope.launch(defaultDispatcher) {
+        albumJob = componentScope.launch(defaultDispatcher) {
             mediaRetriever.getAlbumsWithType(allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
@@ -136,7 +136,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         albumId: Long,
         allowedMedia: AllowedMedia
     ) {
-        mediaGettingJob = viewModelScope.launch(defaultDispatcher) {
+        mediaGettingJob = componentScope.launch(defaultDispatcher) {
             _mediaState.emit(mediaState.value.copy(isLoading = true))
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(defaultDispatcher)
@@ -250,7 +250,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         }
         settingsManager.getSettingsStateFlow().onEach {
             _settingsState.value = it
-        }.launchIn(viewModelScope)
+        }.launchIn(componentScope)
     }
 
     @AssistedFactory

@@ -101,8 +101,8 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterEditOption(
-    addFilterSheetViewModel: AddFiltersSheetComponent,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent,
+    addFilterSheetComponent: AddFiltersSheetComponent,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onDismiss: () -> Unit,
     useScaffold: Boolean,
@@ -332,8 +332,8 @@ fun FilterEditOption(
                 }
                 addFilter(it)
             },
-            viewModel = addFilterSheetViewModel,
-            filterTemplateCreationSheetViewModel = filterTemplateCreationSheetViewModel
+            component = addFilterSheetComponent,
+            filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent
         )
 
         FilterReorderSheet(

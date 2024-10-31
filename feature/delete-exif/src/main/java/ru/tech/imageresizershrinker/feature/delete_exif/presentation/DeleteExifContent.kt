@@ -78,13 +78,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
-import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifComponent
+import ru.tech.imageresizershrinker.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 
 @Composable
 fun DeleteExifContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: DeleteExifComponent
+    component: DeleteExifComponent
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
@@ -100,8 +100,8 @@ fun DeleteExifContent(
         }
     }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -112,7 +112,7 @@ fun DeleteExifContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris) {
+            component.updateUris(uris) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
@@ -124,13 +124,13 @@ fun DeleteExifContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmaps(it) { results ->
+        component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 scope = scope,
                 results = results,
@@ -148,7 +148,7 @@ fun DeleteExifContent(
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
+        data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -156,36 +156,36 @@ fun DeleteExifContent(
     )
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.delete_exif),
-                input = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
-                size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
+                size = component.selectedUri?.fileSize(LocalContext.current) ?: 0L
             )
         },
         onGoBack = {
-            if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
+            if (component.uris?.isNotEmpty() == true) showExitDialog = true
             else onGoBack()
         },
         actions = {
-            if (viewModel.previewBitmap != null) {
+            if (component.previewBitmap != null) {
                 var editSheetData by remember {
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
                     onShare = {
-                        viewModel.shareBitmaps(showConfetti)
+                        component.shareBitmaps(showConfetti)
                     },
                     onCopy = { manager ->
-                        viewModel.cacheCurrentImage { uri ->
+                        component.cacheCurrentImage { uri ->
                             manager.setClip(uri.asClip(context))
                             showConfetti()
                         }
                     },
                     onEdit = {
-                        viewModel.cacheImages {
+                        component.cacheImages {
                             editSheetData = it
                         }
                     }
@@ -209,11 +209,11 @@ fun DeleteExifContent(
             }
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.bitmap != null,
+                visible = component.bitmap != null,
             )
         },
         topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) {
+            if (component.bitmap == null) {
                 TopAppBarEmoji()
             }
         },
@@ -221,14 +221,14 @@ fun DeleteExifContent(
             ImageContainer(
                 modifier = Modifier
                     .detectSwipes(
-                        onSwipeRight = viewModel::selectLeftUri,
-                        onSwipeLeft = viewModel::selectRightUri
+                        onSwipeRight = component::selectLeftUri,
+                        onSwipeLeft = component::selectRightUri
                     ),
                 imageInside = isPortrait,
                 showOriginal = false,
-                previewBitmap = viewModel.previewBitmap,
-                originalBitmap = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
+                previewBitmap = component.previewBitmap,
+                originalBitmap = component.bitmap,
+                isLoading = component.isImageLoading,
                 shouldShowPreview = true
             )
         },
@@ -236,7 +236,7 @@ fun DeleteExifContent(
             var showExifSelection by rememberSaveable {
                 mutableStateOf(false)
             }
-            val selectedTags = viewModel.selectedTags
+            val selectedTags = component.selectedTags
             val subtitle by remember(selectedTags) {
                 derivedStateOf {
                     if (selectedTags.isEmpty()) context.getString(R.string.all)
@@ -246,7 +246,7 @@ fun DeleteExifContent(
                 }
             }
             ImageCounter(
-                imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                imageCount = component.uris?.size?.takeIf { it > 1 },
                 onRepick = {
                     showPickImageFromUrisSheet = true
                 }
@@ -268,7 +268,7 @@ fun DeleteExifContent(
                 visible = showExifSelection,
                 onDismiss = { showExifSelection = it },
                 selectedTags = selectedTags,
-                onTagSelected = viewModel::addTag,
+                onTagSelected = component::addTag,
                 isTagsRemovable = true
             )
         },
@@ -280,7 +280,7 @@ fun DeleteExifContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
+                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -311,21 +311,21 @@ fun DeleteExifContent(
         noDataControls = {
             ImageNotPickedWidget(onPickImage = pickImage)
         },
-        canShowScreenData = !viewModel.uris.isNullOrEmpty(),
+        canShowScreenData = !component.uris.isNullOrEmpty(),
         isPortrait = isPortrait
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.uris?.size ?: 1,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.uris?.size ?: 1,
+            onCancelLoading = component::cancelSaving
         )
     }
 
     PickImageFromUrisSheet(
         transformations = listOf(
-            viewModel.imageInfoTransformationFactory(
+            component.imageInfoTransformationFactory(
                 imageInfo = ImageInfo()
             )
         ),
@@ -333,17 +333,17 @@ fun DeleteExifContent(
         onDismiss = {
             showPickImageFromUrisSheet = false
         },
-        uris = viewModel.uris,
-        selectedUri = viewModel.selectedUri,
+        uris = component.uris,
+        selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            viewModel.updateSelectedUri(uri = uri) {
+            component.updateSelectedUri(uri = uri) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
             }
         },
         onUriRemoved = { uri ->
-            viewModel.updateUrisSilently(removedUri = uri)
+            component.updateUrisSilently(removedUri = uri)
         },
         columns = if (isPortrait) 2 else 4,
     )

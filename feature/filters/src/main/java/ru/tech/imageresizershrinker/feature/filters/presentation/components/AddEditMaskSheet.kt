@@ -144,7 +144,7 @@ import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 
 @Composable
 fun AddEditMaskSheet(
-    viewModel: AddMaskSheetComponent,
+    component: AddMaskSheetComponent,
     mask: UiFilterMask? = null,
     visible: Boolean,
     onDismiss: () -> Unit,
@@ -153,7 +153,7 @@ fun AddEditMaskSheet(
     onMaskPicked: (UiFilterMask) -> Unit,
 ) {
     LaunchedEffect(mask, masks, targetBitmapUri) {
-        viewModel.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
+        component.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
     }
 
     val isPortrait by isPortraitOrientationAsState()
@@ -182,11 +182,11 @@ fun AddEditMaskSheet(
         }
     }
 
-    val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
+    val canSave = component.paths.isNotEmpty() && component.filterList.isNotEmpty()
     SimpleSheet(
         visible = visible,
         onDismiss = {
-            if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
+            if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
             else showExitDialog = true
         },
         cancelable = false,
@@ -202,7 +202,7 @@ fun AddEditMaskSheet(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
                     onMaskPicked(
-                        viewModel.getUiMask()
+                        component.getUiMask()
                     )
                     onDismiss()
                 }
@@ -221,7 +221,7 @@ fun AddEditMaskSheet(
             ) {
                 EnhancedIconButton(
                     onClick = {
-                        if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
+                        if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
                         else showExitDialog = true
                     }
                 ) {
@@ -239,7 +239,7 @@ fun AddEditMaskSheet(
 
         if (visible) {
             BackHandler {
-                if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
+                if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
                 else showExitDialog = true
             }
         }
@@ -254,13 +254,13 @@ fun AddEditMaskSheet(
         val drawPreview: @Composable () -> Unit = {
             AnimatedContent(
                 targetState = Triple(
-                    first = remember(viewModel.previewBitmap) {
+                    first = remember(component.previewBitmap) {
                         derivedStateOf {
-                            viewModel.previewBitmap?.asImageBitmap()
+                            component.previewBitmap?.asImageBitmap()
                         }
                     }.value,
-                    second = viewModel.maskPreviewModeEnabled,
-                    third = viewModel.previewLoading
+                    second = component.maskPreviewModeEnabled,
+                    third = component.previewLoading
                 ),
                 transitionSpec = { fadeIn() togetherWith fadeOut() },
                 modifier = Modifier
@@ -293,11 +293,11 @@ fun AddEditMaskSheet(
                     BitmapDrawer(
                         zoomState = zoomState,
                         imageBitmap = imageBitmap,
-                        paths = if (!preview || drawing || viewModel.previewLoading) viewModel.paths else emptyList(),
+                        paths = if (!preview || drawing || component.previewLoading) component.paths else emptyList(),
                         strokeWidth = strokeWidth,
                         brushSoftness = brushSoftness,
-                        drawColor = viewModel.maskColor,
-                        onAddPath = viewModel::addPath,
+                        drawColor = component.maskColor,
+                        onAddPath = component::addPath,
                         isEraserOn = isEraserOn,
                         drawMode = DrawMode.Pen,
                         modifier = Modifier
@@ -311,7 +311,7 @@ fun AddEditMaskSheet(
                         onDrawFinish = {
                             drawing = false
                         },
-                        onRequestFiltering = viewModel::filter,
+                        onRequestFiltering = component::filter,
                         drawPathMode = domainDrawPathMode,
                         backgroundColor = Color.Transparent
                     )
@@ -363,8 +363,8 @@ fun AddEditMaskSheet(
                             borderColor = MaterialTheme.colorScheme.outlineVariant(
                                 luminance = 0.1f
                             ),
-                            onClick = viewModel::undo,
-                            enabled = (viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty())
+                            onClick = component::undo,
+                            enabled = (component.lastPaths.isNotEmpty() || component.paths.isNotEmpty())
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.Undo,
@@ -376,8 +376,8 @@ fun AddEditMaskSheet(
                             borderColor = MaterialTheme.colorScheme.outlineVariant(
                                 luminance = 0.1f
                             ),
-                            onClick = viewModel::redo,
-                            enabled = viewModel.undonePaths.isNotEmpty()
+                            onClick = component::redo,
+                            enabled = component.undonePaths.isNotEmpty()
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.Redo,
@@ -395,15 +395,15 @@ fun AddEditMaskSheet(
 
                     AnimatedVisibility(visible = canSave) {
                         Column {
-                            BoxAnimatedVisibility(viewModel.maskPreviewModeEnabled) {
+                            BoxAnimatedVisibility(component.maskPreviewModeEnabled) {
                                 PreferenceItemOverload(
                                     title = stringResource(R.string.histogram),
                                     subtitle = stringResource(R.string.histogram_sub),
                                     endIcon = {
-                                        AnimatedContent(viewModel.previewBitmap != null) {
+                                        AnimatedContent(component.previewBitmap != null) {
                                             if (it) {
                                                 ImageHistogram(
-                                                    image = viewModel.previewBitmap,
+                                                    image = component.previewBitmap,
                                                     modifier = Modifier
                                                         .width(100.dp)
                                                         .height(65.dp),
@@ -427,17 +427,17 @@ fun AddEditMaskSheet(
                                 title = stringResource(id = R.string.mask_preview),
                                 subtitle = stringResource(id = R.string.mask_preview_sub),
                                 color = animateColorAsState(
-                                    if (viewModel.maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
+                                    if (component.maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
                                     else Color.Unspecified,
                                 ).value,
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 shape = RoundedCornerShape(24.dp),
                                 contentColor = animateColorAsState(
-                                    if (viewModel.maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
+                                    if (component.maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurface
                                 ).value,
-                                onClick = viewModel::togglePreviewMode,
-                                checked = viewModel.maskPreviewModeEnabled,
+                                onClick = component::togglePreviewMode,
+                                checked = component.maskPreviewModeEnabled,
                                 startIcon = Icons.Rounded.Preview
                             )
                         }
@@ -459,8 +459,8 @@ fun AddEditMaskSheet(
                                     Color.Magenta
                                 )
                             },
-                            value = viewModel.maskColor,
-                            onValueChange = viewModel::updateMaskColor,
+                            value = component.maskColor,
+                            onValueChange = component::updateMaskColor,
                             modifier = Modifier.padding(
                                 start = 16.dp,
                                 end = 16.dp,
@@ -509,7 +509,7 @@ fun AddEditMaskSheet(
                     PreferenceRowSwitch(
                         title = stringResource(id = R.string.inverse_fill_type),
                         subtitle = stringResource(id = R.string.inverse_fill_type_sub),
-                        checked = viewModel.isInverseFillType,
+                        checked = component.isInverseFillType,
                         modifier = Modifier.padding(
                             start = 16.dp,
                             end = 16.dp,
@@ -520,11 +520,11 @@ fun AddEditMaskSheet(
                         applyHorizontalPadding = false,
                         shape = RoundedCornerShape(24.dp),
                         onClick = {
-                            viewModel.toggleIsInverseFillType()
+                            component.toggleIsInverseFillType()
                         }
                     )
                     AnimatedContent(
-                        targetState = viewModel.filterList.isNotEmpty(),
+                        targetState = component.filterList.isNotEmpty(),
                         transitionSpec = {
                             fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
                         }
@@ -541,12 +541,12 @@ fun AddEditMaskSheet(
                                     verticalArrangement = Arrangement.spacedBy(8.dp),
                                     modifier = Modifier.padding(8.dp)
                                 ) {
-                                    viewModel.filterList.forEachIndexed { index, filter ->
+                                    component.filterList.forEachIndexed { index, filter ->
                                         FilterItem(
                                             backgroundColor = MaterialTheme.colorScheme.surface,
                                             filter = filter,
                                             onFilterChange = {
-                                                viewModel.updateFilter(
+                                                component.updateFilter(
                                                     value = it,
                                                     index = index,
                                                     showError = {
@@ -564,7 +564,7 @@ fun AddEditMaskSheet(
                                             },
                                             showDragHandle = false,
                                             onRemove = {
-                                                viewModel.removeFilterAtIndex(
+                                                component.removeFilterAtIndex(
                                                     index
                                                 )
                                             }
@@ -598,18 +598,18 @@ fun AddEditMaskSheet(
         visible = showAddFilterSheet,
         onVisibleChange = { showAddFilterSheet = it },
         previewBitmap = null,
-        onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-        onFilterPickedWithParams = { viewModel.addFilter(it) },
-        viewModel = viewModel.addFiltersSheetViewModel,
-        filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel
+        onFilterPicked = { component.addFilter(it.newInstance()) },
+        onFilterPickedWithParams = { component.addFilter(it) },
+        component = component.addFiltersSheetComponent,
+        filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent
     )
     FilterReorderSheet(
-        filterList = viewModel.filterList,
+        filterList = component.filterList,
         visible = showReorderSheet,
         onDismiss = {
             showReorderSheet = false
         },
-        onReorder = viewModel::updateFiltersOrder
+        onReorder = component::updateFiltersOrder
     )
 
     ExitWithoutSavingDialog(
@@ -627,21 +627,21 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
-    addFiltersSheetViewModelFactory: AddFiltersSheetComponent.Factory,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent.Factory
+    addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent.Factory
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    val addFiltersSheetViewModel: AddFiltersSheetComponent = addFiltersSheetViewModelFactory(
+    val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
             key = "addFiltersMask",
 
             )
     )
 
-    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent =
-        filterTemplateCreationSheetViewModel(
+    val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
+        filterTemplateCreationSheetComponent(
             componentContext = componentContext.childContext(
-                key = "filterTemplateCreationSheetViewModelMask"
+                key = "filterTemplateCreationSheetComponentMask"
             )
         )
 
@@ -679,7 +679,7 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
     private var initialMask: UiFilterMask? by mutableStateOf(null)
 
     private fun updatePreview() {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             if (filterList.isEmpty() || paths.isEmpty()) {
                 _maskPreviewModeEnabled.update { false }
             }

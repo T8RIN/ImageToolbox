@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic
 
 
 import android.graphics.Bitmap
@@ -76,7 +76,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             imageGetter.getImage(data = link)?.let { bitmap ->
                 onComplete(
@@ -108,7 +108,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
         image: Bitmap,
         imageInfo: ImageInfo
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isSaving.value = true
             _tempUri.value = shareProvider.cacheImage(image, imageInfo)?.toUri()
             _isSaving.value = false
@@ -120,7 +120,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             bitmap?.let { image ->
                 shareProvider.shareImage(
@@ -148,7 +148,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             bitmap?.let { image ->
                 shareProvider.cacheImage(

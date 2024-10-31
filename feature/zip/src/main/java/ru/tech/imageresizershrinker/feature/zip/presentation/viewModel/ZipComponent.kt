@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.zip.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -79,7 +79,7 @@ class ZipComponent @AssistedInject internal constructor(
     fun startCompression(
         onComplete: (Throwable?) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             if (uris.isEmpty()) {
                 onComplete(null)
@@ -107,7 +107,7 @@ class ZipComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _byteArray.value?.let { byteArray ->
                 fileController.writeBytes(
@@ -124,7 +124,7 @@ class ZipComponent @AssistedInject internal constructor(
         filename: String,
         onComplete: () -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _done.update { 0 }
             _left.update { 0 }
 

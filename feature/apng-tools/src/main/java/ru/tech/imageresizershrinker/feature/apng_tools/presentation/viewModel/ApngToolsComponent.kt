@@ -17,7 +17,7 @@
 
 @file:Suppress("FunctionName")
 
-package ru.tech.imageresizershrinker.feature.apng_tools.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -144,7 +144,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
             Screen.ApngTools.Type.ApngToImage(uri)
         }
         updateApngFrames(ImageFrames.All)
-        collectionJob = viewModelScope.launch(defaultDispatcher) {
+        collectionJob = componentScope.launch(defaultDispatcher) {
             _isLoading.update { true }
             _isLoadingApngImages.update { true }
             apngConverter.extractFramesFromApng(
@@ -190,7 +190,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             apngData?.let { byteArray ->
                 fileController.writeBytes(
@@ -210,7 +210,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -402,7 +402,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
 
     fun performSharing(onComplete: () -> Unit) {
         cacheImages { uris ->
-            viewModelScope.launch {
+            componentScope.launch {
                 shareProvider.shareUris(uris.map { it.toString() })
                 onComplete()
             }
@@ -421,7 +421,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

@@ -17,7 +17,7 @@
 
 @file:Suppress("FunctionName")
 
-package ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.svg_maker.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -86,7 +86,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             val results = mutableListOf<SaveResult>()
 
             _isSaving.value = true
@@ -121,7 +121,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         onError: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _done.update { 0 }
             _left.update { uris.size }
 

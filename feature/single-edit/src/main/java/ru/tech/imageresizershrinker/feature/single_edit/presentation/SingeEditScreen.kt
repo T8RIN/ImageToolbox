@@ -90,13 +90,13 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.EraseBackgroundEditOption
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.FilterEditOption
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.ToneCurvesEditOption
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.SingleEditComponent
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.screenLogic.SingleEditComponent
 
 @Composable
 fun SingleEditContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: SingleEditComponent,
+    component: SingleEditComponent,
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
@@ -112,8 +112,8 @@ fun SingleEditContent(
         }
     }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -124,13 +124,13 @@ fun SingleEditContent(
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val imageInfo = viewModel.imageInfo
+    val imageInfo = component.imageInfo
 
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-            viewModel.setUri(it)
+            component.setUri(it)
         }
     }
 
@@ -138,11 +138,11 @@ fun SingleEditContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmap(it) { saveResult ->
+        component.saveBitmap(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
@@ -158,7 +158,7 @@ fun SingleEditContent(
     var showCompareSheet by rememberSaveable { mutableStateOf(false) }
 
     CompareSheet(
-        data = viewModel.initialBitmap to viewModel.previewBitmap,
+        data = component.initialBitmap to component.previewBitmap,
         visible = showCompareSheet,
         onDismiss = {
             showCompareSheet = false
@@ -166,7 +166,7 @@ fun SingleEditContent(
     )
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
+        data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -174,7 +174,7 @@ fun SingleEditContent(
     )
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
@@ -186,32 +186,32 @@ fun SingleEditContent(
 
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
-            val originalSize = viewModel.uri.fileSize(context) ?: 0
-            val compressedSize = viewModel.imageInfo.sizeInBytes.toLong()
+            val originalSize = component.uri.fileSize(context) ?: 0
+            val compressedSize = component.imageInfo.sizeInBytes.toLong()
             TopAppBarTitle(
                 title = stringResource(R.string.single_edit),
-                input = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
                 size = compressedSize,
                 originalSize = originalSize
             )
         },
         onGoBack = onBack,
         topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) {
+            if (component.bitmap == null) {
                 TopAppBarEmoji()
             }
             CompareButton(
                 onClick = { showCompareSheet = true },
-                visible = viewModel.previewBitmap != null
-                        && viewModel.bitmap != null
-                        && viewModel.shouldShowPreview
+                visible = component.previewBitmap != null
+                        && component.bitmap != null
+                        && component.shouldShowPreview
             )
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.previewBitmap != null && viewModel.shouldShowPreview
+                visible = component.previewBitmap != null && component.shouldShowPreview
             )
         },
         actions = {
@@ -219,18 +219,18 @@ fun SingleEditContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 onShare = {
-                    viewModel.shareBitmap(showConfetti)
+                    component.shareBitmap(showConfetti)
                 },
                 onCopy = { manager ->
-                    viewModel.cacheCurrentImage { uri ->
+                    component.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
                     }
                 },
                 onEdit = {
-                    viewModel.cacheCurrentImage { uri ->
+                    component.cacheCurrentImage { uri ->
                         editSheetData = listOf(uri)
                     }
                 }
@@ -253,7 +253,7 @@ fun SingleEditContent(
             )
 
             EnhancedIconButton(
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 onClick = { showResetDialog = true }
             ) {
                 Icon(
@@ -261,9 +261,9 @@ fun SingleEditContent(
                     contentDescription = stringResource(R.string.reset_image)
                 )
             }
-            if (viewModel.bitmap != null) {
+            if (component.bitmap != null) {
                 ShowOriginalButton(
-                    canShow = viewModel.canShow(),
+                    canShow = component.canShow(),
                     onStateChange = {
                         showOriginal = it
                     }
@@ -287,21 +287,21 @@ fun SingleEditContent(
             ImageContainer(
                 imageInside = isPortrait,
                 showOriginal = showOriginal,
-                previewBitmap = viewModel.previewBitmap,
-                originalBitmap = viewModel.initialBitmap,
-                isLoading = viewModel.isImageLoading,
-                shouldShowPreview = viewModel.shouldShowPreview
+                previewBitmap = component.previewBitmap,
+                originalBitmap = component.initialBitmap,
+                isLoading = component.isImageLoading,
+                shouldShowPreview = component.shouldShowPreview
             )
         },
         controls = {
             var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
-            val preset = viewModel.presetSelected
+            val preset = component.presetSelected
             ImageTransformBar(
                 onEditExif = { showEditExifDialog = true },
-                imageFormat = viewModel.imageInfo.imageFormat,
-                onRotateLeft = viewModel::rotateBitmapLeft,
-                onFlip = viewModel::flipImage,
-                onRotateRight = viewModel::rotateBitmapRight,
+                imageFormat = component.imageInfo.imageFormat,
+                onRotateLeft = component::rotateBitmapLeft,
+                onFlip = component::flipImage,
+                onRotateRight = component::rotateBitmapRight,
                 canRotate = !(preset is Preset.AspectRatio && preset.ratio != 1f)
             )
             Spacer(Modifier.size(8.dp))
@@ -314,43 +314,43 @@ fun SingleEditContent(
             )
             Spacer(Modifier.size(16.dp))
             PresetSelector(
-                value = viewModel.presetSelected,
+                value = component.presetSelected,
                 includeTelegramOption = true,
                 includeAspectRatioOption = true,
-                onValueChange = viewModel::setPreset
+                onValueChange = component::setPreset
             )
             Spacer(Modifier.size(8.dp))
             ResizeImageField(
                 imageInfo = imageInfo,
-                originalSize = viewModel.originalSize,
-                onHeightChange = viewModel::updateHeight,
-                onWidthChange = viewModel::updateWidth,
-                showWarning = viewModel.showWarning
+                originalSize = component.originalSize,
+                onHeightChange = component::updateHeight,
+                onWidthChange = component::updateWidth,
+                showWarning = component.showWarning
             )
             if (imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                 Modifier.height(8.dp)
             )
             QualitySelector(
                 imageFormat = imageInfo.imageFormat,
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 quality = imageInfo.quality,
-                onQualityChange = viewModel::setQuality
+                onQualityChange = component::setQuality
             )
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
                 value = imageInfo.imageFormat,
-                onValueChange = viewModel::setImageFormat
+                onValueChange = component::setImageFormat
             )
             Spacer(Modifier.height(8.dp))
             ResizeTypeSelector(
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 value = imageInfo.resizeType,
-                onValueChange = viewModel::setResizeType
+                onValueChange = component::setResizeType
             )
             Spacer(Modifier.height(8.dp))
             ScaleModeSelector(
                 value = imageInfo.imageScaleMode,
-                onValueChange = viewModel::setImageScaleMode
+                onValueChange = component::setImageScaleMode
             )
 
             EditExifSheet(
@@ -358,10 +358,10 @@ fun SingleEditContent(
                 onDismiss = {
                     showEditExifDialog = false
                 },
-                exif = viewModel.exif,
-                onClearExif = viewModel::clearExif,
-                onUpdateTag = viewModel::updateExifByTag,
-                onRemoveTag = viewModel::removeExifTag
+                exif = component.exif,
+                onClearExif = component::clearExif,
+                onUpdateTag = component::updateExifByTag,
+                onRemoveTag = component::removeExifTag
             )
         },
         buttons = {
@@ -372,7 +372,7 @@ fun SingleEditContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.uri == Uri.EMPTY) to isPortrait,
+                targetState = (component.uri == Uri.EMPTY) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
@@ -391,7 +391,7 @@ fun SingleEditContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmap,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
             OneTimeImagePickingDialog(
@@ -401,9 +401,9 @@ fun SingleEditContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = viewModel.bitmap != null,
+        canShowScreenData = component.bitmap != null,
         noDataControls = {
-            if (!viewModel.isImageLoading) {
+            if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
@@ -415,7 +415,7 @@ fun SingleEditContent(
         visible = showResetDialog,
         onDismiss = { showResetDialog = false },
         onReset = {
-            viewModel.resetValues(true)
+            component.resetValues(true)
         }
     )
 
@@ -425,109 +425,109 @@ fun SingleEditContent(
         visible = showExitDialog
     )
 
-    if (viewModel.isSaving) {
-        LoadingDialog(onCancelLoading = viewModel::cancelSaving)
+    if (component.isSaving) {
+        LoadingDialog(onCancelLoading = component::cancelSaving)
     }
 
     CropEditOption(
         visible = showCropper,
         onDismiss = { showCropper = false },
         useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmapAfterEditing,
-        cropProperties = viewModel.cropProperties,
-        setCropAspectRatio = viewModel::setCropAspectRatio,
-        setCropMask = viewModel::setCropMask,
-        selectedAspectRatio = viewModel.selectedAspectRatio,
-        loadImage = viewModel::loadImage
+        bitmap = component.previewBitmap,
+        onGetBitmap = component::updateBitmapAfterEditing,
+        cropProperties = component.cropProperties,
+        setCropAspectRatio = component::setCropAspectRatio,
+        setCropMask = component::setCropMask,
+        selectedAspectRatio = component.selectedAspectRatio,
+        loadImage = component::loadImage
     )
 
     FilterEditOption(
         visible = showFiltering,
         onDismiss = {
             showFiltering = false
-            viewModel.clearFilterList()
+            component.clearFilterList()
         },
         useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
+        bitmap = component.previewBitmap,
         onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
+            component.updateBitmapAfterEditing(it, true)
         },
-        onRequestMappingFilters = viewModel::mapFilters,
-        filterList = viewModel.filterList,
-        updateOrder = viewModel::updateOrder,
-        updateFilter = viewModel::updateFilter,
-        removeAt = viewModel::removeFilterAtIndex,
-        addFilter = viewModel::addFilter,
-        filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel,
-        addFilterSheetViewModel = viewModel.addFiltersSheetViewModel
+        onRequestMappingFilters = component::mapFilters,
+        filterList = component.filterList,
+        updateOrder = component::updateOrder,
+        updateFilter = component::updateFilter,
+        removeAt = component::removeFilterAtIndex,
+        addFilter = component::addFilter,
+        filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent,
+        addFilterSheetComponent = component.addFiltersSheetComponent
     )
 
     DrawEditOption(
-        addFiltersSheetViewModel = viewModel.addFiltersSheetViewModel,
-        filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel,
-        onRequestFiltering = viewModel::filter,
+        addFiltersSheetComponent = component.addFiltersSheetComponent,
+        filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent,
+        onRequestFiltering = component::filter,
         visible = showDrawing,
         onDismiss = {
             showDrawing = false
-            viewModel.clearDrawing()
+            component.clearDrawing()
         },
         useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
+        bitmap = component.previewBitmap,
         onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
-            viewModel.clearDrawing()
+            component.updateBitmapAfterEditing(it, true)
+            component.clearDrawing()
         },
-        undo = viewModel::undoDraw,
-        redo = viewModel::redoDraw,
-        paths = viewModel.drawPaths,
-        lastPaths = viewModel.drawLastPaths,
-        undonePaths = viewModel.drawUndonePaths,
-        addPath = viewModel::addPathToDrawList,
-        drawMode = viewModel.drawMode,
-        onUpdateDrawMode = viewModel::updateDrawMode,
-        drawPathMode = viewModel.drawPathMode,
-        onUpdateDrawPathMode = viewModel::updateDrawPathMode,
-        drawLineStyle = viewModel.drawLineStyle,
-        onUpdateDrawLineStyle = viewModel::updateDrawLineStyle,
-        helperGridParams = viewModel.helperGridParams,
-        onUpdateHelperGridParams = viewModel::updateHelperGridParams
+        undo = component::undoDraw,
+        redo = component::redoDraw,
+        paths = component.drawPaths,
+        lastPaths = component.drawLastPaths,
+        undonePaths = component.drawUndonePaths,
+        addPath = component::addPathToDrawList,
+        drawMode = component.drawMode,
+        onUpdateDrawMode = component::updateDrawMode,
+        drawPathMode = component.drawPathMode,
+        onUpdateDrawPathMode = component::updateDrawPathMode,
+        drawLineStyle = component.drawLineStyle,
+        onUpdateDrawLineStyle = component::updateDrawLineStyle,
+        helperGridParams = component.helperGridParams,
+        onUpdateHelperGridParams = component::updateHelperGridParams
     )
 
     EraseBackgroundEditOption(
         visible = showEraseBackground,
         onDismiss = {
             showEraseBackground = false
-            viewModel.clearErasing()
+            component.clearErasing()
         },
         useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
+        bitmap = component.previewBitmap,
         onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
+            component.updateBitmapAfterEditing(it, true)
         },
-        clearErasing = viewModel::clearErasing,
-        undo = viewModel::undoErase,
-        redo = viewModel::redoErase,
-        paths = viewModel.erasePaths,
-        lastPaths = viewModel.eraseLastPaths,
-        undonePaths = viewModel.eraseUndonePaths,
-        addPath = viewModel::addPathToEraseList,
-        drawPathMode = viewModel.drawPathMode,
-        onUpdateDrawPathMode = viewModel::updateDrawPathMode,
-        autoBackgroundRemover = viewModel.getBackgroundRemover(),
-        helperGridParams = viewModel.helperGridParams,
-        onUpdateHelperGridParams = viewModel::updateHelperGridParams
+        clearErasing = component::clearErasing,
+        undo = component::undoErase,
+        redo = component::redoErase,
+        paths = component.erasePaths,
+        lastPaths = component.eraseLastPaths,
+        undonePaths = component.eraseUndonePaths,
+        addPath = component::addPathToEraseList,
+        drawPathMode = component.drawPathMode,
+        onUpdateDrawPathMode = component::updateDrawPathMode,
+        autoBackgroundRemover = component.getBackgroundRemover(),
+        helperGridParams = component.helperGridParams,
+        onUpdateHelperGridParams = component::updateHelperGridParams
     )
 
     ToneCurvesEditOption(
         visible = showApplyCurves,
         onDismiss = { showApplyCurves = false },
         useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
-        editorState = viewModel.imageCurvesEditorState,
-        onResetState = viewModel::resetImageCurvesEditorState,
+        bitmap = component.previewBitmap,
+        editorState = component.imageCurvesEditorState,
+        onResetState = component::resetImageCurvesEditorState,
         onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
+            component.updateBitmapAfterEditing(it, true)
         }
     )
 }

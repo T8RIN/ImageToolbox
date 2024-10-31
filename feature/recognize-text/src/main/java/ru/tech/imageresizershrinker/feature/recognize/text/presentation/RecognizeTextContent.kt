@@ -101,19 +101,19 @@ import ru.tech.imageresizershrinker.feature.recognize.text.presentation.componen
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.TessParamsSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.toUi
-import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextComponent
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.CropEditOption
 
 
 @Composable
 fun RecognizeTextContent(
     onGoBack: () -> Unit,
-    viewModel: RecognizeTextComponent
+    component: RecognizeTextComponent
 ) {
-    val text = viewModel.recognitionData?.text?.takeIf {
+    val text = component.recognitionData?.text?.takeIf {
         it.isNotEmpty()
     }
-    var editedText by rememberSaveable(text, viewModel.isTextLoading) {
+    var editedText by rememberSaveable(text, component.isTextLoading) {
         mutableStateOf(text)
     }
     val isHaveText = editedText.notNullAnd { it.isNotEmpty() }
@@ -134,7 +134,7 @@ fun RecognizeTextContent(
     }
 
     val startRecognition = {
-        viewModel.startRecognition(
+        component.startRecognition(
             onError = {
                 scope.launch {
                     toastHostState.showError(context, it)
@@ -146,15 +146,15 @@ fun RecognizeTextContent(
         )
     }
 
-    LaunchedEffect(viewModel.initialUri) {
-        viewModel.initialUri?.let {
-            viewModel.updateUri(it, startRecognition)
+    LaunchedEffect(component.initialUri) {
+        component.initialUri?.let {
+            component.updateUri(it, startRecognition)
         }
     }
 
     val imageLoader = LocalImageLoader.current
-    LaunchedEffect(viewModel.uri) {
-        viewModel.uri?.let {
+    LaunchedEffect(component.uri) {
+        component.uri?.let {
             if (allowChangeColor) {
                 imageLoader.execute(
                     ImageRequest.Builder(context).data(it).build()
@@ -165,8 +165,8 @@ fun RecognizeTextContent(
         }
     }
 
-    LaunchedEffect(viewModel.previewBitmap, viewModel.filtersAdded) {
-        if (viewModel.previewBitmap != null) {
+    LaunchedEffect(component.previewBitmap, component.filtersAdded) {
+        if (component.previewBitmap != null) {
             startRecognition()
         }
     }
@@ -177,7 +177,7 @@ fun RecognizeTextContent(
         mode = imagePickerMode
     ) { list ->
         list.firstOrNull()?.let {
-            viewModel.updateUri(it, startRecognition)
+            component.updateUri(it, startRecognition)
         }
     }
 
@@ -185,7 +185,7 @@ fun RecognizeTextContent(
         mode = ImagePickerMode.CameraCapture
     ) { list ->
         list.firstOrNull()?.let {
-            viewModel.updateUri(it, startRecognition)
+            component.updateUri(it, startRecognition)
         }
     }
 
@@ -195,7 +195,7 @@ fun RecognizeTextContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val isPortrait by isPortraitOrientationAsState()
@@ -216,7 +216,7 @@ fun RecognizeTextContent(
     }
 
     val shareText: () -> Unit = {
-        viewModel.shareText(editedText) {
+        component.shareText(editedText) {
             scope.launch {
                 confettiHostState.showConfetti()
             }
@@ -231,7 +231,7 @@ fun RecognizeTextContent(
         contract = ActivityResultContracts.CreateDocument("application/zip"),
         onResult = {
             it?.let { uri ->
-                viewModel.exportLanguagesTo(uri) { result ->
+                component.exportLanguagesTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -249,7 +249,7 @@ fun RecognizeTextContent(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.let {
-                viewModel.importLanguagesFrom(
+                component.importLanguagesFrom(
                     uri = uri,
                     onSuccess = {
                         scope.launch {
@@ -274,7 +274,7 @@ fun RecognizeTextContent(
     )
 
     val onExportLanguages: () -> Unit = {
-        exportLanguagesPicker.launch(viewModel.generateExportFilename())
+        exportLanguagesPicker.launch(component.generateExportFilename())
     }
 
     val onImportLanguages: () -> Unit = {
@@ -285,7 +285,7 @@ fun RecognizeTextContent(
         ActivityResultContracts.CreateDocument("text/plain")
     ) { uri ->
         uri?.let {
-            viewModel.saveContentToTxt(
+            component.saveContentToTxt(
                 uri = uri,
                 onResult = { result ->
                     context.parseFileSaveResult(
@@ -302,14 +302,14 @@ fun RecognizeTextContent(
     }
 
     val saveText: () -> Unit = {
-        saveLauncher.launch(viewModel.generateTextFilename())
+        saveLauncher.launch(component.generateTextFilename())
     }
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
         title = {
             AnimatedContent(
-                targetState = viewModel.recognitionData
+                targetState = component.recognitionData
             ) { data ->
                 TopAppBarTitle(
                     title = if (data == null) {
@@ -320,18 +320,18 @@ fun RecognizeTextContent(
                             data.accuracy
                         )
                     },
-                    input = viewModel.uri,
-                    isLoading = viewModel.isTextLoading,
+                    input = component.uri,
+                    isLoading = component.isTextLoading,
                     size = null
                 )
             }
         },
         onGoBack = onGoBack,
         topAppBarPersistentActions = {
-            if (viewModel.uri == null) TopAppBarEmoji()
+            if (component.uri == null) TopAppBarEmoji()
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.uri != null,
+                visible = component.uri != null,
             )
         },
         actions = {
@@ -358,22 +358,22 @@ fun RecognizeTextContent(
                 contentAlignment = Alignment.Center
             ) {
                 Picture(
-                    model = viewModel.previewBitmap,
+                    model = component.previewBitmap,
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier.aspectRatio(
-                        viewModel.previewBitmap?.safeAspectRatio ?: 1f
+                        component.previewBitmap?.safeAspectRatio ?: 1f
                     ),
-                    transformations = viewModel.getTransformations(),
+                    transformations = component.getTransformations(),
                     shape = MaterialTheme.shapes.medium,
-                    isLoadingFromDifferentPlace = viewModel.isImageLoading
+                    isLoadingFromDifferentPlace = component.isImageLoading
                 )
             }
         },
         controls = {
             ImageTransformBar(
-                onRotateLeft = viewModel::rotateBitmapLeft,
-                onFlip = viewModel::flipImage,
-                onRotateRight = viewModel::rotateBitmapRight
+                onRotateLeft = component::rotateBitmapLeft,
+                onFlip = component::flipImage,
+                onRotateRight = component::rotateBitmapRight
             ) {
                 if (imagePickerMode != ImagePickerMode.CameraCapture) {
                     EnhancedIconButton(
@@ -403,23 +403,23 @@ fun RecognizeTextContent(
             }
             Spacer(modifier = Modifier.height(8.dp))
             FilterSelectionBar(
-                addedFilters = viewModel.filtersAdded,
-                onContrastClick = viewModel::toggleContrastFilter,
-                onThresholdClick = viewModel::toggleThresholdFilter,
-                onSharpnessClick = viewModel::toggleSharpnessFilter
+                addedFilters = component.filtersAdded,
+                onContrastClick = component::toggleContrastFilter,
+                onThresholdClick = component::toggleThresholdFilter,
+                onSharpnessClick = component::toggleSharpnessFilter
             )
             Spacer(modifier = Modifier.height(16.dp))
             RecognizeLanguageSelector(
-                currentRecognitionType = viewModel.recognitionType,
-                value = viewModel.selectedLanguages,
-                availableLanguages = viewModel.languages,
+                currentRecognitionType = component.recognitionType,
+                value = component.selectedLanguages,
+                availableLanguages = component.languages,
                 onValueChange = { codeList, type ->
-                    viewModel.onLanguagesSelected(codeList)
-                    viewModel.setRecognitionType(type)
+                    component.onLanguagesSelected(codeList)
+                    component.setRecognitionType(type)
                     startRecognition()
                 },
                 onDeleteLanguage = { language, types ->
-                    viewModel.deleteLanguage(
+                    component.deleteLanguage(
                         language = language,
                         types = types,
                         onSuccess = startRecognition
@@ -442,39 +442,39 @@ fun RecognizeTextContent(
                         editedText = it
                     }
                 },
-                isLoading = viewModel.isTextLoading,
-                loadingProgress = viewModel.textLoadingProgress,
-                accuracy = viewModel.recognitionData?.accuracy ?: 0
+                isLoading = component.isTextLoading,
+                loadingProgress = component.textLoadingProgress,
+                accuracy = component.recognitionData?.accuracy ?: 0
             )
             Spacer(modifier = Modifier.height(8.dp))
             RecognitionTypeSelector(
-                value = viewModel.recognitionType,
+                value = component.recognitionType,
                 onValueChange = { recognitionType ->
-                    viewModel.setRecognitionType(recognitionType)
+                    component.setRecognitionType(recognitionType)
                     startRecognition()
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
             ModelTypeSelector(
-                value = viewModel.segmentationMode,
+                value = component.segmentationMode,
                 onValueChange = {
-                    viewModel.setSegmentationMode(it)
+                    component.setSegmentationMode(it)
                     startRecognition()
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
             OcrEngineModeSelector(
-                value = viewModel.ocrEngineMode,
+                value = component.ocrEngineMode,
                 onValueChange = {
-                    viewModel.setOcrEngineMode(it)
+                    component.setOcrEngineMode(it)
                     startRecognition()
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
             TessParamsSelector(
-                value = viewModel.params,
+                value = component.params,
                 onValueChange = {
-                    viewModel.updateParams(it)
+                    component.updateParams(it)
                     startRecognition()
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -485,7 +485,7 @@ fun RecognizeTextContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.uri == null) to isPortrait,
+                targetState = (component.uri == null) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
@@ -508,16 +508,16 @@ fun RecognizeTextContent(
             ImageNotPickedWidget(onPickImage = pickImage)
         },
         isPortrait = isPortrait,
-        canShowScreenData = viewModel.uri != null
+        canShowScreenData = component.uri != null
     )
 
     ZoomModalSheet(
-        data = viewModel.uri,
+        data = component.uri,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
         },
-        transformations = viewModel.getTransformations()
+        transformations = component.getTransformations()
     )
 
     if (downloadDialogData.isNotEmpty()) {
@@ -530,7 +530,7 @@ fun RecognizeTextContent(
         DownloadLanguageDialog(
             downloadDialogData = downloadDialogData,
             onDownloadRequest = { downloadData ->
-                viewModel.downloadTrainData(
+                component.downloadTrainData(
                     type = downloadData.firstOrNull()?.type
                         ?: RecognitionType.Standard,
                     languageCode = downloadDialogData.joinToString(separator = "+") { it.languageCode },
@@ -569,16 +569,16 @@ fun RecognizeTextContent(
         visible = showCropper,
         onDismiss = { showCropper = false },
         useScaffold = isPortrait,
-        bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmap,
-        cropProperties = viewModel.cropProperties,
-        setCropAspectRatio = viewModel::setCropAspectRatio,
-        setCropMask = viewModel::setCropMask,
-        selectedAspectRatio = viewModel.selectedAspectRatio,
-        loadImage = viewModel::loadImage
+        bitmap = component.previewBitmap,
+        onGetBitmap = component::updateBitmap,
+        cropProperties = component.cropProperties,
+        setCropAspectRatio = component::setCropAspectRatio,
+        setCropMask = component::setCropMask,
+        selectedAspectRatio = component.selectedAspectRatio,
+        loadImage = component::loadImage
     )
 
-    if (viewModel.isExporting) {
+    if (component.isExporting) {
         LoadingDialog()
     }
 }

@@ -104,12 +104,12 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.Sea
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchableSettingItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingGroupItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingItem
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsComponent
+import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
 
 @Composable
 fun SettingsContent(
-    viewModel: SettingsComponent,
+    component: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: Lambda
@@ -361,7 +361,7 @@ fun SettingsContent(
                                                 group.settingsList.forEach { setting ->
                                                     SettingItem(
                                                         setting = setting,
-                                                        viewModel = viewModel,
+                                                        component = component,
                                                         onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
                                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -383,7 +383,7 @@ fun SettingsContent(
                                                 group.settingsList.forEach { setting ->
                                                     SettingItem(
                                                         setting = setting,
-                                                        viewModel = viewModel,
+                                                        component = component,
                                                         onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
                                                         onNavigateToEasterEgg = onNavigateToEasterEgg,
@@ -413,7 +413,7 @@ fun SettingsContent(
                                     ),
                                     group = group,
                                     setting = setting,
-                                    viewModel = viewModel,
+                                    component = component,
                                     onTryGetUpdate = onTryGetUpdate,
                                     isUpdateAvailable = isUpdateAvailable,
                                     onNavigateToEasterEgg = onNavigateToEasterEgg,

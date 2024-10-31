@@ -73,7 +73,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFro
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextContent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertContent
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
-import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootComponent
+import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditContent
@@ -88,12 +88,12 @@ import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGeneratio
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
 internal fun ScreenSelector(
-    viewModel: RootComponent,
+    component: RootComponent,
     onRegisterScreenOpen: (Screen) -> Unit,
 ) {
     val context = LocalContext.current as ComponentActivity
     val scope = rememberCoroutineScope()
-    val navController = viewModel.navController
+    val navController = component.navController
     val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
     val appColorTuple = rememberAppColorTuple(
@@ -102,7 +102,7 @@ internal fun ScreenSelector(
         darkTheme = settingsState.isNightMode
     )
     val onGoBack: () -> Unit = {
-        viewModel.updateUris(null)
+        component.updateUris(null)
         navController.pop()
         scope.launch {
             delay(350L) //delay for screen anim
@@ -116,7 +116,7 @@ internal fun ScreenSelector(
     }
 
     val onTryGetUpdate: (Boolean, Lambda) -> Unit = { isNewRequest, onNoUpdates ->
-        viewModel.tryGetUpdate(
+        component.tryGetUpdate(
             isNewRequest = isNewRequest,
             isInstalledFromMarket = context.isInstalledFromPlayStore(),
             onNoUpdates = onNoUpdates
@@ -124,10 +124,10 @@ internal fun ScreenSelector(
     }
 
     Children(
-        stack = viewModel.childStack,
+        stack = component.childStack,
         modifier = Modifier.fillMaxSize(),
         animation = predictiveBackAnimation(
-            backHandler = viewModel.backHandler,
+            backHandler = component.backHandler,
             fallbackAnimation = stackAnimation(fade() + scale() + slide()),
             onBack = onGoBack,
             selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
@@ -136,9 +136,9 @@ internal fun ScreenSelector(
         when (val instance = screen.instance) {
             is NavigationChild.Settings -> {
                 SettingsContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onTryGetUpdate = onTryGetUpdate,
-                    isUpdateAvailable = viewModel.isUpdateAvailable,
+                    isUpdateAvailable = component.isUpdateAvailable,
                     onGoBack = onGoBack,
                     onNavigateToEasterEgg = {
                         navController.pushNew(Screen.EasterEgg)
@@ -155,15 +155,15 @@ internal fun ScreenSelector(
             is NavigationChild.EasterEgg -> {
                 EasterEggContent(
                     onGoBack = onGoBack,
-                    viewModel = instance.component
+                    component = instance.component
                 )
             }
 
             is NavigationChild.Main -> {
                 MainContent(
                     onTryGetUpdate = onTryGetUpdate,
-                    isUpdateAvailable = viewModel.isUpdateAvailable,
-                    onUpdateUris = viewModel::updateUris,
+                    isUpdateAvailable = component.isUpdateAvailable,
+                    onUpdateUris = component::updateUris,
                     onNavigateToSettings = {
                         navController.pushNew(Screen.Settings)
                         onRegisterScreenOpen(Screen.Settings)
@@ -177,14 +177,14 @@ internal fun ScreenSelector(
                         navController.pushNew(Screen.EasterEgg)
                         onRegisterScreenOpen(Screen.EasterEgg)
                     },
-                    onToggleFavorite = viewModel::toggleFavoriteScreen,
-                    settingsViewModel = instance.component
+                    onToggleFavorite = component::toggleFavoriteScreen,
+                    settingsComponent = instance.component
                 )
             }
 
             is NavigationChild.SingleEdit -> {
                 SingleEditContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -192,7 +192,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.ResizeAndConvert -> {
                 ResizeAndConvertContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -200,7 +200,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.DeleteExif -> {
                 DeleteExifContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -208,7 +208,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.WeightResize -> {
                 WeightResizeContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -216,7 +216,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.Crop -> {
                 CropContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -224,14 +224,14 @@ internal fun ScreenSelector(
 
             is NavigationChild.PickColorFromImage -> {
                 PickColorFromImageContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.ImagePreview -> {
                 ImagePreviewContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -239,21 +239,21 @@ internal fun ScreenSelector(
 
             is NavigationChild.GeneratePalette -> {
                 GeneratePaletteContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.Compare -> {
                 CompareContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.LoadNetImage -> {
                 LoadNetImageContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -261,7 +261,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.Filter -> {
                 FiltersContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -269,7 +269,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.LimitResize -> {
                 LimitsResizeContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -277,7 +277,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.Draw -> {
                 DrawContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -285,14 +285,14 @@ internal fun ScreenSelector(
 
             is NavigationChild.Cipher -> {
                 CipherContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.EraseBackground -> {
                 EraseBackgroundContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -300,7 +300,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.ImageStitching -> {
                 ImageStitchingContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -308,21 +308,21 @@ internal fun ScreenSelector(
 
             is NavigationChild.PdfTools -> {
                 PdfToolsContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.RecognizeText -> {
                 RecognizeTextContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.GradientMaker -> {
                 GradientMakerContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -330,7 +330,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.Watermarking -> {
                 WatermarkingContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -338,14 +338,14 @@ internal fun ScreenSelector(
 
             is NavigationChild.GifTools -> {
                 GifToolsContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.ApngTools -> {
                 ApngToolsContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -353,28 +353,28 @@ internal fun ScreenSelector(
 
             is NavigationChild.Zip -> {
                 ZipContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.JxlTools -> {
                 JxlToolsContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.SvgMaker -> {
                 SvgMakerContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.FormatConversion -> {
                 FormatConversionContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -382,21 +382,21 @@ internal fun ScreenSelector(
 
             is NavigationChild.DocumentScanner -> {
                 DocumentScannerContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.ScanQrCode -> {
                 ScanQrCodeContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.ImageStacking -> {
                 ImageStackingContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -404,7 +404,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.ImageSplitting -> {
                 ImageSplitterContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -412,14 +412,14 @@ internal fun ScreenSelector(
 
             is NavigationChild.ColorTools -> {
                 ColorToolsContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
             is NavigationChild.WebpTools -> {
                 WebpToolsContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -427,7 +427,7 @@ internal fun ScreenSelector(
 
             is NavigationChild.NoiseGeneration -> {
                 NoiseGenerationContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
@@ -435,12 +435,12 @@ internal fun ScreenSelector(
 
             is NavigationChild.CollageMaker -> {
                 CollageMakerContent(
-                    viewModel = instance.component,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
         }
     }
-    ScreenBasedMaxBrightnessEnforcement(viewModel.childStack.backStack.lastOrNull()?.configuration)
+    ScreenBasedMaxBrightnessEnforcement(component.childStack.backStack.lastOrNull()?.configuration)
 }

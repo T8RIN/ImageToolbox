@@ -90,7 +90,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel.CollageMakerComponent
+import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
@@ -134,7 +134,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 fun CollageMakerContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: CollageMakerComponent
+    component: CollageMakerComponent
 ) {
     LockScreenOrientation()
     val context = LocalContext.current as ComponentActivity
@@ -148,10 +148,10 @@ fun CollageMakerContent(
         }
     }
 
-    LaunchedEffect(viewModel.initialUris) {
-        viewModel.initialUris?.takeIf { it.isNotEmpty() }?.let {
+    LaunchedEffect(component.initialUris) {
+        component.initialUris?.takeIf { it.isNotEmpty() }?.let {
             if (it.size in 2..10) {
-                viewModel.updateUris(it)
+                component.updateUris(it)
             } else {
                 scope.launch {
                     toastHostState.showToast(
@@ -169,7 +169,7 @@ fun CollageMakerContent(
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let {
             if (list.size in 2..10) {
-                viewModel.updateUris(list)
+                component.updateUris(list)
             } else {
                 scope.launch {
                     toastHostState.showToast(
@@ -186,11 +186,11 @@ fun CollageMakerContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmap(it) { saveResult ->
+        component.saveBitmap(it) { saveResult ->
             context.parseSaveResult(
                 scope = scope,
                 saveResult = saveResult,
@@ -205,7 +205,7 @@ fun CollageMakerContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
@@ -229,7 +229,7 @@ fun CollageMakerContent(
     }
 
     val collagePreview: @Composable BoxScope.() -> Unit = {
-        var isLoading by rememberSaveable(viewModel.uris) {
+        var isLoading by rememberSaveable(component.uris) {
             mutableStateOf(true)
         }
         LaunchedEffect(isLoading) {
@@ -254,14 +254,14 @@ fun CollageMakerContent(
                     .padding(4.dp)
                     .clip(RoundedCornerShape(4.dp))
                     .transparencyChecker(),
-                images = viewModel.uris ?: emptyList(),
-                collageType = viewModel.collageType,
-                collageCreationTrigger = viewModel.collageCreationTrigger,
-                onCollageCreated = viewModel::updateCollageBitmap,
-                backgroundColor = viewModel.backgroundColor,
-                spacing = viewModel.spacing,
-                cornerRadius = viewModel.cornerRadius,
-                aspectRatio = 1f / viewModel.aspectRatio.value,
+                images = component.uris ?: emptyList(),
+                collageType = component.collageType,
+                collageCreationTrigger = component.collageCreationTrigger,
+                onCollageCreated = component::updateCollageBitmap,
+                backgroundColor = component.backgroundColor,
+                spacing = component.spacing,
+                cornerRadius = component.cornerRadius,
+                aspectRatio = 1f / component.aspectRatio.value,
                 outputScaleRatio = 2f
             )
         }
@@ -284,9 +284,9 @@ fun CollageMakerContent(
             val state = rememberLazyListState()
             CollageTypeSelection(
                 state = state,
-                imagesCount = viewModel.uris?.size ?: 0,
-                value = viewModel.collageType,
-                onValueChange = viewModel::setCollageType,
+                imagesCount = component.uris?.size ?: 0,
+                value = component.collageType,
+                onValueChange = component::setCollageType,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
@@ -317,14 +317,14 @@ fun CollageMakerContent(
                     shape = RoundedCornerShape(24.dp)
                 ),
             icon = Icons.Rounded.FormatColorFill,
-            value = viewModel.backgroundColor,
-            onValueChange = viewModel::setBackgroundColor
+            value = component.backgroundColor,
+            onValueChange = component::setBackgroundColor
         )
         Spacer(Modifier.height(8.dp))
         AspectRatioSelector(
-            selectedAspectRatio = viewModel.aspectRatio,
+            selectedAspectRatio = component.aspectRatio,
             onAspectRatioChange = { aspect, _ ->
-                viewModel.setAspectRatio(aspect)
+                component.setAspectRatio(aspect)
             },
             unselectedCardColor = MaterialTheme.colorScheme.surfaceContainerLowest,
             aspectRatios = remember {
@@ -337,13 +337,13 @@ fun CollageMakerContent(
         Spacer(Modifier.height(8.dp))
         EnhancedSliderItem(
             modifier = Modifier.fillMaxWidth(),
-            value = viewModel.spacing,
+            value = component.spacing,
             title = stringResource(R.string.spacing),
             valueRange = 0f..50f,
             internalStateTransformation = {
                 it.roundToTwoDigits()
             },
-            onValueChange = viewModel::setSpacing,
+            onValueChange = component::setSpacing,
             sliderModifier = Modifier
                 .padding(
                     top = 14.dp,
@@ -357,13 +357,13 @@ fun CollageMakerContent(
         Spacer(Modifier.height(8.dp))
         EnhancedSliderItem(
             modifier = Modifier.fillMaxWidth(),
-            value = viewModel.cornerRadius,
+            value = component.cornerRadius,
             title = stringResource(R.string.corners),
             valueRange = 0f..50f,
             internalStateTransformation = {
                 it.roundToTwoDigits()
             },
-            onValueChange = viewModel::setCornerRadius,
+            onValueChange = component::setCornerRadius,
             sliderModifier = Modifier
                 .padding(
                     top = 14.dp,
@@ -376,15 +376,15 @@ fun CollageMakerContent(
         )
         Spacer(Modifier.height(8.dp))
         QualitySelector(
-            imageFormat = viewModel.imageFormat,
-            quality = viewModel.quality,
-            onQualityChange = viewModel::setQuality
+            imageFormat = component.imageFormat,
+            quality = component.quality,
+            onQualityChange = component::setQuality
         )
         Spacer(Modifier.height(8.dp))
         ImageFormatSelector(
-            value = viewModel.imageFormat,
-            onValueChange = viewModel::setImageFormat,
-            entries = if (viewModel.backgroundColor.alpha != 1f) {
+            value = component.imageFormat,
+            onValueChange = component::setImageFormat,
+            entries = if (component.backgroundColor.alpha != 1f) {
                 ImageFormatGroup.alphaContainedEntries
             } else ImageFormatGroup.entries,
             forceEnabled = true
@@ -416,16 +416,16 @@ fun CollageMakerContent(
         }
         ShareButton(
             onShare = {
-                viewModel.performSharing(showConfetti)
+                component.performSharing(showConfetti)
             },
             onCopy = { manager ->
-                viewModel.cacheImage { uri ->
+                component.cacheImage { uri ->
                     manager.setClip(uri.asClip(context))
                     showConfetti()
                 }
             },
             onEdit = {
-                viewModel.cacheImage {
+                component.cacheImage {
                     editSheetData = listOf(it)
                 }
             }
@@ -456,7 +456,7 @@ fun CollageMakerContent(
             mutableStateOf(false)
         }
         BottomButtonsBlock(
-            targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
+            targetState = (component.uris.isNullOrEmpty()) to isPortrait,
             onSecondaryButtonClick = pickImage,
             onPrimaryButtonClick = {
                 saveBitmaps(null)
@@ -475,7 +475,7 @@ fun CollageMakerContent(
             OneTimeSaveLocationSelectionDialog(
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = saveBitmaps,
-                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
             )
         }
         OneTimeImagePickingDialog(
@@ -487,7 +487,7 @@ fun CollageMakerContent(
     }
 
     val noDataControls: @Composable () -> Unit = {
-        if (!viewModel.isImageLoading) {
+        if (!component.isImageLoading) {
             ImageNotPickedWidget(onPickImage = pickImage)
         }
     }
@@ -497,8 +497,8 @@ fun CollageMakerContent(
             title = {
                 TopAppBarTitle(
                     title = stringResource(R.string.collage_maker),
-                    input = viewModel.uris,
-                    isLoading = viewModel.isImageLoading,
+                    input = component.uris,
+                    isLoading = component.isImageLoading,
                     size = null
                 )
             },
@@ -515,12 +515,12 @@ fun CollageMakerContent(
                     )
                 }
             },
-            type = if (viewModel.uris.isNullOrEmpty()) EnhancedTopAppBarType.Large
+            type = if (component.uris.isNullOrEmpty()) EnhancedTopAppBarType.Large
             else EnhancedTopAppBarType.Normal
         )
     }
 
-    AnimatedContent(viewModel.uris.isNullOrEmpty()) { noData ->
+    AnimatedContent(component.uris.isNullOrEmpty()) { noData ->
         if (noData) {
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -632,7 +632,7 @@ fun CollageMakerContent(
         }
     }
 
-    BackHandler(enabled = viewModel.haveChanges, onBack = onBack)
+    BackHandler(enabled = component.haveChanges, onBack = onBack)
 
     ExitWithoutSavingDialog(
         onExit = onGoBack,
@@ -640,9 +640,9 @@ fun CollageMakerContent(
         visible = showExitDialog
     )
 
-    if (viewModel.isSaving || viewModel.isImageLoading) {
+    if (component.isSaving || component.isImageLoading) {
         LoadingDialog(
-            onCancelLoading = viewModel::cancelSaving
+            onCancelLoading = component::cancelSaving
         )
     }
 }

@@ -135,14 +135,14 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMas
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
-import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropComponent
+import ru.tech.imageresizershrinker.feature.crop.presentation.screenLogic.CropComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CropContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: CropComponent
+    component: CropComponent
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
@@ -161,12 +161,12 @@ fun CropContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.bitmap != null) showExitDialog = true
+        if (component.bitmap != null) showExitDialog = true
         else onGoBack()
     }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -184,7 +184,7 @@ fun CropContent(
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
             rotationState.floatValue = 0f
-            viewModel.setUri(it) { t ->
+            component.setUri(it) { t ->
                 scope.launch {
                     toastHostState.showError(context, t)
                 }
@@ -196,11 +196,11 @@ fun CropContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmap(it) { saveResult ->
+        component.saveBitmap(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
@@ -242,11 +242,11 @@ fun CropContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                value = viewModel.cropType == CropType.FreeCorners,
-                onClick = viewModel::toggleFreeCornersCrop
+                value = component.cropType == CropType.FreeCorners,
+                onClick = component::toggleFreeCornersCrop
             )
             BoxAnimatedVisibility(
-                visible = viewModel.cropType == CropType.FreeCorners,
+                visible = component.cropType == CropType.FreeCorners,
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
@@ -261,7 +261,7 @@ fun CropContent(
             }
             Spacer(modifier = Modifier.height(8.dp))
             BoxAnimatedVisibility(
-                visible = viewModel.cropType != CropType.FreeCorners,
+                visible = component.cropType != CropType.FreeCorners,
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
@@ -270,15 +270,15 @@ fun CropContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        selectedAspectRatio = viewModel.selectedAspectRatio,
-                        onAspectRatioChange = viewModel::setCropAspectRatio
+                        selectedAspectRatio = component.selectedAspectRatio,
+                        onAspectRatioChange = component::setCropAspectRatio
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     CropMaskSelection(
-                        onCropMaskChange = viewModel::setCropMask,
-                        selectedItem = viewModel.cropProperties.cropOutlineProperty,
+                        onCropMaskChange = component::setCropMask,
+                        selectedItem = component.cropProperties.cropOutlineProperty,
                         loadImage = {
-                            viewModel.loadImage(it)?.asImageBitmap()
+                            component.loadImage(it)?.asImageBitmap()
                         },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
@@ -289,12 +289,12 @@ fun CropContent(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding(),
-                entries = if (viewModel.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
+                entries = if (component.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
                     ImageFormatGroup.entries
                 } else ImageFormatGroup.alphaContainedEntries,
-                value = viewModel.imageFormat,
+                value = component.imageFormat,
                 onValueChange = {
-                    viewModel.setImageFormat(it)
+                    component.setImageFormat(it)
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -310,7 +310,7 @@ fun CropContent(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (viewModel.bitmap == null) {
+                if (component.bitmap == null) {
                     EnhancedTopAppBar(
                         type = EnhancedTopAppBarType.Large,
                         scrollBehavior = scrollBehavior,
@@ -385,9 +385,9 @@ fun CropContent(
                                 contentColor = LocalContentColor.current,
                                 enableAutoShadowAndBorder = false,
                                 onClick = {
-                                    viewModel.resetBitmap()
+                                    component.resetBitmap()
                                 },
-                                enabled = viewModel.bitmap != null && viewModel.isBitmapChanged
+                                enabled = component.bitmap != null && component.isBitmapChanged
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.ImageReset,
@@ -398,17 +398,17 @@ fun CropContent(
                                 mutableStateOf(listOf<Uri>())
                             }
                             ShareButton(
-                                enabled = viewModel.bitmap != null,
+                                enabled = component.bitmap != null,
                                 onShare = {
-                                    viewModel.shareBitmap(showConfetti)
+                                    component.shareBitmap(showConfetti)
                                 },
                                 onEdit = {
-                                    viewModel.cacheCurrentImage { uri ->
+                                    component.cacheCurrentImage { uri ->
                                         editSheetData = listOf(uri)
                                     }
                                 },
                                 onCopy = { manager ->
-                                    viewModel.cacheCurrentImage { uri ->
+                                    component.cacheCurrentImage { uri ->
                                         manager.setClip(uri.asClip(context))
                                         showConfetti()
                                     }
@@ -434,22 +434,22 @@ fun CropContent(
                     )
                 }
 
-                viewModel.bitmap?.let { bitmap ->
+                component.bitmap?.let { bitmap ->
                     if (isPortrait) {
                         Cropper(
                             bitmap = bitmap,
                             crop = crop,
-                            onImageCropStarted = viewModel::imageCropStarted,
+                            onImageCropStarted = component::imageCropStarted,
                             onImageCropFinished = {
-                                viewModel.imageCropFinished()
+                                component.imageCropFinished()
                                 if (it != null) {
-                                    viewModel.updateBitmap(it)
+                                    component.updateBitmap(it)
                                 }
                                 crop = false
                             },
                             rotationState = rotationState,
-                            cropProperties = viewModel.cropProperties,
-                            cropType = viewModel.cropType,
+                            cropProperties = component.cropProperties,
+                            cropType = component.cropType,
                             addVerticalInsets = false,
                             coercePointsToImageArea = coercePointsToImageArea
                         )
@@ -466,17 +466,17 @@ fun CropContent(
                                 Cropper(
                                     bitmap = bitmap,
                                     crop = crop,
-                                    onImageCropStarted = viewModel::imageCropStarted,
+                                    onImageCropStarted = component::imageCropStarted,
                                     onImageCropFinished = {
-                                        viewModel.imageCropFinished()
+                                        component.imageCropFinished()
                                         if (it != null) {
-                                            viewModel.updateBitmap(it)
+                                            component.updateBitmap(it)
                                         }
                                         crop = false
                                     },
                                     rotationState = rotationState,
-                                    cropType = viewModel.cropType,
-                                    cropProperties = viewModel.cropProperties,
+                                    cropType = component.cropType,
+                                    cropProperties = component.cropProperties,
                                     addVerticalInsets = true,
                                     coercePointsToImageArea = coercePointsToImageArea
                                 )
@@ -535,7 +535,7 @@ fun CropContent(
                                         contentDescription = stringResource(R.string.crop)
                                     )
                                 }
-                                AnimatedVisibility(viewModel.isBitmapChanged) {
+                                AnimatedVisibility(component.isBitmapChanged) {
                                     Column {
                                         var showFolderSelectionDialog by rememberSaveable {
                                             mutableStateOf(false)
@@ -558,7 +558,7 @@ fun CropContent(
                                             OneTimeSaveLocationSelectionDialog(
                                                 onDismiss = { showFolderSelectionDialog = false },
                                                 onSaveRequest = saveBitmap,
-                                                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                                                formatForFilenameSelection = component.getFormatForFilenameSelection()
                                             )
                                         }
                                     }
@@ -576,7 +576,7 @@ fun CropContent(
                 }
             }
 
-            if (viewModel.bitmap == null) {
+            if (component.bitmap == null) {
                 Row(
                     modifier = Modifier
                         .padding(16.dp)
@@ -601,7 +601,7 @@ fun CropContent(
         }
     }
 
-    if (isPortrait && viewModel.bitmap != null) {
+    if (isPortrait && component.bitmap != null) {
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -642,7 +642,7 @@ fun CropContent(
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                 ) {
                                     val expanded =
-                                        scrollState.isScrollingUp() && viewModel.bitmap == null
+                                        scrollState.isScrollingUp() && component.bitmap == null
                                     val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
                                     Row(
                                         modifier = Modifier.padding(horizontal = horizontalPadding),
@@ -660,7 +660,7 @@ fun CropContent(
                                         }
                                     }
                                 }
-                                AnimatedVisibility(viewModel.isBitmapChanged) {
+                                AnimatedVisibility(component.isBitmapChanged) {
                                     Row {
                                         var showFolderSelectionDialog by rememberSaveable {
                                             mutableStateOf(false)
@@ -683,7 +683,7 @@ fun CropContent(
                                             OneTimeSaveLocationSelectionDialog(
                                                 onDismiss = { showFolderSelectionDialog = false },
                                                 onSaveRequest = saveBitmap,
-                                                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                                                formatForFilenameSelection = component.getFormatForFilenameSelection()
                                             )
                                         }
                                     }
@@ -704,10 +704,10 @@ fun CropContent(
         content(PaddingValues())
     }
 
-    if (viewModel.isSaving || viewModel.isImageLoading) {
+    if (component.isSaving || component.isImageLoading) {
         LoadingDialog(
-            onCancelLoading = viewModel::cancelSaving,
-            canCancel = viewModel.isSaving
+            onCancelLoading = component::cancelSaving,
+            canCancel = component.isSaving
         )
     }
 
@@ -718,7 +718,7 @@ fun CropContent(
     )
 
     BackHandler(
-        enabled = viewModel.bitmap != null,
+        enabled = component.bitmap != null,
         onBack = onBack
     )
 }

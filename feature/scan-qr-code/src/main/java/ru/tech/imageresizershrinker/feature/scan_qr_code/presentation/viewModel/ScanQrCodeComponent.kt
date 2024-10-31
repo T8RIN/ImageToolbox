@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic
 
 
 import android.graphics.Bitmap
@@ -66,7 +66,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             onComplete(
                 fileController.save(
@@ -97,7 +97,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             bitmap.let { image ->
                 shareProvider.shareImage(
@@ -128,7 +128,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             bitmap.let { image ->
                 shareProvider.cacheImage(

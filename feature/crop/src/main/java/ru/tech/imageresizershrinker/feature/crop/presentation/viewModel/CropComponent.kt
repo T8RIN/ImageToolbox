@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.crop.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.crop.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -115,7 +115,7 @@ class CropComponent @AssistedInject internal constructor(
         bitmap: Bitmap?,
         newBitmap: Boolean = false
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             val bmp = imageScaler.scaleUntilCanShow(bitmap)
             if (newBitmap) {
@@ -138,7 +138,7 @@ class CropComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             bitmap?.let { localBitmap ->
                 val byteArray = imageCompressor.compressAndTransform(
@@ -243,7 +243,7 @@ class CropComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             bitmap?.let { localBitmap ->
                 shareProvider.shareImage(
@@ -271,7 +271,7 @@ class CropComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             bitmap?.let { image ->
                 shareProvider.cacheImage(

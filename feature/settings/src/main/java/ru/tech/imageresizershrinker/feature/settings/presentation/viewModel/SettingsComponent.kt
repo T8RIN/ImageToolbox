@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.settings.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -73,7 +73,7 @@ class SettingsComponent @AssistedInject internal constructor(
         }
         settingsManager.getSettingsStateFlow().onEach {
             _settingsState.value = it
-        }.launchIn(viewModelScope)
+        }.launchIn(componentScope)
     }
 
     fun getReadableCacheSize(): String = fileController.getReadableCacheSize()
@@ -81,61 +81,61 @@ class SettingsComponent @AssistedInject internal constructor(
     fun clearCache(onComplete: (String) -> Unit = {}) = fileController.clearCache(onComplete)
 
     fun toggleAddSequenceNumber() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAddSequenceNumber()
         }
     }
 
     fun toggleAddOriginalFilename() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAddOriginalFilename()
         }
     }
 
     fun setEmojisCount(count: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setEmojisCount(count)
         }
     }
 
     fun setImagePickerMode(mode: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setImagePickerMode(mode)
         }
     }
 
     fun toggleAddFileSize() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAddFileSize()
         }
     }
 
     fun setEmoji(emoji: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setEmoji(emoji)
         }
     }
 
     fun setFilenamePrefix(name: String) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setFilenamePrefix(name)
         }
     }
 
     fun setFilenameSuffix(name: String) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setFilenameSuffix(name)
         }
     }
 
     fun toggleShowUpdateDialog() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleShowUpdateDialogOnStartup()
         }
     }
 
     fun setColorTuple(colorTuple: ColorTuple) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setColorTuple(
                 colorTuple.run {
                     "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
@@ -145,43 +145,43 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun toggleDynamicColors() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleDynamicColors()
         }
     }
 
     fun toggleLockDrawOrientation() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleLockDrawOrientation()
         }
     }
 
     fun setBorderWidth(width: Float) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setBorderWidth(width)
         }
     }
 
     fun toggleAllowImageMonet() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAllowImageMonet()
         }
     }
 
     fun toggleAmoledMode() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAmoledMode()
         }
     }
 
     fun setNightMode(nightMode: NightMode) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setNightMode(nightMode)
         }
     }
 
     fun updateSaveFolderUri(uri: Uri?) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setSaveFolderUri(uri?.toString())
         }
     }
@@ -191,37 +191,37 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun updateColorTuples(colorTuples: List<ColorTuple>) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setColorTuples(colorTuples.asString())
         }
     }
 
     fun setAlignment(align: Float) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setAlignment(align.toInt())
         }
     }
 
     fun updateOrder(data: List<Screen>) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setScreenOrder(data.joinToString("/") { it.id.toString() })
         }
     }
 
     fun toggleClearCacheOnLaunch() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleClearCacheOnLaunch()
         }
     }
 
     fun toggleGroupOptionsByType() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleGroupOptionsByTypes()
         }
     }
 
     fun toggleRandomizeFilename() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleRandomizeFilename()
         }
     }
@@ -230,7 +230,7 @@ class SettingsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit,
     ) {
-        viewModelScope.launch(ioDispatcher) {
+        componentScope.launch(ioDispatcher) {
             fileController.writeBytes(
                 uri = uri.toString(),
                 block = { it.writeBytes(settingsManager.createBackupFile()) }
@@ -243,7 +243,7 @@ class SettingsComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             withContext(ioDispatcher) {
                 settingsManager.restoreFromBackupFile(
                     backupFileUri = uri.toString(),
@@ -255,7 +255,7 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun resetSettings() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.resetSettings()
         }
     }
@@ -263,61 +263,61 @@ class SettingsComponent @AssistedInject internal constructor(
     fun createBackupFilename(): String = settingsManager.createBackupFilename()
 
     fun setFont(font: DomainFontFamily) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setFont(font)
         }
     }
 
     fun onUpdateFontScale(scale: Float) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setFontScale(scale)
         }
     }
 
     fun toggleAllowCollectCrashlytics() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAllowCrashlytics()
         }
     }
 
     fun toggleAllowCollectAnalytics() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAllowAnalytics()
         }
     }
 
     fun toggleAllowBetas() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAllowBetas()
         }
     }
 
     fun toggleDrawContainerShadows() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleDrawContainerShadows()
         }
     }
 
     fun toggleDrawSwitchShadows() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleDrawSwitchShadows()
         }
     }
 
     fun toggleDrawSliderShadows() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleDrawSliderShadows()
         }
     }
 
     fun toggleDrawButtonShadows() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleDrawButtonShadows()
         }
     }
 
     fun toggleDrawFabShadows() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleDrawFabShadows()
         }
     }
@@ -326,7 +326,7 @@ class SettingsComponent @AssistedInject internal constructor(
         getEmoji: (Int?) -> String,
         showShoeDescription: ((String) -> Unit)? = null,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             val emojiUri = getEmoji(settingsState.selectedEmoji)
             if (emojiUri.contains("shoe", true) && showShoeDescription != null) {
                 showShoeDescription(emojiUri)
@@ -362,37 +362,37 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun updateThemeContrast(value: Float) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setThemeContrast(value.toDouble())
         }
     }
 
     fun setThemeStyle(value: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setThemeStyle(value)
         }
     }
 
     fun toggleInvertColors() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleInvertColors()
         }
     }
 
     fun toggleScreenSearchEnabled() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleScreensSearchEnabled()
         }
     }
 
     fun toggleDrawAppBarShadows() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleDrawAppBarShadows()
         }
     }
 
     private fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setCopyToClipboardMode(copyToClipboardMode)
         }
     }
@@ -416,43 +416,43 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun setVibrationStrength(strength: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setVibrationStrength(strength)
         }
     }
 
     fun toggleOverwriteFiles() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleOverwriteFiles()
         }
     }
 
     fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setDefaultImageScaleMode(imageScaleMode)
         }
     }
 
     fun setSwitchType(type: SwitchType) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setSwitchType(type)
         }
     }
 
     fun toggleMagnifierEnabled() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleMagnifierEnabled()
         }
     }
 
     fun toggleExifWidgetInitialState() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleExifWidgetInitialState()
         }
     }
 
     fun updateBrightnessEnforcementScreens(screen: Screen) {
-        viewModelScope.launch {
+        componentScope.launch {
             val screens = settingsState.screenListWithMaxBrightnessEnforcement.let {
                 if (screen.id in it) it - screen.id
                 else it + screen.id
@@ -465,175 +465,175 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun toggleConfettiEnabled() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleConfettiEnabled()
         }
     }
 
     fun toggleSecureMode() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleSecureMode()
         }
     }
 
     fun toggleUseEmojiAsPrimaryColor() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleUseEmojiAsPrimaryColor()
         }
     }
 
     fun toggleUseRandomEmojis() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleUseRandomEmojis()
         }
     }
 
     fun setIconShape(iconShape: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setIconShape(iconShape)
         }
     }
 
     fun setDragHandleWidth(width: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setDragHandleWidth(width)
         }
     }
 
     fun setConfettiType(type: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setConfettiType(type)
         }
     }
 
     fun toggleAllowAutoClipboardPaste() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAllowAutoClipboardPaste()
         }
     }
 
     fun setConfettiHarmonizer(colorHarmonizer: ColorHarmonizer) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setConfettiHarmonizer(colorHarmonizer)
         }
     }
 
     fun setConfettiHarmonizationLevel(level: Float) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setConfettiHarmonizationLevel(level)
         }
     }
 
     fun toggleGeneratePreviews() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleGeneratePreviews()
         }
     }
 
     fun toggleSkipImagePicking() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleSkipImagePicking()
         }
     }
 
     fun toggleShowSettingsInLandscape() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleShowSettingsInLandscape()
         }
     }
 
     fun toggleUseFullscreenSettings() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleUseFullscreenSettings()
         }
     }
 
     fun setDefaultDrawLineWidth(value: Float) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setDefaultDrawLineWidth(value)
         }
     }
 
     fun toggleOpenEditInsteadOfPreview() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleOpenEditInsteadOfPreview()
         }
     }
 
     fun toggleCanEnterPresetsByTextField() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleCanEnterPresetsByTextField()
         }
     }
 
     fun setColorBlindScheme(value: Int?) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setColorBlindType(value)
         }
     }
 
     fun toggleIsLinksPreviewEnabled() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleIsLinkPreviewEnabled()
         }
     }
 
     fun setDefaultDrawColor(colorModel: ColorModel) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setDefaultDrawColor(colorModel)
         }
     }
 
     fun setDefaultDrawPathMode(mode: Int) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setDefaultDrawPathMode(mode)
         }
     }
 
     fun toggleAddTimestampToFilename() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAddTimestampToFilename()
         }
     }
 
     fun toggleUseFormattedFilenameTimestamp() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleUseFormattedFilenameTimestamp()
         }
     }
 
     fun setDefaultResizeType(resizeType: ResizeType) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setDefaultResizeType(resizeType)
         }
     }
 
     fun setSystemBarsVisibility(systemBarsVisibility: SystemBarsVisibility) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setSystemBarsVisibility(systemBarsVisibility)
         }
     }
 
     fun toggleIsSystemBarsVisibleBySwipe() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleIsSystemBarsVisibleBySwipe()
         }
     }
 
     fun toggleUseCompactSelectors() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleUseCompactSelectorsLayout()
         }
     }
 
     fun setMainScreenTitle(title: String) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setMainScreenTitle(title)
         }
     }
 
     fun setSliderType(sliderType: SliderType) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setSliderType(sliderType)
         }
     }

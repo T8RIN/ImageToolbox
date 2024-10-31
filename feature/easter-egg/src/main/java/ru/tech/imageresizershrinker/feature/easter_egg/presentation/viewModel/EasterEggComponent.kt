@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.easter_egg.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.easter_egg.presentation.screenLogic
 
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted

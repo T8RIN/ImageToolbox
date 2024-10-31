@@ -153,14 +153,14 @@ import ru.tech.imageresizershrinker.feature.erase_background.presentation.compon
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeButton
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.TrimImageToggle
-import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundComponent
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EraseBackgroundContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: EraseBackgroundComponent,
+    component: EraseBackgroundComponent,
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
@@ -176,8 +176,8 @@ fun EraseBackgroundContent(
         }
     }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -192,7 +192,7 @@ fun EraseBackgroundContent(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it) {
+                component.setUri(it) {
                     scope.launch {
                         toastHostState.showError(context, it)
                     }
@@ -204,7 +204,7 @@ fun EraseBackgroundContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -215,12 +215,12 @@ fun EraseBackgroundContent(
     )
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmap(it) { saveResult ->
+        component.saveBitmap(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
@@ -241,7 +241,7 @@ fun EraseBackgroundContent(
         )
     }
 
-    val drawPathMode = viewModel.drawPathMode
+    val drawPathMode = component.drawPathMode
 
     var originalImagePreviewAlpha by rememberSaveable {
         mutableFloatStateOf(0.2f)
@@ -274,8 +274,8 @@ fun EraseBackgroundContent(
             borderColor = MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.1f
             ),
-            onClick = { viewModel.undo() },
-            enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
+            onClick = { component.undo() },
+            enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.Undo,
@@ -287,8 +287,8 @@ fun EraseBackgroundContent(
             borderColor = MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.1f
             ),
-            onClick = { viewModel.redo() },
-            enabled = viewModel.undonePaths.isNotEmpty()
+            onClick = { component.redo() },
+            enabled = component.undonePaths.isNotEmpty()
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.Redo,
@@ -299,9 +299,9 @@ fun EraseBackgroundContent(
 
     val image: @Composable () -> Unit = @Composable {
         AnimatedContent(
-            targetState = remember(viewModel.bitmap) {
+            targetState = remember(component.bitmap) {
                 derivedStateOf {
-                    viewModel.bitmap?.copy(
+                    component.bitmap?.copy(
                         Bitmap.Config.ARGB_8888,
                         true
                     )?.asImageBitmap() ?: ImageBitmap(
@@ -315,13 +315,13 @@ fun EraseBackgroundContent(
             val direction = LocalLayoutDirection.current
             val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
             BitmapEraser(
-                imageBitmapForShader = viewModel.internalBitmap?.asImageBitmap(),
+                imageBitmapForShader = component.internalBitmap?.asImageBitmap(),
                 imageBitmap = imageBitmap,
-                paths = viewModel.paths,
+                paths = component.paths,
                 strokeWidth = strokeWidth,
                 brushSoftness = brushSoftness,
-                onAddPath = viewModel::addPath,
-                isRecoveryOn = viewModel.isRecoveryOn,
+                onAddPath = component::addPath,
+                isRecoveryOn = component.isRecoveryOn,
                 modifier = Modifier
                     .padding(
                         start = WindowInsets
@@ -335,14 +335,14 @@ fun EraseBackgroundContent(
                 panEnabled = panEnabled,
                 originalImagePreviewAlpha = originalImagePreviewAlpha,
                 drawPathMode = drawPathMode,
-                helperGridParams = viewModel.helperGridParams
+                helperGridParams = component.helperGridParams
             )
         }
     }
 
     val topAppBar = @Composable {
         AnimatedContent(
-            targetState = viewModel.bitmap == null,
+            targetState = component.bitmap == null,
             transitionSpec = {
                 fadeIn() togetherWith fadeOut() using SizeTransform(false)
             }
@@ -408,18 +408,18 @@ fun EraseBackgroundContent(
                             mutableStateOf(listOf<Uri>())
                         }
                         ShareButton(
-                            enabled = viewModel.bitmap != null,
+                            enabled = component.bitmap != null,
                             onShare = {
-                                viewModel.shareBitmap(showConfetti)
+                                component.shareBitmap(showConfetti)
                             },
                             onCopy = { manager ->
-                                viewModel.cacheCurrentImage { uri ->
+                                component.cacheCurrentImage { uri ->
                                     manager.setClip(uri.asClip(context))
                                     showConfetti()
                                 }
                             },
                             onEdit = {
-                                viewModel.cacheCurrentImage { uri ->
+                                component.cacheCurrentImage { uri ->
                                     editSheetData = listOf(uri)
                                 }
                             }
@@ -444,8 +444,8 @@ fun EraseBackgroundContent(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
-                            onClick = { viewModel.clearDrawing() },
-                            enabled = viewModel.paths.isNotEmpty()
+                            onClick = { component.clearDrawing() },
+                            enabled = component.paths.isNotEmpty()
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Delete,
@@ -484,15 +484,15 @@ fun EraseBackgroundContent(
             }
             Spacer(modifier = Modifier.height(16.dp))
             RecoverModeCard(
-                selected = viewModel.isRecoveryOn,
+                selected = component.isRecoveryOn,
                 enabled = !panEnabled,
-                onClick = viewModel::toggleEraser
+                onClick = component::toggleEraser
             )
             AutoEraseBackgroundCard(
                 onClick = {
                     scope.launch {
                         scaffoldState.bottomSheetState.partialExpand()
-                        viewModel.autoEraseBackground(
+                        component.autoEraseBackground(
                             onSuccess = showConfetti,
                             onFailure = {
                                 scope.launch {
@@ -502,7 +502,7 @@ fun EraseBackgroundContent(
                         )
                     }
                 },
-                onReset = viewModel::resetImage
+                onReset = component::resetImage
             )
             OriginalImagePreviewAlphaSelector(
                 value = originalImagePreviewAlpha,
@@ -518,7 +518,7 @@ fun EraseBackgroundContent(
                     top = 8.dp
                 ),
                 value = drawPathMode,
-                onValueChange = viewModel::updateDrawPathMode,
+                onValueChange = component::updateDrawPathMode,
                 values = remember {
                     listOf(
                         DrawPathMode.Free,
@@ -543,13 +543,13 @@ fun EraseBackgroundContent(
                 onValueChange = { brushSoftness = it.pt }
             )
             TrimImageToggle(
-                checked = viewModel.trimImage,
-                onCheckedChange = { viewModel.setTrimImage(it) },
+                checked = component.trimImage,
+                onCheckedChange = { component.setTrimImage(it) },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             HelperGridParamsSelector(
-                value = viewModel.helperGridParams,
-                onValueChange = viewModel::updateHelperGridParams,
+                value = component.helperGridParams,
+                onValueChange = component::updateHelperGridParams,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             val settingsInteractor = LocalSimpleSettingsInteractor.current
@@ -573,9 +573,9 @@ fun EraseBackgroundContent(
                 startIcon = Icons.Outlined.ZoomIn
             )
             SaveExifWidget(
-                imageFormat = viewModel.imageFormat,
-                checked = viewModel.saveExif,
-                onCheckedChange = viewModel::setSaveExif,
+                imageFormat = component.imageFormat,
+                checked = component.saveExif,
+                onCheckedChange = component::setSaveExif,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             ImageFormatSelector(
@@ -583,9 +583,9 @@ fun EraseBackgroundContent(
                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                     .navigationBarsPadding(),
                 entries = ImageFormatGroup.alphaContainedEntries,
-                value = viewModel.imageFormat,
+                value = component.imageFormat,
                 onValueChange = {
-                    viewModel.setImageFormat(it)
+                    component.setImageFormat(it)
                 }
             )
         }
@@ -595,7 +595,7 @@ fun EraseBackgroundContent(
         transitionSpec = {
             fadeIn() togetherWith fadeOut()
         },
-        targetState = viewModel.bitmap == null
+        targetState = component.bitmap == null
     ) { noBitmap ->
         if (noBitmap) {
             Box(Modifier.fillMaxSize()) {
@@ -647,9 +647,9 @@ fun EraseBackgroundContent(
                                 actions = {
                                     secondaryControls()
                                     RecoverModeButton(
-                                        selected = viewModel.isRecoveryOn,
+                                        selected = component.isRecoveryOn,
                                         enabled = !panEnabled,
-                                        onClick = viewModel::toggleEraser
+                                        onClick = component::toggleEraser
                                     )
                                 },
                                 floatingActionButton = {
@@ -684,7 +684,7 @@ fun EraseBackgroundContent(
                                             OneTimeSaveLocationSelectionDialog(
                                                 onDismiss = { showFolderSelectionDialog = false },
                                                 onSaveRequest = saveBitmap,
-                                                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                                                formatForFilenameSelection = component.getFormatForFilenameSelection()
                                             )
                                         }
                                     }
@@ -791,7 +791,7 @@ fun EraseBackgroundContent(
                                 OneTimeSaveLocationSelectionDialog(
                                     onDismiss = { showFolderSelectionDialog = false },
                                     onSaveRequest = saveBitmap,
-                                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                                 )
                             }
                         }
@@ -802,8 +802,8 @@ fun EraseBackgroundContent(
     }
 
 
-    if (viewModel.isSaving || viewModel.isImageLoading || viewModel.isErasingBG) {
-        LoadingDialog(viewModel::cancelSaving, viewModel.isSaving)
+    if (component.isSaving || component.isImageLoading || component.isErasingBG) {
+        LoadingDialog(component::cancelSaving, component.isSaving)
     }
 
     ExitWithoutSavingDialog(
@@ -813,7 +813,7 @@ fun EraseBackgroundContent(
     )
 
     BackHandler(
-        enabled = viewModel.haveChanges,
+        enabled = component.haveChanges,
         onBack = onBack
     )
 

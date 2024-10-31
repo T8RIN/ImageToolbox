@@ -131,8 +131,8 @@ fun DrawEditOption(
     addPath: (UiPathPaint) -> Unit,
     helperGridParams: HelperGridParams,
     onUpdateHelperGridParams: (HelperGridParams) -> Unit,
-    addFiltersSheetViewModel: AddFiltersSheetComponent,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent
+    addFiltersSheetComponent: AddFiltersSheetComponent,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent
 ) {
     bitmap?.let {
         var panEnabled by rememberSaveable { mutableStateOf(false) }
@@ -300,8 +300,8 @@ fun DrawEditOption(
                         )
                     }
                     DrawModeSelector(
-                        addFiltersSheetViewModel = addFiltersSheetViewModel,
-                        filterTemplateCreationSheetViewModel = filterTemplateCreationSheetViewModel,
+                        addFiltersSheetComponent = addFiltersSheetComponent,
+                        filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent,
                         modifier = Modifier.padding(horizontal = 16.dp),
                         value = drawMode,
                         strokeWidth = strokeWidth,

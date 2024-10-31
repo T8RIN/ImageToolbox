@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.compare.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.compare.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -87,7 +87,7 @@ class CompareComponent @AssistedInject internal constructor(
             if (it == 90f) 0f
             else 90f
         }
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _bitmapData.value?.let { (f, s) ->
                 if (f != null && s != null) {
                     _isImageLoading.value = true
@@ -117,7 +117,7 @@ class CompareComponent @AssistedInject internal constructor(
     }
 
     fun swap() {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             _bitmapData.value = _bitmapData.value?.run { second to first }
             _isImageLoading.value = false
@@ -129,7 +129,7 @@ class CompareComponent @AssistedInject internal constructor(
         onError: () -> Unit,
         onSuccess: () -> Unit
     ) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
             if (data.first == null || data.second == null) onError()
             else {
@@ -152,7 +152,7 @@ class CompareComponent @AssistedInject internal constructor(
         imageFormat: ImageFormat,
         onComplete: () -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             getOverlappedImage(percent)?.let {
                 shareProvider.shareImage(
@@ -175,7 +175,7 @@ class CompareComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             getOverlappedImage(percent)?.let { localBitmap ->
                 onComplete(
@@ -248,7 +248,7 @@ class CompareComponent @AssistedInject internal constructor(
         imageFormat: ImageFormat,
         onComplete: (Uri) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isImageLoading.value = true
             getOverlappedImage(percent)?.let {
                 shareProvider.cacheImage(

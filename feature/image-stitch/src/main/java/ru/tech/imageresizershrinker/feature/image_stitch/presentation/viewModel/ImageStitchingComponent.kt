@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.image_stitch.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.image_stitch.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -113,7 +113,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     private fun calculatePreview(force: Boolean = false) {
         if (previousParams == combiningParams && !force) return
 
-        calculationPreviewJob = viewModelScope.launch {
+        calculationPreviewJob = componentScope.launch {
             delay(300L)
             _isImageLoading.value = true
             uris?.let { uris ->
@@ -144,7 +144,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _done.value = 0
             imageCombiner.combineImages(
@@ -181,7 +181,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             imageCombiner.combineImages(
@@ -284,7 +284,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             imageCombiner.combineImages(

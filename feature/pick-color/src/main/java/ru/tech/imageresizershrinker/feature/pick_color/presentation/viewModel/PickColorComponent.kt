@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -66,7 +66,7 @@ class PickColorComponent @AssistedInject internal constructor(
         onError: (Throwable) -> Unit
     ) {
         _uri.value = uri
-        viewModelScope.launch {
+        componentScope.launch {
             runCatching {
                 updateBitmap(
                     imageGetter.getImage(
@@ -79,7 +79,7 @@ class PickColorComponent @AssistedInject internal constructor(
     }
 
     private fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false

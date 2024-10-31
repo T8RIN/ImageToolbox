@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.noise_generation.presentation.viewModel
+package ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -86,7 +86,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.update { true }
             noiseGenerator.generateNoise(
                 width = noiseSize.width,
@@ -125,7 +125,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentNoise(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             noiseGenerator.generateNoise(
                 width = noiseSize.width,
@@ -151,7 +151,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
 
     fun shareNoise(onComplete: () -> Unit) {
         cacheCurrentNoise { uri ->
-            viewModelScope.launch {
+            componentScope.launch {
                 shareProvider.shareUri(
                     uri = uri.toString(),
                     onComplete = onComplete
@@ -196,7 +196,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     }
 
     private fun updatePreview() {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.update { true }
             _previewBitmap.update { null }
             debouncedImageCalculation {

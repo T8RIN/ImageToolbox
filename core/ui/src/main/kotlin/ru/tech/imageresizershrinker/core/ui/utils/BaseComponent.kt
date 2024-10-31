@@ -39,13 +39,13 @@ abstract class BaseComponent(
     private val componentContext: ComponentContext
 ) : ComponentContext by componentContext, DispatchersHolder by dispatchersHolder {
 
-    val viewModelScope = coroutineScope
+    val componentScope = coroutineScope
 
     inline fun debounce(
         time: Long = 200,
         crossinline block: () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             delay(time)
             block()
         }
@@ -80,7 +80,7 @@ abstract class BaseComponent(
         delay: Long = 600L,
         action: suspend () -> Unit
     ) {
-        imageCalculationJob = viewModelScope.launch(
+        imageCalculationJob = componentScope.launch(
             CoroutineExceptionHandler { _, _ ->
                 _isImageLoading.update { false }
             }

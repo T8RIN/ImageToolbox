@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.watermarking.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -116,7 +116,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
         bitmap: Bitmap,
         onComplete: () -> Unit = {}
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             _internalBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             checkBitmapAndUpdate()
@@ -141,7 +141,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _left.value = -1
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
@@ -201,7 +201,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         _left.value = -1
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             _left.value = uris.size
@@ -262,7 +262,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
         uri: Uri,
         onError: (Throwable) -> Unit = {}
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             _selectedUri.value = uri
             _isImageLoading.value = true
             imageGetter.getImageAsync(
@@ -282,7 +282,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             if (selectedUri == removedUri) {
                 val index = uris.indexOf(removedUri)
                 if (index == 0) {
@@ -326,7 +326,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getWatermarkedBitmap(
                 data = selectedUri,
@@ -353,7 +353,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             _left.value = uris.size

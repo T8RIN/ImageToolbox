@@ -184,7 +184,7 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawMod
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenColorPickerCard
-import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawComponent
+import ru.tech.imageresizershrinker.feature.draw.presentation.screenLogic.DrawComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @SuppressLint("AutoboxingStateCreation")
@@ -193,7 +193,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun DrawContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: DrawComponent,
+    component: DrawComponent,
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
@@ -218,17 +218,17 @@ fun DrawContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.drawBehavior !is DrawBehavior.None && viewModel.haveChanges) {
+        if (component.drawBehavior !is DrawBehavior.None && component.haveChanges) {
             showExitDialog = true
-        } else if (viewModel.drawBehavior !is DrawBehavior.None) {
-            viewModel.resetDrawBehavior()
+        } else if (component.drawBehavior !is DrawBehavior.None) {
+            component.resetDrawBehavior()
             themeState.updateColorTuple(appColorTuple)
         } else onGoBack()
     }
 
-    LaunchedEffect(viewModel.bitmap) {
+    LaunchedEffect(component.bitmap) {
         if (allowChangeColor) {
-            viewModel.bitmap?.let {
+            component.bitmap?.let {
                 themeState.updateColorByImage(it)
             }
         }
@@ -239,7 +239,7 @@ fun DrawContent(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it) {
+                component.setUri(it) {
                     scope.launch {
                         toastHostState.showError(context, it)
                     }
@@ -252,7 +252,7 @@ fun DrawContent(
     }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmap(it) { saveResult ->
+        component.saveBitmap(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
@@ -278,33 +278,33 @@ fun DrawContent(
         )
     )
 
-    var panEnabled by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
+    var panEnabled by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
 
     var strokeWidth by rememberSaveable(
-        viewModel.drawBehavior,
+        component.drawBehavior,
         stateSaver = PtSaver
     ) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
 
     var drawColor by rememberSaveable(
-        viewModel.drawBehavior,
+        component.drawBehavior,
         stateSaver = ColorSaver
     ) { mutableStateOf(settingsState.defaultDrawColor) }
 
-    var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
+    var isEraserOn by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
 
-    val drawMode = viewModel.drawMode
+    val drawMode = component.drawMode
 
-    var alpha by rememberSaveable(viewModel.drawBehavior, drawMode) {
+    var alpha by rememberSaveable(component.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
     }
 
-    var brushSoftness by rememberSaveable(viewModel.drawBehavior, drawMode, stateSaver = PtSaver) {
+    var brushSoftness by rememberSaveable(component.drawBehavior, drawMode, stateSaver = PtSaver) {
         mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
     }
 
-    val drawPathMode = viewModel.drawPathMode
+    val drawPathMode = component.drawPathMode
 
-    val drawLineStyle = viewModel.drawLineStyle
+    val drawLineStyle = component.drawLineStyle
 
     LaunchedEffect(drawMode, strokeWidth) {
         strokeWidth = if (drawMode is DrawMode.Image) {
@@ -334,7 +334,7 @@ fun DrawContent(
             ) {
                 OpenColorPickerCard(
                     onOpen = {
-                        viewModel.openColorPicker()
+                        component.openColorPicker()
                         showPickColorSheet = true
                     }
                 )
@@ -378,10 +378,10 @@ fun DrawContent(
                     onValueChange = { brushSoftness = it.pt }
                 )
             }
-            if (viewModel.drawBehavior is DrawBehavior.Background) {
+            if (component.drawBehavior is DrawBehavior.Background) {
                 ColorRowSelector(
-                    value = viewModel.backgroundColor,
-                    onValueChange = viewModel::updateBackgroundColor,
+                    value = component.backgroundColor,
+                    onValueChange = component::updateBackgroundColor,
                     icon = Icons.Rounded.FormatColorFill,
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -405,7 +405,7 @@ fun DrawContent(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 value = drawMode,
                 strokeWidth = strokeWidth,
-                onValueChange = viewModel::updateDrawMode,
+                onValueChange = component::updateDrawMode,
                 values = remember(drawLineStyle) {
                     derivedStateOf {
                         if (drawLineStyle == DrawLineStyle.None) {
@@ -419,13 +419,13 @@ fun DrawContent(
                         }
                     }
                 }.value,
-                addFiltersSheetViewModel = viewModel.addFiltersSheetViewModel,
-                filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel
+                addFiltersSheetComponent = component.addFiltersSheetComponent,
+                filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent
             )
             DrawPathModeSelector(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 value = drawPathMode,
-                onValueChange = viewModel::updateDrawPathMode,
+                onValueChange = component::updateDrawPathMode,
                 values = remember(drawMode, drawLineStyle) {
                     derivedStateOf {
                         val outlinedModes = listOf(
@@ -465,11 +465,11 @@ fun DrawContent(
             DrawLineStyleSelector(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 value = drawLineStyle,
-                onValueChange = viewModel::updateDrawLineStyle
+                onValueChange = component::updateDrawLineStyle
             )
             HelperGridParamsSelector(
-                value = viewModel.helperGridParams,
-                onValueChange = viewModel::updateHelperGridParams,
+                value = component.helperGridParams,
+                onValueChange = component::updateHelperGridParams,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             val settingsInteractor = LocalSimpleSettingsInteractor.current
@@ -490,17 +490,17 @@ fun DrawContent(
             )
             SaveExifWidget(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                checked = viewModel.saveExif,
-                imageFormat = viewModel.imageFormat,
-                onCheckedChange = viewModel::setSaveExif
+                checked = component.saveExif,
+                imageFormat = component.imageFormat,
+                onCheckedChange = component::setSaveExif
             )
             ImageFormatSelector(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding(),
-                forceEnabled = viewModel.drawBehavior is DrawBehavior.Background,
-                value = viewModel.imageFormat,
-                onValueChange = viewModel::setImageFormat
+                forceEnabled = component.drawBehavior is DrawBehavior.Background,
+                value = component.imageFormat,
+                onValueChange = component::setImageFormat
             )
         }
     }
@@ -517,8 +517,8 @@ fun DrawContent(
             borderColor = MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.1f
             ),
-            onClick = viewModel::undo,
-            enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
+            onClick = component::undo,
+            enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.Undo,
@@ -530,8 +530,8 @@ fun DrawContent(
             borderColor = MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.1f
             ),
-            onClick = viewModel::redo,
-            enabled = viewModel.undonePaths.isNotEmpty()
+            onClick = component::redo,
+            enabled = component.undonePaths.isNotEmpty()
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.Redo,
@@ -547,7 +547,7 @@ fun DrawContent(
         )
     }
 
-    val bitmap = viewModel.bitmap ?: (viewModel.drawBehavior as? DrawBehavior.Background)?.run {
+    val bitmap = component.bitmap ?: (component.drawBehavior as? DrawBehavior.Background)?.run {
         remember { ImageBitmap(width, height).asAndroidBitmap() }
     } ?: remember {
         ImageBitmap(
@@ -558,7 +558,7 @@ fun DrawContent(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val topAppBar: @Composable () -> Unit = {
         AnimatedContent(
-            targetState = viewModel.drawBehavior,
+            targetState = component.drawBehavior,
             transitionSpec = {
                 fadeIn() togetherWith fadeOut() using SizeTransform(false)
             }
@@ -597,18 +597,18 @@ fun DrawContent(
                             mutableStateOf(listOf<Uri>())
                         }
                         ShareButton(
-                            enabled = viewModel.drawBehavior !is DrawBehavior.None,
+                            enabled = component.drawBehavior !is DrawBehavior.None,
                             onShare = {
-                                viewModel.shareBitmap(showConfetti)
+                                component.shareBitmap(showConfetti)
                             },
                             onCopy = { manager ->
-                                viewModel.cacheCurrentImage { uri ->
+                                component.cacheCurrentImage { uri ->
                                     manager.setClip(uri.asClip(context))
                                     showConfetti()
                                 }
                             },
                             onEdit = {
-                                viewModel.cacheCurrentImage { uri ->
+                                component.cacheCurrentImage { uri ->
                                     editSheetData = listOf(uri)
                                 }
                             }
@@ -633,8 +633,8 @@ fun DrawContent(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
-                            onClick = viewModel::clearDrawing,
-                            enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.havePaths
+                            onClick = component::clearDrawing,
+                            enabled = component.drawBehavior !is DrawBehavior.None && component.havePaths
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Delete,
@@ -700,11 +700,11 @@ fun DrawContent(
             val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
             BitmapDrawer(
                 imageBitmap = imageBitmap,
-                paths = viewModel.paths,
+                paths = component.paths,
                 strokeWidth = strokeWidth,
                 brushSoftness = brushSoftness,
                 drawColor = drawColor.copy(alpha),
-                onAddPath = viewModel::addPath,
+                onAddPath = component::addPath,
                 isEraserOn = isEraserOn,
                 drawMode = drawMode,
                 modifier = Modifier
@@ -719,11 +719,11 @@ fun DrawContent(
                     .fillMaxSize(),
                 panEnabled = panEnabled,
                 onDraw = {},
-                onRequestFiltering = viewModel::filter,
+                onRequestFiltering = component::filter,
                 drawPathMode = drawPathMode,
-                backgroundColor = viewModel.backgroundColor,
+                backgroundColor = component.backgroundColor,
                 drawLineStyle = drawLineStyle,
-                helperGridParams = viewModel.helperGridParams
+                helperGridParams = component.helperGridParams
             )
         }
     }
@@ -737,7 +737,7 @@ fun DrawContent(
                 screenWidthDp = screenWidthDp
             )
         },
-        targetState = viewModel.drawBehavior
+        targetState = component.drawBehavior
     ) { drawBehavior ->
         if (drawBehavior is DrawBehavior.None) {
             Box(Modifier.fillMaxSize()) {
@@ -818,7 +818,7 @@ fun DrawContent(
                     }
                 }
 
-                val drawOnBackgroundParams = viewModel.drawOnBackgroundParams
+                val drawOnBackgroundParams = component.drawOnBackgroundParams
                 val density = LocalDensity.current
                 val screenWidth = with(density) { configuration.screenWidthDp.dp.roundToPx() }
                 val screenHeight = with(density) { configuration.screenHeightDp.dp.roundToPx() }
@@ -856,7 +856,7 @@ fun DrawContent(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             onClick = {
                                 showBackgroundDrawingSetup = false
-                                viewModel.startDrawOnBackground(
+                                component.startDrawOnBackground(
                                     reqWidth = width,
                                     reqHeight = height,
                                     color = sheetBackgroundColor
@@ -993,7 +993,7 @@ fun DrawContent(
                                             OneTimeSaveLocationSelectionDialog(
                                                 onDismiss = { showFolderSelectionDialog = false },
                                                 onSaveRequest = saveBitmap,
-                                                formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                                                formatForFilenameSelection = component.getFormatForFilenameSelection()
                                             )
                                         }
                                     }
@@ -1113,7 +1113,7 @@ fun DrawContent(
                                 OneTimeSaveLocationSelectionDialog(
                                     onDismiss = { showFolderSelectionDialog = false },
                                     onSaveRequest = saveBitmap,
-                                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                                 )
                             }
                         }
@@ -1123,10 +1123,10 @@ fun DrawContent(
         }
     }
 
-    if (viewModel.isSaving || viewModel.isImageLoading) {
+    if (component.isSaving || component.isImageLoading) {
         LoadingDialog(
-            onCancelLoading = viewModel::cancelSaving,
-            canCancel = viewModel.isSaving
+            onCancelLoading = component::cancelSaving,
+            canCancel = component.isSaving
         )
     }
 
@@ -1136,15 +1136,15 @@ fun DrawContent(
         onDismiss = {
             showPickColorSheet = false
         },
-        bitmap = viewModel.colorPickerBitmap,
+        bitmap = component.colorPickerBitmap,
         onColorChange = { colorPickerColor = it },
         color = colorPickerColor
     )
 
     ExitWithoutSavingDialog(
         onExit = {
-            if (viewModel.drawBehavior !is DrawBehavior.None) {
-                viewModel.resetDrawBehavior()
+            if (component.drawBehavior !is DrawBehavior.None) {
+                component.resetDrawBehavior()
                 themeState.updateColorTuple(appColorTuple)
             } else onGoBack()
         },
@@ -1153,7 +1153,7 @@ fun DrawContent(
     )
 
     BackHandler(
-        enabled = viewModel.drawBehavior !is DrawBehavior.None,
+        enabled = component.drawBehavior !is DrawBehavior.None,
         onBack = onBack
     )
 

@@ -131,7 +131,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.cipher.presentation.components.CipherTipSheet
-import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.CipherComponent
+import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
 import java.security.InvalidKeyException
 import kotlin.random.Random
 
@@ -140,7 +140,7 @@ import kotlin.random.Random
 @Composable
 fun CipherContent(
     onGoBack: () -> Unit,
-    viewModel: CipherComponent
+    component: CipherComponent
 ) {
     val haptics = LocalHapticFeedback.current
 
@@ -156,7 +156,7 @@ fun CipherContent(
     var key by rememberSaveable { mutableStateOf("") }
 
     val onBack = {
-        if (viewModel.uri != null && (key.isNotEmpty() || viewModel.byteArray != null)) showExitDialog =
+        if (component.uri != null && (key.isNotEmpty() || component.byteArray != null)) showExitDialog =
             true
         else onGoBack()
     }
@@ -165,7 +165,7 @@ fun CipherContent(
         contract = ActivityResultContracts.CreateDocument("*/*"),
         onResult = {
             it?.let { uri ->
-                viewModel.saveCryptographyTo(uri) { result ->
+                component.saveCryptographyTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -183,7 +183,7 @@ fun CipherContent(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.let {
-                viewModel.setUri(it)
+                component.setUri(it)
             }
         }
     )
@@ -192,7 +192,7 @@ fun CipherContent(
         onAutoPick = {
             filePicker.launch(arrayOf("*/*"))
         },
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val focus = LocalFocusManager.current
@@ -222,7 +222,7 @@ fun CipherContent(
                         scrollBehavior = scrollBehavior,
                         title = {
                             AnimatedContent(
-                                targetState = viewModel.uri to viewModel.isEncrypt,
+                                targetState = component.uri to component.isEncrypt,
                                 transitionSpec = { fadeIn() togetherWith fadeOut() },
                                 modifier = Modifier.marquee()
                             ) { (uri, isEncrypt) ->
@@ -256,7 +256,7 @@ fun CipherContent(
                             TopAppBarEmoji()
                         }
                     )
-                    val cutout = if (viewModel.uri != null) {
+                    val cutout = if (component.uri != null) {
                         WindowInsets
                             .displayCutout
                             .asPaddingValues()
@@ -282,7 +282,7 @@ fun CipherContent(
                         )
                     ) {
                         item {
-                            AnimatedContent(targetState = viewModel.uri != null) { hasUri ->
+                            AnimatedContent(targetState = component.uri != null) { hasUri ->
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     if (!hasUri) {
                                         Column(
@@ -341,9 +341,9 @@ fun CipherContent(
                                             ToggleGroupButton(
                                                 enabled = true,
                                                 itemCount = items.size,
-                                                selectedIndex = (!viewModel.isEncrypt).toInt(),
+                                                selectedIndex = (!component.isEncrypt).toInt(),
                                                 onIndexChange = {
-                                                    viewModel.setIsEncrypt(it == 0)
+                                                    component.setIsEncrypt(it == 0)
                                                 },
                                                 itemContent = {
                                                     Text(
@@ -367,7 +367,7 @@ fun CipherContent(
                                             }
                                         }
 
-                                        viewModel.uri?.let { uri ->
+                                        component.uri?.let { uri ->
                                             PreferenceItem(
                                                 modifier = Modifier.padding(top = 16.dp),
                                                 title = context.getFilename(uri)
@@ -377,7 +377,7 @@ fun CipherContent(
                                                     lineHeight = 16.sp,
                                                     fontSize = 15.sp
                                                 ),
-                                                subtitle = viewModel.uri?.let {
+                                                subtitle = component.uri?.let {
                                                     stringResource(
                                                         id = R.string.size,
                                                         readableByteCount(
@@ -433,8 +433,8 @@ fun CipherContent(
                                                         contentColor = LocalContentColor.current,
                                                         enableAutoShadowAndBorder = false,
                                                         onClick = {
-                                                            key = viewModel.generateRandomPassword()
-                                                            viewModel.resetCalculatedData()
+                                                            key = component.generateRandomPassword()
+                                                            component.resetCalculatedData()
                                                         },
                                                         modifier = Modifier.padding(start = 4.dp)
                                                     ) {
@@ -452,7 +452,7 @@ fun CipherContent(
                                                         enableAutoShadowAndBorder = false,
                                                         onClick = {
                                                             key = ""
-                                                            viewModel.resetCalculatedData()
+                                                            component.resetCalculatedData()
                                                         },
                                                         modifier = Modifier.padding(end = 4.dp)
                                                     ) {
@@ -467,7 +467,7 @@ fun CipherContent(
                                                 singleLine = false,
                                                 onValueChange = {
                                                     key = it
-                                                    viewModel.resetCalculatedData()
+                                                    component.resetCalculatedData()
                                                 },
                                                 label = {
                                                     Text(stringResource(R.string.key))
@@ -479,7 +479,7 @@ fun CipherContent(
                                             enabled = key.isNotEmpty(),
                                             onClick = {
                                                 focus.clearFocus()
-                                                viewModel.startCryptography(
+                                                component.startCryptography(
                                                     key = key,
                                                     onFileRequest = { uri ->
                                                         context
@@ -511,7 +511,7 @@ fun CipherContent(
                                             )
                                         ) {
                                             AnimatedContent(
-                                                targetState = viewModel.uri to viewModel.isEncrypt,
+                                                targetState = component.uri to component.isEncrypt,
                                                 transitionSpec = { fadeIn() togetherWith fadeOut() }
                                             ) { (uri, isEncrypt) ->
                                                 Row(
@@ -569,7 +569,7 @@ fun CipherContent(
                                                 }
                                             }
                                         }
-                                        AnimatedVisibility(visible = viewModel.byteArray != null) {
+                                        AnimatedVisibility(visible = component.byteArray != null) {
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -615,13 +615,13 @@ fun CipherContent(
                                                     lineHeight = 14.sp,
                                                     modifier = Modifier.padding(vertical = 16.dp)
                                                 )
-                                                var name by rememberSaveable(viewModel.byteArray) {
+                                                var name by rememberSaveable(component.byteArray) {
                                                     mutableStateOf(
-                                                        if (viewModel.isEncrypt) {
+                                                        if (component.isEncrypt) {
                                                             "enc-"
                                                         } else {
                                                             "dec-"
-                                                        } + (viewModel.uri?.let {
+                                                        } + (component.uri?.let {
                                                             context.getFilename(it)
                                                         } ?: Random.nextInt())
                                                     )
@@ -684,8 +684,8 @@ fun CipherContent(
                                                     }
                                                     EnhancedButton(
                                                         onClick = {
-                                                            viewModel.byteArray?.let {
-                                                                viewModel.shareFile(
+                                                            component.byteArray?.let {
+                                                                component.shareFile(
                                                                     it = it,
                                                                     filename = name
                                                                 ) {
@@ -728,12 +728,12 @@ fun CipherContent(
                     }
                 }
 
-                if (viewModel.isSaving) LoadingDialog(viewModel::cancelSaving)
+                if (component.isSaving) LoadingDialog(component::cancelSaving)
             }
         }
 
 
-        if (viewModel.uri == null) {
+        if (component.uri == null) {
             EnhancedFloatingActionButton(
                 onClick = {
                     runCatching {
@@ -790,7 +790,7 @@ fun CipherContent(
     )
 
     BackHandler(
-        enabled = viewModel.uri != null && (key.isNotEmpty() || viewModel.byteArray != null),
+        enabled = component.uri != null && (key.isNotEmpty() || component.byteArray != null),
         onBack = onBack
     )
 

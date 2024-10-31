@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.image_preview.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -63,7 +63,7 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     fun shareImages(
         uriList: List<Uri>?,
         onComplete: () -> Unit
-    ) = viewModelScope.launch(defaultDispatcher) {
+    ) = componentScope.launch(defaultDispatcher) {
         uris?.let {
             shareProvider.shareUris(
                 if (uriList.isNullOrEmpty()) {

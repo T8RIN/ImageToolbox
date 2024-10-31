@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -110,7 +110,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(ioDispatcher) {
+        savingJob = componentScope.launch(ioDispatcher) {
             _isSaving.value = true
             _byteArray.value?.let { byteArray ->
                 fileController.writeBytes(
@@ -172,7 +172,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                 Screen.PdfTools.Type.PdfToImages(newUri)
             } else it
         }
-        viewModelScope.launch {
+        componentScope.launch {
             newUri?.let {
                 val pages = pdfManager.getPdfPages(newUri.toString())
                 _pdfToImageState.update {
@@ -257,7 +257,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     fun convertImagesToPdf(onComplete: () -> Unit) {
         _done.value = 0
         _left.value = 0
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = imagesToPdfState?.size ?: 0
             _byteArray.value = pdfManager.convertImagesToPdf(
@@ -284,7 +284,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     fun preformSharing(
         onComplete: () -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             when (val type = _pdfType.value) {
                 is Screen.PdfTools.Type.ImagesToPdf -> {
@@ -393,7 +393,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     private fun checkForOOM() {
         val preset = _presetSelected.value
-        presetSelectionJob = viewModelScope.launch {
+        presetSelectionJob = componentScope.launch {
             runCatching {
                 _pdfToImageState.value?.let { (uri, pages) ->
                     val pagesSize = pdfManager.getPdfPageSizes(uri.toString())

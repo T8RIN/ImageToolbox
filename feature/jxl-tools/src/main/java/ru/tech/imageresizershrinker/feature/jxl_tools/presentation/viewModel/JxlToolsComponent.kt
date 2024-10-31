@@ -17,7 +17,7 @@
 
 @file:Suppress("FunctionName")
 
-package ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -146,7 +146,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
             Screen.JxlTools.Type.JxlToImage(uri)
         }
         updateJxlFrames(ImageFrames.All)
-        collectionJob = viewModelScope.launch(defaultDispatcher) {
+        collectionJob = componentScope.launch(defaultDispatcher) {
             _isLoading.update { true }
             _isLoadingJxlImages.update { true }
             jxlConverter.extractFramesFromJxl(
@@ -175,7 +175,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -381,7 +381,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         onError: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

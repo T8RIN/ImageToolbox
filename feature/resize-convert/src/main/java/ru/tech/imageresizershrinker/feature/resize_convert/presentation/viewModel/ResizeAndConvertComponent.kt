@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.resize_convert.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -123,7 +123,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     val selectedUri by _selectedUri
 
     init {
-        viewModelScope.launch {
+        componentScope.launch {
             val settingsState = settingsProvider.getSettingsState()
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
@@ -144,7 +144,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         _selectedUri.update { uris?.firstOrNull() }
         _presetSelected.update { Preset.None }
         uris?.firstOrNull()?.let { uri ->
-            viewModelScope.launch {
+            componentScope.launch {
                 _imageInfo.update {
                     it.copy(originalUri = uri.toString())
                 }
@@ -159,7 +159,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _uris.update { uris }
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -242,7 +242,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job = viewModelScope.launch {
+        job = componentScope.launch {
             _isImageLoading.update { true }
             _exif.update { imageData.metadata }
             val bitmap = imageData.image
@@ -378,7 +378,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.update { true }
             val results = mutableListOf<SaveResult>()
             _done.update { 0 }
@@ -425,7 +425,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     fun updateSelectedUri(uri: Uri) {
         _selectedUri.update { uri }
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _isImageLoading.update { true }
             val bitmap = imageGetter.getImage(
                 uri = uri.toString(),
@@ -461,7 +461,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun updatePreset(preset: Preset) {
-        viewModelScope.launch {
+        componentScope.launch {
             if (preset is Preset.AspectRatio && preset.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
             }
@@ -498,7 +498,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     fun performSharing(onComplete: () -> Unit) {
         cacheImages { uris ->
-            viewModelScope.launch {
+            componentScope.launch {
                 shareProvider.shareUris(uris.map { it.toString() })
                 onComplete()
             }
@@ -554,7 +554,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             imageGetter.getImage(selectedUri.toString())?.image?.let { bmp ->
                 bmp to imageInfo.copy(
@@ -581,7 +581,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             _done.update { 0 }
             val list = mutableListOf<Uri>()

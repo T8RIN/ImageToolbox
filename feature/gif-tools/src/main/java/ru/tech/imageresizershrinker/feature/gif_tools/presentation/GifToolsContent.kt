@@ -113,12 +113,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.components.GifParamsSelector
-import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.GifToolsComponent
+import ru.tech.imageresizershrinker.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 
 @Composable
 fun GifToolsContent(
     onGoBack: () -> Unit,
-    viewModel: GifToolsComponent
+    component: GifToolsComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -135,7 +135,7 @@ fun GifToolsContent(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let(viewModel::setImageUris)
+            list.takeIf { it.isNotEmpty() }?.let(component::setImageUris)
         }
 
     val pickSingleGifLauncher = rememberLauncherForActivityResult(
@@ -143,7 +143,7 @@ fun GifToolsContent(
     ) { uri ->
         uri?.let {
             if (it.isGif(context)) {
-                viewModel.setGifUri(it)
+                component.setGifUri(it)
             } else {
                 scope.launch {
                     toastHostState.showToast(
@@ -169,7 +169,7 @@ fun GifToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
+                component.setType(
                     Screen.GifTools.Type.GifToJxl(uris)
                 )
             }
@@ -190,7 +190,7 @@ fun GifToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
+                component.setType(
                     Screen.GifTools.Type.GifToWebp(uris)
                 )
             }
@@ -211,9 +211,9 @@ fun GifToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
+                component.setType(
                     Screen.GifTools.Type.GifToJxl(
-                        (viewModel.type as? Screen.GifTools.Type.GifToJxl)?.gifUris?.plus(uris)
+                        (component.type as? Screen.GifTools.Type.GifToJxl)?.gifUris?.plus(uris)
                             ?.distinct()
                     )
                 )
@@ -235,9 +235,9 @@ fun GifToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
+                component.setType(
                     Screen.GifTools.Type.GifToWebp(
-                        (viewModel.type as? Screen.GifTools.Type.GifToWebp)?.gifUris?.plus(uris)
+                        (component.type as? Screen.GifTools.Type.GifToWebp)?.gifUris?.plus(uris)
                             ?.distinct()
                     )
                 )
@@ -249,7 +249,7 @@ fun GifToolsContent(
         contract = ActivityResultContracts.CreateDocument("image/gif"),
         onResult = {
             it?.let { uri ->
-                viewModel.saveGifTo(uri) { result ->
+                component.saveGifTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -266,17 +266,17 @@ fun GifToolsContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !viewModel.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = when (viewModel.type) {
+                title = when (component.type) {
                     is Screen.GifTools.Type.GifToImage -> {
                         stringResource(R.string.gif_type_to_image)
                     }
@@ -295,22 +295,22 @@ fun GifToolsContent(
 
                     null -> stringResource(R.string.gif_tools)
                 },
-                input = viewModel.type,
-                isLoading = viewModel.isLoading,
+                input = component.type,
+                isLoading = component.isLoading,
                 size = null
             )
         },
         onGoBack = onBack,
         topAppBarPersistentActions = {
-            if (viewModel.type == null) TopAppBarEmoji()
-            val pagesSize by remember(viewModel.gifFrames, viewModel.convertedImageUris) {
+            if (component.type == null) TopAppBarEmoji()
+            val pagesSize by remember(component.gifFrames, component.convertedImageUris) {
                 derivedStateOf {
-                    viewModel.gifFrames.getFramePositions(viewModel.convertedImageUris.size).size
+                    component.gifFrames.getFramePositions(component.convertedImageUris.size).size
                 }
             }
-            val isGifToImage = viewModel.type is Screen.GifTools.Type.GifToImage
+            val isGifToImage = component.type is Screen.GifTools.Type.GifToImage
             AnimatedVisibility(
-                visible = isGifToImage && pagesSize != viewModel.convertedImageUris.size,
+                visible = isGifToImage && pagesSize != component.convertedImageUris.size,
                 enter = fadeIn() + scaleIn() + expandHorizontally(),
                 exit = fadeOut() + scaleOut() + shrinkHorizontally()
             ) {
@@ -318,7 +318,7 @@ fun GifToolsContent(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
-                    onClick = viewModel::selectAllConvertedImages
+                    onClick = component::selectAllConvertedImages
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.SelectAll,
@@ -353,7 +353,7 @@ fun GifToolsContent(
                         containerColor = Color.Transparent,
                         contentColor = LocalContentColor.current,
                         enableAutoShadowAndBorder = false,
-                        onClick = viewModel::clearConvertedImagesSelection
+                        onClick = component::clearConvertedImagesSelection
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
@@ -365,15 +365,15 @@ fun GifToolsContent(
         },
         actions = {
             ShareButton(
-                enabled = !viewModel.isLoading && viewModel.type != null,
+                enabled = !component.isLoading && component.type != null,
                 onShare = {
-                    viewModel.performSharing(showConfetti)
+                    component.performSharing(showConfetti)
                 }
             )
         },
         imagePreview = {
             AnimatedContent(
-                targetState = viewModel.isLoading to viewModel.type
+                targetState = component.isLoading to component.type
             ) { (loading, type) ->
                 Box(
                     contentAlignment = Alignment.Center,
@@ -387,11 +387,11 @@ fun GifToolsContent(
                         when (type) {
                             is Screen.GifTools.Type.GifToImage -> {
                                 ImagesPreviewWithSelection(
-                                    imageUris = viewModel.convertedImageUris,
-                                    imageFrames = viewModel.gifFrames,
-                                    onFrameSelectionChange = viewModel::updateGifFrames,
+                                    imageUris = component.convertedImageUris,
+                                    imageFrames = component.gifFrames,
+                                    onFrameSelectionChange = component::updateGifFrames,
                                     isPortrait = isPortrait,
-                                    isLoadingImages = viewModel.isLoadingGifImages
+                                    isLoadingImages = component.isLoadingGifImages
                                 )
                             }
 
@@ -418,7 +418,7 @@ fun GifToolsContent(
                                     uris = type.gifUris ?: emptyList(),
                                     isPortrait = true,
                                     onRemoveUri = {
-                                        viewModel.setType(
+                                        component.setType(
                                             Screen.GifTools.Type.GifToJxl(type.gifUris?.minus(it))
                                         )
                                     },
@@ -451,7 +451,7 @@ fun GifToolsContent(
                                     uris = type.gifUris ?: emptyList(),
                                     isPortrait = true,
                                     onRemoveUri = {
-                                        viewModel.setType(
+                                        component.setType(
                                             Screen.GifTools.Type.GifToWebp(type.gifUris?.minus(it))
                                         )
                                     },
@@ -467,23 +467,23 @@ fun GifToolsContent(
                 }
             }
         },
-        placeImagePreview = viewModel.type !is Screen.GifTools.Type.ImageToGif,
+        placeImagePreview = component.type !is Screen.GifTools.Type.ImageToGif,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
-            when (val type = viewModel.type) {
+            when (val type = component.type) {
                 is Screen.GifTools.Type.GifToImage -> {
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageFormatSelector(
-                        value = viewModel.imageFormat,
-                        onValueChange = viewModel::setImageFormat
+                        value = component.imageFormat,
+                        onValueChange = component::setImageFormat
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     QualitySelector(
-                        imageFormat = viewModel.imageFormat,
+                        imageFormat = component.imageFormat,
                         enabled = true,
-                        quality = viewModel.params.quality,
-                        onQualityChange = viewModel::setQuality
+                        quality = component.params.quality,
+                        onQualityChange = component::setQuality
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -492,19 +492,19 @@ fun GifToolsContent(
                     val addImagesToGifPicker = rememberImagePicker(
                         mode = localImagePickerMode(Picker.Multiple)
                     ) { list ->
-                        list.takeIf { it.isNotEmpty() }?.let(viewModel::addImageToUris)
+                        list.takeIf { it.isNotEmpty() }?.let(component::addImageToUris)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,
-                        onReorder = viewModel::reorderImageUris,
+                        onReorder = component::reorderImageUris,
                         onNeedToAddImage = { addImagesToGifPicker.pickImage() },
-                        onNeedToRemoveImageAt = viewModel::removeImageAt
+                        onNeedToRemoveImageAt = component::removeImageAt
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     GifParamsSelector(
-                        value = viewModel.params,
-                        onValueChange = viewModel::updateParams
+                        value = component.params,
+                        onValueChange = component::updateParams
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -513,8 +513,8 @@ fun GifToolsContent(
                     QualitySelector(
                         imageFormat = ImageFormat.Jxl.Lossy,
                         enabled = true,
-                        quality = viewModel.jxlQuality,
-                        onQualityChange = viewModel::setJxlQuality
+                        quality = component.jxlQuality,
+                        onQualityChange = component::setJxlQuality
                     )
                 }
 
@@ -522,8 +522,8 @@ fun GifToolsContent(
                     QualitySelector(
                         imageFormat = ImageFormat.Jpg,
                         enabled = true,
-                        quality = viewModel.webpQuality,
-                        onQualityChange = viewModel::setWebpQuality
+                        quality = component.webpQuality,
+                        onQualityChange = component::setWebpQuality
                     )
                 }
 
@@ -531,14 +531,14 @@ fun GifToolsContent(
             }
         },
         contentPadding = animateDpAsState(
-            if (viewModel.type == null) 12.dp
+            if (component.type == null) 12.dp
             else 20.dp
         ).value,
         buttons = {
             val settingsState = LocalSettingsState.current
 
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-                viewModel.saveBitmaps(
+                component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
                     onGifSaveResult = { name ->
                         runCatching {
@@ -582,9 +582,9 @@ fun GifToolsContent(
             }
 
             BottomButtonsBlock(
-                targetState = (viewModel.type == null) to isPortrait,
+                targetState = (component.type == null) to isPortrait,
                 onSecondaryButtonClick = {
-                    when (viewModel.type) {
+                    when (component.type) {
                         is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.launch(arrayOf("image/gif"))
                         is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.launch(
                             arrayOf("image/gif")
@@ -597,12 +597,12 @@ fun GifToolsContent(
                         else -> imagePicker.pickImage()
                     }
                 },
-                isPrimaryButtonVisible = viewModel.canSave,
+                isPrimaryButtonVisible = component.canSave,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
                 },
                 onPrimaryButtonLongClick = {
-                    if (viewModel.type is Screen.GifTools.Type.ImageToGif) {
+                    if (component.type is Screen.GifTools.Type.ImageToGif) {
                         saveBitmaps(null)
                     } else showFolderSelectionDialog = true
                 },
@@ -610,7 +610,7 @@ fun GifToolsContent(
                     if (isPortrait) it()
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (viewModel.type is Screen.GifTools.Type.ImageToGif) {
+                onSecondaryButtonLongClick = if (component.type is Screen.GifTools.Type.ImageToGif) {
                     {
                         showOneTimeImagePickingDialog = true
                     }
@@ -713,25 +713,25 @@ fun GifToolsContent(
             }
         },
         isPortrait = isPortrait,
-        canShowScreenData = viewModel.type != null
+        canShowScreenData = component.type != null
     )
 
-    if (viewModel.isSaving) {
-        if (viewModel.left != -1) {
+    if (component.isSaving) {
+        if (component.left != -1) {
             LoadingDialog(
-                done = viewModel.done,
-                left = viewModel.left,
-                onCancelLoading = viewModel::cancelSaving
+                done = component.done,
+                left = component.left,
+                onCancelLoading = component::cancelSaving
             )
         } else {
             LoadingDialog(
-                onCancelLoading = viewModel::cancelSaving
+                onCancelLoading = component::cancelSaving
             )
         }
     }
 
     ExitWithoutSavingDialog(
-        onExit = viewModel::clearAll,
+        onExit = component::clearAll,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

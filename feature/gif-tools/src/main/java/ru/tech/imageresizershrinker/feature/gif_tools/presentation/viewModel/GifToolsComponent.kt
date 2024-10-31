@@ -17,7 +17,7 @@
 
 @file:Suppress("FunctionName")
 
-package ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.gif_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -151,7 +151,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         }
         updateGifFrames(ImageFrames.All)
 
-        collectionJob = viewModelScope.launch(defaultDispatcher) {
+        collectionJob = componentScope.launch(defaultDispatcher) {
             _isLoading.update { true }
             _isLoadingGifImages.update { true }
             gifConverter.extractFramesFromGif(
@@ -200,7 +200,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             gifData?.let { byteArray ->
                 fileController.writeBytes(
@@ -218,7 +218,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         onGifSaveResult: (filename: String) -> Unit,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -466,7 +466,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     }
 
     fun performSharing(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

@@ -96,8 +96,8 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 
 @Composable
 fun DrawModeSelector(
-    addFiltersSheetViewModel: AddFiltersSheetComponent,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent,
+    addFiltersSheetComponent: AddFiltersSheetComponent,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
     modifier: Modifier,
     value: DrawMode,
     strokeWidth: Pt,
@@ -426,8 +426,8 @@ fun DrawModeSelector(
                     }
                 }
                 AddFiltersSheet(
-                    viewModel = addFiltersSheetViewModel,
-                    filterTemplateCreationSheetViewModel = filterTemplateCreationSheetViewModel,
+                    component = addFiltersSheetComponent,
+                    filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent,
                     visible = showFilterSelection,
                     onVisibleChange = {
                         showFilterSelection = it

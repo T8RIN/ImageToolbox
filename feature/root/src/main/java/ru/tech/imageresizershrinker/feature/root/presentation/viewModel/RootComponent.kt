@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.root.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.root.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -128,24 +128,24 @@ class RootComponent @AssistedInject internal constructor(
             .onEach {
                 _settingsState.value = it
             }
-            .launchIn(viewModelScope)
+            .launchIn(componentScope)
 
         settingsManager
             .getNeedToShowTelegramGroupDialog()
             .onEach { value ->
                 _showTelegramGroupDialog.update { value }
             }
-            .launchIn(viewModelScope)
+            .launchIn(componentScope)
     }
 
     fun toggleShowUpdateDialog() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleShowUpdateDialogOnStartup()
         }
     }
 
     fun setPresets(newPresets: List<Int>) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setPresets(
                 newPresets.joinToString("*")
             )
@@ -171,7 +171,7 @@ class RootComponent @AssistedInject internal constructor(
             }
         } else {
             if (!_isUpdateCancelled.value || isNewRequest) {
-                viewModelScope.launch {
+                componentScope.launch {
                     checkForUpdates(showDialog, onNoUpdates)
                 }
             }
@@ -328,7 +328,7 @@ class RootComponent @AssistedInject internal constructor(
         message: String,
         icon: ImageVector? = null,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             toastHostState.showToast(
                 message = message,
                 icon = icon
@@ -341,7 +341,7 @@ class RootComponent @AssistedInject internal constructor(
     }
 
     fun toggleAllowBetas(installedFromMarket: Boolean) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleAllowBetas()
             tryGetUpdate(
                 isNewRequest = true,
@@ -372,31 +372,31 @@ class RootComponent @AssistedInject internal constructor(
     fun getSettingsInteractor(): SettingsInteractor = settingsManager
 
     fun adjustPerformance(performanceClass: PerformanceClass) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.adjustPerformance(performanceClass)
         }
     }
 
     fun registerDonateDialogOpen() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.registerDonateDialogOpen()
         }
     }
 
     fun notShowDonateDialogAgain() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.setNotShowDonateDialogAgain()
         }
     }
 
     fun toggleFavoriteScreen(screen: Screen) {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.toggleFavoriteScreen(screen.id)
         }
     }
 
     fun registerTelegramGroupOpen() {
-        viewModelScope.launch {
+        componentScope.launch {
             settingsManager.registerTelegramGroupOpen()
         }
     }

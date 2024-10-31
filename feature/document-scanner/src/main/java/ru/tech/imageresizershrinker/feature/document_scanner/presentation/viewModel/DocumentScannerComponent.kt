@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.document_scanner.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -104,7 +104,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -150,7 +150,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = viewModelScope.launch(ioDispatcher) {
+        savingJob = componentScope.launch(ioDispatcher) {
             _isSaving.value = true
             getPdfUri()?.let { pdfUri ->
                 fileController.writeBytes(
@@ -190,7 +190,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     fun sharePdf(
         onComplete: () -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getPdfUri()?.let { pdfUri ->
                 _done.update { 0 }
@@ -231,7 +231,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(
                 uris = uris.map { it.toString() },

@@ -42,12 +42,12 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsComponent
+import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
 @Composable
 internal fun SettingItem(
     setting: Setting,
-    viewModel: SettingsComponent,
+    component: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: () -> Unit,
@@ -80,18 +80,18 @@ internal fun SettingItem(
     ) {
         when (setting) {
             Setting.AddFileSize -> {
-                AddFileSizeSettingItem(onClick = viewModel::toggleAddFileSize)
+                AddFileSizeSettingItem(onClick = component::toggleAddFileSize)
             }
 
             Setting.AddOriginalFilename -> {
-                AddOriginalFilenameSettingItem(onClick = viewModel::toggleAddOriginalFilename)
+                AddOriginalFilenameSettingItem(onClick = component::toggleAddOriginalFilename)
             }
 
             Setting.AllowBetas -> {
                 if (!context.isInstalledFromPlayStore()) {
                     AllowBetasSettingItem(
                         onClick = {
-                            viewModel.toggleAllowBetas()
+                            component.toggleAllowBetas()
                             tryGetUpdate(
                                 onNoUpdates = {}
                             )
@@ -101,15 +101,15 @@ internal fun SettingItem(
             }
 
             Setting.AllowImageMonet -> {
-                AllowImageMonetSettingItem(onClick = viewModel::toggleAllowImageMonet)
+                AllowImageMonetSettingItem(onClick = component::toggleAllowImageMonet)
             }
 
             Setting.AmoledMode -> {
-                AmoledModeSettingItem(onClick = viewModel::toggleAmoledMode)
+                AmoledModeSettingItem(onClick = component::toggleAmoledMode)
             }
 
             Setting.Analytics -> {
-                AnalyticsSettingItem(onClick = viewModel::toggleAllowCollectAnalytics)
+                AnalyticsSettingItem(onClick = component::toggleAllowCollectAnalytics)
             }
 
             Setting.Author -> {
@@ -117,18 +117,18 @@ internal fun SettingItem(
             }
 
             Setting.AutoCacheClear -> {
-                AutoCacheClearSettingItem(onClick = viewModel::toggleClearCacheOnLaunch)
+                AutoCacheClearSettingItem(onClick = component::toggleClearCacheOnLaunch)
             }
 
             Setting.AutoCheckUpdates -> {
-                AutoCheckUpdatesSettingItem(onClick = viewModel::toggleShowUpdateDialog)
+                AutoCheckUpdatesSettingItem(onClick = component::toggleShowUpdateDialog)
             }
 
             Setting.Backup -> {
                 BackupSettingItem(
-                    onCreateBackupFilename = viewModel::createBackupFilename,
+                    onCreateBackupFilename = component::createBackupFilename,
                     onCreateBackup = { uri ->
-                        viewModel.createBackup(
+                        component.createBackup(
                             uri = uri,
                             onResult = { result ->
                                 context.parseFileSaveResult(
@@ -146,13 +146,13 @@ internal fun SettingItem(
             }
 
             Setting.BorderThickness -> {
-                BorderThicknessSettingItem(onValueChange = viewModel::setBorderWidth)
+                BorderThicknessSettingItem(onValueChange = component::setBorderWidth)
             }
 
             Setting.ChangeFont -> {
                 ChangeFontSettingItem(
                     onValueChange = { font ->
-                        viewModel.setFont(font.asDomain())
+                        component.setFont(font.asDomain())
                         context.recreate()
                     }
                 )
@@ -164,24 +164,24 @@ internal fun SettingItem(
 
             Setting.ClearCache -> {
                 ClearCacheSettingItem(
-                    value = viewModel.getReadableCacheSize(),
-                    onClearCache = viewModel::clearCache
+                    value = component.getReadableCacheSize(),
+                    onClearCache = component::clearCache
                 )
             }
 
             Setting.ColorScheme -> {
                 ColorSchemeSettingItem(
-                    onToggleInvertColors = viewModel::toggleInvertColors,
-                    onSetThemeStyle = viewModel::setThemeStyle,
-                    onUpdateThemeContrast = viewModel::updateThemeContrast,
-                    onUpdateColorTuple = viewModel::setColorTuple,
-                    onUpdateColorTuples = viewModel::updateColorTuples,
-                    onToggleUseEmojiAsPrimaryColor = viewModel::toggleUseEmojiAsPrimaryColor
+                    onToggleInvertColors = component::toggleInvertColors,
+                    onSetThemeStyle = component::setThemeStyle,
+                    onUpdateThemeContrast = component::updateThemeContrast,
+                    onUpdateColorTuple = component::setColorTuple,
+                    onUpdateColorTuples = component::updateColorTuples,
+                    onToggleUseEmojiAsPrimaryColor = component::toggleUseEmojiAsPrimaryColor
                 )
             }
 
             Setting.Crashlytics -> {
-                CrashlyticsSettingItem(onClick = viewModel::toggleAllowCollectCrashlytics)
+                CrashlyticsSettingItem(onClick = component::toggleAllowCollectCrashlytics)
             }
 
             Setting.CurrentVersionCode -> {
@@ -217,44 +217,44 @@ internal fun SettingItem(
             }
 
             Setting.DynamicColors -> {
-                DynamicColorsSettingItem(onClick = viewModel::toggleDynamicColors)
+                DynamicColorsSettingItem(onClick = component::toggleDynamicColors)
             }
 
             Setting.Emoji -> {
                 EmojiSettingItem(
-                    onAddColorTupleFromEmoji = viewModel::addColorTupleFromEmoji,
-                    selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
-                    onUpdateEmoji = viewModel::setEmoji
+                    onAddColorTupleFromEmoji = component::addColorTupleFromEmoji,
+                    selectedEmojiIndex = component.settingsState.selectedEmoji ?: 0,
+                    onUpdateEmoji = component::setEmoji
                 )
             }
 
             Setting.EmojisCount -> {
-                EmojisCountSettingItem(onValueChange = viewModel::setEmojisCount)
+                EmojisCountSettingItem(onValueChange = component::setEmojisCount)
             }
 
             Setting.FabAlignment -> {
-                FabAlignmentSettingItem(onValueChange = viewModel::setAlignment)
+                FabAlignmentSettingItem(onValueChange = component::setAlignment)
             }
 
             Setting.FilenamePrefix -> {
-                FilenamePrefixSettingItem(onValueChange = viewModel::setFilenamePrefix)
+                FilenamePrefixSettingItem(onValueChange = component::setFilenamePrefix)
             }
 
             Setting.FilenameSuffix -> {
-                FilenameSuffixSettingItem(onValueChange = viewModel::setFilenameSuffix)
+                FilenameSuffixSettingItem(onValueChange = component::setFilenameSuffix)
             }
 
             Setting.FontScale -> {
                 FontScaleSettingItem(
                     onValueChange = {
-                        viewModel.onUpdateFontScale(it)
+                        component.onUpdateFontScale(it)
                         context.recreate()
                     }
                 )
             }
 
             Setting.GroupOptions -> {
-                GroupOptionsSettingItem(onClick = viewModel::toggleGroupOptionsByType)
+                GroupOptionsSettingItem(onClick = component::toggleGroupOptionsByType)
             }
 
             Setting.HelpTranslate -> {
@@ -262,7 +262,7 @@ internal fun SettingItem(
             }
 
             Setting.ImagePickerMode -> {
-                ImagePickerModeSettingItemGroup(onValueChange = viewModel::setImagePickerMode)
+                ImagePickerModeSettingItemGroup(onValueChange = component::setImagePickerMode)
             }
 
             Setting.IssueTracker -> {
@@ -270,13 +270,13 @@ internal fun SettingItem(
             }
 
             Setting.LockDrawOrientation -> {
-                LockDrawOrientationSettingItem(onClick = viewModel::toggleLockDrawOrientation)
+                LockDrawOrientationSettingItem(onClick = component::toggleLockDrawOrientation)
             }
 
             Setting.NightMode -> {
                 NightModeSettingItemGroup(
-                    value = viewModel.settingsState.nightMode,
-                    onValueChange = viewModel::setNightMode
+                    value = component.settingsState.nightMode,
+                    onValueChange = component::setNightMode
                 )
             }
 
@@ -285,25 +285,25 @@ internal fun SettingItem(
             }
 
             Setting.RandomizeFilename -> {
-                RandomizeFilenameSettingItem(onClick = viewModel::toggleRandomizeFilename)
+                RandomizeFilenameSettingItem(onClick = component::toggleRandomizeFilename)
             }
 
             Setting.ReplaceSequenceNumber -> {
-                ReplaceSequenceNumberSettingItem(onClick = viewModel::toggleAddSequenceNumber)
+                ReplaceSequenceNumberSettingItem(onClick = component::toggleAddSequenceNumber)
             }
 
             Setting.OverwriteFiles -> {
-                OverwriteFilesSettingItem(onClick = viewModel::toggleOverwriteFiles)
+                OverwriteFilesSettingItem(onClick = component::toggleOverwriteFiles)
             }
 
             Setting.Reset -> {
-                ResetSettingsSettingItem(onReset = viewModel::resetSettings)
+                ResetSettingsSettingItem(onReset = component::resetSettings)
             }
 
             Setting.Restore -> {
                 RestoreSettingItem(
                     onObtainBackupFile = {
-                        viewModel.restoreBackupFrom(
+                        component.restoreBackupFrom(
                             uri = it,
                             onSuccess = {
                                 scope.launch {
@@ -330,15 +330,15 @@ internal fun SettingItem(
             }
 
             Setting.SavingFolder -> {
-                SavingFolderSettingItemGroup(onValueChange = viewModel::updateSaveFolderUri)
+                SavingFolderSettingItemGroup(onValueChange = component::updateSaveFolderUri)
             }
 
             Setting.ScreenOrder -> {
-                ScreenOrderSettingItem(onValueChange = viewModel::updateOrder)
+                ScreenOrderSettingItem(onValueChange = component::updateOrder)
             }
 
             Setting.ScreenSearch -> {
-                ScreenSearchSettingItem(onClick = viewModel::toggleScreenSearchEnabled)
+                ScreenSearchSettingItem(onClick = component::toggleScreenSearchEnabled)
             }
 
             Setting.SourceCode -> {
@@ -360,153 +360,153 @@ internal fun SettingItem(
             }
 
             Setting.ContainerShadows -> {
-                ContainerShadowsSettingItem(onClick = viewModel::toggleDrawContainerShadows)
+                ContainerShadowsSettingItem(onClick = component::toggleDrawContainerShadows)
             }
 
             Setting.ButtonShadows -> {
-                ButtonShadowsSettingItem(onClick = viewModel::toggleDrawButtonShadows)
+                ButtonShadowsSettingItem(onClick = component::toggleDrawButtonShadows)
             }
 
             Setting.FABShadows -> {
-                FabShadowsSettingItem(onClick = viewModel::toggleDrawFabShadows)
+                FabShadowsSettingItem(onClick = component::toggleDrawFabShadows)
             }
 
             Setting.SliderShadows -> {
-                SliderShadowsSettingItem(onClick = viewModel::toggleDrawSliderShadows)
+                SliderShadowsSettingItem(onClick = component::toggleDrawSliderShadows)
             }
 
             Setting.SwitchShadows -> {
-                SwitchShadowsSettingItem(onClick = viewModel::toggleDrawSwitchShadows)
+                SwitchShadowsSettingItem(onClick = component::toggleDrawSwitchShadows)
             }
 
             Setting.AppBarShadows -> {
-                AppBarShadowsSettingItem(onClick = viewModel::toggleDrawAppBarShadows)
+                AppBarShadowsSettingItem(onClick = component::toggleDrawAppBarShadows)
             }
 
             Setting.AutoPinClipboard -> {
-                AutoPinClipboardSettingItem(onClick = viewModel::toggleAutoPinClipboard)
+                AutoPinClipboardSettingItem(onClick = component::toggleAutoPinClipboard)
             }
 
             Setting.AutoPinClipboardOnlyClip -> {
-                AutoPinClipboardOnlyClipSettingItem(onClick = viewModel::toggleAutoPinClipboardOnlyClip)
+                AutoPinClipboardOnlyClipSettingItem(onClick = component::toggleAutoPinClipboardOnlyClip)
             }
 
             Setting.VibrationStrength -> {
-                VibrationStrengthSettingItem(onValueChange = viewModel::setVibrationStrength)
+                VibrationStrengthSettingItem(onValueChange = component::setVibrationStrength)
             }
 
             Setting.DefaultScaleMode -> {
-                DefaultScaleModeSettingItem(onValueChange = viewModel::setDefaultImageScaleMode)
+                DefaultScaleModeSettingItem(onValueChange = component::setDefaultImageScaleMode)
             }
 
             Setting.SwitchType -> {
-                SwitchTypeSettingItem(onValueChange = viewModel::setSwitchType)
+                SwitchTypeSettingItem(onValueChange = component::setSwitchType)
             }
 
             Setting.Magnifier -> {
-                MagnifierSettingItem(onClick = viewModel::toggleMagnifierEnabled)
+                MagnifierSettingItem(onClick = component::toggleMagnifierEnabled)
             }
 
             Setting.ExifWidgetInitialState -> {
-                ExifWidgetInitialStateSettingItem(onClick = viewModel::toggleExifWidgetInitialState)
+                ExifWidgetInitialStateSettingItem(onClick = component::toggleExifWidgetInitialState)
             }
 
             Setting.BrightnessEnforcement -> {
-                BrightnessEnforcementSettingItem(onValueChange = viewModel::updateBrightnessEnforcementScreens)
+                BrightnessEnforcementSettingItem(onValueChange = component::updateBrightnessEnforcementScreens)
             }
 
             Setting.Confetti -> {
-                ConfettiSettingItem(onClick = viewModel::toggleConfettiEnabled)
+                ConfettiSettingItem(onClick = component::toggleConfettiEnabled)
             }
 
             Setting.SecureMode -> {
-                SecureModeSettingItem(onClick = viewModel::toggleSecureMode)
+                SecureModeSettingItem(onClick = component::toggleSecureMode)
             }
 
             Setting.UseRandomEmojis -> {
-                UseRandomEmojisSettingItem(onClick = viewModel::toggleUseRandomEmojis)
+                UseRandomEmojisSettingItem(onClick = component::toggleUseRandomEmojis)
             }
 
             Setting.IconShape -> {
                 IconShapeSettingItem(
-                    value = viewModel.settingsState.iconShape,
-                    onValueChange = viewModel::setIconShape
+                    value = component.settingsState.iconShape,
+                    onValueChange = component::setIconShape
                 )
             }
 
             Setting.DragHandleWidth -> {
-                DragHandleWidthSettingItem(onValueChange = viewModel::setDragHandleWidth)
+                DragHandleWidthSettingItem(onValueChange = component::setDragHandleWidth)
             }
 
             Setting.ConfettiType -> {
-                ConfettiTypeSettingItem(onValueChange = viewModel::setConfettiType)
+                ConfettiTypeSettingItem(onValueChange = component::setConfettiType)
             }
 
             Setting.AllowAutoClipboardPaste -> {
-                AllowAutoClipboardPasteSettingItem(onClick = viewModel::toggleAllowAutoClipboardPaste)
+                AllowAutoClipboardPasteSettingItem(onClick = component::toggleAllowAutoClipboardPaste)
             }
 
             Setting.ConfettiHarmonizer -> {
-                ConfettiHarmonizerSettingItem(onValueChange = viewModel::setConfettiHarmonizer)
+                ConfettiHarmonizerSettingItem(onValueChange = component::setConfettiHarmonizer)
             }
 
             Setting.ConfettiHarmonizationLevel -> {
-                ConfettiHarmonizationLevelSettingItem(onValueChange = viewModel::setConfettiHarmonizationLevel)
+                ConfettiHarmonizationLevelSettingItem(onValueChange = component::setConfettiHarmonizationLevel)
             }
 
             Setting.GeneratePreviews -> {
-                GeneratePreviewsSettingItem(onClick = viewModel::toggleGeneratePreviews)
+                GeneratePreviewsSettingItem(onClick = component::toggleGeneratePreviews)
             }
 
             Setting.SkipFilePicking -> {
-                SkipImagePickingSettingItem(onClick = viewModel::toggleSkipImagePicking)
+                SkipImagePickingSettingItem(onClick = component::toggleSkipImagePicking)
             }
 
             Setting.ShowSettingsInLandscape -> {
-                ShowSettingsInLandscapeSettingItem(onClick = viewModel::toggleShowSettingsInLandscape)
+                ShowSettingsInLandscapeSettingItem(onClick = component::toggleShowSettingsInLandscape)
             }
 
             Setting.UseFullscreenSettings -> {
                 UseFullscreenSettingsSettingItem(
-                    onClick = viewModel::toggleUseFullscreenSettings,
+                    onClick = component::toggleUseFullscreenSettings,
                     onNavigateToSettings = onNavigateToSettings
                 )
             }
 
             Setting.DefaultDrawLineWidth -> {
-                DefaultDrawLineWidthSettingItem(onValueChange = viewModel::setDefaultDrawLineWidth)
+                DefaultDrawLineWidthSettingItem(onValueChange = component::setDefaultDrawLineWidth)
             }
 
             Setting.OpenEditInsteadOfPreview -> {
-                OpenEditInsteadOfPreviewSettingItem(onClick = viewModel::toggleOpenEditInsteadOfPreview)
+                OpenEditInsteadOfPreviewSettingItem(onClick = component::toggleOpenEditInsteadOfPreview)
             }
 
             Setting.CanEnterPresetsByTextField -> {
-                CanEnterPresetsByTextFieldSettingItem(onClick = viewModel::toggleCanEnterPresetsByTextField)
+                CanEnterPresetsByTextFieldSettingItem(onClick = component::toggleCanEnterPresetsByTextField)
             }
 
             Setting.ColorBlindScheme -> {
-                ColorBlindSchemeSettingItem(onValueChange = viewModel::setColorBlindScheme)
+                ColorBlindSchemeSettingItem(onValueChange = component::setColorBlindScheme)
             }
 
             Setting.EnableLinksPreview -> {
-                EnableLinksPreviewSettingItem(onClick = viewModel::toggleIsLinksPreviewEnabled)
+                EnableLinksPreviewSettingItem(onClick = component::toggleIsLinksPreviewEnabled)
             }
 
             Setting.DefaultDrawColor -> {
-                DefaultDrawColorSettingItem(onValueChange = viewModel::setDefaultDrawColor)
+                DefaultDrawColorSettingItem(onValueChange = component::setDefaultDrawColor)
             }
 
             Setting.DefaultDrawPathMode -> {
-                DefaultDrawPathModeSettingItem(onValueChange = viewModel::setDefaultDrawPathMode)
+                DefaultDrawPathModeSettingItem(onValueChange = component::setDefaultDrawPathMode)
             }
 
             Setting.AddTimestampToFilename -> {
-                AddTimestampToFilenameSettingItem(onClick = viewModel::toggleAddTimestampToFilename)
+                AddTimestampToFilenameSettingItem(onClick = component::toggleAddTimestampToFilename)
             }
 
             Setting.UseFormattedFilenameTimestamp -> {
-                UseFormattedFilenameTimestampSettingItem(onClick = viewModel::toggleUseFormattedFilenameTimestamp)
+                UseFormattedFilenameTimestampSettingItem(onClick = component::toggleUseFormattedFilenameTimestamp)
             }
 
             Setting.OneTimeSaveLocation -> {
@@ -514,27 +514,27 @@ internal fun SettingItem(
             }
 
             Setting.DefaultResizeType -> {
-                DefaultResizeTypeSettingItem(onValueChange = viewModel::setDefaultResizeType)
+                DefaultResizeTypeSettingItem(onValueChange = component::setDefaultResizeType)
             }
 
             Setting.SystemBarsVisibility -> {
-                SystemBarsVisibilitySettingItem(onValueChange = viewModel::setSystemBarsVisibility)
+                SystemBarsVisibilitySettingItem(onValueChange = component::setSystemBarsVisibility)
             }
 
             Setting.ShowSystemBarsBySwipe -> {
-                ShowSystemBarsBySwipeSettingItem(onClick = viewModel::toggleIsSystemBarsVisibleBySwipe)
+                ShowSystemBarsBySwipeSettingItem(onClick = component::toggleIsSystemBarsVisibleBySwipe)
             }
 
             Setting.UseCompactSelectors -> {
-                UseCompactSelectorsSettingItem(onClick = viewModel::toggleUseCompactSelectors)
+                UseCompactSelectorsSettingItem(onClick = component::toggleUseCompactSelectors)
             }
 
             Setting.MainScreenTitle -> {
-                MainScreenTitleSettingItem(onValueChange = viewModel::setMainScreenTitle)
+                MainScreenTitleSettingItem(onValueChange = component::setMainScreenTitle)
             }
 
             Setting.SliderType -> {
-                SliderTypeSettingItem(onValueChange = viewModel::setSliderType)
+                SliderTypeSettingItem(onValueChange = component::setSliderType)
             }
         }
     }

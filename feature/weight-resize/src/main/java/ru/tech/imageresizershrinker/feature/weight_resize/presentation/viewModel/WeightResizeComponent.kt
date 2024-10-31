@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.weight_resize.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -122,7 +122,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     fun setImageFormat(imageFormat: ImageFormat) {
         if (_imageFormat.value != imageFormat) {
             _imageFormat.value = imageFormat
-            viewModelScope.launch {
+            componentScope.launch {
                 _bitmap.value?.let {
                     _isImageLoading.value = true
                     _imageSize.value = imageCompressor.calculateImageSize(
@@ -158,7 +158,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -183,7 +183,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
 
 
     private fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isImageLoading.value = true
             _bitmap.value = bitmap
             _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
@@ -204,7 +204,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -256,7 +256,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     fun updateSelectedUri(uri: Uri) {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             updateBitmap(
                 imageGetter.getImage(
                     uri = uri.toString(),
@@ -291,7 +291,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
@@ -336,7 +336,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job = viewModelScope.launch {
+        job = componentScope.launch {
             _isImageLoading.value = true
             imageScaler.scaleUntilCanShow(imageData.image)?.let {
                 _bitmap.value = imageData.image
@@ -367,7 +367,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             selectedUri?.toString()?.let { uri ->
                 imageGetter.getImage(uri)?.image?.let { bitmap ->
@@ -413,7 +413,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             val list = mutableListOf<Uri>()

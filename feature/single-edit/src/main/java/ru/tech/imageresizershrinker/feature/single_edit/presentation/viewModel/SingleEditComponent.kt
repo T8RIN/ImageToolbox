@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.single_edit.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -91,8 +91,8 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
-    addFiltersSheetViewModelFactory: AddFiltersSheetComponent.Factory,
-    filterTemplateCreationSheetViewModelFactory: FilterTemplateCreationSheetComponent.Factory,
+    addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
+    filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     init {
@@ -101,17 +101,17 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    val addFiltersSheetViewModel: AddFiltersSheetComponent = addFiltersSheetViewModelFactory(
+    val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
             key = "addFiltersSingle",
 
             )
     )
 
-    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent =
-        filterTemplateCreationSheetViewModelFactory(
+    val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
+        filterTemplateCreationSheetComponentFactory(
             componentContext = componentContext.childContext(
-                key = "filterTemplateCreationSheetViewModelSingle"
+                key = "filterTemplateCreationSheetComponentSingle"
             )
         )
 
@@ -206,14 +206,14 @@ class SingleEditComponent @AssistedInject internal constructor(
     val helperGridParams: HelperGridParams by _helperGridParams
 
     init {
-        viewModelScope.launch {
+        componentScope.launch {
             val settingsState = settingsProvider.getSettingsState()
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
             }
         }
-        viewModelScope.launch {
+        componentScope.launch {
             val params = fileController.restoreObject(
                 "helperGridParams",
                 HelperGridParams::class
@@ -246,7 +246,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = viewModelScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.update { true }
             bitmap?.let { bitmap ->
                 onComplete(
@@ -323,7 +323,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         bitmap: Bitmap?,
         saveOriginalSize: Boolean = false,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             if (!saveOriginalSize) {
                 val size = bitmap?.let { it.width to it.height }
                 _originalSize.update {
@@ -479,7 +479,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job = viewModelScope.launch {
+        job = componentScope.launch {
             _isImageLoading.update { true }
             _exif.update { imageData.metadata }
             val bitmap = imageData.image
@@ -507,7 +507,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             bitmap?.let { image ->
                 shareProvider.shareImage(
@@ -521,7 +521,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = viewModelScope.launch {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             bitmap?.let { image ->
                 shareProvider.cacheImage(
@@ -538,7 +538,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
 
     fun setPreset(preset: Preset) {
-        viewModelScope.launch {
+        componentScope.launch {
             if (preset is Preset.AspectRatio && preset.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
             }
@@ -650,7 +650,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun clearDrawing(canUndo: Boolean = false) {
-        viewModelScope.launch {
+        componentScope.launch {
             delay(500L)
             _drawLastPaths.update { if (canUndo) drawPaths else listOf() }
             _drawPaths.update { listOf() }
@@ -688,7 +688,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun clearErasing(canUndo: Boolean = false) {
-        viewModelScope.launch {
+        componentScope.launch {
             delay(250L)
             _eraseLastPaths.update { if (canUndo) erasePaths else listOf() }
             _erasePaths.update { listOf() }
@@ -775,7 +775,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     fun updateHelperGridParams(params: HelperGridParams) {
         _helperGridParams.update { params }
 
-        smartSavingJob = viewModelScope.launch {
+        smartSavingJob = componentScope.launch {
             delay(200)
             fileController.saveObject(
                 key = "helperGridParams",

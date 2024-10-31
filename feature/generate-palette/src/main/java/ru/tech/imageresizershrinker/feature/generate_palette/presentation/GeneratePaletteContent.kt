@@ -82,13 +82,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.components.GeneratePaletteScreenControls
-import ru.tech.imageresizershrinker.feature.generate_palette.presentation.viewModel.GeneratePaletteComponent
+import ru.tech.imageresizershrinker.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @Composable
 fun GeneratePaletteContent(
     onGoBack: () -> Unit,
-    viewModel: GeneratePaletteComponent
+    component: GeneratePaletteComponent
 ) {
     val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
@@ -108,12 +108,12 @@ fun GeneratePaletteContent(
         mutableStateOf<Boolean?>(null)
     }
 
-    var showPreferencePicker by rememberSaveable(viewModel.initialUri) {
-        mutableStateOf(viewModel.initialUri != null)
+    var showPreferencePicker by rememberSaveable(component.initialUri) {
+        mutableStateOf(component.initialUri != null)
     }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor && useMaterialYouPalette == false) {
                 themeState.updateColorByImage(it)
             }
@@ -127,7 +127,7 @@ fun GeneratePaletteContent(
             ?.firstOrNull()
             ?.let {
                 showPreferencePicker = true
-                viewModel.setUri(it) {
+                component.setUri(it) {
                     scope.launch {
                         toastHostState.showError(context, it)
                     }
@@ -137,7 +137,7 @@ fun GeneratePaletteContent(
 
     AutoFilePicker(
         onAutoPick = imagePicker::pickImage,
-        isPickedAlready = viewModel.initialUri != null
+        isPickedAlready = component.initialUri != null
     )
 
     val paletteImageLauncher = rememberImagePicker(
@@ -147,7 +147,7 @@ fun GeneratePaletteContent(
             ?.firstOrNull()
             ?.let {
                 useMaterialYouPalette = false
-                viewModel.setUri(it) {
+                component.setUri(it) {
                     scope.launch {
                         toastHostState.showError(context, it)
                     }
@@ -162,7 +162,7 @@ fun GeneratePaletteContent(
             ?.firstOrNull()
             ?.let {
                 useMaterialYouPalette = true
-                viewModel.setUri(it) {
+                component.setUri(it) {
                     scope.launch {
                         toastHostState.showError(context, it)
                     }
@@ -181,7 +181,7 @@ fun GeneratePaletteContent(
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
-        data = viewModel.bitmap,
+        data = component.bitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -201,7 +201,7 @@ fun GeneratePaletteContent(
                 startIcon = screen.icon,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    if (viewModel.bitmap == null) {
+                    if (component.bitmap == null) {
                         paletteImageLauncher.pickImage()
                     } else {
                         useMaterialYouPalette = false
@@ -217,7 +217,7 @@ fun GeneratePaletteContent(
                 startIcon = Icons.Outlined.Theme,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    if (viewModel.bitmap == null) {
+                    if (component.bitmap == null) {
                         materialYouImageLauncher.pickImage()
                     } else {
                         useMaterialYouPalette = true
@@ -259,24 +259,24 @@ fun GeneratePaletteContent(
                 title = if (useMaterialYouPalette == true) {
                     stringResource(R.string.material_you)
                 } else stringResource(R.string.palette),
-                input = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
                 size = null
             )
         },
         onGoBack = {
             if (useMaterialYouPalette != null) {
                 useMaterialYouPalette = null
-                viewModel.setUri(null)
+                component.setUri(null)
                 themeState.updateColorTuple(appColorTuple)
             } else onGoBack()
         },
         actions = {
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.bitmap != null,
+                visible = component.bitmap != null,
             )
-            if (viewModel.uri != null) {
+            if (component.uri != null) {
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
@@ -293,17 +293,17 @@ fun GeneratePaletteContent(
             }
         },
         topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) {
+            if (component.bitmap == null) {
                 TopAppBarEmoji()
             }
         },
         imagePreview = {
-            SimplePicture(bitmap = viewModel.bitmap)
+            SimplePicture(bitmap = component.bitmap)
         },
         showImagePreviewAsStickyHeader = useMaterialYouPalette == false,
         placeImagePreview = useMaterialYouPalette == false,
         controls = {
-            viewModel.bitmap?.let { bitmap ->
+            component.bitmap?.let { bitmap ->
                 GeneratePaletteScreenControls(
                     bitmap = bitmap,
                     useMaterialYouPalette = useMaterialYouPalette
@@ -316,7 +316,7 @@ fun GeneratePaletteContent(
             }
 
             BottomButtonsBlock(
-                targetState = (useMaterialYouPalette == null || viewModel.bitmap == null) to isPortrait,
+                targetState = (useMaterialYouPalette == null || component.bitmap == null) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 isPrimaryButtonVisible = false,
                 onPrimaryButtonClick = {},
@@ -343,7 +343,7 @@ fun GeneratePaletteContent(
         noDataControls = {
             preferences()
         },
-        canShowScreenData = useMaterialYouPalette != null && viewModel.bitmap != null,
+        canShowScreenData = useMaterialYouPalette != null && component.bitmap != null,
         isPortrait = isPortrait
     )
 
@@ -355,7 +355,7 @@ fun GeneratePaletteContent(
         onDismiss = {
             showColorPickerSheet = false
         },
-        bitmap = viewModel.bitmap,
+        bitmap = component.bitmap,
         onColorChange = {
             colorPickerValue = it
         },
@@ -391,7 +391,7 @@ fun GeneratePaletteContent(
     }
 
 
-    if (viewModel.isImageLoading) {
+    if (component.isImageLoading) {
         LoadingDialog(canCancel = false)
     }
 }

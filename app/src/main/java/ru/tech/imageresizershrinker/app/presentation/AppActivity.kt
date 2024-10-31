@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.feature.root.presentation.RootContent
-import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootComponent
+import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,7 +46,7 @@ class AppActivity : M3Activity() {
         parseImage(intent)
 
         setContentWithWindowSizeClass {
-            RootContent(viewModel = component)
+            RootContent(component = component)
         }
     }
 
