@@ -53,7 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 
-class WatermarkingViewModel @AssistedInject constructor(
+class WatermarkingViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
@@ -66,11 +66,13 @@ class WatermarkingViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let {
-            setUris(
-                uris = it,
-                onError = {}
-            )
+        debounce {
+            initialUris?.let {
+                setUris(
+                    uris = it,
+                    onError = {}
+                )
+            }
         }
     }
 

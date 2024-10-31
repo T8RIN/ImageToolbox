@@ -619,7 +619,7 @@ fun AddEditMaskSheet(
     )
 }
 
-class AddMaskSheetViewModel @AssistedInject constructor(
+class AddMaskSheetViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,

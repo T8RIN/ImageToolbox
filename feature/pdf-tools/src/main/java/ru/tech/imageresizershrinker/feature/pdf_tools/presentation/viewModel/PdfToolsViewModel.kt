@@ -51,7 +51,7 @@ import java.util.Date
 import java.util.Locale
 import kotlin.random.Random
 
-class PdfToolsViewModel @AssistedInject constructor(
+class PdfToolsViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.PdfTools.Type?,
     private val imageTransformer: ImageTransformer<Bitmap>,
@@ -63,7 +63,9 @@ class PdfToolsViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialType?.let(::setType)
+        debounce {
+            initialType?.let(::setType)
+        }
     }
 
     private val _pdfToImageState: MutableState<PdfToImageState?> = mutableStateOf(null)

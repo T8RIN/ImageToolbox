@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
-internal class LUT512x512Filter @AssistedInject constructor(
+internal class LUT512x512Filter @AssistedInject internal constructor(
     @Assisted override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.lookup),
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>

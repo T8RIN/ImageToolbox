@@ -58,7 +58,7 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
 
-class GradientMakerViewModel @AssistedInject constructor(
+class GradientMakerViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
@@ -70,7 +70,7 @@ class GradientMakerViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        debounceInit {
+        debounce {
             initialUris?.let {
                 setUris(
                     uris = it,

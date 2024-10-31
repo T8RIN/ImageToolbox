@@ -41,11 +41,12 @@ abstract class BaseViewModel(
 
     val viewModelScope = coroutineScope
 
-    inline fun debounceInit(
+    inline fun debounce(
+        time: Long = 200,
         crossinline block: () -> Unit
     ) {
         viewModelScope.launch {
-            delay(200)
+            delay(time)
             block()
         }
     }

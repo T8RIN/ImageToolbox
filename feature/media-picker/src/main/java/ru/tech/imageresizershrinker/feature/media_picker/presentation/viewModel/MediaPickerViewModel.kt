@@ -58,7 +58,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaItem
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaState
 
-class MediaPickerViewModel @AssistedInject constructor(
+class MediaPickerViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,

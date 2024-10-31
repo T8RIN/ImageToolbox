@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformati
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
-class DeleteExifViewModel @AssistedInject constructor(
+class DeleteExifViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
@@ -58,11 +58,13 @@ class DeleteExifViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let {
-            updateUris(
-                uris = it,
-                onError = {}
-            )
+        debounce {
+            initialUris?.let {
+                updateUris(
+                    uris = it,
+                    onError = {}
+                )
+            }
         }
     }
 

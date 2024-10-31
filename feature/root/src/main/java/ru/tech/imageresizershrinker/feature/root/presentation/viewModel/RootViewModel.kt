@@ -40,7 +40,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
-import ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel.CollageMakerViewModel
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -54,85 +53,19 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
-import ru.tech.imageresizershrinker.feature.apng_tools.presentation.viewModel.ApngToolsViewModel
-import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.CipherViewModel
-import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.CompareViewModel
-import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropViewModel
-import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifViewModel
-import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel.DocumentScannerViewModel
-import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawViewModel
-import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggViewModel
-import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
-import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterViewModel
-import ru.tech.imageresizershrinker.feature.format_conversion.presentation.viewModel.FormatConversionViewModel
-import ru.tech.imageresizershrinker.feature.generate_palette.presentation.viewModel.GeneratePaletteViewModel
-import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.GifToolsViewModel
-import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewModel.GradientMakerViewModel
-import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewViewModel
-import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewModel.ImageStackingViewModel
-import ru.tech.imageresizershrinker.feature.image_stitch.presentation.viewModel.ImageStitchingViewModel
-import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel.JxlToolsViewModel
-import ru.tech.imageresizershrinker.feature.limits_resize.presentation.viewModel.LimitsResizeViewModel
-import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewModel.LoadNetImageViewModel
-import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel.PdfToolsViewModel
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.PickColorViewModel
-import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextViewModel
-import ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel.ResizeAndConvertViewModel
-import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeViewModel
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.SingleEditViewModel
-import ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel.SvgMakerViewModel
-import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.WatermarkingViewModel
-import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.WebpToolsViewModel
-import ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel.WeightResizeViewModel
-import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipViewModel
-import ru.tech.imageresizershrinker.image_splitting.presentation.viewModel.ImageSplitterViewModel
-import ru.tech.imageresizershrinker.noise_generation.presentation.viewModel.NoiseGenerationViewModel
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.ChildProvider
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
-class RootViewModel @AssistedInject constructor(
+class RootViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
+    private val childProvider: ChildProvider,
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
-    private val apngToolsComponentFactory: ApngToolsViewModel.Factory,
-    private val cipherComponentFactory: CipherViewModel.Factory,
-    private val collageMakerComponentFactory: CollageMakerViewModel.Factory,
-    private val compareComponentFactory: CompareViewModel.Factory,
-    private val cropComponentFactory: CropViewModel.Factory,
-    private val deleteExifComponentFactory: DeleteExifViewModel.Factory,
-    private val documentScannerComponentFactory: DocumentScannerViewModel.Factory,
-    private val drawComponentFactory: DrawViewModel.Factory,
-    private val eraseBackgroundComponentFactory: EraseBackgroundViewModel.Factory,
-    private val filterComponentFactory: FilterViewModel.Factory,
-    private val formatConversionComponentFactory: FormatConversionViewModel.Factory,
-    private val generatePaletteComponentFactory: GeneratePaletteViewModel.Factory,
-    private val gifToolsComponentFactory: GifToolsViewModel.Factory,
-    private val gradientMakerComponentFactory: GradientMakerViewModel.Factory,
-    private val imagePreviewComponentFactory: ImagePreviewViewModel.Factory,
-    private val imageSplittingComponentFactory: ImageSplitterViewModel.Factory,
-    private val imageStackingComponentFactory: ImageStackingViewModel.Factory,
-    private val imageStitchingComponentFactory: ImageStitchingViewModel.Factory,
-    private val jxlToolsComponentFactory: JxlToolsViewModel.Factory,
-    private val limitResizeComponentFactory: LimitsResizeViewModel.Factory,
-    private val loadNetImageComponentFactory: LoadNetImageViewModel.Factory,
-    private val noiseGenerationComponentFactory: NoiseGenerationViewModel.Factory,
-    private val pdfToolsComponentFactory: PdfToolsViewModel.Factory,
-    private val pickColorFromImageComponentFactory: PickColorViewModel.Factory,
-    private val recognizeTextComponentFactory: RecognizeTextViewModel.Factory,
-    private val resizeAndConvertComponentFactory: ResizeAndConvertViewModel.Factory,
-    private val scanQrCodeComponentFactory: ScanQrCodeViewModel.Factory,
-    private val settingsComponentFactory: SettingsViewModel.Factory,
-    private val singleEditComponentFactory: SingleEditViewModel.Factory,
-    private val svgMakerComponentFactory: SvgMakerViewModel.Factory,
-    private val watermarkingComponentFactory: WatermarkingViewModel.Factory,
-    private val webpToolsComponentFactory: WebpToolsViewModel.Factory,
-    private val weightResizeComponentFactory: WeightResizeViewModel.Factory,
-    private val zipComponentFactory: ZipViewModel.Factory,
-    private val easterEggComponentFactory: EasterEggViewModel.Factory
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
@@ -140,13 +73,13 @@ class RootViewModel @AssistedInject constructor(
 
     val navController = StackNavigation<Screen>()
 
-    val childStack: Value<ChildStack<Screen, Child>> =
+    val childStack: Value<ChildStack<Screen, NavigationChild>> =
         childStack(
             source = navController,
             initialConfiguration = Screen.Main,
             serializer = Screen.serializer(),
             handleBackButton = true,
-            childFactory = ::child,
+            childFactory = childProvider::createChild,
         )
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -468,305 +401,11 @@ class RootViewModel @AssistedInject constructor(
         }
     }
 
-    sealed class Child {
-        class ApngTools(val component: ApngToolsViewModel) : Child()
-        class Cipher(val component: CipherViewModel) : Child()
-        class CollageMaker(val component: CollageMakerViewModel) : Child()
-        data object ColorTools : Child()
-        class Compare(val component: CompareViewModel) : Child()
-        class Crop(val component: CropViewModel) : Child()
-        class DeleteExif(val component: DeleteExifViewModel) : Child()
-        class DocumentScanner(val component: DocumentScannerViewModel) : Child()
-        class Draw(val component: DrawViewModel) : Child()
-        class EasterEgg(val component: EasterEggViewModel) : Child()
-        class EraseBackground(val component: EraseBackgroundViewModel) : Child()
-        class Filter(val component: FilterViewModel) : Child()
-        class FormatConversion(val component: FormatConversionViewModel) : Child()
-        class GeneratePalette(val component: GeneratePaletteViewModel) : Child()
-        class GifTools(val component: GifToolsViewModel) : Child()
-        class GradientMaker(val component: GradientMakerViewModel) : Child()
-        class ImagePreview(val component: ImagePreviewViewModel) : Child()
-        class ImageSplitting(val component: ImageSplitterViewModel) : Child()
-        class ImageStacking(val component: ImageStackingViewModel) : Child()
-        class ImageStitching(val component: ImageStitchingViewModel) : Child()
-        class JxlTools(val component: JxlToolsViewModel) : Child()
-        class LimitResize(val component: LimitsResizeViewModel) : Child()
-        class LoadNetImage(val component: LoadNetImageViewModel) : Child()
-        class Main(val component: SettingsViewModel) : Child()
-        class NoiseGeneration(val component: NoiseGenerationViewModel) : Child()
-        class PdfTools(val component: PdfToolsViewModel) : Child()
-        class PickColorFromImage(val component: PickColorViewModel) : Child()
-        class RecognizeText(val component: RecognizeTextViewModel) : Child()
-        class ResizeAndConvert(val component: ResizeAndConvertViewModel) : Child()
-        class ScanQrCode(val component: ScanQrCodeViewModel) : Child()
-        class Settings(val component: SettingsViewModel) : Child()
-        class SingleEdit(val component: SingleEditViewModel) : Child()
-        class SvgMaker(val component: SvgMakerViewModel) : Child()
-        class Watermarking(val component: WatermarkingViewModel) : Child()
-        class WebpTools(val component: WebpToolsViewModel) : Child()
-        class WeightResize(val component: WeightResizeViewModel) : Child()
-        class Zip(val component: ZipViewModel) : Child()
-    }
-
-    private fun child(
-        config: Screen,
-        componentContext: ComponentContext
-    ): Child = when (config) {
-        Screen.ColorTools -> Child.ColorTools
-        Screen.EasterEgg -> Child.EasterEgg(
-            easterEggComponentFactory(
-                componentContext = componentContext
-            )
-        )
-
-        Screen.Main -> Child.Main(
-            settingsComponentFactory(
-                componentContext = componentContext
-            )
-        )
-
-        is Screen.ApngTools -> Child.ApngTools(
-            apngToolsComponentFactory(
-                componentContext = componentContext,
-                initialType = config.type
-            )
-        )
-
-        is Screen.Cipher -> Child.Cipher(
-            cipherComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.CollageMaker -> Child.CollageMaker(
-            collageMakerComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.Compare -> Child.Compare(
-            compareComponentFactory(
-                componentContext = componentContext,
-                initialComparableUris = config.uris
-                    ?.takeIf { it.size == 2 }
-                    ?.let { it[0] to it[1] }
-            )
-        )
-
-        is Screen.Crop -> Child.Crop(
-            cropComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.DeleteExif -> Child.DeleteExif(
-            deleteExifComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        Screen.DocumentScanner -> Child.DocumentScanner(
-            documentScannerComponentFactory(
-                componentContext = componentContext
-            )
-        )
-
-        is Screen.Draw -> Child.Draw(
-            drawComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.EraseBackground -> Child.EraseBackground(
-            eraseBackgroundComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.Filter -> Child.Filter(
-            filterComponentFactory(
-                componentContext = componentContext,
-                initialType = config.type
-            )
-        )
-
-        is Screen.FormatConversion -> Child.FormatConversion(
-            formatConversionComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.GeneratePalette -> Child.GeneratePalette(
-            generatePaletteComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.GifTools -> Child.GifTools(
-            gifToolsComponentFactory(
-                componentContext = componentContext,
-                initialType = config.type
-            )
-        )
-
-        is Screen.GradientMaker -> Child.GradientMaker(
-            gradientMakerComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.ImagePreview -> Child.ImagePreview(
-            imagePreviewComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.ImageSplitting -> Child.ImageSplitting(
-            imageSplittingComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uri
-            )
-        )
-
-        is Screen.ImageStacking -> Child.ImageStacking(
-            imageStackingComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.ImageStitching -> Child.ImageStitching(
-            imageStitchingComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.JxlTools -> Child.JxlTools(
-            jxlToolsComponentFactory(
-                componentContext = componentContext,
-                initialType = config.type
-            )
-        )
-
-        is Screen.LimitResize -> Child.LimitResize(
-            limitResizeComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.LoadNetImage -> Child.LoadNetImage(
-            loadNetImageComponentFactory(
-                componentContext = componentContext,
-                initialUrl = config.url
-            )
-        )
-
-
-        Screen.NoiseGeneration -> Child.NoiseGeneration(
-            noiseGenerationComponentFactory(
-                componentContext = componentContext
-            )
-        )
-
-        is Screen.PdfTools -> Child.PdfTools(
-            pdfToolsComponentFactory(
-                componentContext = componentContext,
-                initialType = config.type
-            )
-        )
-
-        is Screen.PickColorFromImage -> Child.PickColorFromImage(
-            pickColorFromImageComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.RecognizeText -> Child.RecognizeText(
-            recognizeTextComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.ResizeAndConvert -> Child.ResizeAndConvert(
-            resizeAndConvertComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.ScanQrCode -> Child.ScanQrCode(
-            scanQrCodeComponentFactory(
-                componentContext = componentContext,
-                initialQrCodeContent = config.qrCodeContent
-            )
-        )
-
-        Screen.Settings -> Child.Settings(
-            settingsComponentFactory(
-                componentContext = componentContext
-            )
-        )
-
-        is Screen.SingleEdit -> Child.SingleEdit(
-            singleEditComponentFactory(
-                componentContext = componentContext,
-                initialUri = config.uri
-            )
-        )
-
-        is Screen.SvgMaker -> Child.SvgMaker(
-            svgMakerComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.Watermarking -> Child.Watermarking(
-            watermarkingComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.WebpTools -> Child.WebpTools(
-            webpToolsComponentFactory(
-                componentContext = componentContext,
-                initialType = config.type
-            )
-        )
-
-        is Screen.WeightResize -> Child.WeightResize(
-            weightResizeComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-
-        is Screen.Zip -> Child.Zip(
-            zipComponentFactory(
-                componentContext = componentContext,
-                initialUris = config.uris
-            )
-        )
-    }
-
     @AssistedFactory
     fun interface Factory {
-        operator fun invoke(componentContext: ComponentContext): RootViewModel
+        operator fun invoke(
+            componentContext: ComponentContext
+        ): RootViewModel
     }
 
 }

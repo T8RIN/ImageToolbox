@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsConte
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageContent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextContent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertContent
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
@@ -133,7 +134,7 @@ internal fun ScreenSelector(
         )
     ) { screen ->
         when (val instance = screen.instance) {
-            is RootViewModel.Child.Settings -> {
+            is NavigationChild.Settings -> {
                 SettingsContent(
                     viewModel = instance.component,
                     onTryGetUpdate = onTryGetUpdate,
@@ -151,14 +152,14 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.EasterEgg -> {
+            is NavigationChild.EasterEgg -> {
                 EasterEggContent(
                     onGoBack = onGoBack,
                     viewModel = instance.component
                 )
             }
 
-            is RootViewModel.Child.Main -> {
+            is NavigationChild.Main -> {
                 MainContent(
                     onTryGetUpdate = onTryGetUpdate,
                     isUpdateAvailable = viewModel.isUpdateAvailable,
@@ -181,7 +182,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.SingleEdit -> {
+            is NavigationChild.SingleEdit -> {
                 SingleEditContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -189,7 +190,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.ResizeAndConvert -> {
+            is NavigationChild.ResizeAndConvert -> {
                 ResizeAndConvertContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -197,7 +198,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.DeleteExif -> {
+            is NavigationChild.DeleteExif -> {
                 DeleteExifContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -205,7 +206,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.WeightResize -> {
+            is NavigationChild.WeightResize -> {
                 WeightResizeContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -213,7 +214,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.Crop -> {
+            is NavigationChild.Crop -> {
                 CropContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -221,14 +222,14 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.PickColorFromImage -> {
+            is NavigationChild.PickColorFromImage -> {
                 PickColorFromImageContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.ImagePreview -> {
+            is NavigationChild.ImagePreview -> {
                 ImagePreviewContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -236,21 +237,21 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.GeneratePalette -> {
+            is NavigationChild.GeneratePalette -> {
                 GeneratePaletteContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.Compare -> {
+            is NavigationChild.Compare -> {
                 CompareContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.LoadNetImage -> {
+            is NavigationChild.LoadNetImage -> {
                 LoadNetImageContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -258,7 +259,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.Filter -> {
+            is NavigationChild.Filter -> {
                 FiltersContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -266,7 +267,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.LimitResize -> {
+            is NavigationChild.LimitResize -> {
                 LimitsResizeContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -274,7 +275,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.Draw -> {
+            is NavigationChild.Draw -> {
                 DrawContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -282,14 +283,14 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.Cipher -> {
+            is NavigationChild.Cipher -> {
                 CipherContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.EraseBackground -> {
+            is NavigationChild.EraseBackground -> {
                 EraseBackgroundContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -297,7 +298,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.ImageStitching -> {
+            is NavigationChild.ImageStitching -> {
                 ImageStitchingContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -305,21 +306,21 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.PdfTools -> {
+            is NavigationChild.PdfTools -> {
                 PdfToolsContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.RecognizeText -> {
+            is NavigationChild.RecognizeText -> {
                 RecognizeTextContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.GradientMaker -> {
+            is NavigationChild.GradientMaker -> {
                 GradientMakerContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -327,7 +328,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.Watermarking -> {
+            is NavigationChild.Watermarking -> {
                 WatermarkingContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -335,14 +336,14 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.GifTools -> {
+            is NavigationChild.GifTools -> {
                 GifToolsContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.ApngTools -> {
+            is NavigationChild.ApngTools -> {
                 ApngToolsContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -350,28 +351,28 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.Zip -> {
+            is NavigationChild.Zip -> {
                 ZipContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.JxlTools -> {
+            is NavigationChild.JxlTools -> {
                 JxlToolsContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.SvgMaker -> {
+            is NavigationChild.SvgMaker -> {
                 SvgMakerContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.FormatConversion -> {
+            is NavigationChild.FormatConversion -> {
                 FormatConversionContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -379,21 +380,21 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.DocumentScanner -> {
+            is NavigationChild.DocumentScanner -> {
                 DocumentScannerContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.ScanQrCode -> {
+            is NavigationChild.ScanQrCode -> {
                 ScanQrCodeContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is RootViewModel.Child.ImageStacking -> {
+            is NavigationChild.ImageStacking -> {
                 ImageStackingContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -401,7 +402,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.ImageSplitting -> {
+            is NavigationChild.ImageSplitting -> {
                 ImageSplitterContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -409,11 +410,14 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.ColorTools -> {
-                ColorToolsContent(onGoBack = onGoBack)
+            is NavigationChild.ColorTools -> {
+                ColorToolsContent(
+                    viewModel = instance.component,
+                    onGoBack = onGoBack
+                )
             }
 
-            is RootViewModel.Child.WebpTools -> {
+            is NavigationChild.WebpTools -> {
                 WebpToolsContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -421,7 +425,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.NoiseGeneration -> {
+            is NavigationChild.NoiseGeneration -> {
                 NoiseGenerationContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,
@@ -429,7 +433,7 @@ internal fun ScreenSelector(
                 )
             }
 
-            is RootViewModel.Child.CollageMaker -> {
+            is NavigationChild.CollageMaker -> {
                 CollageMakerContent(
                     viewModel = instance.component,
                     onGoBack = onGoBack,

@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 
-class PickColorViewModel @AssistedInject constructor(
+class PickColorViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -42,11 +42,13 @@ class PickColorViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let {
-            setUri(
-                uri = it,
-                onError = {}
-            )
+        debounce {
+            initialUri?.let {
+                setUri(
+                    uri = it,
+                    onError = {}
+                )
+            }
         }
     }
 

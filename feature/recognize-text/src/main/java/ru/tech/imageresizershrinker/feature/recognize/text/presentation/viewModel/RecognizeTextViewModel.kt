@@ -72,7 +72,7 @@ import java.util.Date
 import java.util.Locale
 import coil.transform.Transformation as CoilTransformation
 
-class RecognizeTextViewModel @AssistedInject constructor(
+class RecognizeTextViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,

@@ -52,7 +52,7 @@ import java.util.Date
 import java.util.Locale
 import kotlin.random.Random
 
-class DocumentScannerViewModel @AssistedInject constructor(
+class DocumentScannerViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,

@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
-class ImagePreviewViewModel @AssistedInject constructor(
+class ImagePreviewViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -40,7 +40,9 @@ class ImagePreviewViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let(::updateUris)
+        debounce {
+            initialUris?.let(::updateUris)
+        }
     }
 
     private val _uris = mutableStateOf<List<Uri>?>(null)

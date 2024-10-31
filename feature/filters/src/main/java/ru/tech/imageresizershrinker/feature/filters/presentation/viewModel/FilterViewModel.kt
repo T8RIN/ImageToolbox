@@ -63,7 +63,7 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
 
-class FilterViewModel @AssistedInject constructor(
+class FilterViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.Filter.Type?,
     private val fileController: FileController,
@@ -80,6 +80,12 @@ class FilterViewModel @AssistedInject constructor(
     filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel.Factory,
     addMaskSheetViewModelFactory: AddMaskSheetViewModel.Factory,
 ) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        debounce {
+            initialType?.let(::setType)
+        }
+    }
 
     val addFiltersSheetViewModel: AddFiltersSheetViewModel = addFiltersSheetViewModelFactory(
         componentContext = componentContext.childContext(
@@ -99,11 +105,6 @@ class FilterViewModel @AssistedInject constructor(
             key = "addMaskSheetViewModelFactoryFilters"
         )
     )
-
-
-    init {
-        initialType?.let(::setType)
-    }
 
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave

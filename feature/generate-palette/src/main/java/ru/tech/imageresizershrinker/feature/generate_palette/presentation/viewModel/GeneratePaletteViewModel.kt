@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 
-class GeneratePaletteViewModel @AssistedInject constructor(
+class GeneratePaletteViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val imageScaler: ImageScaler<Bitmap>,
@@ -41,11 +41,13 @@ class GeneratePaletteViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let {
-            setUri(
-                uri = it,
-                onError = {}
-            )
+        debounce {
+            initialUri?.let {
+                setUri(
+                    uri = it,
+                    onError = {}
+                )
+            }
         }
     }
 

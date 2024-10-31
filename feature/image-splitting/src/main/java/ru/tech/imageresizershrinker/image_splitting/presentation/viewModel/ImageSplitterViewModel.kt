@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.image_splitting.domain.ImageSplitter
 import ru.tech.imageresizershrinker.image_splitting.domain.SplitParams
 
-class ImageSplitterViewModel @AssistedInject constructor(
+class ImageSplitterViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val fileController: FileController,
@@ -52,7 +52,9 @@ class ImageSplitterViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let(::updateUri)
+        debounce {
+            initialUri?.let(::updateUri)
+        }
     }
 
     private val _uri = mutableStateOf<Uri?>(null)

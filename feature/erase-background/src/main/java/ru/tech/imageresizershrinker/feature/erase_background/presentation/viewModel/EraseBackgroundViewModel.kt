@@ -51,7 +51,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 
-class EraseBackgroundViewModel @AssistedInject constructor(
+class EraseBackgroundViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val imageScaler: ImageScaler<Bitmap>,
@@ -65,11 +65,13 @@ class EraseBackgroundViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let {
-            setUri(
-                uri = it,
-                onError = {}
-            )
+        debounce {
+            initialUri?.let {
+                setUri(
+                    uri = it,
+                    onError = {}
+                )
+            }
         }
     }
 

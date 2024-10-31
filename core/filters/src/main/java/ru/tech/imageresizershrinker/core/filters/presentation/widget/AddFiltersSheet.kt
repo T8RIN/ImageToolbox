@@ -1271,7 +1271,7 @@ fun AddFiltersSheet(
     )
 }
 
-class AddFiltersSheetViewModel @AssistedInject constructor(
+class AddFiltersSheetViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,

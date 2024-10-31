@@ -37,7 +37,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
 
-class ZipViewModel @AssistedInject constructor(
+class ZipViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val zipManager: ZipManager,
@@ -47,7 +47,9 @@ class ZipViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let(::setUris)
+        debounce {
+            initialUris?.let(::setUris)
+        }
     }
 
     private val _uris = mutableStateOf<List<Uri>>(emptyList())

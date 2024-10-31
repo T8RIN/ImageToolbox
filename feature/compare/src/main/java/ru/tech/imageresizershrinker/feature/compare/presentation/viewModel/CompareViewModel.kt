@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
 import kotlin.math.roundToInt
 
-class CompareViewModel @AssistedInject constructor(
+class CompareViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialComparableUris: Pair<Uri, Uri>?,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -60,12 +60,14 @@ class CompareViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialComparableUris?.let {
-            updateUris(
-                uris = it,
-                onError = {},
-                onSuccess = {}
-            )
+        debounce {
+            initialComparableUris?.let {
+                updateUris(
+                    uris = it,
+                    onError = {},
+                    onSuccess = {}
+                )
+            }
         }
     }
 

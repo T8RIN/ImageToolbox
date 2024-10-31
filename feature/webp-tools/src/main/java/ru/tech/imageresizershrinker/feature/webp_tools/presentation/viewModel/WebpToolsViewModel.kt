@@ -55,7 +55,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class WebpToolsViewModel @AssistedInject constructor(
+class WebpToolsViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.WebpTools.Type?,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -67,7 +67,9 @@ class WebpToolsViewModel @AssistedInject constructor(
 ) : BaseViewModel(defaultDispatchersHolder, componentContext) {
 
     init {
-        initialType?.let(::setType)
+        debounce {
+            initialType?.let(::setType)
+        }
     }
 
     private val _type: MutableState<Screen.WebpTools.Type?> = mutableStateOf(null)

@@ -44,7 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
-class LoadNetImageViewModel @AssistedInject constructor(
+class LoadNetImageViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUrl: String,
     private val fileController: FileController,

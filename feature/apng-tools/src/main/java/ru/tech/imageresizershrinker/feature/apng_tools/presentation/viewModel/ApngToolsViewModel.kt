@@ -58,7 +58,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ApngToolsViewModel @AssistedInject constructor(
+class ApngToolsViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted initialType: Screen.ApngTools.Type?,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -71,7 +71,9 @@ class ApngToolsViewModel @AssistedInject constructor(
 ) : BaseViewModel(defaultDispatchersHolder, componentContext) {
 
     init {
-        initialType?.let(::setType)
+        debounce {
+            initialType?.let(::setType)
+        }
     }
 
     private val _type: MutableState<Screen.ApngTools.Type?> = mutableStateOf(null)

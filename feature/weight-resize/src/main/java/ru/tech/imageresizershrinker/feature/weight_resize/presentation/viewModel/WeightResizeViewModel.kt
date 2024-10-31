@@ -52,7 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScaler
 
 
-class WeightResizeViewModel @AssistedInject constructor(
+class WeightResizeViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
@@ -66,11 +66,13 @@ class WeightResizeViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let {
-            updateUris(
-                uris = it,
-                onError = {}
-            )
+        debounce {
+            initialUris?.let {
+                updateUris(
+                    uris = it,
+                    onError = {}
+                )
+            }
         }
     }
 

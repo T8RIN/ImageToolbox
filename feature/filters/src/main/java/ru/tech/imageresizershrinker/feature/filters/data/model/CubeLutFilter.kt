@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-internal class CubeLutFilter @AssistedInject constructor(
+internal class CubeLutFilter @AssistedInject internal constructor(
     override val value: Pair<Float, FileModel> = 1f to FileModel(""),
     private val context: Context
 ) : Transformation<Bitmap>, Filter.CubeLut {

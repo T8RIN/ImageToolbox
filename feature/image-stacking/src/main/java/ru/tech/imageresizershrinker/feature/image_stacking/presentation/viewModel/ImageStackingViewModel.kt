@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackingParams
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.toStackImage
 
-class ImageStackingViewModel @AssistedInject constructor(
+class ImageStackingViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -58,7 +58,9 @@ class ImageStackingViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let(::updateUris)
+        debounce {
+            initialUris?.let(::updateUris)
+        }
     }
 
     private val _stackImages: MutableState<List<StackImage>> = mutableStateOf(emptyList())

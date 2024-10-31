@@ -53,7 +53,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
-class SettingsViewModel @AssistedInject constructor(
+class SettingsViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,

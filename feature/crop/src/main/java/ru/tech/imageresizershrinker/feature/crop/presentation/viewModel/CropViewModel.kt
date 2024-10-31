@@ -51,7 +51,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRa
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 
-class CropViewModel @AssistedInject constructor(
+class CropViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val fileController: FileController,
@@ -63,11 +63,13 @@ class CropViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let {
-            setUri(
-                uri = it,
-                onError = {}
-            )
+        debounce {
+            initialUri?.let {
+                setUri(
+                    uri = it,
+                    onError = {}
+                )
+            }
         }
     }
 

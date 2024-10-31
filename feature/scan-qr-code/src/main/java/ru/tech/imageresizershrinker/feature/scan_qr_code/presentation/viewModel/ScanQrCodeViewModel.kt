@@ -44,7 +44,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteracto
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
-class ScanQrCodeViewModel @AssistedInject constructor(
+class ScanQrCodeViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialQrCodeContent: String?,
     private val fileController: FileController,

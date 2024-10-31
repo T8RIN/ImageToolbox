@@ -46,7 +46,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.noise_generation.domain.NoiseGenerator
 import ru.tech.imageresizershrinker.noise_generation.domain.model.NoiseParams
 
-class NoiseGenerationViewModel @AssistedInject constructor(
+class NoiseGenerationViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     dispatchersHolder: DispatchersHolder,
     private val noiseGenerator: NoiseGenerator<Bitmap>,

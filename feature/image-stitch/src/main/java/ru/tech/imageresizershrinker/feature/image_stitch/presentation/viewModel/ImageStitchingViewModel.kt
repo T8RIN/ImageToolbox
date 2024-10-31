@@ -49,7 +49,7 @@ import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchAlignment
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
 
-class ImageStitchingViewModel @AssistedInject constructor(
+class ImageStitchingViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
@@ -60,7 +60,9 @@ class ImageStitchingViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let(::updateUris)
+        debounce {
+            initialUris?.let(::updateUris)
+        }
     }
 
     private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))

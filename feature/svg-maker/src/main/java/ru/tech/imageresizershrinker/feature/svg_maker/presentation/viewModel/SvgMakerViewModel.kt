@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgManager
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 
-class SvgMakerViewModel @AssistedInject constructor(
+class SvgMakerViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val svgManager: SvgManager,
@@ -58,7 +58,9 @@ class SvgMakerViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let(::setUris)
+        debounce {
+            initialUris?.let(::setUris)
+        }
     }
 
     private val _uris = mutableStateOf<List<Uri>>(emptyList())

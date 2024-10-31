@@ -53,7 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformati
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
-class FormatConversionViewModel @AssistedInject constructor(
+class FormatConversionViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
@@ -68,11 +68,13 @@ class FormatConversionViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUris?.let {
-            updateUris(
-                uris = it,
-                onError = {}
-            )
+        debounce {
+            initialUris?.let {
+                updateUris(
+                    uris = it,
+                    onError = {}
+                )
+            }
         }
     }
 

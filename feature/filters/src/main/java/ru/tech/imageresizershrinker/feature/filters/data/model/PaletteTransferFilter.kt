@@ -30,7 +30,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
-internal class PaletteTransferFilter @AssistedInject constructor(
+internal class PaletteTransferFilter @AssistedInject internal constructor(
     @Assisted override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.filter_preview_source_2),
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : Transformation<Bitmap>, Filter.PaletteTransfer {

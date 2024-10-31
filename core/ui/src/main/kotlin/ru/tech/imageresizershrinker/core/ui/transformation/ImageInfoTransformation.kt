@@ -37,7 +37,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.asCoil
 import kotlin.math.roundToInt
 import coil.transform.Transformation as CoilTransformation
 
-class ImageInfoTransformation @AssistedInject constructor(
+class ImageInfoTransformation @AssistedInject internal constructor(
     @Assisted private val imageInfo: ImageInfo,
     @Assisted private val preset: Preset,
     @Assisted private val transformations: List<Transformation<Bitmap>>,

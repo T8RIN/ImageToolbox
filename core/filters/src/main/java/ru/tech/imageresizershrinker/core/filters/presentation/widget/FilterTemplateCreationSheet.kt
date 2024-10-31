@@ -378,7 +378,7 @@ internal fun FilterTemplateCreationSheet(
     )
 }
 
-class FilterTemplateCreationSheetViewModel @AssistedInject constructor(
+class FilterTemplateCreationSheetViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,

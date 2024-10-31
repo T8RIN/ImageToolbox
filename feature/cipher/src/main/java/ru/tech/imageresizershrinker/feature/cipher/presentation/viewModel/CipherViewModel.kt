@@ -37,7 +37,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import java.security.InvalidKeyException
 
-class CipherViewModel @AssistedInject constructor(
+class CipherViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val cryptographyManager: CryptographyManager,
@@ -47,7 +47,9 @@ class CipherViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let(::setUri)
+        debounce {
+            initialUri?.let(::setUri)
+        }
     }
 
     private val _uri = mutableStateOf<Uri?>(null)

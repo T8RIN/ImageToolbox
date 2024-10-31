@@ -57,7 +57,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class GifToolsViewModel @AssistedInject constructor(
+class GifToolsViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.GifTools.Type?,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -70,7 +70,9 @@ class GifToolsViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialType?.let(::setType)
+        debounce {
+            initialType?.let(::setType)
+        }
     }
 
     private val _type: MutableState<Screen.GifTools.Type?> = mutableStateOf(null)

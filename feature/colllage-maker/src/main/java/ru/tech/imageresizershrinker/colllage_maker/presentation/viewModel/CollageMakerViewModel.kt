@@ -46,7 +46,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
-class CollageMakerViewModel @AssistedInject constructor(
+class CollageMakerViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
@@ -54,6 +54,12 @@ class CollageMakerViewModel @AssistedInject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
 ) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        debounce {
+            initialUris?.let(::updateUris)
+        }
+    }
 
     private val _spacing = mutableFloatStateOf(10f)
     val spacing: Float by _spacing

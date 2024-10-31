@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 
-class DrawViewModel @AssistedInject constructor(
+class DrawViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val fileController: FileController,
@@ -82,11 +82,13 @@ class DrawViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let {
-            setUri(
-                uri = it,
-                onError = {}
-            )
+        debounce {
+            initialUri?.let {
+                setUri(
+                    uri = it,
+                    onError = {}
+                )
+            }
         }
     }
 

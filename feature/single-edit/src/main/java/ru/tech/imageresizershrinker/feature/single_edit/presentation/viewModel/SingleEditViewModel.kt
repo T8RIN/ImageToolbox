@@ -77,7 +77,7 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathP
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 
 
-class SingleEditViewModel @AssistedInject constructor(
+class SingleEditViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     private val fileController: FileController,
@@ -96,7 +96,9 @@ class SingleEditViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialUri?.let(::setUri)
+        debounce {
+            initialUri?.let(::setUri)
+        }
     }
 
     val addFiltersSheetViewModel: AddFiltersSheetViewModel = addFiltersSheetViewModelFactory(

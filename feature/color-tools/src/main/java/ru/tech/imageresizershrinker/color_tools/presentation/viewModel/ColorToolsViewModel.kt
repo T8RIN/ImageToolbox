@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.easter_egg.presentation
+package ru.tech.imageresizershrinker.color_tools.presentation.viewModel
 
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
@@ -24,7 +24,7 @@ import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 
-class EasterEggViewModel @AssistedInject constructor(
+class ColorToolsViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder, componentContext) {
@@ -33,7 +33,7 @@ class EasterEggViewModel @AssistedInject constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext
-        ): EasterEggViewModel
+        ): ColorToolsViewModel
     }
 
 }

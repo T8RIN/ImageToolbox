@@ -56,7 +56,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class JxlToolsViewModel @AssistedInject constructor(
+class JxlToolsViewModel @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.JxlTools.Type?,
     private val jxlConverter: JxlConverter,
@@ -69,7 +69,9 @@ class JxlToolsViewModel @AssistedInject constructor(
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
-        initialType?.let(::setType)
+        debounce {
+            initialType?.let(::setType)
+        }
     }
 
     private val _type: MutableState<Screen.JxlTools.Type?> = mutableStateOf(null)
