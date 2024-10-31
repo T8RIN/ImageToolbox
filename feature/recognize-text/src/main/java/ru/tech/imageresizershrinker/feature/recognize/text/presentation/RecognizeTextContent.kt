@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation
 
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -53,7 +52,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
@@ -109,9 +107,8 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.
 
 @Composable
 fun RecognizeTextContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: RecognizeTextViewModel = hiltViewModel()
+    viewModel: RecognizeTextViewModel
 ) {
     val text = viewModel.recognitionData?.text?.takeIf {
         it.isNotEmpty()
@@ -149,8 +146,8 @@ fun RecognizeTextContent(
         )
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.let {
+    LaunchedEffect(viewModel.initialUri) {
+        viewModel.initialUri?.let {
             viewModel.updateUri(it, startRecognition)
         }
     }
@@ -198,7 +195,7 @@ fun RecognizeTextContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val isPortrait by isPortraitOrientationAsState()

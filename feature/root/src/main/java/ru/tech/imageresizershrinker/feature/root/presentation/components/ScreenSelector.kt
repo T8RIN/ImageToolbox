@@ -373,7 +373,10 @@ internal fun ScreenSelector(
             }
 
             is RootViewModel.Child.DocumentScanner -> {
-                DocumentScannerContent(onGoBack = onGoBack)
+                DocumentScannerContent(
+                    viewModel = instance.component,
+                    onGoBack = onGoBack
+                )
             }
 
             is RootViewModel.Child.ScanQrCode -> {
@@ -413,6 +416,7 @@ internal fun ScreenSelector(
 
             is RootViewModel.Child.NoiseGeneration -> {
                 NoiseGenerationContent(
+                    viewModel = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )

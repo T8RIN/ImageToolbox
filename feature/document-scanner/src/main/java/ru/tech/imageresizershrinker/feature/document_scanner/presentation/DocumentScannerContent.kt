@@ -64,7 +64,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -97,7 +96,7 @@ import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewMo
 @Composable
 fun DocumentScannerContent(
     onGoBack: () -> Unit,
-    viewModel: DocumentScannerViewModel = hiltViewModel()
+    viewModel: DocumentScannerViewModel
 ) {
     val haptics = LocalHapticFeedback.current
 

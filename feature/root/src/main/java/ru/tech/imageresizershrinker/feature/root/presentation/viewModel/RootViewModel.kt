@@ -533,8 +533,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.CollageMaker -> Child.CollageMaker(
             collageMakerComponentFactory(
-                componentContext,
-                config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
 
@@ -562,7 +562,9 @@ class RootViewModel @AssistedInject constructor(
         )
 
         Screen.DocumentScanner -> Child.DocumentScanner(
-            documentScannerComponentFactory(componentContext)
+            documentScannerComponentFactory(
+                componentContext = componentContext
+            )
         )
 
         is Screen.Draw -> Child.Draw(
@@ -574,15 +576,22 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.EraseBackground -> Child.EraseBackground(
             eraseBackgroundComponentFactory(
-                componentContext, config.uri
+                componentContext = componentContext,
+                initialUri = config.uri
             )
         )
 
-        is Screen.Filter -> Child.Filter(filterComponentFactory(componentContext, config.type))
+        is Screen.Filter -> Child.Filter(
+            filterComponentFactory(
+                componentContext,
+                config.type
+            )
+        )
 
         is Screen.FormatConversion -> Child.FormatConversion(
             formatConversionComponentFactory(
-                componentContext, config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
 
@@ -602,7 +611,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.GradientMaker -> Child.GradientMaker(
             gradientMakerComponentFactory(
-                componentContext, config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
 
@@ -615,19 +625,22 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.ImageSplitting -> Child.ImageSplitting(
             imageSplittingComponentFactory(
-                componentContext, config.uri
+                componentContext = componentContext,
+                initialUris = config.uri
             )
         )
 
         is Screen.ImageStacking -> Child.ImageStacking(
             imageStackingComponentFactory(
-                componentContext, config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
 
         is Screen.ImageStitching -> Child.ImageStitching(
             imageStitchingComponentFactory(
-                componentContext, config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
 
@@ -655,7 +668,7 @@ class RootViewModel @AssistedInject constructor(
 
         Screen.NoiseGeneration -> Child.NoiseGeneration(
             noiseGenerationComponentFactory(
-                componentContext
+                componentContext = componentContext
             )
         )
 
@@ -675,8 +688,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.RecognizeText -> Child.RecognizeText(
             recognizeTextComponentFactory(
-                componentContext,
-                config.uri
+                componentContext = componentContext,
+                initialUri = config.uri
             )
         )
 
@@ -689,8 +702,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.ScanQrCode -> Child.ScanQrCode(
             scanQrCodeComponentFactory(
-                componentContext,
-                config.qrCodeContent
+                componentContext = componentContext,
+                initialQrCodeContent = config.qrCodeContent
             )
         )
 
@@ -709,15 +722,15 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.SvgMaker -> Child.SvgMaker(
             svgMakerComponentFactory(
-                componentContext,
-                config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
 
         is Screen.Watermarking -> Child.Watermarking(
             watermarkingComponentFactory(
-                componentContext,
-                config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
 
@@ -737,8 +750,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.Zip -> Child.Zip(
             zipComponentFactory(
-                componentContext,
-                config.uris
+                componentContext = componentContext,
+                initialUris = config.uris
             )
         )
     }

@@ -45,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -89,10 +88,9 @@ import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewMode
 
 @Composable
 fun ImageStackingContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageStackingViewModel = hiltViewModel()
+    viewModel: ImageStackingViewModel
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -106,12 +104,6 @@ fun ImageStackingContent(
     val showConfetti: () -> Unit = {
         scope.launch {
             confettiHostState.showConfetti()
-        }
-    }
-
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris)
         }
     }
 
@@ -147,7 +139,7 @@ fun ImageStackingContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }

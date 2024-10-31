@@ -24,8 +24,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -44,16 +46,20 @@ import ru.tech.imageresizershrinker.feature.image_stacking.domain.ImageStacker
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackingParams
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.toStackImage
-import javax.inject.Inject
 
-@HiltViewModel
-class ImageStackingViewModel @Inject constructor(
+class ImageStackingViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageStacker: ImageStacker<Bitmap>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let(::updateUris)
+    }
 
     private val _stackImages: MutableState<List<StackImage>> = mutableStateOf(emptyList())
     val stackImages by _stackImages
@@ -283,5 +289,14 @@ class ImageStackingViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat
+
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): ImageStackingViewModel
+    }
 
 }

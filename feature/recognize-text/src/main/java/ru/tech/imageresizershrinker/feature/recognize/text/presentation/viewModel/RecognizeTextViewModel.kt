@@ -25,13 +25,15 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
+import com.arkivanov.decompose.ComponentContext
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
@@ -68,12 +70,11 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitio
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 import coil.transform.Transformation as CoilTransformation
 
-
-@HiltViewModel
-class RecognizeTextViewModel @Inject constructor(
+class RecognizeTextViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUri: Uri?,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTextReader: ImageTextReader<Bitmap>,
     private val settingsManager: SettingsManager,
@@ -83,7 +84,7 @@ class RecognizeTextViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
 
     private val _segmentationMode: MutableState<SegmentationMode> =
         mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
@@ -517,6 +518,14 @@ class RecognizeTextViewModel @Inject constructor(
 
     fun updateParams(newParams: TessParams) {
         _params.update { newParams }
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUri: Uri?,
+        ): RecognizeTextViewModel
     }
 
 }

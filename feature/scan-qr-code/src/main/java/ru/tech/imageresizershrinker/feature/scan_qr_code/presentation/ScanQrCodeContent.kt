@@ -73,7 +73,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
@@ -113,9 +112,8 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
 fun ScanQrCodeContent(
-    qrCodeContent: String?,
     onGoBack: () -> Unit,
-    viewModel: ScanQrCodeViewModel = hiltViewModel()
+    viewModel: ScanQrCodeViewModel
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -124,8 +122,8 @@ fun ScanQrCodeContent(
 
     val scope = rememberCoroutineScope()
 
-    var qrContent by rememberSaveable(qrCodeContent) {
-        mutableStateOf(qrCodeContent ?: "")
+    var qrContent by rememberSaveable(viewModel.initialQrCodeContent) {
+        mutableStateOf(viewModel.initialQrCodeContent ?: "")
     }
 
     val scanner = rememberQrCodeScanner {

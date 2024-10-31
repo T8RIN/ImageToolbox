@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.svg_maker.presentation
 
 import android.app.Activity
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,7 +27,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,7 +38,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
@@ -75,15 +72,10 @@ import ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel.Svg
 
 @Composable
 fun SvgMakerContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: SvgMakerViewModel = hiltViewModel()
+    viewModel: SvgMakerViewModel
 ) {
     val context = LocalContext.current as Activity
-
-    LaunchedEffect(uriState) {
-        uriState?.let { viewModel.setUris(it) }
-    }
 
     val toastHostState = LocalToastHostState.current
 
@@ -116,7 +108,7 @@ fun SvgMakerContent(
 
     AutoFilePicker(
         onAutoPick = imagePicker::pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     val addImagesImagePicker = rememberImagePicker(

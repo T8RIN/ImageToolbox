@@ -44,7 +44,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -88,10 +87,9 @@ import kotlin.math.roundToLong
 
 @Composable
 fun ImageStitchingContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageStitchingViewModel = hiltViewModel(),
+    viewModel: ImageStitchingViewModel
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -105,12 +103,6 @@ fun ImageStitchingContent(
     val showConfetti: () -> Unit = {
         scope.launch {
             confettiHostState.showConfetti()
-        }
-    }
-
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris)
         }
     }
 
@@ -148,7 +140,7 @@ fun ImageStitchingContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }

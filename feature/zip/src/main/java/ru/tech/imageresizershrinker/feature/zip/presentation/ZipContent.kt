@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.zip.presentation
 
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -65,7 +64,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -99,15 +97,10 @@ import java.util.Locale
 
 @Composable
 fun ZipContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: ZipViewModel = hiltViewModel()
+    viewModel: ZipViewModel
 ) {
     val haptics = LocalHapticFeedback.current
-
-    LaunchedEffect(uriState) {
-        uriState?.let { viewModel.setUris(it) }
-    }
 
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
@@ -150,7 +143,7 @@ fun ZipContent(
 
     AutoFilePicker(
         onAutoPick = { filePicker.launch(arrayOf("*/*")) },
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     val additionalFilePicker = rememberLauncherForActivityResult(

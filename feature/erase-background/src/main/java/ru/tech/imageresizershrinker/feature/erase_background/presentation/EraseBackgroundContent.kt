@@ -100,7 +100,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
@@ -159,10 +158,9 @@ import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewMo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EraseBackgroundContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: EraseBackgroundViewModel = hiltViewModel(),
+    viewModel: EraseBackgroundViewModel,
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
@@ -175,16 +173,6 @@ fun EraseBackgroundContent(
     val showConfetti: () -> Unit = {
         scope.launch {
             confettiHostState.showConfetti()
-        }
-    }
-
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.setUri(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
         }
     }
 
@@ -216,7 +204,7 @@ fun EraseBackgroundContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val scaffoldState = rememberBottomSheetScaffoldState()

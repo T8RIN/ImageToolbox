@@ -24,8 +24,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -39,16 +41,19 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.image_splitting.domain.ImageSplitter
 import ru.tech.imageresizershrinker.image_splitting.domain.SplitParams
-import javax.inject.Inject
 
-
-@HiltViewModel
-class ImageSplitterViewModel @Inject constructor(
+class ImageSplitterViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUri: Uri?,
     private val fileController: FileController,
     private val imageSplitter: ImageSplitter<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUri?.let(::updateUri)
+    }
 
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
@@ -159,6 +164,14 @@ class ImageSplitterViewModel @Inject constructor(
             onComplete(uris)
             _isSaving.value = false
         }
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: Uri?,
+        ): ImageSplitterViewModel
     }
 
 }

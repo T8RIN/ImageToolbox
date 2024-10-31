@@ -31,9 +31,11 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -55,17 +57,27 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
-import javax.inject.Inject
 
-@HiltViewModel
-class GradientMakerViewModel @Inject constructor(
+class GradientMakerViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let {
+            setUris(
+                uris = it,
+                onError = {}
+            )
+            updateGradientAlpha(0.5f)
+        }
+    }
 
     private var _gradientState = UiGradientState()
     private val gradientState: UiGradientState get() = _gradientState
@@ -514,4 +526,11 @@ class GradientMakerViewModel @Inject constructor(
     fun getFormatForFilenameSelection(): ImageFormat? = if (uris.size < 2) imageFormat
     else null
 
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): GradientMakerViewModel
+    }
 }

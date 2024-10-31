@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +43,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -79,10 +77,9 @@ import ru.tech.imageresizershrinker.image_splitting.presentation.viewModel.Image
 
 @Composable
 fun ImageSplitterContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageSplitterViewModel = hiltViewModel(),
+    viewModel: ImageSplitterViewModel
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -94,12 +91,6 @@ fun ImageSplitterContent(
     val showConfetti: () -> Unit = {
         scope.launch {
             confettiHostState.showConfetti()
-        }
-    }
-
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.updateUri(it)
         }
     }
 
@@ -115,7 +106,7 @@ fun ImageSplitterContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {

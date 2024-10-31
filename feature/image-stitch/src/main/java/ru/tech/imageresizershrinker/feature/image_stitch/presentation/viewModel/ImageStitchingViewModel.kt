@@ -25,8 +25,10 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -46,16 +48,20 @@ import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchAlignment
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
-import javax.inject.Inject
 
-@HiltViewModel
-class ImageStitchingViewModel @Inject constructor(
+class ImageStitchingViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageCombiner: ImageCombiner<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let(::updateUris)
+    }
 
     private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))
     val imageSize by _imageSize
@@ -311,5 +317,13 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): ImageStitchingViewModel
+    }
 
 }

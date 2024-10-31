@@ -40,7 +40,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -92,10 +91,9 @@ import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.
 
 @Composable
 fun WatermarkingContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: WatermarkingViewModel = hiltViewModel()
+    viewModel: WatermarkingViewModel
 ) {
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
@@ -111,16 +109,6 @@ fun WatermarkingContent(
     val showConfetti: () -> Unit = {
         scope.launch {
             confettiHostState.showConfetti()
-        }
-    }
-
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.setUris(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
         }
     }
 
@@ -153,7 +141,7 @@ fun WatermarkingContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     val isPortrait by isPortraitOrientationAsState()

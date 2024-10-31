@@ -56,7 +56,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -108,10 +107,9 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewMode
 
 @Composable
 fun GradientMakerContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: GradientMakerViewModel = hiltViewModel()
+    viewModel: GradientMakerViewModel
 ) {
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
@@ -133,8 +131,11 @@ fun GradientMakerContent(
     }
     val toastHostState = LocalToastHostState.current
 
-    var allowPickingImage by rememberSaveable {
-        mutableStateOf<Boolean?>(null)
+    var allowPickingImage by rememberSaveable(viewModel.initialUris) {
+        mutableStateOf<Boolean?>(
+            if (viewModel.initialUris.isNullOrEmpty()) null
+            else true
+        )
     }
 
     LaunchedEffect(viewModel.brush, viewModel.selectedUri) {
@@ -156,18 +157,6 @@ fun GradientMakerContent(
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            allowPickingImage = true
-            viewModel.setUris(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-            viewModel.updateGradientAlpha(0.5f)
-        }
-    }
-
     val colorScheme = MaterialTheme.colorScheme
     LaunchedEffect(viewModel.colorStops) {
         if (viewModel.colorStops.isEmpty()) {
@@ -181,18 +170,18 @@ fun GradientMakerContent(
 
 
     val imagePicker = rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let {
-                allowPickingImage = true
-                viewModel.setUris(it) {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { uris ->
+        uris.takeIf { it.isNotEmpty() }?.let {
+            allowPickingImage = true
+            viewModel.setUris(it) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-                viewModel.updateGradientAlpha(0.5f)
             }
+            viewModel.updateGradientAlpha(0.5f)
         }
+    }
 
     val pickImage = imagePicker::pickImage
 

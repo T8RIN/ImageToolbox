@@ -40,7 +40,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -74,7 +73,7 @@ import ru.tech.imageresizershrinker.noise_generation.presentation.viewModel.Nois
 fun NoiseGenerationContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: NoiseGenerationViewModel = hiltViewModel()
+    viewModel: NoiseGenerationViewModel
 ) {
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current

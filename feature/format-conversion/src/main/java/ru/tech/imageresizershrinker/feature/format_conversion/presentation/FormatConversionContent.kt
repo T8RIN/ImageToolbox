@@ -41,7 +41,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
@@ -85,10 +84,9 @@ import ru.tech.imageresizershrinker.feature.format_conversion.presentation.viewM
 
 @Composable
 fun FormatConversionContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: FormatConversionViewModel = hiltViewModel()
+    viewModel: FormatConversionViewModel
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -105,15 +103,6 @@ fun FormatConversionContent(
         }
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let {
-            viewModel.updateUris(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-        }
-    }
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) {
@@ -139,7 +128,7 @@ fun FormatConversionContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {

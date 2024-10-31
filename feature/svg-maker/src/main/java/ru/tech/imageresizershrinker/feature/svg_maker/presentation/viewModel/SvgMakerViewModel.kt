@@ -26,8 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -46,14 +47,19 @@ import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgManager
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 import javax.inject.Inject
 
-@HiltViewModel
 class SvgMakerViewModel @Inject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val svgManager: SvgManager,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let(::setUris)
+    }
 
     private val _uris = mutableStateOf<List<Uri>>(emptyList())
     val uris by _uris
@@ -191,6 +197,14 @@ class SvgMakerViewModel @Inject constructor(
     fun updateParams(newParams: SvgParams) {
         _params.update { newParams }
         registerChanges()
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): SvgMakerViewModel
     }
 
 }

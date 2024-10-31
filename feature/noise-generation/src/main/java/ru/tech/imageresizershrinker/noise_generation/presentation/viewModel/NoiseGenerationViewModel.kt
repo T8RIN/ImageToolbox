@@ -23,8 +23,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -43,17 +45,16 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.noise_generation.domain.NoiseGenerator
 import ru.tech.imageresizershrinker.noise_generation.domain.model.NoiseParams
-import javax.inject.Inject
 
-@HiltViewModel
-class NoiseGenerationViewModel @Inject constructor(
+class NoiseGenerationViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
     dispatchersHolder: DispatchersHolder,
     private val noiseGenerator: NoiseGenerator<Bitmap>,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
         updatePreview()
@@ -219,5 +220,13 @@ class NoiseGenerationViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext
+        ): NoiseGenerationViewModel
+    }
 
 }

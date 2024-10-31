@@ -86,7 +86,6 @@ import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageTypeSelection
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -133,10 +132,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 
 @Composable
 fun CollageMakerContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: CollageMakerViewModel = hiltViewModel(),
+    viewModel: CollageMakerViewModel
 ) {
     LockScreenOrientation()
     val context = LocalContext.current as ComponentActivity
@@ -150,8 +148,8 @@ fun CollageMakerContent(
         }
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let {
+    LaunchedEffect(viewModel.initialUris) {
+        viewModel.initialUris?.takeIf { it.isNotEmpty() }?.let {
             if (it.size in 2..10) {
                 viewModel.updateUris(it)
             } else {
@@ -188,7 +186,7 @@ fun CollageMakerContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {

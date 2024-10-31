@@ -25,9 +25,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
@@ -50,11 +52,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
-import javax.inject.Inject
 
-
-@HiltViewModel
-class WatermarkingViewModel @Inject constructor(
+class WatermarkingViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -62,7 +63,16 @@ class WatermarkingViewModel @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val watermarkApplier: WatermarkApplier<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let {
+            setUris(
+                uris = it,
+                onError = {}
+            )
+        }
+    }
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val internalBitmap: Bitmap? by _internalBitmap
@@ -396,4 +406,12 @@ class WatermarkingViewModel @Inject constructor(
         if (uris.size == 1) imageFormat
         else null
 
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): WatermarkingViewModel
+    }
 }

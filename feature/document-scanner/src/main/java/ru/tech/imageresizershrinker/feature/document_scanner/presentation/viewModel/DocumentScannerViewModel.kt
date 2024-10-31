@@ -25,8 +25,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -48,18 +50,17 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.random.Random
 
-@HiltViewModel
-class DocumentScannerViewModel @Inject constructor(
+class DocumentScannerViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val pdfManager: PdfManager<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
 
     private val _uris = mutableStateOf<List<Uri>>(emptyList())
     val uris by _uris
@@ -267,5 +268,12 @@ class DocumentScannerViewModel @Inject constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext
+        ): DocumentScannerViewModel
+    }
 
 }
