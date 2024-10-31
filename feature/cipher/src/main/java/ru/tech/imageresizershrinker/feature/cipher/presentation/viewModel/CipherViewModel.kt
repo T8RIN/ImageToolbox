@@ -22,8 +22,10 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -34,15 +36,19 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import java.security.InvalidKeyException
-import javax.inject.Inject
 
-@HiltViewModel
-class CipherViewModel @Inject constructor(
+class CipherViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUri: Uri?,
     private val cryptographyManager: CryptographyManager,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUri?.let(::setUri)
+    }
 
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
@@ -145,4 +151,12 @@ class CipherViewModel @Inject constructor(
         _isSaving.value = false
     }
 
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUri: Uri?,
+        ): CipherViewModel
+    }
 }

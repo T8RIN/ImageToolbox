@@ -28,8 +28,10 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -58,10 +60,10 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawOnBackgroundParams
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
-import javax.inject.Inject
 
-@HiltViewModel
-class DrawViewModel @Inject constructor(
+class DrawViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUri: Uri?,
     private val fileController: FileController,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -72,7 +74,16 @@ class DrawViewModel @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUri?.let {
+            setUri(
+                uri = it,
+                onError = {}
+            )
+        }
+    }
 
     private val _drawOnBackgroundParams: MutableState<DrawOnBackgroundParams?> =
         mutableStateOf(null)
@@ -433,4 +444,11 @@ class DrawViewModel @Inject constructor(
         }
     }
 
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUri: Uri?,
+        ): DrawViewModel
+    }
 }

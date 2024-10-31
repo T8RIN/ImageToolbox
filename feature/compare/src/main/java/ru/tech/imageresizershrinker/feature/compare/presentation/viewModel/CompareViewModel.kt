@@ -267,8 +267,8 @@ class CompareViewModel @Inject constructor(
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
-            @Assisted componentContext: ComponentContext,
-            @Assisted initialComparableUris: Pair<Uri, Uri>?,
+            componentContext: ComponentContext,
+            initialComparableUris: Pair<Uri, Uri>?,
         ): CompareViewModel
     }
 

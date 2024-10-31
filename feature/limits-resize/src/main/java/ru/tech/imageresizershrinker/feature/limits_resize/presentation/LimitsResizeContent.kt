@@ -35,7 +35,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -81,10 +80,9 @@ import ru.tech.imageresizershrinker.feature.limits_resize.presentation.viewModel
 
 @Composable
 fun LimitsResizeContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: LimitsResizeViewModel = hiltViewModel()
+    viewModel: LimitsResizeViewModel
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -101,15 +99,6 @@ fun LimitsResizeContent(
         }
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-        }
-    }
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) {
@@ -134,7 +123,7 @@ fun LimitsResizeContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !viewModel.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }

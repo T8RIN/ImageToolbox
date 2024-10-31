@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.generate_palette.presentation
 
-import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -54,7 +53,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Theme
@@ -89,9 +87,8 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 
 @Composable
 fun GeneratePaletteContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: GeneratePaletteViewModel = hiltViewModel()
+    viewModel: GeneratePaletteViewModel
 ) {
     val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
@@ -111,20 +108,8 @@ fun GeneratePaletteContent(
         mutableStateOf<Boolean?>(null)
     }
 
-    var showPreferencePicker by remember {
-        mutableStateOf(false)
-    }
-
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            showPreferencePicker = true
-
-            viewModel.setUri(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-        }
+    var showPreferencePicker by rememberSaveable(viewModel.initialUri) {
+        mutableStateOf(viewModel.initialUri != null)
     }
 
     LaunchedEffect(viewModel.bitmap) {
@@ -152,7 +137,7 @@ fun GeneratePaletteContent(
 
     AutoFilePicker(
         onAutoPick = imagePicker::pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val paletteImageLauncher = rememberImagePicker(

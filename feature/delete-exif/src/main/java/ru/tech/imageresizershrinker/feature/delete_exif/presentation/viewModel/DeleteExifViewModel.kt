@@ -25,8 +25,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -44,8 +45,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
-@HiltViewModel
 class DeleteExifViewModel @Inject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
@@ -53,7 +55,16 @@ class DeleteExifViewModel @Inject constructor(
     private val filenameCreator: FilenameCreator,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let {
+            updateUris(
+                uris = it,
+                onError = {}
+            )
+        }
+    }
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -294,4 +305,12 @@ class DeleteExifViewModel @Inject constructor(
             ?.let(::updateSelectedUri)
     }
 
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): DeleteExifViewModel
+    }
 }

@@ -62,7 +62,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,7 +79,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
@@ -114,10 +112,9 @@ import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagePreviewContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImagePreviewViewModel = hiltViewModel()
+    viewModel: ImagePreviewViewModel
 ) {
     var showExitDialog by rememberSaveable {
         mutableStateOf(false)
@@ -127,17 +124,9 @@ fun ImagePreviewContent(
         else showExitDialog = true
     }
 
-    var initialShowImagePreviewDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val initialShowImagePreviewDialog = !viewModel.initialUris.isNullOrEmpty()
 
     val settingsState = LocalSettingsState.current
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            initialShowImagePreviewDialog = true
-            viewModel.updateUris(uris)
-        }
-    }
 
     val confettiHostState = LocalConfettiHostState.current
     val scope = rememberCoroutineScope()

@@ -57,7 +57,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -90,10 +89,9 @@ import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewMode
 
 @Composable
 fun LoadNetImageContent(
-    url: String,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: LoadNetImageViewModel = hiltViewModel()
+    viewModel: LoadNetImageViewModel
 ) {
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
@@ -138,7 +136,7 @@ fun LoadNetImageContent(
 
     val isLandscape by isLandscapeOrientationAsState()
 
-    var link by rememberSaveable(url) { mutableStateOf(url) }
+    var link by rememberSaveable(viewModel.initialUrl) { mutableStateOf(viewModel.initialUrl) }
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 

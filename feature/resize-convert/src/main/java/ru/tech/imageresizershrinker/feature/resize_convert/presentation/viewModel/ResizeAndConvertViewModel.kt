@@ -25,8 +25,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -56,8 +57,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
-@HiltViewModel
 class ResizeAndConvertViewModel @Inject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
@@ -68,7 +70,16 @@ class ResizeAndConvertViewModel @Inject constructor(
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let {
+            updateUris(
+                uris = it,
+                onError = {}
+            )
+        }
+    }
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
     val originalSize by _originalSize
@@ -602,4 +613,12 @@ class ResizeAndConvertViewModel @Inject constructor(
         if (uris?.size == 1) imageInfo.imageFormat
         else null
 
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): ResizeAndConvertViewModel
+    }
 }

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.pick_color.presentation
 
-import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
@@ -90,7 +89,6 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -126,9 +124,8 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.Pi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickColorFromImageContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: PickColorViewModel = hiltViewModel()
+    viewModel: PickColorViewModel
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
@@ -141,16 +138,6 @@ fun PickColorFromImageContent(
     val scope = rememberCoroutineScope()
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
-
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.setUri(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-        }
-    }
 
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
@@ -185,7 +172,7 @@ fun PickColorFromImageContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()

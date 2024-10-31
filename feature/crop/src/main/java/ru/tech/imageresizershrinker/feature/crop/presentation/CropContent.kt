@@ -89,7 +89,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -140,10 +139,9 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropView
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CropContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: CropViewModel = hiltViewModel()
+    viewModel: CropViewModel
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
@@ -166,15 +164,6 @@ fun CropContent(
         else onGoBack()
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.setUri(it) { t ->
-                scope.launch {
-                    toastHostState.showError(context, t)
-                }
-            }
-        }
-    }
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) {
@@ -206,7 +195,7 @@ fun CropContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {

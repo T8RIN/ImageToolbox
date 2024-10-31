@@ -26,8 +26,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -48,10 +50,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsImageScaler
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsResizeType
-import javax.inject.Inject
 
-@HiltViewModel
-class LimitsResizeViewModel @Inject constructor(
+class LimitsResizeViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -59,7 +61,16 @@ class LimitsResizeViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialUris?.let {
+            updateUris(
+                uris = it,
+                onError = {}
+            )
+        }
+    }
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
     val originalSize by _originalSize
@@ -405,4 +416,12 @@ class LimitsResizeViewModel @Inject constructor(
         if (uris?.size == 1) imageInfo.imageFormat
         else null
 
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialUris: List<Uri>?,
+        ): LimitsResizeViewModel
+    }
 }

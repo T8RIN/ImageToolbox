@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.presentation
 
-import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -77,7 +76,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -99,7 +97,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.domain.utils.toInt
@@ -142,15 +139,10 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CipherContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: CipherViewModel = hiltViewModel()
+    viewModel: CipherViewModel
 ) {
     val haptics = LocalHapticFeedback.current
-
-    LaunchedEffect(uriState) {
-        uriState?.let { viewModel.setUri(it) }
-    }
 
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
@@ -200,7 +192,7 @@ fun CipherContent(
         onAutoPick = {
             filePicker.launch(arrayOf("*/*"))
         },
-        isPickedAlready = uriState != null
+        isPickedAlready = viewModel.initialUri != null
     )
 
     val focus = LocalFocusManager.current

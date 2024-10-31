@@ -118,7 +118,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.coerceIn
@@ -192,10 +191,9 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawContent(
-    uriState: Uri?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: DrawViewModel = hiltViewModel(),
+    viewModel: DrawViewModel,
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
@@ -228,15 +226,6 @@ fun DrawContent(
         } else onGoBack()
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.let {
-            viewModel.setUri(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-        }
-    }
     LaunchedEffect(viewModel.bitmap) {
         if (allowChangeColor) {
             viewModel.bitmap?.let {
