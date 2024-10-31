@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -304,7 +305,7 @@ fun CropContent(
     val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
         Box(
             Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(paddingValues)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {

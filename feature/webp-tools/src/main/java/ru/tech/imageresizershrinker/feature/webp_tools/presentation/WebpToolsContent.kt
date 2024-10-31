@@ -56,7 +56,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -73,7 +72,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
@@ -116,10 +114,9 @@ import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.We
 
 @Composable
 fun WebpToolsContent(
-    typeState: Screen.WebpTools.Type?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: WebpToolsViewModel = hiltViewModel()
+    viewModel: WebpToolsViewModel
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -130,10 +127,6 @@ fun WebpToolsContent(
         scope.launch {
             confettiHostState.showConfetti()
         }
-    }
-
-    LaunchedEffect(typeState) {
-        typeState?.let { viewModel.setType(it) }
     }
 
     val imagePicker = rememberImagePicker(

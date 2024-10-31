@@ -46,6 +46,7 @@ import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -227,7 +228,7 @@ sealed class Screen(
 
     @Serializable
     data class Filter(
-        val type: Type? = null
+        @SerialName("dataType") val type: Type? = null
     ) : Screen(
         id = 4,
         title = R.string.filter,
@@ -373,7 +374,7 @@ sealed class Screen(
 
     @Serializable
     data class PdfTools(
-        val type: Type? = null
+        @SerialName("dataType") val type: Type? = null
     ) : Screen(
         id = 16,
         title = R.string.pdf_tools,
@@ -457,7 +458,7 @@ sealed class Screen(
 
     @Serializable
     data class GifTools(
-        val type: Type? = null
+        @SerialName("dataType") val type: Type? = null
     ) : Screen(
         id = 20,
         title = R.string.gif_tools,
@@ -524,7 +525,7 @@ sealed class Screen(
 
     @Serializable
     data class ApngTools(
-        val type: Type? = null
+        @SerialName("dataType") val type: Type? = null
     ) : Screen(
         id = 21,
         title = R.string.apng_tools,
@@ -590,7 +591,7 @@ sealed class Screen(
 
     @Serializable
     data class JxlTools(
-        val type: Type? = null
+        @SerialName("dataType") val type: Type? = null
     ) : Screen(
         id = 23,
         title = R.string.jxl_tools,
@@ -716,7 +717,7 @@ sealed class Screen(
 
     @Serializable
     data class WebpTools(
-        val type: Type? = null
+        @SerialName("dataType") val type: Type? = null
     ) : Screen(
         id = 31,
         title = R.string.webp_tools,

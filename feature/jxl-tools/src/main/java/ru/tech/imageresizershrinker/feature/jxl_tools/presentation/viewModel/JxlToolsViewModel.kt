@@ -26,8 +26,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -53,10 +55,10 @@ import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
-@HiltViewModel
-class JxlToolsViewModel @Inject constructor(
+class JxlToolsViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialType: Screen.JxlTools.Type?,
     private val jxlConverter: JxlConverter,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
@@ -64,7 +66,11 @@ class JxlToolsViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialType?.let(::setType)
+    }
 
     private val _type: MutableState<Screen.JxlTools.Type?> = mutableStateOf(null)
     val type by _type
@@ -514,5 +520,13 @@ class JxlToolsViewModel @Inject constructor(
     fun clearConvertedImagesSelection() = updateJxlFrames(ImageFrames.ManualSelection(emptyList()))
 
     fun selectAllConvertedImages() = updateJxlFrames(ImageFrames.All)
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialType: Screen.JxlTools.Type?,
+        ): JxlToolsViewModel
+    }
 
 }

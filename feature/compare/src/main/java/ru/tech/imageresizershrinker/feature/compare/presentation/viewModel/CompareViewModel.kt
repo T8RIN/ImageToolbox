@@ -28,6 +28,7 @@ import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -45,10 +46,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
-import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class CompareViewModel @Inject constructor(
+class CompareViewModel @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialComparableUris: Pair<Uri, Uri>?,
     private val imageCompressor: ImageCompressor<Bitmap>,

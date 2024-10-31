@@ -30,6 +30,7 @@ import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -56,9 +57,8 @@ import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngParams
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
-class ApngToolsViewModel @Inject constructor(
+class ApngToolsViewModel @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted initialType: Screen.ApngTools.Type?,
     private val imageCompressor: ImageCompressor<Bitmap>,

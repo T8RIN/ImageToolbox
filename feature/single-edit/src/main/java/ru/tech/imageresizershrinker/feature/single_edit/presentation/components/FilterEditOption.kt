@@ -75,8 +75,10 @@ import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetViewModel
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetViewModel
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
@@ -99,6 +101,8 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterEditOption(
+    addFilterSheetViewModel: AddFiltersSheetViewModel,
+    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel,
     visible: Boolean,
     onDismiss: () -> Unit,
     useScaffold: Boolean,
@@ -327,7 +331,9 @@ fun FilterEditOption(
                     scaffoldState.bottomSheetState.expand()
                 }
                 addFilter(it)
-            }
+            },
+            viewModel = addFilterSheetViewModel,
+            filterTemplateCreationSheetViewModel = filterTemplateCreationSheetViewModel
         )
 
         FilterReorderSheet(

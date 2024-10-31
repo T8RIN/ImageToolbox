@@ -85,9 +85,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainContentImpl
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainDrawerContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
+import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
 
 @Composable
 fun MainContent(
+    settingsViewModel: SettingsViewModel,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: () -> Unit
@@ -126,7 +128,8 @@ fun MainContent(
                         isUpdateAvailable = isUpdateAvailable,
                         isStandaloneScreen = false,
                         onNavigateToEasterEgg = onNavigateToEasterEgg,
-                        onNavigateToSettings = onNavigateToSettings
+                        onNavigateToSettings = onNavigateToSettings,
+                        viewModel = settingsViewModel
                     ) { showSettingsSearch, onCloseSearch ->
                         AnimatedContent(
                             targetState = !isSheetSlideable to showSettingsSearch,

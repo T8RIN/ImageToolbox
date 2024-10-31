@@ -28,8 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -48,18 +51,21 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetViewModel
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddMaskSheetViewModel
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
-import javax.inject.Inject
 
-@HiltViewModel
-class FilterViewModel @Inject constructor(
+class FilterViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialType: Screen.Filter.Type?,
     private val fileController: FileController,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -69,8 +75,35 @@ class FilterViewModel @Inject constructor(
     val filterProvider: FilterProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val shareProvider: ShareProvider<Bitmap>,
-    dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+    dispatchersHolder: DispatchersHolder,
+    addFiltersSheetViewModelFactory: AddFiltersSheetViewModel.Factory,
+    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel.Factory,
+    addMaskSheetViewModelFactory: AddMaskSheetViewModel.Factory,
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    val addFiltersSheetViewModel: AddFiltersSheetViewModel = addFiltersSheetViewModelFactory(
+        componentContext = componentContext.childContext(
+            key = "addFiltersFilters"
+        )
+    )
+
+    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel =
+        filterTemplateCreationSheetViewModel(
+            componentContext = componentContext.childContext(
+                key = "filterTemplateCreationSheetViewModelFilters"
+            )
+        )
+
+    val addMaskSheetViewModel: AddMaskSheetViewModel = addMaskSheetViewModelFactory(
+        componentContext = componentContext.childContext(
+            key = "addMaskSheetViewModelFactoryFilters"
+        )
+    )
+
+
+    init {
+        initialType?.let(::setType)
+    }
 
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
@@ -692,4 +725,13 @@ class FilterViewModel @Inject constructor(
         maskingFilterState.uri != null -> imageInfo.imageFormat
         else -> null
     }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialType: Screen.Filter.Type?,
+        ): FilterViewModel
+    }
+
 }

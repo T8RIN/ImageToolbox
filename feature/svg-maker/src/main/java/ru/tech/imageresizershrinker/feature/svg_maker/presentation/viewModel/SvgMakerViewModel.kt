@@ -29,6 +29,7 @@ import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -45,9 +46,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgManager
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
-import javax.inject.Inject
 
-class SvgMakerViewModel @Inject constructor(
+class SvgMakerViewModel @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val svgManager: SvgManager,

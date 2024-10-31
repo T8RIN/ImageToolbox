@@ -34,7 +34,7 @@ import javax.inject.Inject
 class AppActivity : M3Activity() {
 
     @Inject
-    private lateinit var viewModelFactory: RootViewModel.Factory
+    lateinit var viewModelFactory: RootViewModel.Factory
 
     private val viewModel: RootViewModel by lazy {
         retainedComponent(factory = viewModelFactory::invoke)

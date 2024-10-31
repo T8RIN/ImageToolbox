@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -49,6 +50,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetViewModel
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -74,6 +77,8 @@ class DrawViewModel @AssistedInject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
+    addFiltersSheetViewModelFactory: AddFiltersSheetViewModel.Factory,
+    filterTemplateCreationSheetViewModelFactory: FilterTemplateCreationSheetViewModel.Factory
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
@@ -84,6 +89,20 @@ class DrawViewModel @AssistedInject constructor(
             )
         }
     }
+
+    val addFiltersSheetViewModel: AddFiltersSheetViewModel = addFiltersSheetViewModelFactory(
+        componentContext = componentContext.childContext(
+            key = "addFilters",
+
+            )
+    )
+
+    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel =
+        filterTemplateCreationSheetViewModelFactory(
+            componentContext = componentContext.childContext(
+                key = "filterTemplateCreationSheetViewModelDraw"
+            )
+        )
 
     private val _drawOnBackgroundParams: MutableState<DrawOnBackgroundParams?> =
         mutableStateOf(null)

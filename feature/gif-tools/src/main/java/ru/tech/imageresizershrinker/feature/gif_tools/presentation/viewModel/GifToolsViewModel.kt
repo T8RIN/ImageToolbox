@@ -26,8 +26,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -54,10 +56,10 @@ import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
-@HiltViewModel
-class GifToolsViewModel @Inject constructor(
+class GifToolsViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialType: Screen.GifTools.Type?,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
@@ -65,7 +67,11 @@ class GifToolsViewModel @Inject constructor(
     private val gifConverter: GifConverter,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialType?.let(::setType)
+    }
 
     private val _type: MutableState<Screen.GifTools.Type?> = mutableStateOf(null)
     val type by _type
@@ -563,6 +569,14 @@ class GifToolsViewModel @Inject constructor(
             (quality as? Quality.Base) ?: Quality.Base()
         }
         registerChanges()
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialType: Screen.GifTools.Type?,
+        ): GifToolsViewModel
     }
 
 }

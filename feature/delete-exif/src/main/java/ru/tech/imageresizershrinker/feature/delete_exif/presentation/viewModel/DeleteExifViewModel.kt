@@ -28,6 +28,7 @@ import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -43,9 +44,8 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import javax.inject.Inject
 
-class DeleteExifViewModel @Inject constructor(
+class DeleteExifViewModel @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     private val fileController: FileController,

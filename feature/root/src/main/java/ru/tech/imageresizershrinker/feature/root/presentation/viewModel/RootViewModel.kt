@@ -493,7 +493,7 @@ class RootViewModel @AssistedInject constructor(
         class JxlTools(val component: JxlToolsViewModel) : Child()
         class LimitResize(val component: LimitsResizeViewModel) : Child()
         class LoadNetImage(val component: LoadNetImageViewModel) : Child()
-        data object Main : Child()
+        class Main(val component: SettingsViewModel) : Child()
         class NoiseGeneration(val component: NoiseGenerationViewModel) : Child()
         class PdfTools(val component: PdfToolsViewModel) : Child()
         class PickColorFromImage(val component: PickColorViewModel) : Child()
@@ -513,9 +513,14 @@ class RootViewModel @AssistedInject constructor(
         config: Screen,
         componentContext: ComponentContext
     ): Child = when (config) {
-        Screen.Main -> Child.Main
         Screen.ColorTools -> Child.ColorTools
         Screen.EasterEgg -> Child.EasterEgg
+
+        Screen.Main -> Child.Main(
+            settingsComponentFactory(
+                componentContext = componentContext
+            )
+        )
 
         is Screen.ApngTools -> Child.ApngTools(
             apngToolsComponentFactory(
@@ -583,8 +588,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.Filter -> Child.Filter(
             filterComponentFactory(
-                componentContext,
-                config.type
+                componentContext = componentContext,
+                initialType = config.type
             )
         )
 
@@ -604,8 +609,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.GifTools -> Child.GifTools(
             gifToolsComponentFactory(
-                componentContext,
-                config.type
+                componentContext = componentContext,
+                initialType = config.type
             )
         )
 
@@ -646,8 +651,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.JxlTools -> Child.JxlTools(
             jxlToolsComponentFactory(
-                componentContext,
-                config.type
+                componentContext = componentContext,
+                initialType = config.type
             )
         )
 
@@ -674,8 +679,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.PdfTools -> Child.PdfTools(
             pdfToolsComponentFactory(
-                componentContext,
-                config.type
+                componentContext = componentContext,
+                initialType = config.type
             )
         )
 
@@ -736,8 +741,8 @@ class RootViewModel @AssistedInject constructor(
 
         is Screen.WebpTools -> Child.WebpTools(
             webpToolsComponentFactory(
-                componentContext,
-                config.type
+                componentContext = componentContext,
+                initialType = config.type
             )
         )
 

@@ -74,6 +74,8 @@ import ru.tech.imageresizershrinker.core.domain.model.coerceIn
 import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetViewModel
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
@@ -129,6 +131,8 @@ fun DrawEditOption(
     addPath: (UiPathPaint) -> Unit,
     helperGridParams: HelperGridParams,
     onUpdateHelperGridParams: (HelperGridParams) -> Unit,
+    addFiltersSheetViewModel: AddFiltersSheetViewModel,
+    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel
 ) {
     bitmap?.let {
         var panEnabled by rememberSaveable { mutableStateOf(false) }
@@ -296,6 +300,8 @@ fun DrawEditOption(
                         )
                     }
                     DrawModeSelector(
+                        addFiltersSheetViewModel = addFiltersSheetViewModel,
+                        filterTemplateCreationSheetViewModel = filterTemplateCreationSheetViewModel,
                         modifier = Modifier.padding(horizontal = 16.dp),
                         value = drawMode,
                         strokeWidth = strokeWidth,

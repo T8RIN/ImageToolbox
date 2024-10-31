@@ -21,12 +21,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
+import com.arkivanov.decompose.ComponentContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.logger.makeLog
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,16 +57,15 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMed
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaItem
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaState
-import javax.inject.Inject
 
-@HiltViewModel
-class MediaPickerViewModel @Inject constructor(
+class MediaPickerViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     private val mediaRetriever: MediaRetriever,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
@@ -250,6 +251,13 @@ class MediaPickerViewModel @Inject constructor(
         settingsManager.getSettingsStateFlow().onEach {
             _settingsState.value = it
         }.launchIn(viewModelScope)
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext
+        ): MediaPickerViewModel
     }
 
 }

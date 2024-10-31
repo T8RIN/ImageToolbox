@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
@@ -62,6 +63,8 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetViewModel
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -88,11 +91,27 @@ class SingleEditViewModel @AssistedInject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
+    addFiltersSheetViewModelFactory: AddFiltersSheetViewModel.Factory,
+    filterTemplateCreationSheetViewModelFactory: FilterTemplateCreationSheetViewModel.Factory,
 ) : BaseViewModel(dispatchersHolder, componentContext) {
 
     init {
         initialUri?.let(::setUri)
     }
+
+    val addFiltersSheetViewModel: AddFiltersSheetViewModel = addFiltersSheetViewModelFactory(
+        componentContext = componentContext.childContext(
+            key = "addFiltersSingle",
+
+            )
+    )
+
+    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel =
+        filterTemplateCreationSheetViewModelFactory(
+            componentContext = componentContext.childContext(
+                key = "filterTemplateCreationSheetViewModelSingle"
+            )
+        )
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
     val originalSize by _originalSize

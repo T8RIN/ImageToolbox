@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
 internal fun FilterTemplateAddingGroup(
+    viewModel: FilterTemplateCreationSheetViewModel,
     onAddTemplateFilterFromString: (
         string: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
@@ -166,6 +167,7 @@ internal fun FilterTemplateAddingGroup(
 
     FilterTemplateCreationSheet(
         visible = showFilterTemplateCreationSheet,
-        onDismiss = { showFilterTemplateCreationSheet = false }
+        onDismiss = { showFilterTemplateCreationSheet = false },
+        viewModel = viewModel
     )
 }

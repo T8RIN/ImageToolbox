@@ -27,8 +27,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -52,17 +54,21 @@ import ru.tech.imageresizershrinker.feature.webp_tools.domain.WebpParams
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
-@HiltViewModel
-class WebpToolsViewModel @Inject constructor(
+class WebpToolsViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialType: Screen.WebpTools.Type?,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val webpConverter: WebpConverter,
     private val shareProvider: ShareProvider<Bitmap>,
     defaultDispatchersHolder: DispatchersHolder
-) : BaseViewModel(defaultDispatchersHolder) {
+) : BaseViewModel(defaultDispatchersHolder, componentContext) {
+
+    init {
+        initialType?.let(::setType)
+    }
 
     private val _type: MutableState<Screen.WebpTools.Type?> = mutableStateOf(null)
     val type by _type
@@ -390,6 +396,14 @@ class WebpToolsViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialType: Screen.WebpTools.Type?,
+        ): WebpToolsViewModel
     }
 
 }

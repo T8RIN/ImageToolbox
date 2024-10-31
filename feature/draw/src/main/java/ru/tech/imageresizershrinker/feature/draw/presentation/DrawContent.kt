@@ -418,7 +418,9 @@ fun DrawContent(
                             )
                         }
                     }
-                }.value
+                }.value,
+                addFiltersSheetViewModel = viewModel.addFiltersSheetViewModel,
+                filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel
             )
             DrawPathModeSelector(
                 modifier = Modifier.padding(horizontal = 16.dp),

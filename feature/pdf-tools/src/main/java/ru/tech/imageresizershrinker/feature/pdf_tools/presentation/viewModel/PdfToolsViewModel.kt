@@ -23,8 +23,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -47,18 +49,22 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.Pd
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.random.Random
 
-@HiltViewModel
-class PdfToolsViewModel @Inject constructor(
+class PdfToolsViewModel @AssistedInject constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val initialType: Screen.PdfTools.Type?,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val pdfManager: PdfManager<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseViewModel(dispatchersHolder, componentContext) {
+
+    init {
+        initialType?.let(::setType)
+    }
 
     private val _pdfToImageState: MutableState<PdfToImageState?> = mutableStateOf(null)
     val pdfToImageState by _pdfToImageState
@@ -436,6 +442,14 @@ class PdfToolsViewModel @Inject constructor(
             it.copy(quality = quality)
         }
         registerChanges()
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            initialType: Screen.PdfTools.Type?,
+        ): PdfToolsViewModel
     }
 
 }

@@ -97,7 +97,6 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.histogram.ImageHistogram
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -173,10 +172,9 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FiltersContent(
-    type: Screen.Filter.Type?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: FilterViewModel = hiltViewModel()
+    viewModel: FilterViewModel
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -197,10 +195,6 @@ fun FiltersContent(
         scope.launch {
             confettiHostState.showConfetti()
         }
-    }
-
-    LaunchedEffect(type) {
-        type?.let { viewModel.setType(it) }
     }
 
     LaunchedEffect(viewModel.previewBitmap) {
@@ -670,7 +664,8 @@ fun FiltersContent(
                                                 showDragHandle = false,
                                                 onRemove = {
                                                     viewModel.removeMaskAtIndex(index)
-                                                }
+                                                },
+                                                addMaskSheetViewModel = viewModel.addMaskSheetViewModel
                                             )
                                         }
                                         EnhancedButton(
@@ -841,7 +836,7 @@ fun FiltersContent(
 
     AutoFilePicker(
         onAutoPick = selectionFilterPicker::pickImage,
-        isPickedAlready = type != null
+        isPickedAlready = viewModel.initialType != null
     )
 
     Surface(
@@ -1184,7 +1179,9 @@ fun FiltersContent(
                     onVisibleChange = { showAddFilterSheet = it },
                     previewBitmap = viewModel.previewBitmap,
                     onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-                    onFilterPickedWithParams = { viewModel.addFilter(it) }
+                    onFilterPickedWithParams = { viewModel.addFilter(it) },
+                    viewModel = viewModel.addFiltersSheetViewModel,
+                    filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel
                 )
 
                 FilterReorderSheet(
@@ -1203,7 +1200,8 @@ fun FiltersContent(
                     onDismiss = {
                         showAddMaskSheet = false
                     },
-                    masks = viewModel.maskingFilterState.masks
+                    masks = viewModel.maskingFilterState.masks,
+                    viewModel = viewModel.addMaskSheetViewModel
                 )
 
                 MaskReorderSheet(

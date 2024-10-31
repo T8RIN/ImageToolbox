@@ -78,6 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun MaskItem(
+    addMaskSheetViewModel: AddMaskSheetViewModel?,
     mask: UiFilterMask,
     modifier: Modifier = Modifier,
     titleText: String,
@@ -301,34 +302,39 @@ fun MaskItem(
         }
     }
 
-    AddFiltersSheet(
-        visible = showAddFilterSheet,
-        onVisibleChange = { showAddFilterSheet = it },
-        previewBitmap = null,
-        onFilterPicked = { filter ->
-            onMaskChange(
-                mask.copy(
-                    filters = mask.filters + filter.newInstance()
+    addMaskSheetViewModel?.let {
+        AddFiltersSheet(
+            visible = showAddFilterSheet,
+            onVisibleChange = { showAddFilterSheet = it },
+            previewBitmap = null,
+            onFilterPicked = { filter ->
+                onMaskChange(
+                    mask.copy(
+                        filters = mask.filters + filter.newInstance()
+                    )
                 )
-            )
-        },
-        onFilterPickedWithParams = { filter ->
-            onMaskChange(
-                mask.copy(
-                    filters = mask.filters + filter
+            },
+            onFilterPickedWithParams = { filter ->
+                onMaskChange(
+                    mask.copy(
+                        filters = mask.filters + filter
+                    )
                 )
-            )
-        }
-    )
+            },
+            viewModel = addMaskSheetViewModel.addFiltersSheetViewModel,
+            filterTemplateCreationSheetViewModel = addMaskSheetViewModel.filterTemplateCreationSheetViewModel
+        )
 
-    AddEditMaskSheet(
-        mask = mask,
-        visible = showEditMaskSheet,
-        targetBitmapUri = imageUri,
-        masks = previousMasks,
-        onDismiss = {
-            showEditMaskSheet = false
-        },
-        onMaskPicked = onMaskChange
-    )
+        AddEditMaskSheet(
+            mask = mask,
+            visible = showEditMaskSheet,
+            targetBitmapUri = imageUri,
+            masks = previousMasks,
+            onDismiss = {
+                showEditMaskSheet = false
+            },
+            onMaskPicked = onMaskChange,
+            viewModel = addMaskSheetViewModel
+        )
+    }
 }

@@ -457,10 +457,14 @@ fun SingleEditContent(
         updateOrder = viewModel::updateOrder,
         updateFilter = viewModel::updateFilter,
         removeAt = viewModel::removeFilterAtIndex,
-        addFilter = viewModel::addFilter
+        addFilter = viewModel::addFilter,
+        filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel,
+        addFilterSheetViewModel = viewModel.addFiltersSheetViewModel
     )
 
     DrawEditOption(
+        addFiltersSheetViewModel = viewModel.addFiltersSheetViewModel,
+        filterTemplateCreationSheetViewModel = viewModel.filterTemplateCreationSheetViewModel,
         onRequestFiltering = viewModel::filter,
         visible = showDrawing,
         onDismiss = {

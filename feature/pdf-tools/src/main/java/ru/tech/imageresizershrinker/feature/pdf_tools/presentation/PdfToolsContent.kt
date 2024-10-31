@@ -107,7 +107,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
@@ -152,19 +151,12 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.Pd
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel.PdfToolsViewModel
 
-@OptIn(
-    ExperimentalMaterial3Api::class
-)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PdfToolsContent(
-    type: Screen.PdfTools.Type?,
     onGoBack: () -> Unit,
-    viewModel: PdfToolsViewModel = hiltViewModel()
+    viewModel: PdfToolsViewModel
 ) {
-    LaunchedEffect(type) {
-        type?.let { viewModel.setType(it) }
-    }
-
     val context = LocalContext.current as Activity
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
@@ -185,7 +177,7 @@ fun PdfToolsContent(
     }
 
     val onBack = {
-        if (type is Screen.PdfTools.Type.Preview) onGoBack()
+        if (viewModel.pdfType is Screen.PdfTools.Type.Preview) onGoBack()
         else {
             if (viewModel.haveChanges) showExitDialog = true
             else if (viewModel.pdfType != null) {

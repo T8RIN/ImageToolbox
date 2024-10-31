@@ -59,7 +59,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,7 +76,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
@@ -119,9 +117,8 @@ import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.Gif
 
 @Composable
 fun GifToolsContent(
-    typeState: Screen.GifTools.Type?,
     onGoBack: () -> Unit,
-    viewModel: GifToolsViewModel = hiltViewModel()
+    viewModel: GifToolsViewModel
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -132,10 +129,6 @@ fun GifToolsContent(
         scope.launch {
             confettiHostState.showConfetti()
         }
-    }
-
-    LaunchedEffect(typeState) {
-        typeState?.let { viewModel.setType(it) }
     }
 
     val imagePicker =

@@ -29,6 +29,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.router.stack.backStack
 import com.arkivanov.decompose.router.stack.pop
@@ -125,7 +126,7 @@ internal fun ScreenSelector(
         modifier = Modifier.fillMaxSize(),
         animation = predictiveBackAnimation(
             backHandler = viewModel.backHandler,
-            fallbackAnimation = stackAnimation(fade() + scale()),
+            fallbackAnimation = stackAnimation(fade() + scale() + slide()),
             onBack = viewModel::onBackClicked
         )
     ) { screen ->
@@ -170,7 +171,8 @@ internal fun ScreenSelector(
                         navController.pushNew(Screen.EasterEgg)
                         onRegisterScreenOpen(Screen.EasterEgg)
                     },
-                    onToggleFavorite = viewModel::toggleFavoriteScreen
+                    onToggleFavorite = viewModel::toggleFavoriteScreen,
+                    settingsViewModel = instance.component
                 )
             }
 
