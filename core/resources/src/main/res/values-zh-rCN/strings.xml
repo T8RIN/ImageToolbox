@@ -893,7 +893,7 @@
     <string name="engine_mode">引擎模式</string>
     <string name="legacy">传统</string>
     <string name="lstm_network">LSTM 网络</string>
-    <string name="legacy_and_lstm"><![CDATA[传统 & LSTM]]></string>
+    <string name="legacy_and_lstm">传统和 LSTM</string>
     <string name="convert">转换</string>
     <string name="convert_sub">将批量图片转换为给定格式</string>
     <string name="add_new_folder">添加新文件夹</string>
