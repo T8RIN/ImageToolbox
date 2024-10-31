@@ -51,7 +51,8 @@ class DocumentScanner internal constructor(
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED) {
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             scannerLauncher.launch(scanner.createDocumentScanIntent())
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)

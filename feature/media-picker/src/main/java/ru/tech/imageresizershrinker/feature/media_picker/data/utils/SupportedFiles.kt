@@ -12,8 +12,11 @@ val SUPPORTED_FILES = mapOf(
     "qoi" to Pair("image/qoi", FileType.Photo)
 )
 
-fun getSupportedFileSequence(allowedMedia: AllowedMedia) = when(allowedMedia) {
+fun getSupportedFileSequence(allowedMedia: AllowedMedia) = when (allowedMedia) {
     AllowedMedia.Both -> SUPPORTED_FILES.asSequence()
-    is AllowedMedia.Photos -> SUPPORTED_FILES.asSequence().filter { (_, p) -> p.second == FileType.Photo }
-    AllowedMedia.Videos -> SUPPORTED_FILES.asSequence().filter { (_, p) -> p.second == FileType.Video }
+    is AllowedMedia.Photos -> SUPPORTED_FILES.asSequence()
+        .filter { (_, p) -> p.second == FileType.Photo }
+
+    AllowedMedia.Videos -> SUPPORTED_FILES.asSequence()
+        .filter { (_, p) -> p.second == FileType.Video }
 }.map { (ext, _) -> "%.$ext" }

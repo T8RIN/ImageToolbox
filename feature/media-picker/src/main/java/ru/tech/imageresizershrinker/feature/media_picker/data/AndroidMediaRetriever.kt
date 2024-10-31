@@ -28,9 +28,17 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.feature.media_picker.data.utils.*
+import ru.tech.imageresizershrinker.feature.media_picker.data.utils.Query
+import ru.tech.imageresizershrinker.feature.media_picker.data.utils.contentFlowObserver
+import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getAlbums
+import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getMedia
+import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getSupportedFileSequence
 import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRetriever
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.*
+import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
+import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
+import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
+import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaOrder
+import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
 import javax.inject.Inject
 
 internal class AndroidMediaRetriever @Inject constructor(
@@ -114,7 +122,8 @@ internal class AndroidMediaRetriever @Inject constructor(
                 putString(
                     ContentResolver.QUERY_ARG_SQL_SELECTION,
                     MediaStore.MediaColumns.BUCKET_ID + "= ? and ("
-                            + extensions.asSequence().map { MediaStore.MediaColumns.DATA + " LIKE ?" }
+                            + extensions.asSequence()
+                        .map { MediaStore.MediaColumns.DATA + " LIKE ?" }
                         .joinToString(" OR ")
                             + ")"
                 )

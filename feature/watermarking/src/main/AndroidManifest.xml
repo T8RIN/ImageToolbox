@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
   ~
@@ -16,6 +15,6 @@
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest>
 
 </manifest>
