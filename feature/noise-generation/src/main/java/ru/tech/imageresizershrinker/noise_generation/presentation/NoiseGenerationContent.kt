@@ -67,13 +67,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.noise_generation.presentation.components.NoiseParamsSelection
-import ru.tech.imageresizershrinker.noise_generation.presentation.viewModel.NoiseGenerationViewModel
+import ru.tech.imageresizershrinker.noise_generation.presentation.viewModel.NoiseGenerationComponent
 
 @Composable
 fun NoiseGenerationContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: NoiseGenerationViewModel
+    viewModel: NoiseGenerationComponent
 ) {
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current

@@ -76,13 +76,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.components.AutoRotateLimitBoxToggle
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.components.LimitsResizeSelector
-import ru.tech.imageresizershrinker.feature.limits_resize.presentation.viewModel.LimitsResizeViewModel
+import ru.tech.imageresizershrinker.feature.limits_resize.presentation.viewModel.LimitsResizeComponent
 
 @Composable
 fun LimitsResizeContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: LimitsResizeViewModel
+    viewModel: LimitsResizeComponent
 ) {
     val settingsState = LocalSettingsState.current
 

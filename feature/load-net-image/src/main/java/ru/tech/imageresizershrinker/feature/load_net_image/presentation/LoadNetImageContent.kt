@@ -85,13 +85,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewModel.LoadNetImageViewModel
+import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewModel.LoadNetImageComponent
 
 @Composable
 fun LoadNetImageContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: LoadNetImageViewModel
+    viewModel: LoadNetImageComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current

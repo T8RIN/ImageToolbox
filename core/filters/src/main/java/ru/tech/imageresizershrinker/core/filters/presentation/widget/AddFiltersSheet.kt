@@ -156,7 +156,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.utils.collectAsUiS
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
-import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
+import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -201,8 +201,8 @@ import java.util.Locale
 
 @Composable
 fun AddFiltersSheet(
-    viewModel: AddFiltersSheetViewModel,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel,
+    viewModel: AddFiltersSheetComponent,
+    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     previewBitmap: Bitmap?,
@@ -1271,7 +1271,7 @@ fun AddFiltersSheet(
     )
 }
 
-class AddFiltersSheetViewModel @AssistedInject internal constructor(
+class AddFiltersSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
@@ -1282,7 +1282,7 @@ class AddFiltersSheetViewModel @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val remoteResourcesStore: RemoteResourcesStore,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder, componentContext) {
+) : BaseComponent(dispatchersHolder, componentContext) {
 
     private val _previewModel: MutableState<ImageModel> = mutableStateOf(
         R.drawable.filter_preview_source.toImageModel()
@@ -1614,7 +1614,7 @@ class AddFiltersSheetViewModel @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext
-        ): AddFiltersSheetViewModel
+        ): AddFiltersSheetComponent
     }
 
 }

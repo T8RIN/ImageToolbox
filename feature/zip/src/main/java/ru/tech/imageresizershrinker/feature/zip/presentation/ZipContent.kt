@@ -89,7 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipViewModel
+import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipComponent
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -98,7 +98,7 @@ import java.util.Locale
 @Composable
 fun ZipContent(
     onGoBack: () -> Unit,
-    viewModel: ZipViewModel
+    viewModel: ZipComponent
 ) {
     val haptics = LocalHapticFeedback.current
 

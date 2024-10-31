@@ -96,13 +96,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
-import ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel.ResizeAndConvertViewModel
+import ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel.ResizeAndConvertComponent
 
 @Composable
 fun ResizeAndConvertContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ResizeAndConvertViewModel
+    viewModel: ResizeAndConvertComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current

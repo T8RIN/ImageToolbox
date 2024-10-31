@@ -85,11 +85,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainContentImpl
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainDrawerContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsComponent
 
 @Composable
 fun MainContent(
-    settingsViewModel: SettingsViewModel,
+    settingsViewModel: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: () -> Unit

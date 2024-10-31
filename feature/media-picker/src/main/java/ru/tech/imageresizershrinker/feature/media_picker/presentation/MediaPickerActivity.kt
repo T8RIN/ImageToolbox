@@ -49,19 +49,19 @@ import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticF
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRoot
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerViewModel
+import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerComponent
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MediaPickerActivity : M3Activity() {
 
     @Inject
-    lateinit var viewModelFactory: MediaPickerViewModel.Factory
+    lateinit var componentFactory: MediaPickerComponent.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel = retainedComponent(factory = viewModelFactory::invoke)
+        val viewModel = retainedComponent(factory = componentFactory::invoke)
 
         val allowMultiple = intent.getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
 

@@ -78,7 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun MaskItem(
-    addMaskSheetViewModel: AddMaskSheetViewModel?,
+    addMaskSheetViewModel: AddMaskSheetComponent?,
     mask: UiFilterMask,
     modifier: Modifier = Modifier,
     titleText: String,

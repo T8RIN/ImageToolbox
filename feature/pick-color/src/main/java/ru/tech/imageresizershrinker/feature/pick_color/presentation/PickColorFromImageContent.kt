@@ -118,13 +118,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.PickColorViewModel
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.PickColorComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickColorFromImageContent(
     onGoBack: () -> Unit,
-    viewModel: PickColorViewModel
+    viewModel: PickColorComponent
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current

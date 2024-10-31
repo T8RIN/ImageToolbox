@@ -110,13 +110,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.components.WebpParamsSelector
-import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.WebpToolsViewModel
+import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.WebpToolsComponent
 
 @Composable
 fun WebpToolsContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: WebpToolsViewModel
+    viewModel: WebpToolsComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -547,7 +547,7 @@ private fun Uri.isWebp(context: Context): Boolean {
         .or(context.contentResolver.getType(this)?.contains("webp") == true)
 }
 
-private val WebpToolsViewModel.canSave: Boolean
+private val WebpToolsComponent.canSave: Boolean
     get() = (imageFrames == ImageFrames.All)
         .or(type is Screen.WebpTools.Type.ImageToWebp)
         .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

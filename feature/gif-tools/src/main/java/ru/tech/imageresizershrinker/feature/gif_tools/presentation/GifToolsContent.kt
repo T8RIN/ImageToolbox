@@ -113,12 +113,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.components.GifParamsSelector
-import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.GifToolsViewModel
+import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.GifToolsComponent
 
 @Composable
 fun GifToolsContent(
     onGoBack: () -> Unit,
-    viewModel: GifToolsViewModel
+    viewModel: GifToolsComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -742,7 +742,7 @@ private fun Uri.isGif(context: Context): Boolean {
         .or(context.contentResolver.getType(this)?.contains("gif") == true)
 }
 
-private val GifToolsViewModel.canSave: Boolean
+private val GifToolsComponent.canSave: Boolean
     get() = (gifFrames == ImageFrames.All)
         .or(type is Screen.GifTools.Type.ImageToGif)
         .or((gifFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

@@ -68,9 +68,9 @@ import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.resources.icons.Highlighter
@@ -96,8 +96,8 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 
 @Composable
 fun DrawModeSelector(
-    addFiltersSheetViewModel: AddFiltersSheetViewModel,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel,
+    addFiltersSheetViewModel: AddFiltersSheetComponent,
+    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent,
     modifier: Modifier,
     value: DrawMode,
     strokeWidth: Pt,

@@ -68,12 +68,12 @@ import ru.tech.imageresizershrinker.feature.root.presentation.components.GithubR
 import ru.tech.imageresizershrinker.feature.root.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.root.presentation.components.TelegramGroupDialog
-import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootComponent
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.DonateDialog
 
 @Composable
 fun RootContent(
-    viewModel: RootViewModel
+    viewModel: RootComponent
 ) {
     val context = LocalContext.current as ComponentActivity
 

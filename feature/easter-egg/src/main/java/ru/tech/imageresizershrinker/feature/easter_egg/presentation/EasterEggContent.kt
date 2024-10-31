@@ -80,14 +80,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.easter_egg.presentation.viewModel.EasterEggViewModel
+import ru.tech.imageresizershrinker.feature.easter_egg.presentation.viewModel.EasterEggComponent
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
 @Composable
 fun EasterEggContent(
     onGoBack: () -> Unit,
-    viewModel: EasterEggViewModel
+    viewModel: EasterEggComponent
 ) {
     val confettiHostState = LocalConfettiHostState.current
     val themeState = LocalDynamicThemeState.current

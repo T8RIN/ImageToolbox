@@ -84,13 +84,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackImageItem
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackingParamsSelector
-import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewModel.ImageStackingViewModel
+import ru.tech.imageresizershrinker.feature.image_stacking.presentation.viewModel.ImageStackingComponent
 
 @Composable
 fun ImageStackingContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageStackingViewModel
+    viewModel: ImageStackingComponent
 ) {
     val settingsState = LocalSettingsState.current
 

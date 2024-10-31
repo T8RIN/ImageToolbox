@@ -90,13 +90,13 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.EraseBackgroundEditOption
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.FilterEditOption
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.ToneCurvesEditOption
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.SingleEditViewModel
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel.SingleEditComponent
 
 @Composable
 fun SingleEditContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: SingleEditViewModel,
+    viewModel: SingleEditComponent,
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current

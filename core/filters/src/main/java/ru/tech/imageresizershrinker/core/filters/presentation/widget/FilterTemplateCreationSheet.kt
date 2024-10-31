@@ -84,7 +84,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
+import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -108,7 +108,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 
 @Composable
 internal fun FilterTemplateCreationSheet(
-    viewModel: FilterTemplateCreationSheetViewModel,
+    viewModel: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onDismiss: () -> Unit,
     initialTemplateFilter: TemplateFilter? = null
@@ -378,16 +378,16 @@ internal fun FilterTemplateCreationSheet(
     )
 }
 
-class FilterTemplateCreationSheetViewModel @AssistedInject internal constructor(
+class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
-    addFiltersSheetViewModelFactory: AddFiltersSheetViewModel.Factory
-) : BaseViewModel(dispatchersHolder, componentContext) {
+    addFiltersSheetViewModelFactory: AddFiltersSheetComponent.Factory
+) : BaseComponent(dispatchersHolder, componentContext) {
 
-    val addFiltersSheetViewModel: AddFiltersSheetViewModel = addFiltersSheetViewModelFactory(
+    val addFiltersSheetViewModel: AddFiltersSheetComponent = addFiltersSheetViewModelFactory(
         componentContext = componentContext.childContext(
             key = "addFiltersTemplate",
 
@@ -509,7 +509,7 @@ class FilterTemplateCreationSheetViewModel @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext
-        ): FilterTemplateCreationSheetViewModel
+        ): FilterTemplateCreationSheetComponent
     }
 
 }

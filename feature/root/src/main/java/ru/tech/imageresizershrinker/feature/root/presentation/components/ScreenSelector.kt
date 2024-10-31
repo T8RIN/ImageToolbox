@@ -73,7 +73,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFro
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextContent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertContent
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
-import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootComponent
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditContent
@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGeneratio
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
 internal fun ScreenSelector(
-    viewModel: RootViewModel,
+    viewModel: RootComponent,
     onRegisterScreenOpen: (Screen) -> Unit,
 ) {
     val context = LocalContext.current as ComponentActivity

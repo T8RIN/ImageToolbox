@@ -149,13 +149,13 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.Pd
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewer
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewerOrientation
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
-import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel.PdfToolsViewModel
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel.PdfToolsComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PdfToolsContent(
     onGoBack: () -> Unit,
-    viewModel: PdfToolsViewModel
+    viewModel: PdfToolsComponent
 ) {
     val context = LocalContext.current as Activity
     val toastHostState = LocalToastHostState.current

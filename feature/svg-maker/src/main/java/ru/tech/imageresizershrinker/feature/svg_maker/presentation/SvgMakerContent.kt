@@ -67,13 +67,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.components.SvgParamsSelector
-import ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel.SvgMakerViewModel
+import ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel.SvgMakerComponent
 
 
 @Composable
 fun SvgMakerContent(
     onGoBack: () -> Unit,
-    viewModel: SvgMakerViewModel
+    viewModel: SvgMakerComponent
 ) {
     val context = LocalContext.current as Activity
 

@@ -106,14 +106,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeViewModel
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
 fun ScanQrCodeContent(
     onGoBack: () -> Unit,
-    viewModel: ScanQrCodeViewModel
+    viewModel: ScanQrCodeComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current

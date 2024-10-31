@@ -98,14 +98,14 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetViewModel
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
+import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -144,7 +144,7 @@ import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 
 @Composable
 fun AddEditMaskSheet(
-    viewModel: AddMaskSheetViewModel,
+    viewModel: AddMaskSheetComponent,
     mask: UiFilterMask? = null,
     visible: Boolean,
     onDismiss: () -> Unit,
@@ -619,7 +619,7 @@ fun AddEditMaskSheet(
     )
 }
 
-class AddMaskSheetViewModel @AssistedInject internal constructor(
+class AddMaskSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -627,18 +627,18 @@ class AddMaskSheetViewModel @AssistedInject internal constructor(
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
-    addFiltersSheetViewModelFactory: AddFiltersSheetViewModel.Factory,
-    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel.Factory
-) : BaseViewModel(dispatchersHolder, componentContext) {
+    addFiltersSheetViewModelFactory: AddFiltersSheetComponent.Factory,
+    filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent.Factory
+) : BaseComponent(dispatchersHolder, componentContext) {
 
-    val addFiltersSheetViewModel: AddFiltersSheetViewModel = addFiltersSheetViewModelFactory(
+    val addFiltersSheetViewModel: AddFiltersSheetComponent = addFiltersSheetViewModelFactory(
         componentContext = componentContext.childContext(
             key = "addFiltersMask",
 
             )
     )
 
-    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetViewModel =
+    val filterTemplateCreationSheetViewModel: FilterTemplateCreationSheetComponent =
         filterTemplateCreationSheetViewModel(
             componentContext = componentContext.childContext(
                 key = "filterTemplateCreationSheetViewModelMask"
@@ -853,7 +853,7 @@ class AddMaskSheetViewModel @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext
-        ): AddMaskSheetViewModel
+        ): AddMaskSheetComponent
     }
 
 }

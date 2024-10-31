@@ -82,14 +82,14 @@ import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.SpacingSelector
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.StitchAlignmentSelector
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.components.StitchModeSelector
-import ru.tech.imageresizershrinker.feature.image_stitch.presentation.viewModel.ImageStitchingViewModel
+import ru.tech.imageresizershrinker.feature.image_stitch.presentation.viewModel.ImageStitchingComponent
 import kotlin.math.roundToLong
 
 @Composable
 fun ImageStitchingContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageStitchingViewModel
+    viewModel: ImageStitchingComponent
 ) {
     val settingsState = LocalSettingsState.current
 

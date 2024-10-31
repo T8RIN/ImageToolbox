@@ -91,13 +91,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.weight_resize.presentation.components.ImageFormatAlert
-import ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel.WeightResizeViewModel
+import ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel.WeightResizeComponent
 
 @Composable
 fun WeightResizeContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: WeightResizeViewModel
+    viewModel: WeightResizeComponent
 ) {
     val settingsState = LocalSettingsState.current
 

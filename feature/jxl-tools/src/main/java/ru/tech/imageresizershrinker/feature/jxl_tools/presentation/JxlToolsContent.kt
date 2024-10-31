@@ -110,12 +110,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.AnimatedJxlParamsSelector
-import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel.JxlToolsViewModel
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel.JxlToolsComponent
 
 @Composable
 fun JxlToolsContent(
     onGoBack: () -> Unit,
-    viewModel: JxlToolsViewModel
+    viewModel: JxlToolsComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -722,7 +722,7 @@ private fun Uri.isJxl(context: Context): Boolean {
         .or(context.contentResolver.getType(this)?.contains("jxl") == true)
 }
 
-private val JxlToolsViewModel.canSave: Boolean
+private val JxlToolsComponent.canSave: Boolean
     get() = (imageFrames == ImageFrames.All)
         .or(type !is Screen.JxlTools.Type.JxlToImage)
         .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

@@ -135,14 +135,14 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMas
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
-import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropViewModel
+import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CropContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: CropViewModel
+    viewModel: CropComponent
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity

@@ -184,7 +184,7 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawMod
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenColorPickerCard
-import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @SuppressLint("AutoboxingStateCreation")
@@ -193,7 +193,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun DrawContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: DrawViewModel,
+    viewModel: DrawComponent,
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity

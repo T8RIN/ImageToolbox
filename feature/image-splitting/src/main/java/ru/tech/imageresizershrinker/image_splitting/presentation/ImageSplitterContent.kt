@@ -73,13 +73,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.image_splitting.presentation.components.SplitParamsSelector
-import ru.tech.imageresizershrinker.image_splitting.presentation.viewModel.ImageSplitterViewModel
+import ru.tech.imageresizershrinker.image_splitting.presentation.viewModel.ImageSplitterComponent
 
 @Composable
 fun ImageSplitterContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImageSplitterViewModel
+    viewModel: ImageSplitterComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current

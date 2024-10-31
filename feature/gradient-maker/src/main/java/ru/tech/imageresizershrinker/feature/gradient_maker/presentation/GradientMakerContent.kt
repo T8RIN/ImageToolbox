@@ -103,13 +103,13 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.componen
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientTypeSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.TileModeSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.rememberGradientState
-import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewModel.GradientMakerViewModel
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewModel.GradientMakerComponent
 
 @Composable
 fun GradientMakerContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: GradientMakerViewModel
+    viewModel: GradientMakerComponent
 ) {
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current

@@ -153,14 +153,14 @@ import ru.tech.imageresizershrinker.feature.erase_background.presentation.compon
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeButton
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.TrimImageToggle
-import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EraseBackgroundContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: EraseBackgroundViewModel,
+    viewModel: EraseBackgroundComponent,
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current

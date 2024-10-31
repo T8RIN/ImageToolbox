@@ -90,7 +90,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel.CollageMakerViewModel
+import ru.tech.imageresizershrinker.colllage_maker.presentation.viewModel.CollageMakerComponent
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
@@ -134,7 +134,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 fun CollageMakerContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: CollageMakerViewModel
+    viewModel: CollageMakerComponent
 ) {
     LockScreenOrientation()
     val context = LocalContext.current as ComponentActivity

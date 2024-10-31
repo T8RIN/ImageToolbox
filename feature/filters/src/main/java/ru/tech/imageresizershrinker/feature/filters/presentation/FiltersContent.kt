@@ -166,7 +166,7 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskFilterPreference
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterViewModel
+import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -174,7 +174,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun FiltersContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: FilterViewModel
+    viewModel: FilterComponent
 ) {
     val settingsState = LocalSettingsState.current
 

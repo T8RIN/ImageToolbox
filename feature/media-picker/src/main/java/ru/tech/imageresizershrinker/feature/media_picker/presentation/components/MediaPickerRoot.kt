@@ -70,12 +70,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.MediaPickerActivity
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerViewModel
+import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MediaPickerActivity.MediaPickerRoot(
-    viewModel: MediaPickerViewModel,
+    viewModel: MediaPickerComponent,
     title: String,
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,

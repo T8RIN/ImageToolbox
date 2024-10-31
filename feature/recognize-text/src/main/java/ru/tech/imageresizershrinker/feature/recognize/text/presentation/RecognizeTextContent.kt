@@ -101,14 +101,14 @@ import ru.tech.imageresizershrinker.feature.recognize.text.presentation.componen
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.TessParamsSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.toUi
-import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextViewModel
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextComponent
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.CropEditOption
 
 
 @Composable
 fun RecognizeTextContent(
     onGoBack: () -> Unit,
-    viewModel: RecognizeTextViewModel
+    viewModel: RecognizeTextComponent
 ) {
     val text = viewModel.recognitionData?.text?.takeIf {
         it.isNotEmpty()

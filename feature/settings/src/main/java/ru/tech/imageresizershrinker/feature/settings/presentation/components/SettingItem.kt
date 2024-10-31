@@ -42,12 +42,12 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsComponent
 
 @Composable
 internal fun SettingItem(
     setting: Setting,
-    viewModel: SettingsViewModel,
+    viewModel: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: () -> Unit,

@@ -90,13 +90,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerViewModel
+import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerComponent
 
 @Composable
 fun MediaPickerScreen(
     allowedMedia: AllowedMedia,
     allowSelection: Boolean,
-    viewModel: MediaPickerViewModel,
+    viewModel: MediaPickerComponent,
     sendMediaAsResult: (List<Uri>) -> Unit,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean

@@ -107,14 +107,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.components.ImagePreviewGrid
-import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewViewModel
+import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagePreviewContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImagePreviewViewModel
+    viewModel: ImagePreviewComponent
 ) {
     var showExitDialog by rememberSaveable {
         mutableStateOf(false)

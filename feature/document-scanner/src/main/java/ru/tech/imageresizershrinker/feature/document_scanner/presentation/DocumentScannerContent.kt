@@ -90,13 +90,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel.DocumentScannerViewModel
+import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel.DocumentScannerComponent
 
 
 @Composable
 fun DocumentScannerContent(
     onGoBack: () -> Unit,
-    viewModel: DocumentScannerViewModel
+    viewModel: DocumentScannerComponent
 ) {
     val haptics = LocalHapticFeedback.current
 

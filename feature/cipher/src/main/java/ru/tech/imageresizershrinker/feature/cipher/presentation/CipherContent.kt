@@ -131,7 +131,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.cipher.presentation.components.CipherTipSheet
-import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.CipherViewModel
+import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.CipherComponent
 import java.security.InvalidKeyException
 import kotlin.random.Random
 
@@ -140,7 +140,7 @@ import kotlin.random.Random
 @Composable
 fun CipherContent(
     onGoBack: () -> Unit,
-    viewModel: CipherViewModel
+    viewModel: CipherComponent
 ) {
     val haptics = LocalHapticFeedback.current
 

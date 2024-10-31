@@ -82,13 +82,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.components.GeneratePaletteScreenControls
-import ru.tech.imageresizershrinker.feature.generate_palette.presentation.viewModel.GeneratePaletteViewModel
+import ru.tech.imageresizershrinker.feature.generate_palette.presentation.viewModel.GeneratePaletteComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @Composable
 fun GeneratePaletteContent(
     onGoBack: () -> Unit,
-    viewModel: GeneratePaletteViewModel
+    viewModel: GeneratePaletteComponent
 ) {
     val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current

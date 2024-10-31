@@ -116,13 +116,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.components.ApngParamsSelector
-import ru.tech.imageresizershrinker.feature.apng_tools.presentation.viewModel.ApngToolsViewModel
+import ru.tech.imageresizershrinker.feature.apng_tools.presentation.viewModel.ApngToolsComponent
 
 @Composable
 fun ApngToolsContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ApngToolsViewModel
+    viewModel: ApngToolsComponent
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
@@ -671,7 +671,7 @@ private fun Uri.isApng(context: Context): Boolean {
         .or(context.contentResolver.getType(this)?.contains("apng") == true)
 }
 
-private val ApngToolsViewModel.canSave: Boolean
+private val ApngToolsComponent.canSave: Boolean
     get() = (imageFrames == ImageFrames.All)
         .or(type is Screen.ApngTools.Type.ImageToApng)
         .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

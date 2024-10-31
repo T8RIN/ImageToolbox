@@ -104,12 +104,12 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.Sea
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchableSettingItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingGroupItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingItem
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsComponent
 
 
 @Composable
 fun SettingsContent(
-    viewModel: SettingsViewModel,
+    viewModel: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: Lambda

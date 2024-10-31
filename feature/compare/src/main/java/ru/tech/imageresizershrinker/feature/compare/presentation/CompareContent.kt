@@ -69,14 +69,14 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.components.Comp
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareScreenTopAppBar
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareShareSheet
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
-import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.CompareViewModel
+import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.CompareComponent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompareContent(
     onGoBack: () -> Unit,
-    viewModel: CompareViewModel
+    viewModel: CompareComponent
 ) {
     val settingsState = LocalSettingsState.current
 

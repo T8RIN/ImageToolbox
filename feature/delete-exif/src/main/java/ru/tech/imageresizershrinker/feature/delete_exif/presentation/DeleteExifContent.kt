@@ -78,13 +78,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
-import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifViewModel
+import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifComponent
 
 @Composable
 fun DeleteExifContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: DeleteExifViewModel
+    viewModel: DeleteExifComponent
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity

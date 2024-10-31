@@ -87,13 +87,13 @@ import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkDataSelector
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkParamsSelectionGroup
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkingTypeSelector
-import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.WatermarkingViewModel
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.WatermarkingComponent
 
 @Composable
 fun WatermarkingContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: WatermarkingViewModel
+    viewModel: WatermarkingComponent
 ) {
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
