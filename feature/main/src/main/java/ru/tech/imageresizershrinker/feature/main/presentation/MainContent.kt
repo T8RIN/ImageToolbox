@@ -59,6 +59,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -85,9 +86,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainContentImpl
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainDrawerContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
+import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
 @Composable
 fun MainContent(
+    settingsComponent: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: () -> Unit
@@ -126,7 +129,8 @@ fun MainContent(
                         isUpdateAvailable = isUpdateAvailable,
                         isStandaloneScreen = false,
                         onNavigateToEasterEgg = onNavigateToEasterEgg,
-                        onNavigateToSettings = onNavigateToSettings
+                        onNavigateToSettings = onNavigateToSettings,
+                        component = settingsComponent
                     ) { showSettingsSearch, onCloseSearch ->
                         AnimatedContent(
                             targetState = !isSheetSlideable to showSettingsSearch,
@@ -208,7 +212,9 @@ fun MainContent(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .clipToBounds()
     ) {
         if (settingsState.useFullscreenSettings) {
             content()

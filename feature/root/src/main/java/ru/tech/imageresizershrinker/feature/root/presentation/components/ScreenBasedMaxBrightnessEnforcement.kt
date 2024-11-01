@@ -18,19 +18,18 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.util.fastAny
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 
 @Composable
 internal fun ScreenBasedMaxBrightnessEnforcement(
     currentScreen: Screen?
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
 
     val listToForceBrightness = LocalSettingsState.current.screenListWithMaxBrightnessEnforcement
 

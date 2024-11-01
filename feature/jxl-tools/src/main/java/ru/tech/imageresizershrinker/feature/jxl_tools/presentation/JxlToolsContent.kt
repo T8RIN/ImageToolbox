@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.jxl_tools.presentation
 
 import android.content.Context
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -57,7 +56,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,13 +66,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
@@ -88,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
@@ -112,15 +109,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.AnimatedJxlParamsSelector
-import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel.JxlToolsViewModel
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic.JxlToolsComponent
 
 @Composable
 fun JxlToolsContent(
-    typeState: Screen.JxlTools.Type?,
     onGoBack: () -> Unit,
-    viewModel: JxlToolsViewModel = hiltViewModel()
+    component: JxlToolsComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
 
     val scope = rememberCoroutineScope()
@@ -129,10 +125,6 @@ fun JxlToolsContent(
         scope.launch {
             confettiHostState.showConfetti()
         }
-    }
-
-    LaunchedEffect(typeState) {
-        typeState?.let { viewModel.setType(it) }
     }
 
     val settingsState = LocalSettingsState.current
@@ -147,7 +139,7 @@ fun JxlToolsContent(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.setType(
+            component.setType(
                 type = Screen.JxlTools.Type.JpegToJxl(uris),
                 onError = onError
             )
@@ -168,7 +160,7 @@ fun JxlToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
+                component.setType(
                     type = Screen.JxlTools.Type.JxlToJpeg(uris),
                     onError = onError
                 )
@@ -180,7 +172,7 @@ fun JxlToolsContent(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri ->
         uri?.takeIf { it.isJxl(context) }?.let {
-            viewModel.setType(
+            component.setType(
                 type = Screen.JxlTools.Type.JxlToImage(it),
                 onError = onError
             )
@@ -196,7 +188,7 @@ fun JxlToolsContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.setType(
+            component.setType(
                 type = Screen.JxlTools.Type.ImageToJxl(uris),
                 onError = onError
             )
@@ -207,9 +199,9 @@ fun JxlToolsContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.setType(
+            component.setType(
                 type = Screen.JxlTools.Type.ImageToJxl(
-                    (viewModel.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(uris)
+                    (component.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(uris)
                         ?.distinct()
                 ),
                 onError = onError
@@ -221,8 +213,8 @@ fun JxlToolsContent(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.setType(
-                type = (viewModel.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
+            component.setType(
+                type = (component.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
                     it.copy(it.jpegImageUris?.plus(uris)?.distinct())
                 },
                 onError = onError
@@ -244,8 +236,8 @@ fun JxlToolsContent(
                     )
                 }
             } else {
-                viewModel.setType(
-                    type = (viewModel.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
+                component.setType(
+                    type = (component.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
                         it.copy(it.jxlImageUris?.plus(uris)?.distinct())
                     },
                     onError = onError
@@ -256,7 +248,7 @@ fun JxlToolsContent(
 
     fun pickImage(type: Screen.JxlTools.Type? = null) {
         runCatching {
-            when (type ?: viewModel.type) {
+            when (type ?: component.type) {
                 is Screen.JxlTools.Type.ImageToJxl -> imagePicker.pickImage()
                 is Screen.JxlTools.Type.JpegToJxl -> pickJpegsLauncher.launch(
                     arrayOf(
@@ -281,7 +273,7 @@ fun JxlToolsContent(
 
     val addImages: () -> Unit = {
         runCatching {
-            when (viewModel.type) {
+            when (component.type) {
                 is Screen.JxlTools.Type.ImageToJxl -> addImagesImagePicker.pickImage()
                 is Screen.JxlTools.Type.JpegToJxl -> addJpegsLauncher.launch(
                     arrayOf(
@@ -306,13 +298,13 @@ fun JxlToolsContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val uris = when (val type = viewModel.type) {
+    val uris = when (val type = component.type) {
         is Screen.JxlTools.Type.JpegToJxl -> type.jpegImageUris
         is Screen.JxlTools.Type.JxlToJpeg -> type.jxlImageUris
         is Screen.JxlTools.Type.ImageToJxl -> type.imageUris
@@ -321,9 +313,10 @@ fun JxlToolsContent(
     } ?: emptyList()
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = when (viewModel.type) {
+                title = when (component.type) {
                     is Screen.JxlTools.Type.JpegToJxl -> {
                         stringResource(R.string.jpeg_type_to_jxl)
                     }
@@ -342,33 +335,33 @@ fun JxlToolsContent(
 
                     null -> stringResource(R.string.jxl_tools)
                 },
-                input = viewModel.type,
-                isLoading = viewModel.isLoading,
+                input = component.type,
+                isLoading = component.isLoading,
                 size = null
             )
         },
         onGoBack = onBack,
         topAppBarPersistentActions = {
-            val isJxlToImage = viewModel.type is Screen.JxlTools.Type.JxlToImage
-            if (viewModel.type == null) TopAppBarEmoji()
+            val isJxlToImage = component.type is Screen.JxlTools.Type.JxlToImage
+            if (component.type == null) TopAppBarEmoji()
             else if (!isJxlToImage) {
                 ShareButton(
-                    enabled = !viewModel.isLoading && viewModel.type != null,
+                    enabled = !component.isLoading && component.type != null,
                     onShare = {
-                        viewModel.performSharing(
+                        component.performSharing(
                             onError = onError,
                             onComplete = showConfetti
                         )
                     }
                 )
             }
-            val pagesSize by remember(viewModel.imageFrames, viewModel.convertedImageUris) {
+            val pagesSize by remember(component.imageFrames, component.convertedImageUris) {
                 derivedStateOf {
-                    viewModel.imageFrames.getFramePositions(viewModel.convertedImageUris.size).size
+                    component.imageFrames.getFramePositions(component.convertedImageUris.size).size
                 }
             }
             AnimatedVisibility(
-                visible = isJxlToImage && pagesSize != viewModel.convertedImageUris.size,
+                visible = isJxlToImage && pagesSize != component.convertedImageUris.size,
                 enter = fadeIn() + scaleIn() + expandHorizontally(),
                 exit = fadeOut() + scaleOut() + shrinkHorizontally()
             ) {
@@ -376,7 +369,7 @@ fun JxlToolsContent(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
-                    onClick = viewModel::selectAllConvertedImages
+                    onClick = component::selectAllConvertedImages
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.SelectAll,
@@ -411,7 +404,7 @@ fun JxlToolsContent(
                         containerColor = Color.Transparent,
                         contentColor = LocalContentColor.current,
                         enableAutoShadowAndBorder = false,
-                        onClick = viewModel::clearConvertedImagesSelection
+                        onClick = component::clearConvertedImagesSelection
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
@@ -422,11 +415,11 @@ fun JxlToolsContent(
             }
         },
         actions = {
-            if (viewModel.type is Screen.JxlTools.Type.JxlToImage) {
+            if (component.type is Screen.JxlTools.Type.JxlToImage) {
                 ShareButton(
-                    enabled = !viewModel.isLoading && viewModel.type != null,
+                    enabled = !component.isLoading && component.type != null,
                     onShare = {
-                        viewModel.performSharing(
+                        component.performSharing(
                             onError = onError,
                             onComplete = showConfetti
                         )
@@ -436,7 +429,7 @@ fun JxlToolsContent(
         },
         imagePreview = {
             AnimatedContent(
-                targetState = viewModel.isLoading to viewModel.type
+                targetState = component.isLoading to component.type
             ) { (loading, type) ->
                 Box(
                     contentAlignment = Alignment.Center,
@@ -450,11 +443,11 @@ fun JxlToolsContent(
                         when (type) {
                             is Screen.JxlTools.Type.JxlToImage -> {
                                 ImagesPreviewWithSelection(
-                                    imageUris = viewModel.convertedImageUris,
-                                    imageFrames = viewModel.imageFrames,
-                                    onFrameSelectionChange = viewModel::updateJxlFrames,
+                                    imageUris = component.convertedImageUris,
+                                    imageFrames = component.imageFrames,
+                                    onFrameSelectionChange = component::updateJxlFrames,
                                     isPortrait = isPortrait,
-                                    isLoadingImages = viewModel.isLoadingJxlImages
+                                    isLoadingImages = component.isLoadingJxlImages
                                 )
                             }
 
@@ -470,15 +463,15 @@ fun JxlToolsContent(
                                             } else MaterialTheme.colorScheme.surface
                                         ),
                                     onReorder = {
-                                        viewModel.setType(
+                                        component.setType(
                                             Screen.JxlTools.Type.ImageToJxl(it)
                                         )
                                     },
                                     onNeedToAddImage = addImages,
                                     onNeedToRemoveImageAt = {
-                                        viewModel.setType(
+                                        component.setType(
                                             Screen.JxlTools.Type.ImageToJxl(
-                                                (viewModel.type as Screen.JxlTools.Type.ImageToJxl)
+                                                (component.type as Screen.JxlTools.Type.ImageToJxl)
                                                     .imageUris?.toMutableList()
                                                     ?.apply {
                                                         removeAt(it)
@@ -496,26 +489,26 @@ fun JxlToolsContent(
                 }
             }
         },
-        placeImagePreview = viewModel.type is Screen.JxlTools.Type.JxlToImage
-                || viewModel.type is Screen.JxlTools.Type.ImageToJxl,
+        placeImagePreview = component.type is Screen.JxlTools.Type.JxlToImage
+                || component.type is Screen.JxlTools.Type.ImageToJxl,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
-            when (viewModel.type) {
+            when (component.type) {
                 is Screen.JxlTools.Type.JxlToImage -> {
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageFormatSelector(
-                        value = viewModel.imageFormat,
-                        onValueChange = viewModel::setImageFormat
+                        value = component.imageFormat,
+                        onValueChange = component::setImageFormat
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     QualitySelector(
-                        imageFormat = viewModel.imageFormat,
+                        imageFormat = component.imageFormat,
                         enabled = true,
-                        quality = viewModel.params.quality,
+                        quality = component.params.quality,
                         onQualityChange = {
-                            viewModel.updateParams(
-                                viewModel.params.copy(
+                            component.updateParams(
+                                component.params.copy(
                                     quality = it
                                 )
                             )
@@ -533,15 +526,15 @@ fun JxlToolsContent(
                             ),
                         uris = uris,
                         isPortrait = true,
-                        onRemoveUri = viewModel::removeUri,
+                        onRemoveUri = component::removeUri,
                         onAddUris = addImages
                     )
                 }
 
                 is Screen.JxlTools.Type.ImageToJxl -> {
                     AnimatedJxlParamsSelector(
-                        value = viewModel.params,
-                        onValueChange = viewModel::updateParams
+                        value = component.params,
+                        onValueChange = component::updateParams
                     )
                 }
 
@@ -549,12 +542,12 @@ fun JxlToolsContent(
             }
         },
         contentPadding = animateDpAsState(
-            if (viewModel.type == null) 12.dp
+            if (component.type == null) 12.dp
             else 20.dp
         ).value,
         buttons = { actions ->
             val save: (oneTimeSaveLocationUri: String?) -> Unit = {
-                viewModel.save(it) { results ->
+                component.save(it) { results ->
                     context.parseSaveResults(
                         scope = scope,
                         results = results,
@@ -571,9 +564,9 @@ fun JxlToolsContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.type == null) to isPortrait,
+                targetState = (component.type == null) to isPortrait,
                 onSecondaryButtonClick = ::pickImage,
-                isPrimaryButtonVisible = viewModel.canSave,
+                isPrimaryButtonVisible = component.canSave,
                 onPrimaryButtonClick = {
                     save(null)
                 },
@@ -581,7 +574,7 @@ fun JxlToolsContent(
                     showFolderSelectionDialog = true
                 },
                 actions = {
-                    if (viewModel.type is Screen.JxlTools.Type.JxlToImage) {
+                    if (component.type is Screen.JxlTools.Type.JxlToImage) {
                         actions()
                     } else {
                         EnhancedChip(
@@ -595,7 +588,7 @@ fun JxlToolsContent(
                     }
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (viewModel.type is Screen.JxlTools.Type.ImageToJxl) {
+                onSecondaryButtonLongClick = if (component.type is Screen.JxlTools.Type.ImageToJxl) {
                     {
                         showOneTimeImagePickingDialog = true
                     }
@@ -699,25 +692,25 @@ fun JxlToolsContent(
             }
         },
         isPortrait = isPortrait,
-        canShowScreenData = viewModel.type != null
+        canShowScreenData = component.type != null
     )
 
-    if (viewModel.isSaving) {
-        if (viewModel.left != -1) {
+    if (component.isSaving) {
+        if (component.left != -1) {
             LoadingDialog(
-                done = viewModel.done,
-                left = viewModel.left,
-                onCancelLoading = viewModel::cancelSaving
+                done = component.done,
+                left = component.left,
+                onCancelLoading = component::cancelSaving
             )
         } else {
             LoadingDialog(
-                onCancelLoading = viewModel::cancelSaving
+                onCancelLoading = component::cancelSaving
             )
         }
     }
 
     ExitWithoutSavingDialog(
-        onExit = viewModel::clearAll,
+        onExit = component::clearAll,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
@@ -728,7 +721,7 @@ private fun Uri.isJxl(context: Context): Boolean {
         .or(context.contentResolver.getType(this)?.contains("jxl") == true)
 }
 
-private val JxlToolsViewModel.canSave: Boolean
+private val JxlToolsComponent.canSave: Boolean
     get() = (imageFrames == ImageFrames.All)
         .or(type !is Screen.JxlTools.Type.JxlToImage)
         .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

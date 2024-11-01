@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpa
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toSpace
 
-internal class PaletteTransferVariantFilter @AssistedInject constructor(
+internal class PaletteTransferVariantFilter @AssistedInject internal constructor(
     @Assisted override val value: Triple<Float, PaletteTransferSpace, ImageModel> = Triple(
         first = 1f,
         second = PaletteTransferSpace.OKLAB,

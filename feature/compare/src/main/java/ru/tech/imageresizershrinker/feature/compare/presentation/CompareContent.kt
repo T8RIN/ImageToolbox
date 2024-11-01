@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.compare.presentation
 
-import android.net.Uri
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -51,7 +49,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -72,15 +69,14 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.components.Comp
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareScreenTopAppBar
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareShareSheet
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
-import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.CompareViewModel
+import ru.tech.imageresizershrinker.feature.compare.presentation.screenLogic.CompareComponent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompareContent(
-    comparableUris: Pair<Uri, Uri>?,
     onGoBack: () -> Unit,
-    viewModel: CompareViewModel = hiltViewModel()
+    component: CompareComponent
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -99,8 +95,8 @@ fun CompareContent(
 
     var compareProgress by rememberSaveable { mutableFloatStateOf(50f) }
 
-    LaunchedEffect(viewModel.bitmapData) {
-        viewModel.bitmapData?.let { (b, a) ->
+    LaunchedEffect(component.bitmapData) {
+        component.bitmapData?.let { (b, a) ->
             if (allowChangeColor && a != null && b != null) {
                 delay(100L) //delay to perform screen rotation
                 themeState.updateColor(
@@ -108,25 +104,6 @@ fun CompareContent(
                         .blend(b.second.extractPrimaryColor(), 0.5f)
                 )
             }
-        }
-    }
-
-    LaunchedEffect(comparableUris) {
-        comparableUris?.let {
-            viewModel.updateUris(
-                onSuccess = {
-                    compareProgress = 50f
-                },
-                uris = it,
-                onError = {
-                    scope.launch {
-                        toastHostState.showToast(
-                            context.getString(R.string.something_went_wrong),
-                            Icons.Rounded.ErrorOutline
-                        )
-                    }
-                }
-            )
         }
     }
 
@@ -142,7 +119,7 @@ fun CompareContent(
                     )
                 }
             } else {
-                viewModel.updateUris(
+                component.updateUris(
                     onSuccess = {
                         compareProgress = 50f
                     },
@@ -164,7 +141,7 @@ fun CompareContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = comparableUris != null
+        isPickedAlready = component.initialComparableUris != null
     )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -183,25 +160,25 @@ fun CompareContent(
             }
 
             CompareScreenTopAppBar(
-                imageNotPicked = viewModel.bitmapData == null,
+                imageNotPicked = component.bitmapData == null,
                 scrollBehavior = scrollBehavior,
                 onNavigationIconClick = onGoBack,
                 onShareButtonClick = {
                     showShareSheet = true
                 },
-                onSwapImagesClick = viewModel::swap,
-                onRotateImagesClick = viewModel::rotate,
-                isShareButtonVisible = viewModel.compareType == CompareType.Slide,
-                isImagesRotated = viewModel.rotation == 90f,
-                titleWhenBitmapsPicked = stringResource(viewModel.compareType.title),
+                onSwapImagesClick = component::swap,
+                onRotateImagesClick = component::rotate,
+                isShareButtonVisible = component.compareType == CompareType.Slide,
+                isImagesRotated = component.rotation == 90f,
+                titleWhenBitmapsPicked = stringResource(component.compareType.title),
                 isLabelsEnabled = isLabelsEnabled,
                 onToggleLabelsEnabled = { isLabelsEnabled = it }
             )
 
             CompareScreenContent(
-                bitmapData = viewModel.bitmapData,
-                compareType = viewModel.compareType,
-                onCompareTypeSelected = viewModel::setCompareType,
+                bitmapData = component.bitmapData,
+                compareType = component.compareType,
+                onCompareTypeSelected = component::setCompareType,
                 isPortrait = isPortrait,
                 compareProgress = compareProgress,
                 onCompareProgressChange = {
@@ -212,7 +189,7 @@ fun CompareContent(
             )
         }
 
-        if (viewModel.bitmapData == null) {
+        if (component.bitmapData == null) {
             EnhancedFloatingActionButton(
                 onClick = pickImage,
                 modifier = Modifier
@@ -233,9 +210,9 @@ fun CompareContent(
         }
     }
 
-    val previewBitmap by remember(viewModel.bitmapData) {
+    val previewBitmap by remember(component.bitmapData) {
         derivedStateOf {
-            viewModel.getOverlappedImage(compareProgress)
+            component.getOverlappedImage(compareProgress)
         }
     }
     CompareShareSheet(
@@ -244,7 +221,7 @@ fun CompareContent(
             showShareSheet = it
         },
         onSaveBitmap = { imageFormat, oneTimeSaveLocationUri ->
-            viewModel.saveBitmap(
+            component.saveBitmap(
                 percent = compareProgress,
                 imageFormat = imageFormat,
                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
@@ -259,13 +236,13 @@ fun CompareContent(
             showShareSheet = false
         },
         onShare = { imageFormat ->
-            viewModel.shareBitmap(compareProgress, imageFormat) {
+            component.shareBitmap(compareProgress, imageFormat) {
                 showConfetti()
             }
             showShareSheet = false
         },
         onCopy = { imageFormat, manager ->
-            viewModel.cacheCurrentImage(
+            component.cacheCurrentImage(
                 percent = compareProgress,
                 imageFormat = imageFormat
             ) { uri ->
@@ -276,9 +253,7 @@ fun CompareContent(
         previewBitmap = previewBitmap
     )
 
-    if (viewModel.isImageLoading) {
-        LoadingDialog(viewModel::cancelSaving)
+    if (component.isImageLoading) {
+        LoadingDialog(component::cancelSaving)
     }
-
-    BackHandler(onBack = onGoBack)
 }

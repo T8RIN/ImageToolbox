@@ -89,7 +89,7 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
                 it.onSuccess(onSuccess).onFailure(onFailure)
             }
             val scope = CoroutineScope(defaultDispatcher)
-            
+
             val subject = @RequiresApi(Build.VERSION_CODES.N) {
                 MlKitSubjectBackgroundRemover.removeBackground(
                     bitmap = image,

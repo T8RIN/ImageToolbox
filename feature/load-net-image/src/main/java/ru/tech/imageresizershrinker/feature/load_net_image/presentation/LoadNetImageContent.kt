@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.load_net_image.presentation
 
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -50,14 +49,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -70,6 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -86,16 +84,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewModel.LoadNetImageViewModel
+import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 
 @Composable
 fun LoadNetImageContent(
-    url: String,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: LoadNetImageViewModel = hiltViewModel()
+    component: LoadNetImageComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
@@ -111,8 +108,8 @@ fun LoadNetImageContent(
         darkTheme = settingsState.isNightMode
     )
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let { image ->
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let { image ->
             if (allowChangeColor) {
                 themeState.updateColorByImage(image)
             }
@@ -138,12 +135,12 @@ fun LoadNetImageContent(
 
     val isLandscape by isLandscapeOrientationAsState()
 
-    var link by rememberSaveable(url) { mutableStateOf(url) }
+    var link by rememberSaveable(component.initialUrl) { mutableStateOf(component.initialUrl) }
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
-        data = viewModel.bitmap,
+        data = component.bitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -153,7 +150,7 @@ fun LoadNetImageContent(
     var wantToEdit by rememberSaveable { mutableStateOf(false) }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmap(link, it) { saveResult ->
+        component.saveBitmap(link, it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = {
@@ -178,6 +175,7 @@ fun LoadNetImageContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = true,
         title = {
             Text(
                 text = stringResource(R.string.load_image_from_net),
@@ -188,12 +186,12 @@ fun LoadNetImageContent(
         onGoBack = onGoBack,
         actions = {
             ShareButton(
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 onShare = {
-                    viewModel.shareBitmap(showConfetti)
+                    component.shareBitmap(showConfetti)
                 },
                 onCopy = { manager ->
-                    viewModel.cacheCurrentImage { uri ->
+                    component.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
                     }
@@ -201,12 +199,12 @@ fun LoadNetImageContent(
             )
         },
         topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) {
+            if (component.bitmap == null) {
                 TopAppBarEmoji()
             } else {
                 ZoomButton(
                     onClick = { showZoomSheet = true },
-                    visible = viewModel.bitmap != null,
+                    visible = component.bitmap != null,
                 )
             }
         },
@@ -222,7 +220,7 @@ fun LoadNetImageContent(
                         .then(if (scale == ContentScale.FillWidth) Modifier.fillMaxWidth() else Modifier)
                         .padding(bottom = 16.dp)
                         .then(
-                            if (viewModel.bitmap == null) Modifier.height(140.dp)
+                            if (component.bitmap == null) Modifier.height(140.dp)
                             else Modifier
                         )
                         .container()
@@ -250,9 +248,9 @@ fun LoadNetImageContent(
                     },
                     onState = {
                         if (it is AsyncImagePainter.State.Error) {
-                            viewModel.updateBitmap(null)
+                            component.updateBitmap(null)
                         } else if (it is AsyncImagePainter.State.Success) {
-                            viewModel.updateBitmap(it.result.drawable.toBitmap())
+                            component.updateBitmap(it.result.drawable.toBitmap())
                         }
                         imageState = it
                     },
@@ -264,7 +262,7 @@ fun LoadNetImageContent(
                 modifier = Modifier
                     .container(shape = RoundedCornerShape(24.dp)),
                 title = stringResource(id = R.string.content_scale),
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 items = listOf(
                     stringResource(R.string.fill),
                     stringResource(R.string.fit)
@@ -316,8 +314,8 @@ fun LoadNetImageContent(
             BottomButtonsBlock(
                 targetState = (false) to !isLandscape,
                 onSecondaryButtonClick = {
-                    viewModel.bitmap?.let { bitmap ->
-                        viewModel.cacheImage(
+                    component.bitmap?.let { bitmap ->
+                        component.cacheImage(
                             image = bitmap,
                             imageInfo = ImageInfo(
                                 width = bitmap.width,
@@ -344,7 +342,7 @@ fun LoadNetImageContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmap,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
         },
@@ -352,14 +350,14 @@ fun LoadNetImageContent(
         isPortrait = !isLandscape
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            onCancelLoading = viewModel::cancelSaving
+            onCancelLoading = component::cancelSaving
         )
     }
 
     ProcessImagesPreferenceSheet(
-        uris = listOfNotNull(viewModel.tempUri),
+        uris = listOfNotNull(component.tempUri),
         visible = wantToEdit,
         onDismiss = {
             wantToEdit = it

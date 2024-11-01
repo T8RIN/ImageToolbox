@@ -62,7 +62,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,7 +79,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
@@ -109,35 +107,26 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.components.ImagePreviewGrid
-import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewViewModel
+import ru.tech.imageresizershrinker.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagePreviewContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: ImagePreviewViewModel = hiltViewModel()
+    component: ImagePreviewComponent
 ) {
     var showExitDialog by rememberSaveable {
         mutableStateOf(false)
     }
     val onBack = {
-        if (viewModel.uris.isNullOrEmpty()) onGoBack()
+        if (component.uris.isNullOrEmpty()) onGoBack()
         else showExitDialog = true
     }
 
-    var initialShowImagePreviewDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val initialShowImagePreviewDialog = !component.initialUris.isNullOrEmpty()
 
     val settingsState = LocalSettingsState.current
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            initialShowImagePreviewDialog = true
-            viewModel.updateUris(uris)
-        }
-    }
 
     val confettiHostState = LocalConfettiHostState.current
     val scope = rememberCoroutineScope()
@@ -151,7 +140,7 @@ fun ImagePreviewContent(
         mode = localImagePickerMode(Picker.Multiple),
         onSuccess = { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                viewModel.updateUris(list)
+                component.updateUris(list)
             }
         }
     )
@@ -172,7 +161,7 @@ fun ImagePreviewContent(
                     isLoadingImages = true
                     previousFolder = uri
                     val uris = context.listFilesInDirectory(uri)
-                    viewModel.updateUris(uris)
+                    component.updateUris(uris)
                     isLoadingImages = false
                 }
             }
@@ -196,9 +185,9 @@ fun ImagePreviewContent(
         }
     }
 
-    val selectedUris by remember(viewModel.uris, viewModel.imageFrames) {
+    val selectedUris by remember(component.uris, component.imageFrames) {
         derivedStateOf {
-            viewModel.getSelectedUris() ?: emptyList()
+            component.getSelectedUris() ?: emptyList()
         }
     }
     var wantToEdit by rememberSaveable(selectedUris.isNotEmpty()) {
@@ -245,7 +234,7 @@ fun ImagePreviewContent(
                     actions = {
                         val isCanClear = selectedUris.isNotEmpty()
                         val isCanSelectAll =
-                            viewModel.uris?.size != selectedUris.size && viewModel.uris != null
+                            component.uris?.size != selectedUris.size && component.uris != null
 
                         AnimatedVisibility(
                             visible = !isCanSelectAll && !isCanClear || selectedUris.isEmpty()
@@ -263,7 +252,7 @@ fun ImagePreviewContent(
                                 contentColor = LocalContentColor.current,
                                 enableAutoShadowAndBorder = false,
                                 onClick = {
-                                    viewModel.updateImageFrames(ImageFrames.All)
+                                    component.updateImageFrames(ImageFrames.All)
                                 }
                             ) {
                                 Icon(
@@ -298,7 +287,7 @@ fun ImagePreviewContent(
                                     contentColor = LocalContentColor.current,
                                     enableAutoShadowAndBorder = false,
                                     onClick = {
-                                        viewModel.updateImageFrames(
+                                        component.updateImageFrames(
                                             ImageFrames.ManualSelection(emptyList())
                                         )
                                     }
@@ -316,7 +305,7 @@ fun ImagePreviewContent(
                     visible = !isLoadingImages,
                     modifier = Modifier.weight(1f)
                 ) {
-                    if (viewModel.uris.isNullOrEmpty()) {
+                    if (component.uris.isNullOrEmpty()) {
                         Column(
                             Modifier
                                 .fillMaxSize()
@@ -340,19 +329,19 @@ fun ImagePreviewContent(
                         }
                     } else {
                         ImagePreviewGrid(
-                            data = viewModel.uris,
-                            onAddImages = viewModel::updateUris,
+                            data = component.uris,
+                            onAddImages = component::updateUris,
                             onShareImage = {
-                                viewModel.shareImages(
+                                component.shareImages(
                                     uriList = listOf(element = it),
                                     onComplete = showConfetti
                                 )
                             },
-                            onRemove = viewModel::removeUri,
+                            onRemove = component::removeUri,
                             initialShowImagePreviewDialog = initialShowImagePreviewDialog,
                             onNavigate = onNavigate,
-                            imageFrames = viewModel.imageFrames,
-                            onFrameSelectionChange = viewModel::updateImageFrames
+                            imageFrames = component.imageFrames,
+                            onFrameSelectionChange = component::updateImageFrames
                         )
                     }
                 }
@@ -405,7 +394,7 @@ fun ImagePreviewContent(
                     if (isFramesSelected) {
                         EnhancedFloatingActionButton(
                             onClick = {
-                                viewModel.shareImages(
+                                component.shareImages(
                                     uriList = null,
                                     onComplete = showConfetti
                                 )
@@ -455,7 +444,7 @@ fun ImagePreviewContent(
                 }
             )
 
-            BackHandler(onBack = onBack)
+            BackHandler(enabled = !component.uris.isNullOrEmpty(), onBack = onBack)
         }
     }
 

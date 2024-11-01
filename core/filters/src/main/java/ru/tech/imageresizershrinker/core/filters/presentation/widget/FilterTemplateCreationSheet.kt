@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.expandVertically
@@ -60,16 +59,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
@@ -80,9 +82,10 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
+import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -100,290 +103,293 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
-import javax.inject.Inject
 
 @Composable
 internal fun FilterTemplateCreationSheet(
+    component: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onDismiss: () -> Unit,
     initialTemplateFilter: TemplateFilter? = null
 ) {
-    ScopedViewModelContainer<FilterTemplateCreationSheetViewModel> { disposable ->
-        val viewModel = this
+    val previewModel = component.previewModel
 
-        val previewModel = viewModel.previewModel
+    val isPortrait by isPortraitOrientationAsState()
 
-        val isPortrait by isPortraitOrientationAsState()
+    var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
-        var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
+    val context = LocalComponentActivity.current
+    val toastHostState = LocalToastHostState.current
+    val scope = rememberCoroutineScope()
 
-        val context = LocalContext.current as ComponentActivity
-        val toastHostState = LocalToastHostState.current
-        val scope = rememberCoroutineScope()
+    var showExitDialog by remember { mutableStateOf(false) }
 
-        var showExitDialog by remember { mutableStateOf(false) }
+    var showReorderSheet by rememberSaveable { mutableStateOf(false) }
 
-        var showReorderSheet by rememberSaveable { mutableStateOf(false) }
+    val canSave = component.filterList.isNotEmpty()
 
-        val canSave = viewModel.filterList.isNotEmpty()
-
-        SimpleSheet(
-            visible = visible,
-            onDismiss = {
-                if (!canSave) onDismiss()
-                else showExitDialog = true
-            },
-            cancelable = false,
-            title = {
-                TitleItem(
-                    text = stringResource(id = R.string.create_template),
-                    icon = Icons.Outlined.Extension
-                )
-            },
-            confirmButton = {
-                EnhancedButton(
-                    enabled = canSave && viewModel.templateName.isNotEmpty(),
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+    SimpleSheet(
+        visible = visible,
+        onDismiss = {
+            if (!canSave) onDismiss()
+            else showExitDialog = true
+        },
+        cancelable = false,
+        title = {
+            TitleItem(
+                text = stringResource(id = R.string.create_template),
+                icon = Icons.Outlined.Extension
+            )
+        },
+        confirmButton = {
+            EnhancedButton(
+                enabled = canSave && component.templateName.isNotEmpty(),
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    component.saveTemplate(initialTemplateFilter)
+                    onDismiss()
+                }
+            ) {
+                Text(stringResource(id = R.string.save))
+            }
+        },
+        dragHandle = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .drawHorizontalStroke(autoElevation = 3.dp)
+                    .zIndex(Float.MAX_VALUE)
+                    .background(SimpleSheetDefaults.barContainerColor)
+                    .padding(8.dp)
+            ) {
+                EnhancedIconButton(
                     onClick = {
-                        viewModel.saveTemplate(initialTemplateFilter)
-                        onDismiss()
+                        if (!canSave) onDismiss()
+                        else showExitDialog = true
                     }
                 ) {
-                    Text(stringResource(id = R.string.save))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = stringResource(R.string.exit)
+                    )
                 }
-            },
-            dragHandle = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .drawHorizontalStroke(autoElevation = 3.dp)
-                        .zIndex(Float.MAX_VALUE)
-                        .background(SimpleSheetDefaults.barContainerColor)
-                        .padding(8.dp)
-                ) {
-                    EnhancedIconButton(
-                        onClick = {
-                            if (!canSave) onDismiss()
-                            else showExitDialog = true
+            }
+        },
+        enableBackHandler = false
+    ) {
+        var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
+
+        var selectedUri by rememberSaveable {
+            mutableStateOf<Uri?>(null)
+        }
+
+        LaunchedEffect(selectedUri) {
+            component.setUri(selectedUri)
+        }
+
+        LaunchedEffect(initialTemplateFilter) {
+            initialTemplateFilter?.let {
+                component.setInitialTemplateFilter(it)
+            }
+        }
+
+        if (visible) {
+            BackHandler(enabled = canSave) {
+                showExitDialog = true
+            }
+        }
+        val preview: @Composable () -> Unit = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(
+                        if (isPortrait) RoundedCornerShape(
+                            bottomStart = 24.dp,
+                            bottomEnd = 24.dp
+                        )
+                        else RectangleShape
+                    )
+                    .background(
+                        color = MaterialTheme.colorScheme
+                            .surfaceContainer
+                            .copy(0.8f)
+                    )
+                    .shimmer(component.previewBitmap == null && component.previewLoading),
+                contentAlignment = Alignment.Center
+            ) {
+                SimplePicture(
+                    enableContainer = false,
+                    boxModifier = Modifier.padding(24.dp),
+                    bitmap = component.previewBitmap,
+                    loading = component.previewLoading
+                )
+            }
+        }
+        Row {
+            val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
+            if (!isPortrait) {
+                Box(modifier = Modifier.weight(1.3f)) {
+                    preview()
+                }
+            }
+            val internalHeight = rememberAvailableHeight(imageState = imageState)
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f)
+            ) {
+                imageStickyHeader(
+                    visible = isPortrait,
+                    internalHeight = internalHeight,
+                    imageState = imageState,
+                    onStateChange = {
+                        imageState = it
+                    },
+                    padding = 0.dp,
+                    imageModifier = Modifier.padding(bottom = 24.dp),
+                    backgroundColor = backgroundColor,
+                    imageBlock = preview
+                )
+                item {
+                    AnimatedContent(
+                        targetState = component.filterList.isNotEmpty(),
+                        transitionSpec = {
+                            fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
                         }
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.exit)
-                        )
-                    }
-                }
-            },
-            enableBackHandler = false
-        ) {
-            var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
-
-            var selectedUri by rememberSaveable {
-                mutableStateOf<Uri?>(null)
-            }
-
-            LaunchedEffect(selectedUri) {
-                viewModel.setUri(selectedUri)
-            }
-
-            LaunchedEffect(initialTemplateFilter) {
-                initialTemplateFilter?.let {
-                    viewModel.setInitialTemplateFilter(it)
-                }
-            }
-
-            disposable()
-            if (visible) {
-                BackHandler {
-                    if (!canSave) onDismiss()
-                    else showExitDialog = true
-                }
-            }
-            val preview: @Composable () -> Unit = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(
-                            if (isPortrait) RoundedCornerShape(
-                                bottomStart = 24.dp,
-                                bottomEnd = 24.dp
+                    ) { notEmpty ->
+                        Column(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            ImageSelector(
+                                value = selectedUri ?: previewModel.data,
+                                onValueChange = { selectedUri = it },
+                                subtitle = stringResource(id = R.string.select_template_preview),
+                                shape = RoundedCornerShape(16.dp),
+                                color = Color.Unspecified
                             )
-                            else RectangleShape
-                        )
-                        .background(
-                            color = MaterialTheme.colorScheme
-                                .surfaceContainer
-                                .copy(0.8f)
-                        )
-                        .shimmer(viewModel.previewBitmap == null && viewModel.previewLoading),
-                    contentAlignment = Alignment.Center
-                ) {
-                    SimplePicture(
-                        enableContainer = false,
-                        boxModifier = Modifier.padding(24.dp),
-                        bitmap = viewModel.previewBitmap,
-                        loading = viewModel.previewLoading
-                    )
-                }
-            }
-            Row {
-                val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
-                if (!isPortrait) {
-                    Box(modifier = Modifier.weight(1.3f)) {
-                        preview()
-                    }
-                }
-                val internalHeight = rememberAvailableHeight(imageState = imageState)
-                LazyColumn(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    imageStickyHeader(
-                        visible = isPortrait,
-                        internalHeight = internalHeight,
-                        imageState = imageState,
-                        onStateChange = {
-                            imageState = it
-                        },
-                        padding = 0.dp,
-                        imageModifier = Modifier.padding(bottom = 24.dp),
-                        backgroundColor = backgroundColor,
-                        imageBlock = preview
-                    )
-                    item {
-                        AnimatedContent(
-                            targetState = viewModel.filterList.isNotEmpty(),
-                            transitionSpec = {
-                                fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
-                            }
-                        ) { notEmpty ->
-                            Column(
-                                modifier = Modifier.padding(horizontal = 16.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                ImageSelector(
-                                    value = selectedUri ?: previewModel.data,
-                                    onValueChange = { selectedUri = it },
-                                    subtitle = stringResource(id = R.string.select_template_preview),
-                                    shape = RoundedCornerShape(16.dp),
-                                    color = Color.Unspecified
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                RoundedTextField(
-                                    modifier = Modifier
-                                        .container(
-                                            shape = MaterialTheme.shapes.large,
-                                            resultPadding = 8.dp
-                                        ),
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Text
+                            Spacer(Modifier.height(8.dp))
+                            RoundedTextField(
+                                modifier = Modifier
+                                    .container(
+                                        shape = MaterialTheme.shapes.large,
+                                        resultPadding = 8.dp
                                     ),
-                                    onValueChange = viewModel::updateTemplateName,
-                                    value = viewModel.templateName,
-                                    label = stringResource(R.string.template_name)
-                                )
-                                if (notEmpty) {
-                                    Spacer(Modifier.height(8.dp))
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
+                                onValueChange = component::updateTemplateName,
+                                value = component.templateName,
+                                label = stringResource(R.string.template_name)
+                            )
+                            if (notEmpty) {
+                                Spacer(Modifier.height(8.dp))
+                                Column(
+                                    modifier = Modifier
+                                        .container(MaterialTheme.shapes.extraLarge)
+                                ) {
+                                    TitleItem(text = stringResource(R.string.filters))
                                     Column(
-                                        modifier = Modifier
-                                            .container(MaterialTheme.shapes.extraLarge)
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                                        modifier = Modifier.padding(8.dp)
                                     ) {
-                                        TitleItem(text = stringResource(R.string.filters))
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                                            modifier = Modifier.padding(8.dp)
-                                        ) {
-                                            viewModel.filterList.forEachIndexed { index, filter ->
-                                                FilterItem(
-                                                    backgroundColor = MaterialTheme.colorScheme.surface,
-                                                    filter = filter,
-                                                    onFilterChange = {
-                                                        viewModel.updateFilter(
-                                                            value = it,
-                                                            index = index,
-                                                            showError = {
-                                                                scope.launch {
-                                                                    toastHostState.showError(
-                                                                        context = context,
-                                                                        error = it
-                                                                    )
-                                                                }
+                                        component.filterList.forEachIndexed { index, filter ->
+                                            FilterItem(
+                                                backgroundColor = MaterialTheme.colorScheme.surface,
+                                                filter = filter,
+                                                onFilterChange = {
+                                                    component.updateFilter(
+                                                        value = it,
+                                                        index = index,
+                                                        showError = {
+                                                            scope.launch {
+                                                                toastHostState.showError(
+                                                                    context = context,
+                                                                    error = it
+                                                                )
                                                             }
-                                                        )
-                                                    },
-                                                    onLongPress = {
-                                                        showReorderSheet = true
-                                                    },
-                                                    showDragHandle = false,
-                                                    onRemove = {
-                                                        viewModel.removeFilterAtIndex(
-                                                            index
-                                                        )
-                                                    }
-                                                )
-                                            }
-                                            AddFilterButton(
-                                                onClick = {
-                                                    showAddFilterSheet = true
+                                                        }
+                                                    )
                                                 },
-                                                modifier = Modifier.padding(
-                                                    horizontal = 16.dp
-                                                )
+                                                onLongPress = {
+                                                    showReorderSheet = true
+                                                },
+                                                showDragHandle = false,
+                                                onRemove = {
+                                                    component.removeFilterAtIndex(
+                                                        index
+                                                    )
+                                                }
                                             )
                                         }
+                                        AddFilterButton(
+                                            onClick = {
+                                                showAddFilterSheet = true
+                                            },
+                                            modifier = Modifier.padding(
+                                                horizontal = 16.dp
+                                            )
+                                        )
                                     }
-                                    Spacer(Modifier.height(16.dp))
-                                } else {
-                                    Spacer(Modifier.height(8.dp))
-                                    AddFilterButton(
-                                        onClick = {
-                                            showAddFilterSheet = true
-                                        }
-                                    )
-                                    Spacer(Modifier.height(16.dp))
                                 }
+                                Spacer(Modifier.height(16.dp))
+                            } else {
+                                Spacer(Modifier.height(8.dp))
+                                AddFilterButton(
+                                    onClick = {
+                                        showAddFilterSheet = true
+                                    }
+                                )
+                                Spacer(Modifier.height(16.dp))
                             }
                         }
                     }
                 }
             }
         }
-
-        AddFiltersSheet(
-            visible = showAddFilterSheet,
-            onVisibleChange = { showAddFilterSheet = it },
-            canAddTemplates = false,
-            previewBitmap = viewModel.previewBitmap,
-            onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-            onFilterPickedWithParams = { viewModel.addFilter(it) }
-        )
-        FilterReorderSheet(
-            filterList = viewModel.filterList,
-            visible = showReorderSheet,
-            onDismiss = {
-                showReorderSheet = false
-            },
-            onReorder = viewModel::updateFiltersOrder
-        )
-
-        ExitWithoutSavingDialog(
-            onExit = onDismiss,
-            onDismiss = { showExitDialog = false },
-            visible = showExitDialog
-        )
     }
+
+    AddFiltersSheet(
+        component = component.addFiltersSheetComponent,
+        visible = showAddFilterSheet,
+        onVisibleChange = { showAddFilterSheet = it },
+        canAddTemplates = false,
+        previewBitmap = component.previewBitmap,
+        onFilterPicked = { component.addFilter(it.newInstance()) },
+        onFilterPickedWithParams = { component.addFilter(it) },
+        filterTemplateCreationSheetComponent = component
+    )
+
+    FilterReorderSheet(
+        filterList = component.filterList,
+        visible = showReorderSheet,
+        onDismiss = {
+            showReorderSheet = false
+        },
+        onReorder = component::updateFiltersOrder
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = onDismiss,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
+    )
 }
 
-@HiltViewModel
-private class FilterTemplateCreationSheetViewModel @Inject constructor(
+class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
+    @Assisted componentContext: ComponentContext,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val filterProvider: FilterProvider<Bitmap>,
-    dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+    dispatchersHolder: DispatchersHolder,
+    addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory
+) : BaseComponent(dispatchersHolder, componentContext) {
+
+    val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
+        componentContext = componentContext.childContext(
+            key = "addFiltersTemplate"
+        )
+    )
 
     private val _previewModel: MutableState<ImageModel> = mutableStateOf(
         R.drawable.filter_preview_source.toImageModel()
@@ -406,9 +412,9 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
 
     init {
         favoriteFiltersInteractor
-            .getFilterPreviewModel().onEach { data ->
+            .getFilterPrecomponent().onEach { data ->
                 _previewModel.update { data }
-            }.launchIn(viewModelScope)
+            }.launchIn(componentScope)
     }
 
     fun updateTemplateName(newName: String) {
@@ -416,7 +422,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
     }
 
     private fun updatePreview() {
-        viewModelScope.launch {
+        componentScope.launch {
             _previewLoading.update { true }
             _previewBitmap.update {
                 imageGetter.getImageWithTransformations(
@@ -468,7 +474,7 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
     }
 
     fun saveTemplate(initialTemplateFilter: TemplateFilter?) {
-        viewModelScope.launch {
+        componentScope.launch {
             if (initialTemplateFilter != null) {
                 favoriteFiltersInteractor.removeTemplateFilter(initialTemplateFilter)
             }
@@ -495,4 +501,12 @@ private class FilterTemplateCreationSheetViewModel @Inject constructor(
             isInitialValueSetAlready = true
         }
     }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext
+        ): FilterTemplateCreationSheetComponent
+    }
+
 }

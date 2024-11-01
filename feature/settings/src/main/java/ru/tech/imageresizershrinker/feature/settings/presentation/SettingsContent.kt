@@ -79,7 +79,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
@@ -105,12 +104,12 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.Sea
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchableSettingItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingGroupItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingItem
-import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
 
 @Composable
 fun SettingsContent(
-    viewModel: SettingsViewModel = hiltViewModel(),
+    component: SettingsComponent,
     onTryGetUpdate: (
         isNewRequest: Boolean,
         onNoUpdates: Lambda
@@ -174,9 +173,12 @@ fun SettingsContent(
 
     Column(
         modifier = if (isStandaloneScreen) {
-            Modifier.nestedScroll(
-                scrollBehavior.nestedScrollConnection
-            )
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface)
+                .nestedScroll(
+                    scrollBehavior.nestedScrollConnection
+                )
         } else Modifier
     ) {
         EnhancedTopAppBar(
@@ -359,7 +361,7 @@ fun SettingsContent(
                                                 group.settingsList.forEach { setting ->
                                                     SettingItem(
                                                         setting = setting,
-                                                        viewModel = viewModel,
+                                                        component = component,
                                                         onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
                                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -381,7 +383,7 @@ fun SettingsContent(
                                                 group.settingsList.forEach { setting ->
                                                     SettingItem(
                                                         setting = setting,
-                                                        viewModel = viewModel,
+                                                        component = component,
                                                         onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
                                                         onNavigateToEasterEgg = onNavigateToEasterEgg,
@@ -411,7 +413,7 @@ fun SettingsContent(
                                     ),
                                     group = group,
                                     setting = setting,
-                                    viewModel = viewModel,
+                                    component = component,
                                     onTryGetUpdate = onTryGetUpdate,
                                     isUpdateAvailable = isUpdateAvailable,
                                     onNavigateToEasterEgg = onNavigateToEasterEgg,
@@ -468,9 +470,5 @@ fun SettingsContent(
                 }
             }
         }
-    }
-
-    onGoBack?.let {
-        BackHandler(onBack = it)
     }
 }

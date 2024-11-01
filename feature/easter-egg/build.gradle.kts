@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.image.toolbox.library)
     alias(libs.plugins.image.toolbox.feature)
     alias(libs.plugins.image.toolbox.compose)
+    alias(libs.plugins.image.toolbox.hilt)
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.easter_egg"

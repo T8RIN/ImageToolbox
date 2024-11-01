@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.weight_resize.presentation
 
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -41,12 +40,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -64,6 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
@@ -92,18 +90,17 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.weight_resize.presentation.components.ImageFormatAlert
-import ru.tech.imageresizershrinker.feature.weight_resize.presentation.viewModel.WeightResizeViewModel
+import ru.tech.imageresizershrinker.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
 
 @Composable
 fun WeightResizeContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: WeightResizeViewModel = hiltViewModel()
+    component: WeightResizeComponent
 ) {
     val settingsState = LocalSettingsState.current
 
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
@@ -116,17 +113,8 @@ fun WeightResizeContent(
         }
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-        }
-    }
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -138,7 +126,7 @@ fun WeightResizeContent(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.updateUris(uris) {
+                component.updateUris(uris) {
                     scope.launch {
                         toastHostState.showError(context, it)
                     }
@@ -150,19 +138,19 @@ fun WeightResizeContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmaps(it) { results ->
+        component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 scope = scope,
                 results = results,
@@ -180,7 +168,7 @@ fun WeightResizeContent(
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
+        data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -188,41 +176,42 @@ fun WeightResizeContent(
     )
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.by_bytes_resize),
-                input = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
-                size = viewModel.imageSize
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
+                size = component.imageSize
             )
         },
         onGoBack = onBack,
         actions = {},
         topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) {
+            if (component.bitmap == null) {
                 TopAppBarEmoji()
             }
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.bitmap != null,
+                visible = component.bitmap != null,
             )
-            if (viewModel.previewBitmap != null) {
+            if (component.previewBitmap != null) {
                 var editSheetData by remember {
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
-                    enabled = viewModel.canSave,
+                    enabled = component.canSave,
                     onShare = {
-                        viewModel.shareBitmaps { showConfetti() }
+                        component.shareBitmaps { showConfetti() }
                     },
                     onCopy = { manager ->
-                        viewModel.cacheCurrentImage { uri ->
+                        component.cacheCurrentImage { uri ->
                             manager.setClip(uri.asClip(context))
                             showConfetti()
                         }
                     },
                     onEdit = {
-                        viewModel.cacheImages {
+                        component.cacheImages {
                             editSheetData = it
                         }
                     }
@@ -249,26 +238,26 @@ fun WeightResizeContent(
             ImageContainer(
                 modifier = Modifier
                     .detectSwipes(
-                        onSwipeRight = viewModel::selectLeftUri,
-                        onSwipeLeft = viewModel::selectRightUri
+                        onSwipeRight = component::selectLeftUri,
+                        onSwipeLeft = component::selectRightUri
                     ),
                 imageInside = isPortrait,
                 showOriginal = false,
-                previewBitmap = viewModel.previewBitmap,
-                originalBitmap = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
+                previewBitmap = component.previewBitmap,
+                originalBitmap = component.bitmap,
+                isLoading = component.isImageLoading,
                 shouldShowPreview = true
             )
         },
         controls = {
             ImageCounter(
-                imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                imageCount = component.uris?.size?.takeIf { it > 1 },
                 onRepick = {
                     showPickImageFromUrisSheet = true
                 }
             )
             AnimatedContent(
-                targetState = viewModel.handMode,
+                targetState = component.handMode,
                 transitionSpec = {
                     if (!targetState) {
                         slideInVertically { it } + fadeIn() togetherWith slideOutVertically { -it } + fadeOut()
@@ -282,11 +271,11 @@ fun WeightResizeContent(
                         modifier = Modifier
                             .container(shape = RoundedCornerShape(24.dp))
                             .padding(8.dp),
-                        enabled = viewModel.bitmap != null,
-                        value = (viewModel.maxBytes / 1024).toString()
+                        enabled = component.bitmap != null,
+                        value = (component.maxBytes / 1024).toString()
                             .takeIf { it != "0" } ?: "",
                         onValueChange = {
-                            viewModel.updateMaxBytes(
+                            component.updateMaxBytes(
                                 it.restrict(1_000_000)
                             )
                         },
@@ -297,35 +286,35 @@ fun WeightResizeContent(
                     )
                 } else {
                     PresetSelector(
-                        value = viewModel.presetSelected.let {
+                        value = component.presetSelected.let {
                             Preset.Percentage(it)
                         },
                         includeTelegramOption = false,
-                        onValueChange = viewModel::selectPreset,
+                        onValueChange = component::selectPreset,
                         isBytesResize = true
                     )
                 }
             }
             Spacer(Modifier.height(8.dp))
             SaveExifWidget(
-                imageFormat = viewModel.imageFormat,
-                checked = viewModel.keepExif,
-                onCheckedChange = viewModel::setKeepExif
+                imageFormat = component.imageFormat,
+                checked = component.keepExif,
+                onCheckedChange = component::setKeepExif
             )
             AnimatedVisibility(
-                visible = viewModel.imageFormat.canChangeCompressionValue
+                visible = component.imageFormat.canChangeCompressionValue
             ) {
                 Spacer(Modifier.height(8.dp))
             }
             ImageFormatAlert(
-                format = viewModel.imageFormat,
+                format = component.imageFormat,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             )
             ImageFormatSelector(
-                value = viewModel.imageFormat,
-                onValueChange = viewModel::setImageFormat,
+                value = component.imageFormat,
+                onValueChange = component::setImageFormat,
                 entries = remember {
                     ImageFormatGroup.entries
                         .minus(ImageFormatGroup.Png)
@@ -341,8 +330,8 @@ fun WeightResizeContent(
             )
             Spacer(Modifier.height(8.dp))
             ScaleModeSelector(
-                value = viewModel.imageScaleMode,
-                onValueChange = viewModel::setImageScaleMode
+                value = component.imageScaleMode,
+                onValueChange = component::setImageScaleMode
             )
         },
         buttons = {
@@ -353,7 +342,7 @@ fun WeightResizeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
+                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -361,11 +350,11 @@ fun WeightResizeContent(
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },
-                isPrimaryButtonVisible = viewModel.canSave,
+                isPrimaryButtonVisible = component.canSave,
                 actions = {
                     PanModeButton(
-                        selected = viewModel.handMode,
-                        onClick = viewModel::updateHandMode
+                        selected = component.handMode,
+                        onClick = component::updateHandMode
                     )
                 },
                 onSecondaryButtonLongClick = {
@@ -376,7 +365,7 @@ fun WeightResizeContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
             OneTimeImagePickingDialog(
@@ -386,26 +375,26 @@ fun WeightResizeContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = viewModel.bitmap != null,
+        canShowScreenData = component.bitmap != null,
         noDataControls = {
-            if (!viewModel.isImageLoading) {
+            if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
         isPortrait = isPortrait
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.uris?.size ?: 1,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.uris?.size ?: 1,
+            onCancelLoading = component::cancelSaving
         )
     }
 
     PickImageFromUrisSheet(
         transformations = listOf(
-            viewModel.imageInfoTransformationFactory(
+            component.imageInfoTransformationFactory(
                 imageInfo = ImageInfo()
             )
         ),
@@ -413,11 +402,11 @@ fun WeightResizeContent(
         onDismiss = {
             showPickImageFromUrisSheet = false
         },
-        uris = viewModel.uris,
-        selectedUri = viewModel.selectedUri,
+        uris = component.uris,
+        selectedUri = component.selectedUri,
         onUriPicked = { uri ->
             try {
-                viewModel.updateSelectedUri(uri = uri)
+                component.updateSelectedUri(uri = uri)
             } catch (e: Exception) {
                 scope.launch {
                     toastHostState.showError(context, e)
@@ -425,7 +414,7 @@ fun WeightResizeContent(
             }
         },
         onUriRemoved = { uri ->
-            viewModel.updateUrisSilently(removedUri = uri)
+            component.updateUrisSilently(removedUri = uri)
         },
         columns = if (isPortrait) 2 else 4,
     )

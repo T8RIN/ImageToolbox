@@ -20,13 +20,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalHapticFeedback
+import com.arkivanov.decompose.retainedComponent
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,15 +49,19 @@ import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticF
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRoot
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerViewModel
+import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MediaPickerActivity : M3Activity() {
 
-    internal val viewModel by viewModels<MediaPickerViewModel>()
+    @Inject
+    lateinit var componentFactory: MediaPickerComponent.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val component = retainedComponent(factory = componentFactory::invoke)
 
         val allowMultiple = intent.getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
 
@@ -67,16 +71,16 @@ class MediaPickerActivity : M3Activity() {
             getString(R.string.pick_single_media)
         }
         setContent {
-            val settingsState = viewModel.settingsState.toUiState(
+            val settingsState = component.settingsState.toUiState(
                 allEmojis = Emoji.allIcons(),
                 allIconShapes = IconShapeDefaults.shapes,
-                getEmojiColorTuple = viewModel::getColorTupleFromEmoji
+                getEmojiColorTuple = component::getColorTupleFromEmoji
             )
 
             CompositionLocalProvider(
                 LocalSettingsState provides settingsState,
                 LocalConfettiHostState provides rememberConfettiHostState(),
-                LocalImageLoader provides viewModel.imageLoader,
+                LocalImageLoader provides component.imageLoader,
                 LocalHapticFeedback provides rememberCustomHapticFeedback(settingsState.hapticsStrength),
                 LocalConfettiHostState provides rememberConfettiHostState(),
             ) {
@@ -85,6 +89,7 @@ class MediaPickerActivity : M3Activity() {
                 ImageToolboxTheme {
                     val dynamicTheme = LocalDynamicThemeState.current
                     MediaPickerRoot(
+                        component = component,
                         title = title,
                         allowedMedia = intent.type.allowedMedia,
                         allowMultiple = allowMultiple

@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -71,14 +70,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import com.t8rin.histogram.ImageHistogram
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -94,13 +96,16 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
+import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -121,7 +126,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -136,10 +140,10 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.model.t
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.model.toUi
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.toUiPathPaint
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
-import javax.inject.Inject
 
 @Composable
 fun AddEditMaskSheet(
+    component: AddMaskSheetComponent,
     mask: UiFilterMask? = null,
     visible: Boolean,
     onDismiss: () -> Unit,
@@ -147,485 +151,498 @@ fun AddEditMaskSheet(
     masks: List<UiFilterMask> = emptyList(),
     onMaskPicked: (UiFilterMask) -> Unit,
 ) {
-    ScopedViewModelContainer<AddMaskSheetViewModel> { disposable ->
-        val viewModel = this
+    LaunchedEffect(mask, masks, targetBitmapUri) {
+        component.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
+    }
 
-        LaunchedEffect(mask, masks, targetBitmapUri) {
-            viewModel.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
+    val isPortrait by isPortraitOrientationAsState()
+
+    var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalComponentActivity.current
+    val toastHostState = LocalToastHostState.current
+    val scope = rememberCoroutineScope()
+
+    var showExitDialog by remember { mutableStateOf(false) }
+
+    var showReorderSheet by rememberSaveable { mutableStateOf(false) }
+
+    val settingsState = LocalSettingsState.current
+    var isEraserOn by rememberSaveable { mutableStateOf(false) }
+    var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
+    var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
+    var panEnabled by rememberSaveable { mutableStateOf(false) }
+    var drawPathMode by rememberSaveable {
+        mutableStateOf<UiDrawPathMode>(UiDrawPathMode.Free)
+    }
+    val domainDrawPathMode by remember(drawPathMode) {
+        derivedStateOf {
+            drawPathMode.toDomain()
         }
+    }
 
-        val isPortrait by isPortraitOrientationAsState()
-
-        var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
-
-        val context = LocalContext.current as ComponentActivity
-        val toastHostState = LocalToastHostState.current
-        val scope = rememberCoroutineScope()
-
-        var showExitDialog by remember { mutableStateOf(false) }
-
-        var showReorderSheet by rememberSaveable { mutableStateOf(false) }
-
-        val settingsState = LocalSettingsState.current
-        var isEraserOn by rememberSaveable { mutableStateOf(false) }
-        var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
-        var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
-        var panEnabled by rememberSaveable { mutableStateOf(false) }
-        var drawPathMode by rememberSaveable {
-            mutableStateOf<UiDrawPathMode>(UiDrawPathMode.Free)
-        }
-        val domainDrawPathMode by remember(drawPathMode) {
-            derivedStateOf {
-                drawPathMode.toDomain()
-            }
-        }
-
-        val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
-        SimpleSheet(
-            visible = visible,
-            onDismiss = {
-                if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
-                else showExitDialog = true
-            },
-            cancelable = false,
-            title = {
-                TitleItem(
-                    text = stringResource(id = R.string.add_mask),
-                    icon = Icons.Rounded.Texture
-                )
-            },
-            confirmButton = {
-                EnhancedButton(
-                    enabled = canSave,
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = {
-                        onMaskPicked(
-                            viewModel.getUiMask()
-                        )
-                        onDismiss()
-                    }
-                ) {
-                    Text(stringResource(id = R.string.save))
-                }
-            },
-            dragHandle = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .drawHorizontalStroke(autoElevation = 3.dp)
-                        .zIndex(Float.MAX_VALUE)
-                        .background(SimpleSheetDefaults.barContainerColor)
-                        .padding(8.dp)
-                ) {
-                    EnhancedIconButton(
-                        onClick = {
-                            if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
-                            else showExitDialog = true
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.exit)
-                        )
-                    }
-                }
-            },
-            enableBackHandler = false
-        ) {
-            var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
-            val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
-
-            disposable()
-            if (visible) {
-                BackHandler {
-                    if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
-                    else showExitDialog = true
-                }
-            }
-            val switch = @Composable {
-                PanModeButton(
-                    selected = panEnabled,
-                    onClick = {
-                        panEnabled = !panEnabled
-                    }
-                )
-            }
-            val drawPreview: @Composable () -> Unit = {
-                AnimatedContent(
-                    targetState = Triple(
-                        first = remember(viewModel.previewBitmap) {
-                            derivedStateOf {
-                                viewModel.previewBitmap?.asImageBitmap()
-                            }
-                        }.value,
-                        second = viewModel.maskPreviewModeEnabled,
-                        third = viewModel.previewLoading
-                    ),
-                    transitionSpec = { fadeIn() togetherWith fadeOut() },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(
-                            if (isPortrait) RoundedCornerShape(
-                                bottomStart = 24.dp,
-                                bottomEnd = 24.dp
-                            )
-                            else RectangleShape
-                        )
-                        .background(
-                            color = MaterialTheme.colorScheme
-                                .surfaceContainer
-                                .copy(0.8f)
-                        )
-                ) { (imageBitmap, preview, loading) ->
-                    if (loading || imageBitmap == null) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Loading()
-                        }
-                    } else {
-                        val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
-                        var drawing by remember { mutableStateOf(false) }
-                        BitmapDrawer(
-                            zoomState = zoomState,
-                            imageBitmap = imageBitmap,
-                            paths = if (!preview || drawing || viewModel.previewLoading) viewModel.paths else emptyList(),
-                            strokeWidth = strokeWidth,
-                            brushSoftness = brushSoftness,
-                            drawColor = viewModel.maskColor,
-                            onAddPath = viewModel::addPath,
-                            isEraserOn = isEraserOn,
-                            drawMode = DrawMode.Pen,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .aspectRatio(aspectRatio, isPortrait)
-                                .fillMaxSize(),
-                            panEnabled = panEnabled,
-                            onDrawStart = {
-                                drawing = true
-                            },
-                            onDrawFinish = {
-                                drawing = false
-                            },
-                            onRequestFiltering = viewModel::filter,
-                            drawPathMode = domainDrawPathMode,
-                            backgroundColor = Color.Transparent
-                        )
-                    }
-                }
-            }
-            Row {
-                val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
-                if (!isPortrait) {
-                    Box(modifier = Modifier.weight(1.3f)) {
-                        drawPreview()
-                    }
-                }
-                val internalHeight = rememberAvailableHeight(imageState = imageState)
-                LazyColumn(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    imageStickyHeader(
-                        visible = isPortrait,
-                        internalHeight = internalHeight,
-                        imageState = imageState,
-                        onStateChange = {
-                            imageState = it
-                        },
-                        padding = 0.dp,
-                        imageModifier = Modifier.padding(bottom = 24.dp),
-                        backgroundColor = backgroundColor,
-                        imageBlock = drawPreview
+    val canSave = component.paths.isNotEmpty() && component.filterList.isNotEmpty()
+    SimpleSheet(
+        visible = visible,
+        onDismiss = {
+            if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
+            else showExitDialog = true
+        },
+        cancelable = false,
+        title = {
+            TitleItem(
+                text = stringResource(id = R.string.add_mask),
+                icon = Icons.Rounded.Texture
+            )
+        },
+        confirmButton = {
+            EnhancedButton(
+                enabled = canSave,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    onMaskPicked(
+                        component.getUiMask()
                     )
-                    item {
-                        Row(
-                            Modifier
-                                .then(
-                                    if (imageState.isBlocked && isPortrait) {
-                                        Modifier.padding(
-                                            start = 16.dp,
-                                            end = 16.dp,
-                                            bottom = 16.dp
-                                        )
-                                    } else Modifier.padding(16.dp)
-                                )
-                                .container(shape = CircleShape)
+                    onDismiss()
+                }
+            ) {
+                Text(stringResource(id = R.string.save))
+            }
+        },
+        dragHandle = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .drawHorizontalStroke(autoElevation = 3.dp)
+                    .zIndex(Float.MAX_VALUE)
+                    .background(SimpleSheetDefaults.barContainerColor)
+                    .padding(8.dp)
+            ) {
+                EnhancedIconButton(
+                    onClick = {
+                        if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
+                        else showExitDialog = true
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = stringResource(R.string.exit)
+                    )
+                }
+            }
+        },
+        enableBackHandler = false
+    ) {
+        var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
+        val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
+
+        if (visible) {
+            BackHandler {
+                if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
+                else showExitDialog = true
+            }
+        }
+        val switch = @Composable {
+            PanModeButton(
+                selected = panEnabled,
+                onClick = {
+                    panEnabled = !panEnabled
+                }
+            )
+        }
+        val drawPreview: @Composable () -> Unit = {
+            AnimatedContent(
+                targetState = Triple(
+                    first = remember(component.previewBitmap) {
+                        derivedStateOf {
+                            component.previewBitmap?.asImageBitmap()
+                        }
+                    }.value,
+                    second = component.maskPreviewModeEnabled,
+                    third = component.previewLoading
+                ),
+                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(
+                        if (isPortrait) RoundedCornerShape(
+                            bottomStart = 24.dp,
+                            bottomEnd = 24.dp
+                        )
+                        else RectangleShape
+                    )
+                    .background(
+                        color = MaterialTheme.colorScheme
+                            .surfaceContainer
+                            .copy(0.8f)
+                    )
+            ) { (imageBitmap, preview, loading) ->
+                if (loading || imageBitmap == null) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Loading()
+                    }
+                } else {
+                    val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
+                    var drawing by remember { mutableStateOf(false) }
+                    BitmapDrawer(
+                        zoomState = zoomState,
+                        imageBitmap = imageBitmap,
+                        paths = if (!preview || drawing || component.previewLoading) component.paths else emptyList(),
+                        strokeWidth = strokeWidth,
+                        brushSoftness = brushSoftness,
+                        drawColor = component.maskColor,
+                        onAddPath = component::addPath,
+                        isEraserOn = isEraserOn,
+                        drawMode = DrawMode.Pen,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .aspectRatio(aspectRatio, isPortrait)
+                            .fillMaxSize(),
+                        panEnabled = panEnabled,
+                        onDrawStart = {
+                            drawing = true
+                        },
+                        onDrawFinish = {
+                            drawing = false
+                        },
+                        onRequestFiltering = component::filter,
+                        drawPathMode = domainDrawPathMode,
+                        backgroundColor = Color.Transparent
+                    )
+                }
+            }
+        }
+        Row {
+            val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
+            if (!isPortrait) {
+                Box(modifier = Modifier.weight(1.3f)) {
+                    drawPreview()
+                }
+            }
+            val internalHeight = rememberAvailableHeight(imageState = imageState)
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f)
+            ) {
+                imageStickyHeader(
+                    visible = isPortrait,
+                    internalHeight = internalHeight,
+                    imageState = imageState,
+                    onStateChange = {
+                        imageState = it
+                    },
+                    padding = 0.dp,
+                    imageModifier = Modifier.padding(bottom = 24.dp),
+                    backgroundColor = backgroundColor,
+                    imageBlock = drawPreview
+                )
+                item {
+                    Row(
+                        Modifier
+                            .then(
+                                if (imageState.isBlocked && isPortrait) {
+                                    Modifier.padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        bottom = 16.dp
+                                    )
+                                } else Modifier.padding(16.dp)
+                            )
+                            .container(shape = CircleShape)
+                    ) {
+                        switch()
+                        Spacer(Modifier.width(4.dp))
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                luminance = 0.1f
+                            ),
+                            onClick = component::undo,
+                            enabled = (component.lastPaths.isNotEmpty() || component.paths.isNotEmpty())
                         ) {
-                            switch()
-                            Spacer(Modifier.width(4.dp))
-                            EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                    luminance = 0.1f
-                                ),
-                                onClick = viewModel::undo,
-                                enabled = (viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty())
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.Undo,
-                                    contentDescription = "Undo"
-                                )
-                            }
-                            EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                    luminance = 0.1f
-                                ),
-                                onClick = viewModel::redo,
-                                enabled = viewModel.undonePaths.isNotEmpty()
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.Redo,
-                                    contentDescription = "Redo"
-                                )
-                            }
-                            EraseModeButton(
-                                selected = isEraserOn,
-                                enabled = !panEnabled,
-                                onClick = {
-                                    isEraserOn = !isEraserOn
-                                }
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.Undo,
+                                contentDescription = "Undo"
                             )
                         }
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                luminance = 0.1f
+                            ),
+                            onClick = component::redo,
+                            enabled = component.undonePaths.isNotEmpty()
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.Redo,
+                                contentDescription = "Redo"
+                            )
+                        }
+                        EraseModeButton(
+                            selected = isEraserOn,
+                            enabled = !panEnabled,
+                            onClick = {
+                                isEraserOn = !isEraserOn
+                            }
+                        )
+                    }
 
-                        AnimatedVisibility(visible = canSave) {
-                            Column {
-                                BoxAnimatedVisibility(maskPreviewModeEnabled) {
-                                    PreferenceItemOverload(
-                                        title = stringResource(R.string.histogram),
-                                        subtitle = stringResource(R.string.histogram_sub),
-                                        endIcon = {
-                                            AnimatedContent(viewModel.previewBitmap != null) {
-                                                if (it) {
-                                                    ImageHistogram(
-                                                        image = viewModel.previewBitmap,
-                                                        modifier = Modifier
-                                                            .width(100.dp)
-                                                            .height(65.dp),
-                                                        bordersColor = Color.White
-                                                    )
-                                                } else {
-                                                    Box(modifier = Modifier.size(56.dp)) {
-                                                        Loading()
-                                                    }
+                    AnimatedVisibility(visible = canSave) {
+                        Column {
+                            BoxAnimatedVisibility(component.maskPreviewModeEnabled) {
+                                PreferenceItemOverload(
+                                    title = stringResource(R.string.histogram),
+                                    subtitle = stringResource(R.string.histogram_sub),
+                                    endIcon = {
+                                        AnimatedContent(component.previewBitmap != null) {
+                                            if (it) {
+                                                ImageHistogram(
+                                                    image = component.previewBitmap,
+                                                    modifier = Modifier
+                                                        .width(100.dp)
+                                                        .height(65.dp),
+                                                    bordersColor = Color.White
+                                                )
+                                            } else {
+                                                Box(modifier = Modifier.size(56.dp)) {
+                                                    Loading()
                                                 }
                                             }
-                                        },
-                                        shape = RoundedCornerShape(24.dp),
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(horizontal = 16.dp)
-                                            .padding(bottom = 8.dp)
-                                    )
-                                }
-                                PreferenceRowSwitch(
-                                    title = stringResource(id = R.string.mask_preview),
-                                    subtitle = stringResource(id = R.string.mask_preview_sub),
-                                    color = animateColorAsState(
-                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
-                                        else Color.Unspecified,
-                                    ).value,
-                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                        }
+                                    },
                                     shape = RoundedCornerShape(24.dp),
-                                    contentColor = animateColorAsState(
-                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
-                                        else MaterialTheme.colorScheme.onSurface
-                                    ).value,
-                                    onClick = viewModel::togglePreviewMode,
-                                    checked = maskPreviewModeEnabled,
-                                    startIcon = Icons.Rounded.Preview
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp)
+                                        .padding(bottom = 8.dp)
                                 )
                             }
+                            PreferenceRowSwitch(
+                                title = stringResource(id = R.string.mask_preview),
+                                subtitle = stringResource(id = R.string.mask_preview_sub),
+                                color = animateColorAsState(
+                                    if (component.maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
+                                    else Color.Unspecified,
+                                ).value,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                shape = RoundedCornerShape(24.dp),
+                                contentColor = animateColorAsState(
+                                    if (component.maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.onSurface
+                                ).value,
+                                onClick = component::togglePreviewMode,
+                                checked = component.maskPreviewModeEnabled,
+                                startIcon = Icons.Rounded.Preview
+                            )
                         }
+                    }
 
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            DrawColorSelector(
-                                color = Color.Unspecified,
-                                titleText = stringResource(id = R.string.mask_color),
-                                defaultColors = remember {
-                                    listOf(
-                                        Color.Red,
-                                        Color.Green,
-                                        Color.Blue,
-                                        Color.Yellow,
-                                        Color.Cyan,
-                                        Color.Magenta
-                                    )
-                                },
-                                value = viewModel.maskColor,
-                                onValueChange = viewModel::updateMaskColor,
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 8.dp
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        DrawColorSelector(
+                            color = Color.Unspecified,
+                            titleText = stringResource(id = R.string.mask_color),
+                            defaultColors = remember {
+                                listOf(
+                                    Color.Red,
+                                    Color.Green,
+                                    Color.Blue,
+                                    Color.Yellow,
+                                    Color.Cyan,
+                                    Color.Magenta
                                 )
+                            },
+                            value = component.maskColor,
+                            onValueChange = component::updateMaskColor,
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                top = 8.dp
                             )
-                            DrawPathModeSelector(
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 8.dp
-                                ),
-                                values = remember {
-                                    listOf(
-                                        DrawPathMode.Free,
-                                        DrawPathMode.Lasso,
-                                        DrawPathMode.Rect(),
-                                        DrawPathMode.Oval,
-                                        DrawPathMode.Triangle,
-                                        DrawPathMode.Polygon(),
-                                        DrawPathMode.Star()
-                                    )
-                                },
-                                value = domainDrawPathMode,
-                                onValueChange = { drawPathMode = it.toUi() }
-                            )
-                            LineWidthSelector(
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 8.dp
-                                ),
-                                color = Color.Unspecified,
-                                value = strokeWidth.value,
-                                onValueChange = { strokeWidth = it.pt }
-                            )
-                            BrushSoftnessSelector(
-                                modifier = Modifier
-                                    .padding(top = 8.dp, end = 16.dp, start = 16.dp),
-                                color = Color.Unspecified,
-                                value = brushSoftness.value,
-                                onValueChange = { brushSoftness = it.pt }
-                            )
-                        }
-
-                        PreferenceRowSwitch(
-                            title = stringResource(id = R.string.inverse_fill_type),
-                            subtitle = stringResource(id = R.string.inverse_fill_type_sub),
-                            checked = viewModel.isInverseFillType,
+                        )
+                        DrawPathModeSelector(
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                top = 8.dp
+                            ),
+                            values = remember {
+                                listOf(
+                                    DrawPathMode.Free,
+                                    DrawPathMode.Lasso,
+                                    DrawPathMode.Rect(),
+                                    DrawPathMode.Oval,
+                                    DrawPathMode.Triangle,
+                                    DrawPathMode.Polygon(),
+                                    DrawPathMode.Star()
+                                )
+                            },
+                            value = domainDrawPathMode,
+                            onValueChange = { drawPathMode = it.toUi() }
+                        )
+                        LineWidthSelector(
                             modifier = Modifier.padding(
                                 start = 16.dp,
                                 end = 16.dp,
                                 top = 8.dp
                             ),
                             color = Color.Unspecified,
-                            resultModifier = Modifier.padding(16.dp),
-                            applyHorizontalPadding = false,
-                            shape = RoundedCornerShape(24.dp),
-                            onClick = {
-                                viewModel.toggleIsInverseFillType()
-                            }
+                            value = strokeWidth.value,
+                            onValueChange = { strokeWidth = it.pt }
                         )
-                        AnimatedContent(
-                            targetState = viewModel.filterList.isNotEmpty(),
-                            transitionSpec = {
-                                fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
-                            }
-                        ) { notEmpty ->
-                            if (notEmpty) {
+                        BrushSoftnessSelector(
+                            modifier = Modifier
+                                .padding(top = 8.dp, end = 16.dp, start = 16.dp),
+                            color = Color.Unspecified,
+                            value = brushSoftness.value,
+                            onValueChange = { brushSoftness = it.pt }
+                        )
+                    }
+
+                    PreferenceRowSwitch(
+                        title = stringResource(id = R.string.inverse_fill_type),
+                        subtitle = stringResource(id = R.string.inverse_fill_type_sub),
+                        checked = component.isInverseFillType,
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 8.dp
+                        ),
+                        color = Color.Unspecified,
+                        resultModifier = Modifier.padding(16.dp),
+                        applyHorizontalPadding = false,
+                        shape = RoundedCornerShape(24.dp),
+                        onClick = {
+                            component.toggleIsInverseFillType()
+                        }
+                    )
+                    AnimatedContent(
+                        targetState = component.filterList.isNotEmpty(),
+                        transitionSpec = {
+                            fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
+                        }
+                    ) { notEmpty ->
+                        if (notEmpty) {
+                            Column(
+                                Modifier
+                                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                                    .container(MaterialTheme.shapes.extraLarge)
+                            ) {
+                                TitleItem(text = stringResource(R.string.filters))
                                 Column(
-                                    Modifier
-                                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                                        .container(MaterialTheme.shapes.extraLarge)
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                                    modifier = Modifier.padding(8.dp)
                                 ) {
-                                    TitleItem(text = stringResource(R.string.filters))
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                                        modifier = Modifier.padding(8.dp)
-                                    ) {
-                                        viewModel.filterList.forEachIndexed { index, filter ->
-                                            FilterItem(
-                                                backgroundColor = MaterialTheme.colorScheme.surface,
-                                                filter = filter,
-                                                onFilterChange = {
-                                                    viewModel.updateFilter(
-                                                        value = it,
-                                                        index = index,
-                                                        showError = {
-                                                            scope.launch {
-                                                                toastHostState.showError(
-                                                                    context = context,
-                                                                    error = it
-                                                                )
-                                                            }
+                                    component.filterList.forEachIndexed { index, filter ->
+                                        FilterItem(
+                                            backgroundColor = MaterialTheme.colorScheme.surface,
+                                            filter = filter,
+                                            onFilterChange = {
+                                                component.updateFilter(
+                                                    value = it,
+                                                    index = index,
+                                                    showError = {
+                                                        scope.launch {
+                                                            toastHostState.showError(
+                                                                context = context,
+                                                                error = it
+                                                            )
                                                         }
-                                                    )
-                                                },
-                                                onLongPress = {
-                                                    showReorderSheet = true
-                                                },
-                                                showDragHandle = false,
-                                                onRemove = {
-                                                    viewModel.removeFilterAtIndex(
-                                                        index
-                                                    )
-                                                }
-                                            )
-                                        }
-                                        AddFilterButton(
-                                            onClick = {
-                                                showAddFilterSheet = true
+                                                    }
+                                                )
                                             },
-                                            modifier = Modifier.padding(
-                                                horizontal = 16.dp
-                                            )
+                                            onLongPress = {
+                                                showReorderSheet = true
+                                            },
+                                            showDragHandle = false,
+                                            onRemove = {
+                                                component.removeFilterAtIndex(
+                                                    index
+                                                )
+                                            }
                                         )
                                     }
+                                    AddFilterButton(
+                                        onClick = {
+                                            showAddFilterSheet = true
+                                        },
+                                        modifier = Modifier.padding(
+                                            horizontal = 16.dp
+                                        )
+                                    )
                                 }
-                            } else {
-                                AddFilterButton(
-                                    onClick = {
-                                        showAddFilterSheet = true
-                                    },
-                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                                )
                             }
+                        } else {
+                            AddFilterButton(
+                                onClick = {
+                                    showAddFilterSheet = true
+                                },
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            )
                         }
                     }
                 }
             }
         }
-
-        AddFiltersSheet(
-            visible = showAddFilterSheet,
-            onVisibleChange = { showAddFilterSheet = it },
-            previewBitmap = null,
-            onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-            onFilterPickedWithParams = { viewModel.addFilter(it) }
-        )
-        FilterReorderSheet(
-            filterList = viewModel.filterList,
-            visible = showReorderSheet,
-            onDismiss = {
-                showReorderSheet = false
-            },
-            onReorder = viewModel::updateFiltersOrder
-        )
-
-        ExitWithoutSavingDialog(
-            onExit = onDismiss,
-            onDismiss = { showExitDialog = false },
-            visible = showExitDialog
-        )
     }
+
+    AddFiltersSheet(
+        visible = showAddFilterSheet,
+        onVisibleChange = { showAddFilterSheet = it },
+        previewBitmap = null,
+        onFilterPicked = { component.addFilter(it.newInstance()) },
+        onFilterPickedWithParams = { component.addFilter(it) },
+        component = component.addFiltersSheetComponent,
+        filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent
+    )
+    FilterReorderSheet(
+        filterList = component.filterList,
+        visible = showReorderSheet,
+        onDismiss = {
+            showReorderSheet = false
+        },
+        onReorder = component::updateFiltersOrder
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = onDismiss,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
+    )
 }
 
-@HiltViewModel
-private class AddMaskSheetViewModel @Inject constructor(
+class AddMaskSheetComponent @AssistedInject internal constructor(
+    @Assisted componentContext: ComponentContext,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
-) : BaseViewModel(dispatchersHolder) {
+    addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent.Factory
+) : BaseComponent(dispatchersHolder, componentContext) {
+
+    val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
+        componentContext = componentContext.childContext(
+            key = "addFiltersMask",
+
+            )
+    )
+
+    val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
+        filterTemplateCreationSheetComponent(
+            componentContext = componentContext.childContext(
+                key = "filterTemplateCreationSheetComponentMask"
+            )
+        )
 
     private val _maskColor = mutableStateOf(Color.Red)
     val maskColor by _maskColor
@@ -661,7 +678,7 @@ private class AddMaskSheetViewModel @Inject constructor(
     private var initialMask: UiFilterMask? by mutableStateOf(null)
 
     private fun updatePreview() {
-        viewModelScope.launch(defaultDispatcher) {
+        componentScope.launch(defaultDispatcher) {
             if (filterList.isEmpty() || paths.isEmpty()) {
                 _maskPreviewModeEnabled.update { false }
             }
@@ -830,5 +847,12 @@ private class AddMaskSheetViewModel @Inject constructor(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }
     )
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext
+        ): AddMaskSheetComponent
+    }
 
 }

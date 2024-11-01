@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.zip.presentation
 
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -65,7 +64,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -91,7 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipViewModel
+import ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic.ZipComponent
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -99,15 +97,10 @@ import java.util.Locale
 
 @Composable
 fun ZipContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: ZipViewModel = hiltViewModel()
+    component: ZipComponent
 ) {
     val haptics = LocalHapticFeedback.current
-
-    LaunchedEffect(uriState) {
-        uriState?.let { viewModel.setUris(it) }
-    }
 
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
@@ -118,7 +111,7 @@ fun ZipContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.uris.isNotEmpty() && viewModel.byteArray != null) {
+        if (component.uris.isNotEmpty() && component.byteArray != null) {
             showExitDialog = true
         } else onGoBack()
     }
@@ -127,7 +120,7 @@ fun ZipContent(
         contract = ActivityResultContracts.CreateDocument("application/zip"),
         onResult = {
             it?.let { uri ->
-                viewModel.saveResultTo(uri) { result ->
+                component.saveResultTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -144,25 +137,26 @@ fun ZipContent(
     val filePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
         onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let(viewModel::setUris)
+            uris.takeIf { it.isNotEmpty() }?.let(component::setUris)
         }
     )
 
     AutoFilePicker(
         onAutoPick = { filePicker.launch(arrayOf("*/*")) },
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     val additionalFilePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
         onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let(viewModel::addUris)
+            uris.takeIf { it.isNotEmpty() }?.let(component::addUris)
         }
     )
 
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !(component.uris.isNotEmpty() && component.byteArray != null),
         title = {
             Text(
                 text = stringResource(R.string.zip),
@@ -222,7 +216,7 @@ fun ZipContent(
             }
         },
         controls = {
-            AnimatedVisibility(visible = viewModel.byteArray != null) {
+            AnimatedVisibility(visible = component.byteArray != null) {
                 LaunchedEffect(it) {
                     it.animateScrollToItem(0)
                 }
@@ -271,8 +265,8 @@ fun ZipContent(
                         lineHeight = 14.sp,
                         modifier = Modifier.padding(vertical = 16.dp)
                     )
-                    var name by rememberSaveable(viewModel.byteArray, viewModel.uris) {
-                        val count = viewModel.uris.size.let {
+                    var name by rememberSaveable(component.byteArray, component.uris) {
+                        val count = component.uris.size.let {
                             if (it > 1) "($it)"
                             else ""
                         }
@@ -341,8 +335,8 @@ fun ZipContent(
                         }
                         EnhancedButton(
                             onClick = {
-                                viewModel.byteArray?.let {
-                                    viewModel.shareFile(
+                                component.byteArray?.let {
+                                    component.shareFile(
                                         it = it,
                                         filename = name
                                     ) {
@@ -378,9 +372,9 @@ fun ZipContent(
             }
             Spacer(modifier = Modifier.height(24.dp))
             UrisPreview(
-                uris = viewModel.uris,
+                uris = component.uris,
                 isPortrait = isPortrait,
-                onRemoveUri = viewModel::removeUri,
+                onRemoveUri = component::removeUri,
                 onAddUris = {
                     runCatching {
                         additionalFilePicker.launch(arrayOf("*/*"))
@@ -398,7 +392,7 @@ fun ZipContent(
         },
         buttons = {
             BottomButtonsBlock(
-                targetState = viewModel.uris.isEmpty() to isPortrait,
+                targetState = component.uris.isEmpty() to isPortrait,
                 onSecondaryButtonClick = {
                     runCatching {
                         filePicker.launch(arrayOf("*/*"))
@@ -414,9 +408,9 @@ fun ZipContent(
                 },
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
-                isPrimaryButtonVisible = viewModel.uris.isNotEmpty(),
+                isPrimaryButtonVisible = component.uris.isNotEmpty(),
                 onPrimaryButtonClick = {
-                    viewModel.startCompression {
+                    component.startCompression {
                         if (it != null) {
                             scope.launch {
                                 toastHostState.showError(context, it)
@@ -431,12 +425,12 @@ fun ZipContent(
                         selectedColor = MaterialTheme.colorScheme.secondaryContainer,
                         modifier = Modifier.padding(8.dp)
                     ) {
-                        Text(viewModel.uris.size.toString())
+                        Text(component.uris.size.toString())
                     }
                 }
             )
         },
-        canShowScreenData = viewModel.uris.isNotEmpty(),
+        canShowScreenData = component.uris.isNotEmpty(),
         isPortrait = isPortrait
     )
 
@@ -446,11 +440,11 @@ fun ZipContent(
         visible = showExitDialog
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.left,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.left,
+            onCancelLoading = component::cancelSaving
         )
     }
 

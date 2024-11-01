@@ -140,6 +140,7 @@ fun ImagePager(
         }
 
         val draggableState = remember(anchors) {
+            @Suppress("DEPRECATION")
             AnchoredDraggableState(
                 initialValue = true,
                 anchors = anchors,

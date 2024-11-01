@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-internal class SpotHealFilter @AssistedInject constructor(
+internal class SpotHealFilter @AssistedInject internal constructor(
     @Assisted override val value: Triple<ImageModel, Float, Int>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : Transformation<Bitmap>, Filter.SpotHeal {

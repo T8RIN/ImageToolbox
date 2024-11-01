@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.webp_tools.presentation
 
 import android.content.Context
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -56,7 +55,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,13 +65,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
@@ -90,6 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -112,16 +109,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.components.WebpParamsSelector
-import ru.tech.imageresizershrinker.feature.webp_tools.presentation.viewModel.WebpToolsViewModel
+import ru.tech.imageresizershrinker.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
 
 @Composable
 fun WebpToolsContent(
-    typeState: Screen.WebpTools.Type?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: WebpToolsViewModel = hiltViewModel()
+    component: WebpToolsComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
 
     val scope = rememberCoroutineScope()
@@ -132,14 +128,10 @@ fun WebpToolsContent(
         }
     }
 
-    LaunchedEffect(typeState) {
-        typeState?.let { viewModel.setType(it) }
-    }
-
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(viewModel::setImageUris)
+        list.takeIf { it.isNotEmpty() }?.let(component::setImageUris)
     }
 
     val pickSingleWebpLauncher = rememberLauncherForActivityResult(
@@ -147,7 +139,7 @@ fun WebpToolsContent(
     ) { uri ->
         uri?.let {
             if (it.isWebp(context)) {
-                viewModel.setWebpUri(it)
+                component.setWebpUri(it)
             } else {
                 scope.launch {
                     toastHostState.showToast(
@@ -163,7 +155,7 @@ fun WebpToolsContent(
         contract = ActivityResultContracts.CreateDocument("image/webp"),
         onResult = {
             it?.let { uri ->
-                viewModel.saveWebpTo(uri) { result ->
+                component.saveWebpTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -180,16 +172,17 @@ fun WebpToolsContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = when (viewModel.type) {
+                title = when (component.type) {
                     is Screen.WebpTools.Type.WebpToImage -> {
                         stringResource(R.string.webp_type_to_image)
                     }
@@ -200,22 +193,22 @@ fun WebpToolsContent(
 
                     null -> stringResource(R.string.webp_tools)
                 },
-                input = viewModel.type,
-                isLoading = viewModel.isLoading,
+                input = component.type,
+                isLoading = component.isLoading,
                 size = null
             )
         },
         onGoBack = onBack,
         topAppBarPersistentActions = {
-            if (viewModel.type == null) TopAppBarEmoji()
-            val pagesSize by remember(viewModel.imageFrames, viewModel.convertedImageUris) {
+            if (component.type == null) TopAppBarEmoji()
+            val pagesSize by remember(component.imageFrames, component.convertedImageUris) {
                 derivedStateOf {
-                    viewModel.imageFrames.getFramePositions(viewModel.convertedImageUris.size).size
+                    component.imageFrames.getFramePositions(component.convertedImageUris.size).size
                 }
             }
-            val isWebpToImage = viewModel.type is Screen.WebpTools.Type.WebpToImage
+            val isWebpToImage = component.type is Screen.WebpTools.Type.WebpToImage
             AnimatedVisibility(
-                visible = isWebpToImage && pagesSize != viewModel.convertedImageUris.size,
+                visible = isWebpToImage && pagesSize != component.convertedImageUris.size,
                 enter = fadeIn() + scaleIn() + expandHorizontally(),
                 exit = fadeOut() + scaleOut() + shrinkHorizontally()
             ) {
@@ -223,7 +216,7 @@ fun WebpToolsContent(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
-                    onClick = viewModel::selectAllConvertedImages
+                    onClick = component::selectAllConvertedImages
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.SelectAll,
@@ -258,7 +251,7 @@ fun WebpToolsContent(
                         containerColor = Color.Transparent,
                         contentColor = LocalContentColor.current,
                         enableAutoShadowAndBorder = false,
-                        onClick = viewModel::clearConvertedImagesSelection
+                        onClick = component::clearConvertedImagesSelection
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
@@ -273,12 +266,12 @@ fun WebpToolsContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = !viewModel.isLoading && viewModel.type != null,
+                enabled = !component.isLoading && component.type != null,
                 onShare = {
-                    viewModel.performSharing(showConfetti)
+                    component.performSharing(showConfetti)
                 },
                 onEdit = {
-                    viewModel.cacheImages {
+                    component.cacheImages {
                         editSheetData = it
                     }
                 }
@@ -302,7 +295,7 @@ fun WebpToolsContent(
         },
         imagePreview = {
             AnimatedContent(
-                targetState = viewModel.isLoading to viewModel.type
+                targetState = component.isLoading to component.type
             ) { (loading, type) ->
                 Box(
                     contentAlignment = Alignment.Center,
@@ -316,11 +309,11 @@ fun WebpToolsContent(
                         when (type) {
                             is Screen.WebpTools.Type.WebpToImage -> {
                                 ImagesPreviewWithSelection(
-                                    imageUris = viewModel.convertedImageUris,
-                                    imageFrames = viewModel.imageFrames,
-                                    onFrameSelectionChange = viewModel::updateWebpFrames,
+                                    imageUris = component.convertedImageUris,
+                                    imageFrames = component.imageFrames,
+                                    onFrameSelectionChange = component::updateWebpFrames,
                                     isPortrait = isPortrait,
-                                    isLoadingImages = viewModel.isLoadingWebpImages
+                                    isLoadingImages = component.isLoadingWebpImages
                                 )
                             }
 
@@ -330,24 +323,24 @@ fun WebpToolsContent(
                 }
             }
         },
-        placeImagePreview = viewModel.type !is Screen.WebpTools.Type.ImageToWebp,
+        placeImagePreview = component.type !is Screen.WebpTools.Type.ImageToWebp,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
-            when (val type = viewModel.type) {
+            when (val type = component.type) {
                 is Screen.WebpTools.Type.WebpToImage -> {
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageFormatSelector(
-                        value = viewModel.imageFormat,
-                        onValueChange = viewModel::setImageFormat,
+                        value = component.imageFormat,
+                        onValueChange = component::setImageFormat,
                         entries = ImageFormatGroup.alphaContainedEntries
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     QualitySelector(
-                        imageFormat = viewModel.imageFormat,
+                        imageFormat = component.imageFormat,
                         enabled = true,
-                        quality = viewModel.params.quality,
-                        onQualityChange = viewModel::setQuality
+                        quality = component.params.quality,
+                        onQualityChange = component::setQuality
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -356,19 +349,19 @@ fun WebpToolsContent(
                     val addImagesToPdfPicker = rememberImagePicker(
                         mode = localImagePickerMode(Picker.Multiple)
                     ) { list ->
-                        list.takeIf { it.isNotEmpty() }?.let(viewModel::addImageToUris)
+                        list.takeIf { it.isNotEmpty() }?.let(component::addImageToUris)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,
-                        onReorder = viewModel::reorderImageUris,
+                        onReorder = component::reorderImageUris,
                         onNeedToAddImage = addImagesToPdfPicker::pickImage,
-                        onNeedToRemoveImageAt = viewModel::removeImageAt
+                        onNeedToRemoveImageAt = component::removeImageAt
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     WebpParamsSelector(
-                        value = viewModel.params,
-                        onValueChange = viewModel::updateParams
+                        value = component.params,
+                        onValueChange = component::updateParams
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -377,13 +370,13 @@ fun WebpToolsContent(
             }
         },
         contentPadding = animateDpAsState(
-            if (viewModel.type == null) 12.dp
+            if (component.type == null) 12.dp
             else 20.dp
         ).value,
         buttons = {
             val settingsState = LocalSettingsState.current
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-                viewModel.saveBitmaps(
+                component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
                     onWebpSaveResult = { name ->
                         runCatching {
@@ -426,9 +419,9 @@ fun WebpToolsContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.type == null) to isPortrait,
+                targetState = (component.type == null) to isPortrait,
                 onSecondaryButtonClick = {
-                    when (viewModel.type) {
+                    when (component.type) {
                         is Screen.WebpTools.Type.WebpToImage -> {
                             pickSingleWebpLauncher.launch(
                                 arrayOf("image/webp")
@@ -438,12 +431,12 @@ fun WebpToolsContent(
                         else -> imagePicker.pickImage()
                     }
                 },
-                isPrimaryButtonVisible = viewModel.canSave,
+                isPrimaryButtonVisible = component.canSave,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
                 },
                 onPrimaryButtonLongClick = {
-                    if (viewModel.type is Screen.WebpTools.Type.ImageToWebp) {
+                    if (component.type is Screen.WebpTools.Type.ImageToWebp) {
                         saveBitmaps(null)
                     } else showFolderSelectionDialog = true
                 },
@@ -451,7 +444,7 @@ fun WebpToolsContent(
                     if (isPortrait) it()
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (viewModel.type is Screen.WebpTools.Type.ImageToWebp) {
+                onSecondaryButtonLongClick = if (component.type is Screen.WebpTools.Type.ImageToWebp) {
                     {
                         showOneTimeImagePickingDialog = true
                     }
@@ -524,25 +517,25 @@ fun WebpToolsContent(
             }
         },
         isPortrait = isPortrait,
-        canShowScreenData = viewModel.type != null
+        canShowScreenData = component.type != null
     )
 
-    if (viewModel.isSaving) {
-        if (viewModel.left != -1) {
+    if (component.isSaving) {
+        if (component.left != -1) {
             LoadingDialog(
-                done = viewModel.done,
-                left = viewModel.left,
-                onCancelLoading = viewModel::cancelSaving
+                done = component.done,
+                left = component.left,
+                onCancelLoading = component::cancelSaving
             )
         } else {
             LoadingDialog(
-                onCancelLoading = viewModel::cancelSaving
+                onCancelLoading = component::cancelSaving
             )
         }
     }
 
     ExitWithoutSavingDialog(
-        onExit = viewModel::clearAll,
+        onExit = component::clearAll,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
@@ -553,7 +546,7 @@ private fun Uri.isWebp(context: Context): Boolean {
         .or(context.contentResolver.getType(this)?.contains("webp") == true)
 }
 
-private val WebpToolsViewModel.canSave: Boolean
+private val WebpToolsComponent.canSave: Boolean
     get() = (imageFrames == ImageFrames.All)
         .or(type is Screen.WebpTools.Type.ImageToWebp)
         .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

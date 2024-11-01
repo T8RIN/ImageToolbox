@@ -101,6 +101,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
 internal fun FilterTemplateInfoSheet(
+    component: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
     templateFilter: TemplateFilter,
@@ -409,7 +410,8 @@ internal fun FilterTemplateInfoSheet(
         FilterTemplateCreationSheet(
             visible = showEditTemplateSheet,
             onDismiss = { showEditTemplateSheet = false },
-            initialTemplateFilter = templateFilter
+            initialTemplateFilter = templateFilter,
+            component = component
         )
     }
 }

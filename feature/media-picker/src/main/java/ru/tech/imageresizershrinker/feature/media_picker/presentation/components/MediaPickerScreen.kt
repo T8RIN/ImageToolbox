@@ -90,23 +90,23 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.viewModel.MediaPickerViewModel
+import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
 fun MediaPickerScreen(
     allowedMedia: AllowedMedia,
     allowSelection: Boolean,
-    viewModel: MediaPickerViewModel,
+    component: MediaPickerComponent,
     sendMediaAsResult: (List<Uri>) -> Unit,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean
 ) {
     val scope = rememberCoroutineScope()
     var selectedAlbumIndex by rememberSaveable { mutableLongStateOf(-1) }
-    val selectedMedia = viewModel.selectedMedia
+    val selectedMedia = component.selectedMedia
 
-    val albumsState by viewModel.albumsState.collectAsState()
-    val mediaState by viewModel.mediaState.collectAsState()
+    val albumsState by component.albumsState.collectAsState()
+    val mediaState by component.mediaState.collectAsState()
     val chipColors = InputChipDefaults.inputChipColors(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         labelColor = MaterialTheme.colorScheme.onSurfaceVariant
@@ -149,7 +149,7 @@ fun MediaPickerScreen(
                                 HapticFeedbackType.LongPress
                             )
                             selectedAlbumIndex = it.id
-                            viewModel.getAlbum(selectedAlbumIndex)
+                            component.getAlbum(selectedAlbumIndex)
                         },
                         colors = chipColors,
                         shape = RoundedCornerShape(16.dp),
@@ -328,7 +328,7 @@ fun MediaPickerScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     EnhancedButton(
                         onClick = {
-                            viewModel.init(allowedMedia)
+                            component.init(allowedMedia)
                         }
                     ) {
                         Text(stringResource(id = R.string.try_again))
@@ -340,6 +340,6 @@ fun MediaPickerScreen(
     }
     BackHandler(selectedAlbumIndex != -1L) {
         selectedAlbumIndex = -1L
-        viewModel.getAlbum(selectedAlbumIndex)
+        component.getAlbum(selectedAlbumIndex)
     }
 }

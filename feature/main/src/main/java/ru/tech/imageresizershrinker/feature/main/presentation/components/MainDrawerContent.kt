@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
@@ -35,26 +34,24 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
@@ -90,43 +87,22 @@ internal fun MainDrawerContent(
         }
     }
 
-    var animatedScale by remember {
-        mutableFloatStateOf(1f)
-    }
-    var animatedOffsetX by remember {
+    var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
     }
-    var animatedOffsetY by remember {
-        mutableFloatStateOf(0f)
-    }
-    var animatedShape by remember {
-        mutableStateOf(
-            RoundedCornerShape(
-                topStart = 0.dp,
-                bottomStart = 0.dp,
-                bottomEnd = 24.dp,
-                topEnd = 24.dp
-            )
-        )
-    }
-    var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
-    val scale by animateFloatAsState(animatedScale)
-    val offsetX by animateFloatAsState(animatedOffsetX)
-    val offsetY by animateFloatAsState(animatedOffsetY)
-    val shape = animateShape(animatedShape)
+    val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
 
     val clean = {
-        animatedOffsetX = 0f
-        animatedOffsetY = 0f
-        animatedScale = 1f
-        animatedShape = RoundedCornerShape(
+        predictiveBackProgress = 0f
+    }
+    val shape = if (isSheetSlideable) {
+        RoundedCornerShape(
             topStart = 0.dp,
             bottomStart = 0.dp,
             bottomEnd = 24.dp,
             topEnd = 24.dp
         )
-        initialSwipeOffset = Offset.Zero
-    }
+    } else RectangleShape
 
     LaunchedEffect(sideSheetState.isOpen, isSheetSlideable) {
         if (!sideSheetState.isOpen || isSheetSlideable) {
@@ -141,13 +117,8 @@ internal fun MainDrawerContent(
                 progress.collect { event ->
                     if (event.progress <= 0.05f) {
                         clean()
-                        initialSwipeOffset = Offset(event.touchX, event.touchY)
                     }
-
-                    animatedOffsetX = initialSwipeOffset.x - event.touchX
-                    animatedOffsetY = event.touchY - initialSwipeOffset.y
-                    animatedShape = RoundedCornerShape(24.dp)
-                    animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                    predictiveBackProgress = event.progress
                 }
                 sideSheetState.close()
             } catch (e: CancellationException) {
@@ -155,7 +126,10 @@ internal fun MainDrawerContent(
             }
         }
     }
-
+    val autoElevation by animateDpAsState(
+        if (settingsState.drawContainerShadows) 16.dp
+        else 0.dp
+    )
     ModalDrawerSheet(
         modifier = Modifier
             .width(animateDpAsState(targetValue = widthState).value)
@@ -163,30 +137,53 @@ internal fun MainDrawerContent(
                 if (isSheetSlideable) {
                     Modifier
                         .graphicsLayer {
-                            scaleX = scale
-                            scaleY = scale
-                        }
-                        .offset {
-                            IntOffset(offsetX.toInt(), offsetY.toInt())
+                            val sheetOffset = 0f
+                            val sheetHeight = size.height
+                            if (!sheetOffset.isNaN() && !sheetHeight.isNaN() && sheetHeight != 0f) {
+                                val progress = animatedPredictiveBackProgress
+                                scaleX = calculatePredictiveBackScaleX(progress)
+                                scaleY = calculatePredictiveBackScaleY(progress)
+                                transformOrigin =
+                                    TransformOrigin((sheetOffset + sheetHeight) / sheetHeight, 0.5f)
+                            }
                         }
                         .offset(-((settingsState.borderWidth + 1.dp)))
-                        .border(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(
-                                0.3f,
-                                DrawerDefaults.standardContainerColor
-                            ),
-                            shape
+                        .autoElevatedBorder(
+                            shape = shape,
+                            autoElevation = autoElevation
+                        )
+                        .autoElevatedBorder(
+                            height = 0.dp,
+                            shape = shape,
+                            autoElevation = autoElevation
                         )
                         .clip(shape)
                 } else Modifier
             ),
         drawerContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-        drawerShape = if (isSheetSlideable) shape else RectangleShape,
+        drawerShape = shape,
         windowInsets = WindowInsets(0)
     ) {
         LocalLayoutDirection.ProvidesValue(layoutDirection) {
             settingsBlock()
         }
+    }
+}
+
+fun GraphicsLayerScope.calculatePredictiveBackScaleX(progress: Float): Float {
+    val width = size.width
+    return if (width.isNaN() || width == 0f) {
+        1f
+    } else {
+        (1f - progress).coerceAtLeast(0.8f)
+    }
+}
+
+fun GraphicsLayerScope.calculatePredictiveBackScaleY(progress: Float): Float {
+    val height = size.height
+    return if (height.isNaN() || height == 0f) {
+        1f
+    } else {
+        (1f - progress).coerceAtLeast(0.8f)
     }
 }

@@ -18,17 +18,16 @@
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 
 @Composable
 fun SecureModeHandler(
     enabled: Boolean = LocalSettingsState.current.isSecureMode
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
 
     LaunchedEffect(enabled) {
         if (enabled) {

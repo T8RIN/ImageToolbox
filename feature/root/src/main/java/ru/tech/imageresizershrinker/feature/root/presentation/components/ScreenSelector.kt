@@ -17,28 +17,40 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
-import androidx.activity.ComponentActivity
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatable
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.stack.animation.slide
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.popWhile
+import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import dev.olshevski.navigation.reimagined.AnimatedNavHost
-import dev.olshevski.navigation.reimagined.NavTransitionQueueing
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerContent
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.animation.NavigationTransition
+import ru.tech.imageresizershrinker.core.ui.utils.animation.AlphaEasing
+import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
+import ru.tech.imageresizershrinker.core.ui.utils.animation.PointToPointEasing
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.navigateNew
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.safePop
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
@@ -64,7 +76,8 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsConte
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageContent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextContent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertContent
-import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
+import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditContent
@@ -76,14 +89,15 @@ import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
 import ru.tech.imageresizershrinker.image_splitting.presentation.ImageSplitterContent
 import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGenerationContent
 
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 internal fun ScreenSelector(
-    viewModel: RootViewModel,
+    component: RootComponent,
     onRegisterScreenOpen: (Screen) -> Unit,
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val scope = rememberCoroutineScope()
-    val navController = viewModel.navController
+    val navController = component.navController
     val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
     val appColorTuple = rememberAppColorTuple(
@@ -92,8 +106,8 @@ internal fun ScreenSelector(
         darkTheme = settingsState.isNightMode
     )
     val onGoBack: () -> Unit = {
-        viewModel.updateUris(null)
-        navController.safePop()
+        component.updateUris(null)
+        navController.pop()
         scope.launch {
             delay(350L) //delay for screen anim
             themeState.updateColorTuple(appColorTuple)
@@ -101,323 +115,354 @@ internal fun ScreenSelector(
     }
 
     val onNavigate: (Screen) -> Unit = { destination ->
-        navController.navigate(destination)
+        navController.push(destination)
         onRegisterScreenOpen(destination)
     }
 
     val onTryGetUpdate: (Boolean, Lambda) -> Unit = { isNewRequest, onNoUpdates ->
-        viewModel.tryGetUpdate(
+        component.tryGetUpdate(
             isNewRequest = isNewRequest,
             isInstalledFromMarket = context.isInstalledFromPlayStore(),
             onNoUpdates = onNoUpdates
         )
     }
 
-    AnimatedNavHost(
-        controller = navController,
-        transitionQueueing = NavTransitionQueueing.ConflateQueued,
-        transitionSpec = NavigationTransition
+    val childStack by component.childStack.subscribeAsState()
+    Children(
+        stack = childStack,
+        modifier = Modifier.fillMaxSize(),
+        animation = predictiveBackAnimation(
+            backHandler = component.backHandler,
+            onBack = onGoBack,
+            fallbackAnimation = stackAnimation(
+                fade(
+                    tween(
+                        durationMillis = 400,
+                        easing = AlphaEasing
+                    )
+                ) + slide(
+                    tween(
+                        durationMillis = 600,
+                        easing = FancyTransitionEasing
+                    )
+                ) + scale(
+                    tween(
+                        durationMillis = 800,
+                        easing = PointToPointEasing
+                    )
+                )
+            ),
+            selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
+        )
     ) { screen ->
-        when (screen) {
-            is Screen.Settings -> {
+        when (val instance = screen.instance) {
+            is NavigationChild.Settings -> {
                 SettingsContent(
+                    component = instance.component,
                     onTryGetUpdate = onTryGetUpdate,
-                    isUpdateAvailable = viewModel.isUpdateAvailable,
+                    isUpdateAvailable = component.isUpdateAvailable,
                     onGoBack = onGoBack,
                     onNavigateToEasterEgg = {
-                        navController.navigateNew(Screen.EasterEgg).also {
-                            if (it) onRegisterScreenOpen(Screen.EasterEgg)
-                        }
+                        navController.pushNew(Screen.EasterEgg)
+                        onRegisterScreenOpen(Screen.EasterEgg)
                     },
                     onNavigateToSettings = {
-                        navController.navigateNew(Screen.Settings).also {
-                            if (it) onRegisterScreenOpen(Screen.Settings)
-                        }
+                        navController.pushNew(Screen.Settings)
+                        onRegisterScreenOpen(Screen.Settings)
+                        true
                     }
                 )
             }
 
-            is Screen.EasterEgg -> {
-                EasterEggContent(onGoBack = onGoBack)
+            is NavigationChild.EasterEgg -> {
+                EasterEggContent(
+                    onGoBack = onGoBack,
+                    component = instance.component
+                )
             }
 
-            is Screen.Main -> {
+            is NavigationChild.Main -> {
                 MainContent(
                     onTryGetUpdate = onTryGetUpdate,
-                    isUpdateAvailable = viewModel.isUpdateAvailable,
-                    onUpdateUris = viewModel::updateUris,
+                    isUpdateAvailable = component.isUpdateAvailable,
+                    onUpdateUris = component::updateUris,
                     onNavigateToSettings = {
-                        navController.navigateNew(Screen.Settings).also {
-                            if (it) onRegisterScreenOpen(Screen.Settings)
-                        }
+                        navController.pushNew(Screen.Settings)
+                        onRegisterScreenOpen(Screen.Settings)
+                        true
                     },
                     onNavigateToScreenWithPopUpTo = { destination ->
-                        navController.popUpTo { it == Screen.Main }
+                        navController.popWhile { it != Screen.Main }
                         onNavigate(destination)
                     },
                     onNavigateToEasterEgg = {
-                        navController.navigateNew(Screen.EasterEgg).also {
-                            if (it) onRegisterScreenOpen(Screen.EasterEgg)
-                        }
+                        navController.pushNew(Screen.EasterEgg)
+                        onRegisterScreenOpen(Screen.EasterEgg)
                     },
-                    onToggleFavorite = viewModel::toggleFavoriteScreen
+                    onToggleFavorite = component::toggleFavoriteScreen,
+                    settingsComponent = instance.component
                 )
             }
 
-            is Screen.SingleEdit -> {
+            is NavigationChild.SingleEdit -> {
                 SingleEditContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.ResizeAndConvert -> {
+            is NavigationChild.ResizeAndConvert -> {
                 ResizeAndConvertContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.DeleteExif -> {
+            is NavigationChild.DeleteExif -> {
                 DeleteExifContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.WeightResize -> {
+            is NavigationChild.WeightResize -> {
                 WeightResizeContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.Crop -> {
+            is NavigationChild.Crop -> {
                 CropContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.PickColorFromImage -> {
+            is NavigationChild.PickColorFromImage -> {
                 PickColorFromImageContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.ImagePreview -> {
+            is NavigationChild.ImagePreview -> {
                 ImagePreviewContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.GeneratePalette -> {
+            is NavigationChild.GeneratePalette -> {
                 GeneratePaletteContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.Compare -> {
+            is NavigationChild.Compare -> {
                 CompareContent(
-                    comparableUris = screen.uris
-                        ?.takeIf { it.size == 2 }
-                        ?.let { it[0] to it[1] },
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.LoadNetImage -> {
+            is NavigationChild.LoadNetImage -> {
                 LoadNetImageContent(
-                    url = screen.url,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.Filter -> {
+            is NavigationChild.Filter -> {
                 FiltersContent(
-                    type = screen.type,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.LimitResize -> {
+            is NavigationChild.LimitResize -> {
                 LimitsResizeContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.Draw -> {
+            is NavigationChild.Draw -> {
                 DrawContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.Cipher -> {
+            is NavigationChild.Cipher -> {
                 CipherContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.EraseBackground -> {
+            is NavigationChild.EraseBackground -> {
                 EraseBackgroundContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.ImageStitching -> {
+            is NavigationChild.ImageStitching -> {
                 ImageStitchingContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.PdfTools -> {
+            is NavigationChild.PdfTools -> {
                 PdfToolsContent(
-                    type = screen.type,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.RecognizeText -> {
+            is NavigationChild.RecognizeText -> {
                 RecognizeTextContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.GradientMaker -> {
+            is NavigationChild.GradientMaker -> {
                 GradientMakerContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.Watermarking -> {
+            is NavigationChild.Watermarking -> {
                 WatermarkingContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.GifTools -> {
+            is NavigationChild.GifTools -> {
                 GifToolsContent(
-                    typeState = screen.type,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.ApngTools -> {
+            is NavigationChild.ApngTools -> {
                 ApngToolsContent(
-                    typeState = screen.type,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.Zip -> {
+            is NavigationChild.Zip -> {
                 ZipContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.JxlTools -> {
+            is NavigationChild.JxlTools -> {
                 JxlToolsContent(
-                    typeState = screen.type,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.SvgMaker -> {
+            is NavigationChild.SvgMaker -> {
                 SvgMakerContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.FormatConversion -> {
+            is NavigationChild.FormatConversion -> {
                 FormatConversionContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.DocumentScanner -> {
-                DocumentScannerContent(onGoBack = onGoBack)
-            }
-
-            is Screen.ScanQrCode -> {
-                ScanQrCodeContent(
-                    qrCodeContent = screen.qrCodeContent,
+            is NavigationChild.DocumentScanner -> {
+                DocumentScannerContent(
+                    component = instance.component,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.ImageStacking -> {
+            is NavigationChild.ScanQrCode -> {
+                ScanQrCodeContent(
+                    component = instance.component,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is NavigationChild.ImageStacking -> {
                 ImageStackingContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.ImageSplitting -> {
+            is NavigationChild.ImageSplitting -> {
                 ImageSplitterContent(
-                    uriState = screen.uri,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            Screen.ColorTools -> {
-                ColorToolsContent(onGoBack = onGoBack)
+            is NavigationChild.ColorTools -> {
+                ColorToolsContent(
+                    component = instance.component,
+                    onGoBack = onGoBack
+                )
             }
 
-            is Screen.WebpTools -> {
+            is NavigationChild.WebpTools -> {
                 WebpToolsContent(
-                    typeState = screen.type,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            Screen.NoiseGeneration -> {
+            is NavigationChild.NoiseGeneration -> {
                 NoiseGenerationContent(
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
 
-            is Screen.CollageMaker -> {
+            is NavigationChild.CollageMaker -> {
                 CollageMakerContent(
-                    uriState = screen.uris,
+                    component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
                 )
             }
         }
     }
-    ScreenBasedMaxBrightnessEnforcement(navController.currentDestination())
+    ScreenBasedMaxBrightnessEnforcement(childStack.items.lastOrNull()?.configuration)
 }

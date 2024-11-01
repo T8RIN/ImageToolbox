@@ -24,10 +24,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
-import dev.olshevski.navigation.reimagined.NavAction
-import dev.olshevski.navigation.reimagined.NavTransitionSpec
 
 fun fancySlideTransition(
     isForward: Boolean,
@@ -53,17 +49,6 @@ fun fancySlideTransition(
         tween(300, 100)
     )
 }
-
-val NavigationTransition: NavTransitionSpec<Any>
-    @Composable
-    get() = LocalConfiguration.current.screenWidthDp.let { screenWidth ->
-        NavTransitionSpec { action, _, _ ->
-            fancySlideTransition(
-                isForward = action != NavAction.Pop,
-                screenWidthDp = screenWidth
-            )
-        }
-    }
 
 val PageOpenTransition = slideInHorizontally(
     openCloseTransitionSpec()

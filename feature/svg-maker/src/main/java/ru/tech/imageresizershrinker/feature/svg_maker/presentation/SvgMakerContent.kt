@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.svg_maker.presentation
 
 import android.app.Activity
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,7 +27,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,7 +38,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
@@ -70,20 +67,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.components.SvgParamsSelector
-import ru.tech.imageresizershrinker.feature.svg_maker.presentation.viewModel.SvgMakerViewModel
+import ru.tech.imageresizershrinker.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
 
 
 @Composable
 fun SvgMakerContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: SvgMakerViewModel = hiltViewModel()
+    component: SvgMakerComponent
 ) {
     val context = LocalContext.current as Activity
-
-    LaunchedEffect(uriState) {
-        uriState?.let { viewModel.setUris(it) }
-    }
 
     val toastHostState = LocalToastHostState.current
 
@@ -104,25 +96,25 @@ fun SvgMakerContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(viewModel::setUris)
+        list.takeIf { it.isNotEmpty() }?.let(component::setUris)
     }
 
     AutoFilePicker(
         onAutoPick = imagePicker::pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     val addImagesImagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(viewModel::addUris)
+        list.takeIf { it.isNotEmpty() }?.let(component::addUris)
     }
 
     val isPortrait by isPortraitOrientationAsState()
@@ -130,6 +122,7 @@ fun SvgMakerContent(
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             Text(
                 text = stringResource(R.string.images_to_svg),
@@ -145,18 +138,18 @@ fun SvgMakerContent(
         actions = {
             ShareButton(
                 onShare = {
-                    viewModel.performSharing(
+                    component.performSharing(
                         onError = onError,
                         onComplete = showConfetti
                     )
                 },
-                enabled = !viewModel.isSaving && viewModel.uris.isNotEmpty()
+                enabled = !component.isSaving && component.uris.isNotEmpty()
             )
             EnhancedIconButton(
                 containerColor = Color.Transparent,
                 contentColor = LocalContentColor.current,
                 enableAutoShadowAndBorder = false,
-                enabled = viewModel.params != SvgParams.Default,
+                enabled = component.params != SvgParams.Default,
                 onClick = { showResetDialog = true }
             ) {
                 Icon(
@@ -185,9 +178,9 @@ fun SvgMakerContent(
                         } else Modifier
                     )
                     .padding(vertical = 24.dp),
-                uris = viewModel.uris,
+                uris = component.uris,
                 isPortrait = true,
-                onRemoveUri = viewModel::removeUri,
+                onRemoveUri = component::removeUri,
                 onAddUris = {
                     runCatching {
                         addImagesImagePicker.pickImage()
@@ -209,13 +202,13 @@ fun SvgMakerContent(
         },
         controls = {
             SvgParamsSelector(
-                value = viewModel.params,
-                onValueChange = viewModel::updateParams
+                value = component.params,
+                onValueChange = component::updateParams
             )
         },
         buttons = {
             val save: (oneTimeSaveLocationUri: String?) -> Unit = {
-                viewModel.save(it) { results ->
+                component.save(it) { results ->
                     context.parseSaveResults(
                         scope = scope,
                         results = results,
@@ -232,7 +225,7 @@ fun SvgMakerContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = viewModel.uris.isEmpty() to isPortrait,
+                targetState = component.uris.isEmpty() to isPortrait,
                 onSecondaryButtonClick = {
                     runCatching {
                         imagePicker.pickImage()
@@ -246,7 +239,7 @@ fun SvgMakerContent(
                         }
                     }
                 },
-                isPrimaryButtonVisible = viewModel.uris.isNotEmpty(),
+                isPrimaryButtonVisible = component.uris.isNotEmpty(),
                 onPrimaryButtonClick = {
                     save(null)
                 },
@@ -273,7 +266,7 @@ fun SvgMakerContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = viewModel.uris.isNotEmpty(),
+        canShowScreenData = component.uris.isNotEmpty(),
         isPortrait = isPortrait
     )
 
@@ -283,7 +276,7 @@ fun SvgMakerContent(
         title = stringResource(R.string.reset_properties),
         text = stringResource(R.string.reset_properties_sub),
         onReset = {
-            viewModel.updateParams(SvgParams.Default)
+            component.updateParams(SvgParams.Default)
         }
     )
 
@@ -293,11 +286,11 @@ fun SvgMakerContent(
         visible = showExitDialog
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.left,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.left,
+            onCancelLoading = component::cancelSaving
         )
     }
 

@@ -78,6 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 fun AdaptiveLayoutScreen(
     title: @Composable () -> Unit,
     onGoBack: () -> Unit,
+    shouldDisableBackHandler: Boolean,
     actions: @Composable RowScope.() -> Unit,
     topAppBarPersistentActions: @Composable RowScope.() -> Unit = {},
     imagePreview: @Composable () -> Unit,
@@ -250,7 +251,7 @@ fun AdaptiveLayoutScreen(
                 }
             }
 
-            BackHandler { onGoBack() }
+            BackHandler(!shouldDisableBackHandler) { onGoBack() }
         }
     }
 }

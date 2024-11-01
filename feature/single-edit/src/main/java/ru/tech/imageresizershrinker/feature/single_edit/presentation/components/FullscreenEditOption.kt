@@ -102,7 +102,8 @@ fun FullscreenEditOption(
     val direction = LocalLayoutDirection.current
     val focus = LocalFocusManager.current
     AnimatedVisibility(
-        visible = visible
+        visible = visible,
+        modifier = Modifier.fillMaxSize()
     ) {
         Surface(Modifier.fillMaxSize()) {
             Column {

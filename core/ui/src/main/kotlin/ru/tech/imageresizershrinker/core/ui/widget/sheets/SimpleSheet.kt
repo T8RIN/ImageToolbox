@@ -39,17 +39,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.GraphicsLayerScope
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
 import com.t8rin.modalsheet.ModalSheetState
@@ -57,7 +56,6 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.ModalSheetAnimationSpec
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import kotlin.coroutines.cancellation.CancellationException
@@ -80,31 +78,15 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
-        var animatedScale by remember {
-            mutableFloatStateOf(1f)
-        }
-        var animatedOffsetX by remember {
+        var predictiveBackProgress by remember {
             mutableFloatStateOf(0f)
         }
-        var animatedOffsetY by remember {
-            mutableFloatStateOf(0f)
-        }
-        var animatedShape by remember {
-            mutableStateOf(SimpleSheetDefaults.shape)
-        }
-        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
-        val scale by animateFloatAsState(animatedScale)
-        val offsetX by animateFloatAsState(animatedOffsetX)
-        val offsetY by animateFloatAsState(animatedOffsetY)
-        val shape = animateShape(animatedShape)
+        val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
 
         val clean = {
-            animatedOffsetX = 0f
-            animatedOffsetY = 0f
-            animatedScale = 1f
-            animatedShape = SimpleSheetDefaults.shape
-            initialSwipeOffset = Offset.Zero
+            predictiveBackProgress = 0f
         }
+        val shape = SimpleSheetDefaults.shape
 
         LaunchedEffect(visible) {
             if (!visible) {
@@ -119,14 +101,18 @@ fun SimpleSheet(
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                }
-                .offset {
-                    IntOffset(offsetX.toInt(), offsetY.toInt())
-                }
                 .statusBarsPadding()
+                .graphicsLayer {
+                    val sheetOffset = 0f
+                    val sheetHeight = size.height
+                    if (!sheetOffset.isNaN() && !sheetHeight.isNaN() && sheetHeight != 0f) {
+                        val progress = animatedPredictiveBackProgress
+                        scaleX = calculatePredictiveBackScaleX(progress)
+                        scaleY = calculatePredictiveBackScaleY(progress)
+                        transformOrigin =
+                            TransformOrigin(0.5f, (sheetOffset + sheetHeight) / sheetHeight)
+                    }
+                }
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
                     shape = shape,
@@ -149,13 +135,8 @@ fun SimpleSheet(
                             progress.collect { event ->
                                 if (event.progress <= 0.05f) {
                                     clean()
-                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
                                 }
-
-                                animatedOffsetX = event.touchX - initialSwipeOffset.x
-                                animatedOffsetY = event.touchY - initialSwipeOffset.y
-                                animatedShape = RoundedCornerShape(28.dp)
-                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                                predictiveBackProgress = event.progress
                             }
                             onDismiss(false)
                         } catch (e: CancellationException) {
@@ -192,31 +173,15 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
-        var animatedScale by remember {
-            mutableFloatStateOf(1f)
-        }
-        var animatedOffsetX by remember {
+        var predictiveBackProgress by remember {
             mutableFloatStateOf(0f)
         }
-        var animatedOffsetY by remember {
-            mutableFloatStateOf(0f)
-        }
-        var animatedShape by remember {
-            mutableStateOf(SimpleSheetDefaults.shape)
-        }
-        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
-        val scale by animateFloatAsState(animatedScale)
-        val offsetX by animateFloatAsState(animatedOffsetX)
-        val offsetY by animateFloatAsState(animatedOffsetY)
-        val shape = animateShape(animatedShape)
+        val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
 
         val clean = {
-            animatedOffsetX = 0f
-            animatedOffsetY = 0f
-            animatedScale = 1f
-            animatedShape = SimpleSheetDefaults.shape
-            initialSwipeOffset = Offset.Zero
+            predictiveBackProgress = 0f
         }
+        val shape = SimpleSheetDefaults.shape
 
         LaunchedEffect(visible) {
             if (!visible) {
@@ -231,14 +196,18 @@ fun SimpleSheet(
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                }
-                .offset {
-                    IntOffset(offsetX.toInt(), offsetY.toInt())
-                }
                 .statusBarsPadding()
+                .graphicsLayer {
+                    val sheetOffset = 0f
+                    val sheetHeight = size.height
+                    if (!sheetOffset.isNaN() && !sheetHeight.isNaN() && sheetHeight != 0f) {
+                        val progress = animatedPredictiveBackProgress
+                        scaleX = calculatePredictiveBackScaleX(progress)
+                        scaleY = calculatePredictiveBackScaleY(progress)
+                        transformOrigin =
+                            TransformOrigin(0.5f, (sheetOffset + sheetHeight) / sheetHeight)
+                    }
+                }
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
                     shape = shape,
@@ -261,13 +230,8 @@ fun SimpleSheet(
                             progress.collect { event ->
                                 if (event.progress <= 0.05f) {
                                     clean()
-                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
                                 }
-
-                                animatedOffsetX = event.touchX - initialSwipeOffset.x
-                                animatedOffsetY = event.touchY - initialSwipeOffset.y
-                                animatedShape = RoundedCornerShape(28.dp)
-                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                                predictiveBackProgress = event.progress
                             }
                             onDismiss(false)
                         } catch (e: CancellationException) {
@@ -321,31 +285,15 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
-        var animatedScale by remember {
-            mutableFloatStateOf(1f)
-        }
-        var animatedOffsetX by remember {
+        var predictiveBackProgress by remember {
             mutableFloatStateOf(0f)
         }
-        var animatedOffsetY by remember {
-            mutableFloatStateOf(0f)
-        }
-        var animatedShape by remember {
-            mutableStateOf(SimpleSheetDefaults.shape)
-        }
-        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
-        val scale by animateFloatAsState(animatedScale)
-        val offsetX by animateFloatAsState(animatedOffsetX)
-        val offsetY by animateFloatAsState(animatedOffsetY)
-        val shape = animateShape(animatedShape)
+        val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
 
         val clean = {
-            animatedOffsetX = 0f
-            animatedOffsetY = 0f
-            animatedScale = 1f
-            animatedShape = SimpleSheetDefaults.shape
-            initialSwipeOffset = Offset.Zero
+            predictiveBackProgress = 0f
         }
+        val shape = SimpleSheetDefaults.shape
 
         LaunchedEffect(visible) {
             if (!visible) {
@@ -360,14 +308,18 @@ fun SimpleSheet(
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                }
-                .offset {
-                    IntOffset(offsetX.toInt(), offsetY.toInt())
-                }
                 .statusBarsPadding()
+                .graphicsLayer {
+                    val sheetOffset = 0f
+                    val sheetHeight = size.height
+                    if (!sheetOffset.isNaN() && !sheetHeight.isNaN() && sheetHeight != 0f) {
+                        val progress = animatedPredictiveBackProgress
+                        scaleX = calculatePredictiveBackScaleX(progress)
+                        scaleY = calculatePredictiveBackScaleY(progress)
+                        transformOrigin =
+                            TransformOrigin(0.5f, (sheetOffset + sheetHeight) / sheetHeight)
+                    }
+                }
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
                     shape = shape,
@@ -390,13 +342,8 @@ fun SimpleSheet(
                             progress.collect { event ->
                                 if (event.progress <= 0.05f) {
                                     clean()
-                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
                                 }
-
-                                animatedOffsetX = event.touchX - initialSwipeOffset.x
-                                animatedOffsetY = event.touchY - initialSwipeOffset.y
-                                animatedShape = RoundedCornerShape(28.dp)
-                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                                predictiveBackProgress = event.progress
                             }
                             onDismiss(false)
                         } catch (e: CancellationException) {
@@ -460,31 +407,15 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
-        var animatedScale by remember {
-            mutableFloatStateOf(1f)
-        }
-        var animatedOffsetX by remember {
+        var predictiveBackProgress by remember {
             mutableFloatStateOf(0f)
         }
-        var animatedOffsetY by remember {
-            mutableFloatStateOf(0f)
-        }
-        var animatedShape by remember {
-            mutableStateOf(SimpleSheetDefaults.shape)
-        }
-        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
-        val scale by animateFloatAsState(animatedScale)
-        val offsetX by animateFloatAsState(animatedOffsetX)
-        val offsetY by animateFloatAsState(animatedOffsetY)
-        val shape = animateShape(animatedShape)
+        val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
 
         val clean = {
-            animatedOffsetX = 0f
-            animatedOffsetY = 0f
-            animatedScale = 1f
-            animatedShape = SimpleSheetDefaults.shape
-            initialSwipeOffset = Offset.Zero
+            predictiveBackProgress = 0f
         }
+        val shape = SimpleSheetDefaults.shape
 
         LaunchedEffect(sheetState.isVisible) {
             if (!sheetState.isVisible) {
@@ -498,14 +429,18 @@ fun SimpleSheet(
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                }
-                .offset {
-                    IntOffset(offsetX.toInt(), offsetY.toInt())
-                }
                 .statusBarsPadding()
+                .graphicsLayer {
+                    val sheetOffset = 0f
+                    val sheetHeight = size.height
+                    if (!sheetOffset.isNaN() && !sheetHeight.isNaN() && sheetHeight != 0f) {
+                        val progress = animatedPredictiveBackProgress
+                        scaleX = calculatePredictiveBackScaleX(progress)
+                        scaleY = calculatePredictiveBackScaleY(progress)
+                        transformOrigin =
+                            TransformOrigin(0.5f, (sheetOffset + sheetHeight) / sheetHeight)
+                    }
+                }
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
                     shape = shape,
@@ -527,13 +462,8 @@ fun SimpleSheet(
                             progress.collect { event ->
                                 if (event.progress <= 0.05f) {
                                     clean()
-                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
                                 }
-
-                                animatedOffsetX = event.touchX - initialSwipeOffset.x
-                                animatedOffsetY = event.touchY - initialSwipeOffset.y
-                                animatedShape = shape
-                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                                predictiveBackProgress = event.progress
                             }
                             sheetState.hide()
                         } catch (e: CancellationException) {
@@ -583,4 +513,22 @@ object SimpleSheetDefaults {
         @Composable
         get() = MaterialTheme.colorScheme.surfaceContainer
 
+}
+
+private fun GraphicsLayerScope.calculatePredictiveBackScaleX(progress: Float): Float {
+    val width = size.width
+    return if (width.isNaN() || width == 0f) {
+        1f
+    } else {
+        (1f - progress).coerceAtLeast(0.8f)
+    }
+}
+
+private fun GraphicsLayerScope.calculatePredictiveBackScaleY(progress: Float): Float {
+    val height = size.height
+    return if (height.isNaN() || height == 0f) {
+        1f
+    } else {
+        (1f - progress).coerceAtLeast(0.8f)
+    }
 }

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.document_scanner.presentation
 
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -55,7 +54,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -64,7 +62,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -74,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAs
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberDocumentScanner
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -91,18 +89,18 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.document_scanner.presentation.viewModel.DocumentScannerViewModel
+import ru.tech.imageresizershrinker.feature.document_scanner.presentation.screenLogic.DocumentScannerComponent
 
 
 @Composable
 fun DocumentScannerContent(
     onGoBack: () -> Unit,
-    viewModel: DocumentScannerViewModel = hiltViewModel()
+    component: DocumentScannerComponent
 ) {
     val haptics = LocalHapticFeedback.current
 
     val settingsState = LocalSettingsState.current
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiHostState = LocalConfettiHostState.current
@@ -115,16 +113,15 @@ fun DocumentScannerContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) {
-            showExitDialog = true
-        } else onGoBack()
+        if (component.haveChanges) showExitDialog = true
+        else onGoBack()
     }
 
     val savePdfLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
             it?.let { uri ->
-                viewModel.savePdfTo(uri) { result ->
+                component.savePdfTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
                         onSuccess = {
@@ -139,11 +136,11 @@ fun DocumentScannerContent(
     )
 
     val documentScanner = rememberDocumentScanner {
-        viewModel.parseScanResult(it)
+        component.parseScanResult(it)
     }
 
     val additionalDocumentScanner = rememberDocumentScanner {
-        viewModel.addScanResult(it)
+        component.addScanResult(it)
     }
 
     AutoFilePicker(
@@ -154,7 +151,7 @@ fun DocumentScannerContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmaps(it) { results ->
+        component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 scope = scope,
                 results = results,
@@ -166,6 +163,7 @@ fun DocumentScannerContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             Text(
                 text = stringResource(R.string.document_scanner),
@@ -227,9 +225,9 @@ fun DocumentScannerContent(
         controls = {
             Spacer(modifier = Modifier.height(24.dp))
             UrisPreview(
-                uris = viewModel.uris,
+                uris = component.uris,
                 isPortrait = isPortrait,
-                onRemoveUri = viewModel::removeImageUri,
+                onRemoveUri = component::removeImageUri,
                 onAddUris = {
                     runCatching {
                         additionalDocumentScanner.scan()
@@ -270,7 +268,7 @@ fun DocumentScannerContent(
                 }
                 EnhancedButton(
                     onClick = {
-                        viewModel.sharePdf(showConfetti)
+                        component.sharePdf(showConfetti)
                     },
                     containerColor = MaterialTheme.colorScheme.secondary,
                     contentPadding = PaddingValues(
@@ -302,7 +300,7 @@ fun DocumentScannerContent(
                 Spacer(Modifier.width(8.dp))
                 EnhancedButton(
                     onClick = {
-                        savePdfLauncher.launch(viewModel.generatePdfFilename())
+                        savePdfLauncher.launch(component.generatePdfFilename())
                     },
                     contentPadding = PaddingValues(
                         top = 8.dp,
@@ -358,18 +356,18 @@ fun DocumentScannerContent(
                     color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
                 )
             }
-            if (viewModel.imageFormat.canChangeCompressionValue) {
+            if (component.imageFormat.canChangeCompressionValue) {
                 Spacer(Modifier.height(8.dp))
             }
             QualitySelector(
-                imageFormat = viewModel.imageFormat,
-                quality = viewModel.quality,
-                onQualityChange = viewModel::setQuality
+                imageFormat = component.imageFormat,
+                quality = component.quality,
+                onQualityChange = component::setQuality
             )
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
-                value = viewModel.imageFormat,
-                onValueChange = viewModel::setImageFormat
+                value = component.imageFormat,
+                onValueChange = component::setImageFormat
             )
         },
         buttons = {
@@ -377,7 +375,7 @@ fun DocumentScannerContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = viewModel.uris.isEmpty() to isPortrait,
+                targetState = component.uris.isEmpty() to isPortrait,
                 onSecondaryButtonClick = {
                     runCatching {
                         documentScanner.scan()
@@ -401,9 +399,9 @@ fun DocumentScannerContent(
                 },
                 actions = {
                     ShareButton(
-                        enabled = viewModel.uris.isNotEmpty(),
+                        enabled = component.uris.isNotEmpty(),
                         onShare = {
-                            viewModel.shareBitmaps(showConfetti)
+                            component.shareBitmaps(showConfetti)
                         }
                     )
                 }
@@ -412,11 +410,11 @@ fun DocumentScannerContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
         },
-        canShowScreenData = viewModel.uris.isNotEmpty(),
+        canShowScreenData = component.uris.isNotEmpty(),
         isPortrait = isPortrait
     )
 
@@ -426,11 +424,11 @@ fun DocumentScannerContent(
         visible = showExitDialog
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.left,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.left,
+            onCancelLoading = component::cancelSaving
         )
     }
 

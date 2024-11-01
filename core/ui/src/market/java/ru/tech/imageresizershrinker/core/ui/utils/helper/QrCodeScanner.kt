@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
@@ -25,13 +24,13 @@ import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanCustomCode
 import io.github.g00fy2.quickie.config.BarcodeFormat
 import io.github.g00fy2.quickie.config.ScannerConfig
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 
@@ -60,7 +59,7 @@ fun rememberQrCodeScanner(
 ): QrCodeScanner {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
 
     val scannerLauncher = rememberLauncherForActivityResult(ScanCustomCode()) { result ->
         when (result) {

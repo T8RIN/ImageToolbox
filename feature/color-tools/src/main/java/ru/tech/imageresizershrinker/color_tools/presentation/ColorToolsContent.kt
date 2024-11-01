@@ -82,6 +82,7 @@ import ru.tech.imageresizershrinker.color_tools.presentation.components.applyHar
 import ru.tech.imageresizershrinker.color_tools.presentation.components.icon
 import ru.tech.imageresizershrinker.color_tools.presentation.components.mixWith
 import ru.tech.imageresizershrinker.color_tools.presentation.components.title
+import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Swatch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -108,6 +109,7 @@ import kotlin.math.roundToInt
 @Composable
 fun ColorToolsContent(
     onGoBack: () -> Unit,
+    component: ColorToolsComponent
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
@@ -144,6 +146,7 @@ fun ColorToolsContent(
                 modifier = Modifier.marquee()
             )
         },
+        shouldDisableBackHandler = true,
         onGoBack = onGoBack,
         actions = {},
         topAppBarPersistentActions = {

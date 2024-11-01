@@ -40,7 +40,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -68,13 +67,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.noise_generation.presentation.components.NoiseParamsSelection
-import ru.tech.imageresizershrinker.noise_generation.presentation.viewModel.NoiseGenerationViewModel
+import ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 
 @Composable
 fun NoiseGenerationContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: NoiseGenerationViewModel = hiltViewModel()
+    component: NoiseGenerationComponent
 ) {
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
@@ -90,7 +89,7 @@ fun NoiseGenerationContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveNoise(it) { saveResult ->
+        component.saveNoise(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
@@ -106,16 +105,16 @@ fun NoiseGenerationContent(
         }
         ShareButton(
             onShare = {
-                viewModel.shareNoise(showConfetti)
+                component.shareNoise(showConfetti)
             },
             onCopy = { manager ->
-                viewModel.cacheCurrentNoise { uri ->
+                component.cacheCurrentNoise { uri ->
                     manager.setClip(uri.asClip(context))
                     showConfetti()
                 }
             },
             onEdit = {
-                viewModel.cacheCurrentNoise {
+                component.cacheCurrentNoise {
                     editSheetData = listOf(it)
                 }
             }
@@ -139,6 +138,7 @@ fun NoiseGenerationContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = true,
         title = {
             Text(
                 text = stringResource(R.string.noise_generation),
@@ -156,14 +156,14 @@ fun NoiseGenerationContent(
                 contentAlignment = Alignment.Center
             ) {
                 Picture(
-                    model = viewModel.previewBitmap,
+                    model = component.previewBitmap,
                     modifier = Modifier
                         .container(MaterialTheme.shapes.medium)
-                        .aspectRatio(viewModel.noiseSize.safeAspectRatio.animate()),
+                        .aspectRatio(component.noiseSize.safeAspectRatio.animate()),
                     shape = MaterialTheme.shapes.medium,
                     contentScale = ContentScale.FillBounds
                 )
-                if (viewModel.isImageLoading) Loading()
+                if (component.isImageLoading) Loading()
             }
         },
         controls = {
@@ -171,27 +171,27 @@ fun NoiseGenerationContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 ResizeImageField(
-                    imageInfo = derivedValueOf(viewModel.noiseSize) {
-                        ImageInfo(viewModel.noiseSize.width, viewModel.noiseSize.height)
+                    imageInfo = derivedValueOf(component.noiseSize) {
+                        ImageInfo(component.noiseSize.width, component.noiseSize.height)
                     },
                     originalSize = null,
-                    onWidthChange = viewModel::setNoiseWidth,
-                    onHeightChange = viewModel::setNoiseHeight
+                    onWidthChange = component::setNoiseWidth,
+                    onHeightChange = component::setNoiseHeight
                 )
                 NoiseParamsSelection(
-                    value = viewModel.noiseParams,
-                    onValueChange = viewModel::updateParams
+                    value = component.noiseParams,
+                    onValueChange = component::updateParams
                 )
                 Spacer(Modifier.height(4.dp))
                 ImageFormatSelector(
-                    value = viewModel.imageFormat,
-                    onValueChange = viewModel::setImageFormat,
+                    value = component.imageFormat,
+                    onValueChange = component::setImageFormat,
                     forceEnabled = true
                 )
                 QualitySelector(
-                    quality = viewModel.quality,
-                    imageFormat = viewModel.imageFormat,
-                    onQualityChange = viewModel::setQuality
+                    quality = component.quality,
+                    imageFormat = component.imageFormat,
+                    onQualityChange = component::setQuality
                 )
             }
         },
@@ -217,7 +217,7 @@ fun NoiseGenerationContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmap,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
         },
@@ -225,7 +225,7 @@ fun NoiseGenerationContent(
         isPortrait = isPortrait
     )
 
-    if (viewModel.isSaving) {
-        LoadingDialog(onCancelLoading = viewModel::cancelSaving)
+    if (component.isSaving) {
+        LoadingDialog(onCancelLoading = component::cancelSaving)
     }
 }

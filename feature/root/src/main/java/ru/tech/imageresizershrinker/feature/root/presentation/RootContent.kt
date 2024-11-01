@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.root.presentation
 
 import android.content.ClipData
 import android.os.Build
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -35,9 +34,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import dev.olshevski.navigation.reimagined.navigate
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.arkivanov.decompose.router.stack.push
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
@@ -53,7 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.currentDestination
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
@@ -68,14 +67,14 @@ import ru.tech.imageresizershrinker.feature.root.presentation.components.GithubR
 import ru.tech.imageresizershrinker.feature.root.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.root.presentation.components.TelegramGroupDialog
-import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.DonateDialog
 
 @Composable
 fun RootContent(
-    viewModel: RootViewModel
+    component: RootComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -83,37 +82,37 @@ fun RootContent(
         mutableIntStateOf(0)
     }
 
-    val currentDestination = viewModel.navController.currentDestination()
+    val currentDestination = component.childStack.subscribeAsState().value.backStack
     LaunchedEffect(currentDestination) {
         delay(200L) // Delay for transition
         randomEmojiKey++
     }
 
-    val settingsState = viewModel.settingsState.toUiState(
+    val settingsState = component.settingsState.toUiState(
         allEmojis = Emoji.allIcons(),
         allIconShapes = IconShapeDefaults.shapes,
         randomEmojiKey = randomEmojiKey,
-        getEmojiColorTuple = viewModel::getColorTupleFromEmoji
+        getEmojiColorTuple = component::getColorTupleFromEmoji
     )
 
     val editPresetsController = rememberEditPresetsController()
 
     CompositionLocalProvider(
-        LocalToastHostState provides viewModel.toastHostState,
+        LocalToastHostState provides component.toastHostState,
         LocalSettingsState provides settingsState,
-        LocalSimpleSettingsInteractor provides viewModel.getSettingsInteractor(),
+        LocalSimpleSettingsInteractor provides component.getSettingsInteractor(),
         LocalEditPresetsController provides editPresetsController,
         LocalConfettiHostState provides rememberConfettiHostState(),
-        LocalImageLoader provides viewModel.imageLoader,
-        LocalHapticFeedback provides rememberCustomHapticFeedback(viewModel.settingsState.hapticsStrength)
+        LocalImageLoader provides component.imageLoader,
+        LocalHapticFeedback provides rememberCustomHapticFeedback(component.settingsState.hapticsStrength)
     ) {
         SecureModeHandler()
 
-        var showSelectSheet by rememberSaveable(viewModel.showSelectDialog) {
-            mutableStateOf(viewModel.showSelectDialog)
+        var showSelectSheet by rememberSaveable(component.showSelectDialog) {
+            mutableStateOf(component.showSelectDialog)
         }
-        var showUpdateSheet by rememberSaveable(viewModel.showUpdateDialog) {
-            mutableStateOf(viewModel.showUpdateDialog)
+        var showUpdateSheet by rememberSaveable(component.showUpdateDialog) {
+            mutableStateOf(component.showUpdateDialog)
         }
         LaunchedEffect(settingsState) {
             GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
@@ -123,14 +122,14 @@ fun RootContent(
         LaunchedEffect(showSelectSheet) {
             if (!showSelectSheet) {
                 delay(600)
-                viewModel.hideSelectDialog()
-                viewModel.updateUris(null)
+                component.hideSelectDialog()
+                component.updateUris(null)
             }
         }
         LaunchedEffect(showUpdateSheet) {
             if (!showUpdateSheet) {
                 delay(600)
-                viewModel.cancelledUpdate()
+                component.cancelledUpdate()
             }
         }
         ImageToolboxTheme {
@@ -138,32 +137,32 @@ fun RootContent(
 
             if (!tiramisu) {
                 BackHandler {
-                    if (viewModel.shouldShowDialog) showExitDialog = true
+                    if (component.shouldShowDialog) showExitDialog = true
                     else context.finishAffinity()
                 }
             }
 
             Surface(Modifier.fillMaxSize()) {
                 ScreenSelector(
-                    viewModel = viewModel,
+                    component = component,
                     onRegisterScreenOpen = GlobalExceptionHandler.Companion::registerScreenOpen
                 )
 
                 EditPresetsSheet(
                     visible = editPresetsController.isVisible,
                     onDismiss = editPresetsController::close,
-                    onUpdatePresets = viewModel::setPresets
+                    onUpdatePresets = component::setPresets
                 )
 
                 val clipboardManager = LocalClipboardManager.current.nativeClipboard
                 ProcessImagesPreferenceSheet(
-                    uris = viewModel.uris ?: emptyList(),
-                    extraImageType = viewModel.extraImageType,
+                    uris = component.uris ?: emptyList(),
+                    extraImageType = component.extraImageType,
                     visible = showSelectSheet,
                     onDismiss = { showSelectSheet = it },
                     onNavigate = { screen ->
                         GlobalExceptionHandler.registerScreenOpen(screen)
-                        viewModel.navController.navigate(screen)
+                        component.navController.push(screen)
                         showSelectSheet = false
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             runCatching {
@@ -188,8 +187,8 @@ fun RootContent(
             )
 
             UpdateSheet(
-                tag = viewModel.tag,
-                changelog = viewModel.changelog,
+                tag = component.tag,
+                changelog = component.changelog,
                 visible = showUpdateSheet,
                 onDismiss = {
                     showUpdateSheet = false
@@ -203,27 +202,27 @@ fun RootContent(
             )
 
             SideEffect {
-                viewModel.tryGetUpdate(
+                component.tryGetUpdate(
                     isInstalledFromMarket = context.isInstalledFromPlayStore()
                 )
             }
 
             FirstLaunchSetupDialog(
-                toggleShowUpdateDialog = viewModel::toggleShowUpdateDialog,
-                toggleAllowBetas = viewModel::toggleAllowBetas,
-                adjustPerformance = viewModel::adjustPerformance
+                toggleShowUpdateDialog = component::toggleShowUpdateDialog,
+                toggleAllowBetas = component::toggleAllowBetas,
+                adjustPerformance = component::adjustPerformance
             )
 
             DonateDialog(
-                onRegisterDonateDialogOpen = viewModel::registerDonateDialogOpen,
-                onNotShowDonateDialogAgain = viewModel::notShowDonateDialogAgain
+                onRegisterDonateDialogOpen = component::registerDonateDialogOpen,
+                onNotShowDonateDialogAgain = component::notShowDonateDialogAgain
             )
 
             PermissionDialog()
 
-            if (viewModel.showGithubReviewDialog) {
+            if (component.showGithubReviewDialog) {
                 GithubReviewDialog(
-                    onDismiss = viewModel::hideReviewDialog,
+                    onDismiss = component::hideReviewDialog,
                     onNotShowAgain = {
                         ReviewHandler.notShowReviewAgain(context)
                     },
@@ -231,10 +230,10 @@ fun RootContent(
                 )
             }
 
-            if (viewModel.showTelegramGroupDialog) {
+            if (component.showTelegramGroupDialog) {
                 TelegramGroupDialog(
-                    onDismiss = viewModel::hideTelegramGroupDialog,
-                    onRedirected = viewModel::registerTelegramGroupOpen
+                    onDismiss = component::hideTelegramGroupDialog,
+                    onRedirected = component::registerTelegramGroupOpen
                 )
             }
         }

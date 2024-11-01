@@ -78,7 +78,6 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.TableChart
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -119,13 +118,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -154,7 +156,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.utils.collectAsUiS
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
-import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
+import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -188,7 +190,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberForeverLazyListState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
@@ -197,11 +198,11 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddFiltersSheet(
+    component: AddFiltersSheetComponent,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     previewBitmap: Bitmap?,
@@ -231,322 +232,629 @@ fun AddFiltersSheet(
         initialPage = 2
     )
 
-    ScopedViewModelContainer<AddFiltersSheetViewModel> { disposable ->
-        val viewModel = this
+    val onRequestFilterMapping = component::filterToTransformation
 
-        val onRequestFilterMapping = viewModel::filterToTransformation
+    val previewModel = component.previewModel
 
-        val previewModel = viewModel.previewModel
+    val scope = rememberCoroutineScope()
+    val confettiHostState = LocalConfettiHostState.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiHostState.showConfetti()
+        }
+    }
+    val toastHostState = LocalToastHostState.current
 
-        val scope = rememberCoroutineScope()
-        val confettiHostState = LocalConfettiHostState.current
-        val showConfetti: () -> Unit = {
-            scope.launch {
-                confettiHostState.showConfetti()
+    val favoriteFilters by component.favoritesFlow.collectAsUiState()
+    val templateFilters by component.templatesFlow.collectAsUiState()
+
+    val tabs by remember(canAddTemplates) {
+        derivedStateOf {
+            listOf(
+                Icons.Rounded.Bookmark to context.getString(R.string.favorite),
+                Icons.Rounded.Speed to context.getString(R.string.simple_effects),
+                Icons.Rounded.FormatColorFill to context.getString(R.string.color),
+                Icons.Rounded.TableChart to context.getString(R.string.lut),
+                Icons.Rounded.Light to context.getString(R.string.light_aka_illumination),
+                Icons.Rounded.FilterHdr to context.getString(R.string.effect),
+                Icons.Rounded.LensBlur to context.getString(R.string.blur),
+                Icons.Rounded.Cube to context.getString(R.string.pixelation),
+                Icons.Rounded.Animation to context.getString(R.string.distortion),
+                Icons.Rounded.EditRoad to context.getString(R.string.dithering)
+            ).let {
+                if (canAddTemplates) listOf(
+                    Icons.Rounded.Extension to context.getString(R.string.template)
+                ) + it
+                else it
             }
         }
-        val toastHostState = LocalToastHostState.current
+    }
 
-        val favoriteFilters by viewModel.favoritesFlow.collectAsUiState()
-        val templateFilters by viewModel.templatesFlow.collectAsUiState()
-
-        val tabs by remember(canAddTemplates) {
-            derivedStateOf {
-                listOf(
-                    Icons.Rounded.Bookmark to context.getString(R.string.favorite),
-                    Icons.Rounded.Speed to context.getString(R.string.simple_effects),
-                    Icons.Rounded.FormatColorFill to context.getString(R.string.color),
-                    Icons.Rounded.TableChart to context.getString(R.string.lut),
-                    Icons.Rounded.Light to context.getString(R.string.light_aka_illumination),
-                    Icons.Rounded.FilterHdr to context.getString(R.string.effect),
-                    Icons.Rounded.LensBlur to context.getString(R.string.blur),
-                    Icons.Rounded.Cube to context.getString(R.string.pixelation),
-                    Icons.Rounded.Animation to context.getString(R.string.distortion),
-                    Icons.Rounded.EditRoad to context.getString(R.string.dithering)
-                ).let {
-                    if (canAddTemplates) listOf(
-                        Icons.Rounded.Extension to context.getString(R.string.template)
-                    ) + it
-                    else it
-                }
-            }
+    var isSearching by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var searchKeyword by rememberSaveable(isSearching) {
+        mutableStateOf("")
+    }
+    var filtersForSearch by remember {
+        mutableStateOf(
+            groupedFilters.flatten().sortedBy { context.getString(it.title) }
+        )
+    }
+    LaunchedEffect(searchKeyword) {
+        delay(400L) // Debounce calculations
+        if (searchKeyword.isEmpty()) {
+            filtersForSearch = groupedFilters.flatten().sortedBy { context.getString(it.title) }
+            return@LaunchedEffect
         }
 
-        var isSearching by rememberSaveable {
-            mutableStateOf(false)
-        }
-        var searchKeyword by rememberSaveable(isSearching) {
-            mutableStateOf("")
-        }
-        var filtersForSearch by remember {
-            mutableStateOf(
-                groupedFilters.flatten().sortedBy { context.getString(it.title) }
-            )
-        }
-        LaunchedEffect(searchKeyword) {
-            delay(400L) // Debounce calculations
-            if (searchKeyword.isEmpty()) {
-                filtersForSearch = groupedFilters.flatten().sortedBy { context.getString(it.title) }
-                return@LaunchedEffect
-            }
-
-            filtersForSearch = groupedFilters.flatten().filter {
-                context.getString(it.title).contains(
+        filtersForSearch = groupedFilters.flatten().filter {
+            context.getString(it.title).contains(
+                other = searchKeyword,
+                ignoreCase = true
+            ).or(
+                context.getStringLocalized(
+                    it.title, Locale.ENGLISH
+                ).contains(
                     other = searchKeyword,
                     ignoreCase = true
-                ).or(
-                    context.getStringLocalized(
-                        it.title, Locale.ENGLISH
-                    ).contains(
-                        other = searchKeyword,
-                        ignoreCase = true
-                    )
                 )
-            }.sortedBy { context.getString(it.title) }
-        }
+            )
+        }.sortedBy { context.getString(it.title) }
+    }
 
-        val previewSheetData = viewModel.previewData
+    val previewSheetData = component.previewData
 
-        SimpleSheet(
-            dragHandle = {
-                SimpleDragHandle {
-                    AnimatedVisibility(visible = !isSearching) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
+    SimpleSheet(
+        dragHandle = {
+            SimpleDragHandle {
+                AnimatedVisibility(visible = !isSearching) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ScrollableTabRow(
+                            divider = {},
+                            edgePadding = 16.dp,
+                            containerColor = SimpleSheetDefaults.barContainerColor,
+                            selectedTabIndex = pagerState.currentPage,
+                            indicator = { tabPositions ->
+                                if (pagerState.currentPage < tabPositions.size) {
+                                    val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
+                                    TabRowDefaults.PrimaryIndicator(
+                                        modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                        width = width,
+                                        height = 4.dp,
+                                        shape = RoundedCornerShape(
+                                            topStart = 100f,
+                                            topEnd = 100f
+                                        )
+                                    )
+                                }
+                            }
                         ) {
-                            ScrollableTabRow(
-                                divider = {},
-                                edgePadding = 16.dp,
-                                containerColor = SimpleSheetDefaults.barContainerColor,
-                                selectedTabIndex = pagerState.currentPage,
-                                indicator = { tabPositions ->
-                                    if (pagerState.currentPage < tabPositions.size) {
-                                        val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
-                                        TabRowDefaults.PrimaryIndicator(
-                                            modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                                            width = width,
-                                            height = 4.dp,
-                                            shape = RoundedCornerShape(
-                                                topStart = 100f,
-                                                topEnd = 100f
-                                            )
+                            tabs.forEachIndexed { index, (icon, title) ->
+                                val selected = pagerState.currentPage == index
+                                val color by animateColorAsState(
+                                    if (selected) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else MaterialTheme.colorScheme.onSurface
+                                )
+                                Tab(
+                                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .clip(CircleShape),
+                                    selected = selected,
+                                    onClick = {
+                                        haptics.performHapticFeedback(
+                                            HapticFeedbackType.LongPress
+                                        )
+                                        scope.launch {
+                                            pagerState.animateScrollToPage(index)
+                                        }
+                                    },
+                                    icon = {
+                                        Icon(
+                                            imageVector = icon,
+                                            contentDescription = null,
+                                            tint = color
+                                        )
+                                    },
+                                    text = {
+                                        Text(
+                                            text = title,
+                                            color = color
                                         )
                                     }
-                                }
-                            ) {
-                                tabs.forEachIndexed { index, (icon, title) ->
-                                    val selected = pagerState.currentPage == index
-                                    val color by animateColorAsState(
-                                        if (selected) {
-                                            MaterialTheme.colorScheme.primary
-                                        } else MaterialTheme.colorScheme.onSurface
-                                    )
-                                    Tab(
-                                        unselectedContentColor = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier
-                                            .padding(8.dp)
-                                            .clip(CircleShape),
-                                        selected = selected,
-                                        onClick = {
-                                            haptics.performHapticFeedback(
-                                                HapticFeedbackType.LongPress
-                                            )
-                                            scope.launch {
-                                                pagerState.animateScrollToPage(index)
-                                            }
-                                        },
-                                        icon = {
-                                            Icon(
-                                                imageVector = icon,
-                                                contentDescription = null,
-                                                tint = color
-                                            )
-                                        },
-                                        text = {
-                                            Text(
-                                                text = title,
-                                                color = color
-                                            )
-                                        }
-                                    )
-                                }
+                                )
                             }
                         }
                     }
                 }
-            },
-            sheetContent = {
-                disposable()
-
-                AnimatedContent(
-                    modifier = Modifier.weight(1f, false),
-                    targetState = isSearching
-                ) { isSearching ->
-                    if (isSearching) {
-                        AnimatedContent(
-                            targetState = filtersForSearch.isNotEmpty()
-                        ) { isNotEmpty ->
-                            if (isNotEmpty) {
-                                LazyColumn(
-                                    state = rememberForeverLazyListState("sheet"),
-                                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                                    modifier = Modifier.animateContentSize(),
-                                    contentPadding = PaddingValues(16.dp)
-                                ) {
-                                    itemsIndexed(filtersForSearch) { index, filter ->
-                                        FilterSelectionItem(
-                                            filter = filter,
-                                            isFavoritePage = false,
-                                            canOpenPreview = previewBitmap != null,
-                                            favoriteFilters = favoriteFilters,
-                                            onLongClick = {
-                                                viewModel.setPreviewData(filter)
-                                            },
-                                            onOpenPreview = {
-                                                viewModel.setPreviewData(filter)
-                                            },
-                                            onClick = {
-                                                onVisibleChange(false)
-                                                onFilterPicked(filter)
-                                            },
-                                            onRequestFilterMapping = onRequestFilterMapping,
-                                            shape = ContainerShapeDefaults.shapeForIndex(
-                                                index = index,
-                                                size = filtersForSearch.size
-                                            ),
-                                            onToggleFavorite = {
-                                                viewModel.toggleFavorite(filter)
-                                            },
-                                            modifier = Modifier.animateItem()
-                                        )
-                                    }
+            }
+        },
+        sheetContent = {
+            AnimatedContent(
+                modifier = Modifier.weight(1f, false),
+                targetState = isSearching
+            ) { isSearching ->
+                if (isSearching) {
+                    AnimatedContent(
+                        targetState = filtersForSearch.isNotEmpty()
+                    ) { isNotEmpty ->
+                        if (isNotEmpty) {
+                            LazyColumn(
+                                state = rememberForeverLazyListState("sheet"),
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                modifier = Modifier.animateContentSize(),
+                                contentPadding = PaddingValues(16.dp)
+                            ) {
+                                itemsIndexed(filtersForSearch) { index, filter ->
+                                    FilterSelectionItem(
+                                        filter = filter,
+                                        isFavoritePage = false,
+                                        canOpenPreview = previewBitmap != null,
+                                        favoriteFilters = favoriteFilters,
+                                        onLongClick = {
+                                            component.setPreviewData(filter)
+                                        },
+                                        onOpenPreview = {
+                                            component.setPreviewData(filter)
+                                        },
+                                        onClick = {
+                                            onVisibleChange(false)
+                                            onFilterPicked(filter)
+                                        },
+                                        onRequestFilterMapping = onRequestFilterMapping,
+                                        shape = ContainerShapeDefaults.shapeForIndex(
+                                            index = index,
+                                            size = filtersForSearch.size
+                                        ),
+                                        onToggleFavorite = {
+                                            component.toggleFavorite(filter)
+                                        },
+                                        modifier = Modifier.animateItem()
+                                    )
                                 }
-                            } else {
-                                Column(
+                            }
+                        } else {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(0.5f),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Spacer(Modifier.weight(1f))
+                                Text(
+                                    text = stringResource(R.string.nothing_found_by_search),
+                                    fontSize = 18.sp,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(
+                                        start = 24.dp,
+                                        end = 24.dp,
+                                        top = 8.dp,
+                                        bottom = 8.dp
+                                    )
+                                )
+                                Icon(
+                                    imageVector = Icons.Rounded.SearchOff,
+                                    contentDescription = null,
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight(0.5f),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Spacer(Modifier.weight(1f))
-                                    Text(
-                                        text = stringResource(R.string.nothing_found_by_search),
-                                        fontSize = 18.sp,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.padding(
-                                            start = 24.dp,
-                                            end = 24.dp,
-                                            top = 8.dp,
-                                            bottom = 8.dp
-                                        )
-                                    )
-                                    Icon(
-                                        imageVector = Icons.Rounded.SearchOff,
-                                        contentDescription = null,
+                                        .weight(2f)
+                                        .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                        .fillMaxSize()
+                                )
+                                Spacer(Modifier.weight(1f))
+                            }
+                        }
+                    }
+                } else {
+                    HorizontalPager(
+                        state = pagerState,
+                        beyondViewportPageCount = 2
+                    ) { page ->
+                        val filters by remember(page) {
+                            derivedStateOf {
+                                groupedFilters[page - if (canAddTemplates) 2 else 1]
+                            }
+                        }
+                        val templatesContent = @Composable {
+                            AnimatedContent(
+                                targetState = templateFilters.isEmpty()
+                            ) { noTemplates ->
+                                if (noTemplates) {
+                                    Column(
                                         modifier = Modifier
-                                            .weight(2f)
-                                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                            .fillMaxSize()
-                                    )
-                                    Spacer(Modifier.weight(1f))
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(0.5f),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Spacer(Modifier.weight(1f))
+                                        Text(
+                                            text = stringResource(R.string.no_template_filters),
+                                            fontSize = 18.sp,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier.padding(
+                                                start = 24.dp,
+                                                end = 24.dp,
+                                                top = 8.dp,
+                                                bottom = 16.dp
+                                            )
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Outlined.ExtensionOff,
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .weight(2f)
+                                                .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                                .fillMaxSize()
+                                        )
+                                        FilterTemplateAddingGroup(
+                                            onAddTemplateFilterFromString = component::addTemplateFilterFromString,
+                                            onAddTemplateFilterFromUri = component::addTemplateFilterFromUri,
+                                            component = filterTemplateCreationSheetComponent
+                                        )
+                                        Spacer(Modifier.weight(1f))
+                                    }
+                                } else {
+                                    LazyColumn(
+                                        state = rememberForeverLazyListState("templates"),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                                        contentPadding = PaddingValues(16.dp)
+                                    ) {
+                                        itemsIndexed(templateFilters) { index, templateFilter ->
+                                            var showFilterTemplateInfoSheet by rememberSaveable {
+                                                mutableStateOf(false)
+                                            }
+                                            TemplateFilterSelectionItem(
+                                                templateFilter = templateFilter,
+                                                onClick = {
+                                                    onVisibleChange(false)
+                                                    templateFilter.filters.forEach {
+                                                        onFilterPickedWithParams(it.toUiFilter())
+                                                    }
+                                                },
+                                                onLongClick = {
+                                                    component.setPreviewData(templateFilter.filters)
+                                                },
+                                                onInfoClick = {
+                                                    showFilterTemplateInfoSheet = true
+                                                },
+                                                onRequestFilterMapping = onRequestFilterMapping,
+                                                shape = ContainerShapeDefaults.shapeForIndex(
+                                                    index = index,
+                                                    size = templateFilters.size
+                                                ),
+                                                modifier = Modifier.animateItem(),
+                                                previewModel = previewModel
+                                            )
+                                            FilterTemplateInfoSheet(
+                                                visible = showFilterTemplateInfoSheet,
+                                                onDismiss = {
+                                                    showFilterTemplateInfoSheet = it
+                                                },
+                                                templateFilter = templateFilter,
+                                                onRequestFilterMapping = onRequestFilterMapping,
+                                                onShareImage = {
+                                                    component.shareImage(it, showConfetti)
+                                                },
+                                                onSaveImage = {
+                                                    component.saveImage(it) { saveResult ->
+                                                        context.parseSaveResult(
+                                                            saveResult = saveResult,
+                                                            onSuccess = showConfetti,
+                                                            toastHostState = toastHostState,
+                                                            scope = scope
+                                                        )
+                                                    }
+                                                },
+                                                onSaveFile = { fileUri, content ->
+                                                    component.saveContentTo(
+                                                        content = content,
+                                                        fileUri = fileUri
+                                                    ) { result ->
+                                                        context.parseFileSaveResult(
+                                                            saveResult = result,
+                                                            onSuccess = {
+                                                                confettiHostState.showConfetti()
+                                                            },
+                                                            toastHostState = toastHostState,
+                                                            scope = scope
+                                                        )
+                                                    }
+                                                },
+                                                onConvertTemplateFilterToString = component::convertTemplateFilterToString,
+                                                onRemoveTemplateFilter = component::removeTemplateFilter,
+                                                onRequestTemplateFilename = {
+                                                    component.createTemplateFilename(
+                                                        templateFilter
+                                                    )
+                                                },
+                                                onShareFile = { content ->
+                                                    component.shareContent(
+                                                        content = content,
+                                                        filename = component.createTemplateFilename(
+                                                            templateFilter
+                                                        ),
+                                                        onComplete = showConfetti
+                                                    )
+                                                },
+                                                previewModel = previewModel,
+                                                component = filterTemplateCreationSheetComponent
+                                            )
+                                        }
+                                        item {
+                                            FilterTemplateAddingGroup(
+                                                onAddTemplateFilterFromString = component::addTemplateFilterFromString,
+                                                onAddTemplateFilterFromUri = component::addTemplateFilterFromUri,
+                                                component = filterTemplateCreationSheetComponent
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
-                    } else {
-                        HorizontalPager(
-                            state = pagerState,
-                            beyondViewportPageCount = 2
-                        ) { page ->
-                            val filters by remember(page) {
-                                derivedStateOf {
-                                    groupedFilters[page - if (canAddTemplates) 2 else 1]
-                                }
-                            }
-                            val templatesContent = @Composable {
-                                AnimatedContent(
-                                    targetState = templateFilters.isEmpty()
-                                ) { noTemplates ->
-                                    if (noTemplates) {
-                                        Column(
+                        val favoritesContent = @Composable {
+                            AnimatedContent(
+                                targetState = favoriteFilters.isEmpty()
+                            ) { noFav ->
+                                if (noFav) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(0.5f),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Spacer(Modifier.weight(1f))
+                                        Text(
+                                            text = stringResource(R.string.no_favorite_filters),
+                                            fontSize = 18.sp,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier.padding(
+                                                start = 24.dp,
+                                                end = 24.dp,
+                                                top = 8.dp,
+                                                bottom = 8.dp
+                                            )
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Outlined.BookmarkOff,
+                                            contentDescription = null,
                                             modifier = Modifier
-                                                .fillMaxWidth()
-                                                .fillMaxHeight(0.5f),
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            Spacer(Modifier.weight(1f))
-                                            Text(
-                                                text = stringResource(R.string.no_template_filters),
-                                                fontSize = 18.sp,
-                                                textAlign = TextAlign.Center,
-                                                modifier = Modifier.padding(
-                                                    start = 24.dp,
-                                                    end = 24.dp,
-                                                    top = 8.dp,
-                                                    bottom = 16.dp
-                                                )
-                                            )
-                                            Icon(
-                                                imageVector = Icons.Outlined.ExtensionOff,
-                                                contentDescription = null,
-                                                modifier = Modifier
-                                                    .weight(2f)
-                                                    .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                                    .fillMaxSize()
-                                            )
-                                            FilterTemplateAddingGroup(
-                                                onAddTemplateFilterFromString = viewModel::addTemplateFilterFromString,
-                                                onAddTemplateFilterFromUri = viewModel::addTemplateFilterFromUri
-                                            )
-                                            Spacer(Modifier.weight(1f))
+                                                .weight(2f)
+                                                .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                                .fillMaxSize()
+                                        )
+                                        Spacer(Modifier.weight(1f))
+                                    }
+                                } else {
+                                    val data = remember {
+                                        mutableStateOf(favoriteFilters)
+                                    }
+                                    val listState = rememberLazyListState()
+                                    val state = rememberReorderableLazyListState(
+                                        lazyListState = listState,
+                                        onMove = { from, to ->
+                                            data.value = data.value.toMutableList().apply {
+                                                add(to.index, removeAt(from.index))
+                                            }
                                         }
-                                    } else {
-                                        LazyColumn(
-                                            state = rememberForeverLazyListState("templates"),
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                                            contentPadding = PaddingValues(16.dp)
-                                        ) {
-                                            itemsIndexed(templateFilters) { index, templateFilter ->
-                                                var showFilterTemplateInfoSheet by rememberSaveable {
-                                                    mutableStateOf(false)
-                                                }
-                                                TemplateFilterSelectionItem(
-                                                    templateFilter = templateFilter,
-                                                    onClick = {
+                                    )
+                                    LaunchedEffect(favoriteFilters) {
+                                        if (data.value.size != favoriteFilters.size) {
+                                            data.value = favoriteFilters
+                                        }
+                                    }
+                                    LazyColumn(
+                                        state = listState,
+                                        modifier = Modifier.fillMaxHeight(),
+                                        verticalArrangement = Arrangement.spacedBy(
+                                            space = 4.dp,
+                                            alignment = Alignment.CenterVertically
+                                        ),
+                                        contentPadding = PaddingValues(16.dp)
+                                    ) {
+                                        itemsIndexed(
+                                            items = data.value,
+                                            key = { _, f -> f.hashCode() }
+                                        ) { index, filter ->
+                                            ReorderableItem(
+                                                state = state,
+                                                key = filter.hashCode()
+                                            ) { isDragging ->
+                                                FilterSelectionItem(
+                                                    filter = filter,
+                                                    isFavoritePage = true,
+                                                    canOpenPreview = previewBitmap != null,
+                                                    favoriteFilters = favoriteFilters,
+                                                    onLongClick = null,
+                                                    onOpenPreview = {
+                                                        component.setPreviewData(filter)
+                                                    },
+                                                    onClick = { custom ->
                                                         onVisibleChange(false)
-                                                        templateFilter.filters.forEach {
-                                                            onFilterPickedWithParams(it.toUiFilter())
+                                                        if (custom != null) {
+                                                            onFilterPickedWithParams(custom)
+                                                        } else {
+                                                            onFilterPicked(filter)
                                                         }
-                                                    },
-                                                    onLongClick = {
-                                                        viewModel.setPreviewData(templateFilter.filters)
-                                                    },
-                                                    onInfoClick = {
-                                                        showFilterTemplateInfoSheet = true
                                                     },
                                                     onRequestFilterMapping = onRequestFilterMapping,
                                                     shape = ContainerShapeDefaults.shapeForIndex(
                                                         index = index,
-                                                        size = templateFilters.size
+                                                        size = favoriteFilters.size
                                                     ),
-                                                    modifier = Modifier.animateItem(),
+                                                    onToggleFavorite = {
+                                                        component.toggleFavorite(filter)
+                                                    },
+                                                    modifier = Modifier
+                                                        .longPressDraggableHandle {
+                                                            component.reorderFavoriteFilters(
+                                                                data.value
+                                                            )
+                                                        }
+                                                        .scale(
+                                                            animateFloatAsState(
+                                                                if (isDragging) 1.05f
+                                                                else 1f
+                                                            ).value
+                                                        ),
+                                                    cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
+                                                        component.cubeLutRemoteResources
+                                                    } else null,
+                                                    cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
+                                                        component.cubeLutDownloadProgress
+                                                    } else null,
+                                                    onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
+                                                        component.updateCubeLuts(
+                                                            startDownloadIfNeeded = true,
+                                                            forceUpdate = forceUpdate,
+                                                            onFailure = {
+                                                                scope.launch {
+                                                                    toastHostState.showError(
+                                                                        context,
+                                                                        it
+                                                                    )
+                                                                }
+                                                            },
+                                                            downloadOnlyNewData = downloadOnlyNewData
+                                                        )
+                                                    },
                                                     previewModel = previewModel
                                                 )
-                                                FilterTemplateInfoSheet(
-                                                    visible = showFilterTemplateInfoSheet,
-                                                    onDismiss = {
-                                                        showFilterTemplateInfoSheet = it
-                                                    },
-                                                    templateFilter = templateFilter,
-                                                    onRequestFilterMapping = onRequestFilterMapping,
-                                                    onShareImage = {
-                                                        viewModel.shareImage(it, showConfetti)
-                                                    },
-                                                    onSaveImage = {
-                                                        viewModel.saveImage(it) { saveResult ->
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        val otherContent = @Composable {
+                            LazyColumn(
+                                state = rememberForeverLazyListState("sheet$page"),
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                contentPadding = PaddingValues(16.dp)
+                            ) {
+                                if (tabs[page].first == Icons.Rounded.Speed) {
+                                    item {
+                                        Row(
+                                            modifier = Modifier
+                                                .padding(bottom = 8.dp)
+                                                .height(intrinsicSize = IntrinsicSize.Max)
+                                        ) {
+                                            ImageSelector(
+                                                value = previewModel.data,
+                                                onValueChange = {
+                                                    component.setFilterPrecomponent(it.toString())
+                                                },
+                                                title = stringResource(R.string.filter_preview_image),
+                                                subtitle = stringResource(R.string.filter_preview_image_sub),
+                                                contentScale = ContentScale.Crop,
+                                                color = Color.Unspecified,
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .fillMaxHeight(),
+                                                shape = RoundedCornerShape(
+                                                    topEnd = 4.dp,
+                                                    topStart = 16.dp,
+                                                    bottomEnd = 4.dp,
+                                                    bottomStart = 16.dp
+                                                )
+                                            )
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxHeight()
+                                                    .padding(start = 4.dp),
+                                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                                            ) {
+                                                repeat(2) { index ->
+                                                    val shape = if (index == 0) {
+                                                        RoundedCornerShape(
+                                                            topEnd = 16.dp,
+                                                            topStart = 4.dp,
+                                                            bottomEnd = 4.dp,
+                                                            bottomStart = 4.dp
+                                                        )
+                                                    } else {
+                                                        RoundedCornerShape(
+                                                            topEnd = 4.dp,
+                                                            topStart = 4.dp,
+                                                            bottomEnd = 16.dp,
+                                                            bottomStart = 4.dp
+                                                        )
+                                                    }
+                                                    val containerColor by animateColorAsState(
+                                                        if (previewModel.data == R.drawable.filter_preview_source && index == 0) {
+                                                            MaterialTheme.colorScheme.secondary
+                                                        } else if (previewModel.data == R.drawable.filter_preview_source_3 && index == 1) {
+                                                            MaterialTheme.colorScheme.secondary
+                                                        } else {
+                                                            MaterialTheme.colorScheme.secondaryContainer
+                                                        }
+                                                    )
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .clip(shape)
+                                                            .clickable {
+                                                                component.setFilterPrecomponent(
+                                                                    index.toString()
+                                                                )
+                                                            }
+                                                            .container(
+                                                                color = containerColor,
+                                                                shape = shape,
+                                                                resultPadding = 0.dp
+                                                            )
+                                                            .padding(horizontal = 12.dp),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        AutoSizeText(
+                                                            text = (index + 1).toString(),
+                                                            color = contentColorFor(
+                                                                containerColor
+                                                            )
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                if (tabs[page].first == Icons.Rounded.TableChart) {
+                                    item {
+                                        PreferenceItemOverload(
+                                            title = stringResource(R.string.save_empty_lut),
+                                            subtitle = stringResource(R.string.save_empty_lut_sub),
+                                            shape = ContainerShapeDefaults.defaultShape,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(bottom = 8.dp),
+                                            endIcon = {
+                                                Column(
+                                                    verticalArrangement = Arrangement.Center,
+                                                    horizontalAlignment = Alignment.CenterHorizontally
+                                                ) {
+                                                    Picture(
+                                                        model = R.drawable.lookup,
+                                                        contentScale = ContentScale.Crop,
+                                                        contentDescription = null,
+                                                        modifier = Modifier
+                                                            .size(48.dp)
+                                                            .scale(1.1f)
+                                                            .clip(MaterialTheme.shapes.extraSmall),
+                                                        shape = MaterialTheme.shapes.extraSmall
+                                                    )
+                                                    Spacer(modifier = Modifier.height(8.dp))
+                                                    var showFolderSelection by rememberSaveable {
+                                                        mutableStateOf(false)
+                                                    }
+                                                    val saveNeutralLut: (String?) -> Unit = {
+                                                        component.saveNeutralLut(it) { saveResult ->
                                                             context.parseSaveResult(
                                                                 saveResult = saveResult,
                                                                 onSuccess = showConfetti,
@@ -554,727 +862,417 @@ fun AddFiltersSheet(
                                                                 scope = scope
                                                             )
                                                         }
-                                                    },
-                                                    onSaveFile = { fileUri, content ->
-                                                        viewModel.saveContentTo(
-                                                            content = content,
-                                                            fileUri = fileUri
-                                                        ) { result ->
-                                                            context.parseFileSaveResult(
-                                                                saveResult = result,
-                                                                onSuccess = {
-                                                                    confettiHostState.showConfetti()
-                                                                },
-                                                                toastHostState = toastHostState,
-                                                                scope = scope
-                                                            )
-                                                        }
-                                                    },
-                                                    onConvertTemplateFilterToString = viewModel::convertTemplateFilterToString,
-                                                    onRemoveTemplateFilter = viewModel::removeTemplateFilter,
-                                                    onRequestTemplateFilename = {
-                                                        viewModel.createTemplateFilename(
-                                                            templateFilter
-                                                        )
-                                                    },
-                                                    onShareFile = { content ->
-                                                        viewModel.shareContent(
-                                                            content = content,
-                                                            filename = viewModel.createTemplateFilename(
-                                                                templateFilter
-                                                            ),
-                                                            onComplete = showConfetti
-                                                        )
-                                                    },
-                                                    previewModel = previewModel
-                                                )
-                                            }
-                                            item {
-                                                FilterTemplateAddingGroup(
-                                                    onAddTemplateFilterFromString = viewModel::addTemplateFilterFromString,
-                                                    onAddTemplateFilterFromUri = viewModel::addTemplateFilterFromUri
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            val favoritesContent = @Composable {
-                                AnimatedContent(
-                                    targetState = favoriteFilters.isEmpty()
-                                ) { noFav ->
-                                    if (noFav) {
-                                        Column(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .fillMaxHeight(0.5f),
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            Spacer(Modifier.weight(1f))
-                                            Text(
-                                                text = stringResource(R.string.no_favorite_filters),
-                                                fontSize = 18.sp,
-                                                textAlign = TextAlign.Center,
-                                                modifier = Modifier.padding(
-                                                    start = 24.dp,
-                                                    end = 24.dp,
-                                                    top = 8.dp,
-                                                    bottom = 8.dp
-                                                )
-                                            )
-                                            Icon(
-                                                imageVector = Icons.Outlined.BookmarkOff,
-                                                contentDescription = null,
-                                                modifier = Modifier
-                                                    .weight(2f)
-                                                    .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                                    .fillMaxSize()
-                                            )
-                                            Spacer(Modifier.weight(1f))
-                                        }
-                                    } else {
-                                        val data = remember {
-                                            mutableStateOf(favoriteFilters)
-                                        }
-                                        val listState = rememberLazyListState()
-                                        val state = rememberReorderableLazyListState(
-                                            lazyListState = listState,
-                                            onMove = { from, to ->
-                                                data.value = data.value.toMutableList().apply {
-                                                    add(to.index, removeAt(from.index))
-                                                }
-                                            }
-                                        )
-                                        LaunchedEffect(favoriteFilters) {
-                                            if (data.value.size != favoriteFilters.size) {
-                                                data.value = favoriteFilters
-                                            }
-                                        }
-                                        LazyColumn(
-                                            state = listState,
-                                            modifier = Modifier.fillMaxHeight(),
-                                            verticalArrangement = Arrangement.spacedBy(
-                                                space = 4.dp,
-                                                alignment = Alignment.CenterVertically
-                                            ),
-                                            contentPadding = PaddingValues(16.dp)
-                                        ) {
-                                            itemsIndexed(
-                                                items = data.value,
-                                                key = { _, f -> f.hashCode() }
-                                            ) { index, filter ->
-                                                ReorderableItem(
-                                                    state = state,
-                                                    key = filter.hashCode()
-                                                ) { isDragging ->
-                                                    FilterSelectionItem(
-                                                        filter = filter,
-                                                        isFavoritePage = true,
-                                                        canOpenPreview = previewBitmap != null,
-                                                        favoriteFilters = favoriteFilters,
-                                                        onLongClick = null,
-                                                        onOpenPreview = {
-                                                            viewModel.setPreviewData(filter)
-                                                        },
-                                                        onClick = { custom ->
-                                                            onVisibleChange(false)
-                                                            if (custom != null) {
-                                                                onFilterPickedWithParams(custom)
-                                                            } else {
-                                                                onFilterPicked(filter)
-                                                            }
-                                                        },
-                                                        onRequestFilterMapping = onRequestFilterMapping,
-                                                        shape = ContainerShapeDefaults.shapeForIndex(
-                                                            index = index,
-                                                            size = favoriteFilters.size
-                                                        ),
-                                                        onToggleFavorite = {
-                                                            viewModel.toggleFavorite(filter)
-                                                        },
-                                                        modifier = Modifier
-                                                            .longPressDraggableHandle {
-                                                                viewModel.reorderFavoriteFilters(
-                                                                    data.value
+                                                    }
+                                                    Row {
+                                                        ShareButton(
+                                                            onShare = {
+                                                                component.shareNeutralLut(
+                                                                    showConfetti
                                                                 )
-                                                            }
-                                                            .scale(
-                                                                animateFloatAsState(
-                                                                    if (isDragging) 1.05f
-                                                                    else 1f
-                                                                ).value
-                                                            ),
-                                                        cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
-                                                            viewModel.cubeLutRemoteResources
-                                                        } else null,
-                                                        cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
-                                                            viewModel.cubeLutDownloadProgress
-                                                        } else null,
-                                                        onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
-                                                            viewModel.updateCubeLuts(
-                                                                startDownloadIfNeeded = true,
-                                                                forceUpdate = forceUpdate,
-                                                                onFailure = {
-                                                                    scope.launch {
-                                                                        toastHostState.showError(
-                                                                            context,
-                                                                            it
-                                                                        )
-                                                                    }
-                                                                },
-                                                                downloadOnlyNewData = downloadOnlyNewData
-                                                            )
-                                                        },
-                                                        previewModel = previewModel
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            val otherContent = @Composable {
-                                LazyColumn(
-                                    state = rememberForeverLazyListState("sheet$page"),
-                                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                                    contentPadding = PaddingValues(16.dp)
-                                ) {
-                                    if (tabs[page].first == Icons.Rounded.Speed) {
-                                        item {
-                                            Row(
-                                                modifier = Modifier
-                                                    .padding(bottom = 8.dp)
-                                                    .height(intrinsicSize = IntrinsicSize.Max)
-                                            ) {
-                                                ImageSelector(
-                                                    value = previewModel.data,
-                                                    onValueChange = {
-                                                        viewModel.setFilterPreviewModel(it.toString())
-                                                    },
-                                                    title = stringResource(R.string.filter_preview_image),
-                                                    subtitle = stringResource(R.string.filter_preview_image_sub),
-                                                    contentScale = ContentScale.Crop,
-                                                    color = Color.Unspecified,
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .fillMaxHeight(),
-                                                    shape = RoundedCornerShape(
-                                                        topEnd = 4.dp,
-                                                        topStart = 16.dp,
-                                                        bottomEnd = 4.dp,
-                                                        bottomStart = 16.dp
-                                                    )
-                                                )
-                                                Column(
-                                                    modifier = Modifier
-                                                        .fillMaxHeight()
-                                                        .padding(start = 4.dp),
-                                                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                                                ) {
-                                                    repeat(2) { index ->
-                                                        val shape = if (index == 0) {
-                                                            RoundedCornerShape(
-                                                                topEnd = 16.dp,
-                                                                topStart = 4.dp,
-                                                                bottomEnd = 4.dp,
-                                                                bottomStart = 4.dp
-                                                            )
-                                                        } else {
-                                                            RoundedCornerShape(
-                                                                topEnd = 4.dp,
-                                                                topStart = 4.dp,
-                                                                bottomEnd = 16.dp,
-                                                                bottomStart = 4.dp
-                                                            )
-                                                        }
-                                                        val containerColor by animateColorAsState(
-                                                            if (previewModel.data == R.drawable.filter_preview_source && index == 0) {
-                                                                MaterialTheme.colorScheme.secondary
-                                                            } else if (previewModel.data == R.drawable.filter_preview_source_3 && index == 1) {
-                                                                MaterialTheme.colorScheme.secondary
-                                                            } else {
-                                                                MaterialTheme.colorScheme.secondaryContainer
-                                                            }
-                                                        )
-                                                        Box(
-                                                            modifier = Modifier
-                                                                .weight(1f)
-                                                                .clip(shape)
-                                                                .clickable {
-                                                                    viewModel.setFilterPreviewModel(
-                                                                        index.toString()
+                                                            },
+                                                            onCopy = { manager ->
+                                                                component.cacheNeutralLut { uri ->
+                                                                    manager.setClip(
+                                                                        uri.asClip(context)
                                                                     )
+                                                                    showConfetti()
                                                                 }
-                                                                .container(
-                                                                    color = containerColor,
-                                                                    shape = shape,
-                                                                    resultPadding = 0.dp
-                                                                )
-                                                                .padding(horizontal = 12.dp),
-                                                            contentAlignment = Alignment.Center
+                                                            }
+                                                        )
+                                                        EnhancedIconButton(
+                                                            onClick = {
+                                                                saveNeutralLut(null)
+                                                            },
+                                                            onLongClick = {
+                                                                showFolderSelection = true
+                                                            }
                                                         ) {
-                                                            AutoSizeText(
-                                                                text = (index + 1).toString(),
-                                                                color = contentColorFor(
-                                                                    containerColor
+                                                            Icon(
+                                                                imageVector = Icons.Rounded.Save,
+                                                                contentDescription = stringResource(
+                                                                    R.string.save
                                                                 )
+                                                            )
+                                                        }
+
+                                                        if (showFolderSelection) {
+                                                            OneTimeSaveLocationSelectionDialog(
+                                                                onDismiss = {
+                                                                    showFolderSelection = false
+                                                                },
+                                                                onSaveRequest = saveNeutralLut
                                                             )
                                                         }
                                                     }
                                                 }
                                             }
-                                        }
-                                    }
-                                    if (tabs[page].first == Icons.Rounded.TableChart) {
-                                        item {
-                                            PreferenceItemOverload(
-                                                title = stringResource(R.string.save_empty_lut),
-                                                subtitle = stringResource(R.string.save_empty_lut_sub),
-                                                shape = ContainerShapeDefaults.defaultShape,
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(bottom = 8.dp),
-                                                endIcon = {
-                                                    Column(
-                                                        verticalArrangement = Arrangement.Center,
-                                                        horizontalAlignment = Alignment.CenterHorizontally
-                                                    ) {
-                                                        Picture(
-                                                            model = R.drawable.lookup,
-                                                            contentScale = ContentScale.Crop,
-                                                            contentDescription = null,
-                                                            modifier = Modifier
-                                                                .size(48.dp)
-                                                                .scale(1.1f)
-                                                                .clip(MaterialTheme.shapes.extraSmall),
-                                                            shape = MaterialTheme.shapes.extraSmall
-                                                        )
-                                                        Spacer(modifier = Modifier.height(8.dp))
-                                                        var showFolderSelection by rememberSaveable {
-                                                            mutableStateOf(false)
-                                                        }
-                                                        val saveNeutralLut: (String?) -> Unit = {
-                                                            viewModel.saveNeutralLut(it) { saveResult ->
-                                                                context.parseSaveResult(
-                                                                    saveResult = saveResult,
-                                                                    onSuccess = showConfetti,
-                                                                    toastHostState = toastHostState,
-                                                                    scope = scope
-                                                                )
-                                                            }
-                                                        }
-                                                        Row {
-                                                            ShareButton(
-                                                                onShare = {
-                                                                    viewModel.shareNeutralLut(
-                                                                        showConfetti
-                                                                    )
-                                                                },
-                                                                onCopy = { manager ->
-                                                                    viewModel.cacheNeutralLut { uri ->
-                                                                        manager.setClip(
-                                                                            uri.asClip(context)
-                                                                        )
-                                                                        showConfetti()
-                                                                    }
-                                                                }
-                                                            )
-                                                            EnhancedIconButton(
-                                                                onClick = {
-                                                                    saveNeutralLut(null)
-                                                                },
-                                                                onLongClick = {
-                                                                    showFolderSelection = true
-                                                                }
-                                                            ) {
-                                                                Icon(
-                                                                    imageVector = Icons.Rounded.Save,
-                                                                    contentDescription = stringResource(
-                                                                        R.string.save
-                                                                    )
-                                                                )
-                                                            }
-
-                                                            if (showFolderSelection) {
-                                                                OneTimeSaveLocationSelectionDialog(
-                                                                    onDismiss = {
-                                                                        showFolderSelection = false
-                                                                    },
-                                                                    onSaveRequest = saveNeutralLut
-                                                                )
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            )
-                                        }
-                                    }
-                                    itemsIndexed(filters) { index, filter ->
-                                        FilterSelectionItem(
-                                            filter = filter,
-                                            canOpenPreview = previewBitmap != null,
-                                            favoriteFilters = favoriteFilters,
-                                            onLongClick = {
-                                                viewModel.setPreviewData(filter)
-                                            },
-                                            onOpenPreview = {
-                                                viewModel.setPreviewData(filter)
-                                            },
-                                            onClick = { custom ->
-                                                onVisibleChange(false)
-                                                if (custom != null) {
-                                                    onFilterPickedWithParams(custom)
-                                                } else {
-                                                    onFilterPicked(filter)
-                                                }
-                                            },
-                                            onRequestFilterMapping = onRequestFilterMapping,
-                                            shape = ContainerShapeDefaults.shapeForIndex(
-                                                index = index,
-                                                size = filters.size
-                                            ),
-                                            onToggleFavorite = {
-                                                viewModel.toggleFavorite(filter)
-                                            },
-                                            isFavoritePage = false,
-                                            modifier = Modifier.animateItem(),
-                                            cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
-                                                viewModel.cubeLutRemoteResources
-                                            } else null,
-                                            cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
-                                                viewModel.cubeLutDownloadProgress
-                                            } else null,
-                                            onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
-                                                viewModel.updateCubeLuts(
-                                                    startDownloadIfNeeded = true,
-                                                    forceUpdate = forceUpdate,
-                                                    onFailure = {
-                                                        scope.launch {
-                                                            toastHostState.showError(context, it)
-                                                        }
-                                                    },
-                                                    downloadOnlyNewData = downloadOnlyNewData
-                                                )
-                                            },
-                                            previewModel = previewModel
                                         )
                                     }
                                 }
+                                itemsIndexed(filters) { index, filter ->
+                                    FilterSelectionItem(
+                                        filter = filter,
+                                        canOpenPreview = previewBitmap != null,
+                                        favoriteFilters = favoriteFilters,
+                                        onLongClick = {
+                                            component.setPreviewData(filter)
+                                        },
+                                        onOpenPreview = {
+                                            component.setPreviewData(filter)
+                                        },
+                                        onClick = { custom ->
+                                            onVisibleChange(false)
+                                            if (custom != null) {
+                                                onFilterPickedWithParams(custom)
+                                            } else {
+                                                onFilterPicked(filter)
+                                            }
+                                        },
+                                        onRequestFilterMapping = onRequestFilterMapping,
+                                        shape = ContainerShapeDefaults.shapeForIndex(
+                                            index = index,
+                                            size = filters.size
+                                        ),
+                                        onToggleFavorite = {
+                                            component.toggleFavorite(filter)
+                                        },
+                                        isFavoritePage = false,
+                                        modifier = Modifier.animateItem(),
+                                        cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
+                                            component.cubeLutRemoteResources
+                                        } else null,
+                                        cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
+                                            component.cubeLutDownloadProgress
+                                        } else null,
+                                        onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
+                                            component.updateCubeLuts(
+                                                startDownloadIfNeeded = true,
+                                                forceUpdate = forceUpdate,
+                                                onFailure = {
+                                                    scope.launch {
+                                                        toastHostState.showError(context, it)
+                                                    }
+                                                },
+                                                downloadOnlyNewData = downloadOnlyNewData
+                                            )
+                                        },
+                                        previewModel = previewModel
+                                    )
+                                }
                             }
+                        }
 
-                            if (canAddTemplates) {
-                                when (page) {
-                                    0 -> templatesContent()
+                        if (canAddTemplates) {
+                            when (page) {
+                                0 -> templatesContent()
 
-                                    1 -> favoritesContent()
+                                1 -> favoritesContent()
 
-                                    else -> otherContent()
-                                }
-                            } else {
-                                when (page) {
-                                    0 -> favoritesContent()
+                                else -> otherContent()
+                            }
+                        } else {
+                            when (page) {
+                                0 -> favoritesContent()
 
-                                    else -> otherContent()
-                                }
+                                else -> otherContent()
                             }
                         }
                     }
                 }
-            },
-            title = {
-                AnimatedContent(
-                    targetState = isSearching
-                ) { searching ->
-                    if (searching) {
-                        BackHandler {
-                            searchKeyword = ""
-                            isSearching = false
-                        }
-                        ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
-                            RoundedTextField(
-                                maxLines = 1,
-                                hint = { Text(stringResource(id = R.string.search_here)) },
-                                keyboardOptions = KeyboardOptions.Default.copy(
-                                    imeAction = ImeAction.Search,
-                                    autoCorrectEnabled = null
-                                ),
-                                value = searchKeyword,
-                                onValueChange = {
-                                    searchKeyword = it
-                                },
-                                startIcon = {
+            }
+        },
+        title = {
+            AnimatedContent(
+                targetState = isSearching
+            ) { searching ->
+                if (searching) {
+                    BackHandler {
+                        searchKeyword = ""
+                        isSearching = false
+                    }
+                    ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                        RoundedTextField(
+                            maxLines = 1,
+                            hint = { Text(stringResource(id = R.string.search_here)) },
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                imeAction = ImeAction.Search,
+                                autoCorrectEnabled = null
+                            ),
+                            value = searchKeyword,
+                            onValueChange = {
+                                searchKeyword = it
+                            },
+                            startIcon = {
+                                EnhancedIconButton(
+                                    onClick = {
+                                        searchKeyword = ""
+                                        isSearching = false
+                                    },
+                                    modifier = Modifier.padding(start = 4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                        contentDescription = stringResource(R.string.exit),
+                                        tint = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                            },
+                            endIcon = {
+                                AnimatedVisibility(
+                                    visible = searchKeyword.isNotEmpty(),
+                                    enter = fadeIn() + scaleIn(),
+                                    exit = fadeOut() + scaleOut()
+                                ) {
                                     EnhancedIconButton(
+                                        containerColor = Color.Transparent,
+                                        contentColor = LocalContentColor.current,
+                                        enableAutoShadowAndBorder = false,
                                         onClick = {
                                             searchKeyword = ""
-                                            isSearching = false
                                         },
-                                        modifier = Modifier.padding(start = 4.dp)
+                                        modifier = Modifier.padding(end = 4.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                            contentDescription = stringResource(R.string.exit),
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = stringResource(R.string.close),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     }
-                                },
-                                endIcon = {
-                                    AnimatedVisibility(
-                                        visible = searchKeyword.isNotEmpty(),
-                                        enter = fadeIn() + scaleIn(),
-                                        exit = fadeOut() + scaleOut()
-                                    ) {
-                                        EnhancedIconButton(
-                                            containerColor = Color.Transparent,
-                                            contentColor = LocalContentColor.current,
-                                            enableAutoShadowAndBorder = false,
-                                            onClick = {
-                                                searchKeyword = ""
-                                            },
-                                            modifier = Modifier.padding(end = 4.dp)
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Close,
-                                                contentDescription = stringResource(R.string.close),
-                                                tint = MaterialTheme.colorScheme.onSurface
-                                            )
-                                        }
-                                    }
-                                },
-                                shape = CircleShape
-                            )
-                        }
-                    } else {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                                }
+                            },
+                            shape = CircleShape
+                        )
+                    }
+                } else {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TitleItem(
+                            text = stringResource(R.string.filter),
+                            icon = Icons.Rounded.AutoFixHigh
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        EnhancedIconButton(
+                            onClick = { isSearching = true },
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
                         ) {
-                            TitleItem(
-                                text = stringResource(R.string.filter),
-                                icon = Icons.Rounded.AutoFixHigh
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = stringResource(R.string.search_here)
                             )
-                            Spacer(modifier = Modifier.weight(1f))
-                            EnhancedIconButton(
-                                onClick = { isSearching = true },
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Search,
-                                    contentDescription = stringResource(R.string.search_here)
-                                )
-                            }
-                            EnhancedButton(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                onClick = { onVisibleChange(false) }
-                            ) {
-                                AutoSizeText(stringResource(R.string.close))
-                            }
-                            Spacer(Modifier.width(8.dp))
                         }
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = { onVisibleChange(false) }
+                        ) {
+                            AutoSizeText(stringResource(R.string.close))
+                        }
+                        Spacer(Modifier.width(8.dp))
                     }
                 }
-            },
-            confirmButton = {},
-            enableBottomContentWeight = false,
-            visible = visible,
-            onDismiss = onVisibleChange
-        )
+            }
+        },
+        confirmButton = {},
+        enableBottomContentWeight = false,
+        visible = visible,
+        onDismiss = onVisibleChange
+    )
 
-        var imageState by rememberImageState()
-        LaunchedEffect(previewSheetData) {
-            if (previewBitmap != null && previewSheetData != null) {
-                if (previewSheetData.size == 1 && previewSheetData.firstOrNull()?.value is Unit) {
+    var imageState by rememberImageState()
+    LaunchedEffect(previewSheetData) {
+        if (previewBitmap != null && previewSheetData != null) {
+            if (previewSheetData.size == 1 && previewSheetData.firstOrNull()?.value is Unit) {
+                imageState = imageState.copy(position = 2)
+            }
+            component.updatePreview(previewBitmap)
+        }
+    }
+
+    val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
+    SimpleSheet(
+        dragHandle = {
+            SimpleDragHandle {
+                EnhancedTopAppBar(
+                    type = EnhancedTopAppBarType.Center,
+                    modifier = Modifier,
+                    navigationIcon = {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = {
+                                component.setPreviewData(null)
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = stringResource(R.string.close)
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = SimpleSheetDefaults.barContainerColor
+                    ),
+                    actions = {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = {
+                                previewSheetData?.forEach { filter ->
+                                    onFilterPickedWithParams(
+                                        filter.copy(filter.value!!).also {
+                                            it.isVisible = true
+                                        }
+                                    )
+                                }
+                                component.setPreviewData(null)
+                                onVisibleChange(false)
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Done,
+                                contentDescription = "Done"
+                            )
+                        }
+                    },
+                    title = {
+                        Text(
+                            text = stringResource(
+                                id = previewSheetData?.let {
+                                    if (it.size == 1) it.first().title
+                                    else R.string.filter_preview
+                                } ?: R.string.filter_preview
+                            ),
+                            modifier = Modifier.marquee()
+                        )
+                    }
+                )
+            }
+        },
+        sheetContent = {
+            DisposableEffect(Unit) {
+                onDispose {
                     imageState = imageState.copy(position = 2)
                 }
-                viewModel.updatePreview(previewBitmap)
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val imageBlock = @Composable {
+                    AnimatedContent(
+                        targetState = component.previewBitmap == null,
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
+                    ) { isNull ->
+                        if (isNull) {
+                            Box(
+                                modifier = if (component.previewBitmap == null) {
+                                    Modifier
+                                        .aspectRatio(
+                                            previewBitmap?.safeAspectRatio ?: (1 / 2f)
+                                        )
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .shimmer(true)
+                                } else Modifier
+                            )
+                        } else {
+                            SimplePicture(
+                                bitmap = component.previewBitmap,
+                                loading = component.isPreviewLoading,
+                                modifier = Modifier
+                            )
+                        }
+                    }
+                }
+                val isPortrait by isPortraitOrientationAsState()
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    val isUnit =
+                        previewSheetData?.size == 1 && previewSheetData.firstOrNull()?.value is Unit
+                    if (!isPortrait) {
+                        Box(
+                            modifier = Modifier
+                                .container(RectangleShape)
+                                .weight(1.2f)
+                                .padding(20.dp)
+                        ) {
+                            Box(Modifier.align(Alignment.Center)) {
+                                imageBlock()
+                            }
+                        }
+                    }
+
+                    val internalHeight = rememberAvailableHeight(imageState = imageState)
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .then(
+                                if (!isPortrait && !isUnit) Modifier.weight(1f)
+                                else Modifier
+                            )
+                            .clipToBounds()
+                    ) {
+                        imageStickyHeader(
+                            visible = isPortrait,
+                            imageState = imageState,
+                            internalHeight = internalHeight,
+                            onStateChange = { imageState = it },
+                            imageBlock = imageBlock,
+                            backgroundColor = backgroundColor
+                        )
+                        item {
+                            previewSheetData?.takeIf { !isUnit }?.let { list ->
+                                list.forEachIndexed { index, filter ->
+                                    FilterItem(
+                                        backgroundColor = MaterialTheme
+                                            .colorScheme
+                                            .surface,
+                                        modifier = Modifier.padding(horizontal = 16.dp),
+                                        filter = filter,
+                                        showDragHandle = false,
+                                        onRemove = {
+                                            if (list.size == 1) {
+                                                component.setPreviewData(null)
+                                            } else component.removeFilterAtIndex(index)
+                                        },
+                                        onFilterChange = { value ->
+                                            component.updateFilter(value, index)
+                                        }
+                                    )
+                                    if (index != list.lastIndex) {
+                                        Spacer(Modifier.height(8.dp))
+                                    }
+                                }
+                                Spacer(Modifier.height(16.dp))
+                            }
+                            Spacer(
+                                Modifier.height(
+                                    WindowInsets
+                                        .navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding()
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        visible = previewSheetData != null,
+        onDismiss = {
+            if (!it) {
+                component.setPreviewData(null)
             }
         }
-
-        val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
-        SimpleSheet(
-            dragHandle = {
-                SimpleDragHandle {
-                    EnhancedTopAppBar(
-                        type = EnhancedTopAppBarType.Center,
-                        modifier = Modifier,
-                        navigationIcon = {
-                            EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
-                                onClick = {
-                                    viewModel.setPreviewData(null)
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Close,
-                                    contentDescription = stringResource(R.string.close)
-                                )
-                            }
-                        },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = SimpleSheetDefaults.barContainerColor
-                        ),
-                        actions = {
-                            EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
-                                onClick = {
-                                    previewSheetData?.forEach { filter ->
-                                        onFilterPickedWithParams(
-                                            filter.copy(filter.value!!).also {
-                                                it.isVisible = true
-                                            }
-                                        )
-                                    }
-                                    viewModel.setPreviewData(null)
-                                    onVisibleChange(false)
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Done,
-                                    contentDescription = "Done"
-                                )
-                            }
-                        },
-                        title = {
-                            Text(
-                                text = stringResource(
-                                    id = previewSheetData?.let {
-                                        if (it.size == 1) it.first().title
-                                        else R.string.filter_preview
-                                    } ?: R.string.filter_preview
-                                ),
-                                modifier = Modifier.marquee()
-                            )
-                        }
-                    )
-                }
-            },
-            sheetContent = {
-                DisposableEffect(Unit) {
-                    onDispose {
-                        imageState = imageState.copy(position = 2)
-                    }
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    val imageBlock = @Composable {
-                        AnimatedContent(
-                            targetState = viewModel.previewBitmap == null,
-                            transitionSpec = { fadeIn() togetherWith fadeOut() }
-                        ) { isNull ->
-                            if (isNull) {
-                                Box(
-                                    modifier = if (viewModel.previewBitmap == null) {
-                                        Modifier
-                                            .aspectRatio(
-                                                previewBitmap?.safeAspectRatio ?: (1 / 2f)
-                                            )
-                                            .clip(RoundedCornerShape(8.dp))
-                                            .shimmer(true)
-                                    } else Modifier
-                                )
-                            } else {
-                                SimplePicture(
-                                    bitmap = viewModel.previewBitmap,
-                                    loading = viewModel.isPreviewLoading,
-                                    modifier = Modifier
-                                )
-                            }
-                        }
-                    }
-                    val isPortrait by isPortraitOrientationAsState()
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        val isUnit =
-                            previewSheetData?.size == 1 && previewSheetData.firstOrNull()?.value is Unit
-                        if (!isPortrait) {
-                            Box(
-                                modifier = Modifier
-                                    .container(RectangleShape)
-                                    .weight(1.2f)
-                                    .padding(20.dp)
-                            ) {
-                                Box(Modifier.align(Alignment.Center)) {
-                                    imageBlock()
-                                }
-                            }
-                        }
-
-                        val internalHeight = rememberAvailableHeight(imageState = imageState)
-                        LazyColumn(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .then(
-                                    if (!isPortrait && !isUnit) Modifier.weight(1f)
-                                    else Modifier
-                                )
-                                .clipToBounds()
-                        ) {
-                            imageStickyHeader(
-                                visible = isPortrait,
-                                imageState = imageState,
-                                internalHeight = internalHeight,
-                                onStateChange = { imageState = it },
-                                imageBlock = imageBlock,
-                                backgroundColor = backgroundColor
-                            )
-                            item {
-                                previewSheetData?.takeIf { !isUnit }?.let { list ->
-                                    list.forEachIndexed { index, filter ->
-                                        FilterItem(
-                                            backgroundColor = MaterialTheme
-                                                .colorScheme
-                                                .surface,
-                                            modifier = Modifier.padding(horizontal = 16.dp),
-                                            filter = filter,
-                                            showDragHandle = false,
-                                            onRemove = {
-                                                if (list.size == 1) {
-                                                    viewModel.setPreviewData(null)
-                                                } else viewModel.removeFilterAtIndex(index)
-                                            },
-                                            onFilterChange = { value ->
-                                                viewModel.updateFilter(value, index)
-                                            }
-                                        )
-                                        if (index != list.lastIndex) {
-                                            Spacer(Modifier.height(8.dp))
-                                        }
-                                    }
-                                    Spacer(Modifier.height(16.dp))
-                                }
-                                Spacer(
-                                    Modifier.height(
-                                        WindowInsets
-                                            .navigationBars
-                                            .asPaddingValues()
-                                            .calculateBottomPadding()
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-            },
-            visible = previewSheetData != null,
-            onDismiss = {
-                if (!it) {
-                    viewModel.setPreviewData(null)
-                }
-            }
-        )
-    }
+    )
 }
 
-@HiltViewModel
-private class AddFiltersSheetViewModel @Inject constructor(
+class AddFiltersSheetComponent @AssistedInject internal constructor(
+    @Assisted componentContext: ComponentContext,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -1284,7 +1282,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val remoteResourcesStore: RemoteResourcesStore,
     dispatchersHolder: DispatchersHolder
-) : BaseViewModel(dispatchersHolder) {
+) : BaseComponent(dispatchersHolder, componentContext) {
 
     private val _previewModel: MutableState<ImageModel> = mutableStateOf(
         R.drawable.filter_preview_source.toImageModel()
@@ -1316,14 +1314,14 @@ private class AddFiltersSheetViewModel @Inject constructor(
             downloadOnlyNewData = false
         )
         favoriteInteractor
-            .getFilterPreviewModel().onEach { data ->
+            .getFilterPrecomponent().onEach { data ->
                 _previewModel.update { data }
-            }.launchIn(viewModelScope)
+            }.launchIn(componentScope)
     }
 
-    fun setFilterPreviewModel(uri: String) {
-        viewModelScope.launch {
-            favoriteInteractor.setFilterPreviewModel(uri)
+    fun setFilterPrecomponent(uri: String) {
+        componentScope.launch {
+            favoriteInteractor.setFilterPrecomponent(uri)
         }
     }
 
@@ -1333,7 +1331,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         onFailure: (Throwable) -> Unit,
         downloadOnlyNewData: Boolean = false
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             remoteResourcesStore.getResources(
                 name = RemoteResources.CUBE_LUT,
                 forceUpdate = forceUpdate,
@@ -1375,7 +1373,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     ): Transformation = filterProvider.filterToTransformation(filter).toCoil()
 
     fun updatePreview(previewBitmap: Bitmap) {
-        viewModelScope.launch {
+        componentScope.launch {
             _isPreviewLoading.update { true }
             _previewBitmap.update {
                 imageTransformer.transform(
@@ -1416,7 +1414,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         bitmap: Bitmap,
         onComplete: () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             shareProvider.shareImage(
                 imageInfo = ImageInfo(
                     width = bitmap.width,
@@ -1433,7 +1431,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         bitmap: Bitmap,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             val imageInfo = ImageInfo(
                 width = bitmap.width,
                 height = bitmap.height,
@@ -1462,7 +1460,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         fileUri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        viewModelScope.launch(ioDispatcher) {
+        componentScope.launch(ioDispatcher) {
             fileController.writeBytes(
                 uri = fileUri.toString(),
                 block = { it.writeBytes(content.toByteArray()) }
@@ -1475,7 +1473,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         filename: String,
         onComplete: () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             shareProvider.shareData(
                 writeData = { it.writeBytes(content.toByteArray()) },
                 filename = filename,
@@ -1493,7 +1491,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     }
 
     fun reorderFavoriteFilters(value: List<UiFilter<*>>) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.reorderFavoriteFilters(value)
         }
     }
@@ -1505,13 +1503,13 @@ private class AddFiltersSheetViewModel @Inject constructor(
         get() = favoriteInteractor.getTemplateFilters()
 
     fun toggleFavorite(filter: UiFilter<*>) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.toggleFavorite(filter)
         }
     }
 
     fun removeTemplateFilter(templateFilter: TemplateFilter) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.removeTemplateFilter(templateFilter)
         }
     }
@@ -1525,7 +1523,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.addTemplateFilterFromString(
                 string = string,
                 onSuccess = onSuccess,
@@ -1539,7 +1537,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             favoriteInteractor.addTemplateFilterFromUri(
                 uri = uri,
                 onSuccess = onSuccess,
@@ -1549,7 +1547,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     }
 
     fun cacheNeutralLut(onComplete: (Uri) -> Unit) {
-        viewModelScope.launch {
+        componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.cacheImage(
                     image = it,
@@ -1566,7 +1564,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
     }
 
     fun shareNeutralLut(onComplete: () -> Unit) {
-        viewModelScope.launch {
+        componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.shareImage(
                     image = it,
@@ -1585,7 +1583,7 @@ private class AddFiltersSheetViewModel @Inject constructor(
         oneTimeSaveLocationUri: String? = null,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        viewModelScope.launch {
+        componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let { bitmap ->
                 val imageInfo = ImageInfo(
                     width = 512,
@@ -1610,6 +1608,13 @@ private class AddFiltersSheetViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext
+        ): AddFiltersSheetComponent
     }
 
 }

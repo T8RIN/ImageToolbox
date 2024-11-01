@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
@@ -66,14 +65,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
@@ -87,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -107,25 +105,24 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.viewModel.ScanQrCodeViewModel
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
 fun ScanQrCodeContent(
-    qrCodeContent: String?,
     onGoBack: () -> Unit,
-    viewModel: ScanQrCodeViewModel = hiltViewModel()
+    component: ScanQrCodeComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
 
     val confettiHostState = LocalConfettiHostState.current
 
     val scope = rememberCoroutineScope()
 
-    var qrContent by rememberSaveable(qrCodeContent) {
-        mutableStateOf(qrCodeContent ?: "")
+    var qrContent by rememberSaveable(component.initialQrCodeContent) {
+        mutableStateOf(component.initialQrCodeContent ?: "")
     }
 
     val scanner = rememberQrCodeScanner {
@@ -133,7 +130,7 @@ fun ScanQrCodeContent(
     }
 
     LaunchedEffect(qrContent) {
-        viewModel.addTemplateFilterFromString(
+        component.addTemplateFilterFromString(
             string = qrContent,
             onSuccess = { filterName, filtersCount ->
                 toastHostState.showToast(
@@ -173,7 +170,7 @@ fun ScanQrCodeContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?, bitmap: Bitmap) -> Unit =
         { oneTimeSaveLocationUri, bitmap ->
-            viewModel.saveBitmap(bitmap, oneTimeSaveLocationUri) { saveResult ->
+            component.saveBitmap(bitmap, oneTimeSaveLocationUri) { saveResult ->
                 context.parseSaveResult(
                     saveResult = saveResult,
                     onSuccess = {
@@ -276,6 +273,7 @@ fun ScanQrCodeContent(
     }
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = true,
         title = {
             Text(
                 text = stringResource(R.string.qr_code),
@@ -290,13 +288,13 @@ fun ScanQrCodeContent(
                 onShare = {
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        viewModel.shareImage(bitmap, showConfetti)
+                        component.shareImage(bitmap, showConfetti)
                     }
                 },
                 onCopy = { manager ->
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        viewModel.cacheImage(bitmap) { uri ->
+                        component.cacheImage(bitmap) { uri ->
                             manager.setClip(uri.asClip(context))
                             showConfetti()
                         }
@@ -500,7 +498,7 @@ fun ScanQrCodeContent(
                             saveBitmap(it, bitmap)
                         }
                     },
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
         },
@@ -508,9 +506,9 @@ fun ScanQrCodeContent(
         isPortrait = !isLandscape
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            onCancelLoading = viewModel::cancelSaving
+            onCancelLoading = component::cancelSaving
         )
     }
 }

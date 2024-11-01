@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.format_conversion.presentation
 
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -37,11 +36,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
@@ -56,6 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
@@ -81,16 +79,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
-import ru.tech.imageresizershrinker.feature.format_conversion.presentation.viewModel.FormatConversionViewModel
+import ru.tech.imageresizershrinker.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
 
 @Composable
 fun FormatConversionContent(
-    uriState: List<Uri>?,
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit,
-    viewModel: FormatConversionViewModel = hiltViewModel()
+    component: FormatConversionComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
 
@@ -105,17 +102,8 @@ fun FormatConversionContent(
         }
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let {
-            viewModel.updateUris(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
-            }
-        }
-    }
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(component.bitmap) {
+        component.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(it)
             }
@@ -127,7 +115,7 @@ fun FormatConversionContent(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                viewModel.updateUris(list) {
+                component.updateUris(list) {
                     scope.launch {
                         toastHostState.showError(context, it)
                     }
@@ -139,11 +127,11 @@ fun FormatConversionContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !uriState.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        viewModel.saveBitmaps(it) { results ->
+        component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 scope = scope,
                 results = results,
@@ -161,7 +149,7 @@ fun FormatConversionContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.haveChanges) showExitDialog = true
+        if (component.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
@@ -170,7 +158,7 @@ fun FormatConversionContent(
     var showCompareSheet by rememberSaveable { mutableStateOf(false) }
 
     CompareSheet(
-        data = viewModel.bitmap to viewModel.previewBitmap,
+        data = component.bitmap to component.previewBitmap,
         visible = showCompareSheet,
         onDismiss = {
             showCompareSheet = false
@@ -178,7 +166,7 @@ fun FormatConversionContent(
     )
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
+        data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = {
             showZoomSheet = false
@@ -186,13 +174,14 @@ fun FormatConversionContent(
     )
 
     AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.format_conversion),
-                input = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
-                size = viewModel.imageInfo.sizeInBytes.toLong(),
-                originalSize = viewModel.selectedUri?.fileSize(context)
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
+                size = component.imageInfo.sizeInBytes.toLong(),
+                originalSize = component.selectedUri?.fileSize(context)
             )
         },
         onGoBack = onBack,
@@ -201,18 +190,18 @@ fun FormatConversionContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 onShare = {
-                    viewModel.shareBitmaps(showConfetti)
+                    component.shareBitmaps(showConfetti)
                 },
                 onCopy = { manager ->
-                    viewModel.cacheCurrentImage { uri ->
+                    component.cacheCurrentImage { uri ->
                         manager.setClip(uri.asClip(context))
                         showConfetti()
                     }
                 },
                 onEdit = {
-                    viewModel.cacheImages {
+                    component.cacheImages {
                         editSheetData = it
                     }
                 }
@@ -238,36 +227,36 @@ fun FormatConversionContent(
             ImageContainer(
                 modifier = Modifier
                     .detectSwipes(
-                        onSwipeRight = viewModel::selectLeftUri,
-                        onSwipeLeft = viewModel::selectRightUri
+                        onSwipeRight = component::selectLeftUri,
+                        onSwipeLeft = component::selectRightUri
                     ),
                 imageInside = isPortrait,
                 showOriginal = false,
-                previewBitmap = viewModel.previewBitmap,
-                originalBitmap = viewModel.bitmap,
-                isLoading = viewModel.isImageLoading,
-                shouldShowPreview = viewModel.shouldShowPreview
+                previewBitmap = component.previewBitmap,
+                originalBitmap = component.bitmap,
+                isLoading = component.isImageLoading,
+                shouldShowPreview = component.shouldShowPreview
             )
         },
         controls = {
-            val imageInfo = viewModel.imageInfo
+            val imageInfo = component.imageInfo
             ImageCounter(
-                imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                imageCount = component.uris?.size?.takeIf { it > 1 },
                 onRepick = {
                     showPickImageFromUrisSheet = true
                 }
             )
             Spacer(Modifier.size(8.dp))
             AnimatedVisibility(
-                visible = viewModel.uris?.size != 1,
+                visible = component.uris?.size != 1,
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
                 Column {
                     SaveExifWidget(
-                        imageFormat = viewModel.imageInfo.imageFormat,
-                        checked = viewModel.keepExif,
-                        onCheckedChange = viewModel::setKeepExif
+                        imageFormat = component.imageInfo.imageFormat,
+                        checked = component.keepExif,
+                        onCheckedChange = component::setKeepExif
                     )
                     Spacer(Modifier.size(8.dp))
                 }
@@ -275,16 +264,16 @@ fun FormatConversionContent(
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
                 value = imageInfo.imageFormat,
-                onValueChange = viewModel::setImageFormat
+                onValueChange = component::setImageFormat
             )
             if (imageInfo.imageFormat.canChangeCompressionValue) {
                 Spacer(Modifier.height(8.dp))
             }
             QualitySelector(
                 imageFormat = imageInfo.imageFormat,
-                enabled = viewModel.bitmap != null,
+                enabled = component.bitmap != null,
                 quality = imageInfo.quality,
-                onQualityChange = viewModel::setQuality
+                onQualityChange = component::setQuality
             )
         },
         buttons = { actions ->
@@ -295,7 +284,7 @@ fun FormatConversionContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
+                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -314,7 +303,7 @@ fun FormatConversionContent(
                 OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
                     onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = viewModel.getFormatForFilenameSelection()
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
                 )
             }
             OneTimeImagePickingDialog(
@@ -325,22 +314,22 @@ fun FormatConversionContent(
             )
         },
         topAppBarPersistentActions = {
-            if (viewModel.bitmap == null) TopAppBarEmoji()
+            if (component.bitmap == null) TopAppBarEmoji()
             CompareButton(
                 onClick = { showCompareSheet = true },
-                visible = viewModel.previewBitmap != null
-                        && viewModel.bitmap != null
-                        && viewModel.shouldShowPreview
+                visible = component.previewBitmap != null
+                        && component.bitmap != null
+                        && component.shouldShowPreview
             )
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = viewModel.previewBitmap != null && viewModel.shouldShowPreview
+                visible = component.previewBitmap != null && component.shouldShowPreview
             )
         },
-        canShowScreenData = viewModel.bitmap != null,
+        canShowScreenData = component.bitmap != null,
         forceImagePreviewToMax = false,
         noDataControls = {
-            if (!viewModel.isImageLoading) {
+            if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
@@ -349,8 +338,8 @@ fun FormatConversionContent(
 
     PickImageFromUrisSheet(
         transformations = listOf(
-            viewModel.imageInfoTransformationFactory(
-                imageInfo = viewModel.imageInfo,
+            component.imageInfoTransformationFactory(
+                imageInfo = component.imageInfo,
                 preset = Preset.Original
             )
         ),
@@ -358,17 +347,17 @@ fun FormatConversionContent(
         onDismiss = {
             showPickImageFromUrisSheet = false
         },
-        uris = viewModel.uris,
-        selectedUri = viewModel.selectedUri,
+        uris = component.uris,
+        selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            viewModel.updateSelectedUri(uri = uri) {
+            component.updateSelectedUri(uri = uri) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
             }
         },
         onUriRemoved = { uri ->
-            viewModel.updateUrisSilently(removedUri = uri) {
+            component.updateUrisSilently(removedUri = uri) {
                 scope.launch {
                     toastHostState.showError(context, it)
                 }
@@ -383,11 +372,11 @@ fun FormatConversionContent(
         visible = showExitDialog
     )
 
-    if (viewModel.isSaving) {
+    if (component.isSaving) {
         LoadingDialog(
-            done = viewModel.done,
-            left = viewModel.uris?.size ?: 1,
-            onCancelLoading = viewModel::cancelSaving
+            done = component.done,
+            left = component.uris?.size ?: 1,
+            onCancelLoading = component::cancelSaving
         )
     }
 }
