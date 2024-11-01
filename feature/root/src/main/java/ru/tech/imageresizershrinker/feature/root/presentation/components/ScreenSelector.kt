@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,6 +46,9 @@ import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerCont
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.animation.AlphaEasing
+import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
+import ru.tech.imageresizershrinker.core.ui.utils.animation.PointToPointEasing
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
@@ -128,7 +132,24 @@ internal fun ScreenSelector(
         modifier = Modifier.fillMaxSize(),
         animation = predictiveBackAnimation(
             backHandler = component.backHandler,
-            fallbackAnimation = stackAnimation(fade() + scale() + slide()),
+            fallbackAnimation = stackAnimation(
+                fade(
+                    tween(
+                        durationMillis = 400,
+                        easing = AlphaEasing
+                    )
+                ) + slide(
+                    tween(
+                        durationMillis = 600,
+                        easing = FancyTransitionEasing
+                    )
+                ) + scale(
+                    tween(
+                        durationMillis = 800,
+                        easing = PointToPointEasing
+                    )
+                )
+            ),
             onBack = onGoBack,
             selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
         )
