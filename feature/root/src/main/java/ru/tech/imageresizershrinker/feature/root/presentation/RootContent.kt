@@ -82,7 +82,7 @@ fun RootContent(
         mutableIntStateOf(0)
     }
 
-    val currentDestination = component.childStack.subscribeAsState().value.backStack
+    val currentDestination = component.childStack.subscribeAsState().value.items
     LaunchedEffect(currentDestination) {
         delay(200L) // Delay for transition
         randomEmojiKey++
