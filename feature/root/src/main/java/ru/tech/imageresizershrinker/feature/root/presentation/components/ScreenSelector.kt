@@ -132,6 +132,7 @@ internal fun ScreenSelector(
         modifier = Modifier.fillMaxSize(),
         animation = predictiveBackAnimation(
             backHandler = component.backHandler,
+            onBack = onGoBack,
             fallbackAnimation = stackAnimation(
                 fade(
                     tween(
@@ -150,7 +151,6 @@ internal fun ScreenSelector(
                     )
                 )
             ),
-            onBack = onGoBack,
             selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
         )
     ) { screen ->
