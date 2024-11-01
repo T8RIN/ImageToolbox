@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.root.presentation.components
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -31,7 +32,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback
 import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import com.arkivanov.decompose.router.stack.backStack
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.decompose.router.stack.push
@@ -126,8 +127,9 @@ internal fun ScreenSelector(
         )
     }
 
+    val childStack by component.childStack.subscribeAsState()
     Children(
-        stack = component.childStack,
+        stack = childStack,
         modifier = Modifier.fillMaxSize(),
         animation = predictiveBackAnimation(
             backHandler = component.backHandler,
@@ -462,5 +464,5 @@ internal fun ScreenSelector(
             }
         }
     }
-    ScreenBasedMaxBrightnessEnforcement(component.childStack.backStack.lastOrNull()?.configuration)
+    ScreenBasedMaxBrightnessEnforcement(childStack.items.lastOrNull()?.configuration)
 }
