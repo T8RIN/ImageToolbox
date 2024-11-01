@@ -713,6 +713,10 @@ or click one of the badges below.
     - Pixel
     - Fluent
     - Cupertino
+- Slider Type Selection:
+    - Fancy
+    - Material You
+    - Material
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
