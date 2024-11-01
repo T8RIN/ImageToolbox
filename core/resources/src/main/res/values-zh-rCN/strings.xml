@@ -1469,4 +1469,5 @@
     <string name="material_2_sub">基于材质 2 的滑块，不具现代感，简单且直接</string>
     <string name="fancy_sub">带有动画效果的定制的精美滑块，这是这款应用程序的默认设置</string>
     <string name="material_you_slider_sub">现代基于 Material You 设计的滑块，充满未来感、新颖独特，方便易用</string>
+    <string name="apply">接受</string>
 </resources>
