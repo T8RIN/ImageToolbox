@@ -50,6 +50,7 @@ fun String?.toPath(
                 val scaleYFactor = size.height / rectPath.height()
                 val androidPath = path.asAndroidPath()
                 scaleMatrix.setScale(scaleXFactor, scaleYFactor, rectF.centerX(), rectF.centerY())
+                @Suppress("DEPRECATION")
                 androidPath.computeBounds(rectF, true)
                 androidPath.transform(scaleMatrix)
                 return androidPath.asComposePath()

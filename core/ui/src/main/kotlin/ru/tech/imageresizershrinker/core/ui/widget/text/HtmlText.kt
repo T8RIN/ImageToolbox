@@ -21,13 +21,14 @@ import android.graphics.Typeface
 import android.text.style.StyleSpan
 import android.text.style.URLSpan
 import android.text.style.UnderlineSpan
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
@@ -91,9 +92,11 @@ fun HtmlText(
                             start = startIndex,
                             end = endIndex
                         )
-                        addStringAnnotation(
-                            tag = Tag.Hyperlink.name,
-                            annotation = span.url,
+                        addLink(
+                            url = LinkAnnotation.Url(
+                                url = span.url,
+                                linkInteractionListener = { onHyperlinkClick(span.url) }
+                            ),
                             start = startIndex,
                             end = endIndex
                         )
@@ -103,20 +106,15 @@ fun HtmlText(
         }
     }
 
-    ClickableText(
-        annotatedText,
+    BasicText(
+        text = annotatedText,
         modifier = modifier,
         style = style,
         softWrap = softWrap,
         overflow = overflow,
         maxLines = maxLines,
         onTextLayout = onTextLayout
-    ) { it ->
-        annotatedText.getStringAnnotations(tag = Tag.Hyperlink.name, start = it, end = it)
-            .firstOrNull()?.let {
-                onHyperlinkClick(it.item)
-            }
-    }
+    )
 }
 
 private fun StyleSpan.toSpanStyle(): SpanStyle? {
@@ -130,8 +128,4 @@ private fun StyleSpan.toSpanStyle(): SpanStyle? {
 
         else -> null
     }
-}
-
-private enum class Tag {
-    Hyperlink
 }
