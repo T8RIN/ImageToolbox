@@ -77,7 +77,7 @@ fun rememberQrCodeScanner(
 ): QrCodeScanner {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
 
     val scannerLauncher = rememberLauncherForActivityResult(ScanCustomCode()) { result ->
         when (result) {

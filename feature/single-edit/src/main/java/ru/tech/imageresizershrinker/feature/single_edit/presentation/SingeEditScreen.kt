@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.single_edit.presentation
 
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -36,7 +35,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -100,7 +98,7 @@ fun SingleEditContent(
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 

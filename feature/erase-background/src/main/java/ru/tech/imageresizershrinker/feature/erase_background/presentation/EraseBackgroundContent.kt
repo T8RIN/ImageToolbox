@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.erase_background.presentation
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -93,7 +92,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -164,7 +162,7 @@ fun EraseBackgroundContent(
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 

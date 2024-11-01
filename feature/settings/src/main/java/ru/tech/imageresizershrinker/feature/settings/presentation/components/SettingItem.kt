@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import androidx.activity.ComponentActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Save
@@ -30,7 +29,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -57,7 +55,7 @@ internal fun SettingItem(
     isUpdateAvailable: Boolean,
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiHostState = LocalConfettiHostState.current

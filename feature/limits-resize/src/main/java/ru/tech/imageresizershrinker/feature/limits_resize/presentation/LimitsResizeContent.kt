@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.limits_resize.presentation
 
 import android.net.Uri
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -86,7 +85,7 @@ fun LimitsResizeContent(
 ) {
     val settingsState = LocalSettingsState.current
 
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage

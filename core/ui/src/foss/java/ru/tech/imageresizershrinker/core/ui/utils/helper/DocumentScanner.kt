@@ -68,7 +68,7 @@ fun rememberDocumentScanner(
 ): DocumentScanner {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
 
     val scanner = remember(context) {
         DocumentScannerImpl(

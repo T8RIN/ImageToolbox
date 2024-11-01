@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.load_net_image.presentation
 
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -50,7 +49,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -93,7 +91,7 @@ fun LoadNetImageContent(
     onNavigate: (Screen) -> Unit,
     component: LoadNetImageComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage

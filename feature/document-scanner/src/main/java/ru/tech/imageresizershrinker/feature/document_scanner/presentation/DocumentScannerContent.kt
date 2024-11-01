@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.document_scanner.presentation
 
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -55,7 +54,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -101,7 +99,7 @@ fun DocumentScannerContent(
     val haptics = LocalHapticFeedback.current
 
     val settingsState = LocalSettingsState.current
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiHostState = LocalConfettiHostState.current

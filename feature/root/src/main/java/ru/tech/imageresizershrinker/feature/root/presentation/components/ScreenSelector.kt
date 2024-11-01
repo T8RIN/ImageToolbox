@@ -17,13 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
@@ -51,6 +49,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasin
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PointToPointEasing
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
@@ -95,7 +94,7 @@ internal fun ScreenSelector(
     component: RootComponent,
     onRegisterScreenOpen: (Screen) -> Unit,
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
     val scope = rememberCoroutineScope()
     val navController = component.navController
     val settingsState = LocalSettingsState.current

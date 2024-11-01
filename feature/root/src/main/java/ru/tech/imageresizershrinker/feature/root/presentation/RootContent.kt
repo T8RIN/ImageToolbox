@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.root.presentation
 
 import android.content.ClipData
 import android.os.Build
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -35,7 +34,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.stack.push
@@ -75,7 +73,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 fun RootContent(
     component: RootComponent
 ) {
-    val context = LocalContext.current as ComponentActivity
+    val context = LocalComponentActivity.current
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
