@@ -738,6 +738,9 @@ or click one of the badges below.
 
 - [Accompanist](https://github.com/google/accompanist) to expand jetpack compose opportunities.
 
+- [Decompose](https://github.com/arkivanov/Decompose) - KMP lifecycle-aware business logic
+  components (aka BLoCs) with routing (navigation) and pluggable UI
+
 - [Hilt](https://dagger.dev/hilt/) for dependency injection.
 
 - [Coil](https://github.com/coil-kt/coil) for loading images.

@@ -195,9 +195,8 @@ internal fun FilterTemplateCreationSheet(
         }
 
         if (visible) {
-            BackHandler {
-                if (!canSave) onDismiss()
-                else showExitDialog = true
+            BackHandler(enabled = canSave) {
+                showExitDialog = true
             }
         }
         val preview: @Composable () -> Unit = {
