@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
@@ -404,6 +405,7 @@ class RootComponent @AssistedInject internal constructor(
         }
     }
 
+    @OptIn(DelicateDecomposeApi::class)
     fun navigateTo(screen: Screen) {
         navController.push(screen)
     }

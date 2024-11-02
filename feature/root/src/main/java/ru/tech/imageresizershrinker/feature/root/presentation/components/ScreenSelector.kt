@@ -175,6 +175,9 @@ internal fun ScreenSelector(
                     isUpdateAvailable = component.isUpdateAvailable,
                     onUpdateUris = component::updateUris,
                     onNavigate = { destination ->
+                        if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
+                            component.navigateBack()
+                        }
                         component.navigateToNew(destination)
                         onRegisterScreenOpen(destination)
                     },
