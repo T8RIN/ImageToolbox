@@ -25,5 +25,5 @@ plugins {
 android.namespace = "ru.tech.imageresizershrinker.feature.image_stitch"
 
 dependencies {
-    implementation(projects.feature.filters)
+    implementation(projects.core.filters)
 }
