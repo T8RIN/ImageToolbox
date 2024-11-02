@@ -39,7 +39,6 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerContent
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
@@ -109,7 +108,6 @@ internal fun ScreenSelector(
         component.updateUris(null)
         navController.pop()
         scope.launch {
-            delay(350L) //delay for screen anim
             themeState.updateColorTuple(appColorTuple)
         }
     }

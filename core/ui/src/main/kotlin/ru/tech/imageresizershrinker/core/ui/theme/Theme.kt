@@ -17,12 +17,15 @@
 
 package ru.tech.imageresizershrinker.core.ui.theme
 
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ImageToolboxTheme(
     dynamicColor: Boolean = LocalSettingsState.current.isDynamicColors,
@@ -30,23 +33,27 @@ fun ImageToolboxTheme(
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    DynamicTheme(
-        typography = Typography(settingsState.font),
-        state = rememberDynamicThemeState(
-            rememberAppColorTuple(
-                defaultColorTuple = settingsState.appColorTuple,
-                dynamicColor = dynamicColor,
-                darkTheme = settingsState.isNightMode
-            )
-        ),
-        colorBlindType = settingsState.colorBlindType,
-        defaultColorTuple = settingsState.appColorTuple,
-        dynamicColor = dynamicColor,
-        amoledMode = amoledMode,
-        isDarkTheme = settingsState.isNightMode,
-        contrastLevel = settingsState.themeContrastLevel,
-        style = settingsState.themeStyle,
-        isInvertColors = settingsState.isInvertThemeColors,
-        content = content
-    )
+    MaterialTheme(
+        motionScheme = CustomMotionScheme
+    ) {
+        DynamicTheme(
+            typography = Typography(settingsState.font),
+            state = rememberDynamicThemeState(
+                rememberAppColorTuple(
+                    defaultColorTuple = settingsState.appColorTuple,
+                    dynamicColor = dynamicColor,
+                    darkTheme = settingsState.isNightMode
+                )
+            ),
+            colorBlindType = settingsState.colorBlindType,
+            defaultColorTuple = settingsState.appColorTuple,
+            dynamicColor = dynamicColor,
+            amoledMode = amoledMode,
+            isDarkTheme = settingsState.isNightMode,
+            contrastLevel = settingsState.themeContrastLevel,
+            style = settingsState.themeStyle,
+            isInvertColors = settingsState.isInvertThemeColors,
+            content = content
+        )
+    }
 }

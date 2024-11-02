@@ -94,9 +94,24 @@ fun EmojiSelectionSheet(
     val state = rememberLazyGridState()
 
     LaunchedEffect(visible) {
-        delay(200)
+        delay(600)
         if (selectedEmojiIndex >= 0) {
-            state.animateScrollToItem(selectedEmojiIndex)
+            var count = 0
+            val item = emojiWithCategories.find { (_, _, emojis) ->
+                count = 0
+                emojis.forEach { emoji ->
+                    count++
+                    val index = allEmojis.indexOf(emoji)
+                    if (index == selectedEmojiIndex) return@find true
+                }
+                return@find false
+            } ?: return@LaunchedEffect
+            val index = emojiWithCategories.indexOf(item)
+
+            state.animateScrollToItem(
+                index = index,
+                scrollOffset = 60 * count / 6
+            )
         }
     }
 
@@ -167,8 +182,18 @@ fun EmojiSelectionSheet(
                     )
                 }
             }
-            var expandedCategories by rememberSaveable {
-                mutableStateOf("")
+            var expandedCategories by rememberSaveable(visible) {
+                mutableStateOf(
+                    if (selectedEmojiIndex >= 0) {
+                        emojiWithCategories.find { (_, _, emojis) ->
+                            emojis.forEach { emoji ->
+                                val index = allEmojis.indexOf(emoji)
+                                if (index == selectedEmojiIndex) return@find true
+                            }
+                            return@find false
+                        }?.title ?: ""
+                    } else ""
+                )
             }
 
             Column(
@@ -255,9 +280,7 @@ fun EmojiSelectionSheet(
                                     }
                                     val color by animateColorAsState(
                                         if (selected) MaterialTheme.colorScheme.primaryContainer
-                                        else MaterialTheme.colorScheme.secondaryContainer.copy(
-                                            alpha = 0.2f
-                                        )
+                                        else Color.Unspecified
                                     )
                                     val borderColor by animateColorAsState(
                                         if (selected) {
