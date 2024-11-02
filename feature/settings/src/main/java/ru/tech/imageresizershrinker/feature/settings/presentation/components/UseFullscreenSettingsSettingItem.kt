@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 @Composable
 fun UseFullscreenSettingsSettingItem(
     onClick: () -> Unit,
-    onNavigateToSettings: () -> Boolean,
+    onNavigateToSettings: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -52,11 +52,10 @@ fun UseFullscreenSettingsSettingItem(
         checked = settingsState.useFullscreenSettings,
         onClick = {
             if (it) {
-                if (onNavigateToSettings()) {
-                    GlobalScope.launch {
-                        delay(1000)
-                        onClick()
-                    }
+                onNavigateToSettings()
+                GlobalScope.launch {
+                    delay(1000)
+                    onClick()
                 }
             } else onClick()
         },

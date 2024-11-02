@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.arkivanov.decompose.router.stack.push
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
@@ -162,7 +161,7 @@ fun RootContent(
                     onDismiss = { showSelectSheet = it },
                     onNavigate = { screen ->
                         GlobalExceptionHandler.registerScreenOpen(screen)
-                        component.navController.push(screen)
+                        component.navigateTo(screen)
                         showSelectSheet = false
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             runCatching {

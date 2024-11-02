@@ -28,6 +28,9 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
@@ -71,7 +74,7 @@ class RootComponent @AssistedInject internal constructor(
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
 
-    val navController = StackNavigation<Screen>()
+    private val navController = StackNavigation<Screen>()
 
     val childStack: Value<ChildStack<Screen, NavigationChild>> =
         childStack(
@@ -399,6 +402,18 @@ class RootComponent @AssistedInject internal constructor(
         componentScope.launch {
             settingsManager.registerTelegramGroupOpen()
         }
+    }
+
+    fun navigateTo(screen: Screen) {
+        navController.push(screen)
+    }
+
+    fun navigateToNew(screen: Screen) {
+        navController.pushNew(screen)
+    }
+
+    fun navigateBack() {
+        navController.pop()
     }
 
     @AssistedFactory

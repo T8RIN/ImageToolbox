@@ -52,7 +52,7 @@ internal fun SettingItem(
         onNoUpdates: () -> Unit,
     ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
-    onNavigateToSettings: () -> Boolean,
+    onNavigateToSettings: () -> Unit,
     isUpdateAvailable: Boolean,
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {

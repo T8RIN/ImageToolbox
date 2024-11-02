@@ -33,10 +33,6 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.popWhile
-import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.router.stack.pushNew
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
@@ -96,7 +92,6 @@ internal fun ScreenSelector(
 ) {
     val context = LocalComponentActivity.current
     val scope = rememberCoroutineScope()
-    val navController = component.navController
     val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
     val appColorTuple = rememberAppColorTuple(
@@ -106,14 +101,14 @@ internal fun ScreenSelector(
     )
     val onGoBack: () -> Unit = {
         component.updateUris(null)
-        navController.pop()
+        component.navigateBack()
         scope.launch {
             themeState.updateColorTuple(appColorTuple)
         }
     }
 
     val onNavigate: (Screen) -> Unit = { destination ->
-        navController.push(destination)
+        component.navigateTo(destination)
         onRegisterScreenOpen(destination)
     }
 
@@ -160,14 +155,9 @@ internal fun ScreenSelector(
                     onTryGetUpdate = onTryGetUpdate,
                     isUpdateAvailable = component.isUpdateAvailable,
                     onGoBack = onGoBack,
-                    onNavigateToEasterEgg = {
-                        navController.pushNew(Screen.EasterEgg)
-                        onRegisterScreenOpen(Screen.EasterEgg)
-                    },
-                    onNavigateToSettings = {
-                        navController.pushNew(Screen.Settings)
-                        onRegisterScreenOpen(Screen.Settings)
-                        true
+                    onNavigate = { destination ->
+                        component.navigateToNew(destination)
+                        onRegisterScreenOpen(destination)
                     }
                 )
             }
@@ -184,18 +174,9 @@ internal fun ScreenSelector(
                     onTryGetUpdate = onTryGetUpdate,
                     isUpdateAvailable = component.isUpdateAvailable,
                     onUpdateUris = component::updateUris,
-                    onNavigateToSettings = {
-                        navController.pushNew(Screen.Settings)
-                        onRegisterScreenOpen(Screen.Settings)
-                        true
-                    },
-                    onNavigateToScreenWithPopUpTo = { destination ->
-                        navController.popWhile { it != Screen.Main }
-                        onNavigate(destination)
-                    },
-                    onNavigateToEasterEgg = {
-                        navController.pushNew(Screen.EasterEgg)
-                        onRegisterScreenOpen(Screen.EasterEgg)
+                    onNavigate = { destination ->
+                        component.navigateToNew(destination)
+                        onRegisterScreenOpen(destination)
                     },
                     onToggleFavorite = component::toggleFavoriteScreen,
                     settingsComponent = instance.component

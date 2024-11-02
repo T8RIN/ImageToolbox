@@ -95,9 +95,7 @@ fun MainContent(
         isNewRequest: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
-    onNavigateToSettings: () -> Boolean,
-    onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
-    onNavigateToEasterEgg: () -> Unit,
+    onNavigate: (Screen) -> Unit,
     isUpdateAvailable: Boolean,
     onUpdateUris: (List<Uri>) -> Unit,
     onToggleFavorite: (Screen) -> Unit
@@ -127,9 +125,8 @@ fun MainContent(
                     SettingsContent(
                         onTryGetUpdate = ::tryGetUpdate,
                         isUpdateAvailable = isUpdateAvailable,
+                        onNavigate = onNavigate,
                         isStandaloneScreen = false,
-                        onNavigateToEasterEgg = onNavigateToEasterEgg,
-                        onNavigateToSettings = onNavigateToSettings,
                         component = settingsComponent
                     ) { showSettingsSearch, onCloseSearch ->
                         AnimatedContent(
@@ -204,8 +201,7 @@ fun MainContent(
                     )
                 },
                 isUpdateAvailable = isUpdateAvailable,
-                onNavigateToSettings = { onNavigateToSettings() },
-                onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
+                onNavigate = onNavigate,
                 onToggleFavorite = onToggleFavorite
             )
         }

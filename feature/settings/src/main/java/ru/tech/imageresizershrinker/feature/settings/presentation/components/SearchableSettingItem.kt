@@ -57,7 +57,7 @@ internal fun SearchableSettingItem(
         onNoUpdates: () -> Unit
     ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
-    onNavigateToSettings: () -> Boolean,
+    onNavigateToSettings: () -> Unit,
     isUpdateAvailable: Boolean
 ) {
     Column(

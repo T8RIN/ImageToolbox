@@ -54,8 +54,7 @@ internal fun MainContentImpl(
     sheetExpanded: Boolean,
     isGrid: Boolean,
     onGetClipList: (List<Uri>) -> Unit,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
+    onNavigate: (Screen) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
     onShowSnowfall: () -> Unit,
     onTryGetUpdate: () -> Unit,
@@ -85,7 +84,9 @@ internal fun MainContentImpl(
                 onShowSnowfall = onShowSnowfall,
                 sideSheetState = sideSheetState,
                 isSheetSlideable = isSheetSlideable,
-                onNavigateToSettings = onNavigateToSettings
+                onNavigateToSettings = {
+                    onNavigate(Screen.Settings)
+                }
             )
 
             Row(
@@ -127,7 +128,7 @@ internal fun MainContentImpl(
                         showScreenSearch = it
                     },
                     onGetClipList = onGetClipList,
-                    onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
+                    onNavigateToScreenWithPopUpTo = onNavigate,
                     onNavigationBarItemChange = { selectedNavigationItem = it },
                     onToggleFavorite = onToggleFavorite
                 )

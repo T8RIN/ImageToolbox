@@ -88,6 +88,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -114,8 +115,7 @@ fun SettingsContent(
         isNewRequest: Boolean,
         onNoUpdates: Lambda
     ) -> Unit,
-    onNavigateToEasterEgg: () -> Unit,
-    onNavigateToSettings: () -> Boolean,
+    onNavigate: (Screen) -> Unit,
     isUpdateAvailable: Boolean,
     onGoBack: Lambda? = null,
     isStandaloneScreen: Boolean = true,
@@ -365,8 +365,12 @@ fun SettingsContent(
                                                         onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
                                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                                                        onNavigateToEasterEgg = onNavigateToEasterEgg,
-                                                        onNavigateToSettings = onNavigateToSettings
+                                                        onNavigateToEasterEgg = {
+                                                            onNavigate(Screen.EasterEgg)
+                                                        },
+                                                        onNavigateToSettings = {
+                                                            onNavigate(Screen.Settings)
+                                                        }
                                                     )
                                                 }
                                             }
@@ -386,8 +390,12 @@ fun SettingsContent(
                                                         component = component,
                                                         onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
-                                                        onNavigateToEasterEgg = onNavigateToEasterEgg,
-                                                        onNavigateToSettings = onNavigateToSettings
+                                                        onNavigateToEasterEgg = {
+                                                            onNavigate(Screen.EasterEgg)
+                                                        },
+                                                        onNavigateToSettings = {
+                                                            onNavigate(Screen.Settings)
+                                                        }
                                                     )
                                                 }
                                             }
@@ -416,8 +424,12 @@ fun SettingsContent(
                                     component = component,
                                     onTryGetUpdate = onTryGetUpdate,
                                     isUpdateAvailable = isUpdateAvailable,
-                                    onNavigateToEasterEgg = onNavigateToEasterEgg,
-                                    onNavigateToSettings = onNavigateToSettings
+                                    onNavigateToEasterEgg = {
+                                        onNavigate(Screen.EasterEgg)
+                                    },
+                                    onNavigateToSettings = {
+                                        onNavigate(Screen.Settings)
+                                    }
                                 )
                             }
                         }

@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.app.presentation
 import android.content.Intent
 import android.os.Bundle
 import com.arkivanov.decompose.retainedComponent
-import com.arkivanov.decompose.router.stack.push
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
@@ -65,7 +64,7 @@ class AppActivity : M3Activity() {
             onShowToast = component::showToast,
             onNavigate = { screen ->
                 GlobalExceptionHandler.registerScreenOpen(screen)
-                component.navController.push(screen)
+                component.navigateTo(screen)
             },
             isHasUris = !component.uris.isNullOrEmpty(),
             onWantGithubReview = component::onWantGithubReview,
