@@ -53,7 +53,7 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".app.presentation.components.ImageApplication"
+        android:name=".app.presentation.components.ImageToolboxApplication"
         android:allowBackup="true"
         android:colorMode="wideColorGamut"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -99,6 +99,7 @@
                 <action android:name="android.provider.action.REVIEW_SECURE" />
 
                 <data android:scheme="content" />
+                <data android:host="null" />
                 <data android:scheme="file" />
                 <data android:mimeType="image/*" />
                 <data android:pathSuffix=".jxl" />
@@ -134,6 +135,8 @@
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
 
+                <data android:scheme="content" />
+                <data android:host="null" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
@@ -146,6 +149,8 @@
                 <action android:name="android.intent.action.INSERT_OR_EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
 
+                <data android:scheme="content" />
+                <data android:host="null" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
@@ -158,6 +163,8 @@
                 <action android:name="android.intent.action.INSERT" />
                 <category android:name="android.intent.category.DEFAULT" />
 
+                <data android:scheme="content" />
+                <data android:host="null" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />

@@ -18,9 +18,18 @@
 package ru.tech.imageresizershrinker.app.presentation.components
 
 import android.app.Application
-
+import com.arkivanov.decompose.DecomposeExperimentFlags
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
-class ImageApplication : Application()
+class ImageToolboxApplication : Application() {
+
+    @OptIn(ExperimentalDecomposeApi::class)
+    override fun onCreate() {
+        super.onCreate()
+        DecomposeExperimentFlags.duplicateConfigurationsEnabled = true
+    }
+
+}
