@@ -1057,7 +1057,7 @@
     <string name="legacy">Legacy</string>
     <string name="image_stacking">Bild stapeln</string>
     <string name="image_stacking_sub">Stapel Bilder mit ausgewählten Mischmodi übereinander</string>
-    <string name="legacy_and_lstm"><![CDATA[Legacy & LSTM]]></string>
+    <string name="legacy_and_lstm">Altbestand &amp; LSTM</string>
     <string name="tag_strip_byte_counts">Strip Byte-Zahlen</string>
     <string name="tag_jpeg_interchange_format">JPEG Interchange Format</string>
     <string name="quadratic_threshold">Quadratischer Schwellenwert</string>
@@ -1453,7 +1453,7 @@
     <string name="lut_library_update_sub">Aktualisiere LUT-Sammlung (nur neue werden in die Warteschlange gestellt), die du nach dem Herunterladen anwenden kannst</string>
     <string name="domain_warp">Domain Warp</string>
     <string name="dont_stack_frames">Keine Rahmen stapeln</string>
-    <string name="dont_stack_frames_sub">Ermöglicht die Entsorgung von Previous-Rahmen, sodass sie nicht übereinander gestapelt werden</string>
+    <string name="dont_stack_frames_sub">Ermöglicht die Beseitigung vorheriger Einzelbilder, so dass sie nicht übereinander gestapelt werden</string>
     <string name="crossfade_sub">Frames werden ineinander überblendet</string>
     <string name="crossfade_count">Anzahl der Überblendungsbilder</string>
     <string name="canny">Canny</string>
@@ -1463,4 +1463,11 @@
     <string name="filter_preview_image_sub">Standardbildvorschau für Filter ändern</string>
     <string name="hide">Ausblenden</string>
     <string name="show">Anzeigen</string>
+    <string name="slider_type">Schieberegler-Typ</string>
+    <string name="material_you_slider_sub">Moderner Material You-Schieberegler, futuristisch, frisch, ansprechend</string>
+    <string name="fancy_sub">Benutzerdefinierter, schick aussehender Schieberegler mit Animationen, dies ist der Standard für diese App</string>
+    <string name="material_2">Material 2</string>
+    <string name="fancy">Schick</string>
+    <string name="material_2_sub">Auf Material 2 basierender Schieberegler, nicht modern, einfach und geradlinig</string>
+    <string name="apply">Anwenden</string>
 </resources>
