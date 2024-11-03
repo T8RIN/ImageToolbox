@@ -111,7 +111,7 @@ internal fun MainDrawerContent(
         }
     }
 
-    if (sideSheetState.isOpen && isSheetSlideable) {
+    if ((sideSheetState.isOpen || sideSheetState.isAnimationRunning) && isSheetSlideable) {
         PredictiveBackHandler { progress ->
             try {
                 progress.collect { event ->
