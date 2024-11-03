@@ -98,8 +98,9 @@
                 <action android:name="android.provider.action.REVIEW" />
                 <action android:name="android.provider.action.REVIEW_SECURE" />
 
-                <data android:scheme="content" />
-                <data android:host="null" />
+                <data
+                    android:scheme="content"
+                    tools:ignore="AppLinkUrlError" />
                 <data android:scheme="file" />
                 <data android:mimeType="image/*" />
                 <data android:pathSuffix=".jxl" />
@@ -135,9 +136,9 @@
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="content" />
-                <data android:host="null" />
-                <data android:mimeType="image/*" />
+                <data
+                    android:mimeType="image/*"
+                    tools:ignore="AppLinkUrlError" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
                 <data android:pathSuffix=".qoi" />
@@ -149,9 +150,9 @@
                 <action android:name="android.intent.action.INSERT_OR_EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="content" />
-                <data android:host="null" />
-                <data android:mimeType="image/*" />
+                <data
+                    android:mimeType="image/*"
+                    tools:ignore="AppLinkUrlError" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
                 <data android:pathSuffix=".qoi" />
@@ -163,9 +164,9 @@
                 <action android:name="android.intent.action.INSERT" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="content" />
-                <data android:host="null" />
-                <data android:mimeType="image/*" />
+                <data
+                    android:mimeType="image/*"
+                    tools:ignore="AppLinkUrlError" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:pathSuffix=".jxl" />
                 <data android:pathSuffix=".qoi" />
