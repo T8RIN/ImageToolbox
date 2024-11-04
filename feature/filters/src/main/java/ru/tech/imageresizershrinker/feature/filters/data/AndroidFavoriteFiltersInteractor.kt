@@ -124,7 +124,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
         }
     }
 
-    override fun getFilterPrecomponent(): Flow<ImageModel> = dataStore.data.map { prefs ->
+    override fun getFilterPreviewModel(): Flow<ImageModel> = dataStore.data.map { prefs ->
         prefs[PREVIEW_MODEL]?.let {
             when (it) {
                 "0" -> R.drawable.filter_preview_source
@@ -134,7 +134,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
         } ?: R.drawable.filter_preview_source.toImageModel()
     }
 
-    override suspend fun setFilterPrecomponent(uri: String) {
+    override suspend fun setFilterPreviewModel(uri: String) {
         if (uri.any { !it.isDigit() }) {
             imageGetter.getImage(
                 data = uri,

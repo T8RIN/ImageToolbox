@@ -158,7 +158,7 @@ fun <T> FilterItem(
                                 EnhancedButton(
                                     modifier = Modifier
                                         .padding(horizontal = 8.dp)
-                                        .width(128.dp),
+                                        .width(164.dp),
                                     onClick = {
                                         onRemove()
                                         showPopup = false
@@ -176,7 +176,7 @@ fun <T> FilterItem(
                                 EnhancedButton(
                                     modifier = Modifier
                                         .padding(horizontal = 8.dp)
-                                        .width(128.dp),
+                                        .width(164.dp),
                                     onClick = {
                                         filter.isVisible = !isVisible
                                         onFilterChange(filter.value as Any)

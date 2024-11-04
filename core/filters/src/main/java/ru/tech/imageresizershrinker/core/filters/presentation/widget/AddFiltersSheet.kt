@@ -375,6 +375,12 @@ fun AddFiltersSheet(
             }
         },
         sheetContent = {
+            DisposableEffect(Unit) {
+                onDispose {
+                    component.resetState()
+                }
+            }
+
             AnimatedContent(
                 modifier = Modifier.weight(1f, false),
                 targetState = isSearching
@@ -749,7 +755,7 @@ fun AddFiltersSheet(
                                             ImageSelector(
                                                 value = previewModel.data,
                                                 onValueChange = {
-                                                    component.setFilterPrecomponent(it.toString())
+                                                    component.setFilterPreviewModel(it.toString())
                                                 },
                                                 title = stringResource(R.string.filter_preview_image),
                                                 subtitle = stringResource(R.string.filter_preview_image_sub),
@@ -801,7 +807,7 @@ fun AddFiltersSheet(
                                                             .weight(1f)
                                                             .clip(shape)
                                                             .clickable {
-                                                                component.setFilterPrecomponent(
+                                                                component.setFilterPreviewModel(
                                                                     index.toString()
                                                                 )
                                                             }
@@ -1179,7 +1185,7 @@ fun AddFiltersSheet(
                         } else {
                             SimplePicture(
                                 bitmap = component.previewBitmap,
-                                loading = component.isPreviewLoading,
+                                loading = component.isImageLoading,
                                 modifier = Modifier
                             )
                         }
@@ -1295,9 +1301,6 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap by _previewBitmap
 
-    private val _isPreviewLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isPreviewLoading by _isPreviewLoading
-
     private val _cubeLutRemoteResources: MutableState<RemoteResources> =
         mutableStateOf(RemoteResources.CubeLutDefault)
     val cubeLutRemoteResources by _cubeLutRemoteResources
@@ -1314,14 +1317,14 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             downloadOnlyNewData = false
         )
         favoriteInteractor
-            .getFilterPrecomponent().onEach { data ->
+            .getFilterPreviewModel().onEach { data ->
                 _previewModel.update { data }
             }.launchIn(componentScope)
     }
 
-    fun setFilterPrecomponent(uri: String) {
+    fun setFilterPreviewModel(uri: String) {
         componentScope.launch {
-            favoriteInteractor.setFilterPrecomponent(uri)
+            favoriteInteractor.setFilterPreviewModel(uri)
         }
     }
 
@@ -1373,8 +1376,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     ): Transformation = filterProvider.filterToTransformation(filter).toCoil()
 
     fun updatePreview(previewBitmap: Bitmap) {
-        componentScope.launch {
-            _isPreviewLoading.update { true }
+        debouncedImageCalculation {
             _previewBitmap.update {
                 imageTransformer.transform(
                     image = previewBitmap,
@@ -1384,7 +1386,6 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                     size = IntegerSize(2000, 2000)
                 )
             }
-            _isPreviewLoading.update { false }
         }
     }
 
@@ -1608,6 +1609,12 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                 )
             }
         }
+    }
+
+    override fun resetState() {
+        _previewData.update { null }
+        _previewBitmap.update { null }
+        cancelImageLoading()
     }
 
     @AssistedFactory

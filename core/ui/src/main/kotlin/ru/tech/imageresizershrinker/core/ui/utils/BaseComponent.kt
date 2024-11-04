@@ -42,7 +42,7 @@ abstract class BaseComponent(
     val componentScope = coroutineScope
 
     inline fun debounce(
-        time: Long = 200,
+        time: Long = 150,
         crossinline block: () -> Unit
     ) {
         componentScope.launch {
@@ -83,7 +83,7 @@ abstract class BaseComponent(
         imageCalculationJob = componentScope.launch(
             CoroutineExceptionHandler { _, _ ->
                 _isImageLoading.update { false }
-            }
+            } + defaultDispatcher
         ) {
             _isImageLoading.update { true }
             delay(delay)
@@ -99,6 +99,15 @@ abstract class BaseComponent(
             onFinish()
         }
     }
+
+    fun cancelImageLoading() {
+        _isImageLoading.update { false }
+        imageCalculationJob?.cancel()
+        imageCalculationJob = null
+    }
+
+    open fun resetState(): Unit =
+        throw IllegalAccessException("Cannot reset state of ${this::class.simpleName}")
 
     fun CoroutineScope.launch(
         context: CoroutineContext = EmptyCoroutineContext,

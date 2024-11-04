@@ -54,6 +54,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
@@ -151,6 +152,7 @@ fun AddEditMaskSheet(
     masks: List<UiFilterMask> = emptyList(),
     onMaskPicked: (UiFilterMask) -> Unit,
 ) {
+    //TODO: Bug with preview after closing or opening (resetState incorrect)
     LaunchedEffect(mask, masks, targetBitmapUri) {
         component.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
     }
@@ -231,15 +233,21 @@ fun AddEditMaskSheet(
                 }
             }
         },
-        enableBackHandler = false
+        enableBackHandler = component.paths.isEmpty() && component.filterList.isEmpty()
     ) {
+        DisposableEffect(Unit) {
+            onDispose {
+                component.resetState()
+            }
+        }
         var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
         val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
 
         if (visible) {
-            BackHandler {
-                if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
-                else showExitDialog = true
+            BackHandler(
+                enabled = !(component.paths.isEmpty() && component.filterList.isEmpty())
+            ) {
+                showExitDialog = true
             }
         }
         val switch = @Composable {
@@ -259,7 +267,7 @@ fun AddEditMaskSheet(
                         }
                     }.value,
                     second = component.maskPreviewModeEnabled,
-                    third = component.previewLoading
+                    third = component.isImageLoading
                 ),
                 transitionSpec = { fadeIn() togetherWith fadeOut() },
                 modifier = Modifier
@@ -292,7 +300,7 @@ fun AddEditMaskSheet(
                     BitmapDrawer(
                         zoomState = zoomState,
                         imageBitmap = imageBitmap,
-                        paths = if (!preview || drawing || component.previewLoading) component.paths else emptyList(),
+                        paths = if (!preview || drawing || component.isImageLoading) component.paths else emptyList(),
                         strokeWidth = strokeWidth,
                         brushSoftness = brushSoftness,
                         drawColor = component.maskColor,
@@ -632,9 +640,8 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
 
     val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
-            key = "addFiltersMask",
-
-            )
+            key = "addFiltersMask"
+        )
     )
 
     val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
@@ -662,9 +669,6 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap by _previewBitmap
 
-    private val _previewLoading: MutableState<Boolean> = mutableStateOf(false)
-    val previewLoading by _previewLoading
-
     private val _maskPreviewModeEnabled: MutableState<Boolean> = mutableStateOf(false)
     val maskPreviewModeEnabled by _maskPreviewModeEnabled
 
@@ -678,12 +682,11 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
     private var initialMask: UiFilterMask? by mutableStateOf(null)
 
     private fun updatePreview() {
-        componentScope.launch(defaultDispatcher) {
+        debouncedImageCalculation {
             if (filterList.isEmpty() || paths.isEmpty()) {
                 _maskPreviewModeEnabled.update { false }
             }
             if (maskPreviewModeEnabled) {
-                _previewLoading.value = true
                 imageGetter.getImage(
                     data = bitmapUri.toString(),
                     originalSize = false
@@ -707,15 +710,16 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
                         )
                     }
                 }
-                _previewLoading.value = false
-            } else _previewBitmap.value = imageGetter.getImage(
-                data = bitmapUri.toString(),
-                originalSize = false
-            )?.let { bmp ->
-                filterMaskApplier.filterByMasks(
-                    filterMasks = initialMasks.takeWhile { it != initialMask },
-                    image = bmp
-                )
+            } else {
+                _previewBitmap.value = imageGetter.getImage(
+                    data = bitmapUri.toString(),
+                    originalSize = false
+                )?.let { bmp ->
+                    filterMaskApplier.filterByMasks(
+                        filterMasks = initialMasks.takeWhile { it != initialMask },
+                        image = bmp
+                    )
+                }
             }
         }
     }
@@ -847,6 +851,20 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }
     )
+
+    override fun resetState() {
+        _maskColor.update { Color.Red }
+        _paths.update { emptyList() }
+        _undonePaths.update { emptyList() }
+        _lastPaths.update { emptyList() }
+        _filterList.update { emptyList() }
+        _isInverseFillType.update { false }
+        cancelImageLoading()
+        _previewBitmap.update { null }
+        _maskPreviewModeEnabled.update { false }
+        filterTemplateCreationSheetComponent.resetState()
+        addFiltersSheetComponent.resetState()
+    }
 
     @AssistedFactory
     fun interface Factory {

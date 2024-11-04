@@ -46,6 +46,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -175,8 +176,13 @@ internal fun FilterTemplateCreationSheet(
                 }
             }
         },
-        enableBackHandler = false
+        enableBackHandler = !canSave
     ) {
+        DisposableEffect(Unit) {
+            onDispose {
+                component.resetState()
+            }
+        }
         var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
 
         var selectedUri by rememberSaveable {
@@ -214,14 +220,14 @@ internal fun FilterTemplateCreationSheet(
                             .surfaceContainer
                             .copy(0.8f)
                     )
-                    .shimmer(component.previewBitmap == null && component.previewLoading),
+                    .shimmer(component.previewBitmap == null && component.isImageLoading),
                 contentAlignment = Alignment.Center
             ) {
                 SimplePicture(
                     enableContainer = false,
                     boxModifier = Modifier.padding(24.dp),
                     bitmap = component.previewBitmap,
-                    loading = component.previewLoading
+                    loading = component.isImageLoading
                 )
             }
         }
@@ -407,12 +413,9 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap by _previewBitmap
 
-    private val _previewLoading: MutableState<Boolean> = mutableStateOf(false)
-    val previewLoading by _previewLoading
-
     init {
         favoriteFiltersInteractor
-            .getFilterPrecomponent().onEach { data ->
+            .getFilterPreviewModel().onEach { data ->
                 _previewModel.update { data }
             }.launchIn(componentScope)
     }
@@ -422,8 +425,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     }
 
     private fun updatePreview() {
-        componentScope.launch {
-            _previewLoading.update { true }
+        debouncedImageCalculation {
             _previewBitmap.update {
                 imageGetter.getImageWithTransformations(
                     data = bitmapUri ?: previewModel.data,
@@ -431,7 +433,6 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
                     size = IntegerSize(1000, 1000)
                 )
             }
-            _previewLoading.update { false }
         }
     }
 
@@ -500,6 +501,15 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
             _filterList.update { filter.filters.map { it.toUiFilter() } }
             isInitialValueSetAlready = true
         }
+    }
+
+    override fun resetState() {
+        _filterList.update { emptyList() }
+        _templateName.update { "" }
+        cancelImageLoading()
+        _previewBitmap.update { null }
+        bitmapUri = null
+        addFiltersSheetComponent.resetState()
     }
 
     @AssistedFactory

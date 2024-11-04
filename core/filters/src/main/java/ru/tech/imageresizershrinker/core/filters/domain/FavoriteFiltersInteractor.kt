@@ -52,8 +52,8 @@ interface FavoriteFiltersInteractor {
 
     suspend fun reorderFavoriteFilters(newOrder: List<Filter<*>>)
 
-    fun getFilterPrecomponent(): Flow<ImageModel>
+    fun getFilterPreviewModel(): Flow<ImageModel>
 
-    suspend fun setFilterPrecomponent(uri: String)
+    suspend fun setFilterPreviewModel(uri: String)
 
 }
