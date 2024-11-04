@@ -21,15 +21,13 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.t8rin.dynamic.theme.DynamicTheme
-import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ImageToolboxTheme(
-    dynamicColor: Boolean = LocalSettingsState.current.isDynamicColors,
-    amoledMode: Boolean = LocalSettingsState.current.isAmoledMode,
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -38,17 +36,11 @@ fun ImageToolboxTheme(
     ) {
         DynamicTheme(
             typography = Typography(settingsState.font),
-            state = rememberDynamicThemeState(
-                rememberAppColorTuple(
-                    defaultColorTuple = settingsState.appColorTuple,
-                    dynamicColor = dynamicColor,
-                    darkTheme = settingsState.isNightMode
-                )
-            ),
+            state = rememberDynamicThemeState(rememberAppColorTuple()),
             colorBlindType = settingsState.colorBlindType,
             defaultColorTuple = settingsState.appColorTuple,
-            dynamicColor = dynamicColor,
-            amoledMode = amoledMode,
+            dynamicColor = settingsState.isDynamicColors,
+            amoledMode = settingsState.isAmoledMode,
             isDarkTheme = settingsState.isNightMode,
             contrastLevel = settingsState.themeContrastLevel,
             style = settingsState.themeStyle,

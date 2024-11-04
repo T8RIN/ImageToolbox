@@ -70,7 +70,6 @@ import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHex
 import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHexAlpha
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.histogram.HistogramType
 import com.t8rin.histogram.ImageHistogram
 import kotlinx.coroutines.Job
@@ -86,6 +85,7 @@ import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorTo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Swatch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -118,11 +118,7 @@ fun ColorToolsContent(
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val appColorTuple = rememberAppColorTuple(
-        defaultColorTuple = settingsState.appColorTuple,
-        dynamicColor = settingsState.isDynamicColors,
-        darkTheme = settingsState.isNightMode
-    )
+    val appColorTuple = rememberAppColorTuple()
 
     var selectedColor by rememberSaveable(
         stateSaver = ColorSaver

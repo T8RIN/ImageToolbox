@@ -54,13 +54,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -102,11 +102,7 @@ fun LoadNetImageContent(
 
     val scope = rememberCoroutineScope()
 
-    val appColorTuple = rememberAppColorTuple(
-        defaultColorTuple = settingsState.appColorTuple,
-        dynamicColor = settingsState.isDynamicColors,
-        darkTheme = settingsState.isNightMode
-    )
+    val appColorTuple = rememberAppColorTuple()
 
     LaunchedEffect(component.bitmap) {
         component.bitmap?.let { image ->

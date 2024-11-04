@@ -50,11 +50,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -194,11 +194,7 @@ internal fun ImagePreviewGrid(
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val appColorTuple = rememberAppColorTuple(
-        defaultColorTuple = settingsState.appColorTuple,
-        dynamicColor = settingsState.isDynamicColors,
-        darkTheme = settingsState.isNightMode
-    )
+    val appColorTuple = rememberAppColorTuple()
 
 
     val context = LocalContext.current

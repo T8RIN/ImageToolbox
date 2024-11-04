@@ -47,12 +47,12 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
-import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.resources.icons.Theme
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -160,11 +160,7 @@ fun ColorSchemeSettingItem(
     AvailableColorTuplesSheet(
         visible = showPickColorSheet,
         colorTupleList = settingsState.colorTupleList,
-        currentColorTuple = rememberAppColorTuple(
-            defaultColorTuple = settingsState.appColorTuple,
-            dynamicColor = settingsState.isDynamicColors,
-            darkTheme = settingsState.isNightMode
-        ),
+        currentColorTuple = rememberAppColorTuple(),
         onToggleInvertColors = onToggleInvertColors,
         onThemeStyleSelected = { onSetThemeStyle(it.ordinal) },
         onUpdateThemeContrast = onUpdateThemeContrast,

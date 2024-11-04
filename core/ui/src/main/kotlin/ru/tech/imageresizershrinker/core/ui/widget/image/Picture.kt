@@ -19,7 +19,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.Build
@@ -53,6 +52,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -92,7 +92,7 @@ fun Picture(
 
     val imageLoader = manualImageLoader ?: LocalImageLoader.current
 
-    val activity = LocalContext.current as Activity
+    val activity = LocalComponentActivity.current
 
     val hdrTransformation = remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {

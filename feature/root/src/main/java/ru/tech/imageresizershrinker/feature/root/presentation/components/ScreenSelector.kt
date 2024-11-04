@@ -21,7 +21,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.stack.Children
@@ -34,12 +33,10 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.rememberAppColorTuple
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerContent
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.animation.AlphaEasing
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PointToPointEasing
@@ -90,21 +87,14 @@ internal fun ScreenSelector(
     component: RootComponent,
     onRegisterScreenOpen: (Screen) -> Unit,
 ) {
+    val appColorTuple = rememberAppColorTuple()
+
     val context = LocalComponentActivity.current
-    val scope = rememberCoroutineScope()
-    val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
-    val appColorTuple = rememberAppColorTuple(
-        defaultColorTuple = settingsState.appColorTuple,
-        dynamicColor = settingsState.isDynamicColors,
-        darkTheme = settingsState.isNightMode
-    )
     val onGoBack: () -> Unit = {
         component.updateUris(null)
         component.navigateBack()
-        scope.launch {
-            themeState.updateColorTuple(appColorTuple)
-        }
+        themeState.updateColorTuple(appColorTuple)
     }
 
     val onNavigate: (Screen) -> Unit = { destination ->
@@ -130,17 +120,17 @@ internal fun ScreenSelector(
             fallbackAnimation = stackAnimation(
                 fade(
                     tween(
-                        durationMillis = 400,
+                        durationMillis = 300,
                         easing = AlphaEasing
                     )
                 ) + slide(
                     tween(
-                        durationMillis = 600,
+                        durationMillis = 400,
                         easing = FancyTransitionEasing
                     )
                 ) + scale(
                     tween(
-                        durationMillis = 800,
+                        durationMillis = 500,
                         easing = PointToPointEasing
                     )
                 )
