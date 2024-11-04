@@ -152,9 +152,15 @@ fun AddEditMaskSheet(
     masks: List<UiFilterMask> = emptyList(),
     onMaskPicked: (UiFilterMask) -> Unit,
 ) {
-    //TODO: Bug with preview after closing or opening (resetState incorrect)
-    LaunchedEffect(mask, masks, targetBitmapUri) {
-        component.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
+    var invalidations by remember {
+        mutableStateOf(0)
+    }
+    LaunchedEffect(mask, masks, targetBitmapUri, invalidations) {
+        component.setMask(
+            mask = mask,
+            bitmapUri = targetBitmapUri,
+            masks = masks
+        )
     }
 
     val isPortrait by isPortraitOrientationAsState()
@@ -202,9 +208,7 @@ fun AddEditMaskSheet(
                 enabled = canSave,
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
-                    onMaskPicked(
-                        component.getUiMask()
-                    )
+                    onMaskPicked(component.getUiMask())
                     onDismiss()
                 }
             ) {
@@ -236,6 +240,7 @@ fun AddEditMaskSheet(
         enableBackHandler = component.paths.isEmpty() && component.filterList.isEmpty()
     ) {
         DisposableEffect(Unit) {
+            invalidations++
             onDispose {
                 component.resetState()
             }
@@ -858,10 +863,8 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
         _undonePaths.update { emptyList() }
         _lastPaths.update { emptyList() }
         _filterList.update { emptyList() }
-        _isInverseFillType.update { false }
         cancelImageLoading()
         _previewBitmap.update { null }
-        _maskPreviewModeEnabled.update { false }
         filterTemplateCreationSheetComponent.resetState()
         addFiltersSheetComponent.resetState()
     }
