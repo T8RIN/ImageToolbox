@@ -22,7 +22,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Payments
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,7 +39,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.model.isFirstLaun
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 
 @Composable
@@ -56,10 +55,11 @@ fun DonateDialog(
             && !settings.isFirstLaunch(false) && !isClosed
             && settings.donateDialogOpenCount != null
 
+
+    var isOpenRegistered by rememberSaveable(showDialog) {
+        mutableStateOf(false)
+    }
     if (showDialog) {
-        var isOpenRegistered by rememberSaveable {
-            mutableStateOf(false)
-        }
         LaunchedEffect(isOpenRegistered) {
             if (!isOpenRegistered) {
                 delay(1000)
@@ -67,58 +67,58 @@ fun DonateDialog(
                 isOpenRegistered = true
             }
         }
+    }
 
-        val isNotShowAgainButtonVisible = (settings.donateDialogOpenCount ?: 0) > 2
+    val isNotShowAgainButtonVisible = (settings.donateDialogOpenCount ?: 0) > 2
 
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            onDismissRequest = { },
-            icon = {
-                Icon(
-                    imageVector = Icons.Rounded.Payments,
-                    contentDescription = null
-                )
-            },
-            title = { Text(stringResource(R.string.donation)) },
-            text = {
-                val scrollState = rememberScrollState()
-                Column(
-                    modifier = Modifier
-                        .fadingEdges(
-                            isVertical = true,
-                            scrollableState = scrollState
-                        )
-                        .verticalScroll(scrollState)
-                ) {
-                    DonateContainerContent()
-                }
-            },
-            dismissButton = {
-                if (isNotShowAgainButtonVisible) {
-                    EnhancedButton(
-                        onClick = {
-                            onNotShowDonateDialogAgain()
-                            isClosed = true
-                        },
-                        containerColor = MaterialTheme.colorScheme.errorContainer
-                    ) {
-                        Text(stringResource(id = R.string.dismiss_forever))
-                    }
-                }
-            },
-            confirmButton = {
+    EnhancedAlertDialog(
+        visible = showDialog,
+        onDismissRequest = { },
+        icon = {
+            Icon(
+                imageVector = Icons.Rounded.Payments,
+                contentDescription = null
+            )
+        },
+        title = { Text(stringResource(R.string.donation)) },
+        text = {
+            val scrollState = rememberScrollState()
+            Column(
+                modifier = Modifier
+                    .fadingEdges(
+                        isVertical = true,
+                        scrollableState = scrollState
+                    )
+                    .verticalScroll(scrollState)
+            ) {
+                DonateContainerContent()
+            }
+        },
+        dismissButton = {
+            if (isNotShowAgainButtonVisible) {
                 EnhancedButton(
                     onClick = {
+                        onNotShowDonateDialogAgain()
                         isClosed = true
                     },
-                    containerColor = takeColorFromScheme {
-                        if (isNotShowAgainButtonVisible) tertiaryContainer
-                        else secondaryContainer
-                    }
+                    containerColor = MaterialTheme.colorScheme.errorContainer
                 ) {
-                    Text(stringResource(id = R.string.close))
+                    Text(stringResource(id = R.string.dismiss_forever))
                 }
             }
-        )
-    }
+        },
+        confirmButton = {
+            EnhancedButton(
+                onClick = {
+                    isClosed = true
+                },
+                containerColor = takeColorFromScheme {
+                    if (isNotShowAgainButtonVisible) tertiaryContainer
+                    else secondaryContainer
+                }
+            ) {
+                Text(stringResource(id = R.string.close))
+            }
+        }
+    )
 }

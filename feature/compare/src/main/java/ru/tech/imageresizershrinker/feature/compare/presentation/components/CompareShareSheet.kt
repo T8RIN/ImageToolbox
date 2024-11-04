@@ -131,15 +131,14 @@ internal fun CompareShareSheet(
                         color = MaterialTheme.colorScheme.primaryContainer,
                         endIcon = Icons.Rounded.Save
                     )
-                    if (showFolderSelectionDialog) {
-                        OneTimeSaveLocationSelectionDialog(
-                            onDismiss = { showFolderSelectionDialog = false },
-                            onSaveRequest = {
-                                onSaveBitmap(imageFormat, it)
-                            },
-                            formatForFilenameSelection = imageFormat
-                        )
-                    }
+                    OneTimeSaveLocationSelectionDialog(
+                        visible = showFolderSelectionDialog,
+                        onDismiss = { showFolderSelectionDialog = false },
+                        onSaveRequest = {
+                            onSaveBitmap(imageFormat, it)
+                        },
+                        formatForFilenameSelection = imageFormat
+                    )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(id = R.string.copy),

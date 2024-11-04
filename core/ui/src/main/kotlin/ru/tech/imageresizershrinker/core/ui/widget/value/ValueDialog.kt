@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -46,7 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Counter
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -60,91 +59,89 @@ fun ValueDialog(
     onValueUpdate: (Float) -> Unit
 ) {
     val focus = LocalFocusManager.current
-    if (expanded) {
-        var value by remember(valueState) { mutableStateOf(valueState.trimTrailingZero()) }
-        AlertDialog(
-            modifier = Modifier
-                .alertDialogBorder()
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        focus.clearFocus()
-                    }
-                },
-            onDismissRequest = onDismiss,
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.Counter,
-                    contentDescription = null
-                )
+    var value by remember(valueState, expanded) { mutableStateOf(valueState.trimTrailingZero()) }
+    EnhancedAlertDialog(
+        visible = expanded,
+        modifier = Modifier
+            .pointerInput(Unit) {
+                detectTapGestures {
+                    focus.clearFocus()
+                }
             },
-            title = {
-                Text(
-                    stringResource(
-                        R.string.value_in_range,
-                        valueRange.start.toString().trimTrailingZero(),
-                        valueRange.endInclusive.toString().trimTrailingZero()
-                    )
+        onDismissRequest = onDismiss,
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Counter,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(
+                stringResource(
+                    R.string.value_in_range,
+                    valueRange.start.toString().trimTrailingZero(),
+                    valueRange.endInclusive.toString().trimTrailingZero()
                 )
-            },
-            text = {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    OutlinedTextField(
-                        shape = RoundedCornerShape(16.dp),
-                        value = value,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
-                        maxLines = 1,
-                        onValueChange = { number ->
-                            var tempS = number.trim {
-                                it !in listOf(
-                                    '1',
-                                    '2',
-                                    '3',
-                                    '4',
-                                    '5',
-                                    '6',
-                                    '7',
-                                    '8',
-                                    '9',
-                                    '0',
-                                    '.',
-                                    '-'
-                                )
-                            }
-                            tempS = (if (tempS.firstOrNull() == '-') "-" else "").plus(
-                                tempS.replace("-", "")
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                OutlinedTextField(
+                    shape = RoundedCornerShape(16.dp),
+                    value = value,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
+                    maxLines = 1,
+                    onValueChange = { number ->
+                        var tempS = number.trim {
+                            it !in listOf(
+                                '1',
+                                '2',
+                                '3',
+                                '4',
+                                '5',
+                                '6',
+                                '7',
+                                '8',
+                                '9',
+                                '0',
+                                '.',
+                                '-'
                             )
-                            val temp = tempS.split(".")
-                            value = when (temp.size) {
-                                1 -> temp[0]
-                                2 -> temp[0] + "." + temp[1]
-                                else -> {
-                                    temp[0] + "." + temp[1] + temp.drop(2).joinToString("")
-                                }
+                        }
+                        tempS = (if (tempS.firstOrNull() == '-') "-" else "").plus(
+                            tempS.replace("-", "")
+                        )
+                        val temp = tempS.split(".")
+                        value = when (temp.size) {
+                            1 -> temp[0]
+                            2 -> temp[0] + "." + temp[1]
+                            else -> {
+                                temp[0] + "." + temp[1] + temp.drop(2).joinToString("")
                             }
                         }
-                    )
-                }
-            },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = {
-                        onDismiss()
-                        onValueUpdate(
-                            (value.toFloatOrNull() ?: 0f).roundTo(roundTo).coerceIn(valueRange)
-                        )
-                    },
-                ) {
-                    Text(stringResource(R.string.ok))
-                }
+                    }
+                )
             }
-        )
-    }
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    onDismiss()
+                    onValueUpdate(
+                        (value.toFloatOrNull() ?: 0f).roundTo(roundTo).coerceIn(valueRange)
+                    )
+                },
+            ) {
+                Text(stringResource(R.string.ok))
+            }
+        }
+    )
 }
 
 private fun Float.roundTo(

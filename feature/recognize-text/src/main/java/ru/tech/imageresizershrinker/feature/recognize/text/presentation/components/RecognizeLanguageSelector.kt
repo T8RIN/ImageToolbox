@@ -25,7 +25,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -68,7 +67,6 @@ import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MultipleStop
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -116,8 +114,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedCheckbox
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
@@ -134,7 +132,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecognizeLanguageSelector(
     currentRecognitionType: RecognitionType,
@@ -804,56 +802,54 @@ fun RecognizeLanguageSelector(
         }
     }
 
-    if (deleteDialogData != null) {
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.DeleteOutline,
-                    contentDescription = null
+    EnhancedAlertDialog(
+        visible = deleteDialogData != null,
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.DeleteOutline,
+                contentDescription = null
+            )
+        },
+        title = { Text(stringResource(id = R.string.delete)) },
+        text = {
+            Text(
+                stringResource(
+                    id = R.string.delete_language_sub,
+                    deleteDialogData?.name ?: "",
+                    currentRecognitionType.displayName
                 )
-            },
-            title = { Text(stringResource(id = R.string.delete)) },
-            text = {
-                Text(
-                    stringResource(
-                        id = R.string.delete_language_sub,
-                        deleteDialogData?.name ?: "",
-                        currentRecognitionType.displayName
-                    )
-                )
-            },
-            onDismissRequest = {
-                deleteDialogData = null
-            },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    onClick = {
-                        deleteDialogData?.let {
-                            onDeleteLanguage(it, listOf(currentRecognitionType))
-                        }
-                        deleteDialogData = null
+            )
+        },
+        onDismissRequest = {
+            deleteDialogData = null
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.error,
+                onClick = {
+                    deleteDialogData?.let {
+                        onDeleteLanguage(it, listOf(currentRecognitionType))
                     }
-                ) {
-                    Text(stringResource(R.string.current))
+                    deleteDialogData = null
                 }
-            },
-            dismissButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    onClick = {
-                        deleteDialogData?.let {
-                            onDeleteLanguage(it, RecognitionType.entries)
-                        }
-                        deleteDialogData = null
-                    }
-                ) {
-                    Text(stringResource(R.string.all))
-                }
+            ) {
+                Text(stringResource(R.string.current))
             }
-        )
-    }
+        },
+        dismissButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                onClick = {
+                    deleteDialogData?.let {
+                        onDeleteLanguage(it, RecognitionType.entries)
+                    }
+                    deleteDialogData = null
+                }
+            ) {
+                Text(stringResource(R.string.all))
+            }
+        }
+    )
 }
 
 @Composable

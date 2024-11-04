@@ -41,7 +41,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FitScreen
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.AspectRatio
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -75,9 +74,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.OOMWarning
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
@@ -372,31 +371,29 @@ fun PresetSelector(
         }
     )
 
-    if (showPresetInfoDialog) {
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            onDismissRequest = { showPresetInfoDialog = false },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = { showPresetInfoDialog = false }
-                ) {
-                    Text(stringResource(R.string.ok))
-                }
-            },
-            title = {
-                Text(stringResource(R.string.presets))
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = stringResource(R.string.about_app)
-                )
-            },
-            text = {
-                if (isBytesResize) Text(stringResource(R.string.presets_sub_bytes))
-                else Text(stringResource(R.string.presets_sub))
+    EnhancedAlertDialog(
+        visible = showPresetInfoDialog,
+        onDismissRequest = { showPresetInfoDialog = false },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = { showPresetInfoDialog = false }
+            ) {
+                Text(stringResource(R.string.ok))
             }
-        )
-    }
+        },
+        title = {
+            Text(stringResource(R.string.presets))
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = stringResource(R.string.about_app)
+            )
+        },
+        text = {
+            if (isBytesResize) Text(stringResource(R.string.presets_sub_bytes))
+            else Text(stringResource(R.string.presets_sub))
+        }
+    )
 }

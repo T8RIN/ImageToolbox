@@ -404,13 +404,12 @@ fun ResizeAndConvertContent(
                     showOneTimeImagePickingDialog = true
                 }
             )
-            if (showFolderSelectionDialog) {
-                OneTimeSaveLocationSelectionDialog(
-                    onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = component.getFormatForFilenameSelection()
-                )
-            }
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = saveBitmaps,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },
                 picker = Picker.Multiple,

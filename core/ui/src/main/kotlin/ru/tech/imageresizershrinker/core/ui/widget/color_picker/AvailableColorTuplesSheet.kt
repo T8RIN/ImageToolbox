@@ -49,7 +49,6 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.InvertColors
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -90,7 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.palette_selection.PaletteStyleSelection
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
@@ -140,77 +139,75 @@ fun AvailableColorTuplesSheet(
         title = {
             var showConfirmDeleteDialog by remember { mutableStateOf(false) }
 
-            if (showConfirmDeleteDialog) {
-                AlertDialog(
-                    modifier = Modifier.alertDialogBorder(),
-                    onDismissRequest = { showConfirmDeleteDialog = false },
-                    confirmButton = {
-                        EnhancedButton(
-                            onClick = { showConfirmDeleteDialog = false }
-                        ) {
-                            Text(stringResource(R.string.cancel))
-                        }
-                    },
-                    dismissButton = {
-                        EnhancedButton(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = {
-                                showConfirmDeleteDialog = false
-                                if ((colorTupleList - currentColorTuple).isEmpty()) {
-                                    onPickTheme(defaultColorTuple)
-                                } else {
-                                    colorTupleList.nearestFor(currentColorTuple)
-                                        ?.let { onPickTheme(it) }
-                                }
-                                onUpdateColorTuples(colorTupleList - currentColorTuple)
-                            }
-                        ) {
-                            Text(stringResource(R.string.delete))
-                        }
-                    },
-                    title = {
-                        Text(stringResource(R.string.delete_color_scheme_title))
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Delete,
-                            contentDescription = stringResource(R.string.delete)
-                        )
-                    },
-                    text = {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            ColorTupleItem(
-                                colorTuple = currentColorTuple,
-                                modifier = Modifier
-                                    .padding(2.dp)
-                                    .size(64.dp)
-                                    .container(
-                                        shape = MaterialStarShape,
-                                        color = rememberColorScheme(
-                                            isDarkTheme = settingsState.isNightMode,
-                                            amoledMode = settingsState.isDynamicColors,
-                                            colorTuple = currentColorTuple,
-                                            contrastLevel = settingsState.themeContrastLevel,
-                                            style = settingsState.themeStyle,
-                                            dynamicColor = settingsState.isDynamicColors,
-                                            isInvertColors = settingsState.isInvertThemeColors
-                                        ).surfaceVariant.copy(alpha = 0.8f),
-                                        borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
-                                        resultPadding = 0.dp
-                                    )
-                                    .padding(3.dp)
-                                    .clip(CircleShape),
-                                backgroundColor = Color.Transparent
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(stringResource(R.string.delete_color_scheme_warn))
-                        }
+            EnhancedAlertDialog(
+                visible = showConfirmDeleteDialog,
+                onDismissRequest = { showConfirmDeleteDialog = false },
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = { showConfirmDeleteDialog = false }
+                    ) {
+                        Text(stringResource(R.string.cancel))
                     }
-                )
-            }
+                },
+                dismissButton = {
+                    EnhancedButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            showConfirmDeleteDialog = false
+                            if ((colorTupleList - currentColorTuple).isEmpty()) {
+                                onPickTheme(defaultColorTuple)
+                            } else {
+                                colorTupleList.nearestFor(currentColorTuple)
+                                    ?.let { onPickTheme(it) }
+                            }
+                            onUpdateColorTuples(colorTupleList - currentColorTuple)
+                        }
+                    ) {
+                        Text(stringResource(R.string.delete))
+                    }
+                },
+                title = {
+                    Text(stringResource(R.string.delete_color_scheme_title))
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = stringResource(R.string.delete)
+                    )
+                },
+                text = {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        ColorTupleItem(
+                            colorTuple = currentColorTuple,
+                            modifier = Modifier
+                                .padding(2.dp)
+                                .size(64.dp)
+                                .container(
+                                    shape = MaterialStarShape,
+                                    color = rememberColorScheme(
+                                        isDarkTheme = settingsState.isNightMode,
+                                        amoledMode = settingsState.isDynamicColors,
+                                        colorTuple = currentColorTuple,
+                                        contrastLevel = settingsState.themeContrastLevel,
+                                        style = settingsState.themeStyle,
+                                        dynamicColor = settingsState.isDynamicColors,
+                                        isInvertColors = settingsState.isInvertThemeColors
+                                    ).surfaceVariant.copy(alpha = 0.8f),
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
+                                    resultPadding = 0.dp
+                                )
+                                .padding(3.dp)
+                                .clip(CircleShape),
+                            backgroundColor = Color.Transparent
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(stringResource(R.string.delete_color_scheme_warn))
+                    }
+                }
+            )
             Row {
                 AnimatedVisibility(
                     visible = currentColorTuple !in ColorTupleDefaults.defaultColorTuples && !settingsState.useEmojiAsPrimaryColor

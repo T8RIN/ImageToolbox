@@ -38,7 +38,6 @@ import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.Shuffle
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -78,7 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -241,95 +240,93 @@ fun ColorInfo(
                         }
                     }
                 }
-                if (expanded) {
-                    var value by remember { mutableStateOf(getFormattedColor(color)) }
-                    AlertDialog(
-                        modifier = Modifier.alertDialogBorder(),
-                        onDismissRequest = { expanded = false },
-                        icon = {
-                            val hexColorInt by remember(value) {
-                                derivedStateOf {
-                                    if (hexWithAlphaRegex.matches(value)) {
-                                        HexUtil.hexToColor(value).toArgb()
-                                    } else null
-                                }
-                            }
-                            AnimatedContent(hexColorInt) { colorFromHex ->
-                                if (colorFromHex != null) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(28.dp)
-                                            .container(
-                                                shape = CircleShape,
-                                                color = Color(colorFromHex),
-                                                resultPadding = 0.dp
-                                            )
-                                    )
-                                } else {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Palette,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-
-                        },
-                        title = {
-                            Text(stringResource(R.string.color))
-                        },
-                        text = {
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                val style =
-                                    MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center)
-                                OutlinedTextField(
-                                    shape = RoundedCornerShape(16.dp),
-                                    textStyle = style,
-                                    maxLines = 1,
-                                    value = value.removePrefix("#"),
-                                    visualTransformation = HexVisualTransformation(true),
-                                    onValueChange = {
-                                        if (it.length <= 8) {
-                                            var validHex = true
-
-                                            for (index in it.indices) {
-                                                validHex =
-                                                    hexRegexSingleChar.matches(it[index].toString())
-                                                if (!validHex) break
-                                            }
-
-                                            if (validHex) {
-                                                value = "#${it.uppercase()}"
-                                            }
-                                        }
-                                    },
-                                    placeholder = {
-                                        Text(
-                                            text = "#AARRGGBB",
-                                            style = style
-                                        )
-                                    }
-                                )
-                            }
-                        },
-                        confirmButton = {
-                            EnhancedButton(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                onClick = {
-                                    if (hexWithAlphaRegex.matches(value)) {
-                                        onColorChange(HexUtil.hexToColor(value).toArgb())
-                                    }
-                                    expanded = false
-                                }
-                            ) {
-                                Text(stringResource(R.string.apply))
+                var value by remember(expanded) { mutableStateOf(getFormattedColor(color)) }
+                EnhancedAlertDialog(
+                    visible = expanded,
+                    onDismissRequest = { expanded = false },
+                    icon = {
+                        val hexColorInt by remember(value) {
+                            derivedStateOf {
+                                if (hexWithAlphaRegex.matches(value)) {
+                                    HexUtil.hexToColor(value).toArgb()
+                                } else null
                             }
                         }
-                    )
-                }
+                        AnimatedContent(hexColorInt) { colorFromHex ->
+                            if (colorFromHex != null) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(28.dp)
+                                        .container(
+                                            shape = CircleShape,
+                                            color = Color(colorFromHex),
+                                            resultPadding = 0.dp
+                                        )
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Outlined.Palette,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+
+                    },
+                    title = {
+                        Text(stringResource(R.string.color))
+                    },
+                    text = {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            val style =
+                                MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center)
+                            OutlinedTextField(
+                                shape = RoundedCornerShape(16.dp),
+                                textStyle = style,
+                                maxLines = 1,
+                                value = value.removePrefix("#"),
+                                visualTransformation = HexVisualTransformation(true),
+                                onValueChange = {
+                                    if (it.length <= 8) {
+                                        var validHex = true
+
+                                        for (index in it.indices) {
+                                            validHex =
+                                                hexRegexSingleChar.matches(it[index].toString())
+                                            if (!validHex) break
+                                        }
+
+                                        if (validHex) {
+                                            value = "#${it.uppercase()}"
+                                        }
+                                    }
+                                },
+                                placeholder = {
+                                    Text(
+                                        text = "#AARRGGBB",
+                                        style = style
+                                    )
+                                }
+                            )
+                        }
+                    },
+                    confirmButton = {
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = {
+                                if (hexWithAlphaRegex.matches(value)) {
+                                    onColorChange(HexUtil.hexToColor(value).toArgb())
+                                }
+                                expanded = false
+                            }
+                        ) {
+                            Text(stringResource(R.string.apply))
+                        }
+                    }
+                )
             }
         }
     }

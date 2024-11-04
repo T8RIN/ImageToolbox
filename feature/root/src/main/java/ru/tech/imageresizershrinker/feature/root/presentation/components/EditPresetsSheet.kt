@@ -35,7 +35,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -58,7 +57,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -130,72 +129,70 @@ internal fun EditPresetsSheet(
                                 )
                             }
                         )
-                        if (expanded) {
-                            var value by remember { mutableStateOf("") }
-                            AlertDialog(
-                                modifier = Modifier.alertDialogBorder(),
-                                onDismissRequest = { expanded = false },
-                                icon = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.PhotoSizeSelectSmall,
-                                        contentDescription = null
-                                    )
-                                },
-                                title = {
-                                    Text(stringResource(R.string.presets))
-                                },
-                                text = {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        OutlinedTextField(
-                                            shape = RoundedCornerShape(16.dp),
-                                            value = value,
-                                            textStyle = MaterialTheme.typography.titleMedium.copy(
-                                                textAlign = TextAlign.Center
-                                            ),
-                                            maxLines = 1,
-                                            keyboardOptions = KeyboardOptions(
-                                                keyboardType = KeyboardType.Number
-                                            ),
-                                            onValueChange = {
-                                                if (it.isDigitsOnly()) {
-                                                    value = it
-                                                }
+                        var value by remember(expanded) { mutableStateOf("") }
+                        EnhancedAlertDialog(
+                            visible = expanded,
+                            onDismissRequest = { expanded = false },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.PhotoSizeSelectSmall,
+                                    contentDescription = null
+                                )
+                            },
+                            title = {
+                                Text(stringResource(R.string.presets))
+                            },
+                            text = {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    OutlinedTextField(
+                                        shape = RoundedCornerShape(16.dp),
+                                        value = value,
+                                        textStyle = MaterialTheme.typography.titleMedium.copy(
+                                            textAlign = TextAlign.Center
+                                        ),
+                                        maxLines = 1,
+                                        keyboardOptions = KeyboardOptions(
+                                            keyboardType = KeyboardType.Number
+                                        ),
+                                        onValueChange = {
+                                            if (it.isDigitsOnly()) {
+                                                value = it
                                             }
+                                        }
+                                    )
+                                    Text(
+                                        text = "%",
+                                        style = MaterialTheme.typography.titleMedium.copy(
+                                            textAlign = TextAlign.Center
                                         )
-                                        Text(
-                                            text = "%",
-                                            style = MaterialTheme.typography.titleMedium.copy(
-                                                textAlign = TextAlign.Center
-                                            )
-                                        )
-                                    }
-                                },
-                                confirmButton = {
-                                    EnhancedButton(
-                                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                            alpha = if (settingsState.isNightMode) 0.5f
-                                            else 1f
-                                        ),
-                                        borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                        ),
-                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                        onClick = {
-                                            onUpdatePresets(
-                                                list + (value.toIntOrNull() ?: 0)
-                                            )
-                                            expanded = false
-                                        },
-                                    ) {
-                                        Text(stringResource(R.string.add))
-                                    }
+                                    )
                                 }
-                            )
-                        }
+                            },
+                            confirmButton = {
+                                EnhancedButton(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        alpha = if (settingsState.isNightMode) 0.5f
+                                        else 1f
+                                    ),
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                    ),
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    onClick = {
+                                        onUpdatePresets(
+                                            list + (value.toIntOrNull() ?: 0)
+                                        )
+                                        expanded = false
+                                    },
+                                ) {
+                                    Text(stringResource(R.string.add))
+                                }
+                            }
+                        )
                     }
                 }
             }

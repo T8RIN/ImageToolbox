@@ -441,12 +441,11 @@ fun PdfToolsContent(
                         contentDescription = stringResource(R.string.save)
                     )
                 }
-                if (showFolderSelectionDialog) {
-                    OneTimeSaveLocationSelectionDialog(
-                        onDismiss = { showFolderSelectionDialog = false },
-                        onSaveRequest = savePdfToImages
-                    )
-                }
+                OneTimeSaveLocationSelectionDialog(
+                    visible = showFolderSelectionDialog,
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = savePdfToImages
+                )
             }
         }
     }

@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Block
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,8 +46,8 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
@@ -152,33 +151,31 @@ fun EmojiSettingItem(
         }
     )
 
-    if (showShoeDescriptionDialog.isNotEmpty()) {
-        AlertDialog(
-            icon = {
-                EmojiItem(
-                    emoji = showShoeDescriptionDialog,
-                    fontScale = 1f,
-                    fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                )
-            },
-            title = {
-                Text(text = "Shoe")
-            },
-            text = {
-                Text(text = "15.07.1981 - Shoe, (ShoeUnited since 1998)")
-            },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = { showShoeDescriptionDialog = "" }
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            },
-            onDismissRequest = {
-                showShoeDescriptionDialog = ""
-            },
-            modifier = Modifier.alertDialogBorder()
-        )
-    }
+    EnhancedAlertDialog(
+        visible = showShoeDescriptionDialog.isNotEmpty(),
+        icon = {
+            EmojiItem(
+                emoji = showShoeDescriptionDialog,
+                fontScale = 1f,
+                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+            )
+        },
+        title = {
+            Text(text = "Shoe")
+        },
+        text = {
+            Text(text = "15.07.1981 - Shoe, (ShoeUnited since 1998)")
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = { showShoeDescriptionDialog = "" }
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
+        onDismissRequest = {
+            showShoeDescriptionDialog = ""
+        }
+    )
 }

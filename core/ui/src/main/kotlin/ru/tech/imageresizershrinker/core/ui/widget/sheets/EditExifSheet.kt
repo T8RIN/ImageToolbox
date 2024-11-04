@@ -38,7 +38,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -69,8 +68,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedNam
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toMap
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -263,42 +262,40 @@ fun EditExifSheet(
                     ?.apply { this[tag] = "" }
             }
         )
-        if (showClearExifDialog) {
-            AlertDialog(
-                modifier = Modifier.alertDialogBorder(),
-                onDismissRequest = { showClearExifDialog = false },
-                title = {
-                    Text(stringResource(R.string.clear_exif))
-                },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Outlined.DeleteSweep,
-                        contentDescription = null
-                    )
-                },
-                confirmButton = {
-                    EnhancedButton(
-                        onClick = { showClearExifDialog = false }
-                    ) {
-                        Text(stringResource(R.string.cancel))
-                    }
-                },
-                dismissButton = {
-                    EnhancedButton(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
-                            showClearExifDialog = false
-                            onClearExif()
-                            exifMap = emptyMap()
-                        }
-                    ) {
-                        Text(stringResource(R.string.clear))
-                    }
-                },
-                text = {
-                    Text(stringResource(R.string.clear_exif_sub))
+        EnhancedAlertDialog(
+            visible = showClearExifDialog,
+            onDismissRequest = { showClearExifDialog = false },
+            title = {
+                Text(stringResource(R.string.clear_exif))
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.DeleteSweep,
+                    contentDescription = null
+                )
+            },
+            confirmButton = {
+                EnhancedButton(
+                    onClick = { showClearExifDialog = false }
+                ) {
+                    Text(stringResource(R.string.cancel))
                 }
-            )
-        }
+            },
+            dismissButton = {
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    onClick = {
+                        showClearExifDialog = false
+                        onClearExif()
+                        exifMap = emptyMap()
+                    }
+                ) {
+                    Text(stringResource(R.string.clear))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.clear_exif_sub))
+            }
+        )
     }
 }

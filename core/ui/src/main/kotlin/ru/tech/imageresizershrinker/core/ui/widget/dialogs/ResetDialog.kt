@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.dialogs
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DoneOutline
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,7 +33,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
@@ -50,47 +48,45 @@ fun ResetDialog(
     val context = LocalContext.current
     val toastHostState = LocalToastHostState.current
 
-    if (visible) {
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            icon = {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = title
-                )
-            },
-            title = { Text(title) },
-            text = {
-                Text(
-                    text = text,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            },
-            onDismissRequest = onDismiss,
-            confirmButton = {
-                EnhancedButton(
-                    onClick = onDismiss
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            },
-            dismissButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = {
-                        onReset()
-                        onDismiss()
-                        scope.launch {
-                            toastHostState.showToast(
-                                context.getString(R.string.values_reset),
-                                Icons.Rounded.DoneOutline
-                            )
-                        }
-                    }
-                ) {
-                    Text(stringResource(R.string.reset))
-                }
+    EnhancedAlertDialog(
+        visible = visible,
+        icon = {
+            Icon(
+                imageVector = icon,
+                contentDescription = title
+            )
+        },
+        title = { Text(title) },
+        text = {
+            Text(
+                text = text,
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            EnhancedButton(
+                onClick = onDismiss
+            ) {
+                Text(stringResource(R.string.close))
             }
-        )
-    }
+        },
+        dismissButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    onReset()
+                    onDismiss()
+                    scope.launch {
+                        toastHostState.showToast(
+                            context.getString(R.string.values_reset),
+                            Icons.Rounded.DoneOutline
+                        )
+                    }
+                }
+            ) {
+                Text(stringResource(R.string.reset))
+            }
+        }
+    )
 }

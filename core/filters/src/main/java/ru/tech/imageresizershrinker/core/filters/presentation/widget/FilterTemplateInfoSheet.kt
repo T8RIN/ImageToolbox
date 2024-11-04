@@ -48,13 +48,11 @@ import androidx.compose.material.icons.rounded.FilePresent
 import androidx.compose.material.icons.rounded.QrCode
 import androidx.compose.material.icons.rounded.QrCode2
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -89,8 +87,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
@@ -98,7 +96,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun FilterTemplateInfoSheet(
     component: FilterTemplateCreationSheetComponent,
@@ -239,60 +237,58 @@ internal fun FilterTemplateInfoSheet(
             }
         }
 
-        if (showDeleteDialog) {
-            AlertDialog(
-                modifier = Modifier.alertDialogBorder(),
-                onDismissRequest = { showDeleteDialog = false },
-                confirmButton = {
-                    EnhancedButton(
-                        onClick = { showDeleteDialog = false }
-                    ) {
-                        Text(stringResource(R.string.cancel))
-                    }
-                },
-                dismissButton = {
-                    EnhancedButton(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
-                            onRemoveTemplateFilter(templateFilter)
-                            onDismiss(false)
-                            showDeleteDialog = false
-                        }
-                    ) {
-                        Text(stringResource(R.string.delete))
-                    }
-                },
-                title = {
-                    Text(stringResource(R.string.delete_template))
-                },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Delete,
-                        contentDescription = stringResource(R.string.delete)
-                    )
-                },
-                text = {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        TemplateFilterPreviewItem(
-                            modifier = Modifier
-                                .sizeIn(
-                                    maxHeight = 80.dp,
-                                    maxWidth = 80.dp
-                                )
-                                .aspectRatio(1f),
-                            templateFilter = templateFilter,
-                            onRequestFilterMapping = onRequestFilterMapping,
-                            previewModel = previewModel
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(stringResource(R.string.delete_template_warn))
-                    }
+        EnhancedAlertDialog(
+            visible = showDeleteDialog,
+            onDismissRequest = { showDeleteDialog = false },
+            confirmButton = {
+                EnhancedButton(
+                    onClick = { showDeleteDialog = false }
+                ) {
+                    Text(stringResource(R.string.cancel))
                 }
-            )
-        }
+            },
+            dismissButton = {
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    onClick = {
+                        onRemoveTemplateFilter(templateFilter)
+                        onDismiss(false)
+                        showDeleteDialog = false
+                    }
+                ) {
+                    Text(stringResource(R.string.delete))
+                }
+            },
+            title = {
+                Text(stringResource(R.string.delete_template))
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = stringResource(R.string.delete)
+                )
+            },
+            text = {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    TemplateFilterPreviewItem(
+                        modifier = Modifier
+                            .sizeIn(
+                                maxHeight = 80.dp,
+                                maxWidth = 80.dp
+                            )
+                            .aspectRatio(1f),
+                        templateFilter = templateFilter,
+                        onRequestFilterMapping = onRequestFilterMapping,
+                        previewModel = previewModel
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.delete_template_warn))
+                }
+            }
+        )
 
         val saveLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.CreateDocument("*/*"),
@@ -304,108 +300,106 @@ internal fun FilterTemplateInfoSheet(
             }
         )
 
-        if (showShareDialog) {
-            AlertDialog(
-                modifier = Modifier.alertDialogBorder(),
-                onDismissRequest = { showShareDialog = false },
-                confirmButton = {
-                    EnhancedButton(
-                        onClick = { showShareDialog = false },
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    ) {
-                        Text(stringResource(R.string.cancel))
-                    }
-                },
-                title = {
-                    Text(stringResource(R.string.share))
-                },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Outlined.AutoFixHigh,
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        PreferenceItem(
-                            title = stringResource(R.string.as_qr_code),
-                            shape = ContainerShapeDefaults.topShape,
-                            startIcon = Icons.Rounded.QrCode,
-                            onClick = {
-                                showShareDialog = false
-                                scope.launch {
-                                    captureController.captureAsync()
-                                        .await()
-                                        .asAndroidBitmap()
-                                        .let(onShareImage)
-                                }
-                            },
-                            titleFontStyle = LocalTextStyle.current.copy(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = 18.sp,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        PreferenceItem(
-                            title = stringResource(R.string.as_file),
-                            shape = ContainerShapeDefaults.centerShape,
-                            startIcon = Icons.Rounded.FilePresent,
-                            onClick = {
-                                showShareDialog = false
-                                onShareFile(filterContent)
-                            },
-                            titleFontStyle = LocalTextStyle.current.copy(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = 18.sp,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        PreferenceItem(
-                            title = stringResource(R.string.save_as_qr_code_image),
-                            shape = ContainerShapeDefaults.centerShape,
-                            startIcon = Icons.Rounded.QrCode2,
-                            onClick = {
-                                showShareDialog = false
-                                scope.launch {
-                                    captureController.captureAsync()
-                                        .await()
-                                        .asAndroidBitmap()
-                                        .let(onSaveImage)
-                                }
-                            },
-                            titleFontStyle = LocalTextStyle.current.copy(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = 18.sp,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        PreferenceItem(
-                            title = stringResource(R.string.save_as_file),
-                            shape = ContainerShapeDefaults.bottomShape,
-                            startIcon = Icons.Rounded.Save,
-                            onClick = {
-                                saveLauncher.launch(onRequestTemplateFilename())
-                            },
-                            titleFontStyle = LocalTextStyle.current.copy(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = 18.sp,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                    }
+        EnhancedAlertDialog(
+            visible = showShareDialog,
+            onDismissRequest = { showShareDialog = false },
+            confirmButton = {
+                EnhancedButton(
+                    onClick = { showShareDialog = false },
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                ) {
+                    Text(stringResource(R.string.cancel))
                 }
-            )
-        }
+            },
+            title = {
+                Text(stringResource(R.string.share))
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.AutoFixHigh,
+                    contentDescription = null
+                )
+            },
+            text = {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    PreferenceItem(
+                        title = stringResource(R.string.as_qr_code),
+                        shape = ContainerShapeDefaults.topShape,
+                        startIcon = Icons.Rounded.QrCode,
+                        onClick = {
+                            showShareDialog = false
+                            scope.launch {
+                                captureController.captureAsync()
+                                    .await()
+                                    .asAndroidBitmap()
+                                    .let(onShareImage)
+                            }
+                        },
+                        titleFontStyle = LocalTextStyle.current.copy(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 18.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    PreferenceItem(
+                        title = stringResource(R.string.as_file),
+                        shape = ContainerShapeDefaults.centerShape,
+                        startIcon = Icons.Rounded.FilePresent,
+                        onClick = {
+                            showShareDialog = false
+                            onShareFile(filterContent)
+                        },
+                        titleFontStyle = LocalTextStyle.current.copy(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 18.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    PreferenceItem(
+                        title = stringResource(R.string.save_as_qr_code_image),
+                        shape = ContainerShapeDefaults.centerShape,
+                        startIcon = Icons.Rounded.QrCode2,
+                        onClick = {
+                            showShareDialog = false
+                            scope.launch {
+                                captureController.captureAsync()
+                                    .await()
+                                    .asAndroidBitmap()
+                                    .let(onSaveImage)
+                            }
+                        },
+                        titleFontStyle = LocalTextStyle.current.copy(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 18.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    PreferenceItem(
+                        title = stringResource(R.string.save_as_file),
+                        shape = ContainerShapeDefaults.bottomShape,
+                        startIcon = Icons.Rounded.Save,
+                        onClick = {
+                            saveLauncher.launch(onRequestTemplateFilename())
+                        },
+                        titleFontStyle = LocalTextStyle.current.copy(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 18.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
+            }
+        )
 
         FilterTemplateCreationSheet(
             visible = showEditTemplateSheet,

@@ -60,7 +60,6 @@ import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material.icons.rounded.Update
 import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -112,9 +111,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -581,59 +580,57 @@ internal fun FilterSelectionItem(
         )
     }
 
-    if (showDownloadDialog) {
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.TableChart,
-                    contentDescription = null
+    EnhancedAlertDialog(
+        visible = showDownloadDialog,
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.TableChart,
+                contentDescription = null
+            )
+        },
+        title = { Text(stringResource(id = R.string.cube_lut)) },
+        text = {
+            Text(
+                stringResource(
+                    if (downloadOnlyNewData) R.string.lut_library_update_sub
+                    else R.string.lut_library_sub
                 )
-            },
-            title = { Text(stringResource(id = R.string.cube_lut)) },
-            text = {
-                Text(
-                    stringResource(
-                        if (downloadOnlyNewData) R.string.lut_library_update_sub
-                        else R.string.lut_library_sub
-                    )
-                )
-            },
-            onDismissRequest = {},
-            confirmButton = {
-                EnhancedButton(
-                    onClick = {
-                        if (context.isNetworkAvailable()) {
-                            onCubeLutDownloadRequest(
-                                forceUpdate, downloadOnlyNewData
+            )
+        },
+        onDismissRequest = {},
+        confirmButton = {
+            EnhancedButton(
+                onClick = {
+                    if (context.isNetworkAvailable()) {
+                        onCubeLutDownloadRequest(
+                            forceUpdate, downloadOnlyNewData
+                        )
+                        showDownloadDialog = false
+                    } else {
+                        scope.launch {
+                            toastHostState.showToast(
+                                message = context.getString(R.string.no_connection),
+                                icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
+                                duration = ToastDuration.Long
                             )
-                            showDownloadDialog = false
-                        } else {
-                            scope.launch {
-                                toastHostState.showToast(
-                                    message = context.getString(R.string.no_connection),
-                                    icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
-                                    duration = ToastDuration.Long
-                                )
-                            }
                         }
                     }
-                ) {
-                    Text(stringResource(R.string.download))
                 }
-            },
-            dismissButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = {
-                        showDownloadDialog = false
-                    }
-                ) {
-                    Text(stringResource(R.string.close))
-                }
+            ) {
+                Text(stringResource(R.string.download))
             }
-        )
-    }
+        },
+        dismissButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    showDownloadDialog = false
+                }
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        }
+    )
 
     if (cubeLutDownloadProgress != null) {
         BasicAlertDialog(onDismissRequest = {}) {

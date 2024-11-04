@@ -901,14 +901,13 @@ fun AddFiltersSheet(
                                                             )
                                                         }
 
-                                                        if (showFolderSelection) {
-                                                            OneTimeSaveLocationSelectionDialog(
-                                                                onDismiss = {
-                                                                    showFolderSelection = false
-                                                                },
-                                                                onSaveRequest = saveNeutralLut
-                                                            )
-                                                        }
+                                                        OneTimeSaveLocationSelectionDialog(
+                                                            visible = showFolderSelection,
+                                                            onDismiss = {
+                                                                showFolderSelection = false
+                                                            },
+                                                            onSaveRequest = saveNeutralLut
+                                                        )
                                                     }
                                                 }
                                             }

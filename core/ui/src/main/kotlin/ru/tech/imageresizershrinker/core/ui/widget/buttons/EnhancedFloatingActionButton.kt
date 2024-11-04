@@ -73,7 +73,6 @@ fun EnhancedFloatingActionButton(
         if (onLongClick != null) {
             val viewConfiguration = LocalViewConfiguration.current
 
-
             LaunchedEffect(interactionSource) {
                 var isLongClick = false
 

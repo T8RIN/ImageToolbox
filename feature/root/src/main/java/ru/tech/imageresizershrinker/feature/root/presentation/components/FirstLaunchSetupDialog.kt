@@ -27,7 +27,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
 import androidx.compose.material.icons.rounded.Webhook
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -53,8 +52,8 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.performanceClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
@@ -72,87 +71,88 @@ internal fun FirstLaunchSetupDialog(
     var updateOnFirstOpen by rememberSaveable(settingsState.appOpenCount) {
         mutableStateOf(true)
     }
-    if (settingsState.isFirstLaunch(false) && updateOnFirstOpen) {
-        LaunchedEffect(Unit) {
+    val visible = settingsState.isFirstLaunch(false) && updateOnFirstOpen
+    LaunchedEffect(visible) {
+        if (visible) {
             if (settingsState.showUpdateDialogOnStartup && BuildConfig.FLAVOR == "foss") {
                 toggleShowUpdateDialog()
             }
             adjustPerformance(context.performanceClass)
         }
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            onDismissRequest = {},
-            icon = {
-                Icon(
-                    imageVector = Icons.Rounded.SystemSecurityUpdate,
-                    contentDescription = null
-                )
-            },
-            title = {
-                Text(stringResource(R.string.updates))
-            },
-            text = {
-                val state = rememberScrollState()
-                ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Left)) {
-                    Column(
-                        modifier = Modifier
-                            .fadingEdges(
-                                isVertical = true,
-                                scrollableState = state,
-                                scrollFactor = 1.1f
-                            )
-                            .verticalScroll(state)
-                            .padding(2.dp)
-                    ) {
-                        if (BuildConfig.FLAVOR == "foss") {
-                            PreferenceItem(
-                                title = stringResource(id = R.string.attention),
-                                subtitle = stringResource(R.string.foss_update_checker_warning),
-                                startIcon = Icons.Rounded.Webhook,
-                                shape = ContainerShapeDefaults.defaultShape,
-                                modifier = Modifier.padding(bottom = 8.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainerHighest
-                            )
-                        }
-                        PreferenceRowSwitch(
-                            shape = if (!context.isInstalledFromPlayStore()) {
-                                ContainerShapeDefaults.topShape
-                            } else ContainerShapeDefaults.defaultShape,
-                            modifier = Modifier,
-                            title = stringResource(R.string.check_updates),
-                            subtitle = stringResource(R.string.check_updates_sub),
-                            checked = settingsState.showUpdateDialogOnStartup,
-                            onClick = {
-                                toggleShowUpdateDialog()
-                            },
-                            startIcon = Icons.Rounded.NewReleases
+    }
+    EnhancedAlertDialog(
+        visible = visible,
+        onDismissRequest = {},
+        icon = {
+            Icon(
+                imageVector = Icons.Rounded.SystemSecurityUpdate,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(stringResource(R.string.updates))
+        },
+        text = {
+            val state = rememberScrollState()
+            ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Left)) {
+                Column(
+                    modifier = Modifier
+                        .fadingEdges(
+                            isVertical = true,
+                            scrollableState = state,
+                            scrollFactor = 1.1f
                         )
-                        if (!context.isInstalledFromPlayStore()) {
-                            Spacer(Modifier.height(4.dp))
-                            PreferenceRowSwitch(
-                                modifier = Modifier,
-                                shape = ContainerShapeDefaults.bottomShape,
-                                title = stringResource(R.string.allow_betas),
-                                subtitle = stringResource(R.string.allow_betas_sub),
-                                checked = settingsState.allowBetas,
-                                onClick = {
-                                    toggleAllowBetas(
-                                        context.isInstalledFromPlayStore()
-                                    )
-                                },
-                                startIcon = Icons.Rounded.Beta
-                            )
-                        }
+                        .verticalScroll(state)
+                        .padding(2.dp)
+                ) {
+                    if (BuildConfig.FLAVOR == "foss") {
+                        PreferenceItem(
+                            title = stringResource(id = R.string.attention),
+                            subtitle = stringResource(R.string.foss_update_checker_warning),
+                            startIcon = Icons.Rounded.Webhook,
+                            shape = ContainerShapeDefaults.defaultShape,
+                            modifier = Modifier.padding(bottom = 8.dp),
+                            color = MaterialTheme.colorScheme.surfaceContainerHighest
+                        )
+                    }
+                    PreferenceRowSwitch(
+                        shape = if (!context.isInstalledFromPlayStore()) {
+                            ContainerShapeDefaults.topShape
+                        } else ContainerShapeDefaults.defaultShape,
+                        modifier = Modifier,
+                        title = stringResource(R.string.check_updates),
+                        subtitle = stringResource(R.string.check_updates_sub),
+                        checked = settingsState.showUpdateDialogOnStartup,
+                        onClick = {
+                            toggleShowUpdateDialog()
+                        },
+                        startIcon = Icons.Rounded.NewReleases
+                    )
+                    if (!context.isInstalledFromPlayStore()) {
+                        Spacer(Modifier.height(4.dp))
+                        PreferenceRowSwitch(
+                            modifier = Modifier,
+                            shape = ContainerShapeDefaults.bottomShape,
+                            title = stringResource(R.string.allow_betas),
+                            subtitle = stringResource(R.string.allow_betas_sub),
+                            checked = settingsState.allowBetas,
+                            onClick = {
+                                toggleAllowBetas(
+                                    context.isInstalledFromPlayStore()
+                                )
+                            },
+                            startIcon = Icons.Rounded.Beta
+                        )
                     }
                 }
-            },
-            confirmButton = {
-                EnhancedButton(
-                    onClick = { updateOnFirstOpen = false }
-                ) {
-                    Text(stringResource(id = R.string.ok))
-                }
             }
-        )
-    }
+        },
+        confirmButton = {
+            EnhancedButton(
+                onClick = { updateOnFirstOpen = false }
+            ) {
+                Text(stringResource(id = R.string.ok))
+            }
+        }
+    )
 }

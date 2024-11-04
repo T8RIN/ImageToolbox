@@ -219,22 +219,20 @@ fun RootContent(
 
             PermissionDialog()
 
-            if (component.showGithubReviewDialog) {
-                GithubReviewDialog(
-                    onDismiss = component::hideReviewDialog,
-                    onNotShowAgain = {
-                        ReviewHandler.notShowReviewAgain(context)
-                    },
-                    isNotShowAgainButtonVisible = ReviewHandler.showNotShowAgainButton
-                )
-            }
+            GithubReviewDialog(
+                visible = component.showGithubReviewDialog,
+                onDismiss = component::hideReviewDialog,
+                onNotShowAgain = {
+                    ReviewHandler.notShowReviewAgain(context)
+                },
+                isNotShowAgainButtonVisible = ReviewHandler.showNotShowAgainButton
+            )
 
-            if (component.showTelegramGroupDialog) {
-                TelegramGroupDialog(
-                    onDismiss = component::hideTelegramGroupDialog,
-                    onRedirected = component::registerTelegramGroupOpen
-                )
-            }
+            TelegramGroupDialog(
+                visible = component.showTelegramGroupDialog,
+                onDismiss = component::hideTelegramGroupDialog,
+                onRedirected = component::registerTelegramGroupOpen
+            )
         }
     }
 

@@ -18,12 +18,10 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.domain.TELEGRAM_CHANNEL_LINK
@@ -31,16 +29,17 @@ import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 
 @Composable
 fun TelegramGroupDialog(
+    visible: Boolean,
     onDismiss: () -> Unit,
     onRedirected: () -> Unit
 ) {
     val linkHandler = LocalUriHandler.current
-    AlertDialog(
-        modifier = Modifier.alertDialogBorder(),
+    EnhancedAlertDialog(
+        visible = visible,
         icon = {
             Icon(
                 imageVector = Icons.Rounded.Telegram,

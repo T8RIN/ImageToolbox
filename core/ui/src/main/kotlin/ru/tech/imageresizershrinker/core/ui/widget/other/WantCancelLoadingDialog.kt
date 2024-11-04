@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -41,45 +40,43 @@ fun WantCancelLoadingDialog(
     onCancelLoading: () -> Unit,
     onDismissDialog: () -> Unit
 ) {
-    if (visible) {
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            onDismissRequest = onDismissDialog,
-            confirmButton = {
-                EnhancedButton(
-                    onClick = onDismissDialog
-                ) {
-                    Text(stringResource(id = R.string.wait))
-                }
-            },
-            title = {
-                Text(stringResource(id = R.string.loading))
-            },
-            text = {
-                Text(stringResource(R.string.saving_almost_complete))
-            },
-            dismissButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = onCancelLoading
-                ) {
-                    Text(stringResource(id = R.string.cancel))
-                }
-            },
-            icon = {
-                CircularWavyProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                    trackStroke = Stroke(
-                        width = with(LocalDensity.current) { 3.dp.toPx() },
-                        cap = StrokeCap.Round
-                    ),
-                    stroke = Stroke(
-                        width = with(LocalDensity.current) { 3.dp.toPx() },
-                        cap = StrokeCap.Round
-                    )
+    EnhancedAlertDialog(
+        visible = visible,
+        onDismissRequest = onDismissDialog,
+        confirmButton = {
+            EnhancedButton(
+                onClick = onDismissDialog
+            ) {
+                Text(stringResource(id = R.string.wait))
+            }
+        },
+        title = {
+            Text(stringResource(id = R.string.loading))
+        },
+        text = {
+            Text(stringResource(R.string.saving_almost_complete))
+        },
+        dismissButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = onCancelLoading
+            ) {
+                Text(stringResource(id = R.string.cancel))
+            }
+        },
+        icon = {
+            CircularWavyProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                trackStroke = Stroke(
+                    width = with(LocalDensity.current) { 3.dp.toPx() },
+                    cap = StrokeCap.Round
+                ),
+                stroke = Stroke(
+                    width = with(LocalDensity.current) { 3.dp.toPx() },
+                    cap = StrokeCap.Round
                 )
-            },
-        )
-    }
+            )
+        }
+    )
 }

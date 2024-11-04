@@ -39,7 +39,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -71,7 +70,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -181,55 +180,53 @@ fun MaskItem(
                             )
                         }
                     }
-                    if (showMaskRemoveDialog) {
-                        AlertDialog(
-                            modifier = Modifier.alertDialogBorder(),
-                            onDismissRequest = { showMaskRemoveDialog = false },
-                            confirmButton = {
-                                EnhancedButton(
-                                    onClick = { showMaskRemoveDialog = false }
-                                ) {
-                                    Text(stringResource(R.string.cancel))
-                                }
-                            },
-                            dismissButton = {
-                                EnhancedButton(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    onClick = {
-                                        showMaskRemoveDialog = false
-                                        onRemove()
-                                    }
-                                ) {
-                                    Text(stringResource(R.string.delete))
-                                }
-                            },
-                            title = {
-                                Text(stringResource(R.string.delete_mask))
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.Delete,
-                                    contentDescription = stringResource(R.string.delete)
-                                )
-                            },
-                            text = {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    PathPaintPreview(
-                                        pathPaints = mask.maskPaints,
-                                        modifier = Modifier.sizeIn(
-                                            maxHeight = 80.dp,
-                                            maxWidth = 80.dp
-                                        )
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(stringResource(R.string.delete_mask_warn))
-                                }
+                    EnhancedAlertDialog(
+                        visible = showMaskRemoveDialog,
+                        onDismissRequest = { showMaskRemoveDialog = false },
+                        confirmButton = {
+                            EnhancedButton(
+                                onClick = { showMaskRemoveDialog = false }
+                            ) {
+                                Text(stringResource(R.string.cancel))
                             }
-                        )
-                    }
+                        },
+                        dismissButton = {
+                            EnhancedButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                onClick = {
+                                    showMaskRemoveDialog = false
+                                    onRemove()
+                                }
+                            ) {
+                                Text(stringResource(R.string.delete))
+                            }
+                        },
+                        title = {
+                            Text(stringResource(R.string.delete_mask))
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Delete,
+                                contentDescription = stringResource(R.string.delete)
+                            )
+                        },
+                        text = {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                PathPaintPreview(
+                                    pathPaints = mask.maskPaints,
+                                    modifier = Modifier.sizeIn(
+                                        maxHeight = 80.dp,
+                                        maxWidth = 80.dp
+                                    )
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(stringResource(R.string.delete_mask_warn))
+                            }
+                        }
+                    )
                 }
 
                 AnimatedVisibility(mask.filters.isNotEmpty()) {

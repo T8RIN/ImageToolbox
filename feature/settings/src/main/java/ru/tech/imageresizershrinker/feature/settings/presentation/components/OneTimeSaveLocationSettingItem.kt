@@ -51,12 +51,9 @@ fun OneTimeSaveLocationSettingItem(
         endIcon = Icons.Rounded.MiniEdit,
         modifier = modifier
     )
-    if (showDialog) {
-        OneTimeSaveLocationSelectionDialog(
-            onDismiss = {
-                showDialog = false
-            },
-            onSaveRequest = null
-        )
-    }
+    OneTimeSaveLocationSelectionDialog(
+        visible = showDialog,
+        onDismiss = { showDialog = false },
+        onSaveRequest = null
+    )
 }

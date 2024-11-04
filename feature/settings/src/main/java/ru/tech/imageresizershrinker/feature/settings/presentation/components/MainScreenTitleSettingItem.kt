@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Title
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -42,14 +41,13 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -72,71 +70,69 @@ fun MainScreenTitleSettingItem(
         startIcon = Icons.Rounded.Title,
         modifier = modifier
     )
-    if (showDialog) {
-        var value by remember {
-            mutableStateOf(
-                settingsState.mainScreenTitle
-            )
-        }
-        AlertDialog(
-            modifier = Modifier
-                .width(340.dp)
-                .padding(16.dp)
-                .alertDialogBorder(),
-            properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = { showDialog = false },
-            icon = {
-                Icon(
-                    imageVector = Icons.Rounded.Title,
-                    contentDescription = null
-                )
-            },
-            title = {
-                Text(stringResource(R.string.main_screen_title))
-            },
-            text = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    OutlinedTextField(
-                        placeholder = {
-                            Text(
-                                text = stringResource(R.string.app_name),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        },
-                        shape = RoundedCornerShape(16.dp),
-                        value = value,
-                        textStyle = MaterialTheme.typography.titleMedium.copy(
-                            textAlign = TextAlign.Center
-                        ),
-                        onValueChange = {
-                            value = it
-                        }
-                    )
-                }
-            },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                        alpha = if (settingsState.isNightMode) 0.5f
-                        else 1f
-                    ),
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    onClick = {
-                        onValueChange(value.trim())
-                        showDialog = false
-                    },
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                    ),
-                ) {
-                    Text(stringResource(R.string.ok))
-                }
-            }
+
+    var value by remember(showDialog) {
+        mutableStateOf(
+            settingsState.mainScreenTitle
         )
     }
+    EnhancedAlertDialog(
+        modifier = Modifier
+            .width(340.dp)
+            .padding(16.dp),
+        visible = showDialog,
+        onDismissRequest = { showDialog = false },
+        icon = {
+            Icon(
+                imageVector = Icons.Rounded.Title,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(stringResource(R.string.main_screen_title))
+        },
+        text = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                OutlinedTextField(
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.app_name),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    value = value,
+                    textStyle = MaterialTheme.typography.titleMedium.copy(
+                        textAlign = TextAlign.Center
+                    ),
+                    onValueChange = {
+                        value = it
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                    alpha = if (settingsState.isNightMode) 0.5f
+                    else 1f
+                ),
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                onClick = {
+                    onValueChange(value.trim())
+                    showDialog = false
+                },
+                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                ),
+            ) {
+                Text(stringResource(R.string.ok))
+            }
+        }
+    )
 }

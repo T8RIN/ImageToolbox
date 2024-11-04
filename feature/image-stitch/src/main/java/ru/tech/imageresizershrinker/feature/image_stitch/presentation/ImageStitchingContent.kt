@@ -330,13 +330,12 @@ fun ImageStitchingContent(
                     if (isPortrait) actions()
                 }
             )
-            if (showFolderSelectionDialog) {
-                OneTimeSaveLocationSelectionDialog(
-                    onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = component.getFormatForFilenameSelection()
-                )
-            }
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = saveBitmaps,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
         },
         noDataControls = {
             if (!component.isImageLoading) {

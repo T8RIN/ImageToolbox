@@ -489,18 +489,17 @@ fun ScanQrCodeContent(
                     if (!isLandscape) actions()
                 }
             )
-            if (showFolderSelectionDialog) {
-                OneTimeSaveLocationSelectionDialog(
-                    onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = {
-                        scope.launch {
-                            val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                            saveBitmap(it, bitmap)
-                        }
-                    },
-                    formatForFilenameSelection = component.getFormatForFilenameSelection()
-                )
-            }
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = {
+                    scope.launch {
+                        val bitmap = captureController.captureAsync().await().asAndroidBitmap()
+                        saveBitmap(it, bitmap)
+                    }
+                },
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
         },
         canShowScreenData = true,
         isPortrait = !isLandscape

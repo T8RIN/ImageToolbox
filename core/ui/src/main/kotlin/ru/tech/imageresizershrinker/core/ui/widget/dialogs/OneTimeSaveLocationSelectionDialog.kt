@@ -45,7 +45,6 @@ import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -79,7 +78,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
@@ -94,18 +92,20 @@ import java.util.Locale
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun OneTimeSaveLocationSelectionDialog(
+    visible: Boolean,
     onDismiss: () -> Unit,
     onSaveRequest: ((String?) -> Unit)?,
     formatForFilenameSelection: ImageFormat? = null
 ) {
     val settingsState = LocalSettingsState.current
-    var tempSelectedSaveFolderUri by rememberSaveable {
+    var tempSelectedSaveFolderUri by rememberSaveable(visible) {
         mutableStateOf(settingsState.saveFolderUri?.toString())
     }
-    var selectedSaveFolderUri by rememberSaveable {
+    var selectedSaveFolderUri by rememberSaveable(visible) {
         mutableStateOf(settingsState.saveFolderUri?.toString())
     }
-    AlertDialog(
+    EnhancedAlertDialog(
+        visible = visible,
         onDismissRequest = onDismiss,
         confirmButton = {
             onSaveRequest?.let {
@@ -372,7 +372,6 @@ fun OneTimeSaveLocationSelectionDialog(
                     )
                 }
             }
-        },
-        modifier = Modifier.alertDialogBorder()
+        }
     )
 }

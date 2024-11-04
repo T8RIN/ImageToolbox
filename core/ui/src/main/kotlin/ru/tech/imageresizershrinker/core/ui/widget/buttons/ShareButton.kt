@@ -25,7 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Share
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -48,8 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -82,41 +81,58 @@ fun ShareButton(
         )
     }
 
-    if (showSelectionDialog && (onEdit != null || onCopy != null)) {
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            onDismissRequest = { showSelectionDialog = false },
-            confirmButton = {
-                EnhancedButton(
-                    onClick = { showSelectionDialog = false },
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
-                ) {
-                    Text(stringResource(R.string.cancel))
-                }
-            },
-            title = {
-                Text(stringResource(R.string.image))
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.Image,
-                    contentDescription = null
-                )
-            },
-            text = {
-                val clipboardManager = LocalClipboardManager.current
+    EnhancedAlertDialog(
+        visible = showSelectionDialog && (onEdit != null || onCopy != null),
+        onDismissRequest = { showSelectionDialog = false },
+        confirmButton = {
+            EnhancedButton(
+                onClick = { showSelectionDialog = false },
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ) {
+                Text(stringResource(R.string.cancel))
+            }
+        },
+        title = {
+            Text(stringResource(R.string.image))
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Image,
+                contentDescription = null
+            )
+        },
+        text = {
+            val clipboardManager = LocalClipboardManager.current
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                PreferenceItem(
+                    title = stringResource(R.string.share),
+                    shape = ContainerShapeDefaults.topShape,
+                    startIcon = Icons.Rounded.Share,
+                    onClick = {
+                        showSelectionDialog = false
+                        onShare()
+                    },
+                    titleFontStyle = LocalTextStyle.current.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        lineHeight = 18.sp,
+                        textAlign = TextAlign.Center
+                    )
+                )
+                if (onCopy != null) {
+                    Spacer(Modifier.height(4.dp))
                     PreferenceItem(
-                        title = stringResource(R.string.share),
-                        shape = ContainerShapeDefaults.topShape,
-                        startIcon = Icons.Rounded.Share,
+                        title = stringResource(R.string.copy),
+                        shape = if (onEdit == null) ContainerShapeDefaults.bottomShape
+                        else ContainerShapeDefaults.centerShape,
+                        startIcon = Icons.Rounded.ContentCopy,
                         onClick = {
                             showSelectionDialog = false
-                            onShare()
+                            onCopy(clipboardManager)
                         },
                         titleFontStyle = LocalTextStyle.current.copy(
                             fontSize = 16.sp,
@@ -125,45 +141,26 @@ fun ShareButton(
                             textAlign = TextAlign.Center
                         )
                     )
-                    if (onCopy != null) {
-                        Spacer(Modifier.height(4.dp))
-                        PreferenceItem(
-                            title = stringResource(R.string.copy),
-                            shape = if (onEdit == null) ContainerShapeDefaults.bottomShape
-                            else ContainerShapeDefaults.centerShape,
-                            startIcon = Icons.Rounded.ContentCopy,
-                            onClick = {
-                                showSelectionDialog = false
-                                onCopy(clipboardManager)
-                            },
-                            titleFontStyle = LocalTextStyle.current.copy(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = 18.sp,
-                                textAlign = TextAlign.Center
-                            )
+                }
+                if (onEdit != null) {
+                    Spacer(Modifier.height(4.dp))
+                    PreferenceItem(
+                        title = stringResource(R.string.edit),
+                        shape = ContainerShapeDefaults.bottomShape,
+                        startIcon = Icons.Rounded.MiniEdit,
+                        onClick = {
+                            showSelectionDialog = false
+                            onEdit()
+                        },
+                        titleFontStyle = LocalTextStyle.current.copy(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 18.sp,
+                            textAlign = TextAlign.Center
                         )
-                    }
-                    if (onEdit != null) {
-                        Spacer(Modifier.height(4.dp))
-                        PreferenceItem(
-                            title = stringResource(R.string.edit),
-                            shape = ContainerShapeDefaults.bottomShape,
-                            startIcon = Icons.Rounded.MiniEdit,
-                            onClick = {
-                                showSelectionDialog = false
-                                onEdit()
-                            },
-                            titleFontStyle = LocalTextStyle.current.copy(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = 18.sp,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                    }
+                    )
                 }
             }
-        )
-    }
+        }
+    )
 }

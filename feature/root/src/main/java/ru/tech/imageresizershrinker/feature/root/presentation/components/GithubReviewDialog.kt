@@ -19,28 +19,27 @@ package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.StarRate
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.domain.APP_LINK
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 
 @Composable
 internal fun GithubReviewDialog(
+    visible: Boolean,
     onDismiss: () -> Unit,
     isNotShowAgainButtonVisible: Boolean,
     onNotShowAgain: () -> Unit
 ) {
     val linkHandler = LocalUriHandler.current
-    AlertDialog(
-        modifier = Modifier.alertDialogBorder(),
+    EnhancedAlertDialog(
+        visible = visible,
         onDismissRequest = onDismiss,
         confirmButton = {
             EnhancedButton(

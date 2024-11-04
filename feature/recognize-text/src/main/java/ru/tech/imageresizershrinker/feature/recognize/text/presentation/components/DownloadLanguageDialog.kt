@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
@@ -58,50 +57,50 @@ fun DownloadLanguageDialog(
         mutableStateOf(false)
     }
 
-    if (!downloadStarted) {
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.Download,
-                    contentDescription = null
+    EnhancedAlertDialog(
+        visible = !downloadStarted,
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Download,
+                contentDescription = null
+            )
+        },
+        title = { Text(stringResource(id = R.string.no_data)) },
+        text = {
+            Text(
+                stringResource(
+                    id = R.string.download_description,
+                    downloadDialogData.firstOrNull()?.type?.displayName ?: "",
+                    downloadDialogData.joinToString(separator = ", ") { it.localizedName }
                 )
-            },
-            title = { Text(stringResource(id = R.string.no_data)) },
-            text = {
-                Text(
-                    stringResource(
-                        id = R.string.download_description,
-                        downloadDialogData.firstOrNull()?.type?.displayName ?: "",
-                        downloadDialogData.joinToString(separator = ", ") { it.localizedName }
-                    )
-                )
-            },
-            onDismissRequest = {},
-            confirmButton = {
-                EnhancedButton(
-                    onClick = {
-                        if (context.isNetworkAvailable()) {
-                            downloadDialogData.let { downloadData ->
-                                onDownloadRequest(downloadData)
-                                downloadStarted = true
-                            }
-                        } else onNoConnection()
-                    }
-                ) {
-                    Text(stringResource(R.string.download))
+            )
+        },
+        onDismissRequest = {},
+        confirmButton = {
+            EnhancedButton(
+                onClick = {
+                    if (context.isNetworkAvailable()) {
+                        downloadDialogData.let { downloadData ->
+                            onDownloadRequest(downloadData)
+                            downloadStarted = true
+                        }
+                    } else onNoConnection()
                 }
-            },
-            dismissButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = onDismiss
-                ) {
-                    Text(stringResource(R.string.close))
-                }
+            ) {
+                Text(stringResource(R.string.download))
             }
-        )
-    } else {
+        },
+        dismissButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = onDismiss
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        }
+    )
+
+    if (downloadStarted) {
         BasicAlertDialog(onDismissRequest = {}) {
             Box(
                 Modifier.fillMaxSize()

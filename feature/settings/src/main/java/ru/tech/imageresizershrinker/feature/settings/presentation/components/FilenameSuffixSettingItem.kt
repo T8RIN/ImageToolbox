@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -41,15 +40,14 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.resources.icons.Suffix
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -74,64 +72,62 @@ fun FilenameSuffixSettingItem(
         startIcon = Icons.Filled.Suffix,
         modifier = modifier.fillMaxWidth()
     )
-    if (showChangeFilenameDialog) {
-        var value by remember {
-            mutableStateOf(
-                settingsState.filenameSuffix
-            )
-        }
-        AlertDialog(
-            modifier = Modifier
-                .width(340.dp)
-                .padding(16.dp)
-                .alertDialogBorder(),
-            properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = { showChangeFilenameDialog = false },
-            icon = {
-                Icon(
-                    imageVector = Icons.Filled.Suffix,
-                    contentDescription = null
-                )
-            },
-            title = {
-                Text(stringResource(R.string.suffix))
-            },
-            text = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    OutlinedTextField(
-                        shape = RoundedCornerShape(16.dp),
-                        value = value,
-                        textStyle = MaterialTheme.typography.titleMedium.copy(
-                            textAlign = TextAlign.Center
-                        ),
-                        onValueChange = {
-                            value = it
-                        }
-                    )
-                }
-            },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                        alpha = if (settingsState.isNightMode) 0.5f
-                        else 1f
-                    ),
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    onClick = {
-                        onValueChange(value.trim())
-                        showChangeFilenameDialog = false
-                    },
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                    ),
-                ) {
-                    Text(stringResource(R.string.ok))
-                }
-            }
+
+    var value by remember(showChangeFilenameDialog) {
+        mutableStateOf(
+            settingsState.filenameSuffix
         )
     }
+    EnhancedAlertDialog(
+        modifier = Modifier
+            .width(340.dp)
+            .padding(16.dp),
+        visible = showChangeFilenameDialog,
+        onDismissRequest = { showChangeFilenameDialog = false },
+        icon = {
+            Icon(
+                imageVector = Icons.Filled.Suffix,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(stringResource(R.string.suffix))
+        },
+        text = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                OutlinedTextField(
+                    shape = RoundedCornerShape(16.dp),
+                    value = value,
+                    textStyle = MaterialTheme.typography.titleMedium.copy(
+                        textAlign = TextAlign.Center
+                    ),
+                    onValueChange = {
+                        value = it
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                    alpha = if (settingsState.isNightMode) 0.5f
+                    else 1f
+                ),
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                onClick = {
+                    onValueChange(value.trim())
+                    showChangeFilenameDialog = false
+                },
+                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                ),
+            ) {
+                Text(stringResource(R.string.ok))
+            }
+        }
+    )
 }

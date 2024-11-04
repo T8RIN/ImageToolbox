@@ -406,13 +406,12 @@ fun DocumentScannerContent(
                     )
                 }
             )
-            if (showFolderSelectionDialog) {
-                OneTimeSaveLocationSelectionDialog(
-                    onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = saveBitmaps,
-                    formatForFilenameSelection = component.getFormatForFilenameSelection()
-                )
-            }
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = saveBitmaps,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
         },
         canShowScreenData = component.uris.isNotEmpty(),
         isPortrait = isPortrait

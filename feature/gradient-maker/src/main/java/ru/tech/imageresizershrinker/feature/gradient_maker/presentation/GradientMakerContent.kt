@@ -444,13 +444,12 @@ fun GradientMakerContent(
                     showOneTimeImagePickingDialog = true
                 }
             )
-            if (showFolderSelectionDialog) {
-                OneTimeSaveLocationSelectionDialog(
-                    onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = saveBitmap,
-                    formatForFilenameSelection = component.getFormatForFilenameSelection()
-                )
-            }
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = saveBitmap,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },
                 picker = Picker.Multiple,
