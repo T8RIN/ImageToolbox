@@ -32,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
@@ -70,7 +72,12 @@ fun M3Slider(
                     .copy(0.3f),
                 color = SafeLocalContainerColor
                     .copy(0.3f)
-                    .compositeOver(MaterialTheme.colorScheme.surfaceContainerLowest)
+                    .compositeOver(
+                        takeColorFromScheme {
+                            if (it) mixedContainer.copy(0.05f)
+                            else mixedContainer.copy(0.2f)
+                        }
+                    )
                     .copy(colors.activeTrackColor.alpha),
                 composeColorOnTopOfBackground = false
             )
