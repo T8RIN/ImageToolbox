@@ -141,7 +141,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImagesPreference
@@ -242,7 +242,7 @@ fun PdfToolsContent(
         }
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = showSelectionPdfPicker,
         onDismiss = {
             showSelectionPdfPicker = it

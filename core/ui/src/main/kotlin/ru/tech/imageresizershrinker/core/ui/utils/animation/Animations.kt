@@ -62,11 +62,6 @@ val PageCloseTransition = slideOutHorizontally(
     openCloseTransitionSpec(500)
 )
 
-val ModalSheetAnimationSpec = tween<Float>(
-    durationMillis = 600,
-    easing = FancyTransitionEasing
-)
-
 private fun <T> openCloseTransitionSpec(
     duration: Int = 500,
     delay: Int = 0

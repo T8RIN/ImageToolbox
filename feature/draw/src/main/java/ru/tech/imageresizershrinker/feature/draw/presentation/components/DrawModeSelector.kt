@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -448,7 +448,7 @@ fun DrawModeSelector(
             }
         }
     }
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Column(
                 modifier = Modifier

@@ -95,7 +95,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.palette_selection.getTitle
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -260,7 +260,7 @@ internal fun GeneratePaletteScreenControls(
                     }
                 }
 
-                SimpleSheet(
+                EnhancedModalBottomSheet(
                     sheetContent = {
                         Box {
                             Column(

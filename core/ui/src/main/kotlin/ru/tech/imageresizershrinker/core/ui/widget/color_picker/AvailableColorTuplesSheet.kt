@@ -93,8 +93,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.palette_selection.PaletteStyleSelection
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -117,13 +117,13 @@ fun AvailableColorTuplesSheet(
     var showEditColorPicker by rememberSaveable { mutableStateOf(false) }
 
     val settingsState = LocalSettingsState.current
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = {
             if (!it) onDismiss()
         },
         dragHandle = {
-            SimpleDragHandle {
+            EnhancedModalSheetDragHandle {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,

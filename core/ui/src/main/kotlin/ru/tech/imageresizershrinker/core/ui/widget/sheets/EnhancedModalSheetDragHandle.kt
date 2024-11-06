@@ -37,9 +37,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SimpleDragHandle(
+fun EnhancedModalSheetDragHandle(
     modifier: Modifier = Modifier,
-    color: Color = SimpleSheetDefaults.barContainerColor,
+    color: Color = EnhancedBottomSheetDefaults.barContainerColor,
     drawStroke: Boolean = true,
     showDragHandle: Boolean = true,
     content: @Composable ColumnScope.() -> Unit = {},

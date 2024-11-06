@@ -126,8 +126,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
@@ -689,7 +689,7 @@ fun CropContent(
                         }
                     )
                     ProvideContainerDefaults(
-                        color = SimpleSheetDefaults.contentContainerColor
+                        color = EnhancedBottomSheetDefaults.contentContainerColor
                     ) {
                         controls()
                     }

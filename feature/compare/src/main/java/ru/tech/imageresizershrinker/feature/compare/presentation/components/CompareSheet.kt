@@ -55,8 +55,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -69,7 +69,7 @@ fun CompareSheet(
     var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
 
     if (data != null) {
-        SimpleSheet(
+        EnhancedModalBottomSheet(
             sheetContent = {
                 Column(
                     modifier = Modifier.navigationBarsPadding()
@@ -136,7 +136,7 @@ fun CompareSheet(
                 if (!it) onDismiss()
             },
             dragHandle = {
-                SimpleDragHandle(
+                EnhancedModalSheetDragHandle(
                     color = Color.Transparent,
                     drawStroke = false
                 )
@@ -155,7 +155,7 @@ fun CompareSheet(
 ) {
     var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Column(
                 modifier = Modifier.navigationBarsPadding()
@@ -216,7 +216,7 @@ fun CompareSheet(
             if (!it) onDismiss()
         },
         dragHandle = {
-            SimpleDragHandle(
+            EnhancedModalSheetDragHandle(
                 color = Color.Transparent,
                 drawStroke = false
             )

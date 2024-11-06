@@ -183,9 +183,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -305,9 +305,9 @@ fun AddFiltersSheet(
 
     val previewSheetData = component.previewData
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         dragHandle = {
-            SimpleDragHandle {
+            EnhancedModalSheetDragHandle {
                 AnimatedVisibility(visible = !isSearching) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -316,7 +316,7 @@ fun AddFiltersSheet(
                         ScrollableTabRow(
                             divider = {},
                             edgePadding = 16.dp,
-                            containerColor = SimpleSheetDefaults.barContainerColor,
+                            containerColor = EnhancedBottomSheetDefaults.barContainerColor,
                             selectedTabIndex = pagerState.currentPage,
                             indicator = { tabPositions ->
                                 if (pagerState.currentPage < tabPositions.size) {
@@ -1094,9 +1094,9 @@ fun AddFiltersSheet(
     }
 
     val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         dragHandle = {
-            SimpleDragHandle {
+            EnhancedModalSheetDragHandle {
                 EnhancedTopAppBar(
                     type = EnhancedTopAppBarType.Center,
                     modifier = Modifier,
@@ -1116,7 +1116,7 @@ fun AddFiltersSheet(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = SimpleSheetDefaults.barContainerColor
+                        containerColor = EnhancedBottomSheetDefaults.barContainerColor
                     ),
                     actions = {
                         EnhancedIconButton(

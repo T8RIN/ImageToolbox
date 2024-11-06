@@ -93,7 +93,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -113,7 +113,7 @@ internal fun FilterTemplateInfoSheet(
     onRequestFilterMapping: (UiFilter<*>) -> Transformation,
     previewModel: ImageModel
 ) {
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = onDismiss,
         confirmButton = {

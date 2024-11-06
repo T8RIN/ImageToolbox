@@ -77,7 +77,7 @@ fun PickImageFromUrisSheet(
     val hasUris = uris.notNullAnd { it.size >= 2 }
     if (!hasUris) onDismiss()
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             val gridState = rememberLazyGridState()
             LaunchedEffect(Unit) {

@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Puzzle
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -51,7 +51,7 @@ fun CipherTipSheet(
     visible: Boolean,
     onDismiss: () -> Unit
 ) {
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Box {
                 Column(

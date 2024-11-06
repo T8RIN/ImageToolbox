@@ -55,11 +55,12 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -101,7 +102,7 @@ fun IconShapeSettingItem(
         }
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = showPickerSheet,
         onDismiss = { showPickerSheet = false },
         title = {
@@ -143,7 +144,7 @@ fun IconShapeSettingItem(
                 }
                 val color by animateColorAsState(
                     if (selected) MaterialTheme.colorScheme.primaryContainer
-                    else Color.Unspecified
+                    else SafeLocalContainerColor
                 )
                 val borderColor by animateColorAsState(
                     if (selected) {

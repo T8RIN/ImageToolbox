@@ -80,7 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 
@@ -153,7 +153,7 @@ internal fun MainTopAppBar(
                         contentDescription = null
                     )
                 }
-                SimpleSheet(
+                EnhancedModalBottomSheet(
                     visible = showShortcutAddingSheet,
                     onDismiss = { showShortcutAddingSheet = it },
                     confirmButton = {

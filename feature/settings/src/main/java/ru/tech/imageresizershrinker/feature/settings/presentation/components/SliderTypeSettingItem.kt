@@ -54,8 +54,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -82,7 +82,7 @@ fun SliderTypeSettingItem(
         endIcon = Icons.Rounded.MiniEdit
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = showSheet,
         onDismiss = { showSheet = it },
         title = {
@@ -120,7 +120,7 @@ fun SliderTypeSettingItem(
                     subtitle = type.subtitle,
                     color = takeColorFromScheme {
                         if (selected) secondaryContainer.copy(0.7f)
-                        else SimpleSheetDefaults.contentContainerColor
+                        else EnhancedBottomSheetDefaults.contentContainerColor
                     },
                     shape = ContainerShapeDefaults.shapeForIndex(index, entries.size),
                     startIcon = type.icon,

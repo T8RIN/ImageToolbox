@@ -565,7 +565,7 @@ private fun PdfPage(
                     .fillMaxSize()
                     .padding(padding)
                     .clip(RoundedCornerShape(corners))
-                    .background(Color.Black.copy(0.3f)),
+                    .background(MaterialTheme.colorScheme.scrim.copy(0.32f)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

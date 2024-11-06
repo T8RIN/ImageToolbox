@@ -22,6 +22,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -55,7 +56,7 @@ internal fun BoxScope.CompareLabel(
             },
             modifier = Modifier
                 .background(
-                    color = Color.Black.copy(0.4f),
+                    color = MaterialTheme.colorScheme.scrim.copy(0.4f),
                     shape = shape
                 )
                 .padding(horizontal = 8.dp, vertical = 2.dp),

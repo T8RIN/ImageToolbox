@@ -54,8 +54,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -80,7 +80,7 @@ fun ColorBlindSchemeSettingItem(
         modifier = modifier
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = isShowSheet,
         onDismiss = {
             isShowSheet = false
@@ -136,7 +136,7 @@ private fun ColorBlindTypeSelectionItem(
             ?: stringResource(R.string.not_use_color_blind_scheme_sub),
         color = takeColorFromScheme {
             if (selected) secondaryContainer.copy(0.7f)
-            else SimpleSheetDefaults.contentContainerColor
+            else EnhancedBottomSheetDefaults.contentContainerColor
         },
         modifier = Modifier
             .fillMaxWidth()

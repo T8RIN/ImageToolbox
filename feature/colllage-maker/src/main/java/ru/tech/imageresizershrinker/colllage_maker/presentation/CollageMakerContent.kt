@@ -125,8 +125,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.LockScreenOrientation
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 
 @Composable
@@ -562,7 +562,7 @@ fun CollageMakerContent(
                                 .navigationBarsPadding()
                         ) {
                             ProvideContainerDefaults(
-                                color = SimpleSheetDefaults.contentContainerColor
+                                color = EnhancedBottomSheetDefaults.contentContainerColor
                             ) {
                                 controls()
                             }

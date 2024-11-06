@@ -43,7 +43,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OcrEngineMode
 
@@ -69,7 +69,7 @@ fun OcrEngineModeSelector(
         endIcon = Icons.Rounded.MiniEdit
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = showSelectionSheet,
         onDismiss = {
             showSelectionSheet = it

@@ -54,8 +54,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.HtmlText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -99,14 +99,14 @@ fun UpdateSheet(
             }
         }
     } else {
-        SimpleSheet(
+        EnhancedModalBottomSheet(
             visible = visible,
             onDismiss = {
                 if (!it) onDismiss()
             },
             title = {},
             dragHandle = {
-                SimpleDragHandle {
+                EnhancedModalSheetDragHandle {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxWidth()

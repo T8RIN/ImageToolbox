@@ -68,8 +68,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalSheetDragHandle
 
 @Composable
 fun PickColorFromImageSheet(
@@ -86,7 +86,7 @@ fun PickColorFromImageSheet(
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Column(
                 modifier = Modifier.navigationBarsPadding()
@@ -231,7 +231,7 @@ fun PickColorFromImageSheet(
             }
         },
         dragHandle = {
-            SimpleDragHandle(
+            EnhancedModalSheetDragHandle(
                 color = Color.Transparent,
                 drawStroke = false
             )

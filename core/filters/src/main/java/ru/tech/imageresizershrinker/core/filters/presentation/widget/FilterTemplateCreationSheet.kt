@@ -100,8 +100,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
@@ -129,7 +129,7 @@ internal fun FilterTemplateCreationSheet(
 
     val canSave = component.filterList.isNotEmpty()
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = {
             if (!canSave) onDismiss()
@@ -160,7 +160,7 @@ internal fun FilterTemplateCreationSheet(
                     .fillMaxWidth()
                     .drawHorizontalStroke(autoElevation = 3.dp)
                     .zIndex(Float.MAX_VALUE)
-                    .background(SimpleSheetDefaults.barContainerColor)
+                    .background(EnhancedBottomSheetDefaults.barContainerColor)
                     .padding(8.dp)
             ) {
                 EnhancedIconButton(

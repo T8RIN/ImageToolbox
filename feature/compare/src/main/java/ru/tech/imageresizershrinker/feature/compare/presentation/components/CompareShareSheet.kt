@@ -58,7 +58,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.topShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -74,7 +74,7 @@ internal fun CompareShareSheet(
 ) {
     val clipboardManager = LocalClipboardManager.current
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.Png.Lossless) }
             Box {

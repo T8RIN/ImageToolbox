@@ -46,7 +46,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.centerShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.topShape
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -58,7 +58,7 @@ fun AuthorLinksSheet(
     val context = LocalContext.current
     val linkHandler = LocalUriHandler.current
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = {
             if (!it) onDismiss()

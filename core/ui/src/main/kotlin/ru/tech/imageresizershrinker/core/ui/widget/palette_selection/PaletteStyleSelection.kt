@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Swatch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -75,7 +75,7 @@ fun PaletteStyleSelection(
         }
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = showPaletteStyleSelectionSheet,
         onDismiss = {
             showPaletteStyleSelectionSheet = it

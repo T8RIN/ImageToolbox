@@ -69,7 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PositionSe
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -343,7 +343,7 @@ fun ResizeTypeSelector(
         }
     }
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Column(
                 modifier = Modifier

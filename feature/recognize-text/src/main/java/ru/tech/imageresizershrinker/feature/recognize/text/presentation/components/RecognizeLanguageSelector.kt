@@ -125,8 +125,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
@@ -240,7 +240,7 @@ fun RecognizeLanguageSelector(
         }.sortedBy { it.name }
     }
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = showDetailedLanguageSheet,
         onDismiss = {
             showDetailedLanguageSheet = it
@@ -396,7 +396,7 @@ fun RecognizeLanguageSelector(
                                                 MaterialTheme.colorScheme.surfaceColorAtElevation(
                                                     20.dp
                                                 )
-                                            } else SimpleSheetDefaults.contentContainerColor
+                                            } else EnhancedBottomSheetDefaults.contentContainerColor
                                         ).value,
                                         shape = ContainerShapeDefaults.shapeForIndex(
                                             index = index,
@@ -462,7 +462,7 @@ fun RecognizeLanguageSelector(
                                                 result.place(0, 0)
                                             }
                                         }
-                                        .background(SimpleSheetDefaults.containerColor)
+                                        .background(EnhancedBottomSheetDefaults.containerColor)
                                         .padding(horizontal = 16.dp)
                                 ) {
                                     Spacer(modifier = Modifier.height(20.dp))
@@ -490,7 +490,7 @@ fun RecognizeLanguageSelector(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(16.dp),
-                                    startColor = SimpleSheetDefaults.containerColor,
+                                    startColor = EnhancedBottomSheetDefaults.containerColor,
                                     endColor = Color.Transparent
                                 )
                             }
@@ -499,7 +499,7 @@ fun RecognizeLanguageSelector(
                                     modifier = Modifier
                                         .container(
                                             shape = RoundedCornerShape(20.dp),
-                                            color = SimpleSheetDefaults.contentContainerColor,
+                                            color = EnhancedBottomSheetDefaults.contentContainerColor,
                                             resultPadding = 0.dp
                                         )
                                         .padding(8.dp),
@@ -611,7 +611,7 @@ fun RecognizeLanguageSelector(
                                                                 .colorScheme
                                                                 .mixedContainer
                                                                 .copy(0.8f)
-                                                        } else SimpleSheetDefaults.contentContainerColor
+                                                        } else EnhancedBottomSheetDefaults.contentContainerColor
                                                     ).value,
                                                     resultPadding = 0.dp
                                                 )
@@ -784,7 +784,7 @@ fun RecognizeLanguageSelector(
                                     color = animateColorAsState(
                                         if (selected) {
                                             MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
-                                        } else SimpleSheetDefaults.contentContainerColor
+                                        } else EnhancedBottomSheetDefaults.contentContainerColor
                                     ).value,
                                     shape = ContainerShapeDefaults.shapeForIndex(
                                         index = index,

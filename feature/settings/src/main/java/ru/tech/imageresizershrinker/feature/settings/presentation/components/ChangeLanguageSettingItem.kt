@@ -58,8 +58,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedRadioButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -130,7 +130,7 @@ private fun PickLanguageSheet(
     visible: Boolean,
     onDismiss: () -> Unit
 ) {
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         onDismiss = {
             if (!it) onDismiss()
         },
@@ -167,7 +167,7 @@ private fun PickLanguageSheet(
                                 if (isSelected) MaterialTheme
                                     .colorScheme
                                     .secondaryContainer
-                                else SimpleSheetDefaults.containerColor
+                                else EnhancedBottomSheetDefaults.containerColor
                             ).value,
                             shape = ContainerShapeDefaults.shapeForIndex(
                                 index = index,

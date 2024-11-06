@@ -76,8 +76,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import kotlin.random.Random
@@ -122,7 +122,7 @@ fun EmojiSelectionSheet(
     }
     val scope = rememberCoroutineScope()
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         confirmButton = {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -338,7 +338,7 @@ fun EmojiSelectionSheet(
                     ).value,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(SimpleSheetDefaults.containerColor)
+                        .background(EnhancedBottomSheetDefaults.containerColor)
                         .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
                     shape = RoundedCornerShape(28.dp),
                     checked = emojiEnabled,
@@ -352,7 +352,7 @@ fun EmojiSelectionSheet(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(16.dp),
-                    startColor = SimpleSheetDefaults.containerColor,
+                    startColor = EnhancedBottomSheetDefaults.containerColor,
                     endColor = Color.Transparent
                 )
             }

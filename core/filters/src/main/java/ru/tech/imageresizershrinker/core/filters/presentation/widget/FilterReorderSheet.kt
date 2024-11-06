@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import sh.calvin.reorderable.ReorderableItem
@@ -51,7 +51,7 @@ fun FilterReorderSheet(
     onDismiss: () -> Unit,
     onReorder: (List<UiFilter<*>>) -> Unit
 ) {
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             if (filterList.size < 2) onDismiss()
 

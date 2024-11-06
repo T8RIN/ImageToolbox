@@ -126,7 +126,7 @@ fun UrisPreview(
                     Box(
                         modifier = Modifier
                             .matchParentSize()
-                            .background(Color.Black.copy(0.5f)),
+                            .background(MaterialTheme.colorScheme.scrim.copy(0.5f)),
                     ) {
                         Text(
                             text = (index + 1).toString(),
@@ -145,7 +145,7 @@ fun UrisPreview(
                                     .padding(4.dp)
                                     .clip(CircleShape)
                                     .background(
-                                        Color.Black.copy(
+                                        MaterialTheme.colorScheme.scrim.copy(
                                             animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value
                                         )
                                     )

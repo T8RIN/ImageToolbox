@@ -71,7 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
@@ -148,7 +148,7 @@ fun ColorStopSelection(
     var color by rememberSaveable(stateSaver = ColorSaver) {
         mutableStateOf(Color.Red)
     }
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Box {
                 Column(
@@ -308,7 +308,7 @@ private fun ColorStopSelectionItem(
         }
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Box {
                 Column(

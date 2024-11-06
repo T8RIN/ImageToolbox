@@ -139,8 +139,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
@@ -690,7 +690,7 @@ fun EraseBackgroundContent(
                             )
                             Column(Modifier.verticalScroll(rememberScrollState())) {
                                 ProvideContainerDefaults(
-                                    color = SimpleSheetDefaults.contentContainerColor
+                                    color = EnhancedBottomSheetDefaults.contentContainerColor
                                 ) {
                                     controls()
                                 }

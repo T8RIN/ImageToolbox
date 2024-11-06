@@ -86,7 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import kotlin.math.roundToInt
@@ -280,7 +280,7 @@ fun ColorSelectionRow(
     }
     val settingsState = LocalSettingsState.current
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         sheetContent = {
             Box {
                 Column(

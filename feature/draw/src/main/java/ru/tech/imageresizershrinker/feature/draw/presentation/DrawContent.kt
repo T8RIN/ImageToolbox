@@ -164,9 +164,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -839,7 +839,7 @@ fun DrawContent(
                 ) {
                     mutableStateOf(drawOnBackgroundParams?.color?.toColor() ?: Color.White)
                 }
-                SimpleSheet(
+                EnhancedModalBottomSheet(
                     title = {
                         TitleItem(
                             text = stringResource(R.string.draw),
@@ -995,7 +995,7 @@ fun DrawContent(
                             )
                             Column(Modifier.verticalScroll(rememberScrollState())) {
                                 ProvideContainerDefaults(
-                                    color = SimpleSheetDefaults.contentContainerColor
+                                    color = EnhancedBottomSheetDefaults.contentContainerColor
                                 ) {
                                     controls()
                                 }

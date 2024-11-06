@@ -130,7 +130,7 @@ fun EnhancedAlertDialog(
                     Box(
                         modifier = Modifier
                             .pointerInput(Unit) { detectTapGestures { onDismissRequest() } }
-                            .background(Color.Black.copy(alpha = .5f * scale))
+                            .background(MaterialTheme.colorScheme.scrim.copy(alpha = .5f * scale))
                             .fillMaxSize()
                     )
                 }

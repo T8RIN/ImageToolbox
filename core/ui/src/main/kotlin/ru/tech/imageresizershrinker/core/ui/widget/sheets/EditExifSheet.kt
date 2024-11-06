@@ -90,7 +90,7 @@ fun EditExifSheet(
         mutableStateOf(exif?.toMap())
     }
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         confirmButton = {
             val count = remember(exifMap) {
                 MetadataTag.entries.count {
@@ -162,7 +162,7 @@ fun EditExifSheet(
                             Modifier
                                 .fillMaxWidth()
                                 .container(
-                                    color = SimpleSheetDefaults.contentContainerColor,
+                                    color = EnhancedBottomSheetDefaults.contentContainerColor,
                                     shape = ContainerShapeDefaults.shapeForIndex(
                                         index = index,
                                         size = data.size

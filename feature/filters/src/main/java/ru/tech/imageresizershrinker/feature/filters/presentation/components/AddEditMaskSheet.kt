@@ -124,8 +124,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
@@ -190,7 +190,7 @@ fun AddEditMaskSheet(
     }
 
     val canSave = component.paths.isNotEmpty() && component.filterList.isNotEmpty()
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = {
             if (component.paths.isEmpty() && component.filterList.isEmpty()) onDismiss()
@@ -221,7 +221,7 @@ fun AddEditMaskSheet(
                     .fillMaxWidth()
                     .drawHorizontalStroke(autoElevation = 3.dp)
                     .zIndex(Float.MAX_VALUE)
-                    .background(SimpleSheetDefaults.barContainerColor)
+                    .background(EnhancedBottomSheetDefaults.barContainerColor)
                     .padding(8.dp)
             ) {
                 EnhancedIconButton(

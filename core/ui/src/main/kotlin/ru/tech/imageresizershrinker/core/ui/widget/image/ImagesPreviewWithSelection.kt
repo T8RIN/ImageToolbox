@@ -403,8 +403,9 @@ private fun ImageItem(
                 .padding(padding)
                 .clip(RoundedCornerShape(corners))
                 .then(
-                    if (isAboveImageScrimEnabled) Modifier.background(Color.Black.copy(0.3f))
-                    else Modifier
+                    if (isAboveImageScrimEnabled) {
+                        Modifier.background(MaterialTheme.colorScheme.scrim.copy(0.32f))
+                    } else Modifier
                 ),
             contentAlignment = Alignment.Center,
             content = {

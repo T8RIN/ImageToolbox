@@ -126,7 +126,7 @@ fun AddExifSheet(
             }
         }
     }
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = onDismiss,
         confirmButton = {},

@@ -78,7 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -164,7 +164,7 @@ fun ImageReorderCarousel(
                     modifier = Modifier.size(20.dp)
                 )
             }
-            SimpleSheet(
+            EnhancedModalBottomSheet(
                 visible = showSortTypeSelection,
                 onDismiss = { showSortTypeSelection = it },
                 title = {

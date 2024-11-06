@@ -51,7 +51,7 @@ fun ProcessImagesPreferenceSheet(
     onDismiss: (Boolean) -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         title = {
             TitleItem(
                 text = stringResource(R.string.image),

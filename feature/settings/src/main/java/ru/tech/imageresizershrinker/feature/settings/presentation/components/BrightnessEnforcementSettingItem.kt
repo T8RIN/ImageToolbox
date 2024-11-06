@@ -50,7 +50,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedCheckbox
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -97,7 +97,7 @@ fun BrightnessEnforcementSettingItem(
         endIcon = Icons.Rounded.MiniEdit
     )
 
-    SimpleSheet(
+    EnhancedModalBottomSheet(
         visible = showPickerSheet,
         onDismiss = {
             showPickerSheet = it

@@ -129,7 +129,7 @@ fun ZoomModalSheet(
                     Text(
                         text = stringResource(R.string.zoom) + " ${zoomLevel.roundToTwoDigits()}x",
                         modifier = Modifier
-                            .background(Color.Black.copy(0.4f), CircleShape)
+                            .background(MaterialTheme.colorScheme.scrim.copy(0.4f), CircleShape)
                             .padding(horizontal = 8.dp, vertical = 4.dp),
                         color = Color.White
                     )
@@ -153,14 +153,14 @@ fun ZoomModalSheet(
     }
 
     if (data != null) {
-        SimpleSheet(
+        EnhancedModalBottomSheet(
             sheetContent = sheetContent,
             visible = visible,
             onDismiss = {
                 if (!it) onDismiss()
             },
             dragHandle = {
-                SimpleDragHandle(
+                EnhancedModalSheetDragHandle(
                     color = Color.Transparent,
                     drawStroke = false
                 )

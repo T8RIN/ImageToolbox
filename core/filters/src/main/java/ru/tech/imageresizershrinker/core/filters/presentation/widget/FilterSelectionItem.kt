@@ -121,7 +121,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -368,7 +368,7 @@ internal fun FilterSelectionItem(
                     var searchKeyword by rememberSaveable(isSearching) {
                         mutableStateOf("")
                     }
-                    SimpleSheet(
+                    EnhancedModalBottomSheet(
                         visible = showSelection,
                         onDismiss = { showSelection = it },
                         confirmButton = {},
