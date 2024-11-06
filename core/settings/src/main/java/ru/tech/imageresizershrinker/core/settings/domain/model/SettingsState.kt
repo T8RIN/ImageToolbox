@@ -108,7 +108,8 @@ data class SettingsState(
     val isSystemBarsVisibleBySwipe: Boolean,
     val isCompactSelectorsLayout: Boolean,
     val mainScreenTitle: String,
-    val sliderType: SliderType
+    val sliderType: SliderType,
+    val isCenterAlignDialogButtons: Boolean,
 ) {
 
     companion object {
@@ -196,7 +197,8 @@ data class SettingsState(
                 isSystemBarsVisibleBySwipe = true,
                 isCompactSelectorsLayout = false,
                 mainScreenTitle = "",
-                sliderType = SliderType.Fancy
+                sliderType = SliderType.Fancy,
+                isCenterAlignDialogButtons = true
             )
         }
     }

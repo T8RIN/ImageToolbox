@@ -137,6 +137,7 @@ data class UiSettingsState(
     val isCompactSelectorsLayout: Boolean,
     val mainScreenTitle: String,
     val sliderType: SliderType,
+    val isCenterAlignDialogButtons: Boolean,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -352,7 +353,8 @@ fun SettingsState.toUiState(
                 isSystemBarsVisibleBySwipe = isSystemBarsVisibleBySwipe,
                 isCompactSelectorsLayout = isCompactSelectorsLayout,
                 mainScreenTitle = mainScreenTitle,
-                sliderType = sliderType
+                sliderType = sliderType,
+                isCenterAlignDialogButtons = isCenterAlignDialogButtons
             )
         }
     }.value

@@ -458,4 +458,9 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object CenterAlignDialogButtons : Setting(
+        title = R.string.center_align_dialog_buttons,
+        subtitle = R.string.center_align_dialog_buttons_sub
+    )
+
 }

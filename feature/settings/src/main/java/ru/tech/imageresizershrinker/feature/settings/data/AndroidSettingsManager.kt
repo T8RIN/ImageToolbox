@@ -64,6 +64,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.APP_OPEN_C
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CAN_ENTER_PRESETS_BY_TEXT_FIELD
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CENTER_ALIGN_DIALOG_BUTTONS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COLOR_BLIND_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_ENABLED
@@ -297,6 +298,8 @@ internal class AndroidSettingsManager @Inject constructor(
             sliderType = prefs[SLIDER_TYPE]?.let {
                 SliderType.fromInt(it)
             } ?: default.sliderType,
+            isCenterAlignDialogButtons = prefs[CENTER_ALIGN_DIALOG_BUTTONS]
+                ?: default.isCenterAlignDialogButtons
         )
     }.onEach { currentSettings = it }
 
@@ -1072,6 +1075,15 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setSliderType(type: SliderType) {
         dataStore.edit {
             it[SLIDER_TYPE] = type.ordinal
+        }
+    }
+
+    override suspend fun toggleIsCenterAlignDialogButtons() {
+        dataStore.edit {
+            it.toggle(
+                key = CENTER_ALIGN_DIALOG_BUTTONS,
+                defaultValue = default.isCenterAlignDialogButtons
+            )
         }
     }
 

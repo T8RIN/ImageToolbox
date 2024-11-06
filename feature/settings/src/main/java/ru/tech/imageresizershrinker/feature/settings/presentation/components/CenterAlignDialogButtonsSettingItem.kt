@@ -19,22 +19,22 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ViewComfy
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.PictureInPictureCenter
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun UseCompactSelectorsSettingItem(
+fun CenterAlignDialogButtonsSettingItem(
     onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
-    modifier: Modifier = Modifier.padding(horizontal = 8.dp),
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
@@ -43,9 +43,9 @@ fun UseCompactSelectorsSettingItem(
         onClick = {
             onClick()
         },
-        title = stringResource(R.string.compact_selectors),
-        subtitle = stringResource(R.string.compact_selectors_sub),
-        checked = settingsState.isCompactSelectorsLayout,
-        startIcon = Icons.Outlined.ViewComfy
+        title = stringResource(R.string.center_align_dialog_buttons),
+        subtitle = stringResource(R.string.center_align_dialog_buttons_sub),
+        checked = settingsState.isCenterAlignDialogButtons,
+        startIcon = Icons.Outlined.PictureInPictureCenter
     )
 }

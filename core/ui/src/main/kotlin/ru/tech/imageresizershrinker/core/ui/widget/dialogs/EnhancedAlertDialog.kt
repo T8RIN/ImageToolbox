@@ -71,6 +71,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
 import com.t8rin.modalsheet.FullscreenPopup
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 
 @Composable
 fun EnhancedAlertDialog(
@@ -87,8 +88,7 @@ fun EnhancedAlertDialog(
     iconContentColor: Color = AlertDialogDefaults.iconContentColor,
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
     textContentColor: Color = AlertDialogDefaults.textContentColor,
-    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
-    alignButtonsToCenter: Boolean = false
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation
 ) {
     var visibleAnimated by remember { mutableStateOf(false) }
 
@@ -150,20 +150,22 @@ fun EnhancedAlertDialog(
                     ),
                     modifier = Modifier.scale(scale)
                 ) {
+                    val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
                     val dialogPaneDescription = "Dialog"
+
                     EnhancedAlertDialogContent(
                         buttons = {
                             FlowRow(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(
                                     space = ButtonsHorizontalSpacing,
-                                    alignment = if (dismissButton != null && alignButtonsToCenter) {
+                                    alignment = if (dismissButton != null && isCenterAlignButtons) {
                                         Alignment.CenterHorizontally
                                     } else Alignment.End
                                 ),
                                 verticalArrangement = Arrangement.spacedBy(
                                     space = ButtonsVerticalSpacing,
-                                    alignment = if (dismissButton != null && alignButtonsToCenter) {
+                                    alignment = if (dismissButton != null && isCenterAlignButtons) {
                                         Alignment.CenterVertically
                                     } else Alignment.Bottom
                                 ),

@@ -95,6 +95,7 @@ sealed class SettingsGroup(
             Setting.SwitchType,
             Setting.SliderType,
             Setting.UseCompactSelectors,
+            Setting.CenterAlignDialogButtons,
             Setting.FabAlignment
         ),
         initialState = false

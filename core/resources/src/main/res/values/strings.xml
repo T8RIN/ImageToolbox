@@ -1488,4 +1488,6 @@
     <string name="material_2_sub">Material 2 based slider, not modern, simple and straightforward</string>
     <string name="material_you_slider_sub">Modern Material You slider, futuristic, fresh, acessible</string>
     <string name="apply">Apply</string>
+    <string name="center_align_dialog_buttons">Center Dialog Buttons</string>
+    <string name="center_align_dialog_buttons_sub">Buttons of dialogs will be postioned at center instead of left side if possible</string>
 </resources>

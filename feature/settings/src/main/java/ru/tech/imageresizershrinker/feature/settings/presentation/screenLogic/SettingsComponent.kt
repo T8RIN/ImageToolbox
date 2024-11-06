@@ -638,6 +638,12 @@ class SettingsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun toggleIsCenterAlignDialogButtons() {
+        componentScope.launch {
+            settingsManager.toggleIsCenterAlignDialogButtons()
+        }
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(componentContext: ComponentContext): SettingsComponent

@@ -209,4 +209,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setSliderType(type: SliderType)
 
+    suspend fun toggleIsCenterAlignDialogButtons()
+
 }
