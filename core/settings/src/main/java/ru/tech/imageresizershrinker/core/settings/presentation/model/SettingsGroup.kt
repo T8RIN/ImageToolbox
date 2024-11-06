@@ -82,7 +82,6 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.ColorBlindScheme,
             Setting.BorderThickness,
-            Setting.DragHandleWidth,
             Setting.MainScreenTitle
         ),
         initialState = false
@@ -95,6 +94,7 @@ sealed class SettingsGroup(
             Setting.SwitchType,
             Setting.SliderType,
             Setting.UseCompactSelectors,
+            Setting.DragHandleWidth,
             Setting.CenterAlignDialogButtons,
             Setting.FabAlignment
         ),

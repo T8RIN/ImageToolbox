@@ -172,9 +172,9 @@ internal fun SettingItem(
                 ColorSchemeSettingItem(
                     onToggleInvertColors = component::toggleInvertColors,
                     onSetThemeStyle = component::setThemeStyle,
-                    onUpdateThemeContrast = component::updateThemeContrast,
+                    onUpdateThemeContrast = component::setThemeContrast,
                     onUpdateColorTuple = component::setColorTuple,
-                    onUpdateColorTuples = component::updateColorTuples,
+                    onUpdateColorTuples = component::setColorTuples,
                     onToggleUseEmojiAsPrimaryColor = component::toggleUseEmojiAsPrimaryColor
                 )
             }
@@ -246,7 +246,7 @@ internal fun SettingItem(
             Setting.FontScale -> {
                 FontScaleSettingItem(
                     onValueChange = {
-                        component.onUpdateFontScale(it)
+                        component.setFontScale(it)
                         context.recreate()
                     }
                 )
@@ -329,11 +329,11 @@ internal fun SettingItem(
             }
 
             Setting.SavingFolder -> {
-                SavingFolderSettingItemGroup(onValueChange = component::updateSaveFolderUri)
+                SavingFolderSettingItemGroup(onValueChange = component::setSaveFolderUri)
             }
 
             Setting.ScreenOrder -> {
-                ScreenOrderSettingItem(onValueChange = component::updateOrder)
+                ScreenOrderSettingItem(onValueChange = component::setScreenOrder)
             }
 
             Setting.ScreenSearch -> {
@@ -411,7 +411,7 @@ internal fun SettingItem(
             }
 
             Setting.BrightnessEnforcement -> {
-                BrightnessEnforcementSettingItem(onValueChange = component::updateBrightnessEnforcementScreens)
+                BrightnessEnforcementSettingItem(onValueChange = component::setScreensWithBrightnessEnforcement)
             }
 
             Setting.Confetti -> {

@@ -118,4 +118,22 @@ abstract class BaseComponent(
         block()
     }
 
+    private var debounceJob: Job? by smartJob()
+
+    fun CoroutineScope.debounced(
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        time: Long = 150,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job {
+        debounceJob?.cancel()
+
+        val job = internalLaunch(context, start) {
+            delay(time)
+            block()
+        }.also { debounceJob = it }
+
+        return job
+    }
+
 }
