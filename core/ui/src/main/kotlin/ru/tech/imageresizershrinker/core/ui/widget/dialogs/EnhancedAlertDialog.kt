@@ -72,6 +72,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
 @Composable
 fun EnhancedAlertDialog(
@@ -195,6 +196,7 @@ fun EnhancedAlertDialog(
                             titleContentColor = titleContentColor,
                             textContentColor = textContentColor,
                             modifier = modifier
+                                .alertDialogBorder()
                                 .sizeIn(
                                     minWidth = DialogMinWidth,
                                     maxWidth = DialogMaxWidth
