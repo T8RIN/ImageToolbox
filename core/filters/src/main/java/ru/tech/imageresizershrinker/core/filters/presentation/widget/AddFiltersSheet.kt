@@ -79,7 +79,6 @@ import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.ScrollableTabRow
@@ -183,8 +182,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -1029,9 +1028,6 @@ fun AddFiltersSheet(
                                     exit = fadeOut() + scaleOut()
                                 ) {
                                     EnhancedIconButton(
-                                        containerColor = Color.Transparent,
-                                        contentColor = LocalContentColor.current,
-                                        enableAutoShadowAndBorder = false,
                                         onClick = {
                                             searchKeyword = ""
                                         },
@@ -1102,9 +1098,6 @@ fun AddFiltersSheet(
                     modifier = Modifier,
                     navigationIcon = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = {
                                 component.setPreviewData(null)
                             }
@@ -1120,9 +1113,6 @@ fun AddFiltersSheet(
                     ),
                     actions = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = {
                                 previewSheetData?.forEach { filter ->
                                     onFilterPickedWithParams(

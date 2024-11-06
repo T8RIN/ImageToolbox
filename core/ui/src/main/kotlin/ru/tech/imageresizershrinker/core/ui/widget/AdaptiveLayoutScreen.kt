@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
@@ -53,7 +52,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
@@ -134,9 +132,6 @@ fun AdaptiveLayoutScreen(
                     title = title,
                     navigationIcon = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = onGoBack
                         ) {
                             Icon(

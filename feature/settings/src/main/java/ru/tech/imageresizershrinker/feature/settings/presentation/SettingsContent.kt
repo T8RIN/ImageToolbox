@@ -55,7 +55,6 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -224,9 +223,6 @@ fun SettingsContent(
                     transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
                 ) { (searching, hasSearchKey) ->
                     EnhancedIconButton(
-                        containerColor = Color.Transparent,
-                        contentColor = LocalContentColor.current,
-                        enableAutoShadowAndBorder = false,
                         onClick = {
                             if (!showSearch) {
                                 showSearch = true

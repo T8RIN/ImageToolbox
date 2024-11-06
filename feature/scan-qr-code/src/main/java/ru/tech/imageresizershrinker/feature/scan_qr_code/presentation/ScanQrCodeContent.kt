@@ -46,7 +46,6 @@ import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -337,9 +336,6 @@ fun ScanQrCodeContent(
                 endIcon = {
                     AnimatedVisibility(qrContent.isNotBlank()) {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = { qrContent = "" },
                             modifier = Modifier.padding(end = 4.dp)
                         ) {

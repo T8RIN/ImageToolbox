@@ -51,11 +51,11 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -128,15 +128,14 @@ private fun ColorBlindTypeSelectionItem(
     val settingsState = LocalSettingsState.current
     val selected = settingsState.colorBlindType == type
 
-
     PreferenceItem(
         onClick = onClick,
         title = type?.localizedTitle ?: stringResource(R.string.not_use_color_blind_scheme),
         subtitle = type?.localizedDescription
             ?: stringResource(R.string.not_use_color_blind_scheme_sub),
         color = takeColorFromScheme {
-            if (selected) secondaryContainer.copy(0.7f)
-            else EnhancedBottomSheetDefaults.contentContainerColor
+            if (selected) secondaryContainer
+            else SafeLocalContainerColor
         },
         modifier = Modifier
             .fillMaxWidth()

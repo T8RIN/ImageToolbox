@@ -32,8 +32,10 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.sizeIn
@@ -61,19 +63,14 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastForEach
-import androidx.compose.ui.util.fastForEachIndexed
 import androidx.compose.ui.window.DialogWindowProvider
 import com.t8rin.modalsheet.FullscreenPopup
-import kotlin.math.max
 
 @Composable
 fun EnhancedAlertDialog(
@@ -90,7 +87,8 @@ fun EnhancedAlertDialog(
     iconContentColor: Color = AlertDialogDefaults.iconContentColor,
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
     textContentColor: Color = AlertDialogDefaults.textContentColor,
-    tonalElevation: Dp = AlertDialogDefaults.TonalElevation
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
+    alignButtonsToCenter: Boolean = false
 ) {
     var visibleAnimated by remember { mutableStateOf(false) }
 
@@ -153,11 +151,23 @@ fun EnhancedAlertDialog(
                     modifier = Modifier.scale(scale)
                 ) {
                     val dialogPaneDescription = "Dialog"
-                    AlertDialogContent(
+                    EnhancedAlertDialogContent(
                         buttons = {
-                            AlertDialogFlowRow(
-                                mainAxisSpacing = ButtonsMainAxisSpacing,
-                                crossAxisSpacing = ButtonsCrossAxisSpacing
+                            FlowRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    space = ButtonsHorizontalSpacing,
+                                    alignment = if (dismissButton != null && alignButtonsToCenter) {
+                                        Alignment.CenterHorizontally
+                                    } else Alignment.End
+                                ),
+                                verticalArrangement = Arrangement.spacedBy(
+                                    space = ButtonsVerticalSpacing,
+                                    alignment = if (dismissButton != null && alignButtonsToCenter) {
+                                        Alignment.CenterVertically
+                                    } else Alignment.Bottom
+                                ),
+                                itemVerticalAlignment = Alignment.CenterVertically
                             ) {
                                 dismissButton?.invoke()
                                 confirmButton()
@@ -218,7 +228,7 @@ private val LocalDialogWindow: ProvidableCompositionLocal<Window?> =
     }
 
 @Composable
-private fun AlertDialogContent(
+private fun EnhancedAlertDialogContent(
     buttons: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     icon: (@Composable () -> Unit)?,
@@ -299,100 +309,6 @@ private fun AlertDialogContent(
     }
 }
 
-
-/**
- * Simple clone of FlowRow that arranges its children in a horizontal flow with limited
- * customization.
- */
-@Composable
-private fun AlertDialogFlowRow(
-    mainAxisSpacing: Dp,
-    crossAxisSpacing: Dp,
-    content: @Composable () -> Unit
-) {
-    Layout(content) { measurables, constraints ->
-        val sequences = mutableListOf<List<Placeable>>()
-        val crossAxisSizes = mutableListOf<Int>()
-        val crossAxisPositions = mutableListOf<Int>()
-
-        var mainAxisSpace = 0
-        var crossAxisSpace = 0
-
-        val currentSequence = mutableListOf<Placeable>()
-        var currentMainAxisSize = 0
-        var currentCrossAxisSize = 0
-
-        // Return whether the placeable can be added to the current sequence.
-        fun canAddToCurrentSequence(placeable: Placeable) =
-            currentSequence.isEmpty() ||
-                    currentMainAxisSize + mainAxisSpacing.roundToPx() + placeable.width <=
-                    constraints.maxWidth
-
-        // Store current sequence information and start a new sequence.
-        fun startNewSequence() {
-            if (sequences.isNotEmpty()) {
-                crossAxisSpace += crossAxisSpacing.roundToPx()
-            }
-            // Ensures that confirming actions appear above dismissive actions.
-            @Suppress("ListIterator") sequences.add(0, currentSequence.toList())
-            crossAxisSizes += currentCrossAxisSize
-            crossAxisPositions += crossAxisSpace
-
-            crossAxisSpace += currentCrossAxisSize
-            mainAxisSpace = max(mainAxisSpace, currentMainAxisSize)
-
-            currentSequence.clear()
-            currentMainAxisSize = 0
-            currentCrossAxisSize = 0
-        }
-
-        measurables.fastForEach { measurable ->
-            // Ask the child for its preferred size.
-            val placeable = measurable.measure(constraints)
-
-            // Start a new sequence if there is not enough space.
-            if (!canAddToCurrentSequence(placeable)) startNewSequence()
-
-            // Add the child to the current sequence.
-            if (currentSequence.isNotEmpty()) {
-                currentMainAxisSize += mainAxisSpacing.roundToPx()
-            }
-            currentSequence.add(placeable)
-            currentMainAxisSize += placeable.width
-            currentCrossAxisSize = max(currentCrossAxisSize, placeable.height)
-        }
-
-        if (currentSequence.isNotEmpty()) startNewSequence()
-
-        val mainAxisLayoutSize = max(mainAxisSpace, constraints.minWidth)
-
-        val crossAxisLayoutSize = max(crossAxisSpace, constraints.minHeight)
-
-        layout(mainAxisLayoutSize, crossAxisLayoutSize) {
-            sequences.fastForEachIndexed { i, placeables ->
-                val childrenMainAxisSizes =
-                    IntArray(placeables.size) { j ->
-                        placeables[j].width +
-                                if (j < placeables.lastIndex) mainAxisSpacing.roundToPx() else 0
-                    }
-                val arrangement = Arrangement.End
-                val mainAxisPositions = IntArray(childrenMainAxisSizes.size)
-                with(arrangement) {
-                    arrange(
-                        mainAxisLayoutSize,
-                        childrenMainAxisSizes,
-                        layoutDirection,
-                        mainAxisPositions
-                    )
-                }
-                placeables.fastForEachIndexed { j, placeable ->
-                    placeable.place(x = mainAxisPositions[j], y = crossAxisPositions[i])
-                }
-            }
-        }
-    }
-}
-
 @Composable
 private fun ProvideContentColorTextStyle(
     contentColor: Color,
@@ -410,8 +326,8 @@ private fun ProvideContentColorTextStyle(
 private val DialogMinWidth = 280.dp
 private val DialogMaxWidth = 560.dp
 
-private val ButtonsMainAxisSpacing = 8.dp
-private val ButtonsCrossAxisSpacing = 12.dp
+private val ButtonsHorizontalSpacing = 8.dp
+private val ButtonsVerticalSpacing = 12.dp
 
 // Paddings for each of the dialog's parts.
 private val DialogPadding = PaddingValues(all = 24.dp)

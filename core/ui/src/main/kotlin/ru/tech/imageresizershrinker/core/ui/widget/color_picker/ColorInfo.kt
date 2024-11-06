@@ -41,7 +41,6 @@ import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -139,9 +138,6 @@ fun ColorInfo(
                 contentAlignment = Alignment.Center
             ) {
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = onSupportButtonClick
                 ) {
                     Icon(
@@ -216,9 +212,6 @@ fun ColorInfo(
                         }
                         Row(Modifier.width(80.dp)) {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = onCopyCustomColor
                             ) {
                                 Icon(
@@ -227,9 +220,6 @@ fun ColorInfo(
                                 )
                             }
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = onPasteCustomColor
                             ) {
                                 Icon(

@@ -55,7 +55,6 @@ import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -74,7 +73,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.isUnspecified
@@ -237,9 +235,6 @@ fun PickColorFromImageContent(
                         modifier = Modifier,
                         navigationIcon = {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = onGoBack
                             ) {
                                 Icon(
@@ -273,9 +268,6 @@ fun PickColorFromImageContent(
                                 ) {
                                     Row {
                                         EnhancedIconButton(
-                                            containerColor = Color.Transparent,
-                                            contentColor = LocalContentColor.current,
-                                            enableAutoShadowAndBorder = false,
                                             onClick = onGoBack,
                                             modifier = Modifier.statusBarsPadding()
                                         ) {

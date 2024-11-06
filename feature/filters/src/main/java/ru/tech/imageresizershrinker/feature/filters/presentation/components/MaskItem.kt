@@ -40,7 +40,6 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -156,12 +155,7 @@ fun MaskItem(
                         )
                         Spacer(Modifier.weight(1f))
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = {
-                                showMaskRemoveDialog = true
-                            }
+                            onClick = { showMaskRemoveDialog = true }
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.RemoveCircleOutline,
@@ -169,9 +163,6 @@ fun MaskItem(
                             )
                         }
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = { showEditMaskSheet = true }
                         ) {
                             Icon(

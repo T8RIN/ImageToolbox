@@ -79,7 +79,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -569,9 +568,6 @@ fun DrawContent(
                     actions = {
                         if (portrait) {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     scope.launch {
                                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
@@ -625,9 +621,6 @@ fun DrawContent(
                             }
                         )
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = component::clearDrawing,
                             enabled = component.drawBehavior !is DrawBehavior.None && component.havePaths
                         ) {
@@ -639,9 +632,6 @@ fun DrawContent(
                     },
                     navigationIcon = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(
@@ -663,9 +653,6 @@ fun DrawContent(
                     },
                     navigationIcon = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(

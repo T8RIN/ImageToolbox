@@ -241,9 +241,6 @@ fun CipherContent(
                         },
                         navigationIcon = {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = onGoBack
                             ) {
                                 Icon(
@@ -429,9 +426,6 @@ fun CipherContent(
                                                 value = key,
                                                 startIcon = {
                                                     EnhancedIconButton(
-                                                        containerColor = Color.Transparent,
-                                                        contentColor = LocalContentColor.current,
-                                                        enableAutoShadowAndBorder = false,
                                                         onClick = {
                                                             key = component.generateRandomPassword()
                                                             component.resetCalculatedData()
@@ -447,9 +441,6 @@ fun CipherContent(
                                                 },
                                                 endIcon = {
                                                     EnhancedIconButton(
-                                                        containerColor = Color.Transparent,
-                                                        contentColor = LocalContentColor.current,
-                                                        enableAutoShadowAndBorder = false,
                                                         onClick = {
                                                             key = ""
                                                             component.resetCalculatedData()

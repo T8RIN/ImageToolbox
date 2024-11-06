@@ -35,7 +35,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -274,9 +273,6 @@ fun GeneratePaletteContent(
             )
             if (component.uri != null) {
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = {
                         showColorPickerSheet = true
                     }

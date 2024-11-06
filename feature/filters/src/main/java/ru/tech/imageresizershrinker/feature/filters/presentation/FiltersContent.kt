@@ -65,7 +65,6 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Badge
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -302,9 +301,6 @@ fun FiltersContent(
         )
         if (component.bitmap != null && (component.basicFilterState.filters.size >= 2 || component.maskingFilterState.masks.size >= 2)) {
             EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
                 onClick = { showReorderSheet = true }
             ) {
                 Icon(
@@ -901,9 +897,6 @@ fun FiltersContent(
                     },
                     navigationIcon = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(
@@ -915,9 +908,6 @@ fun FiltersContent(
                     actions = {
                         if (component.previewBitmap != null) {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     showColorPicker = true
                                 },

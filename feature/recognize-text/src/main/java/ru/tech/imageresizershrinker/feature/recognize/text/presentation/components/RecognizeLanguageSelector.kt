@@ -270,9 +270,6 @@ fun RecognizeLanguageSelector(
                             },
                             startIcon = {
                                 EnhancedIconButton(
-                                    containerColor = Color.Transparent,
-                                    contentColor = LocalContentColor.current,
-                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         searchKeyword = ""
                                         isSearching = false
@@ -293,9 +290,6 @@ fun RecognizeLanguageSelector(
                                     exit = fadeOut() + scaleOut()
                                 ) {
                                     EnhancedIconButton(
-                                        containerColor = Color.Transparent,
-                                        contentColor = LocalContentColor.current,
-                                        enableAutoShadowAndBorder = false,
                                         onClick = {
                                             searchKeyword = ""
                                         },

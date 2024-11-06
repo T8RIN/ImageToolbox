@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Title
@@ -77,9 +76,6 @@ fun MainScreenTitleSettingItem(
         )
     }
     EnhancedAlertDialog(
-        modifier = Modifier
-            .width(340.dp)
-            .padding(16.dp),
         visible = showDialog,
         onDismissRequest = { showDialog = false },
         icon = {

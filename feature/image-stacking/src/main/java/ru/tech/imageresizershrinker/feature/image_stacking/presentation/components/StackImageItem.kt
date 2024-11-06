@@ -33,7 +33,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -88,9 +87,6 @@ fun StackImageItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (!isRemoveVisible) {
                     EnhancedIconButton(
-                        containerColor = Color.Transparent,
-                        contentColor = LocalContentColor.current,
-                        enableAutoShadowAndBorder = false,
                         onClick = onRemove
                     ) {
                         Icon(
@@ -142,9 +138,6 @@ fun StackImageItem(
 
                 }
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = {
                         isControlsExpanded = !isControlsExpanded
                     }

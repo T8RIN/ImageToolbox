@@ -52,7 +52,6 @@ import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -366,9 +365,6 @@ fun JxlToolsContent(
                 exit = fadeOut() + scaleOut() + shrinkHorizontally()
             ) {
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = component::selectAllConvertedImages
                 ) {
                     Icon(
@@ -401,9 +397,6 @@ fun JxlToolsContent(
                         )
                     }
                     EnhancedIconButton(
-                        containerColor = Color.Transparent,
-                        contentColor = LocalContentColor.current,
-                        enableAutoShadowAndBorder = false,
                         onClick = component::clearConvertedImagesSelection
                     ) {
                         Icon(

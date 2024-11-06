@@ -62,7 +62,6 @@ import androidx.compose.material.icons.rounded.Update
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -416,9 +415,6 @@ internal fun FilterSelectionItem(
                                                     exit = fadeOut() + scaleOut()
                                                 ) {
                                                     EnhancedIconButton(
-                                                        containerColor = Color.Transparent,
-                                                        contentColor = LocalContentColor.current,
-                                                        enableAutoShadowAndBorder = false,
                                                         onClick = {
                                                             searchKeyword = ""
                                                         },

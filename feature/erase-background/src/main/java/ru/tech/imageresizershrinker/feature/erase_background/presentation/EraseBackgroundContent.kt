@@ -65,7 +65,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -358,9 +357,6 @@ fun EraseBackgroundContent(
                     },
                     navigationIcon = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(
@@ -384,9 +380,6 @@ fun EraseBackgroundContent(
                     actions = {
                         if (portrait) {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     scope.launch {
                                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
@@ -440,9 +433,6 @@ fun EraseBackgroundContent(
                             }
                         )
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = { component.clearDrawing() },
                             enabled = component.paths.isNotEmpty()
                         ) {
@@ -454,9 +444,6 @@ fun EraseBackgroundContent(
                     },
                     navigationIcon = {
                         EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(

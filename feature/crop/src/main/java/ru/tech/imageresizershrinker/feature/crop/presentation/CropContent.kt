@@ -57,7 +57,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -75,7 +74,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -114,6 +112,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -226,6 +225,8 @@ fun CropContent(
         )
     )
 
+    var showResetDialog by rememberSaveable { mutableStateOf(false) }
+
     val focus = LocalFocusManager.current
 
     LaunchedEffect(scaffoldState.bottomSheetState.currentValue) {
@@ -321,9 +322,6 @@ fun CropContent(
                         },
                         navigationIcon = {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = onBack
                             ) {
                                 Icon(
@@ -346,9 +344,6 @@ fun CropContent(
                         },
                         navigationIcon = {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = onBack
                             ) {
                                 Icon(
@@ -360,9 +355,6 @@ fun CropContent(
                         actions = {
                             if (isPortrait) {
                                 EnhancedIconButton(
-                                    containerColor = Color.Transparent,
-                                    contentColor = LocalContentColor.current,
-                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         scope.launch {
                                             if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
@@ -380,12 +372,7 @@ fun CropContent(
                                 }
                             }
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
-                                onClick = {
-                                    component.resetBitmap()
-                                },
+                                onClick = { showResetDialog = true },
                                 enabled = component.bitmap != null && component.isBitmapChanged
                             ) {
                                 Icon(
@@ -701,18 +688,24 @@ fun CropContent(
         content(PaddingValues())
     }
 
-    if (component.isSaving || component.isImageLoading) {
-        LoadingDialog(
-            onCancelLoading = component::cancelSaving,
-            canCancel = component.isSaving
-        )
-    }
+    ResetDialog(
+        visible = showResetDialog,
+        onDismiss = { showResetDialog = false },
+        onReset = component::resetBitmap
+    )
 
     ExitWithoutSavingDialog(
         onExit = onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
+
+    if (component.isSaving || component.isImageLoading) {
+        LoadingDialog(
+            onCancelLoading = component::cancelSaving,
+            canCancel = component.isSaving
+        )
+    }
 
     BackHandler(
         enabled = component.bitmap != null,

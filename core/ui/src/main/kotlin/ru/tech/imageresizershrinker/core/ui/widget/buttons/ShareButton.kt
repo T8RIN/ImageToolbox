@@ -26,7 +26,6 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,7 +36,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
@@ -63,9 +61,6 @@ fun ShareButton(
     }
 
     EnhancedIconButton(
-        containerColor = Color.Transparent,
-        contentColor = LocalContentColor.current,
-        enableAutoShadowAndBorder = false,
         onClick = {
             if (onCopy != null || onEdit != null) {
                 showSelectionDialog = true

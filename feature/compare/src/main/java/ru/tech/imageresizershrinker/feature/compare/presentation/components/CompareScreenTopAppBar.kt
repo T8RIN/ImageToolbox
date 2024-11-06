@@ -28,7 +28,6 @@ import androidx.compose.material.icons.automirrored.rounded.RotateRight
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -65,9 +64,6 @@ fun CompareScreenTopAppBar(
             scrollBehavior = scrollBehavior,
             navigationIcon = {
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = onNavigationIconClick
                 ) {
                     Icon(
@@ -90,9 +86,6 @@ fun CompareScreenTopAppBar(
         EnhancedTopAppBar(
             navigationIcon = {
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = onNavigationIconClick
                 ) {
                     Icon(
@@ -106,9 +99,6 @@ fun CompareScreenTopAppBar(
                     ShareButton(onShare = onShareButtonClick)
                 }
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = onSwapImagesClick
                 ) {
                     Icon(
@@ -117,9 +107,6 @@ fun CompareScreenTopAppBar(
                     )
                 }
                 EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
                     onClick = onRotateImagesClick
                 ) {
                     AnimatedContent(isImagesRotated) { rotated ->

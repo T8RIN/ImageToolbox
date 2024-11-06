@@ -54,10 +54,10 @@ import ru.tech.imageresizershrinker.core.resources.icons.Windows
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -122,8 +122,8 @@ fun SwitchTypeSettingItem(
                     title = type.title,
                     subtitle = type.subtitle,
                     color = takeColorFromScheme {
-                        if (selected) secondaryContainer.copy(0.7f)
-                        else EnhancedBottomSheetDefaults.contentContainerColor
+                        if (selected) secondaryContainer
+                        else SafeLocalContainerColor
                     },
                     shape = ContainerShapeDefaults.shapeForIndex(index, entries.size),
                     startIcon = type.icon,

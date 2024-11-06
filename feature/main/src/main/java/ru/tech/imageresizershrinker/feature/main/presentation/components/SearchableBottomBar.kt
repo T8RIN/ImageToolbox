@@ -33,7 +33,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -43,7 +42,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -124,9 +122,6 @@ internal fun SearchableBottomBar(
                         },
                         startIcon = {
                             EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     onUpdateSearch("")
                                     onCloseSearch()
@@ -147,9 +142,6 @@ internal fun SearchableBottomBar(
                                 exit = fadeOut() + scaleOut()
                             ) {
                                 EnhancedIconButton(
-                                    containerColor = Color.Transparent,
-                                    contentColor = LocalContentColor.current,
-                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         onUpdateSearch("")
                                     },

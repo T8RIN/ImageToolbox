@@ -70,6 +70,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.EmojiData
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -280,7 +281,7 @@ fun EmojiSelectionSheet(
                                     }
                                     val color by animateColorAsState(
                                         if (selected) MaterialTheme.colorScheme.primaryContainer
-                                        else Color.Unspecified
+                                        else SafeLocalContainerColor
                                     )
                                     val borderColor by animateColorAsState(
                                         if (selected) {

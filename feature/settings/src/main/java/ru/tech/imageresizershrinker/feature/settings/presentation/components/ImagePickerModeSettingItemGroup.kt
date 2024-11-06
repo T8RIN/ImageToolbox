@@ -71,9 +71,15 @@ fun ImagePickerModeSettingItemGroup(
                     if (selected) secondaryContainer.copy(0.7f)
                     else SafeLocalContainerColor
                 },
+                contentColor = takeColorFromScheme {
+                    if (selected) onSecondaryContainer
+                    else MaterialTheme.colorScheme.onBackground
+                },
                 endIcon = if (selected) {
                     Icons.Rounded.RadioButtonChecked
-                } else Icons.Rounded.RadioButtonUnchecked,
+                } else {
+                    Icons.Rounded.RadioButtonUnchecked
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)

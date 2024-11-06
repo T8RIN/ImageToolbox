@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,7 +21,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -108,9 +106,6 @@ fun LinkPreviewList(
                     visible = linkPreviewList.size > 3
                 ) {
                     EnhancedIconButton(
-                        containerColor = Color.Transparent,
-                        contentColor = LocalContentColor.current,
-                        enableAutoShadowAndBorder = false,
                         onClick = { expanded = !expanded }
                     ) {
                         Icon(

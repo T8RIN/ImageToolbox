@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import android.content.Context
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +36,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -54,12 +55,10 @@ fun FontSelectionItem(
             onClick = onClick,
             title = (name ?: stringResource(id = R.string.system)) + isVariable.toVariable(),
             subtitle = stringResource(R.string.alphabet_and_numbers),
-            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                alpha = animateFloatAsState(
-                    if (selected) 0.7f
-                    else 0.2f
-                ).value
-            ),
+            color = takeColorFromScheme {
+                if (selected) secondaryContainer
+                else SafeLocalContainerColor
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .border(

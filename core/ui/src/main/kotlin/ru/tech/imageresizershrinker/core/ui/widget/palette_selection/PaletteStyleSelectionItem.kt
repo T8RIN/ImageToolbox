@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.palette_selection
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +32,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.PaletteStyle
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -48,12 +49,10 @@ fun PaletteStyleSelectionItem(
         onClick = onClick,
         title = style.getTitle(context),
         subtitle = style.getSubtitle(context),
-        color = MaterialTheme.colorScheme.secondaryContainer.copy(
-            alpha = animateFloatAsState(
-                if (selected) 0.7f
-                else 0.2f
-            ).value
-        ),
+        color = takeColorFromScheme {
+            if (selected) secondaryContainer
+            else SafeLocalContainerColor
+        },
         modifier = Modifier
             .fillMaxWidth()
             .border(
