@@ -153,51 +153,56 @@ fun EnhancedAlertDialog(
                     val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
                     val dialogPaneDescription = "Dialog"
 
-                    EnhancedAlertDialogContent(
-                        buttons = {
-                            FlowRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    space = ButtonsHorizontalSpacing,
-                                    alignment = if (dismissButton != null && isCenterAlignButtons) {
-                                        Alignment.CenterHorizontally
-                                    } else Alignment.End
-                                ),
-                                verticalArrangement = Arrangement.spacedBy(
-                                    space = ButtonsVerticalSpacing,
-                                    alignment = if (dismissButton != null && isCenterAlignButtons) {
-                                        Alignment.CenterVertically
-                                    } else Alignment.Bottom
-                                ),
-                                itemVerticalAlignment = Alignment.CenterVertically
-                            ) {
-                                dismissButton?.invoke()
-                                confirmButton()
-                            }
-                        },
-                        icon = icon,
-                        title = title,
-                        text = text,
-                        shape = shape,
-                        containerColor = containerColor,
-                        tonalElevation = tonalElevation,
-                        // Note that a button content color is provided here from the dialog's token, but in
-                        // most cases, TextButtons should be used for dismiss and confirm buttons.
-                        // TextButtons will not consume this provided content color value, and will used their
-                        // own defined or default colors.
-                        buttonContentColor = MaterialTheme.colorScheme.primary,
-                        iconContentColor = iconContentColor,
-                        titleContentColor = titleContentColor,
-                        textContentColor = textContentColor,
-                        modifier = modifier
+                    Box(
+                        modifier = Modifier
                             .safeDrawingPadding()
-                            .padding(horizontal = 48.dp, vertical = 24.dp)
-                            .sizeIn(
-                                minWidth = DialogMinWidth,
-                                maxWidth = DialogMaxWidth
-                            )
-                            .then(Modifier.semantics { paneTitle = dialogPaneDescription })
-                    )
+                            .padding(horizontal = 48.dp, vertical = 24.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        EnhancedAlertDialogContent(
+                            buttons = {
+                                FlowRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        space = ButtonsHorizontalSpacing,
+                                        alignment = if (dismissButton != null && isCenterAlignButtons) {
+                                            Alignment.CenterHorizontally
+                                        } else Alignment.End
+                                    ),
+                                    verticalArrangement = Arrangement.spacedBy(
+                                        space = ButtonsVerticalSpacing,
+                                        alignment = if (dismissButton != null && isCenterAlignButtons) {
+                                            Alignment.CenterVertically
+                                        } else Alignment.Bottom
+                                    ),
+                                    itemVerticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    dismissButton?.invoke()
+                                    confirmButton()
+                                }
+                            },
+                            icon = icon,
+                            title = title,
+                            text = text,
+                            shape = shape,
+                            containerColor = containerColor,
+                            tonalElevation = tonalElevation,
+                            // Note that a button content color is provided here from the dialog's token, but in
+                            // most cases, TextButtons should be used for dismiss and confirm buttons.
+                            // TextButtons will not consume this provided content color value, and will used their
+                            // own defined or default colors.
+                            buttonContentColor = MaterialTheme.colorScheme.primary,
+                            iconContentColor = iconContentColor,
+                            titleContentColor = titleContentColor,
+                            textContentColor = textContentColor,
+                            modifier = modifier
+                                .sizeIn(
+                                    minWidth = DialogMinWidth,
+                                    maxWidth = DialogMaxWidth
+                                )
+                                .then(Modifier.semantics { paneTitle = dialogPaneDescription })
+                        )
+                    }
                 }
             }
 
