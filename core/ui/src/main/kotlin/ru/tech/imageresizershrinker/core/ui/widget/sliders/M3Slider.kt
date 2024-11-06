@@ -94,7 +94,7 @@ fun M3Slider(
                     .copy(colors.activeTrackColor.alpha),
                 composeColorOnTopOfBackground = false
             )
-            .padding(horizontal = 6.dp, vertical = 4.dp),
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         value = animateFloatAsState(
             targetValue = value,
             animationSpec = tween(200)
