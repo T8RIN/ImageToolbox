@@ -21,6 +21,7 @@ import android.view.Window
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -126,10 +127,13 @@ fun EnhancedAlertDialog(
                     enter = fadeIn(),
                     exit = fadeOut(),
                 ) {
+                    val alpha by animateFloatAsState(
+                        .5f * scale
+                    )
                     Box(
                         modifier = Modifier
                             .pointerInput(Unit) { detectTapGestures { onDismissRequest() } }
-                            .background(MaterialTheme.colorScheme.scrim.copy(alpha = .5f * scale))
+                            .background(MaterialTheme.colorScheme.scrim.copy(alpha = alpha))
                             .fillMaxSize()
                     )
                 }
