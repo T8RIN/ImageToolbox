@@ -151,7 +151,6 @@ fun EnhancedAlertDialog(
                     modifier = Modifier.scale(scale)
                 ) {
                     val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
-                    val dialogPaneDescription = "Dialog"
 
                     Box(
                         modifier = Modifier
@@ -200,7 +199,7 @@ fun EnhancedAlertDialog(
                                     minWidth = DialogMinWidth,
                                     maxWidth = DialogMaxWidth
                                 )
-                                .then(Modifier.semantics { paneTitle = dialogPaneDescription })
+                                .then(Modifier.semantics { paneTitle = "Dialog" })
                         )
                     }
                 }
