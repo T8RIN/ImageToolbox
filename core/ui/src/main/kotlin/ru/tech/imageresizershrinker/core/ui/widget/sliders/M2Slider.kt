@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
@@ -72,8 +72,21 @@ fun M2Slider(
                     .copy(0.3f)
                     .compositeOver(
                         takeColorFromScheme {
-                            if (it) mixedContainer.copy(0.05f)
-                            else mixedContainer.copy(0.2f)
+                            if (it) {
+                                tertiaryContainer
+                                    .blend(
+                                        secondaryContainer,
+                                        0.5f
+                                    )
+                                    .copy(0.1f)
+                            } else {
+                                secondaryContainer
+                                    .blend(
+                                        tertiaryContainer,
+                                        0.3f
+                                    )
+                                    .copy(0.2f)
+                            }
                         }
                     )
                     .copy(colors.activeTrackColor.alpha),

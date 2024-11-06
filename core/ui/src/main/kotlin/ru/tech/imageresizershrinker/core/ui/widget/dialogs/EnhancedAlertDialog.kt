@@ -46,8 +46,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.compositionLocalWithComputedDefaultOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -106,7 +107,7 @@ fun EnhancedAlertDialog(
 
     if (visibleAnimated) {
         FullscreenPopup {
-            val dialogWindow = getDialogWindow()
+            val dialogWindow = LocalDialogWindow.current
 
             SideEffect {
                 dialogWindow.let { window ->
@@ -211,9 +212,10 @@ fun EnhancedAlertDialog(
     }
 }
 
-@ReadOnlyComposable
-@Composable
-private fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvider)?.window
+private val LocalDialogWindow: ProvidableCompositionLocal<Window?> =
+    compositionLocalWithComputedDefaultOf {
+        (LocalView.currentValue.parent as? DialogWindowProvider)?.window
+    }
 
 @Composable
 private fun AlertDialogContent(
