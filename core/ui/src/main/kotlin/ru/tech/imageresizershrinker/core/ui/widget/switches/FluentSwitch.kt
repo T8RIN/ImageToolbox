@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.buttons
+package ru.tech.imageresizershrinker.core.ui.widget.switches
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -23,15 +23,18 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
@@ -43,52 +46,59 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.utils.animation.FastInvokeEasing
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PointToPointEasing
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberRipple
-import kotlin.math.roundToInt
 
 @Composable
-fun PixelSwitch(
+fun FluentSwitch(
     checked: Boolean,
     modifier: Modifier = Modifier,
     onCheckedChange: ((Boolean) -> Unit)?,
     enabled: Boolean = true,
     colors: SwitchColors = SwitchDefaults.colors(),
-    interactionSource: MutableInteractionSource? = null,
+    interactionSource: MutableInteractionSource? = null
 ) {
     val realInteractionSource = interactionSource ?: remember {
         MutableInteractionSource()
     }
-    val trackColor by animateColorAsState(
-        targetValue = trackColor(enabled, checked, colors),
-        animationSpec = tween(Duration, easing = PointToPointEasing)
+    val pressed by realInteractionSource.collectIsPressedAsState()
+    val dragged by realInteractionSource.collectIsDraggedAsState()
+
+    val height by animateDpAsState(
+        when {
+            pressed || dragged -> 14.dp
+            else -> 12.dp
+        },
+        tween(Duration, easing = FastInvokeEasing)
     )
-    val thumbColor by animateColorAsState(
-        targetValue = thumbColor(enabled, checked, colors),
-        animationSpec = tween(Duration, easing = PointToPointEasing)
+
+    val width by animateDpAsState(
+        when {
+            pressed || dragged -> 17.dp
+            else -> 12.dp
+        },
+        tween(Duration, easing = FastInvokeEasing)
     )
-    val borderColor by animateColorAsState(
-        targetValue = borderColor(enabled, checked, colors),
-        animationSpec = tween(Duration, easing = PointToPointEasing)
-    )
-    val thumbSize by animateDpAsState(
-        targetValue = if (checked) SelectedHandleSize else UnselectedHandleSize,
-        animationSpec = tween(Duration, easing = PointToPointEasing)
-    )
+
+    val maxValue = 32.dp - (width / 2)
+    val minValue = 2.dp
 
     val density = LocalDensity.current
     var offsetAnimated by remember(checked) {
         mutableFloatStateOf(
             with(density) {
                 if (checked) {
-                    ThumbPaddingEnd
+                    maxValue
                 } else {
-                    ThumbPaddingStart
+                    minValue
                 }.toPx()
             }
         )
@@ -96,24 +106,26 @@ fun PixelSwitch(
 
     val state = rememberDraggableState {
         offsetAnimated = with(density) {
-            (offsetAnimated + it).coerceIn(ThumbPaddingStart.toPx(), ThumbPaddingEnd.toPx())
+            (offsetAnimated + it).coerceIn(minValue.toPx(), maxValue.toPx())
         }
     }
 
-    val thumbOffset by animateFloatAsState(
+    val offset by animateFloatAsState(
         targetValue = offsetAnimated,
         animationSpec = tween(Duration, easing = PointToPointEasing)
     )
 
-    Box(
+    Row(
         modifier = modifier
-            .clickable(
-                interactionSource = realInteractionSource,
+            .toggleable(
+                value = checked,
                 indication = null,
-                enabled = enabled,
-                onClickLabel = null,
+                interactionSource = realInteractionSource,
                 role = Role.Switch,
-                onClick = { onCheckedChange?.invoke(!checked) }
+                onValueChange = {
+                    onCheckedChange?.invoke(it)
+                },
+                enabled = enabled
             )
             .draggable(
                 state = state,
@@ -122,42 +134,66 @@ fun PixelSwitch(
                 enabled = enabled,
                 onDragStopped = {
                     with(density) {
-                        if (it < (ThumbPaddingEnd.toPx() - ThumbPaddingStart.toPx()) / 2f) {
-                            offsetAnimated = ThumbPaddingStart.toPx()
+                        if (it < (maxValue.toPx() - minValue.toPx()) / 2f) {
+                            offsetAnimated = minValue.toPx()
                             if (checked) onCheckedChange?.invoke(false)
                         } else {
-                            offsetAnimated = ThumbPaddingEnd.toPx()
+                            offsetAnimated = maxValue.toPx()
                             if (!checked) onCheckedChange?.invoke(true)
                         }
                     }
                 }
-            )
-            .background(trackColor, CircleShape)
-            .size(TrackWidth, TrackHeight)
-            .border(
-                width = TrackOutlineWidth,
-                color = borderColor,
-                shape = CircleShape
-            )
+            ),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        val trackColor by animateColorAsState(
+            targetValue = trackColor(enabled, checked, colors),
+            animationSpec = tween(Duration, easing = PointToPointEasing)
+        )
+        val thumbColor by animateColorAsState(
+            targetValue = thumbColor(enabled, checked, colors),
+            animationSpec = tween(Duration, easing = PointToPointEasing)
+        )
+        val borderColor by animateColorAsState(
+            targetValue = borderColor(enabled, checked, colors),
+            animationSpec = tween(Duration, easing = PointToPointEasing)
+        )
+
         Box(
             modifier = Modifier
-                .offset { IntOffset(x = thumbOffset.roundToInt(), y = 0) }
-                .indication(
-                    interactionSource = realInteractionSource,
-                    indication = rememberRipple(
-                        bounded = false,
-                        radius = 16.dp
-                    )
+                .size(48.dp, 24.dp)
+                .border(
+                    width = 1.dp,
+                    color = borderColor,
+                    shape = CircleShape
                 )
-                .align(Alignment.CenterStart)
-                .background(thumbColor, CircleShape)
-                .size(thumbSize)
-        )
+                .clip(CircleShape)
+                .background(trackColor)
+                .padding(horizontal = 4.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(width, height)
+                    .graphicsLayer {
+                        translationX = offset
+                        transformOrigin = TransformOrigin.Center
+                    }
+                    .indication(
+                        interactionSource = realInteractionSource,
+                        indication = rememberRipple(
+                            bounded = false,
+                            radius = 16.dp
+                        )
+                    )
+                    .clip(CircleShape)
+                    .background(thumbColor)
+            )
+        }
     }
 }
 
-private const val Duration = 500
+private const val Duration = 600
 
 @Stable
 private fun trackColor(
@@ -191,12 +227,3 @@ private fun borderColor(
 } else {
     if (checked) colors.disabledCheckedBorderColor else colors.disabledUncheckedBorderColor
 }
-
-private val TrackWidth = 56.0.dp
-private val TrackHeight = 28.0.dp
-private val TrackOutlineWidth = 1.8.dp
-private val SelectedHandleSize = 20.0.dp
-private val UnselectedHandleSize = 20.0.dp
-
-private val ThumbPaddingStart = (TrackHeight - UnselectedHandleSize) / 2
-private val ThumbPaddingEnd = TrackWidth - SelectedHandleSize / 2 - TrackHeight / 2

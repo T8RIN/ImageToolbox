@@ -15,35 +15,35 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.buttons
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonColors
-import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 
 @Composable
-fun EnhancedRadioButton(
-    selected: Boolean,
-    onClick: (() -> Unit)?,
+fun EnhancedCheckbox(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: RadioButtonColors = RadioButtonDefaults.colors(),
+    colors: CheckboxColors = CheckboxDefaults.colors(),
     interactionSource: MutableInteractionSource? = null
 ) {
     val haptics = LocalHapticFeedback.current
-    RadioButton(
-        selected = selected,
-        onClick = if (onClick != null) {
+    Checkbox(
+        checked = checked,
+        onCheckedChange = if (onCheckedChange != null) {
             {
                 haptics.performHapticFeedback(
                     HapticFeedbackType.LongPress
                 )
-                onClick()
+                onCheckedChange(it)
             }
         } else null,
         modifier = modifier,

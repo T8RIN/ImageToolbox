@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.buttons
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable

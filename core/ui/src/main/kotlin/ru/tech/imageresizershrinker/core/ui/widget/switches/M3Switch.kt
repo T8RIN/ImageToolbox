@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.buttons
+package ru.tech.imageresizershrinker.core.ui.widget.switches
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
@@ -42,7 +42,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.transparentColors
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.transparentColors
 
 
 @SuppressLint("ClickableViewAccessibility")

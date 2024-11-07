@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.sheets
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

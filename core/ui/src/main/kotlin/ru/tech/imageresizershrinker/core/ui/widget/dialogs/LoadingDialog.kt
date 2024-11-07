@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.other
+package ru.tech.imageresizershrinker.core.ui.widget.dialogs
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -32,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.ui.widget.dialogs.BasicEnhancedAlertDialog
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
+import ru.tech.imageresizershrinker.core.ui.widget.other.KeepScreenOn
+import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 
 @Composable
 fun LoadingDialog(

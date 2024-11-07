@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.theme.blend
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSwitch
 
 @Composable
 fun PreferenceRowSwitch(

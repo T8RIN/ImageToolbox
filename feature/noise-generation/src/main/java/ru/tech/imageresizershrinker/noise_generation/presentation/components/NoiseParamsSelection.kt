@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.noise_generation.domain.model.CellularDistanceFunction
 import ru.tech.imageresizershrinker.noise_generation.domain.model.CellularReturnType
 import ru.tech.imageresizershrinker.noise_generation.domain.model.DomainWarpType

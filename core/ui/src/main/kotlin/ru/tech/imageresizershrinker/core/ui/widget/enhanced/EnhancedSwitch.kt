@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.controls
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 
 import androidx.compose.animation.AnimatedContent
@@ -47,12 +47,12 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitchDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.FluentSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.M3Switch
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.switches.CupertinoSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.switches.CupertinoSwitchDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.switches.FluentSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.switches.M3Switch
+import ru.tech.imageresizershrinker.core.ui.widget.switches.PixelSwitch
 
 @Composable
 fun EnhancedSwitch(

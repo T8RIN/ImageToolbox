@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.other
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState

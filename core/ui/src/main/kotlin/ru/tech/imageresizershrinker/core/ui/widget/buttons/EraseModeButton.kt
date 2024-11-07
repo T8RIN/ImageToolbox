@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Eraser
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 
 
 @Composable

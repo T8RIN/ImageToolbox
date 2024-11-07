@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.buttons
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -24,6 +24,7 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.LocalContentColor
@@ -37,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
@@ -147,4 +149,33 @@ private fun contentColor(
 ) = MaterialTheme.colorScheme.contentColorFor(backgroundColor).takeOrElse {
     if (backgroundColor == MaterialTheme.colorScheme.mixedContainer) MaterialTheme.colorScheme.onMixedContainer
     else LocalContentColor.current
+}
+
+
+sealed class EnhancedFloatingActionButtonType(
+    val size: Dp,
+    val shape: Shape
+) {
+    data object Small : EnhancedFloatingActionButtonType(
+        size = 40.dp,
+        shape = RoundedCornerShape(12.dp)
+    )
+
+    data object Primary : EnhancedFloatingActionButtonType(
+        size = 56.dp,
+        shape = RoundedCornerShape(16.dp)
+    )
+
+    data object Large : EnhancedFloatingActionButtonType(
+        size = 96.dp,
+        shape = RoundedCornerShape(28.dp)
+    )
+
+    class Custom(
+        size: Dp,
+        shape: Shape
+    ) : EnhancedFloatingActionButtonType(
+        size = size,
+        shape = shape
+    )
 }
