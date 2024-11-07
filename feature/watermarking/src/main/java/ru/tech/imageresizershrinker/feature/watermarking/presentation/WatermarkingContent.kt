@@ -399,13 +399,12 @@ fun WatermarkingContent(
         }
     )
 
-    if (component.isSaving) {
-        LoadingDialog(
-            done = component.done,
-            left = component.left,
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        done = component.done,
+        left = component.left,
+        onCancelLoading = component::cancelSaving
+    )
 
     ExitWithoutSavingDialog(
         onExit = onGoBack,

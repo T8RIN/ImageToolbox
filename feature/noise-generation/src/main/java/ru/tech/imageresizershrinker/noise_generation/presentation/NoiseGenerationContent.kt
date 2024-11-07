@@ -224,7 +224,8 @@ fun NoiseGenerationContent(
         isPortrait = isPortrait
     )
 
-    if (component.isSaving) {
-        LoadingDialog(onCancelLoading = component::cancelSaving)
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        onCancelLoading = component::cancelSaving
+    )
 }

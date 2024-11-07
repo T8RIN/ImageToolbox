@@ -910,16 +910,18 @@ fun PdfToolsContent(
                     }
                 }
 
-                if (component.isSaving) {
-                    if (component.left != 0) {
-                        LoadingDialog(
-                            done = component.done,
-                            left = component.left,
-                            onCancelLoading = component::cancelSaving
-                        )
-                    } else {
-                        LoadingDialog(component::cancelSaving)
-                    }
+                if (component.left != 0) {
+                    LoadingDialog(
+                        visible = component.isSaving,
+                        done = component.done,
+                        left = component.left,
+                        onCancelLoading = component::cancelSaving
+                    )
+                } else {
+                    LoadingDialog(
+                        visible = component.isSaving,
+                        onCancelLoading = component::cancelSaving
+                    )
                 }
             }
         }

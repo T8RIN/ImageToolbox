@@ -340,11 +340,10 @@ fun LoadNetImageContent(
         isPortrait = !isLandscape
     )
 
-    if (component.isSaving) {
-        LoadingDialog(
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        onCancelLoading = component::cancelSaving
+    )
 
     ProcessImagesPreferenceSheet(
         uris = listOfNotNull(component.tempUri),

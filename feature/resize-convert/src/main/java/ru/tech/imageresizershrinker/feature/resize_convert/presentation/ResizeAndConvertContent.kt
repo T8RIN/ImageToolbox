@@ -483,11 +483,11 @@ fun ResizeAndConvertContent(
         visible = showExitDialog
     )
 
-    if (component.isSaving) {
-        LoadingDialog(
-            done = component.done,
-            left = component.uris?.size ?: 1,
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        done = component.done,
+        left = component.uris?.size ?: 1,
+        onCancelLoading = component::cancelSaving
+    )
+
 }

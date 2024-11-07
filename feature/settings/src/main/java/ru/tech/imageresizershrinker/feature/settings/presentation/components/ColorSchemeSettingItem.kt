@@ -113,8 +113,7 @@ fun ColorSchemeSettingItem(
                     }
                 }
             }
-
-            ColorTupleItem(
+            Box(
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .size(72.dp)
@@ -128,31 +127,35 @@ fun ColorSchemeSettingItem(
                         ),
                         resultPadding = 5.dp
                     )
-                    .clip(CircleShape),
-                colorTuple = colorTuple,
-                backgroundColor = Color.Transparent
             ) {
-                Box(
+                ColorTupleItem(
                     modifier = Modifier
-                        .size(28.dp)
-                        .background(
-                            color = animateColorAsState(
-                                settingsState.appColorTuple.primary.inverse(
-                                    fraction = {
-                                        if (it) 0.8f
-                                        else 0.5f
-                                    },
-                                    darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
-                                )
-                            ).value,
-                            shape = CircleShape
-                        )
-                )
-                Icon(
-                    imageVector = Icons.Rounded.MiniEdit,
-                    contentDescription = stringResource(R.string.edit),
-                    tint = settingsState.appColorTuple.primary
-                )
+                        .clip(CircleShape),
+                    colorTuple = colorTuple,
+                    backgroundColor = Color.Transparent
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(28.dp)
+                            .background(
+                                color = animateColorAsState(
+                                    settingsState.appColorTuple.primary.inverse(
+                                        fraction = {
+                                            if (it) 0.8f
+                                            else 0.5f
+                                        },
+                                        darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
+                                    )
+                                ).value,
+                                shape = CircleShape
+                            )
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.MiniEdit,
+                        contentDescription = stringResource(R.string.edit),
+                        tint = settingsState.appColorTuple.primary
+                    )
+                }
             }
         }
     )

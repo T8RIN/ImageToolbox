@@ -72,6 +72,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
 import com.t8rin.modalsheet.FullscreenPopup
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
@@ -91,6 +92,68 @@ fun EnhancedAlertDialog(
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
     textContentColor: Color = AlertDialogDefaults.textContentColor,
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation
+) {
+    BasicEnhancedAlertDialog(
+        visible = visible,
+        onDismissRequest = onDismissRequest,
+        modifier = modifier,
+        content = {
+            val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
+
+            EnhancedAlertDialogContent(
+                buttons = {
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = ButtonsHorizontalSpacing,
+                            alignment = if (dismissButton != null && isCenterAlignButtons) {
+                                Alignment.CenterHorizontally
+                            } else Alignment.End
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(
+                            space = ButtonsVerticalSpacing,
+                            alignment = if (dismissButton != null && isCenterAlignButtons) {
+                                Alignment.CenterVertically
+                            } else Alignment.Bottom
+                        ),
+                        itemVerticalAlignment = Alignment.CenterVertically
+                    ) {
+                        dismissButton?.invoke()
+                        confirmButton()
+                    }
+                },
+                icon = icon,
+                title = title,
+                text = text,
+                shape = shape,
+                containerColor = containerColor,
+                tonalElevation = tonalElevation,
+                // Note that a button content color is provided here from the dialog's token, but in
+                // most cases, TextButtons should be used for dismiss and confirm buttons.
+                // TextButtons will not consume this provided content color value, and will used their
+                // own defined or default colors.
+                buttonContentColor = MaterialTheme.colorScheme.primary,
+                iconContentColor = iconContentColor,
+                titleContentColor = titleContentColor,
+                textContentColor = textContentColor,
+                modifier = modifier
+                    .alertDialogBorder()
+                    .sizeIn(
+                        minWidth = DialogMinWidth,
+                        maxWidth = DialogMaxWidth
+                    )
+                    .then(Modifier.semantics { paneTitle = "Dialog" })
+            )
+        }
+    )
+}
+
+@Composable
+fun BasicEnhancedAlertDialog(
+    visible: Boolean,
+    onDismissRequest: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
 ) {
     var visibleAnimated by remember { mutableStateOf(false) }
 
@@ -132,7 +195,7 @@ fun EnhancedAlertDialog(
                     )
                     Box(
                         modifier = Modifier
-                            .pointerInput(Unit) { detectTapGestures { onDismissRequest() } }
+                            .pointerInput(Unit) { detectTapGestures { onDismissRequest?.invoke() } }
                             .background(MaterialTheme.colorScheme.scrim.copy(alpha = alpha))
                             .fillMaxSize()
                     )
@@ -155,58 +218,13 @@ fun EnhancedAlertDialog(
                     ),
                     modifier = Modifier.scale(scale)
                 ) {
-                    val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
-
                     Box(
                         modifier = Modifier
                             .safeDrawingPadding()
                             .padding(horizontal = 48.dp, vertical = 24.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        EnhancedAlertDialogContent(
-                            buttons = {
-                                FlowRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(
-                                        space = ButtonsHorizontalSpacing,
-                                        alignment = if (dismissButton != null && isCenterAlignButtons) {
-                                            Alignment.CenterHorizontally
-                                        } else Alignment.End
-                                    ),
-                                    verticalArrangement = Arrangement.spacedBy(
-                                        space = ButtonsVerticalSpacing,
-                                        alignment = if (dismissButton != null && isCenterAlignButtons) {
-                                            Alignment.CenterVertically
-                                        } else Alignment.Bottom
-                                    ),
-                                    itemVerticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    dismissButton?.invoke()
-                                    confirmButton()
-                                }
-                            },
-                            icon = icon,
-                            title = title,
-                            text = text,
-                            shape = shape,
-                            containerColor = containerColor,
-                            tonalElevation = tonalElevation,
-                            // Note that a button content color is provided here from the dialog's token, but in
-                            // most cases, TextButtons should be used for dismiss and confirm buttons.
-                            // TextButtons will not consume this provided content color value, and will used their
-                            // own defined or default colors.
-                            buttonContentColor = MaterialTheme.colorScheme.primary,
-                            iconContentColor = iconContentColor,
-                            titleContentColor = titleContentColor,
-                            textContentColor = textContentColor,
-                            modifier = modifier
-                                .alertDialogBorder()
-                                .sizeIn(
-                                    minWidth = DialogMinWidth,
-                                    maxWidth = DialogMaxWidth
-                                )
-                                .then(Modifier.semantics { paneTitle = "Dialog" })
-                        )
+                        content()
                     }
                 }
             }
@@ -217,17 +235,21 @@ fun EnhancedAlertDialog(
                 }
             }
 
-            PredictiveBackHandler(enabled = visible) { progress ->
-                try {
-                    progress.collect { event ->
-                        if (event.progress <= 0.05f) {
-                            scale = 1f
+            if (onDismissRequest != null) {
+                PredictiveBackHandler(enabled = visible) { progress ->
+                    try {
+                        progress.collect { event ->
+                            if (event.progress <= 0.05f) {
+                                scale = 1f
+                            }
+                            scale = (1f - event.progress * 1.5f).coerceAtLeast(0.75f)
                         }
-                        scale = (1f - event.progress * 1.5f).coerceAtLeast(0.75f)
+                        onDismissRequest()
+                        delay(200)
+                        scale = 1f
+                    } catch (e: Exception) {
+                        scale = 1f
                     }
-                    onDismissRequest()
-                } catch (e: Exception) {
-                    scale = 1f
                 }
             }
         }

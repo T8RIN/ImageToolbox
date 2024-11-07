@@ -501,9 +501,9 @@ fun ScanQrCodeContent(
         isPortrait = !isLandscape
     )
 
-    if (component.isSaving) {
-        LoadingDialog(
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        onCancelLoading = component::cancelSaving
+    )
+
 }

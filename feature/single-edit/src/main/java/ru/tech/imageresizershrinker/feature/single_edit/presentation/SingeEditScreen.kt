@@ -418,9 +418,10 @@ fun SingleEditContent(
         visible = showExitDialog
     )
 
-    if (component.isSaving) {
-        LoadingDialog(onCancelLoading = component::cancelSaving)
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        onCancelLoading = component::cancelSaving
+    )
 
     CropEditOption(
         visible = showCropper,

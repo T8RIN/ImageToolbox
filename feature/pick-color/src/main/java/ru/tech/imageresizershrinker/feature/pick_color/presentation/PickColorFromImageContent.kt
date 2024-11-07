@@ -643,5 +643,8 @@ fun PickColorFromImageContent(
         visible = showOneTimeImagePickingDialog
     )
 
-    if (component.isImageLoading) LoadingDialog(canCancel = false)
+    LoadingDialog(
+        visible = component.isImageLoading,
+        canCancel = false
+    )
 }

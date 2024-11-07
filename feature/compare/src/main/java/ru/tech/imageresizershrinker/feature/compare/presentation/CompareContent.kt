@@ -253,7 +253,8 @@ fun CompareContent(
         previewBitmap = previewBitmap
     )
 
-    if (component.isImageLoading) {
-        LoadingDialog(component::cancelSaving)
-    }
+    LoadingDialog(
+        visible = component.isImageLoading,
+        onCancelLoading = component::cancelSaving
+    )
 }

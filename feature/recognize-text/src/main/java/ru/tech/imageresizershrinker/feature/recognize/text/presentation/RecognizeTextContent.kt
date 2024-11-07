@@ -578,7 +578,8 @@ fun RecognizeTextContent(
         loadImage = component::loadImage
     )
 
-    if (component.isExporting) {
-        LoadingDialog()
-    }
+    LoadingDialog(
+        visible = component.isExporting,
+        canCancel = false
+    )
 }

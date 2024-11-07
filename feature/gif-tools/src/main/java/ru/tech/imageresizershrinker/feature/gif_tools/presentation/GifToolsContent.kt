@@ -706,18 +706,18 @@ fun GifToolsContent(
         canShowScreenData = component.type != null
     )
 
-    if (component.isSaving) {
-        if (component.left != -1) {
-            LoadingDialog(
-                done = component.done,
-                left = component.left,
-                onCancelLoading = component::cancelSaving
-            )
-        } else {
-            LoadingDialog(
-                onCancelLoading = component::cancelSaving
-            )
-        }
+    if (component.left != -1) {
+        LoadingDialog(
+            visible = component.isSaving,
+            done = component.done,
+            left = component.left,
+            onCancelLoading = component::cancelSaving
+        )
+    } else {
+        LoadingDialog(
+            visible = component.isSaving,
+            onCancelLoading = component::cancelSaving
+        )
     }
 
     ExitWithoutSavingDialog(

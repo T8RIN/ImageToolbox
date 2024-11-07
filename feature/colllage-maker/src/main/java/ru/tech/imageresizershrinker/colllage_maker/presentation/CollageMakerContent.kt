@@ -631,9 +631,8 @@ fun CollageMakerContent(
         visible = showExitDialog
     )
 
-    if (component.isSaving || component.isImageLoading) {
-        LoadingDialog(
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving || component.isImageLoading,
+        onCancelLoading = component::cancelSaving
+    )
 }

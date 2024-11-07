@@ -17,7 +17,11 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -35,10 +39,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -50,8 +56,18 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
-    val borderWidth = LocalSettingsState.current.borderWidth
-
+    val settingsState = LocalSettingsState.current
+    val borderWidth = settingsState.borderWidth
+    val infiniteTransition = rememberInfiniteTransition()
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            keyframes {
+                durationMillis = 3000
+            }
+        )
+    )
     BoxWithConstraints(
         modifier
             .then(
@@ -60,12 +76,15 @@ fun Loading(modifier: Modifier = Modifier) {
                 } else Modifier
             )
             .aspectRatio(1f)
+            .rotate(rotation)
             .then(
-                if (borderWidth <= 0.dp) {
+                if (borderWidth <= 0.dp && settingsState.drawContainerShadows) {
                     Modifier.rsBlurShadow(
                         radius = 2.dp,
                         shape = MaterialStarShape,
-                        isAlphaContentClip = true
+                        isAlphaContentClip = true,
+                        offset = DpOffset.Zero,
+                        spread = 1.5.dp
                     )
                 } else Modifier
             )
@@ -84,6 +103,7 @@ fun Loading(modifier: Modifier = Modifier) {
     ) {
         CircularWavyProgressIndicator(
             modifier = Modifier
+                .rotate(-rotation)
                 .align(
                     Alignment.Center
                 )
@@ -127,13 +147,32 @@ fun BoxScope.Loading(
     loaderSize: Dp = 56.dp,
     additionalContent: @Composable (Dp) -> Unit = {}
 ) {
-    val borderWidth = LocalSettingsState.current.borderWidth
+    val settingsState = LocalSettingsState.current
+    val borderWidth = settingsState.borderWidth
+    val infiniteTransition = rememberInfiniteTransition()
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            keyframes {
+                durationMillis = 3000
+            }
+        )
+    )
+
     Column(
         modifier = Modifier
             .size(108.dp)
+            .rotate(rotation)
             .then(
-                if (borderWidth <= 0.dp) {
-                    Modifier.rsBlurShadow(radius = 2.dp, shape = MaterialStarShape)
+                if (borderWidth <= 0.dp && settingsState.drawContainerShadows) {
+                    Modifier.rsBlurShadow(
+                        radius = 2.dp,
+                        shape = MaterialStarShape,
+                        isAlphaContentClip = true,
+                        offset = DpOffset.Zero,
+                        spread = 1.5.dp
+                    )
                 } else Modifier
             )
             .background(
@@ -153,7 +192,9 @@ fun BoxScope.Loading(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BoxWithConstraints(
-            modifier = Modifier.size(loaderSize),
+            modifier = Modifier
+                .size(loaderSize)
+                .rotate(-rotation),
             contentAlignment = Alignment.Center
         ) {
             CircularWavyProgressIndicator(

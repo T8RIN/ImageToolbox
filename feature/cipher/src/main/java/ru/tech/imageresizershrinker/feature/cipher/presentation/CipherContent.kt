@@ -719,7 +719,10 @@ fun CipherContent(
                     }
                 }
 
-                if (component.isSaving) LoadingDialog(component::cancelSaving)
+                LoadingDialog(
+                    visible = component.isSaving,
+                    onCancelLoading = component::cancelSaving
+                )
             }
         }
 

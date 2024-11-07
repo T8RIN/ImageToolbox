@@ -436,9 +436,10 @@ fun ImagePreviewContent(
         }
     }
 
-    if (isLoadingImages) {
-        LoadingDialog(canCancel = false)
-    }
+    LoadingDialog(
+        visible = isLoadingImages,
+        canCancel = false
+    )
 
     ExitWithoutSavingDialog(
         onExit = onGoBack,

@@ -372,13 +372,12 @@ fun ImageStackingContent(
         isPortrait = isPortrait
     )
 
-    if (component.isSaving) {
-        LoadingDialog(
-            done = component.done,
-            left = component.stackImages.size,
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        done = component.done,
+        left = component.stackImages.size,
+        onCancelLoading = component::cancelSaving
+    )
 
     ExitWithoutSavingDialog(
         onExit = onGoBack,

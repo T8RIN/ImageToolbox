@@ -700,12 +700,11 @@ fun CropContent(
         visible = showExitDialog
     )
 
-    if (component.isSaving || component.isImageLoading) {
-        LoadingDialog(
-            onCancelLoading = component::cancelSaving,
-            canCancel = component.isSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving || component.isImageLoading,
+        onCancelLoading = component::cancelSaving,
+        canCancel = component.isSaving
+    )
 
     BackHandler(
         enabled = component.bitmap != null,

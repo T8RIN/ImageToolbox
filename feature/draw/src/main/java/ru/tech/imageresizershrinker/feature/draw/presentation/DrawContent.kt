@@ -1103,12 +1103,11 @@ fun DrawContent(
         }
     }
 
-    if (component.isSaving || component.isImageLoading) {
-        LoadingDialog(
-            onCancelLoading = component::cancelSaving,
-            canCancel = component.isSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving || component.isImageLoading,
+        onCancelLoading = component::cancelSaving,
+        canCancel = component.isSaving
+    )
 
     var colorPickerColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Black) }
     PickColorFromImageSheet(

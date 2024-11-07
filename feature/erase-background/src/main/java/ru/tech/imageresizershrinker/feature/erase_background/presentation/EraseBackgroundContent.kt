@@ -786,9 +786,11 @@ fun EraseBackgroundContent(
     }
 
 
-    if (component.isSaving || component.isImageLoading || component.isErasingBG) {
-        LoadingDialog(component::cancelSaving, component.isSaving)
-    }
+    LoadingDialog(
+        visible = component.isSaving || component.isImageLoading || component.isErasingBG,
+        onCancelLoading = component::cancelSaving,
+        canCancel = component.isSaving
+    )
 
     ExitWithoutSavingDialog(
         onExit = onGoBack,

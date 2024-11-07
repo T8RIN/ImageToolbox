@@ -283,11 +283,10 @@ fun ImageSplitterContent(
         visible = showExitDialog
     )
 
-    if (component.isSaving) {
-        LoadingDialog(
-            done = component.done,
-            left = component.uris.size,
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving,
+        done = component.done,
+        left = component.uris.size,
+        onCancelLoading = component::cancelSaving
+    )
 }
