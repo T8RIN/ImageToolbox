@@ -21,7 +21,9 @@ import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -41,6 +43,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.Card
@@ -150,7 +153,7 @@ fun Toast(
                 .autoElevatedBorder(
                     color = MaterialTheme.colorScheme
                         .outlineVariant(0.3f, contentColor)
-                        .copy(alpha = 0.95f),
+                        .copy(alpha = 0.92f),
                     shape = shape,
                     autoElevation = animateDpAsState(
                         if (LocalSettingsState.current.drawContainerShadows) 6.dp
@@ -281,17 +284,28 @@ open class ToastDuration(val time: kotlin.Long) {
 object ToastDefaults {
     val transition: ContentTransform
         get() = fadeIn(tween(300)) + scaleIn(
-            tween(500),
+            animationSpec = spring(
+                dampingRatio = 0.65f,
+                stiffness = Spring.StiffnessMediumLow
+            ),
             transformOrigin = TransformOrigin(0.5f, 1f)
         ) + slideInVertically(
+            spring(
+                stiffness = Spring.StiffnessHigh
+            )
+        ) { it / 2 } togetherWith fadeOut(tween(250)) + slideOutVertically(
             tween(500)
-        ) { it / 2 } togetherWith fadeOut(tween(250)) + slideOutVertically(tween(500)) { it / 2 } + scaleOut(
-            tween(750),
+        ) { it / 2 } + scaleOut(
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessMediumLow
+            ),
             transformOrigin = TransformOrigin(0.5f, 1f)
         )
     val contentColor: Color @Composable get() = MaterialTheme.colorScheme.inverseOnSurface.harmonizeWithPrimary()
     val color: Color @Composable get() = MaterialTheme.colorScheme.inverseSurface.harmonizeWithPrimary()
-    val shape: Shape @Composable get() = MaterialTheme.shapes.extraLarge
+
+    val shape: Shape get() = RoundedCornerShape(26.dp)
 }
 
 private fun ToastDuration.toMillis(
