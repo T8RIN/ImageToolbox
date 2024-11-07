@@ -96,7 +96,6 @@ fun EnhancedAlertDialog(
     BasicEnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismissRequest,
-        modifier = modifier,
         content = {
             val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
 
@@ -219,7 +218,7 @@ fun BasicEnhancedAlertDialog(
                     modifier = Modifier.scale(scale)
                 ) {
                     Box(
-                        modifier = Modifier
+                        modifier = modifier
                             .safeDrawingPadding()
                             .padding(horizontal = 48.dp, vertical = 24.dp),
                         contentAlignment = Alignment.Center
