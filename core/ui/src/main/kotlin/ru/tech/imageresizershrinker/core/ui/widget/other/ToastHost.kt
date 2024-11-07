@@ -302,10 +302,15 @@ object ToastDefaults {
             ),
             transformOrigin = TransformOrigin(0.5f, 1f)
         )
-    val contentColor: Color @Composable get() = MaterialTheme.colorScheme.inverseOnSurface.harmonizeWithPrimary()
-    val color: Color @Composable get() = MaterialTheme.colorScheme.inverseSurface.harmonizeWithPrimary()
+    val contentColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.inverseOnSurface.harmonizeWithPrimary()
 
-    val shape: Shape get() = RoundedCornerShape(26.dp)
+    val color: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.inverseSurface.harmonizeWithPrimary()
+
+    val shape: Shape = RoundedCornerShape(26.dp)
 }
 
 private fun ToastDuration.toMillis(
