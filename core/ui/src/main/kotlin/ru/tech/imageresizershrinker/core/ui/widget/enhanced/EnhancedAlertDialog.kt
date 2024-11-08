@@ -244,7 +244,7 @@ fun BasicEnhancedAlertDialog(
                             scale = (1f - event.progress * 1.5f).coerceAtLeast(0.75f)
                         }
                         onDismissRequest()
-                        delay(200)
+                        delay(400)
                         scale = 1f
                     } catch (e: Exception) {
                         scale = 1f
