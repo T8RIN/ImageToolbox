@@ -159,6 +159,7 @@ fun BasicEnhancedAlertDialog(
     var scale by remember {
         mutableFloatStateOf(1f)
     }
+    val animatedScale by animateFloatAsState(scale)
 
     LaunchedEffect(visible) {
         if (visible) {
@@ -189,9 +190,8 @@ fun BasicEnhancedAlertDialog(
                     enter = fadeIn(),
                     exit = fadeOut(),
                 ) {
-                    val alpha by animateFloatAsState(
-                        .5f * scale
-                    )
+                    val alpha = 0.5f * animatedScale
+
                     Box(
                         modifier = Modifier
                             .pointerInput(Unit) { detectTapGestures { onDismissRequest?.invoke() } }
@@ -215,7 +215,7 @@ fun BasicEnhancedAlertDialog(
                             stiffness = Spring.StiffnessMediumLow
                         )
                     ),
-                    modifier = Modifier.scale(scale)
+                    modifier = Modifier.scale(animatedScale)
                 ) {
                     Box(
                         modifier = modifier

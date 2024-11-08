@@ -18,7 +18,10 @@
 package ru.tech.imageresizershrinker.feature.single_edit.presentation.components
 
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,6 +54,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,12 +63,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
@@ -73,6 +79,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetD
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,18 +100,44 @@ fun FullscreenEditOption(
 ) {
     val scope = rememberCoroutineScope()
 
-    var showExitDialog by remember(visible) { mutableStateOf(false) }
-    val internalOnDismiss = {
-        if (!canGoBack) showExitDialog = true
-        else onDismiss()
-    }
-    val direction = LocalLayoutDirection.current
-    val focus = LocalFocusManager.current
     AnimatedVisibility(
         visible = visible,
         modifier = Modifier.fillMaxSize()
     ) {
-        Surface(Modifier.fillMaxSize()) {
+        var showExitDialog by remember(visible) { mutableStateOf(false) }
+        val internalOnDismiss = {
+            if (!canGoBack) showExitDialog = true
+            else onDismiss()
+        }
+        val direction = LocalLayoutDirection.current
+        val focus = LocalFocusManager.current
+
+        var predictiveBackProgress by remember {
+            mutableFloatStateOf(0f)
+        }
+        val animatedPredictiveBackProgress by animateFloatAsState(
+            predictiveBackProgress
+        )
+        val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
+
+
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.scrim.copy(0.5f * scale))
+        )
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .withLayoutCorners { corners ->
+                    graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                        shape = corners.toShape(animatedPredictiveBackProgress)
+                        clip = true
+                    }
+                }
+        ) {
             Column {
                 if (useScaffold) {
                     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
@@ -274,7 +308,26 @@ fun FullscreenEditOption(
             }
         }
         if (visible) {
-            BackHandler { internalOnDismiss() }
+            if (canGoBack) {
+                PredictiveBackHandler { progress ->
+                    try {
+                        progress.collect { event ->
+                            if (event.progress <= 0.05f) {
+                                predictiveBackProgress = 0f
+                            }
+                            predictiveBackProgress = event.progress
+                        }
+                        internalOnDismiss()
+                        delay(400)
+                        predictiveBackProgress = 0f
+                    } catch (e: Exception) {
+                        predictiveBackProgress = 0f
+                    }
+                }
+            } else {
+                BackHandler(onBack = internalOnDismiss)
+            }
+
             ExitWithoutSavingDialog(
                 onExit = onDismiss,
                 onDismiss = { showExitDialog = false },
