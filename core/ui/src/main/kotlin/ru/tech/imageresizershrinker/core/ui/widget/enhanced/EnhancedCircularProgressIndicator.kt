@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -44,7 +45,7 @@ fun EnhancedCircularProgressIndicator(
     when (type) {
         EnhancedCircularProgressIndicatorType.Normal -> {
             CircularProgressIndicator(
-                modifier = modifier,
+                modifier = modifier.background(Color.Red),
                 color = color,
                 strokeWidth = strokeWidth,
                 trackColor = trackColor,
@@ -67,7 +68,7 @@ fun EnhancedCircularProgressIndicator(
                     width = with(LocalDensity.current) { strokeWidth.toPx() },
                     cap = strokeCap
                 ),
-                amplitude = type.amplitude(1f),
+                amplitude = type.amplitude(0.5f),
                 wavelength = type.wavelength,
                 waveSpeed = type.waveSpeed
             )
