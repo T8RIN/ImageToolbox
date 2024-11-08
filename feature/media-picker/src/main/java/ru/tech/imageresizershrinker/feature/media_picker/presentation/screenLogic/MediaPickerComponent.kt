@@ -29,7 +29,6 @@ import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -74,6 +73,9 @@ class MediaPickerComponent @AssistedInject internal constructor(
 
     private val _mediaState = MutableStateFlow(MediaState())
     val mediaState = _mediaState.asStateFlow()
+
+    private val _filteredMediaState = MutableStateFlow(MediaState())
+    val filteredMediaState = _filteredMediaState.asStateFlow()
 
     private val _albumsState = MutableStateFlow(AlbumState())
     val albumsState = _albumsState.asStateFlow()
@@ -216,7 +218,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                 }
             }
         }
-        withContext(Dispatchers.Main) {
+        withContext(uiDispatcher) {
             tryEmit(
                 MediaState(
                     isLoading = false,
@@ -231,7 +233,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
     }
 
     private fun List<Media>.dateHeader(albumId: Long): String =
-        if (albumId != -1L) {
+        if (albumId != -1L && isNotEmpty()) {
             val startDate: DateExt = last().timestamp.getDateExt()
             val endDate: DateExt = first().timestamp.getDateExt()
             getDateHeader(startDate, endDate)
@@ -243,6 +245,26 @@ class MediaPickerComponent @AssistedInject internal constructor(
         .getImage(data = emojiUri)
         ?.extractPrimaryColor()
         ?.let { ColorTuple(it) }
+
+    private var mediaFilterJob: Job? by smartJob()
+
+    fun filterMedia(
+        searchKeyword: String,
+        isForceReset: Boolean
+    ) {
+        mediaFilterJob = componentScope.launch {
+            if (isForceReset) {
+                _filteredMediaState.emit(mediaState.value)
+            } else {
+                _filteredMediaState.emit(mediaState.value.copy(isLoading = true))
+                _filteredMediaState.collectMedia(
+                    data = mediaState.value.media.filter { it.label.contains(searchKeyword, true) },
+                    error = mediaState.value.error,
+                    albumId = selectedAlbumId
+                )
+            }
+        }
+    }
 
     init {
         runBlocking {

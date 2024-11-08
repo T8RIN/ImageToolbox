@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaOrder
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
 import kotlin.io.path.Path
 import kotlin.io.path.extension
+import kotlin.random.Random
 
 private var observerJob: Job? = null
 
@@ -148,7 +149,7 @@ fun Cursor.getMediaFromCursor(): Media {
     val uri = ContentUris.withAppendedId(contentUri, id)
     val formattedDate = modifiedTimestamp.getDate(FULL_DATE_FORMAT)
     return Media(
-        id = id,
+        id = Random(System.currentTimeMillis()).nextLong(-1000, 25600000),
         label = title,
         uri = uri.toString(),
         path = path,
@@ -207,6 +208,7 @@ suspend fun ContentResolver.query(
                 query(
                     MediaStore.Files.getContentUri("external"),
                     fileQuery.projection,
+                    null,
                     null,
                     null
                 ),

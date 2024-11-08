@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation.component
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
@@ -27,6 +28,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,17 +44,24 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.twotone.ImageNotSupported
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -62,9 +71,11 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -77,18 +88,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.theme.Black
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -112,6 +127,24 @@ fun MediaPickerScreen(
         labelColor = MaterialTheme.colorScheme.onSurfaceVariant
     )
     val haptics = LocalHapticFeedback.current
+
+    var isSearching by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var searchKeyword by rememberSaveable(isSearching) {
+        mutableStateOf("")
+    }
+
+    val filteredMediaState by component.filteredMediaState.collectAsState()
+
+    LaunchedEffect(mediaState, isSearching, searchKeyword) {
+        delay(600)
+        component.filterMedia(
+            searchKeyword = searchKeyword,
+            isForceReset = !isSearching || searchKeyword.trim()
+                .isBlank() || mediaState.media.isEmpty()
+        )
+    }
 
     Column {
         val layoutDirection = LocalLayoutDirection.current
@@ -170,9 +203,10 @@ fun MediaPickerScreen(
             Box(
                 modifier = Modifier.fillMaxSize(1f)
             ) {
-                val isButtonVisible = !allowSelection || selectedMedia.isNotEmpty()
+                val isButtonVisible =
+                    (!allowSelection || selectedMedia.isNotEmpty()) && !isSearching
                 MediaPickerGrid(
-                    state = mediaState,
+                    state = filteredMediaState,
                     isSelectionOfAll = selectedAlbumIndex == -1L,
                     selectedMedia = selectedMedia,
                     allowSelection = allowSelection,
@@ -180,6 +214,88 @@ fun MediaPickerScreen(
                     isManagePermissionAllowed = isManagePermissionAllowed,
                     onRequestManagePermission = onRequestManagePermission
                 )
+                AnimatedContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                        .safeDrawingPadding(),
+                    targetState = isSearching,
+                    transitionSpec = {
+                        fadeIn() togetherWith fadeOut()
+                    }
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomStart
+                    ) {
+                        if (it) {
+                            RoundedTextField(
+                                maxLines = 1,
+                                hint = { Text(stringResource(id = R.string.search_here)) },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Search,
+                                    autoCorrectEnabled = null
+                                ),
+                                value = searchKeyword,
+                                onValueChange = {
+                                    searchKeyword = it
+                                },
+                                startIcon = {
+                                    EnhancedIconButton(
+                                        onClick = {
+                                            searchKeyword = ""
+                                            isSearching = false
+                                        },
+                                        modifier = Modifier.padding(start = 4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                            contentDescription = stringResource(R.string.exit),
+                                            tint = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                },
+                                endIcon = {
+                                    BoxAnimatedVisibility(
+                                        visible = searchKeyword.isNotEmpty(),
+                                        enter = fadeIn() + scaleIn(),
+                                        exit = fadeOut() + scaleOut()
+                                    ) {
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                searchKeyword = ""
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Close,
+                                                contentDescription = stringResource(R.string.close),
+                                                tint = MaterialTheme.colorScheme.onSurface
+                                            )
+                                        }
+                                    }
+                                },
+                                shape = CircleShape
+                            )
+                        } else {
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                                modifier = Modifier
+                                    .padding(bottom = 6.dp)
+                                    .size(44.dp),
+                                onClick = {
+                                    isSearching = true
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Search,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
+                }
                 BoxAnimatedVisibility(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -264,17 +380,18 @@ fun MediaPickerScreen(
                     }
                 }
             }
-            val visible = mediaState.isLoading
+            val visible = mediaState.isLoading || filteredMediaState.isLoading
 
             val backgroundColor by animateColorAsState(
-                Black.copy(
-                    if (mediaState.isLoading && mediaState.media.isNotEmpty()) 0.5f else 0f
+                MaterialTheme.colorScheme.scrim.copy(
+                    if (visible && filteredMediaState.media.isNotEmpty()) 0.5f else 0f
                 )
             )
             BoxAnimatedVisibility(
                 visible = visible,
                 modifier = Modifier
                     .fillMaxSize()
+                    .imePadding()
                     .background(backgroundColor),
                 enter = scaleIn() + fadeIn(),
                 exit = scaleOut() + fadeOut()
@@ -300,9 +417,49 @@ fun MediaPickerScreen(
             }
 
             BoxAnimatedVisibility(
+                visible = filteredMediaState.media.isEmpty() && !filteredMediaState.isLoading && isSearching,
+                enter = scaleIn() + fadeIn(),
+                exit = scaleOut() + fadeOut(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .imePadding()
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.nothing_found_by_search),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        )
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.SearchOff,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .weight(2f)
+                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                            .fillMaxSize()
+                    )
+                    Spacer(Modifier.weight(1f))
+                }
+            }
+
+            BoxAnimatedVisibility(
                 visible = mediaState.media.isEmpty() && !mediaState.isLoading,
                 enter = scaleIn() + fadeIn(),
-                exit = scaleOut() + fadeOut()
+                exit = scaleOut() + fadeOut(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .imePadding()
             ) {
                 val errorMessage = albumsState.error + "\n" + mediaState.error
                 Column(
@@ -341,5 +498,9 @@ fun MediaPickerScreen(
     BackHandler(selectedAlbumIndex != -1L) {
         selectedAlbumIndex = -1L
         component.getAlbum(selectedAlbumIndex)
+    }
+
+    BackHandler(isSearching) {
+        isSearching = false
     }
 }

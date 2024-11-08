@@ -207,6 +207,7 @@ internal fun MediaPickerGrid(
         state = gridState,
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
             .dragHandler(
                 enabled = isSelectionOfAll,
                 key = state.mappedMedia,
@@ -334,8 +335,7 @@ internal fun MediaPickerGrid(
                         date = title,
                         showAsBig = item.key.contains("big"),
                         isCheckVisible = isCheckVisible,
-                        isChecked = isChecked,
-                        modifier = Modifier.animateItem()
+                        isChecked = isChecked
                     ) {
                         if (allowSelection) {
                             hapticFeedback.performHapticFeedback(
@@ -359,7 +359,6 @@ internal fun MediaPickerGrid(
                     val selectionState = remember { mutableStateOf(true) }
 
                     MediaImage(
-                        modifier = Modifier.animateItem(),
                         media = item.media,
                         selectionState = selectionState,
                         canClick = !isSelectionOfAll,

@@ -198,7 +198,7 @@ data class SettingsState(
                 isCompactSelectorsLayout = false,
                 mainScreenTitle = "",
                 sliderType = SliderType.Fancy,
-                isCenterAlignDialogButtons = true
+                isCenterAlignDialogButtons = false
             )
         }
     }
