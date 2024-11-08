@@ -49,6 +49,7 @@ import coil.compose.SubcomposeAsyncImageScope
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
@@ -99,6 +100,7 @@ fun Picture(
             listOf(
                 GenericTransformation<Bitmap> { bitmap ->
                     withContext(Dispatchers.Main.immediate) {
+                        delay(1000)
                         activity.window.colorMode = if (bitmap.hasGainmap()) {
                             ActivityInfo.COLOR_MODE_HDR
                         } else ActivityInfo.COLOR_MODE_DEFAULT

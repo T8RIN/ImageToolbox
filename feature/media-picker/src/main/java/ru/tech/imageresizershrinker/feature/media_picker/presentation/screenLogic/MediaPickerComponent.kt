@@ -157,6 +157,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))
                     }
                     _mediaState.collectMedia(data, error, albumId)
+                    _filteredMediaState.emit(mediaState.value)
                 }
         }
     }
@@ -258,7 +259,24 @@ class MediaPickerComponent @AssistedInject internal constructor(
             } else {
                 _filteredMediaState.emit(mediaState.value.copy(isLoading = true))
                 _filteredMediaState.collectMedia(
-                    data = mediaState.value.media.filter { it.label.contains(searchKeyword, true) },
+                    data = mediaState.value.media.filter {
+                        if (searchKeyword.startsWith("*")) {
+                            it.label.endsWith(
+                                suffix = searchKeyword.drop(1),
+                                ignoreCase = true
+                            )
+                        } else if (searchKeyword.endsWith("*")) {
+                            it.label.startsWith(
+                                prefix = searchKeyword.dropLast(1),
+                                ignoreCase = true
+                            )
+                        } else {
+                            it.label.contains(
+                                other = searchKeyword,
+                                ignoreCase = true
+                            )
+                        }
+                    },
                     error = mediaState.value.error,
                     albumId = selectedAlbumId
                 )

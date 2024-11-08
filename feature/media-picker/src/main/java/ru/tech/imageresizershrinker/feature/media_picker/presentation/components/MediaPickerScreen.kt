@@ -71,7 +71,6 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -93,9 +92,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
@@ -135,16 +134,15 @@ fun MediaPickerScreen(
         mutableStateOf("")
     }
 
-    val filteredMediaState by component.filteredMediaState.collectAsState()
-
-    LaunchedEffect(mediaState, isSearching, searchKeyword) {
-        delay(600)
+    val filterMedia = {
         component.filterMedia(
-            searchKeyword = searchKeyword,
+            searchKeyword = searchKeyword.trim(),
             isForceReset = !isSearching || searchKeyword.trim()
                 .isBlank() || mediaState.media.isEmpty()
         )
     }
+
+    val filteredMediaState by component.filteredMediaState.collectAsState()
 
     Column {
         val layoutDirection = LocalLayoutDirection.current
@@ -214,88 +212,6 @@ fun MediaPickerScreen(
                     isManagePermissionAllowed = isManagePermissionAllowed,
                     onRequestManagePermission = onRequestManagePermission
                 )
-                AnimatedContent(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                        .safeDrawingPadding(),
-                    targetState = isSearching,
-                    transitionSpec = {
-                        fadeIn() togetherWith fadeOut()
-                    }
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.BottomStart
-                    ) {
-                        if (it) {
-                            RoundedTextField(
-                                maxLines = 1,
-                                hint = { Text(stringResource(id = R.string.search_here)) },
-                                keyboardOptions = KeyboardOptions.Default.copy(
-                                    imeAction = ImeAction.Search,
-                                    autoCorrectEnabled = null
-                                ),
-                                value = searchKeyword,
-                                onValueChange = {
-                                    searchKeyword = it
-                                },
-                                startIcon = {
-                                    EnhancedIconButton(
-                                        onClick = {
-                                            searchKeyword = ""
-                                            isSearching = false
-                                        },
-                                        modifier = Modifier.padding(start = 4.dp)
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                            contentDescription = stringResource(R.string.exit),
-                                            tint = MaterialTheme.colorScheme.onSurface
-                                        )
-                                    }
-                                },
-                                endIcon = {
-                                    BoxAnimatedVisibility(
-                                        visible = searchKeyword.isNotEmpty(),
-                                        enter = fadeIn() + scaleIn(),
-                                        exit = fadeOut() + scaleOut()
-                                    ) {
-                                        EnhancedIconButton(
-                                            onClick = {
-                                                searchKeyword = ""
-                                            },
-                                            modifier = Modifier.padding(end = 4.dp)
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Close,
-                                                contentDescription = stringResource(R.string.close),
-                                                tint = MaterialTheme.colorScheme.onSurface
-                                            )
-                                        }
-                                    }
-                                },
-                                shape = CircleShape
-                            )
-                        } else {
-                            EnhancedIconButton(
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                                modifier = Modifier
-                                    .padding(bottom = 6.dp)
-                                    .size(44.dp),
-                                onClick = {
-                                    isSearching = true
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Search,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    }
-                }
                 BoxAnimatedVisibility(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -491,6 +407,101 @@ fun MediaPickerScreen(
                         Text(stringResource(id = R.string.try_again))
                     }
                     Spacer(Modifier.weight(1f))
+                }
+            }
+
+            BoxAnimatedVisibility(
+                visible = !mediaState.isLoading,
+                modifier = Modifier.fillMaxSize(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                AnimatedContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                        .safeDrawingPadding(),
+                    targetState = isSearching,
+                    transitionSpec = {
+                        fadeIn() togetherWith fadeOut()
+                    }
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomStart
+                    ) {
+                        if (it) {
+                            RoundedTextField(
+                                maxLines = 1,
+                                hint = { Text(stringResource(id = R.string.search_here)) },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Search,
+                                    autoCorrectEnabled = null
+                                ),
+                                value = searchKeyword,
+                                onValueChange = {
+                                    searchKeyword = it
+                                    filterMedia()
+                                },
+                                startIcon = {
+                                    EnhancedIconButton(
+                                        onClick = {
+                                            searchKeyword = ""
+                                            isSearching = false
+                                            filterMedia()
+                                        },
+                                        modifier = Modifier.padding(start = 4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                            contentDescription = stringResource(R.string.exit),
+                                            tint = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                },
+                                endIcon = {
+                                    BoxAnimatedVisibility(
+                                        visible = searchKeyword.isNotEmpty(),
+                                        enter = fadeIn() + scaleIn(),
+                                        exit = fadeOut() + scaleOut()
+                                    ) {
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                searchKeyword = ""
+                                                filterMedia()
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Close,
+                                                contentDescription = stringResource(R.string.close),
+                                                tint = MaterialTheme.colorScheme.onSurface
+                                            )
+                                        }
+                                    }
+                                },
+                                shape = CircleShape
+                            )
+                        } else {
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                                modifier = Modifier
+                                    .padding(bottom = 6.dp)
+                                    .size(44.dp),
+                                onClick = {
+                                    isSearching = true
+                                    filterMedia()
+                                },
+                                shape = MaterialStarShape
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Search,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
