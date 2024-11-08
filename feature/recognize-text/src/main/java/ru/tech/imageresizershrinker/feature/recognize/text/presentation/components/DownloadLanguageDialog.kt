@@ -40,7 +40,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -105,7 +105,7 @@ fun DownloadLanguageDialog(
             Box(
                 Modifier.fillMaxSize()
             ) {
-                Loading(downloadProgress / 100) {
+                LoadingIndicator(downloadProgress / 100) {
                     AutoSizeText(
                         text = dataRemaining,
                         maxLines = 1,

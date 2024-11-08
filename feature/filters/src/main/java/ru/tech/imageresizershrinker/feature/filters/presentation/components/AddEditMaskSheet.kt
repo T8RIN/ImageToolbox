@@ -120,7 +120,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -297,7 +297,7 @@ fun AddEditMaskSheet(
                             .padding(16.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Loading()
+                        LoadingIndicator()
                     }
                 } else {
                     val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
@@ -423,7 +423,7 @@ fun AddEditMaskSheet(
                                                 )
                                             } else {
                                                 Box(modifier = Modifier.size(56.dp)) {
-                                                    Loading()
+                                                    LoadingIndicator()
                                                 }
                                             }
                                         }

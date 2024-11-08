@@ -142,7 +142,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
@@ -486,7 +486,7 @@ fun FiltersContent(
                             )
                         } else {
                             Box(modifier = Modifier.size(56.dp)) {
-                                Loading()
+                                LoadingIndicator()
                             }
                         }
                     }

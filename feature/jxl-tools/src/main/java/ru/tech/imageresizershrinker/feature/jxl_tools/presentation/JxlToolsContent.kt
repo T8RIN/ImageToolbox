@@ -100,7 +100,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelect
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -431,7 +431,7 @@ fun JxlToolsContent(
                     } else Modifier
                 ) {
                     if (loading || type == null) {
-                        Loading()
+                        LoadingIndicator()
                     } else {
                         when (type) {
                             is Screen.JxlTools.Type.JxlToImage -> {

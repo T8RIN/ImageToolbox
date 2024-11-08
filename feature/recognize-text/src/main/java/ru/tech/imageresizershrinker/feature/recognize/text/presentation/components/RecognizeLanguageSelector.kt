@@ -120,7 +120,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomS
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
@@ -345,7 +345,7 @@ fun RecognizeLanguageSelector(
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Loading()
+                    LoadingIndicator()
                 }
             } else {
                 val listState = rememberLazyListState()

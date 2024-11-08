@@ -32,8 +32,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CircularWavyProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,12 +48,11 @@ import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun Loading(modifier: Modifier = Modifier) {
+fun LoadingIndicator(modifier: Modifier = Modifier) {
     val settingsState = LocalSettingsState.current
     val borderWidth = settingsState.borderWidth
     val infiniteTransition = rememberInfiniteTransition()
@@ -101,7 +98,7 @@ fun Loading(modifier: Modifier = Modifier) {
                 shape = MaterialStarShape
             )
     ) {
-        CircularWavyProgressIndicator(
+        EnhancedCircularProgressIndicator(
             modifier = Modifier
                 .rotate(-rotation)
                 .align(
@@ -116,13 +113,13 @@ fun Loading(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BoxScope.Loading(
+fun BoxScope.LoadingIndicator(
     done: Int,
     left: Int
 ) {
     val progress = done / left.toFloat()
     if (progress.isFinite() && progress >= 0 && left > 1) {
-        Loading(progress = progress) {
+        LoadingIndicator(progress = progress) {
             AutoSizeText(
                 text = "$done / $left",
                 maxLines = 1,
@@ -132,7 +129,7 @@ fun BoxScope.Loading(
             )
         }
     } else {
-        Loading(
+        LoadingIndicator(
             modifier = Modifier
                 .align(Alignment.Center)
                 .size(108.dp)
@@ -140,9 +137,8 @@ fun BoxScope.Loading(
     }
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun BoxScope.Loading(
+fun BoxScope.LoadingIndicator(
     progress: Float,
     loaderSize: Dp = 56.dp,
     additionalContent: @Composable (Dp) -> Unit = {}
@@ -197,13 +193,13 @@ fun BoxScope.Loading(
                 .rotate(-rotation),
             contentAlignment = Alignment.Center
         ) {
-            CircularWavyProgressIndicator(
+            EnhancedCircularProgressIndicator(
                 modifier = Modifier.size(maxWidth),
                 color = MaterialTheme.colorScheme.secondary.copy(0.3f),
                 trackColor = MaterialTheme.colorScheme.surfaceContainer
             )
             val progressAnimated by animateFloatAsState(targetValue = progress)
-            CircularWavyProgressIndicator(
+            EnhancedCircularProgressIndicator(
                 modifier = Modifier.size(maxWidth),
                 progress = { progressAnimated },
                 color = MaterialTheme.colorScheme.primary,

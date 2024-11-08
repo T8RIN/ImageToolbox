@@ -95,7 +95,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarTyp
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.SearchBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -474,7 +474,7 @@ fun SettingsContent(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Loading()
+                    LoadingIndicator()
                 }
             }
         }

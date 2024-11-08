@@ -86,7 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.advancedShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 
 @Composable
 fun ImagesPreviewWithSelection(
@@ -248,7 +248,7 @@ fun ImagesPreviewWithSelection(
                                 .aspectRatio(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            Loading()
+                            LoadingIndicator()
                         }
                     }
                 }
@@ -322,7 +322,7 @@ fun ImagesPreviewWithSelection(
                                 .aspectRatio(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            Loading()
+                            LoadingIndicator()
                         }
                     }
                 }

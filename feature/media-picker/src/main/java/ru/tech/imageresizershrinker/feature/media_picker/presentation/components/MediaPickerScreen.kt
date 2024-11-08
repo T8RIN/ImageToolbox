@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActi
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -295,7 +295,7 @@ fun MediaPickerScreen(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Loading()
+                    LoadingIndicator()
                 }
             }
 

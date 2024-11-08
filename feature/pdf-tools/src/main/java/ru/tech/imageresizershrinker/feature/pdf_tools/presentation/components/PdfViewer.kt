@@ -111,7 +111,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -444,7 +444,7 @@ fun PdfViewer(
                         modifier = Modifier.matchParentSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Loading()
+                        LoadingIndicator()
                     }
                 }
             }
@@ -453,7 +453,7 @@ fun PdfViewer(
                 modifier = modifier.animateContentSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Loading()
+                LoadingIndicator()
             }
         }
     }

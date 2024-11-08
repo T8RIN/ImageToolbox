@@ -58,7 +58,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 
 @Composable
 internal fun OCRTextPreviewItem(
@@ -96,7 +96,7 @@ internal fun OCRTextPreviewItem(
                             .padding(24.dp)
                             .size(72.dp)
                     ) {
-                        Loading(
+                        LoadingIndicator(
                             progress = loadingProgress / 100f,
                             loaderSize = 36.dp
                         )
