@@ -81,7 +81,7 @@ internal class AndroidMediaRetriever @Inject constructor(
                 )
             }
         )
-        it.getAlbums(query, fileQuery, mediaOrder = MediaOrder.Label(OrderType.Ascending))
+        it.getAlbums(query, fileQuery, mediaOrder = MediaOrder.Date(OrderType.Descending))
     }
 
     override fun mediaFlowWithType(

@@ -23,7 +23,7 @@ data class Album(
     val pathToThumbnail: String,
     val relativePath: String,
     val timestamp: Long,
-    var count: Long = 0,
+    val count: Long = 0,
     val selected: Boolean = false,
     val isPinned: Boolean = false,
 ) {

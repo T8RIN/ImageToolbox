@@ -40,6 +40,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
@@ -56,6 +57,7 @@ fun EnhancedChip(
     unselectedColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     unselectedContentColor: Color = MaterialTheme.colorScheme.onSurface,
     shape: Shape = RoundedCornerShape(10.dp),
+    defaultMinSize: Dp = 36.dp,
     label: @Composable () -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
@@ -79,7 +81,7 @@ fun EnhancedChip(
         val focus = LocalFocusManager.current
         Box(
             modifier = modifier
-                .defaultMinSize(36.dp, 36.dp)
+                .defaultMinSize(defaultMinSize, defaultMinSize)
                 .container(
                     color = color,
                     resultPadding = 0.dp,

@@ -22,10 +22,15 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -42,7 +47,6 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
@@ -53,21 +57,21 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.DeleteOutline
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.twotone.ImageNotSupported
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
-import androidx.compose.material3.InputChip
-import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -75,13 +79,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -89,6 +96,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
@@ -96,13 +104,18 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -121,11 +134,6 @@ fun MediaPickerScreen(
 
     val albumsState by component.albumsState.collectAsState()
     val mediaState by component.mediaState.collectAsState()
-    val chipColors = InputChipDefaults.inputChipColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-        labelColor = MaterialTheme.colorScheme.onSurfaceVariant
-    )
-    val haptics = LocalHapticFeedback.current
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
@@ -150,47 +158,135 @@ fun MediaPickerScreen(
         AnimatedVisibility(
             visible = albumsState.albums.size > 1
         ) {
-            LazyRow(
+            var showAlbumThumbnail by rememberSaveable {
+                mutableStateOf(false)
+            }
+            val listState = rememberLazyListState()
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .drawHorizontalStroke()
                     .background(MaterialTheme.colorScheme.surfaceContainer)
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterHorizontally
-                ),
-                contentPadding = PaddingValues(
-                    start = WindowInsets.displayCutout
-                        .asPaddingValues()
-                        .calculateStartPadding(layoutDirection) + 8.dp,
-                    end = WindowInsets.displayCutout
-                        .asPaddingValues()
-                        .calculateEndPadding(layoutDirection) + 8.dp
-                )
             ) {
-                items(
-                    items = albumsState.albums,
-                    key = { it.toString() }
+                LazyRow(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fadingEdges(listState)
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = 8.dp,
+                        alignment = Alignment.CenterHorizontally
+                    ),
+                    contentPadding = PaddingValues(
+                        start = WindowInsets.displayCutout
+                            .asPaddingValues()
+                            .calculateStartPadding(layoutDirection) + 8.dp,
+                        end = WindowInsets.displayCutout
+                            .asPaddingValues()
+                            .calculateEndPadding(layoutDirection) + 8.dp
+                    ),
+                    state = listState
                 ) {
-                    val selected = selectedAlbumIndex == it.id
-                    InputChip(
-                        onClick = {
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
-                            selectedAlbumIndex = it.id
-                            component.getAlbum(selectedAlbumIndex)
-                        },
-                        colors = chipColors,
-                        shape = RoundedCornerShape(16.dp),
-                        label = {
-                            val title =
-                                if (it.id == -1L) stringResource(R.string.all) else it.label
-                            Text(text = title)
-                        },
-                        selected = selected,
-                        border = null
+                    items(
+                        items = albumsState.albums,
+                        key = Album::toString
+                    ) {
+                        val selected = selectedAlbumIndex == it.id
+                        val isImageVisible = showAlbumThumbnail && it.uri.isNotEmpty()
+                        EnhancedChip(
+                            selected = selected,
+                            selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+                            unselectedColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            onClick = {
+                                selectedAlbumIndex = it.id
+                                component.getAlbum(selectedAlbumIndex)
+                            },
+                            contentPadding = PaddingValues(
+                                horizontal = animateDpAsState(
+                                    if (isImageVisible) 8.dp
+                                    else 12.dp
+                                ).value,
+                                vertical = animateDpAsState(
+                                    if (isImageVisible) 8.dp
+                                    else 0.dp
+                                ).value
+                            ),
+                            label = {
+                                val title =
+                                    if (it.id == -1L) stringResource(R.string.all) else it.label
+                                Column(
+                                    modifier = Modifier.animateContentSize(
+                                        alignment = Alignment.Center
+                                    ),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    var width by remember {
+                                        mutableStateOf(1.dp)
+                                    }
+                                    val density = LocalDensity.current
+                                    Text(
+                                        text = title,
+                                        modifier = Modifier.onSizeChanged {
+                                            width = with(density) {
+                                                it.width.toDp().coerceAtLeast(100.dp)
+                                            }
+                                        }
+                                    )
+                                    BoxAnimatedVisibility(
+                                        visible = isImageVisible,
+                                        enter = fadeIn() + expandVertically(),
+                                        exit = fadeOut() + shrinkVertically()
+                                    ) {
+                                        Box {
+                                            Picture(
+                                                model = it.uri,
+                                                modifier = Modifier
+                                                    .padding(top = 8.dp)
+                                                    .height(100.dp)
+                                                    .width(width),
+                                                shape = RoundedCornerShape(12.dp)
+                                            )
+                                            Box(
+                                                modifier = Modifier
+                                                    .padding(top = 8.dp)
+                                                    .height(100.dp)
+                                                    .width(width)
+                                                    .clip(RoundedCornerShape(12.dp))
+                                                    .background(
+                                                        MaterialTheme
+                                                            .colorScheme
+                                                            .surfaceContainer
+                                                            .copy(0.6f)
+                                                    ),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                AutoSizeText(
+                                                    text = it.count.toString(),
+                                                    style = MaterialTheme.typography.headlineLarge.copy(
+                                                        fontSize = 20.sp,
+                                                        color = MaterialTheme.colorScheme.onSurface,
+                                                        fontWeight = FontWeight.Bold
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            defaultMinSize = 32.dp,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                    }
+                }
+                EnhancedIconButton(
+                    onClick = { showAlbumThumbnail = !showAlbumThumbnail }
+                ) {
+                    val rotation by animateFloatAsState(if (showAlbumThumbnail) 180f else 0f)
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowDown,
+                        contentDescription = "Expand",
+                        modifier = Modifier.rotate(rotation)
                     )
                 }
             }
@@ -453,7 +549,7 @@ fun MediaPickerScreen(
                                         modifier = Modifier.padding(start = 4.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                            imageVector = Icons.Rounded.Close,
                                             contentDescription = stringResource(R.string.exit),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
@@ -473,7 +569,7 @@ fun MediaPickerScreen(
                                             modifier = Modifier.padding(end = 4.dp)
                                         ) {
                                             Icon(
-                                                imageVector = Icons.Rounded.Close,
+                                                imageVector = Icons.Rounded.DeleteOutline,
                                                 contentDescription = stringResource(R.string.close),
                                                 tint = MaterialTheme.colorScheme.onSurface
                                             )

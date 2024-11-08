@@ -263,15 +263,14 @@ suspend fun ContentResolver.getAlbums(
                             timestamp = thumbnailDate,
                             count = 1
                         )
-                        val currentAlbum = albums.find { albm -> albm.id == albumId }
+                        val currentAlbum = albums.find { a -> a.id == albumId }
                         if (currentAlbum == null)
                             albums.add(album)
                         else {
                             val i = albums.indexOf(currentAlbum)
-                            albums[i].count++
+                            albums[i] = albums[i].let { a -> a.copy(count = a.count + 1) }
                             if (albums[i].timestamp <= thumbnailDate) {
-                                album.count = albums[i].count
-                                albums[i] = album
+                                albums[i] = album.copy(count = albums[i].count)
                             }
                         }
 
