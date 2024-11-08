@@ -374,7 +374,7 @@
     <string name="segmentation_mode_auto_osd">Orientación automática &amp; Detección de secuencias de comandos</string>
     <string name="segmentation_mode_auto_only">Sólo automático</string>
     <string name="segmentation_mode_single_block">Bloque único</string>
-    <string name="segmentation_mode_single_line">Linea sola</string>
+    <string name="segmentation_mode_single_line">Línea sola</string>
     <string name="glitch">Falla</string>
     <string name="amount">Cantidad</string>
     <string name="seed">Semilla</string>
@@ -526,7 +526,7 @@
     <string name="vintage">Antiguo</string>
     <string name="browni">Brownie</string>
     <string name="coda_chrome">Coda Cromo</string>
-    <string name="night_vision">Vision nocturna</string>
+    <string name="night_vision">Visión nocturna</string>
     <string name="warm">Cálido</string>
     <string name="cool">Fresco</string>
     <string name="tritanopia">Tritanopía</string>

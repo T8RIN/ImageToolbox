@@ -39,7 +39,7 @@ fun TileService.startActivityAndCollapse(
         TileServiceCompat.startActivityAndCollapse(
             this,
             PendingIntentActivityWrapper(
-                this,
+                applicationContext,
                 0,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT,

@@ -85,7 +85,6 @@ sealed class Screen(
     @StringRes val subtitle: Int
 ) {
 
-    @Suppress("unused")
     val simpleName: String?
         get() = when (this) {
             is ApngTools -> "APNG_Tools"

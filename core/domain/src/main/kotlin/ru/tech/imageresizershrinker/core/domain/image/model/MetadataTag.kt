@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("MemberVisibilityCanBePrivate")
-
 package ru.tech.imageresizershrinker.core.domain.image.model
 
 sealed class MetadataTag(

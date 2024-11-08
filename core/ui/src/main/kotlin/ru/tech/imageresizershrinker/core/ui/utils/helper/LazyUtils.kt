@@ -28,14 +28,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 @Composable
 fun LazyListState.isScrollingUp(): Boolean {
-    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
-    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    var previousIndex by remember(this) { mutableIntStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableIntStateOf(firstVisibleItemScrollOffset) }
     return remember(this) {
         derivedStateOf {
             if (previousIndex != firstVisibleItemIndex) {
@@ -52,7 +51,7 @@ fun LazyListState.isScrollingUp(): Boolean {
 
 @Composable
 fun ScrollState.isScrollingUp(enabled: Boolean = true): Boolean {
-    var previousScrollOffset by remember(this) { mutableStateOf(value) }
+    var previousScrollOffset by remember(this) { mutableIntStateOf(value) }
     return remember(this, enabled) {
         derivedStateOf {
             if (enabled) {
@@ -66,8 +65,8 @@ fun ScrollState.isScrollingUp(enabled: Boolean = true): Boolean {
 
 @Composable
 fun LazyStaggeredGridState.isScrollingUp(enabled: Boolean = true): Boolean {
-    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
-    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    var previousIndex by remember(this) { mutableIntStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableIntStateOf(firstVisibleItemScrollOffset) }
     return remember(this, enabled) {
         derivedStateOf {
             if (enabled) {
@@ -94,13 +93,13 @@ fun rememberCurrentOffset(state: LazyStaggeredGridState): State<Int> {
 
     LaunchedEffect(position.value, itemOffset.value) {
         if (lastPosition == null || position.value == 0) {
-            currentOffset.value = itemOffset.value
+            currentOffset.intValue = itemOffset.value
         } else if (lastPosition == position.value) {
-            currentOffset.value += (itemOffset.value - (lastItemOffset ?: 0))
+            currentOffset.intValue += (itemOffset.value - (lastItemOffset ?: 0))
         } else if (lastPosition > position.value) {
-            currentOffset.value -= (lastItemOffset ?: 0)
+            currentOffset.intValue -= (lastItemOffset ?: 0)
         } else { // lastPosition.value < position.value
-            currentOffset.value += itemOffset.value
+            currentOffset.intValue += itemOffset.value
         }
     }
 

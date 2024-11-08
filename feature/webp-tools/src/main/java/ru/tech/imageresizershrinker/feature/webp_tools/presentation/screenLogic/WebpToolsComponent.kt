@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("FunctionName")
-
 package ru.tech.imageresizershrinker.feature.webp_tools.presentation.screenLogic
 
 import android.graphics.Bitmap

@@ -59,6 +59,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -153,7 +154,7 @@ fun AddEditMaskSheet(
     onMaskPicked: (UiFilterMask) -> Unit,
 ) {
     var invalidations by remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
     LaunchedEffect(mask, masks, targetBitmapUri, invalidations) {
         component.setMask(

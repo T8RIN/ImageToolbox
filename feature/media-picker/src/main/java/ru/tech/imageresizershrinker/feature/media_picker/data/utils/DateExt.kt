@@ -146,7 +146,8 @@ fun Long.formatMinSec(): String {
         "00:00"
     } else {
         String.format(
-            "%02d:%02d",
+            locale = Locale.getDefault(),
+            format = "%02d:%02d",
             TimeUnit.MILLISECONDS.toMinutes(this),
             TimeUnit.MILLISECONDS.toSeconds(this) -
                     TimeUnit.MINUTES.toSeconds(

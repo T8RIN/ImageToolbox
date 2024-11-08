@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("LocalVariableName")
-
 package ru.tech.imageresizershrinker.core.ui.widget.preferences
 
 import androidx.compose.animation.AnimatedContent

@@ -17,10 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
-import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -29,17 +27,11 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 
 val LocalWindowSizeClass = compositionLocalOf<WindowSizeClass> { error("SizeClass not present") }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Composable
-fun Activity.provideWindowSizeClass(content: @Composable () -> Unit) {
+fun ComponentActivity.setContentWithWindowSizeClass(
+    content: @Composable () -> Unit
+) = setContent {
     LocalWindowSizeClass.ProvidesValue(
         value = calculateWindowSizeClass(this),
         content = content
     )
-}
-
-fun ComponentActivity.setContentWithWindowSizeClass(
-    content: @Composable () -> Unit
-) = setContent {
-    provideWindowSizeClass(content = content)
 }
