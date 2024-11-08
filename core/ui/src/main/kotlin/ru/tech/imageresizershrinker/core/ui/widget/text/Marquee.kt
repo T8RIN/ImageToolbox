@@ -43,16 +43,23 @@ fun Modifier.marquee(
     Modifier
         .clipToBounds()
         .then(
-            if (showMarquee) Modifier.marqueeHorizontalFadingEdges(
-                fillType = if (edgeColor.isSpecified) {
-                    FadingEdgesFillType.FadeColor(
-                        color = edgeColor
+            if (showMarquee) {
+                Modifier.marqueeHorizontalFadingEdges(
+                    fillType = if (edgeColor.isSpecified) {
+                        FadingEdgesFillType.FadeColor(
+                            color = edgeColor
+                        )
+                    } else FadingEdgesFillType.FadeClip(),
+                    length = 10.dp,
+                    isMarqueeAutoLayout = false
+                ) {
+                    Modifier.basicMarquee(
+                        iterations = Int.MAX_VALUE,
+                        velocity = 48.dp,
+                        repeatDelayMillis = 1500
                     )
-                } else FadingEdgesFillType.FadeClip(),
-                length = 10.dp,
-                isMarqueeAutoLayout = false
-            ) { Modifier.basicMarquee(Int.MAX_VALUE, velocity = 30.dp) }
-            else Modifier
+                }
+            } else Modifier
         )
         .layout { measurable, constraints ->
             val childConstraints = constraints.copy(maxWidth = Constraints.Infinity)
