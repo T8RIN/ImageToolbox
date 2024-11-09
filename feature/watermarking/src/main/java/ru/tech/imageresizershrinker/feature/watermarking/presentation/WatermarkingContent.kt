@@ -117,12 +117,10 @@ fun WatermarkingContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uriList ->
-            component.setUris(uriList) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.setUris(
+                uris = uriList,
+                onError = essentials::showErrorToast
+            )
         }
     }
 
@@ -286,7 +284,6 @@ fun WatermarkingContent(
                 component.saveBitmaps(it) { results ->
                     context.parseSaveResults(
                         results = results,
-                        isOverwritten = settingsState.overwriteFiles,
                         essentials = essentials
                     )
                 }
@@ -350,12 +347,10 @@ fun WatermarkingContent(
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            component.updateSelectedUri(uri = uri) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.updateSelectedUri(
+                uri = uri,
+                onError = essentials::showErrorToast
+            )
         },
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)

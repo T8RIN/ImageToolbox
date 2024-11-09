@@ -62,7 +62,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
@@ -96,7 +95,6 @@ fun DocumentScannerContent(
 ) {
     val haptics = LocalHapticFeedback.current
 
-    val settingsState = LocalSettingsState.current
     val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
@@ -142,7 +140,6 @@ fun DocumentScannerContent(
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 results = results,
-                isOverwritten = settingsState.overwriteFiles,
                 essentials = essentials
             )
         }

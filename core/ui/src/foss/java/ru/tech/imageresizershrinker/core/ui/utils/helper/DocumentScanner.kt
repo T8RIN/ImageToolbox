@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
 import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerImpl
 
 class DocumentScanner internal constructor(
@@ -79,7 +79,7 @@ fun rememberDocumentScanner(
             },
             errorHandler = {
                 scope.launch {
-                    toastHostState.showError(
+                    toastHostState.showErrorToast(
                         context = context,
                         error = Throwable(it)
                     )

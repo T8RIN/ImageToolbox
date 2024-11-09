@@ -423,41 +423,46 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateSelectedUri(uri: Uri) {
-        _selectedUri.update { uri }
-        componentScope.launch(defaultDispatcher) {
-            _isImageLoading.update { true }
-            val bitmap = imageGetter.getImage(
-                uri = uri.toString(),
-                originalSize = true
-            )?.image
-            val size = bitmap?.let { it.width to it.height }
-            _originalSize.update {
-                size?.run {
-                    IntegerSize(
-                        width = first,
-                        height = second
+    fun updateSelectedUri(
+        uri: Uri,
+        onFailure: (Throwable) -> Unit = {}
+    ) {
+        runCatching {
+            _selectedUri.update { uri }
+            componentScope.launch(defaultDispatcher) {
+                _isImageLoading.update { true }
+                val bitmap = imageGetter.getImage(
+                    uri = uri.toString(),
+                    originalSize = true
+                )?.image
+                val size = bitmap?.let { it.width to it.height }
+                _originalSize.update {
+                    size?.run {
+                        IntegerSize(
+                            width = first,
+                            height = second
+                        )
+                    }
+                }
+                _bitmap.update { imageScaler.scaleUntilCanShow(bitmap) }
+                _imageInfo.update {
+                    it.copy(
+                        width = size?.first ?: 0,
+                        height = size?.second ?: 0,
+                        originalUri = uri.toString()
                     )
                 }
+                _imageInfo.update {
+                    imageTransformer.applyPresetBy(
+                        image = _bitmap.value,
+                        preset = presetSelected,
+                        currentInfo = it
+                    )
+                }
+                checkBitmapAndUpdate()
+                _isImageLoading.update { false }
             }
-            _bitmap.update { imageScaler.scaleUntilCanShow(bitmap) }
-            _imageInfo.update {
-                it.copy(
-                    width = size?.first ?: 0,
-                    height = size?.second ?: 0,
-                    originalUri = uri.toString()
-                )
-            }
-            _imageInfo.update {
-                imageTransformer.applyPresetBy(
-                    image = _bitmap.value,
-                    preset = presetSelected,
-                    currentInfo = it
-                )
-            }
-            checkBitmapAndUpdate()
-            _isImageLoading.update { false }
-        }
+        }.onFailure(onFailure)
     }
 
     fun updatePreset(preset: Preset) {

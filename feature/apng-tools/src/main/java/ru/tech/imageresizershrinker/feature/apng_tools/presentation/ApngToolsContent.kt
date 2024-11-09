@@ -78,7 +78,6 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -139,9 +138,9 @@ fun ApngToolsContent(
                 component.setApngUri(it)
             } else {
                 essentials.showToast(
-                        message = context.getString(R.string.select_apng_image_to_start),
-                        icon = Icons.Rounded.Apng
-                    )
+                    message = context.getString(R.string.select_apng_image_to_start),
+                    icon = Icons.Rounded.Apng
+                )
             }
         }
     }
@@ -154,9 +153,9 @@ fun ApngToolsContent(
         }?.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Jxl
-                    )
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Filled.Jxl
+                )
             } else {
                 component.setType(
                     Screen.ApngTools.Type.ApngToJxl(uris)
@@ -173,9 +172,9 @@ fun ApngToolsContent(
         }?.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Jxl
-                    )
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Filled.Jxl
+                )
             } else {
                 component.setType(
                     Screen.ApngTools.Type.ApngToJxl(
@@ -448,25 +447,23 @@ fun ApngToolsContent(
             else 20.dp
         ).value,
         buttons = {
-            val settingsState = LocalSettingsState.current
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
                     onApngSaveResult = { name ->
-                            runCatching {
-                                saveApngLauncher.launch("$name.png")
-                            }.onFailure {
-                                essentials.showToast(
-                                        message = context.getString(R.string.activate_files),
-                                        icon = Icons.Outlined.FolderOff,
-                                        duration = ToastDuration.Long
-                                    )
-                            }
+                        runCatching {
+                            saveApngLauncher.launch("$name.png")
+                        }.onFailure {
+                            essentials.showToast(
+                                message = context.getString(R.string.activate_files),
+                                icon = Icons.Outlined.FolderOff,
+                                duration = ToastDuration.Long
+                            )
+                        }
                     },
                     onResult = { results ->
                         context.parseSaveResults(
                             results = results,
-                            isOverwritten = settingsState.overwriteFiles,
                             essentials = essentials
                         )
                     }

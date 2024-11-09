@@ -49,7 +49,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Gif
@@ -75,7 +74,6 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -102,7 +100,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
@@ -134,9 +131,9 @@ fun GifToolsContent(
                 component.setGifUri(it)
             } else {
                 essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Rounded.Gif
-                    )
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Rounded.Gif
+                )
             }
         }
     }
@@ -149,9 +146,9 @@ fun GifToolsContent(
         }?.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Jxl
-                    )
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Filled.Jxl
+                )
             } else {
                 component.setType(
                     Screen.GifTools.Type.GifToJxl(uris)
@@ -168,9 +165,9 @@ fun GifToolsContent(
         }?.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Jxl
-                    )
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Filled.Jxl
+                )
             } else {
                 component.setType(
                     Screen.GifTools.Type.GifToWebp(uris)
@@ -187,9 +184,9 @@ fun GifToolsContent(
         }?.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Jxl
-                    )
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Filled.Jxl
+                )
             } else {
                 component.setType(
                     Screen.GifTools.Type.GifToJxl(
@@ -209,9 +206,9 @@ fun GifToolsContent(
         }?.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Jxl
-                    )
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Filled.Jxl
+                )
             } else {
                 component.setType(
                     Screen.GifTools.Type.GifToWebp(
@@ -503,34 +500,19 @@ fun GifToolsContent(
             else 20.dp
         ).value,
         buttons = {
-            val settingsState = LocalSettingsState.current
-
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
                     onGifSaveResult = { name ->
                         runCatching {
-                            runCatching {
-                                saveGifLauncher.launch("$name.gif")
-                            }.onFailure {
-                                essentials.showToast(
-                                        message = context.getString(R.string.activate_files),
-                                        icon = Icons.Outlined.FolderOff,
-                                        duration = ToastDuration.Long
-                                    )
-                            }
+                            saveGifLauncher.launch("$name.gif")
                         }.onFailure {
-                            essentials.showToast(
-                                    message = context.getString(R.string.activate_files),
-                                    icon = Icons.Outlined.FolderOff,
-                                    duration = ToastDuration.Long
-                                )
+                            essentials.showActivateFilesToast()
                         }
                     },
                     onResult = { results ->
                         context.parseSaveResults(
                             results = results,
-                            isOverwritten = settingsState.overwriteFiles,
                             essentials = essentials
                         )
                     }

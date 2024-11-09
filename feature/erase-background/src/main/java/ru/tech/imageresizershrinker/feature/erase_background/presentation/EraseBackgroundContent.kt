@@ -182,12 +182,10 @@ fun EraseBackgroundContent(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let { uri ->
-                component.setUri(uri) {
-                    essentials.showErrorToast(
-                        context = context,
-                        error = it
-                    )
-                }
+                component.setUri(
+                    uri = uri,
+                    onError = essentials::showErrorToast
+                )
             }
         }
 
@@ -471,12 +469,7 @@ fun EraseBackgroundContent(
                         scaffoldState.bottomSheetState.partialExpand()
                         component.autoEraseBackground(
                             onSuccess = showConfetti,
-                            onFailure = {
-                                essentials.showErrorToast(
-                                    context = context,
-                                    error = it
-                                )
-                            }
+                            onFailure = essentials::showErrorToast
                         )
                     }
                 },

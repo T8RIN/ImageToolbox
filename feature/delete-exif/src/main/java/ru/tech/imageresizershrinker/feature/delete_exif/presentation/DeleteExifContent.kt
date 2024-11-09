@@ -105,12 +105,10 @@ fun DeleteExifContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.updateUris(uris) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.updateUris(
+                uris = uris,
+                onError = essentials::showErrorToast
+            )
         }
     }
 
@@ -127,7 +125,6 @@ fun DeleteExifContent(
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 results = results,
-                isOverwritten = settingsState.overwriteFiles,
                 essentials = essentials
             )
         }
@@ -326,12 +323,10 @@ fun DeleteExifContent(
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            component.updateSelectedUri(uri = uri) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.updateSelectedUri(
+                uri = uri,
+                onError = essentials::showErrorToast
+            )
         },
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)

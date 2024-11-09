@@ -161,6 +161,7 @@ internal class AndroidFileController @Inject constructor(
                             R.string.saved_to_original,
                             originalUri.getFilename(context).toString()
                         ),
+                        isOverwritten = true,
                         savingPath = savingPath
                     )
                 }
@@ -324,7 +325,10 @@ internal class AndroidFileController @Inject constructor(
                 StreamWriteable(stream).use { block(it) }
             }
         }.onSuccess {
-            return SaveResult.Success(null, "")
+            return SaveResult.Success(
+                message = null,
+                savingPath = ""
+            )
         }.onFailure {
             return SaveResult.Error.Exception(it)
         }

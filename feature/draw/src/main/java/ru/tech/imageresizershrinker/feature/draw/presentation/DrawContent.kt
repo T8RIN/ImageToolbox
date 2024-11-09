@@ -224,12 +224,10 @@ fun DrawContent(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let { uri ->
-                component.setUri(uri) {
-                    essentials.showErrorToast(
-                        context = context,
-                        error = it
-                    )
-                }
+                component.setUri(
+                    uri = uri,
+                    onError = essentials::showErrorToast
+                )
             }
         }
 

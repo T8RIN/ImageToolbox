@@ -103,12 +103,10 @@ fun LimitsResizeContent(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.updateUris(uris) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.updateUris(
+                uris = uris,
+                onError = essentials::showErrorToast
+            )
         }
     }
 
@@ -130,7 +128,6 @@ fun LimitsResizeContent(
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 results = results,
-                isOverwritten = settingsState.overwriteFiles,
                 essentials = essentials
             )
         }
@@ -342,14 +339,10 @@ fun LimitsResizeContent(
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            try {
-                component.updateSelectedUri(uri = uri)
-            } catch (e: Exception) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = e
-                )
-            }
+            component.updateSelectedUri(
+                uri = uri,
+                onFailure = essentials::showErrorToast
+            )
         },
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)

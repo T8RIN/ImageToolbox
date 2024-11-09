@@ -255,16 +255,21 @@ class WeightResizeComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateSelectedUri(uri: Uri) {
-        componentScope.launch(defaultDispatcher) {
-            updateBitmap(
-                imageGetter.getImage(
-                    uri = uri.toString(),
-                    originalSize = false
-                )?.image
-            )
-            _selectedUri.value = uri
-        }
+    fun updateSelectedUri(
+        uri: Uri,
+        onFailure: (Throwable) -> Unit = {}
+    ) {
+        runCatching {
+            componentScope.launch(defaultDispatcher) {
+                updateBitmap(
+                    imageGetter.getImage(
+                        uri = uri.toString(),
+                        originalSize = false
+                    )?.image
+                )
+                _selectedUri.value = uri
+            }
+        }.onFailure(onFailure)
     }
 
     private fun updateCanSave() {

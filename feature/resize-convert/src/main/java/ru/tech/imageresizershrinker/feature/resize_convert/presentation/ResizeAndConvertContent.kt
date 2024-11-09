@@ -122,12 +122,10 @@ fun ResizeAndConvertContent(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                component.updateUris(list) {
-                    essentials.showErrorToast(
-                        context = context,
-                        error = it
-                    )
-                }
+                component.updateUris(
+                    uris = list,
+                    onError = essentials::showErrorToast
+                )
             }
         }
 
@@ -142,7 +140,6 @@ fun ResizeAndConvertContent(
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 results = results,
-                isOverwritten = settingsState.overwriteFiles,
                 essentials = essentials
             )
         }
@@ -444,14 +441,10 @@ fun ResizeAndConvertContent(
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            try {
-                component.updateSelectedUri(uri = uri)
-            } catch (e: Exception) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = e
-                )
-            }
+            component.updateSelectedUri(
+                uri = uri,
+                onFailure = essentials::showErrorToast
+            )
         },
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)

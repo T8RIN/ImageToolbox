@@ -107,12 +107,10 @@ fun FormatConversionContent(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                component.updateUris(list) {
-                    essentials.showErrorToast(
-                        context = context,
-                        error = it
-                    )
-                }
+                component.updateUris(
+                    uris = list,
+                    onError = essentials::showErrorToast
+                )
             }
         }
 
@@ -127,7 +125,6 @@ fun FormatConversionContent(
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 results = results,
-                isOverwritten = settingsState.overwriteFiles,
                 essentials = essentials
             )
         }
@@ -340,20 +337,16 @@ fun FormatConversionContent(
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            component.updateSelectedUri(uri = uri) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.updateSelectedUri(
+                uri = uri,
+                onError = essentials::showErrorToast
+            )
         },
         onUriRemoved = { uri ->
-            component.updateUrisSilently(removedUri = uri) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.updateUrisSilently(
+                removedUri = uri,
+                onError = essentials::showErrorToast
+            )
         },
         columns = if (isPortrait) 2 else 4,
     )

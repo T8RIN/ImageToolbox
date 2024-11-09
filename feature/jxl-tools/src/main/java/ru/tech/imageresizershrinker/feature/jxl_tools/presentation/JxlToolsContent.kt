@@ -72,7 +72,6 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -116,14 +115,7 @@ fun JxlToolsContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val settingsState = LocalSettingsState.current
-
-    val onError: (Throwable) -> Unit = {
-        essentials.showErrorToast(
-            context = context,
-            error = it
-        )
-    }
+    val onError: (Throwable) -> Unit = essentials::showErrorToast
 
     val pickJpegsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
@@ -524,7 +516,6 @@ fun JxlToolsContent(
                 component.save(it) { results ->
                     context.parseSaveResults(
                         results = results,
-                        isOverwritten = settingsState.overwriteFiles,
                         essentials = essentials
                     )
                 }

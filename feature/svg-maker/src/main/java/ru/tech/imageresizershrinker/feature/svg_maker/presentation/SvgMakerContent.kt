@@ -34,7 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -68,17 +67,10 @@ fun SvgMakerContent(
 ) {
     val context = LocalComponentActivity.current
 
-    val settingsState = LocalSettingsState.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val onError: (Throwable) -> Unit = {
-        essentials.showErrorToast(
-            context = context,
-            error = it
-        )
-    }
+    val onError: (Throwable) -> Unit = essentials::showErrorToast
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -183,7 +175,6 @@ fun SvgMakerContent(
                 component.save(it) { results ->
                     context.parseSaveResults(
                         results = results,
-                        isOverwritten = settingsState.overwriteFiles,
                         essentials = essentials
                     )
                 }

@@ -36,7 +36,6 @@ fun Activity.parseSaveResult(
     when (saveResult) {
         is SaveResult.Error.Exception -> {
             essentials.showErrorToast(
-                context = this@parseSaveResult,
                 error = saveResult.throwable
             )
         }
@@ -63,7 +62,6 @@ fun Context.parseFileSaveResult(
 ) {
     if (saveResult is SaveResult.Error.Exception) {
         essentials.showErrorToast(
-            context = this@parseFileSaveResult,
             error = saveResult.throwable
         )
     } else if (saveResult is SaveResult.Success) {
@@ -80,7 +78,6 @@ fun Context.parseFileSaveResult(
 
 fun Activity.parseSaveResults(
     results: List<SaveResult>,
-    isOverwritten: Boolean,
     essentials: LocalEssentials
 ) {
     val failed = results.count { it is SaveResult.Error }
@@ -100,16 +97,16 @@ fun Activity.parseSaveResults(
                 duration = ToastDuration.Long
             )
         } else {
-            if (isOverwritten) {
+            val saveResult =
+                results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
+
+            if (saveResult?.isOverwritten == true) {
                 essentials.showToast(
                     message = getString(R.string.images_overwritten),
                     icon = Icons.Rounded.Save,
                     duration = ToastDuration.Long
                 )
-
             } else {
-                val saveResult =
-                    results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
                 val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
 
                 essentials.showToast(

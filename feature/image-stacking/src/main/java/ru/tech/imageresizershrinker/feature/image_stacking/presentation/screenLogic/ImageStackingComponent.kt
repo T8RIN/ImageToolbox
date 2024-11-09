@@ -268,15 +268,14 @@ class ImageStackingComponent @AssistedInject internal constructor(
     fun updateStackImage(
         value: StackImage,
         index: Int,
-        showError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         val list = stackImages.toMutableList()
         runCatching {
             list[index] = value
             _stackImages.update { list }
-        }.onFailure { throwable ->
-            showError(throwable)
-        }
+        }.onFailure(onFailure)
+
         calculatePreview()
     }
 

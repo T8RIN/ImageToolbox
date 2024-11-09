@@ -474,7 +474,6 @@ fun CipherContent(
                                                         )
                                                     } else if (it != null) {
                                                         essentials.showErrorToast(
-                                                            context = context,
                                                             error = it
                                                         )
                                                     }

@@ -73,7 +73,6 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -353,7 +352,6 @@ fun WebpToolsContent(
             else 20.dp
         ).value,
         buttons = {
-            val settingsState = LocalSettingsState.current
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
@@ -371,7 +369,6 @@ fun WebpToolsContent(
                     onResult = { results ->
                         context.parseSaveResults(
                             results = results,
-                            isOverwritten = settingsState.overwriteFiles,
                             essentials = essentials
                         )
                     }

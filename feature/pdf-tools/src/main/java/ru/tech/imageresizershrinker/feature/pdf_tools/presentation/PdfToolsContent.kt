@@ -346,12 +346,7 @@ fun PdfToolsContent(
                             pdfToImagesPicker.launch(arrayOf("application/pdf"))
                         }
                     }
-                }.onFailure {
-                    essentials.showErrorToast(
-                        context = context,
-                        error = it
-                    )
-                }
+                }.onFailure(essentials::showErrorToast)
             },
             containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ) {
@@ -386,7 +381,6 @@ fun PdfToolsContent(
                     component.savePdfToImages(it) { results ->
                         context.parseSaveResults(
                             results = results,
-                            isOverwritten = false,
                             essentials = essentials
                         )
                     }
@@ -686,12 +680,7 @@ fun PdfToolsContent(
                                                                     )
                                                                 }
                                                             }
-                                                        }.onFailure {
-                                                            essentials.showErrorToast(
-                                                                context = context,
-                                                                error = it
-                                                            )
-                                                        }
+                                                        }.onFailure(essentials::showErrorToast)
                                                     },
                                                     startIcon = it.icon,
                                                     title = stringResource(it.title),

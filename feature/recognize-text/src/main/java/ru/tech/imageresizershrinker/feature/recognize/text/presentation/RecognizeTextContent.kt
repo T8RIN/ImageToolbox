@@ -130,12 +130,7 @@ fun RecognizeTextContent(
 
     val startRecognition = {
         component.startRecognition(
-            onError = {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            },
+            onError = essentials::showErrorToast,
             onRequestDownload = { data ->
                 downloadDialogData = data.map { it.toUi() }
             }
@@ -248,12 +243,7 @@ fun RecognizeTextContent(
                         )
                         startRecognition()
                     },
-                    onFailure = {
-                        essentials.showErrorToast(
-                            context = context,
-                            error = it
-                        )
-                    }
+                    onFailure = essentials::showErrorToast
                 )
             }
         }

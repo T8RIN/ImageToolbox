@@ -705,12 +705,7 @@ fun AddFiltersSheet(
                                                         component.updateCubeLuts(
                                                             startDownloadIfNeeded = true,
                                                             forceUpdate = forceUpdate,
-                                                            onFailure = {
-                                                                essentials.showErrorToast(
-                                                                    context = context,
-                                                                    error = it
-                                                                )
-                                                            },
+                                                            onFailure = essentials::showErrorToast,
                                                             downloadOnlyNewData = downloadOnlyNewData
                                                         )
                                                     },
@@ -934,12 +929,7 @@ fun AddFiltersSheet(
                                             component.updateCubeLuts(
                                                 startDownloadIfNeeded = true,
                                                 forceUpdate = forceUpdate,
-                                                onFailure = {
-                                                    essentials.showErrorToast(
-                                                        context = context,
-                                                        error = it
-                                                    )
-                                                },
+                                                onFailure = essentials::showErrorToast,
                                                 downloadOnlyNewData = downloadOnlyNewData
                                             )
                                         },

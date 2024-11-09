@@ -327,9 +327,8 @@ fun FiltersContent(
                 is Screen.Filter.Type.Basic -> {
                     component.saveBitmaps(it) { results ->
                         context.parseSaveResults(
-                            essentials = essentials,
                             results = results,
-                            isOverwritten = settingsState.overwriteFiles
+                            essentials = essentials
                         )
                     }
                 }
@@ -522,12 +521,7 @@ fun FiltersContent(
                                                     component.updateFilter(
                                                         value = newValue,
                                                         index = index,
-                                                        showError = {
-                                                            essentials.showErrorToast(
-                                                                context = context,
-                                                                error = it
-                                                            )
-                                                        }
+                                                        onFailure = essentials::showErrorToast
                                                     )
                                                 },
                                                 onLongPress = {
@@ -624,12 +618,7 @@ fun FiltersContent(
                                                     component.updateMask(
                                                         value = filterMask,
                                                         index = index,
-                                                        showError = {
-                                                            essentials.showErrorToast(
-                                                                context = context,
-                                                                error = it
-                                                            )
-                                                        }
+                                                        showError = essentials::showErrorToast
                                                     )
                                                 },
                                                 onLongPress = {
@@ -1110,14 +1099,10 @@ fun FiltersContent(
                                         uris = component.basicFilterState.uris,
                                         selectedUri = component.basicFilterState.selectedUri,
                                         onUriPicked = { uri ->
-                                            try {
-                                                component.updateSelectedUri(uri = uri)
-                                            } catch (e: Exception) {
-                                                essentials.showErrorToast(
-                                                    context = context,
-                                                    error = e
-                                                )
-                                            }
+                                            component.updateSelectedUri(
+                                                uri = uri,
+                                                onFailure = essentials::showErrorToast
+                                            )
                                         },
                                         onUriRemoved = { uri ->
                                             component.updateUrisSilently(removedUri = uri)

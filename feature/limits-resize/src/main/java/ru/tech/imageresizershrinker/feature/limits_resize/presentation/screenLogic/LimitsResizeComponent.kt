@@ -233,13 +233,18 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateSelectedUri(uri: Uri) {
-        componentScope.launch(defaultDispatcher) {
-            _isImageLoading.value = true
-            updateBitmap(imageGetter.getImage(uri.toString())?.image)
-            _selectedUri.value = uri
-            _isImageLoading.value = false
-        }
+    fun updateSelectedUri(
+        uri: Uri,
+        onFailure: (Throwable) -> Unit = {}
+    ) {
+        runCatching {
+            componentScope.launch(defaultDispatcher) {
+                _isImageLoading.value = true
+                updateBitmap(imageGetter.getImage(uri.toString())?.image)
+                _selectedUri.value = uri
+                _isImageLoading.value = false
+            }
+        }.onFailure(onFailure)
     }
 
 

@@ -250,28 +250,33 @@ class FilterComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateSelectedUri(uri: Uri) {
-        componentScope.launch(defaultDispatcher) {
-            _isImageLoading.update { true }
-            val req = imageGetter.getImage(uri = uri.toString())
-            val tempBitmap = req?.image
-            val size = tempBitmap?.let { it.width to it.height }
-            _bitmap.update {
-                imageScaler.scaleUntilCanShow(tempBitmap)
+    fun updateSelectedUri(
+        uri: Uri,
+        onFailure: (Throwable) -> Unit = {}
+    ) {
+        runCatching {
+            componentScope.launch(defaultDispatcher) {
+                _isImageLoading.update { true }
+                val req = imageGetter.getImage(uri = uri.toString())
+                val tempBitmap = req?.image
+                val size = tempBitmap?.let { it.width to it.height }
+                _bitmap.update {
+                    imageScaler.scaleUntilCanShow(tempBitmap)
+                }
+                _imageInfo.update {
+                    it.copy(
+                        width = size?.first ?: 0,
+                        height = size?.second ?: 0,
+                        imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default
+                    )
+                }
+                updatePreview()
+                _basicFilterState.update {
+                    it.copy(selectedUri = uri)
+                }
+                _isImageLoading.update { false }
             }
-            _imageInfo.update {
-                it.copy(
-                    width = size?.first ?: 0,
-                    height = size?.second ?: 0,
-                    imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default
-                )
-            }
-            updatePreview()
-            _basicFilterState.update {
-                it.copy(selectedUri = uri)
-            }
-            _isImageLoading.update { false }
-        }
+        }.onFailure(onFailure)
     }
 
     private fun updateCanSave() {
@@ -285,7 +290,7 @@ class FilterComponent @AssistedInject internal constructor(
     fun <T : Any> updateFilter(
         value: T,
         index: Int,
-        showError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         val list = _basicFilterState.value.filters.toMutableList()
         runCatching {
@@ -294,7 +299,7 @@ class FilterComponent @AssistedInject internal constructor(
                 it.copy(filters = list)
             }
         }.onFailure { throwable ->
-            showError(throwable)
+            onFailure(throwable)
             list[index] = list[index].newInstance()
             _basicFilterState.update {
                 it.copy(filters = list)

@@ -23,7 +23,8 @@ sealed class SaveResult(
 
     data class Success(
         val message: String? = null,
-        override val savingPath: String
+        override val savingPath: String,
+        val isOverwritten: Boolean = false,
     ) : SaveResult(savingPath)
 
     sealed class Error : SaveResult("") {

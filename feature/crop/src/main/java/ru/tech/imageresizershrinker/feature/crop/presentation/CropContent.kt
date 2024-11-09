@@ -174,9 +174,10 @@ fun CropContent(
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
             rotationState.floatValue = 0f
-            component.setUri(it) { t ->
-                essentials.showErrorToast(context, t)
-            }
+            component.setUri(
+                uri = it,
+                onError = essentials::showErrorToast
+            )
         }
     }
 

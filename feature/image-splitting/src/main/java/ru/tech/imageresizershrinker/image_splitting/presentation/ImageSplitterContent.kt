@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -80,8 +79,6 @@ fun ImageSplitterContent(
 ) {
     val context = LocalComponentActivity.current
 
-    val settingsState = LocalSettingsState.current
-
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -105,7 +102,6 @@ fun ImageSplitterContent(
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 results = results,
-                isOverwritten = settingsState.overwriteFiles,
                 essentials = essentials
             )
         }

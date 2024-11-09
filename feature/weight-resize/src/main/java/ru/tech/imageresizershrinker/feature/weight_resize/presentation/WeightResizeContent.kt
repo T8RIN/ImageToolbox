@@ -113,19 +113,16 @@ fun WeightResizeContent(
         }
     }
 
-    val imagePicker =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                component.updateUris(uris) {
-                    essentials.showErrorToast(
-                        context = context,
-                        error = it
-                    )
-                }
-            }
+    val imagePicker = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let { uris ->
+            component.updateUris(
+                uris = uris,
+                onError = essentials::showErrorToast
+            )
         }
+    }
 
     val pickImage = imagePicker::pickImage
 
@@ -146,7 +143,6 @@ fun WeightResizeContent(
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
                 results = results,
-                isOverwritten = settingsState.overwriteFiles,
                 essentials = essentials
             )
         }
@@ -394,14 +390,10 @@ fun WeightResizeContent(
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            try {
-                component.updateSelectedUri(uri = uri)
-            } catch (e: Exception) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = e
-                )
-            }
+            component.updateSelectedUri(
+                uri = uri,
+                onFailure = essentials::showErrorToast
+            )
         },
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)

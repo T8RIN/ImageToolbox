@@ -270,12 +270,7 @@ fun ImageStackingContent(
                                     component.updateStackImage(
                                         value = image,
                                         index = index,
-                                        showError = {
-                                            essentials.showErrorToast(
-                                                context = context,
-                                                error = it
-                                            )
-                                        }
+                                        onFailure = essentials::showErrorToast
                                     )
                                 },
                                 isRemoveVisible = component.stackImages.size > 2,

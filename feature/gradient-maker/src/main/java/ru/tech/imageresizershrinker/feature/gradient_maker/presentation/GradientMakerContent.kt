@@ -163,12 +163,10 @@ fun GradientMakerContent(
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.let { uriList ->
             allowPickingImage = true
-            component.setUris(uriList) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.setUris(
+                uris = uriList,
+                onError = essentials::showErrorToast
+            )
             component.updateGradientAlpha(0.5f)
         }
     }
@@ -403,8 +401,7 @@ fun GradientMakerContent(
                         onResult = { results ->
                             context.parseSaveResults(
                                 essentials = essentials,
-                                results = results,
-                                isOverwritten = settingsState.overwriteFiles
+                                results = results
                             )
                         }
                     )
@@ -470,12 +467,10 @@ fun GradientMakerContent(
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
-            component.updateSelectedUri(uri = uri) {
-                essentials.showErrorToast(
-                    context = context,
-                    error = it
-                )
-            }
+            component.updateSelectedUri(
+                uri = uri,
+                onError = essentials::showErrorToast
+            )
         },
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)

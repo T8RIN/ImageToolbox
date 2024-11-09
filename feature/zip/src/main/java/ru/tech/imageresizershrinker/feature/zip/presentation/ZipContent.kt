@@ -394,7 +394,6 @@ fun ZipContent(
                     component.startCompression {
                         if (it != null) {
                             essentials.showErrorToast(
-                                context = context,
                                 error = it
                             )
                         }
