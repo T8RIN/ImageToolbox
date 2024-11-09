@@ -93,7 +93,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -151,19 +150,18 @@ fun CollageMakerContent(
         }
     }
 
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let {
-            if (list.size in 2..10) {
-                component.updateUris(list)
-            } else {
-                essentials.showToast(
-                    message = if (list.size > 10) context.getString(R.string.pick_up_to_ten_images)
-                    else context.getString(R.string.pick_at_least_two_images),
-                    icon = Icons.Outlined.AutoAwesomeMosaic
-                )
-            }
+    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+        if (uris.size in 2..10) {
+            component.updateUris(uris)
+        } else {
+            essentials.showToast(
+                message = if (uris.size > 10) {
+                    context.getString(R.string.pick_up_to_ten_images)
+                } else {
+                    context.getString(R.string.pick_at_least_two_images)
+                },
+                icon = Icons.Outlined.AutoAwesomeMosaic
+            )
         }
     }
 

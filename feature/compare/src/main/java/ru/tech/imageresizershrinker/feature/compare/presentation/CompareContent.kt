@@ -54,7 +54,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -97,29 +96,25 @@ fun CompareContent(
         }
     }
 
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }?.let {
-            if (uris.size != 2) {
-                essentials.showToast(
-                    message = context.getString(R.string.pick_two_images),
-                    icon = Icons.Rounded.ErrorOutline
-                )
-            } else {
-                component.updateUris(
-                    onSuccess = {
-                        compareProgress = 50f
-                    },
-                    uris = it[0] to it[1],
-                    onFailure = {
-                        essentials.showToast(
-                            context.getString(R.string.something_went_wrong),
-                            Icons.Rounded.ErrorOutline
-                        )
-                    }
-                )
-            }
+    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+        if (uris.size != 2) {
+            essentials.showToast(
+                message = context.getString(R.string.pick_two_images),
+                icon = Icons.Rounded.ErrorOutline
+            )
+        } else {
+            component.updateUris(
+                onSuccess = {
+                    compareProgress = 50f
+                },
+                uris = uris[0] to uris[1],
+                onFailure = {
+                    essentials.showToast(
+                        context.getString(R.string.something_went_wrong),
+                        Icons.Rounded.ErrorOutline
+                    )
+                }
+            )
         }
     }
 

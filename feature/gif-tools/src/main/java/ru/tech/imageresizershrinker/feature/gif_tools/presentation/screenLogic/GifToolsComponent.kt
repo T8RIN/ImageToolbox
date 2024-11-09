@@ -134,7 +134,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     }
 
     fun setImageUris(uris: List<Uri>) {
-        clearAll()
+        resetState()
         _type.update {
             Screen.GifTools.Type.ImageToGif(uris)
         }
@@ -145,7 +145,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     }
 
     fun setGifUri(uri: Uri) {
-        clearAll()
+        resetState()
         _type.update {
             Screen.GifTools.Type.GifToImage(uri)
         }
@@ -171,7 +171,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun clearAll() {
+    override fun resetState() {
         collectionJob?.cancel()
         collectionJob = null
         _type.update { null }

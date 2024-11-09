@@ -67,7 +67,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -95,9 +94,9 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -112,9 +111,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
 
@@ -126,13 +123,13 @@ fun PickColorFromImageContent(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val parser = rememberColorParser()
 
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
@@ -150,20 +147,14 @@ fun PickColorFromImageContent(
         }
     }
 
-    val imagePicker =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { uris ->
-            uris.takeIf { it.isNotEmpty() }
-                ?.firstOrNull()
-                ?.let {
-                    component.setUri(it) {
-                        scope.launch {
-                            toastHostState.showFailureToast(context, it)
-                        }
-                    }
-                }
+    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
+        uris.firstOrNull()?.let {
+            component.setUri(
+                uri = it,
+                onFailure = essentials::showFailureToast
+            )
         }
+    }
 
     val pickImage = imagePicker::pickImage
 
@@ -308,12 +299,10 @@ fun PickColorFromImageContent(
                                                                 context.getString(R.string.color),
                                                                 color.toHex()
                                                             )
-                                                            scope.launch {
-                                                                toastHostState.showToast(
-                                                                    icon = Icons.Rounded.ContentPaste,
-                                                                    message = context.getString(R.string.color_copied)
-                                                                )
-                                                            }
+                                                            essentials.showToast(
+                                                                icon = Icons.Rounded.ContentPaste,
+                                                                message = context.getString(R.string.color_copied)
+                                                            )
                                                         }
                                                         .background(MaterialTheme.colorScheme.secondaryContainer)
                                                         .border(
@@ -367,12 +356,10 @@ fun PickColorFromImageContent(
                                                                 context.getString(R.string.color),
                                                                 color.toHex()
                                                             )
-                                                            scope.launch {
-                                                                toastHostState.showToast(
-                                                                    icon = Icons.Rounded.ContentPaste,
-                                                                    message = context.getString(R.string.color_copied)
-                                                                )
-                                                            }
+                                                            essentials.showToast(
+                                                                icon = Icons.Rounded.ContentPaste,
+                                                                message = context.getString(R.string.color_copied)
+                                                            )
                                                         }
                                                 )
                                             }
@@ -407,12 +394,10 @@ fun PickColorFromImageContent(
                                                             context.getString(R.string.color),
                                                             color.toHex()
                                                         )
-                                                        scope.launch {
-                                                            toastHostState.showToast(
-                                                                icon = Icons.Rounded.ContentPaste,
-                                                                message = context.getString(R.string.color_copied)
-                                                            )
-                                                        }
+                                                        essentials.showToast(
+                                                            icon = Icons.Rounded.ContentPaste,
+                                                            message = context.getString(R.string.color_copied)
+                                                        )
                                                     }
                                                     .background(MaterialTheme.colorScheme.secondaryContainer)
                                                     .border(
@@ -458,12 +443,10 @@ fun PickColorFromImageContent(
                                                             context.getString(R.string.color),
                                                             color.toHex()
                                                         )
-                                                        scope.launch {
-                                                            toastHostState.showToast(
-                                                                icon = Icons.Rounded.ContentPaste,
-                                                                message = context.getString(R.string.color_copied)
-                                                            )
-                                                        }
+                                                        essentials.showToast(
+                                                            icon = Icons.Rounded.ContentPaste,
+                                                            message = context.getString(R.string.color_copied)
+                                                        )
                                                     }
                                             )
                                         }

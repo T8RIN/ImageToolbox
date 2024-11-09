@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -50,8 +48,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -69,9 +68,7 @@ fun ImageSelector(
     shape: Shape = RoundedCornerShape(20.dp),
     contentScale: ContentScale = ContentScale.Inside
 ) {
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { list ->
+    val imagePicker = rememberImagePicker(Picker.Single) { list ->
         list.firstOrNull()?.let(onValueChange)
     }
 
@@ -141,10 +138,9 @@ fun FileSelector(
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     shape: Shape = RoundedCornerShape(20.dp)
 ) {
-    val pickFileLauncher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenDocument()) {
-            it?.let(onValueChange)
-        }
+    val pickFileLauncher = rememberFilePicker(FileType.Single) {
+        it.firstOrNull()?.let(onValueChange)
+    }
     val context = LocalContext.current
 
     PreferenceItemOverload(
@@ -152,9 +148,7 @@ fun FileSelector(
         subtitle = if (subtitle == null && value != null) {
             context.getFilename(value.toUri())
         } else subtitle,
-        onClick = {
-            pickFileLauncher.launch(arrayOf("*/*"))
-        },
+        onClick = pickFileLauncher::pickFile,
         autoShadowElevation = autoShadowElevation,
         startIcon = {
             Picture(

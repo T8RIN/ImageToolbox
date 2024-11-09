@@ -73,9 +73,10 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -115,15 +116,15 @@ fun WebpToolsContent(
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(component::setImageUris)
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::setImageUris
+    )
 
-    val pickSingleWebpLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-    ) { uri ->
-        uri?.let {
+    val pickSingleWebpLauncher = rememberFilePicker(
+        type = FileType.Single,
+        mimeTypes = listOf("image/webp")
+    ) { uris ->
+        uris.firstOrNull()?.let {
             if (it.isWebp(context)) {
                 component.setWebpUri(it)
             } else {
@@ -319,10 +320,10 @@ fun WebpToolsContent(
 
                 is Screen.WebpTools.Type.ImageToWebp -> {
                     val addImagesToPdfPicker = rememberImagePicker(
-                        mode = localImagePickerMode(Picker.Multiple)
-                    ) { list ->
-                        list.takeIf { it.isNotEmpty() }?.let(component::addImageToUris)
-                    }
+                        picker = Picker.Multiple,
+                        onSuccess = component::addImageToUris
+                    )
+
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,
@@ -369,12 +370,7 @@ fun WebpToolsContent(
                 targetState = (component.type == null) to isPortrait,
                 onSecondaryButtonClick = {
                     when (component.type) {
-                        is Screen.WebpTools.Type.WebpToImage -> {
-                            pickSingleWebpLauncher.launch(
-                                arrayOf("image/webp")
-                            )
-                        }
-
+                        is Screen.WebpTools.Type.WebpToImage -> pickSingleWebpLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
                 },
@@ -428,9 +424,7 @@ fun WebpToolsContent(
                     subtitle = stringResource(types[1].subtitle),
                     startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickSingleWebpLauncher.launch(arrayOf("image/webp"))
-                    }
+                    onClick = pickSingleWebpLauncher::pickFile
                 )
             }
 

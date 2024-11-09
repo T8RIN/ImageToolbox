@@ -49,6 +49,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Gif
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Gif
@@ -73,11 +74,11 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -114,17 +115,16 @@ fun GifToolsContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val imagePicker =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let(component::setImageUris)
-        }
+    val imagePicker = rememberImagePicker(
+        picker = Picker.Multiple,
+        onSuccess = component::setImageUris
+    )
 
-    val pickSingleGifLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-    ) { uri ->
-        uri?.let {
+    val pickSingleGifLauncher = rememberFilePicker(
+        type = FileType.Single,
+        mimeTypes = listOf("image/gif")
+    ) { uris ->
+        uris.firstOrNull()?.let {
             if (it.isGif(context)) {
                 component.setGifUri(it)
             } else {
@@ -136,16 +136,17 @@ fun GifToolsContent(
         }
     }
 
-    val pickMultipleGifToJxlLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val pickMultipleGifToJxlLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/gif")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+        list.filter {
             it.isGif(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
                     message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Jxl
+                    icon = Icons.Filled.Gif
                 )
             } else {
                 component.setType(
@@ -155,16 +156,17 @@ fun GifToolsContent(
         }
     }
 
-    val pickMultipleGifToWebpLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val pickMultipleGifToWebpLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/gif")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+        list.filter {
             it.isGif(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
                     message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Jxl
+                    icon = Icons.Filled.Gif
                 )
             } else {
                 component.setType(
@@ -174,16 +176,17 @@ fun GifToolsContent(
         }
     }
 
-    val addGifsToJxlLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val addGifsToJxlLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/gif")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+        list.filter {
             it.isGif(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
                     message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Jxl
+                    icon = Icons.Filled.Gif
                 )
             } else {
                 component.setType(
@@ -196,16 +199,17 @@ fun GifToolsContent(
         }
     }
 
-    val addGifsToWebpLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val addGifsToWebpLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/gif")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+        list.filter {
             it.isGif(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
                     message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Jxl
+                    icon = Icons.Filled.Gif
                 )
             } else {
                 component.setType(
@@ -383,9 +387,7 @@ fun GifToolsContent(
                                             Screen.GifTools.Type.GifToJxl(type.gifUris?.minus(it))
                                         )
                                     },
-                                    onAddUris = {
-                                        addGifsToJxlLauncher.launch(arrayOf("image/gif"))
-                                    }
+                                    onAddUris = addGifsToJxlLauncher::pickFile
                                 )
                             }
 
@@ -416,9 +418,7 @@ fun GifToolsContent(
                                             Screen.GifTools.Type.GifToWebp(type.gifUris?.minus(it))
                                         )
                                     },
-                                    onAddUris = {
-                                        addGifsToWebpLauncher.launch(arrayOf("image/gif"))
-                                    }
+                                    onAddUris = addGifsToWebpLauncher::pickFile
                                 )
                             }
 
@@ -451,15 +451,14 @@ fun GifToolsContent(
 
                 is Screen.GifTools.Type.ImageToGif -> {
                     val addImagesToGifPicker = rememberImagePicker(
-                        mode = localImagePickerMode(Picker.Multiple)
-                    ) { list ->
-                        list.takeIf { it.isNotEmpty() }?.let(component::addImageToUris)
-                    }
+                        picker = Picker.Multiple,
+                        onSuccess = component::addImageToUris
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,
                         onReorder = component::reorderImageUris,
-                        onNeedToAddImage = { addImagesToGifPicker.pickImage() },
+                        onNeedToAddImage = addImagesToGifPicker::pickImage,
                         onNeedToRemoveImageAt = component::removeImageAt
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -520,15 +519,9 @@ fun GifToolsContent(
                 targetState = (component.type == null) to isPortrait,
                 onSecondaryButtonClick = {
                     when (component.type) {
-                        is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.launch(arrayOf("image/gif"))
-                        is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.launch(
-                            arrayOf("image/gif")
-                        )
-
-                        is Screen.GifTools.Type.GifToWebp -> pickMultipleGifToWebpLauncher.launch(
-                            arrayOf("image/gif")
-                        )
-
+                        is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.pickFile()
+                        is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.pickFile()
+                        is Screen.GifTools.Type.GifToWebp -> pickMultipleGifToWebpLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
                 },
@@ -583,9 +576,7 @@ fun GifToolsContent(
                     subtitle = stringResource(types[1].subtitle),
                     startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickSingleGifLauncher.launch(arrayOf("image/gif"))
-                    }
+                    onClick = pickSingleGifLauncher::pickFile
                 )
             }
             val preference3 = @Composable {
@@ -594,9 +585,7 @@ fun GifToolsContent(
                     subtitle = stringResource(types[2].subtitle),
                     startIcon = types[2].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickMultipleGifToJxlLauncher.launch(arrayOf("image/gif"))
-                    }
+                    onClick = pickMultipleGifToJxlLauncher::pickFile
                 )
             }
             val preference4 = @Composable {
@@ -605,9 +594,7 @@ fun GifToolsContent(
                     subtitle = stringResource(types[3].subtitle),
                     startIcon = types[3].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickMultipleGifToWebpLauncher.launch(arrayOf("image/gif"))
-                    }
+                    onClick = pickMultipleGifToWebpLauncher::pickFile
                 )
             }
             if (isPortrait) {
@@ -665,7 +652,7 @@ fun GifToolsContent(
     }
 
     ExitWithoutSavingDialog(
-        onExit = component::clearAll,
+        onExit = component::resetState,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

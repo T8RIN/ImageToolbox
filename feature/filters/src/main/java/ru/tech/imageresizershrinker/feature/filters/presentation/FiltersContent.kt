@@ -107,7 +107,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -189,17 +188,13 @@ fun FiltersContent(
         } ?: themeState.updateColorTuple(appColorTuple)
     }
 
-    val imagePicker =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let(component::setBasicFilter)
-        }
+    val imagePicker = rememberImagePicker(
+        picker = Picker.Multiple,
+        onSuccess = component::setBasicFilter
+    )
 
-    val pickSingleImageLauncher = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.firstOrNull()?.let(component::setMaskFilter)
+    val pickSingleImageLauncher = rememberImagePicker(Picker.Single) { list ->
+        list.firstOrNull()?.let(component::setMaskFilter)
     }
 
     var showAddMaskSheet by rememberSaveable { mutableStateOf(false) }
@@ -780,14 +775,13 @@ fun FiltersContent(
     LaunchedEffect(showSelectionFilterPicker) {
         if (!showSelectionFilterPicker) tempSelectionUris = null
     }
-    val selectionFilterPicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }?.let {
-            tempSelectionUris = it
-            if (uris.size > 1) {
-                component.setBasicFilter(tempSelectionUris)
-            } else showSelectionFilterPicker = true
+
+    val selectionFilterPicker = rememberImagePicker(Picker.Multiple) { uris ->
+        tempSelectionUris = uris
+        if (uris.size > 1) {
+            component.setBasicFilter(tempSelectionUris)
+        } else {
+            showSelectionFilterPicker = true
         }
     }
 

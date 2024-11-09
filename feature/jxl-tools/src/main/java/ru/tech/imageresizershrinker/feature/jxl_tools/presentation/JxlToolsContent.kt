@@ -19,8 +19,6 @@ package ru.tech.imageresizershrinker.feature.jxl_tools.presentation
 
 import android.content.Context
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -72,9 +70,10 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -114,10 +113,11 @@ fun JxlToolsContent(
 
     val onFailure: (Throwable) -> Unit = essentials::showFailureToast
 
-    val pickJpegsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val pickJpegsLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/jpeg", "image/jpg")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
+        list.let { uris ->
             component.setType(
                 type = Screen.JxlTools.Type.JpegToJxl(uris),
                 onFailure = onFailure
@@ -125,12 +125,10 @@ fun JxlToolsContent(
         }
     }
 
-    val pickJxlsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+    val pickJxlsLauncher = rememberFilePicker(FileType.Multiple) { list ->
+        list.filter {
             it.isJxl(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
                     message = context.getString(R.string.select_jxl_image_to_start),
@@ -145,10 +143,8 @@ fun JxlToolsContent(
         }
     }
 
-    val pickSingleJxlLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument()
-    ) { uri ->
-        uri?.takeIf { it.isJxl(context) }?.let {
+    val pickSingleJxlLauncher = rememberFilePicker(FileType.Single) { uris ->
+        uris.firstOrNull()?.takeIf { it.isJxl(context) }?.let {
             component.setType(
                 type = Screen.JxlTools.Type.JxlToImage(it),
                 onFailure = onFailure
@@ -159,50 +155,39 @@ fun JxlToolsContent(
         )
     }
 
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.setType(
-                type = Screen.JxlTools.Type.ImageToJxl(uris),
-                onFailure = onFailure
-            )
-        }
+    val imagePicker = rememberImagePicker(Picker.Multiple) { list ->
+        component.setType(
+            type = Screen.JxlTools.Type.ImageToJxl(list),
+            onFailure = onFailure
+        )
     }
 
-    val addImagesImagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.setType(
-                type = Screen.JxlTools.Type.ImageToJxl(
-                    (component.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(uris)
-                        ?.distinct()
-                ),
-                onFailure = onFailure
-            )
-        }
+    val addImagesImagePicker = rememberImagePicker(Picker.Multiple) { list ->
+        component.setType(
+            type = Screen.JxlTools.Type.ImageToJxl(
+                (component.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(list)
+                    ?.distinct()
+            ),
+            onFailure = onFailure
+        )
     }
 
-    val addJpegsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val addJpegsLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/jpeg", "image/jpg")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.setType(
-                type = (component.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
-                    it.copy(it.jpegImageUris?.plus(uris)?.distinct())
-                },
-                onFailure = onFailure
-            )
-        }
+        component.setType(
+            type = (component.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
+                it.copy(it.jpegImageUris?.plus(list)?.distinct())
+            },
+            onFailure = onFailure
+        )
     }
 
-    val addJxlsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+    val addJxlsLauncher = rememberFilePicker(FileType.Multiple) { list ->
+        list.filter {
             it.isJxl(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
                     message = context.getString(R.string.select_jxl_image_to_start),
@@ -220,39 +205,19 @@ fun JxlToolsContent(
     }
 
     fun pickImage(type: Screen.JxlTools.Type? = null) {
-        runCatching {
-            when (type ?: component.type) {
-                is Screen.JxlTools.Type.ImageToJxl -> imagePicker.pickImage()
-                is Screen.JxlTools.Type.JpegToJxl -> pickJpegsLauncher.launch(
-                    arrayOf(
-                        "image/jpeg",
-                        "image/jpg"
-                    )
-                )
-
-                is Screen.JxlTools.Type.JxlToImage -> pickSingleJxlLauncher.launch(arrayOf("*/*"))
-                else -> pickJxlsLauncher.launch(arrayOf("*/*"))
-            }
-        }.onFailure {
-            essentials.showActivateFilesToast()
+        when (type ?: component.type) {
+            is Screen.JxlTools.Type.ImageToJxl -> imagePicker.pickImage()
+            is Screen.JxlTools.Type.JpegToJxl -> pickJpegsLauncher.pickFile()
+            is Screen.JxlTools.Type.JxlToImage -> pickSingleJxlLauncher.pickFile()
+            else -> pickJxlsLauncher.pickFile()
         }
     }
 
     val addImages: () -> Unit = {
-        runCatching {
-            when (component.type) {
-                is Screen.JxlTools.Type.ImageToJxl -> addImagesImagePicker.pickImage()
-                is Screen.JxlTools.Type.JpegToJxl -> addJpegsLauncher.launch(
-                    arrayOf(
-                        "image/jpeg",
-                        "image/jpg"
-                    )
-                )
-
-                else -> addJxlsLauncher.launch(arrayOf("*/*"))
-            }
-        }.onFailure {
-            essentials.showActivateFilesToast()
+        when (component.type) {
+            is Screen.JxlTools.Type.ImageToJxl -> addImagesImagePicker.pickImage()
+            is Screen.JxlTools.Type.JpegToJxl -> addJpegsLauncher.pickFile()
+            else -> addJxlsLauncher.pickFile()
         }
     }
 

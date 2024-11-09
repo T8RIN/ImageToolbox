@@ -78,9 +78,10 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -121,15 +122,15 @@ fun ApngToolsContent(
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(component::setImageUris)
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::setImageUris
+    )
 
-    val pickSingleApngLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-    ) { uri ->
-        uri?.let {
+    val pickSingleApngLauncher = rememberFilePicker(
+        type = FileType.Single,
+        mimeTypes = listOf("image/png", "image/apng")
+    ) { uris ->
+        uris.firstOrNull()?.let {
             if (it.isApng(context)) {
                 component.setApngUri(it)
             } else {
@@ -141,16 +142,17 @@ fun ApngToolsContent(
         }
     }
 
-    val pickMultipleApngLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val pickMultipleApngLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/png", "image/apng")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+        list.filter {
             it.isApng(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Jxl
+                    message = context.getString(R.string.select_apng_image_to_start),
+                    icon = Icons.Rounded.Apng
                 )
             } else {
                 component.setType(
@@ -160,12 +162,13 @@ fun ApngToolsContent(
         }
     }
 
-    val addApngLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments()
+    val addApngLauncher = rememberFilePicker(
+        type = FileType.Multiple,
+        mimeTypes = listOf("image/png", "image/apng")
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.filter {
+        list.filter {
             it.isApng(context)
-        }?.let { uris ->
+        }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
                     message = context.getString(R.string.select_gif_image_to_start),
@@ -367,11 +370,7 @@ fun ApngToolsContent(
                                             Screen.ApngTools.Type.ApngToJxl(type.apngUris?.minus(it))
                                         )
                                     },
-                                    onAddUris = {
-                                        addApngLauncher.launch(
-                                            arrayOf("image/png", "image/apng")
-                                        )
-                                    }
+                                    onAddUris = addApngLauncher::pickFile
                                 )
                             }
 
@@ -405,10 +404,9 @@ fun ApngToolsContent(
 
                 is Screen.ApngTools.Type.ImageToApng -> {
                     val addImagesToPdfPicker = rememberImagePicker(
-                        mode = localImagePickerMode(Picker.Multiple)
-                    ) { list ->
-                        list.takeIf { it.isNotEmpty() }?.let(component::addImageToUris)
-                    }
+                        picker = Picker.Multiple,
+                        onSuccess = component::addImageToUris
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,
@@ -464,21 +462,8 @@ fun ApngToolsContent(
                 targetState = (component.type == null) to isPortrait,
                 onSecondaryButtonClick = {
                     when (component.type) {
-                        is Screen.ApngTools.Type.ApngToImage -> {
-                            pickSingleApngLauncher.launch(
-                                arrayOf("image/png", "image/apng")
-                            )
-                        }
-
-                        is Screen.ApngTools.Type.ApngToJxl -> {
-                            pickMultipleApngLauncher.launch(
-                                arrayOf(
-                                    "image/png",
-                                    "image/apng"
-                                )
-                            )
-                        }
-
+                        is Screen.ApngTools.Type.ApngToImage -> pickSingleApngLauncher.pickFile()
+                        is Screen.ApngTools.Type.ApngToJxl -> pickMultipleApngLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
                 },
@@ -532,9 +517,7 @@ fun ApngToolsContent(
                     subtitle = stringResource(types[1].subtitle),
                     startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickSingleApngLauncher.launch(arrayOf("image/png", "image/apng"))
-                    }
+                    onClick = pickSingleApngLauncher::pickFile
                 )
             }
             val preference3 = @Composable {
@@ -543,9 +526,7 @@ fun ApngToolsContent(
                     subtitle = stringResource(types[2].subtitle),
                     startIcon = types[2].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickMultipleApngLauncher.launch(arrayOf("image/png", "image/apng"))
-                    }
+                    onClick = pickMultipleApngLauncher::pickFile
                 )
             }
 

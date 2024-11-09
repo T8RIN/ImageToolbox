@@ -50,7 +50,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -106,20 +105,14 @@ fun ImageStackingContent(
     }
 
     val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.updateUris(uris)
-        }
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::updateUris
+    )
 
     val addImagesImagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.addUrisToEnd(uris)
-        }
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::addUrisToEnd
+    )
 
     val addImages = addImagesImagePicker::pickImage
 

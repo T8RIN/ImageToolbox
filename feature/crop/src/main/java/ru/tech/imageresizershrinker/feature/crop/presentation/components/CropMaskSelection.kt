@@ -65,7 +65,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -87,10 +86,8 @@ fun CropMaskSelection(
 
     val scope = rememberCoroutineScope()
 
-    val maskLauncher = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+    val maskLauncher = rememberImagePicker(Picker.Single) { uris ->
+        uris.firstOrNull()?.let {
             scope.launch {
                 loadImage(it)?.let {
                     onCropMaskChange(

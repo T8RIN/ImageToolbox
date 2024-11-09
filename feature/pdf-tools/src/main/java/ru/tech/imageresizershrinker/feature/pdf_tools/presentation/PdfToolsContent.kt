@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation
 
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -75,7 +74,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -99,19 +97,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
@@ -153,17 +150,7 @@ fun PdfToolsContent(
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val configuration = LocalConfiguration.current
-    val sizeClass = LocalWindowSizeClass.current.widthSizeClass
-    val portrait by remember(
-        LocalLifecycleOwner.current.lifecycle.observeAsState().value,
-        sizeClass,
-        configuration
-    ) {
-        derivedStateOf {
-            configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact
-        }
-    }
+    val isPortrait by isPortraitOrientationAsState()
 
     val onBack = {
         if (component.pdfType is Screen.PdfTools.Type.Preview) onGoBack()
@@ -187,38 +174,34 @@ fun PdfToolsContent(
         }
     )
 
-    val pdfToImagesPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri ->
-            uri?.let {
-                component.setPdfToImagesUri(it)
-            }
-        }
-    )
+    val pdfToImagesPicker = rememberFilePicker(
+        type = FileType.Single,
+        mimeTypes = listOf("application/pdf")
+    ) { uris ->
+        uris.firstOrNull()?.let(component::setPdfToImagesUri)
+    }
 
-    val pdfPreviewPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri ->
-            uri?.let {
-                component.setPdfPreview(it)
-            }
-        }
-    )
+    val pdfPreviewPicker = rememberFilePicker(
+        type = FileType.Single,
+        mimeTypes = listOf("application/pdf")
+    ) { uris ->
+        uris.firstOrNull()?.let(component::setPdfPreview)
+    }
 
     var tempSelectionUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var showSelectionPdfPicker by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(showSelectionPdfPicker) {
         if (!showSelectionPdfPicker) tempSelectionUri = null
     }
-    val selectionPdfPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri ->
-            uri?.let {
-                tempSelectionUri = it
-                showSelectionPdfPicker = true
-            }
+    val selectionPdfPicker = rememberFilePicker(
+        type = FileType.Single,
+        mimeTypes = listOf("application/pdf")
+    ) { uris ->
+        uris.firstOrNull()?.let {
+            tempSelectionUri = it
+            showSelectionPdfPicker = true
         }
-    )
+    }
 
     EnhancedModalBottomSheet(
         visible = showSelectionPdfPicker,
@@ -273,31 +256,25 @@ fun PdfToolsContent(
     )
 
     val imagesToPdfPicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.setImagesToPdf(uris)
-        }
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::setImagesToPdf
+    )
 
     val addImagesToPdfPicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uris ->
-            component.addImagesToPdf(uris)
-        }
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::addImagesToPdf
+    )
 
     val focus = LocalFocusManager.current
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = topAppBarState,
-        canScroll = { (component.pdfType !is Screen.PdfTools.Type.Preview && portrait) || component.pdfType == null }
+        canScroll = { (component.pdfType !is Screen.PdfTools.Type.Preview && isPortrait) || component.pdfType == null }
     )
 
     LaunchedEffect(component.pdfType) {
-        while (component.pdfType is Screen.PdfTools.Type.Preview || (component.pdfType != null && !portrait)) {
+        while (component.pdfType is Screen.PdfTools.Type.Preview || (component.pdfType != null && !isPortrait)) {
             topAppBarState.apply {
                 heightOffset = (heightOffset - 10).coerceAtLeast(heightOffsetLimit)
             }
@@ -326,21 +303,11 @@ fun PdfToolsContent(
     val buttons: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = { pdfType ->
         EnhancedFloatingActionButton(
             onClick = {
-                runCatching {
-                    when (pdfType) {
-                        is Screen.PdfTools.Type.ImagesToPdf -> {
-                            imagesToPdfPicker.pickImage()
-                        }
-
-                        is Screen.PdfTools.Type.Preview -> {
-                            pdfPreviewPicker.launch(arrayOf("application/pdf"))
-                        }
-
-                        else -> {
-                            pdfToImagesPicker.launch(arrayOf("application/pdf"))
-                        }
-                    }
-                }.onFailure(essentials::showFailureToast)
+                when (pdfType) {
+                    is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
+                    is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
+                    else -> pdfToImagesPicker.pickFile()
+                }
             },
             containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ) {
@@ -359,7 +326,7 @@ fun PdfToolsContent(
                 }
             }
             if (visible) {
-                if (portrait) {
+                if (isPortrait) {
                     Spacer(modifier = Modifier.width(8.dp))
                 } else {
                     Spacer(modifier = Modifier.height(8.dp))
@@ -527,7 +494,7 @@ fun PdfToolsContent(
                         }
                     }
                     val actions: @Composable RowScope.() -> Unit = {
-                        if (!portrait) {
+                        if (!isPortrait) {
                             actionButtons(component.pdfType)
                         }
                         if (component.pdfType == null) {
@@ -646,29 +613,11 @@ fun PdfToolsContent(
                                             item {
                                                 PreferenceItem(
                                                     onClick = {
-                                                        runCatching {
-                                                            when (it) {
-                                                                is Screen.PdfTools.Type.ImagesToPdf -> {
-                                                                    imagesToPdfPicker.pickImage()
-                                                                }
-
-                                                                is Screen.PdfTools.Type.PdfToImages -> {
-                                                                    pdfToImagesPicker.launch(
-                                                                        arrayOf(
-                                                                            "application/pdf"
-                                                                        )
-                                                                    )
-                                                                }
-
-                                                                is Screen.PdfTools.Type.Preview -> {
-                                                                    pdfPreviewPicker.launch(
-                                                                        arrayOf(
-                                                                            "application/pdf"
-                                                                        )
-                                                                    )
-                                                                }
-                                                            }
-                                                        }.onFailure(essentials::showFailureToast)
+                                                        when (it) {
+                                                            is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
+                                                            is Screen.PdfTools.Type.PdfToImages -> pdfToImagesPicker.pickFile()
+                                                            is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
+                                                        }
                                                     },
                                                     startIcon = it.icon,
                                                     title = stringResource(it.title),
@@ -688,13 +637,7 @@ fun PdfToolsContent(
                                         horizontalArrangement = Arrangement.Center
                                     ) {
                                         EnhancedFloatingActionButton(
-                                            onClick = {
-                                                runCatching {
-                                                    selectionPdfPicker.launch(arrayOf("application/pdf"))
-                                                }.onFailure {
-                                                    essentials.showActivateFilesToast()
-                                                }
-                                            },
+                                            onClick = selectionPdfPicker::pickFile,
                                             modifier = Modifier
                                                 .navigationBarsPadding()
                                                 .padding(16.dp),
@@ -727,7 +670,7 @@ fun PdfToolsContent(
                                                     .container(
                                                         shape = RectangleShape,
                                                         resultPadding = 0.dp,
-                                                        color = if (pdfType is Screen.PdfTools.Type.Preview || !portrait) {
+                                                        color = if (pdfType is Screen.PdfTools.Type.Preview || !isPortrait) {
                                                             MaterialTheme.colorScheme.surfaceContainerLow
                                                         } else MaterialTheme.colorScheme.surface
                                                     )
@@ -748,7 +691,7 @@ fun PdfToolsContent(
                                                     )
                                                 } else {
                                                     Column(
-                                                        modifier = if (portrait) {
+                                                        modifier = if (isPortrait) {
                                                             Modifier
                                                                 .fillMaxSize()
                                                                 .verticalScroll(rememberScrollState())
@@ -761,7 +704,7 @@ fun PdfToolsContent(
                                                             )
                                                         }
                                                         PdfViewer(
-                                                            modifier = if (portrait) {
+                                                            modifier = if (isPortrait) {
                                                                 Modifier
                                                                     .height(
                                                                         (130.dp * pagesCount).coerceAtMost(
@@ -788,7 +731,7 @@ fun PdfToolsContent(
                                                             updateSelectedPages = component::updatePdfToImageSelection,
                                                             spacing = 4.dp
                                                         )
-                                                        if (portrait) {
+                                                        if (isPortrait) {
                                                             controls(pdfType)
                                                         }
                                                     }
@@ -796,7 +739,7 @@ fun PdfToolsContent(
                                             }
                                         }
 
-                                        if (pdfType !is Screen.PdfTools.Type.Preview && !portrait || pdfType is Screen.PdfTools.Type.ImagesToPdf) {
+                                        if (pdfType !is Screen.PdfTools.Type.Preview && !isPortrait || pdfType is Screen.PdfTools.Type.ImagesToPdf) {
                                             val direction = LocalLayoutDirection.current
                                             Box(
                                                 modifier = Modifier
@@ -824,7 +767,7 @@ fun PdfToolsContent(
                                                 }
                                             }
                                         }
-                                        if (!portrait) {
+                                        if (!isPortrait) {
                                             val direction = LocalLayoutDirection.current
                                             Column(
                                                 Modifier
@@ -844,7 +787,7 @@ fun PdfToolsContent(
                                             }
                                         }
                                     }
-                                    if (portrait) {
+                                    if (isPortrait) {
                                         BottomAppBar(
                                             actions = {
                                                 actionButtons(pdfType)

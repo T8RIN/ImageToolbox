@@ -62,7 +62,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -156,17 +155,13 @@ fun GradientMakerContent(
     }
 
 
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }?.let { uriList ->
-            allowPickingImage = true
-            component.setUris(
-                uris = uriList,
-                onFailure = essentials::showFailureToast
-            )
-            component.updateGradientAlpha(0.5f)
-        }
+    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+        allowPickingImage = true
+        component.setUris(
+            uris = uris,
+            onFailure = essentials::showFailureToast
+        )
+        component.updateGradientAlpha(0.5f)
     }
 
     val pickImage = imagePicker::pickImage

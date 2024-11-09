@@ -36,7 +36,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -76,10 +75,9 @@ fun SvgMakerContent(
     }
 
     val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(component::setUris)
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::setUris
+    )
 
     AutoFilePicker(
         onAutoPick = imagePicker::pickImage,
@@ -87,10 +85,9 @@ fun SvgMakerContent(
     )
 
     val addImagesImagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let(component::addUris)
-    }
+        picker = Picker.Multiple,
+        onSuccess = component::addUris
+    )
 
     val isPortrait by isPortraitOrientationAsState()
 

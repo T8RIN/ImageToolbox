@@ -122,7 +122,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogi
 @Composable
 fun MediaPickerScreen(
     allowedMedia: AllowedMedia,
-    allowSelection: Boolean,
+    allowMultiple: Boolean,
     component: MediaPickerComponent,
     sendMediaAsResult: (List<Uri>) -> Unit,
     onRequestManagePermission: () -> Unit,
@@ -298,12 +298,12 @@ fun MediaPickerScreen(
                 modifier = Modifier.fillMaxSize(1f)
             ) {
                 val isButtonVisible =
-                    (!allowSelection || selectedMedia.isNotEmpty()) && !isSearching
+                    (!allowMultiple || selectedMedia.isNotEmpty()) && !isSearching
                 MediaPickerGrid(
                     state = filteredMediaState,
                     isSelectionOfAll = selectedAlbumIndex == -1L,
                     selectedMedia = selectedMedia,
-                    allowSelection = allowSelection,
+                    allowMultiple = allowMultiple,
                     isButtonVisible = isButtonVisible,
                     isManagePermissionAllowed = isManagePermissionAllowed,
                     onRequestManagePermission = onRequestManagePermission
@@ -348,7 +348,7 @@ fun MediaPickerScreen(
                         }
                         BadgedBox(
                             badge = {
-                                if (selectedMedia.isNotEmpty() && allowSelection) {
+                                if (selectedMedia.isNotEmpty() && allowMultiple) {
                                     Badge(
                                         containerColor = MaterialTheme.colorScheme.primary
                                     ) {

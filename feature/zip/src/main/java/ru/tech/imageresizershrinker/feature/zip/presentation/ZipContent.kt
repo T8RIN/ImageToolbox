@@ -66,7 +66,9 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -119,23 +121,19 @@ fun ZipContent(
         }
     )
 
-    val filePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments(),
-        onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let(component::setUris)
-        }
+    val filePicker = rememberFilePicker(
+        type = FileType.Multiple,
+        onSuccess = component::setUris
     )
 
     AutoFilePicker(
-        onAutoPick = { filePicker.launch(arrayOf("*/*")) },
+        onAutoPick = filePicker::pickFile,
         isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
-    val additionalFilePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenMultipleDocuments(),
-        onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let(component::addUris)
-        }
+    val additionalFilePicker = rememberFilePicker(
+        type = FileType.Multiple,
+        onSuccess = component::addUris
     )
 
     val isPortrait by isPortraitOrientationAsState()
@@ -177,11 +175,7 @@ fun ZipContent(
                             haptics.performHapticFeedback(
                                 HapticFeedbackType.LongPress
                             )
-                            runCatching {
-                                filePicker.launch(arrayOf("*/*"))
-                            }.onFailure {
-                                essentials.showActivateFilesToast()
-                            }
+                            filePicker.pickFile()
                         }
                         .padding(12.dp),
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
@@ -343,25 +337,13 @@ fun ZipContent(
                 uris = component.uris,
                 isPortrait = isPortrait,
                 onRemoveUri = component::removeUri,
-                onAddUris = {
-                    runCatching {
-                        additionalFilePicker.launch(arrayOf("*/*"))
-                    }.onFailure {
-                        essentials.showActivateFilesToast()
-                    }
-                }
+                onAddUris = additionalFilePicker::pickFile
             )
         },
         buttons = {
             BottomButtonsBlock(
                 targetState = component.uris.isEmpty() to isPortrait,
-                onSecondaryButtonClick = {
-                    runCatching {
-                        filePicker.launch(arrayOf("*/*"))
-                    }.onFailure {
-                        essentials.showActivateFilesToast()
-                    }
-                },
+                onSecondaryButtonClick = filePicker::pickFile,
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
                 isPrimaryButtonVisible = component.uris.isNotEmpty(),

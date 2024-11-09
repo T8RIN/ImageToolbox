@@ -30,13 +30,13 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
@@ -44,15 +44,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.PicturePickerMode
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import java.io.File
 import kotlin.random.Random
 
@@ -164,10 +161,9 @@ private class ImagePickerImpl(
                 ImagePickerMode.EmbeddedMultiple -> embeddedAction()
             }
         }.onFailure {
-            if (it is SecurityException && mode == ImagePickerMode.CameraCapture) onFailure(
-                CameraException
-            )
-            else onFailure(it)
+            if (it is SecurityException && mode == ImagePickerMode.CameraCapture) {
+                onFailure(CameraException)
+            } else onFailure(it)
         }
     }
 
@@ -201,6 +197,8 @@ private class ImagePickerImpl(
     }
 }
 
+@Stable
+@Immutable
 interface ImagePicker {
 
     fun pickImage()
@@ -209,6 +207,7 @@ interface ImagePicker {
         picker: Picker,
         picturePickerMode: PicturePickerMode
     )
+
 }
 
 enum class ImagePickerMode {
@@ -248,6 +247,19 @@ fun localImagePickerMode(
 
 @Composable
 fun rememberImagePicker(
+    picker: Picker = Picker.Single,
+    imageExtension: String = DefaultExtension,
+    onFailure: () -> Unit = {},
+    onSuccess: (List<Uri>) -> Unit,
+): ImagePicker = rememberImagePicker(
+    mode = localImagePickerMode(picker = picker),
+    imageExtension = imageExtension,
+    onFailure = onFailure,
+    onSuccess = onSuccess
+)
+
+@Composable
+fun rememberImagePicker(
     mode: ImagePickerMode,
     imageExtension: String = DefaultExtension,
     onFailure: () -> Unit = {},
@@ -257,14 +269,18 @@ fun rememberImagePicker(
 
     val photoPickerSingle = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = {
-            it?.let { onSuccess(listOf(it)) } ?: onFailure()
+        onResult = { uri ->
+            uri?.takeIf {
+                it != Uri.EMPTY
+            }?.let {
+                onSuccess(listOf(it))
+            } ?: onFailure()
         }
     )
     val photoPickerMultiple = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(),
         onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let { onSuccess(it) } ?: onFailure()
+            uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
         }
     )
 
@@ -274,19 +290,20 @@ fun rememberImagePicker(
             val intent = result.data
             val data = intent?.data
             val clipData = intent?.clipData
-            if (clipData != null) {
-                onSuccess(clipData.clipList())
-            } else if (data != null) {
-                onSuccess(listOf(data))
-            } else if (intent?.action == Intent.ACTION_SEND_MULTIPLE) {
-                onSuccess(
+
+            val resultList: List<Uri> = clipData?.clipList()
+                ?: if (data != null) {
+                    listOf(data)
+                } else if (intent?.action == Intent.ACTION_SEND_MULTIPLE) {
                     intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM) ?: emptyList()
-                )
-            } else if (intent?.action == Intent.ACTION_SEND) {
-                onSuccess(
+                } else if (intent?.action == Intent.ACTION_SEND) {
                     listOfNotNull(intent.parcelable<Uri>(Intent.EXTRA_STREAM))
-                )
-            } else onFailure()
+                } else {
+                    onFailure()
+                    emptyList()
+                }
+
+            resultList.takeIf { it.isNotEmpty() }?.let(onSuccess)
         }
     )
 
@@ -297,27 +314,24 @@ fun rememberImagePicker(
         contract = ActivityResultContracts.TakePicture(),
         onResult = {
             val uri = takePhotoUri
-            if (it && uri != null) {
+            if (it && uri != null && uri != Uri.EMPTY) {
                 onSuccess(listOf(uri))
             } else onFailure()
             takePhotoUri = null
         }
     )
 
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
+    val essentials = rememberLocalEssentials()
     val currentAccent = LocalDynamicThemeState.current.colorTuple.value.primary
 
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (!isGranted) {
-            scope.launch {
-                toastHostState.showToast(
-                    message = context.getString(R.string.grant_camera_permission_to_capture_image),
-                    icon = Icons.Outlined.CameraAlt
-                )
-            }
+            essentials.showToast(
+                message = context.getString(R.string.grant_camera_permission_to_capture_image),
+                icon = Icons.Outlined.CameraAlt
+            )
         }
     }
 
@@ -346,27 +360,10 @@ fun rememberImagePicker(
                 onFailure = {
                     onFailure()
 
-                    scope.launch {
-                        when (it) {
-                            is ActivityNotFoundException -> {
-                                toastHostState.showToast(
-                                    message = context.getString(R.string.activate_files),
-                                    icon = Icons.Outlined.FolderOff,
-                                    duration = ToastDuration.Long
-                                )
-                            }
-
-                            is CameraException -> {
-                                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-                            }
-
-                            else -> {
-                                toastHostState.showFailureToast(
-                                    context = context,
-                                    throwable = it
-                                )
-                            }
-                        }
+                    when (it) {
+                        is ActivityNotFoundException -> essentials.showActivateFilesToast()
+                        is CameraException -> requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+                        else -> essentials.showFailureToast(it)
                     }
                 }
             )

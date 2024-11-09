@@ -97,7 +97,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -168,10 +167,8 @@ fun CropContent(
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
+        uris.firstOrNull()?.let {
             rotationState.floatValue = 0f
             component.setUri(
                 uri = it,

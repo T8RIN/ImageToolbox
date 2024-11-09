@@ -41,26 +41,23 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Theme
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
@@ -72,9 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomS
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -95,9 +90,7 @@ fun GeneratePaletteContent(
 
     val appColorTuple = rememberAppColorTuple()
 
-    val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
 
     var useMaterialYouPalette by rememberSaveable {
         mutableStateOf<Boolean?>(null)
@@ -115,19 +108,14 @@ fun GeneratePaletteContent(
         }
     }
 
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }
-            ?.firstOrNull()
-            ?.let {
-                showPreferencePicker = true
-                component.setUri(it) {
-                    scope.launch {
-                        toastHostState.showFailureToast(context, it)
-                    }
-                }
-            }
+    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
+        uris.firstOrNull()?.let {
+            showPreferencePicker = true
+            component.setUri(
+                uri = it,
+                onFailure = essentials::showFailureToast
+            )
+        }
     }
 
     AutoFilePicker(
@@ -135,34 +123,24 @@ fun GeneratePaletteContent(
         isPickedAlready = component.initialUri != null
     )
 
-    val paletteImageLauncher = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }
-            ?.firstOrNull()
-            ?.let {
-                useMaterialYouPalette = false
-                component.setUri(it) {
-                    scope.launch {
-                        toastHostState.showFailureToast(context, it)
-                    }
-                }
-            }
+    val paletteImageLauncher = rememberImagePicker(Picker.Single) { uris ->
+        uris.firstOrNull()?.let {
+            useMaterialYouPalette = false
+            component.setUri(
+                uri = it,
+                onFailure = essentials::showFailureToast
+            )
+        }
     }
 
-    val materialYouImageLauncher = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { uris ->
-        uris.takeIf { it.isNotEmpty() }
-            ?.firstOrNull()
-            ?.let {
-                useMaterialYouPalette = true
-                component.setUri(it) {
-                    scope.launch {
-                        toastHostState.showFailureToast(context, it)
-                    }
-                }
-            }
+    val materialYouImageLauncher = rememberImagePicker(Picker.Single) { uris ->
+        uris.firstOrNull()?.let {
+            useMaterialYouPalette = true
+            component.setUri(
+                uri = it,
+                onFailure = essentials::showFailureToast
+            )
+        }
     }
 
     val pickImage = when (useMaterialYouPalette) {

@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,6 +41,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -99,10 +99,8 @@ internal fun FilterTemplateAddingGroup(
         )
     }
 
-    val importFromFileLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-    ) { uri ->
-        uri?.let {
+    val importFromFileLauncher = rememberFilePicker(FileType.Single) { uris ->
+        uris.firstOrNull()?.let {
             addTemplateFilterFromUri(
                 uri = it.toString(),
                 onSuccess = { filterName, filtersCount ->
@@ -146,9 +144,7 @@ internal fun FilterTemplateAddingGroup(
             )
         }
         EnhancedIconButton(
-            onClick = {
-                importFromFileLauncher.launch(arrayOf("*/*"))
-            },
+            onClick = importFromFileLauncher::pickFile,
             containerColor = MaterialTheme.colorScheme.secondary
         ) {
             Icon(

@@ -46,7 +46,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -79,12 +78,8 @@ fun ImageSplitterContent(
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { list ->
-        list.firstOrNull()?.let { uri ->
-            component.updateUri(uri)
-        }
+    val imagePicker = rememberImagePicker(Picker.Single) { list ->
+        list.firstOrNull()?.let(component::updateUri)
     }
 
     val pickImage = imagePicker::pickImage

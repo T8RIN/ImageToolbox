@@ -44,7 +44,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -112,15 +111,11 @@ fun WatermarkingContent(
         }
     }
 
-    val imagePicker = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Multiple)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let { uriList ->
-            component.setUris(
-                uris = uriList,
-                onFailure = essentials::showFailureToast
-            )
-        }
+    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+        component.setUris(
+            uris = uris,
+            onFailure = essentials::showFailureToast
+        )
     }
 
     val pickImage = imagePicker::pickImage

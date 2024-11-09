@@ -164,7 +164,7 @@ internal fun MediaPickerActivity.MediaPickerRoot(
                 ) {
                     MediaPickerScreen(
                         allowedMedia = allowedMedia,
-                        allowSelection = allowMultiple,
+                        allowMultiple = allowMultiple,
                         component = component,
                         sendMediaAsResult = ::sendMediaAsResult,
                         isManagePermissionAllowed = isManagePermissionAllowed,

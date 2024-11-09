@@ -59,12 +59,14 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -163,19 +165,21 @@ fun RecognizeTextContent(
 
     val imagePickerMode = localImagePickerMode(Picker.Single)
 
-    val imagePicker = rememberImagePicker(
-        mode = imagePickerMode
-    ) { list ->
+    val imagePicker = rememberImagePicker(imagePickerMode) { list ->
         list.firstOrNull()?.let {
-            component.updateUri(it, startRecognition)
+            component.updateUri(
+                uri = it,
+                onImageSet = startRecognition
+            )
         }
     }
 
-    val captureImageLauncher = rememberImagePicker(
-        mode = ImagePickerMode.CameraCapture
-    ) { list ->
+    val captureImageLauncher = rememberImagePicker(ImagePickerMode.CameraCapture) { list ->
         list.firstOrNull()?.let {
-            component.updateUri(it, startRecognition)
+            component.updateUri(
+                uri = it,
+                onImageSet = startRecognition
+            )
         }
     }
 
@@ -226,33 +230,31 @@ fun RecognizeTextContent(
         }
     )
 
-    val importLanguagesPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri ->
-            uri?.let {
-                component.importLanguagesFrom(
-                    uri = uri,
-                    onSuccess = {
-                        showConfetti()
-                        essentials.showToast(
-                            message = context.getString(R.string.languages_imported),
-                            icon = Icons.Outlined.Language
-                        )
-                        startRecognition()
-                    },
-                    onFailure = essentials::showFailureToast
-                )
-            }
+    val importLanguagesPicker = rememberFilePicker(
+        type = FileType.Single,
+        mimeTypes = listOf("application/zip")
+    ) { uris ->
+        uris.firstOrNull()?.let {
+            component.importLanguagesFrom(
+                uri = it,
+                onSuccess = {
+                    showConfetti()
+                    essentials.showToast(
+                        message = context.getString(R.string.languages_imported),
+                        icon = Icons.Outlined.Language
+                    )
+                    startRecognition()
+                },
+                onFailure = essentials::showFailureToast
+            )
         }
-    )
+    }
 
     val onExportLanguages: () -> Unit = {
         exportLanguagesPicker.launch(component.generateExportFilename())
     }
 
-    val onImportLanguages: () -> Unit = {
-        importLanguagesPicker.launch(arrayOf("application/zip"))
-    }
+    val onImportLanguages: () -> Unit = importLanguagesPicker::pickFile
 
     val saveLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("text/plain")

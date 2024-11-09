@@ -105,8 +105,10 @@ import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -166,19 +168,12 @@ fun CipherContent(
         }
     )
 
-    val filePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri ->
-            uri?.let {
-                component.setUri(it)
-            }
-        }
-    )
+    val filePicker = rememberFilePicker(FileType.Single) { uris ->
+        uris.firstOrNull()?.let(component::setUri)
+    }
 
     AutoFilePicker(
-        onAutoPick = {
-            filePicker.launch(arrayOf("*/*"))
-        },
+        onAutoPick = filePicker::pickFile,
         isPickedAlready = component.initialUri != null
     )
 
@@ -289,11 +284,7 @@ fun CipherContent(
                                                         haptics.performHapticFeedback(
                                                             HapticFeedbackType.LongPress
                                                         )
-                                                        runCatching {
-                                                            filePicker.launch(arrayOf("*/*"))
-                                                        }.onFailure {
-                                                            essentials.showActivateFilesToast()
-                                                        }
+                                                        filePicker.pickFile()
                                                     }
                                                     .padding(12.dp),
                                                 tint = MaterialTheme.colorScheme.onSecondaryContainer
@@ -367,13 +358,7 @@ fun CipherContent(
                                             )
 
                                             EnhancedButton(
-                                                onClick = {
-                                                    runCatching {
-                                                        filePicker.launch(arrayOf("*/*"))
-                                                    }.onFailure {
-                                                        essentials.showActivateFilesToast()
-                                                    }
-                                                },
+                                                onClick = filePicker::pickFile,
                                                 modifier = Modifier.padding(top = 16.dp),
                                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                                 borderColor = MaterialTheme.colorScheme.outlineVariant(
@@ -691,13 +676,7 @@ fun CipherContent(
 
         if (component.uri == null) {
             EnhancedFloatingActionButton(
-                onClick = {
-                    runCatching {
-                        filePicker.launch(arrayOf("*/*"))
-                    }.onFailure {
-                        essentials.showActivateFilesToast()
-                    }
-                },
+                onClick = filePicker::pickFile,
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(12.dp)

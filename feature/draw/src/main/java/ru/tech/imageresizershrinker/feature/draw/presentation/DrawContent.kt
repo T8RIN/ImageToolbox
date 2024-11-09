@@ -127,7 +127,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -218,17 +217,14 @@ fun DrawContent(
         }
     }
 
-    val imagePicker =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let { uri ->
-                component.setUri(
-                    uri = uri,
-                    onFailure = essentials::showFailureToast
-                )
-            }
+    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
+        uris.firstOrNull()?.let { uri ->
+            component.setUri(
+                uri = uri,
+                onFailure = essentials::showFailureToast
+            )
         }
+    }
 
     val pickImage = imagePicker::pickImage
 

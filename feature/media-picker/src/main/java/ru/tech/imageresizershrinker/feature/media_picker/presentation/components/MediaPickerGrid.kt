@@ -140,7 +140,7 @@ internal fun MediaPickerGrid(
     state: MediaState,
     isSelectionOfAll: Boolean,
     selectedMedia: SnapshotStateList<Media>,
-    allowSelection: Boolean,
+    allowMultiple: Boolean,
     isButtonVisible: Boolean,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean
@@ -149,7 +149,7 @@ internal fun MediaPickerGrid(
     val stringToday = stringResource(id = R.string.header_today)
     val stringYesterday = stringResource(id = R.string.header_yesterday)
     val gridState = rememberLazyGridState()
-    val isCheckVisible = rememberSaveable { mutableStateOf(allowSelection) }
+    val isCheckVisible = rememberSaveable { mutableStateOf(allowMultiple) }
     val hapticFeedback = LocalHapticFeedback.current
 
     LaunchedEffect(state.media) {
@@ -161,7 +161,7 @@ internal fun MediaPickerGrid(
     }
 
     val onMediaClick: (Media) -> Unit = {
-        if (allowSelection) {
+        if (allowMultiple) {
             if (selectedMedia.contains(it)) selectedMedia.remove(it)
             else selectedMedia.add(it)
         } else {
@@ -209,7 +209,7 @@ internal fun MediaPickerGrid(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
             .dragHandler(
-                enabled = isSelectionOfAll,
+                enabled = isSelectionOfAll && allowMultiple,
                 key = state.mappedMedia,
                 lazyGridState = gridState,
                 isVertical = true,
@@ -322,7 +322,7 @@ internal fun MediaPickerGrid(
             when (item) {
                 is MediaItem.Header -> {
                     val isChecked = rememberSaveable { mutableStateOf(false) }
-                    if (allowSelection) {
+                    if (allowMultiple) {
                         LaunchedEffect(selectedMedia.size) {
                             // Partial check of media items should not check the header
                             isChecked.value = selectedMedia.containsAll(item.data)
@@ -335,24 +335,25 @@ internal fun MediaPickerGrid(
                         date = title,
                         showAsBig = item.key.contains("big"),
                         isCheckVisible = isCheckVisible,
-                        isChecked = isChecked
-                    ) {
-                        if (allowSelection) {
-                            hapticFeedback.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
-                            scope.launch {
-                                isChecked.value = !isChecked.value
-                                if (isChecked.value) {
-                                    val toAdd = item.data.toMutableList().apply {
-                                        // Avoid media from being added twice to selection
-                                        removeIf { selectedMedia.contains(it) }
-                                    }
-                                    selectedMedia.addAll(toAdd)
-                                } else selectedMedia.removeAll(item.data)
+                        isChecked = isChecked,
+                        onChecked = {
+                            if (allowMultiple) {
+                                hapticFeedback.performHapticFeedback(
+                                    HapticFeedbackType.LongPress
+                                )
+                                scope.launch {
+                                    isChecked.value = !isChecked.value
+                                    if (isChecked.value) {
+                                        val toAdd = item.data.toMutableList().apply {
+                                            // Avoid media from being added twice to selection
+                                            removeIf { selectedMedia.contains(it) }
+                                        }
+                                        selectedMedia.addAll(toAdd)
+                                    } else selectedMedia.removeAll(item.data)
+                                }
                             }
                         }
-                    }
+                    )
                 }
 
                 is MediaItem.MediaViewItem -> {
@@ -361,7 +362,7 @@ internal fun MediaPickerGrid(
                     MediaImage(
                         media = item.media,
                         selectionState = selectionState,
-                        canClick = !isSelectionOfAll,
+                        canClick = !isSelectionOfAll || !allowMultiple,
                         onItemClick = {
                             hapticFeedback.performHapticFeedback(
                                 HapticFeedbackType.TextHandleMove

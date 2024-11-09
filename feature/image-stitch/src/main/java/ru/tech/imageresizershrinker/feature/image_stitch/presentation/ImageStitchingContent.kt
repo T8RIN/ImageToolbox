@@ -48,7 +48,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -105,23 +104,15 @@ fun ImageStitchingContent(
         }
     }
 
-    val imagePicker =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                component.updateUris(uris)
-            }
-        }
+    val imagePicker = rememberImagePicker(
+        picker = Picker.Multiple,
+        onSuccess = component::updateUris
+    )
 
-    val addImagesImagePicker =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                component.addUrisToEnd(uris)
-            }
-        }
+    val addImagesImagePicker = rememberImagePicker(
+        picker = Picker.Multiple,
+        onSuccess = component::addUrisToEnd
+    )
 
     val addImages = addImagesImagePicker::pickImage
 
