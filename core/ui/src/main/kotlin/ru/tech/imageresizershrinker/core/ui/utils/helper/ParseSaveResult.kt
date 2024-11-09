@@ -35,8 +35,8 @@ internal fun Activity.parseSaveResult(
 ) {
     when (saveResult) {
         is SaveResult.Error.Exception -> {
-            essentials.showErrorToast(
-                error = saveResult.throwable
+            essentials.showFailureToast(
+                throwable = saveResult.throwable
             )
         }
 
@@ -61,8 +61,8 @@ internal fun Context.parseFileSaveResult(
     essentials: LocalEssentials
 ) {
     if (saveResult is SaveResult.Error.Exception) {
-        essentials.showErrorToast(
-            error = saveResult.throwable
+        essentials.showFailureToast(
+            throwable = saveResult.throwable
         )
     } else if (saveResult is SaveResult.Success) {
         essentials.showToast(

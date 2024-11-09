@@ -163,7 +163,7 @@ fun GradientMakerContent(
             allowPickingImage = true
             component.setUris(
                 uris = uriList,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
             component.updateGradientAlpha(0.5f)
         }
@@ -457,7 +457,7 @@ fun GradientMakerContent(
         onUriPicked = { uri ->
             component.updateSelectedUri(
                 uri = uri,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         },
         onUriRemoved = { uri ->

@@ -112,7 +112,7 @@ fun JxlToolsContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val onError: (Throwable) -> Unit = essentials::showErrorToast
+    val onFailure: (Throwable) -> Unit = essentials::showFailureToast
 
     val pickJpegsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
@@ -120,7 +120,7 @@ fun JxlToolsContent(
         list.takeIf { it.isNotEmpty() }?.let { uris ->
             component.setType(
                 type = Screen.JxlTools.Type.JpegToJxl(uris),
-                onError = onError
+                onFailure = onFailure
             )
         }
     }
@@ -139,7 +139,7 @@ fun JxlToolsContent(
             } else {
                 component.setType(
                     type = Screen.JxlTools.Type.JxlToJpeg(uris),
-                    onError = onError
+                    onFailure = onFailure
                 )
             }
         }
@@ -151,7 +151,7 @@ fun JxlToolsContent(
         uri?.takeIf { it.isJxl(context) }?.let {
             component.setType(
                 type = Screen.JxlTools.Type.JxlToImage(it),
-                onError = onError
+                onFailure = onFailure
             )
         } ?: essentials.showToast(
             message = context.getString(R.string.select_jxl_image_to_start),
@@ -165,7 +165,7 @@ fun JxlToolsContent(
         list.takeIf { it.isNotEmpty() }?.let { uris ->
             component.setType(
                 type = Screen.JxlTools.Type.ImageToJxl(uris),
-                onError = onError
+                onFailure = onFailure
             )
         }
     }
@@ -179,7 +179,7 @@ fun JxlToolsContent(
                     (component.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(uris)
                         ?.distinct()
                 ),
-                onError = onError
+                onFailure = onFailure
             )
         }
     }
@@ -192,7 +192,7 @@ fun JxlToolsContent(
                 type = (component.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
                     it.copy(it.jpegImageUris?.plus(uris)?.distinct())
                 },
-                onError = onError
+                onFailure = onFailure
             )
         }
     }
@@ -213,7 +213,7 @@ fun JxlToolsContent(
                     type = (component.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
                         it.copy(it.jxlImageUris?.plus(uris)?.distinct())
                     },
-                    onError = onError
+                    onFailure = onFailure
                 )
             }
         }
@@ -310,7 +310,7 @@ fun JxlToolsContent(
                     enabled = !component.isLoading && component.type != null,
                     onShare = {
                         component.performSharing(
-                            onError = onError,
+                            onFailure = onFailure,
                             onComplete = showConfetti
                         )
                     }
@@ -375,7 +375,7 @@ fun JxlToolsContent(
                     enabled = !component.isLoading && component.type != null,
                     onShare = {
                         component.performSharing(
-                            onError = onError,
+                            onFailure = onFailure,
                             onComplete = showConfetti
                         )
                     }

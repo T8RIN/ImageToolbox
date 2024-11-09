@@ -31,7 +31,7 @@ interface ImageStacker<I> {
     suspend fun stackImages(
         stackImages: List<StackImage>,
         stackingParams: StackingParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: (Int) -> Unit
     ): I?
 

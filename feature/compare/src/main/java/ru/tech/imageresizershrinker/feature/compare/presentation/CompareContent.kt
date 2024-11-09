@@ -112,7 +112,7 @@ fun CompareContent(
                         compareProgress = 50f
                     },
                     uris = it[0] to it[1],
-                    onError = {
+                    onFailure = {
                         essentials.showToast(
                             context.getString(R.string.something_went_wrong),
                             Icons.Rounded.ErrorOutline

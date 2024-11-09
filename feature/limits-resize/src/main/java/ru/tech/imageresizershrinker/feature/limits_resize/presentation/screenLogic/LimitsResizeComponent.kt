@@ -68,7 +68,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
             initialUris?.let {
                 updateUris(
                     uris = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -114,7 +114,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
 
     fun updateUris(
         uris: List<Uri>?,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         _uris.value = null
         _uris.value = uris
@@ -128,7 +128,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
                         updateBitmap(it.image)
                         setImageFormat(it.imageInfo.imageFormat)
                     },
-                    onError = onError
+                    onFailure = onFailure
                 )
             }
         }

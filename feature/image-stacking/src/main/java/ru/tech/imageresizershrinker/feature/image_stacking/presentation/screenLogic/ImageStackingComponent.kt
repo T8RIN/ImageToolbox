@@ -137,7 +137,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
             imageStacker.stackImages(
                 stackImages = stackImages,
                 stackingParams = stackingParams,
-                onError = {
+                onFailure = {
                     onComplete(SaveResult.Error.Exception(it))
                 },
                 onProgress = {
@@ -181,7 +181,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 onProgress = {
                     _done.value = it
                 },
-                onError = {}
+                onFailure = {}
             )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,
@@ -238,7 +238,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 onProgress = {
                     _done.value = it
                 },
-                onError = {}
+                onFailure = {}
             )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,

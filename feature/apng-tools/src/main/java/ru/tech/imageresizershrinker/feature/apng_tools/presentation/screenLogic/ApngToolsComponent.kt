@@ -275,7 +275,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                             onProgress = {
                                 _done.update { it + 1 }
                             },
-                            onError = {
+                            onFailure = {
                                 onResult(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
@@ -445,7 +445,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                             onProgress = {
                                 _done.update { it + 1 }
                             },
-                            onError = {}
+                            onFailure = {}
                         )?.also { byteArray ->
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",

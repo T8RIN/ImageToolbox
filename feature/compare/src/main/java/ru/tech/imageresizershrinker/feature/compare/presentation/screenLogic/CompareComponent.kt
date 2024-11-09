@@ -64,7 +64,7 @@ class CompareComponent @AssistedInject internal constructor(
             initialComparableUris?.let {
                 updateUris(
                     uris = it,
-                    onError = {},
+                    onFailure = {},
                     onSuccess = {}
                 )
             }
@@ -126,12 +126,12 @@ class CompareComponent @AssistedInject internal constructor(
 
     fun updateUris(
         uris: Pair<Uri, Uri>,
-        onError: () -> Unit,
+        onFailure: () -> Unit,
         onSuccess: () -> Unit
     ) {
         componentScope.launch(defaultDispatcher) {
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
-            if (data.first == null || data.second == null) onError()
+            if (data.first == null || data.second == null) onFailure()
             else {
                 _bitmapData.value = (uris.first to data.first!!) to (uris.second to data.second!!)
                 onSuccess()

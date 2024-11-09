@@ -320,7 +320,7 @@ internal class AndroidFileController @Inject constructor(
         runCatching {
             context.openWriteableStream(
                 uri = uri.toUri(),
-                onError = { throw it }
+                onFailure = { throw it }
             )?.let { stream ->
                 StreamWriteable(stream).use { block(it) }
             }

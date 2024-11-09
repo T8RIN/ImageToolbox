@@ -72,7 +72,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
             initialUris?.let {
                 updateUris(
                     uris = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -113,7 +113,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
 
     fun updateUris(
         uris: List<Uri>?,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         _uris.value = null
         _uris.value = uris
@@ -126,14 +126,14 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 uri = uri.toString(),
                 originalSize = false,
                 onGetImage = ::setImageData,
-                onError = onError
+                onFailure = onFailure
             )
         }
     }
 
     fun updateUrisSilently(
         removedUri: Uri,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         componentScope.launch(defaultDispatcher) {
             _uris.value = uris
@@ -141,11 +141,11 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 val index = uris?.indexOf(removedUri) ?: -1
                 if (index == 0) {
                     uris?.getOrNull(1)?.let {
-                        updateSelectedUri(it, onError)
+                        updateSelectedUri(it, onFailure)
                     }
                 } else {
                     uris?.getOrNull(index - 1)?.let {
-                        updateSelectedUri(it, onError)
+                        updateSelectedUri(it, onFailure)
                     }
                 }
             }
@@ -296,7 +296,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
 
     fun updateSelectedUri(
         uri: Uri,
-        onError: (Throwable) -> Unit = {}
+        onFailure: (Throwable) -> Unit = {}
     ) {
         _selectedUri.value = uri
         componentScope.launch(defaultDispatcher) {
@@ -323,7 +323,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 _isImageLoading.update { false }
             }.onFailure {
                 _isImageLoading.update { false }
-                onError(it)
+                onFailure(it)
             }
         }
     }

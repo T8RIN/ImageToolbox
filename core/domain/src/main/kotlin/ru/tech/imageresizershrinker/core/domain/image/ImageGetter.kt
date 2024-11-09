@@ -32,7 +32,7 @@ interface ImageGetter<I, M> {
         uri: String,
         originalSize: Boolean = true,
         onGetImage: (ImageData<I, M>) -> Unit,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     )
 
     suspend fun getImageWithTransformations(

@@ -311,7 +311,7 @@ internal fun FilterTemplateCreationSheet(
                                                             scope.launch {
                                                                 toastHostState.showErrorToast(
                                                                     context = context,
-                                                                    error = it
+                                                                    throwable = it
                                                                 )
                                                             }
                                                         }

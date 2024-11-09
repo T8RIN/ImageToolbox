@@ -106,7 +106,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
 
     fun setType(
         type: Screen.JxlTools.Type?,
-        onError: (Throwable) -> Unit = {}
+        onFailure: (Throwable) -> Unit = {}
     ) {
         when (type) {
             is Screen.JxlTools.Type.JpegToJxl -> {
@@ -120,7 +120,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
             }
 
             is Screen.JxlTools.Type.JxlToImage -> {
-                type.jxlUri?.let { setJxlUri(it, onError) } ?: _type.update { null }
+                type.jxlUri?.let { setJxlUri(it, onFailure) } ?: _type.update { null }
             }
 
             else -> _type.update { type }
@@ -139,7 +139,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
 
     private fun setJxlUri(
         uri: Uri,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
     ) {
         clearAll()
         _type.update {
@@ -154,7 +154,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                 imageFormat = imageFormat,
                 quality = params.quality,
                 imageFrames = imageFrames,
-                onError = onError
+                onFailure = onFailure
             ).onCompletion {
                 _isLoading.update { false }
                 _isLoadingJxlImages.update { false }
@@ -189,7 +189,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jpegUris.size
                     jxlConverter.jpegToJxl(
                         jpegUris = jpegUris,
-                        onError = {
+                        onFailure = {
                             results.add(SaveResult.Error.Exception(it))
                         }
                     ) { uri, jxlBytes ->
@@ -215,7 +215,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jxlUris.size
                     jxlConverter.jxlToJpeg(
                         jxlUris = jxlUris,
-                        onError = {
+                        onFailure = {
                             results.add(SaveResult.Error.Exception(it))
                         }
                     ) { uri, jpegBytes ->
@@ -241,7 +241,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                             imageFormat = imageFormat,
                             quality = params.quality,
                             imageFrames = imageFrames,
-                            onError = {
+                            onFailure = {
                                 results.add(SaveResult.Error.Exception(it))
                             },
                             onGetFramesCount = {
@@ -304,7 +304,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                             onProgress = {
                                 _done.update { it + 1 }
                             },
-                            onError = {
+                            onFailure = {
                                 onResult(
                                     listOf(
                                         SaveResult.Error.Exception(it)
@@ -378,7 +378,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     }
 
     fun performSharing(
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
         savingJob = componentScope.launch(defaultDispatcher) {
@@ -395,7 +395,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jpegUris.size
                     jxlConverter.jpegToJxl(
                         jpegUris = jpegUris,
-                        onError = onError
+                        onFailure = onFailure
                     ) { uri, jxlBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
@@ -419,7 +419,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jxlUris.size
                     jxlConverter.jxlToJpeg(
                         jxlUris = jxlUris,
-                        onError = onError
+                        onFailure = onFailure
                     ) { uri, jpegBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
@@ -454,10 +454,10 @@ class JxlToolsComponent @AssistedInject internal constructor(
                             onProgress = {
                                 _done.update { it + 1 }
                             },
-                            onError = {
+                            onFailure = {
                                 _isSaving.value = false
                                 savingJob?.cancel()
-                                onError(it)
+                                onFailure(it)
                             }
                         )?.also { byteArray ->
                             val timeStamp = SimpleDateFormat(

@@ -183,7 +183,7 @@ fun EraseBackgroundContent(
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let { uri ->
                 component.setUri(
                     uri = uri,
-                    onError = essentials::showErrorToast
+                    onFailure = essentials::showFailureToast
                 )
             }
         }
@@ -466,7 +466,7 @@ fun EraseBackgroundContent(
                         scaffoldState.bottomSheetState.partialExpand()
                         component.autoEraseBackground(
                             onSuccess = showConfetti,
-                            onFailure = essentials::showErrorToast
+                            onFailure = essentials::showFailureToast
                         )
                     }
                 },

@@ -103,14 +103,14 @@ internal class AndroidGifConverter @Inject constructor(
     override suspend fun createGifFromImageUris(
         imageUris: List<String>,
         params: GifParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray? = withContext(defaultDispatcher) {
         val out = ByteArrayOutputStream()
         val encoder = GifEncoder().apply {
             params.size?.let { size ->
                 if (size.width <= 0 || size.height <= 0) {
-                    onError(IllegalArgumentException("Width and height must be > 0"))
+                    onFailure(IllegalArgumentException("Width and height must be > 0"))
                     return@withContext null
                 }
 

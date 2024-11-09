@@ -697,7 +697,7 @@ fun AddFiltersSheet(
                                                         component.updateCubeLuts(
                                                             startDownloadIfNeeded = true,
                                                             forceUpdate = forceUpdate,
-                                                            onFailure = essentials::showErrorToast,
+                                                            onFailure = essentials::showFailureToast,
                                                             downloadOnlyNewData = downloadOnlyNewData
                                                         )
                                                     },
@@ -919,7 +919,7 @@ fun AddFiltersSheet(
                                             component.updateCubeLuts(
                                                 startDownloadIfNeeded = true,
                                                 forceUpdate = forceUpdate,
-                                                onFailure = essentials::showErrorToast,
+                                                onFailure = essentials::showFailureToast,
                                                 downloadOnlyNewData = downloadOnlyNewData
                                             )
                                         },
@@ -1474,13 +1474,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     fun addTemplateFilterFromString(
         string: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onFailure: suspend () -> Unit
     ) {
         componentScope.launch {
             favoriteInteractor.addTemplateFilterFromString(
                 string = string,
                 onSuccess = onSuccess,
-                onError = onError
+                onFailure = onFailure
             )
         }
     }
@@ -1488,13 +1488,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     fun addTemplateFilterFromUri(
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onFailure: suspend () -> Unit
     ) {
         componentScope.launch {
             favoriteInteractor.addTemplateFilterFromUri(
                 uri = uri,
                 onSuccess = onSuccess,
-                onError = onError
+                onFailure = onFailure
             )
         }
     }

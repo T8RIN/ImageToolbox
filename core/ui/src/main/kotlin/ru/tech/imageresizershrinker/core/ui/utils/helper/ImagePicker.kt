@@ -363,7 +363,7 @@ fun rememberImagePicker(
                             else -> {
                                 toastHostState.showErrorToast(
                                     context = context,
-                                    error = it
+                                    throwable = it
                                 )
                             }
                         }

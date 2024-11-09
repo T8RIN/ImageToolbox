@@ -69,7 +69,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
             initialUri?.let {
                 setUri(
                     uri = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -138,7 +138,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
 
     fun setUri(
         uri: Uri,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
     ) {
         _uri.value = uri
         autoEraseCount = 0
@@ -157,7 +157,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                         data.imageInfo.imageFormat
                     }
                 },
-                onError = onError
+                onFailure = onFailure
             )
         }
     }

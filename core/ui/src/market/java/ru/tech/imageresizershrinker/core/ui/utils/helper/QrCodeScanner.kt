@@ -67,7 +67,7 @@ fun rememberQrCodeScanner(
                 scope.launch {
                     toastHostState.showErrorToast(
                         context = context,
-                        error = result.exception
+                        throwable = result.exception
                     )
                 }
             }

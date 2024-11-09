@@ -32,7 +32,7 @@ interface WebpConverter {
     suspend fun createWebpFromImageUris(
         imageUris: List<String>,
         params: WebpParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray?
 

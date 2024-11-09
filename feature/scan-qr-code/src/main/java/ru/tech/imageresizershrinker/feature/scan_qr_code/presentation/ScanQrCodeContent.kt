@@ -136,7 +136,7 @@ fun ScanQrCodeContent(
                     icon = Icons.Outlined.AutoFixHigh
                 )
             },
-            onError = {}
+            onFailure = {}
         )
     }
 

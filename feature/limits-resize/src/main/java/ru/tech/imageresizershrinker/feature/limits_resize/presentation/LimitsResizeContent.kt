@@ -104,7 +104,7 @@ fun LimitsResizeContent(
         list.takeIf { it.isNotEmpty() }?.let { uris ->
             component.updateUris(
                 uris = uris,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         }
     }
@@ -338,7 +338,7 @@ fun LimitsResizeContent(
         onUriPicked = { uri ->
             component.updateSelectedUri(
                 uri = uri,
-                onFailure = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         },
         onUriRemoved = { uri ->

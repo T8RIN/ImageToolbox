@@ -22,7 +22,7 @@ interface SvgManager {
     suspend fun convertToSvg(
         imageUris: List<String>,
         params: SvgParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     )
 

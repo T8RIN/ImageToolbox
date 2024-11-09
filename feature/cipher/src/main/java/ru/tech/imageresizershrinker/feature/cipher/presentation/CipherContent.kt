@@ -460,8 +460,8 @@ fun CipherContent(
                                                             icon = Icons.Rounded.ErrorOutline
                                                         )
                                                     } else if (it != null) {
-                                                        essentials.showErrorToast(
-                                                            error = it
+                                                        essentials.showFailureToast(
+                                                            throwable = it
                                                         )
                                                     }
                                                 }

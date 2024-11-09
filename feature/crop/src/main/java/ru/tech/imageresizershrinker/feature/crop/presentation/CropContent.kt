@@ -175,7 +175,7 @@ fun CropContent(
             rotationState.floatValue = 0f
             component.setUri(
                 uri = it,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         }
     }

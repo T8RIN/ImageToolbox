@@ -86,7 +86,7 @@ class DrawComponent @AssistedInject internal constructor(
             initialUri?.let {
                 setUri(
                     uri = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -249,7 +249,7 @@ class DrawComponent @AssistedInject internal constructor(
 
     fun setUri(
         uri: Uri,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
     ) {
         componentScope.launch {
             _paths.value = listOf()
@@ -270,7 +270,7 @@ class DrawComponent @AssistedInject internal constructor(
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
                 },
-                onError = onError
+                onFailure = onFailure
             )
         }
     }

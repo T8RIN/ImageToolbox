@@ -247,7 +247,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun startRecognition(
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onRequestDownload: (List<DownloadData>) -> Unit
     ) {
         recognitionJob = componentScope.launch {
@@ -274,7 +274,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             ).also { result ->
                 when (result) {
                     is TextRecognitionResult.Error -> {
-                        onError(result.throwable)
+                        onFailure(result.throwable)
                     }
 
                     is TextRecognitionResult.NoData -> {

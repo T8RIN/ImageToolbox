@@ -26,20 +26,20 @@ interface JxlConverter {
 
     suspend fun jpegToJxl(
         jpegUris: List<String>,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     )
 
     suspend fun jxlToJpeg(
         jxlUris: List<String>,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     )
 
     suspend fun createJxlAnimation(
         imageUris: List<String>,
         params: AnimatedJxlParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray?
 
@@ -48,7 +48,7 @@ interface JxlConverter {
         imageFormat: ImageFormat,
         imageFrames: ImageFrames,
         quality: Quality,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onGetFramesCount: (frames: Int) -> Unit = {}
     ): Flow<String>
 

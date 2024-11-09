@@ -32,7 +32,7 @@ interface ApngConverter {
     suspend fun createApngFromImageUris(
         imageUris: List<String>,
         params: ApngParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray?
 

@@ -70,7 +70,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
             initialUris?.let {
                 updateUris(
                     uris = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -138,7 +138,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
 
     fun updateUris(
         uris: List<Uri>?,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         _uris.value = null
         _uris.value = uris
@@ -149,9 +149,9 @@ class WeightResizeComponent @AssistedInject internal constructor(
                 uri = uris[0].toString(),
                 originalSize = true,
                 onGetImage = ::setImageData,
-                onError = {
+                onFailure = {
                     _isImageLoading.value = false
-                    onError(it)
+                    onFailure(it)
                 }
             )
         }

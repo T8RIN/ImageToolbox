@@ -46,7 +46,7 @@ class PickColorComponent @AssistedInject internal constructor(
             initialUri?.let {
                 setUri(
                     uri = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -63,7 +63,7 @@ class PickColorComponent @AssistedInject internal constructor(
 
     fun setUri(
         uri: Uri,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         _uri.value = uri
         componentScope.launch {
@@ -74,7 +74,7 @@ class PickColorComponent @AssistedInject internal constructor(
                         originalSize = false
                     )
                 )
-            }.onFailure(onError)
+            }.onFailure(onFailure)
         }
     }
 

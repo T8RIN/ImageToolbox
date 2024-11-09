@@ -94,7 +94,7 @@ internal class AndroidImageStacker @Inject constructor(
     override suspend fun stackImages(
         stackImages: List<StackImage>,
         stackingParams: StackingParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: (Int) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
         val resultSize = stackingParams.size
@@ -106,7 +106,7 @@ internal class AndroidImageStacker @Inject constructor(
             } ?: IntegerSize(0, 0)
 
         if (resultSize.width <= 0 || resultSize.height <= 0) {
-            onError(IllegalArgumentException("Width and height must be > 0"))
+            onFailure(IllegalArgumentException("Width and height must be > 0"))
             return@withContext null
         }
 
@@ -147,7 +147,7 @@ internal class AndroidImageStacker @Inject constructor(
             stackImages = stackImages,
             stackingParams = stackingParams,
             onProgress = {},
-            onError = {}
+            onFailure = {}
         )?.let { image ->
             val imageSize = IntegerSize(
                 width = image.width,

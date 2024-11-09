@@ -86,7 +86,7 @@ internal class AndroidApngConverter @Inject constructor(
     override suspend fun createApngFromImageUris(
         imageUris: List<String>,
         params: ApngParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray? = withContext(defaultDispatcher) {
         val out = ByteArrayOutputStream()
@@ -95,7 +95,7 @@ internal class AndroidApngConverter @Inject constructor(
         }
 
         if (size.width <= 0 || size.height <= 0) {
-            onError(IllegalArgumentException("Width and height must be > 0"))
+            onFailure(IllegalArgumentException("Width and height must be > 0"))
             return@withContext null
         }
 

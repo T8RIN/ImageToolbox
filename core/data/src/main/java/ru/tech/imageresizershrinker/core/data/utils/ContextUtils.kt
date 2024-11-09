@@ -86,14 +86,14 @@ suspend infix fun ExifInterface.copyTo(
 
 fun Context.openWriteableStream(
     uri: Uri?,
-    onError: (Throwable) -> Unit = {}
+    onFailure: (Throwable) -> Unit = {}
 ): OutputStream? = uri?.let {
     runCatching {
         contentResolver.openOutputStream(uri, "rw")
     }.getOrElse {
         runCatching {
             contentResolver.openOutputStream(uri, "w")
-        }.onFailure(onError).getOrNull()
+        }.onFailure(onFailure).getOrNull()
     }
 }
 

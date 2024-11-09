@@ -54,12 +54,12 @@ internal fun FilterTemplateAddingGroup(
     onAddTemplateFilterFromString: (
         string: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onFailure: suspend () -> Unit
     ) -> Unit,
     onAddTemplateFilterFromUri: (
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onFailure: suspend () -> Unit
     ) -> Unit
 ) {
     val toastHostState = LocalToastHostState.current
@@ -68,14 +68,14 @@ internal fun FilterTemplateAddingGroup(
     fun addTemplateFilterFromString(
         string: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
-    ) = onAddTemplateFilterFromString(string, onSuccess, onError)
+        onFailure: suspend () -> Unit
+    ) = onAddTemplateFilterFromString(string, onSuccess, onFailure)
 
     fun addTemplateFilterFromUri(
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
-    ) = onAddTemplateFilterFromUri(uri, onSuccess, onError)
+        onFailure: suspend () -> Unit
+    ) = onAddTemplateFilterFromUri(uri, onSuccess, onFailure)
 
     val scanner = rememberQrCodeScanner {
         addTemplateFilterFromString(
@@ -90,7 +90,7 @@ internal fun FilterTemplateAddingGroup(
                     icon = Icons.Outlined.AutoFixHigh
                 )
             },
-            onError = {
+            onFailure = {
                 toastHostState.showToast(
                     message = context.getString(R.string.scanned_qr_code_isnt_filter_template),
                     icon = Icons.Rounded.QrCodeScanner
@@ -115,7 +115,7 @@ internal fun FilterTemplateAddingGroup(
                         icon = Icons.Outlined.AutoFixHigh
                     )
                 },
-                onError = {
+                onFailure = {
                     toastHostState.showToast(
                         message = context.getString(R.string.opened_file_have_no_filter_template),
                         icon = Icons.Outlined.AutoFixHigh

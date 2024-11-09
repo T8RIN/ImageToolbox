@@ -35,7 +35,7 @@ interface FavoriteFiltersInteractor {
     suspend fun addTemplateFilterFromString(
         string: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onFailure: suspend () -> Unit
     )
 
     suspend fun convertTemplateFilterToString(templateFilter: TemplateFilter): String
@@ -45,7 +45,7 @@ interface FavoriteFiltersInteractor {
     suspend fun addTemplateFilterFromUri(
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit
+        onFailure: suspend () -> Unit
     )
 
     fun isValidTemplateFilter(string: String): Boolean

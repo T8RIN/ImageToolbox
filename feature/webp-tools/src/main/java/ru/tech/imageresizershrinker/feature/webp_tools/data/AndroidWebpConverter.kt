@@ -79,7 +79,7 @@ internal class AndroidWebpConverter @Inject constructor(
     override suspend fun createWebpFromImageUris(
         imageUris: List<String>,
         params: WebpParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray? = withContext(defaultDispatcher) {
         val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
@@ -87,7 +87,7 @@ internal class AndroidWebpConverter @Inject constructor(
         }
 
         if (size.width <= 0 || size.height <= 0) {
-            onError(IllegalArgumentException("Width and height must be > 0"))
+            onFailure(IllegalArgumentException("Width and height must be > 0"))
             return@withContext null
         }
 
@@ -124,7 +124,7 @@ internal class AndroidWebpConverter @Inject constructor(
 
         runCatching {
             encoder.encode()
-        }.onFailure(onError).getOrNull()
+        }.onFailure(onFailure).getOrNull()
     }
 
     private val String.inputStream: InputStream?

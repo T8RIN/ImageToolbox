@@ -213,7 +213,7 @@ internal class AndroidImageGetter @Inject constructor(
         uri: String,
         originalSize: Boolean,
         onGetImage: (ImageData<Bitmap, ExifInterface>) -> Unit,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         val bmp = runCatching {
             imageLoader.enqueue(
@@ -244,7 +244,7 @@ internal class AndroidImageGetter @Inject constructor(
                     }.build()
             )
         }
-        bmp.exceptionOrNull()?.let(onError)
+        bmp.exceptionOrNull()?.let(onFailure)
     }
 
     override fun getExtension(uri: String): String? {

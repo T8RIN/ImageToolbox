@@ -77,7 +77,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             initialUris?.let {
                 updateUris(
                     uris = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -137,7 +137,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     fun updateUris(
         uris: List<Uri>?,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         _uris.update { null }
         _uris.update { uris }
@@ -152,7 +152,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                     uri = uri.toString(),
                     originalSize = true,
                     onGetImage = ::setImageData,
-                    onError = onError
+                    onFailure = onFailure
                 )
             }
         }

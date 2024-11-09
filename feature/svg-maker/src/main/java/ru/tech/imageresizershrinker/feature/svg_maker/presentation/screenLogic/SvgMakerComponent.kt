@@ -96,7 +96,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
             svgManager.convertToSvg(
                 imageUris = uris.map { it.toString() },
                 params = params,
-                onError = {
+                onFailure = {
                     results.add(
                         SaveResult.Error.Exception(it)
                     )
@@ -118,7 +118,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
     }
 
     fun performSharing(
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
         savingJob = componentScope.launch {
@@ -131,7 +131,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
             svgManager.convertToSvg(
                 imageUris = uris.map { it.toString() },
                 params = params,
-                onError = onError
+                onFailure = onFailure
             ) { uri, jxlBytes ->
                 results.add(
                     shareProvider.cacheByteArray(

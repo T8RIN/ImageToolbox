@@ -175,7 +175,7 @@ fun FilterEditOption(
                                             scope.launch {
                                                 toastHostState.showErrorToast(
                                                     context = context,
-                                                    error = it
+                                                    throwable = it
                                                 )
                                             }
                                         }

@@ -45,7 +45,7 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
             initialUri?.let {
                 setUri(
                     uri = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -59,7 +59,7 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
 
     fun setUri(
         uri: Uri?,
-        onError: (Throwable) -> Unit = {}
+        onFailure: (Throwable) -> Unit = {}
     ) {
         _uri.value = uri
         if (uri == null) {
@@ -77,7 +77,7 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
                     _isImageLoading.value = false
                 }
             },
-            onError = onError
+            onFailure = onFailure
         )
     }
 

@@ -106,7 +106,7 @@ fun DeleteExifContent(
         list.takeIf { it.isNotEmpty() }?.let { uris ->
             component.updateUris(
                 uris = uris,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         }
     }
@@ -322,7 +322,7 @@ fun DeleteExifContent(
         onUriPicked = { uri ->
             component.updateSelectedUri(
                 uri = uri,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         },
         onUriRemoved = { uri ->

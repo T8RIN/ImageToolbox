@@ -368,8 +368,8 @@ fun ZipContent(
                 onPrimaryButtonClick = {
                     component.startCompression {
                         if (it != null) {
-                            essentials.showErrorToast(
-                                error = it
+                            essentials.showFailureToast(
+                                throwable = it
                             )
                         }
                     }

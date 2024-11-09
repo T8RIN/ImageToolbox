@@ -48,7 +48,7 @@ internal class AndroidSvgManager @Inject constructor(
     override suspend fun convertToSvg(
         imageUris: List<String>,
         params: SvgParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     ) = withContext(defaultDispatcher) {
         imageUris.forEach { uri ->
@@ -77,7 +77,7 @@ internal class AndroidSvgManager @Inject constructor(
                 }
 
                 onProgress(uri, file.readBytes())
-            }.onFailure(onError)
+            }.onFailure(onFailure)
         }
     }
 

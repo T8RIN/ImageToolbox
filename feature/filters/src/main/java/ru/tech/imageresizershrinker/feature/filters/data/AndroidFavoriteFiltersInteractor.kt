@@ -99,7 +99,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     override suspend fun addTemplateFilterFromString(
         string: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit,
+        onFailure: suspend () -> Unit,
     ) {
         runCatching {
             if (isValidTemplateFilter(string)) {
@@ -108,9 +108,9 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
                 }.getOrNull()?.let {
                     addTemplateFilter(it)
                     onSuccess(it.name, it.filters.size)
-                } ?: onError()
-            } else onError()
-        }.onFailure { onError() }
+                } ?: onFailure()
+            } else onFailure()
+        }.onFailure { onFailure() }
     }
 
     override fun isValidTemplateFilter(
@@ -163,12 +163,12 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     override suspend fun addTemplateFilterFromUri(
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onError: suspend () -> Unit,
+        onFailure: suspend () -> Unit,
     ) {
         addTemplateFilterFromString(
             string = fileController.readBytes(uri).decodeToString(),
             onSuccess = onSuccess,
-            onError = onError
+            onFailure = onFailure
         )
     }
 

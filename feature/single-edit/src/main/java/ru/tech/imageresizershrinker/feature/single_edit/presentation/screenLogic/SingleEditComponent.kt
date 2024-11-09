@@ -472,7 +472,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             uri = uri.toString(),
             originalSize = true,
             onGetImage = ::setImageData,
-            onError = {
+            onFailure = {
                 _isImageLoading.update { false }
             }
         )

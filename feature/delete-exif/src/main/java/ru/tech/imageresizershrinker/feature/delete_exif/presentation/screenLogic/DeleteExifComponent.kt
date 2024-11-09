@@ -62,7 +62,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
             initialUris?.let {
                 updateUris(
                     uris = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -91,12 +91,12 @@ class DeleteExifComponent @AssistedInject internal constructor(
 
     fun updateUris(
         uris: List<Uri>?,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         _uris.value = null
         _uris.value = uris
         uris?.firstOrNull()?.let {
-            updateSelectedUri(it, onError)
+            updateSelectedUri(it, onFailure)
         }
     }
 
@@ -187,7 +187,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
 
     fun updateSelectedUri(
         uri: Uri,
-        onError: (Throwable) -> Unit = {}
+        onFailure: (Throwable) -> Unit = {}
     ) = componentScope.launch(defaultDispatcher) {
         _isImageLoading.value = true
         _selectedUri.value = uri
@@ -197,9 +197,9 @@ class DeleteExifComponent @AssistedInject internal constructor(
             onGetImage = {
                 updateBitmap(it.image)
             },
-            onError = {
+            onFailure = {
                 _isImageLoading.value = false
-                onError(it)
+                onFailure(it)
             }
         )
     }

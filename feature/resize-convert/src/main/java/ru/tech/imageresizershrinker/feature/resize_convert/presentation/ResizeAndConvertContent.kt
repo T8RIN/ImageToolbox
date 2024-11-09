@@ -123,7 +123,7 @@ fun ResizeAndConvertContent(
             list.takeIf { it.isNotEmpty() }?.let {
                 component.updateUris(
                     uris = list,
-                    onError = essentials::showErrorToast
+                    onFailure = essentials::showFailureToast
                 )
             }
         }
@@ -440,7 +440,7 @@ fun ResizeAndConvertContent(
         onUriPicked = { uri ->
             component.updateSelectedUri(
                 uri = uri,
-                onFailure = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         },
         onUriRemoved = { uri ->

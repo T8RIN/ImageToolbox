@@ -66,7 +66,7 @@ fun SvgMakerContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val onError: (Throwable) -> Unit = essentials::showErrorToast
+    val onFailure: (Throwable) -> Unit = essentials::showFailureToast
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -114,7 +114,7 @@ fun SvgMakerContent(
             ShareButton(
                 onShare = {
                     component.performSharing(
-                        onError = onError,
+                        onFailure = onFailure,
                         onComplete = showConfetti
                     )
                 },

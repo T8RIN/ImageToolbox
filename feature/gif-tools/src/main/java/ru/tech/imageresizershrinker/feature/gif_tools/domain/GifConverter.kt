@@ -35,7 +35,7 @@ interface GifConverter {
     suspend fun createGifFromImageUris(
         imageUris: List<String>,
         params: GifParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray?
 

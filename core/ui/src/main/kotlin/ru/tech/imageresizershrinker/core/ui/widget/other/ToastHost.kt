@@ -331,11 +331,11 @@ val LocalToastHostState = compositionLocalOf { ToastHostState() }
 
 suspend fun ToastHostState.showErrorToast(
     context: Context,
-    error: Throwable
+    throwable: Throwable
 ) = showToast(
     message = context.getString(
         R.string.smth_went_wrong,
-        error.localizedMessage ?: ""
+        throwable.localizedMessage ?: ""
     ),
     icon = Icons.Rounded.ErrorOutline,
     duration = ToastDuration.Long

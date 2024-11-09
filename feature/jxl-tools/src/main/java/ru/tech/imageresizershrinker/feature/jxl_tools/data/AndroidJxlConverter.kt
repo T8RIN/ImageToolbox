@@ -62,38 +62,38 @@ internal class AndroidJxlConverter @Inject constructor(
 
     override suspend fun jpegToJxl(
         jpegUris: List<String>,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
     ) = withContext(defaultDispatcher) {
         jpegUris.forEach { uri ->
             runCatching {
                 uri.jxl?.let { onProgress(uri, it) }
-            }.onFailure(onError)
+            }.onFailure(onFailure)
         }
     }
 
     override suspend fun jxlToJpeg(
         jxlUris: List<String>,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
     ) = withContext(defaultDispatcher) {
         jxlUris.forEach { uri ->
             runCatching {
                 uri.jpeg?.let { onProgress(uri, it) }
-            }.onFailure(onError)
+            }.onFailure(onFailure)
         }
     }
 
     override suspend fun createJxlAnimation(
         imageUris: List<String>,
         params: AnimatedJxlParams,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray? = withContext(defaultDispatcher) {
         val jxlQuality = params.quality as? Quality.Jxl
 
         if (jxlQuality == null) {
-            onError(IllegalArgumentException("Quality Must be Jxl"))
+            onFailure(IllegalArgumentException("Quality Must be Jxl"))
             return@withContext null
         }
 
@@ -102,7 +102,7 @@ internal class AndroidJxlConverter @Inject constructor(
                 IntegerSize(width, height)
             }
             if (size.width <= 0 || size.height <= 0) {
-                onError(IllegalArgumentException("Width and height must be > 0"))
+                onFailure(IllegalArgumentException("Width and height must be > 0"))
                 return@withContext null
             }
 
@@ -152,7 +152,7 @@ internal class AndroidJxlConverter @Inject constructor(
             }
             encoder.encode()
         }.onFailure {
-            onError(it)
+            onFailure(it)
             return@withContext null
         }.getOrNull()
     }
@@ -162,7 +162,7 @@ internal class AndroidJxlConverter @Inject constructor(
         imageFormat: ImageFormat,
         imageFrames: ImageFrames,
         quality: Quality,
-        onError: (Throwable) -> Unit,
+        onFailure: (Throwable) -> Unit,
         onGetFramesCount: (frames: Int) -> Unit
     ): Flow<String> = flow {
         val bytes = jxlUri.bytes ?: return@flow
@@ -193,7 +193,7 @@ internal class AndroidJxlConverter @Inject constructor(
             }?.let { emit(it) }
         }
     }.catch {
-        onError(it)
+        onFailure(it)
     }
 
     private val String.jxl: ByteArray?

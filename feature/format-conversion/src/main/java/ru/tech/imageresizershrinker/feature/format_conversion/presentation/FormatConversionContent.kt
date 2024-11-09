@@ -108,7 +108,7 @@ fun FormatConversionContent(
             list.takeIf { it.isNotEmpty() }?.let {
                 component.updateUris(
                     uris = list,
-                    onError = essentials::showErrorToast
+                    onFailure = essentials::showFailureToast
                 )
             }
         }
@@ -336,13 +336,13 @@ fun FormatConversionContent(
         onUriPicked = { uri ->
             component.updateSelectedUri(
                 uri = uri,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         },
         onUriRemoved = { uri ->
             component.updateUrisSilently(
                 removedUri = uri,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         },
         columns = if (isPortrait) 2 else 4,

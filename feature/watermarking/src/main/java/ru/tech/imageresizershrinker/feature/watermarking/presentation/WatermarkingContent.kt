@@ -118,7 +118,7 @@ fun WatermarkingContent(
         list.takeIf { it.isNotEmpty() }?.let { uriList ->
             component.setUris(
                 uris = uriList,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         }
     }
@@ -346,7 +346,7 @@ fun WatermarkingContent(
         onUriPicked = { uri ->
             component.updateSelectedUri(
                 uri = uri,
-                onError = essentials::showErrorToast
+                onFailure = essentials::showFailureToast
             )
         },
         onUriRemoved = { uri ->

@@ -74,7 +74,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
             initialUris?.let {
                 setUris(
                     uris = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
             resetState()
@@ -354,7 +354,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     fun updateSelectedUri(
         uri: Uri,
-        onError: (Throwable) -> Unit = {}
+        onFailure: (Throwable) -> Unit = {}
     ) = componentScope.launch {
         _selectedUri.value = uri
         _isImageLoading.value = true
@@ -368,9 +368,9 @@ class GradientMakerComponent @AssistedInject internal constructor(
                 _isImageLoading.value = false
                 setImageFormat(imageData.imageInfo.imageFormat)
             },
-            onError = {
+            onFailure = {
                 _isImageLoading.value = false
-                onError(it)
+                onFailure(it)
             }
         )
     }
@@ -408,10 +408,10 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     fun setUris(
         uris: List<Uri>,
-        onError: (Throwable) -> Unit = {}
+        onFailure: (Throwable) -> Unit = {}
     ) {
         _uris.update { uris }
-        uris.firstOrNull()?.let { updateSelectedUri(it, onError) }
+        uris.firstOrNull()?.let { updateSelectedUri(it, onFailure) }
     }
 
     fun getGradientTransformation(): Transformation =

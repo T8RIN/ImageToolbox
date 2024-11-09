@@ -67,7 +67,7 @@ class CropComponent @AssistedInject internal constructor(
             initialUri?.let {
                 setUri(
                     uri = it,
-                    onError = {}
+                    onFailure = {}
                 )
             }
         }
@@ -228,7 +228,7 @@ class CropComponent @AssistedInject internal constructor(
 
     fun setUri(
         uri: Uri,
-        onError: (Throwable) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         _uri.value = uri
         imageGetter.getImageAsync(
@@ -238,7 +238,7 @@ class CropComponent @AssistedInject internal constructor(
                 updateBitmap(it.image, true)
                 setImageFormat(it.imageInfo.imageFormat)
             },
-            onError = onError
+            onFailure = onFailure
         )
     }
 
