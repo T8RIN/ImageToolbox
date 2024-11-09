@@ -52,7 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
+import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import java.io.File
 import kotlin.random.Random
 
@@ -361,7 +361,7 @@ fun rememberImagePicker(
                             }
 
                             else -> {
-                                toastHostState.showErrorToast(
+                                toastHostState.showFailureToast(
                                     context = context,
                                     throwable = it
                                 )

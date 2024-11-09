@@ -86,7 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
+import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -249,7 +249,7 @@ fun EraseBackgroundEditOption(
                                 onFailure = {
                                     loading = false
                                     scope.launch {
-                                        toastHostState.showErrorToast(context, it)
+                                        toastHostState.showFailureToast(context, it)
                                     }
                                 }
                             )

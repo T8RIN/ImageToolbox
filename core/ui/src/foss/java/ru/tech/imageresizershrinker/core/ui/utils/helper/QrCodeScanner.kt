@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
+import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 
 class QrCodeScanner internal constructor(
     private val scannerLauncher: ManagedActivityResultLauncher<ScannerConfig, QRResult>
@@ -82,9 +82,9 @@ fun rememberQrCodeScanner(
         when (result) {
             is QRResult.QRError -> {
                 scope.launch {
-                    toastHostState.showErrorToast(
+                    toastHostState.showFailureToast(
                         context = context,
-                        error = result.exception
+                        throwable = result.exception
                     )
                 }
             }

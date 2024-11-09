@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
+import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 
 @Composable
 fun rememberLocalEssentials(): LocalEssentials {
@@ -86,7 +86,7 @@ data class LocalEssentials internal constructor(
         throwable: Throwable
     ) {
         coroutineScope.launch {
-            toastHostState.showErrorToast(
+            toastHostState.showFailureToast(
                 context = context,
                 throwable = throwable
             )

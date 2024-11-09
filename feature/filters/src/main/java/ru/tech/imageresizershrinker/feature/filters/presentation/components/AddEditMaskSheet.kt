@@ -123,7 +123,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
+import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
@@ -564,7 +564,7 @@ fun AddEditMaskSheet(
                                                     index = index,
                                                     showError = {
                                                         scope.launch {
-                                                            toastHostState.showErrorToast(
+                                                            toastHostState.showFailureToast(
                                                                 context = context,
                                                                 throwable = it
                                                             )

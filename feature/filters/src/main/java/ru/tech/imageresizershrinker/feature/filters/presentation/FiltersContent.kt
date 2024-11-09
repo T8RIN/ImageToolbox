@@ -515,7 +515,7 @@ fun FiltersContent(
                                                     component.updateFilter(
                                                         value = newValue,
                                                         index = index,
-                                                        onFailure = essentials::showErrorToast
+                                                        onFailure = essentials::showFailureToast
                                                     )
                                                 },
                                                 onLongPress = {
@@ -612,7 +612,7 @@ fun FiltersContent(
                                                     component.updateMask(
                                                         value = filterMask,
                                                         index = index,
-                                                        showError = essentials::showErrorToast
+                                                        showError = essentials::showFailureToast
                                                     )
                                                 },
                                                 onLongPress = {
@@ -1095,7 +1095,7 @@ fun FiltersContent(
                                         onUriPicked = { uri ->
                                             component.updateSelectedUri(
                                                 uri = uri,
-                                                onFailure = essentials::showErrorToast
+                                                onFailure = essentials::showFailureToast
                                             )
                                         },
                                         onUriRemoved = { uri ->

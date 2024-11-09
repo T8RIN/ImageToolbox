@@ -301,7 +301,7 @@ internal fun SettingItem(
                                     Icons.Rounded.Save
                                 )
                             },
-                            onFailure = essentials::showErrorToast
+                            onFailure = essentials::showFailureToast
                         )
                     }
                 )

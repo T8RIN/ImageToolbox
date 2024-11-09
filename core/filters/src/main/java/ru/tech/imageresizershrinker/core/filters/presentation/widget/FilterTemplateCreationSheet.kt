@@ -101,7 +101,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
+import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
@@ -309,7 +309,7 @@ internal fun FilterTemplateCreationSheet(
                                                         index = index,
                                                         showError = {
                                                             scope.launch {
-                                                                toastHostState.showErrorToast(
+                                                                toastHostState.showFailureToast(
                                                                     context = context,
                                                                     throwable = it
                                                                 )

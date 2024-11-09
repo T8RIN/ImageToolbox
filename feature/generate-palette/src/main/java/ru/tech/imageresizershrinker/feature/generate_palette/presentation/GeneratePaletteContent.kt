@@ -74,7 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
+import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -124,7 +124,7 @@ fun GeneratePaletteContent(
                 showPreferencePicker = true
                 component.setUri(it) {
                     scope.launch {
-                        toastHostState.showErrorToast(context, it)
+                        toastHostState.showFailureToast(context, it)
                     }
                 }
             }
@@ -144,7 +144,7 @@ fun GeneratePaletteContent(
                 useMaterialYouPalette = false
                 component.setUri(it) {
                     scope.launch {
-                        toastHostState.showErrorToast(context, it)
+                        toastHostState.showFailureToast(context, it)
                     }
                 }
             }
@@ -159,7 +159,7 @@ fun GeneratePaletteContent(
                 useMaterialYouPalette = true
                 component.setUri(it) {
                     scope.launch {
-                        toastHostState.showErrorToast(context, it)
+                        toastHostState.showFailureToast(context, it)
                     }
                 }
             }

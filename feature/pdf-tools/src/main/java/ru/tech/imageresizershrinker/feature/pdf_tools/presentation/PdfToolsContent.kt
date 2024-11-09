@@ -340,7 +340,7 @@ fun PdfToolsContent(
                             pdfToImagesPicker.launch(arrayOf("application/pdf"))
                         }
                     }
-                }.onFailure(essentials::showErrorToast)
+                }.onFailure(essentials::showFailureToast)
             },
             containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ) {
@@ -668,7 +668,7 @@ fun PdfToolsContent(
                                                                     )
                                                                 }
                                                             }
-                                                        }.onFailure(essentials::showErrorToast)
+                                                        }.onFailure(essentials::showFailureToast)
                                                     },
                                                     startIcon = it.icon,
                                                     title = stringResource(it.title),
