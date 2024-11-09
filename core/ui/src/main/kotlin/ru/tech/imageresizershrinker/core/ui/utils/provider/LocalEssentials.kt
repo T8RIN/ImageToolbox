@@ -17,19 +17,22 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
-import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -39,7 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
 fun rememberLocalEssentials(): LocalEssentials {
     val toastHostState = LocalToastHostState.current
     val confettiHostState = LocalConfettiHostState.current
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
     val coroutineScope = rememberCoroutineScope()
 
     return remember(
@@ -52,7 +55,7 @@ fun rememberLocalEssentials(): LocalEssentials {
             toastHostState = toastHostState,
             confettiHostState = confettiHostState,
             coroutineScope = coroutineScope,
-            contextProvider = { context }
+            context = context
         )
     }
 }
@@ -61,7 +64,7 @@ data class LocalEssentials internal constructor(
     val toastHostState: ToastHostState,
     val confettiHostState: ConfettiHostState,
     val coroutineScope: CoroutineScope,
-    private val contextProvider: () -> Context,
+    val context: ComponentActivity,
 ) {
     fun showToast(
         message: String,
@@ -80,7 +83,7 @@ data class LocalEssentials internal constructor(
     ) {
         coroutineScope.launch {
             toastHostState.showErrorToast(
-                context = contextProvider(),
+                context = context,
                 error = error
             )
         }
@@ -98,9 +101,30 @@ data class LocalEssentials internal constructor(
 
     fun showActivateFilesToast() {
         showToast(
-            message = contextProvider().getString(R.string.activate_files),
+            message = context.getString(R.string.activate_files),
             icon = Icons.Outlined.FolderOff,
             duration = ToastDuration.Long
+        )
+    }
+
+    fun parseSaveResult(saveResult: SaveResult) {
+        context.parseSaveResult(
+            saveResult = saveResult,
+            essentials = this
+        )
+    }
+
+    fun parseSaveResults(saveResults: List<SaveResult>) {
+        context.parseSaveResults(
+            results = saveResults,
+            essentials = this
+        )
+    }
+
+    fun parseFileSaveResult(saveResult: SaveResult) {
+        context.parseFileSaveResult(
+            saveResult = saveResult,
+            essentials = this
         )
     }
 }

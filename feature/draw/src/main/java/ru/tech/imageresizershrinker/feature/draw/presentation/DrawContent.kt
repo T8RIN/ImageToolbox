@@ -128,7 +128,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -234,12 +233,10 @@ fun DrawContent(
     val pickImage = imagePicker::pickImage
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        component.saveBitmap(it) { saveResult ->
-            context.parseSaveResult(
-                saveResult = saveResult,
-                essentials = essentials
-            )
-        }
+        component.saveBitmap(
+            oneTimeSaveLocationUri = it,
+            onComplete = essentials::parseSaveResult
+        )
     }
 
     val configuration = LocalConfiguration.current

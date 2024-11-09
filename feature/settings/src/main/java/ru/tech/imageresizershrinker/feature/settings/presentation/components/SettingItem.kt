@@ -33,7 +33,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
@@ -124,12 +123,7 @@ internal fun SettingItem(
                     onCreateBackup = { uri ->
                         component.createBackup(
                             uri = uri,
-                            onResult = { result ->
-                                context.parseFileSaveResult(
-                                    saveResult = result,
-                                    essentials = essentials
-                                )
-                            }
+                            onResult = essentials::parseFileSaveResult
                         )
                     }
                 )

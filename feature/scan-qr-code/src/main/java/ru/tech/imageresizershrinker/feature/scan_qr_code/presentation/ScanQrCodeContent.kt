@@ -78,7 +78,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -165,12 +164,11 @@ fun ScanQrCodeContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?, bitmap: Bitmap) -> Unit =
         { oneTimeSaveLocationUri, bitmap ->
-            component.saveBitmap(bitmap, oneTimeSaveLocationUri) { saveResult ->
-                context.parseSaveResult(
-                    saveResult = saveResult,
-                    essentials = essentials
-                )
-            }
+            component.saveBitmap(
+                bitmap = bitmap,
+                oneTimeSaveLocationUri = oneTimeSaveLocationUri,
+                onComplete = essentials::parseSaveResult
+            )
         }
 
     val isLandscape by isLandscapeOrientationAsState()

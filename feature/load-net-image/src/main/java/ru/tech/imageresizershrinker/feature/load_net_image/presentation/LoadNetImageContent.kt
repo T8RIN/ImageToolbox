@@ -61,7 +61,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.remember
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -141,12 +140,11 @@ fun LoadNetImageContent(
     var wantToEdit by rememberSaveable { mutableStateOf(false) }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        component.saveBitmap(link, it) { saveResult ->
-            context.parseSaveResult(
-                saveResult = saveResult,
-                essentials = essentials
-            )
-        }
+        component.saveBitmap(
+            link = link,
+            oneTimeSaveLocationUri = it,
+            onComplete = essentials::parseSaveResult
+        )
     }
 
     var imageState: AsyncImagePainter.State by remember {

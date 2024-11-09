@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showRevie
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 
-fun Activity.parseSaveResult(
+internal fun Activity.parseSaveResult(
     saveResult: SaveResult,
     essentials: LocalEssentials
 ) {
@@ -56,7 +56,7 @@ fun Activity.parseSaveResult(
     }
 }
 
-fun Context.parseFileSaveResult(
+internal fun Context.parseFileSaveResult(
     saveResult: SaveResult,
     essentials: LocalEssentials
 ) {
@@ -76,7 +76,7 @@ fun Context.parseFileSaveResult(
     }
 }
 
-fun Activity.parseSaveResults(
+internal fun Activity.parseSaveResults(
     results: List<SaveResult>,
     essentials: LocalEssentials
 ) {

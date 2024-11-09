@@ -63,10 +63,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberDocumentScanner
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -93,8 +90,6 @@ fun DocumentScannerContent(
 ) {
     val haptics = LocalHapticFeedback.current
 
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -109,12 +104,10 @@ fun DocumentScannerContent(
         contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
             it?.let { uri ->
-                component.savePdfTo(uri) { result ->
-                    context.parseFileSaveResult(
-                        saveResult = result,
-                        essentials = essentials
-                    )
-                }
+                component.savePdfTo(
+                    uri = uri,
+                    onResult = essentials::parseFileSaveResult
+                )
             }
         }
     )
@@ -135,12 +128,10 @@ fun DocumentScannerContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        component.saveBitmaps(it) { results ->
-            context.parseSaveResults(
-                results = results,
-                essentials = essentials
-            )
-        }
+        component.saveBitmaps(
+            oneTimeSaveLocationUri = it,
+            onComplete = essentials::parseSaveResults
+        )
     }
 
     AdaptiveLayoutScreen(

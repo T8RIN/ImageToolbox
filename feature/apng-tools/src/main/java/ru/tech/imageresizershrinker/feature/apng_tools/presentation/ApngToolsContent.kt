@@ -81,8 +81,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilenam
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -188,12 +186,10 @@ fun ApngToolsContent(
         contract = ActivityResultContracts.CreateDocument("image/apng"),
         onResult = {
             it?.let { uri ->
-                component.saveApngTo(uri) { result ->
-                    context.parseFileSaveResult(
-                        saveResult = result,
-                        essentials = essentials
-                    )
-                }
+                component.saveApngTo(
+                    uri = uri,
+                    onResult = essentials::parseFileSaveResult
+                )
             }
         }
     )
@@ -455,12 +451,7 @@ fun ApngToolsContent(
                             essentials.showActivateFilesToast()
                         }
                     },
-                    onResult = { results ->
-                        context.parseSaveResults(
-                            results = results,
-                            essentials = essentials
-                        )
-                    }
+                    onResult = essentials::parseSaveResults
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {

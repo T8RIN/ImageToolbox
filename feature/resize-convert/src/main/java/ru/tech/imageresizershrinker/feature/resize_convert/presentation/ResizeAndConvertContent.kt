@@ -53,7 +53,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -137,12 +136,10 @@ fun ResizeAndConvertContent(
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        component.saveBitmaps(it) { results ->
-            context.parseSaveResults(
-                results = results,
-                essentials = essentials
-            )
-        }
+        component.saveBitmaps(
+            oneTimeSaveLocationUri = it,
+            onComplete = essentials::parseSaveResults
+        )
     }
 
     var showResetDialog by rememberSaveable { mutableStateOf(false) }

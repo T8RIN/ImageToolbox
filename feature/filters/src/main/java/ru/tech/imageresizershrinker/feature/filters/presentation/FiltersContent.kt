@@ -108,8 +108,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -325,21 +323,17 @@ fun FiltersContent(
         val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
             when (filterType) {
                 is Screen.Filter.Type.Basic -> {
-                    component.saveBitmaps(it) { results ->
-                        context.parseSaveResults(
-                            results = results,
-                            essentials = essentials
-                        )
-                    }
+                    component.saveBitmaps(
+                        oneTimeSaveLocationUri = it,
+                        onResult = essentials::parseSaveResults
+                    )
                 }
 
                 is Screen.Filter.Type.Masking -> {
-                    component.saveMaskedBitmap(it) { saveResult ->
-                        context.parseSaveResult(
-                            saveResult = saveResult,
-                            essentials = essentials
-                        )
-                    }
+                    component.saveMaskedBitmap(
+                        oneTimeSaveLocationUri = it,
+                        onComplete = essentials::parseSaveResult
+                    )
                 }
             }
         }

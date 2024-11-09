@@ -47,10 +47,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRa
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -77,8 +75,6 @@ fun ImageSplitterContent(
     onNavigate: (Screen) -> Unit,
     component: ImageSplitterComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -99,12 +95,10 @@ fun ImageSplitterContent(
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-        component.saveBitmaps(it) { results ->
-            context.parseSaveResults(
-                results = results,
-                essentials = essentials
-            )
-        }
+        component.saveBitmaps(
+            oneTimeSaveLocationUri = it,
+            onComplete = essentials::parseSaveResults
+        )
     }
 
     val isPortrait by isPortraitOrientationAsState()

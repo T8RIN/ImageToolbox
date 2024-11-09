@@ -45,7 +45,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.animate
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -82,12 +81,10 @@ fun NoiseGenerationContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
-        component.saveNoise(it) { saveResult ->
-            context.parseSaveResult(
-                saveResult = saveResult,
-                essentials = essentials
-            )
-        }
+        component.saveNoise(
+            oneTimeSaveLocationUri = it,
+            onComplete = essentials::parseSaveResult
+        )
     }
 
     val shareButton: @Composable () -> Unit = {

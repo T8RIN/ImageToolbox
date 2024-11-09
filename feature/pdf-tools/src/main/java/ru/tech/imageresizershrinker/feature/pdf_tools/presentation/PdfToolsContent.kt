@@ -108,8 +108,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -181,12 +179,10 @@ fun PdfToolsContent(
         contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
             it?.let { uri ->
-                component.savePdfTo(uri) { result ->
-                    context.parseFileSaveResult(
-                        saveResult = result,
-                        essentials = essentials
-                    )
-                }
+                component.savePdfTo(
+                    uri = uri,
+                    onResult = essentials::parseFileSaveResult
+                )
             }
         }
     )
@@ -376,12 +372,10 @@ fun PdfToolsContent(
                 exit = fadeOut() + scaleOut() + shrinkOut()
             ) {
                 val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
-                    component.savePdfToImages(it) { results ->
-                        context.parseSaveResults(
-                            results = results,
-                            essentials = essentials
-                        )
-                    }
+                    component.savePdfToImages(
+                        oneTimeSaveLocationUri = it,
+                        onComplete = essentials::parseSaveResults
+                    )
                 }
                 var showFolderSelectionDialog by rememberSaveable {
                     mutableStateOf(false)

@@ -54,7 +54,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -68,7 +67,6 @@ import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -96,7 +94,6 @@ fun ZipContent(
 ) {
     val haptics = LocalHapticFeedback.current
 
-    val context = LocalContext.current
     val settingsState = LocalSettingsState.current
 
     val essentials = rememberLocalEssentials()
@@ -114,12 +111,10 @@ fun ZipContent(
         contract = ActivityResultContracts.CreateDocument("application/zip"),
         onResult = {
             it?.let { uri ->
-                component.saveResultTo(uri) { result ->
-                    context.parseFileSaveResult(
-                        saveResult = result,
-                        essentials = essentials
-                    )
-                }
+                component.saveResultTo(
+                    uri = uri,
+                    onResult = essentials::parseFileSaveResult
+                )
             }
         }
     )

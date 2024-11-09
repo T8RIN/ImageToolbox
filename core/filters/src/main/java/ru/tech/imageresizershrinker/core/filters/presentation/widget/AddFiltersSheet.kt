@@ -158,8 +158,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringL
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -540,23 +538,17 @@ fun AddFiltersSheet(
                                                     component.shareImage(it, showConfetti)
                                                 },
                                                 onSaveImage = {
-                                                    component.saveImage(it) { saveResult ->
-                                                        context.parseSaveResult(
-                                                            saveResult = saveResult,
-                                                            essentials = essentials
-                                                        )
-                                                    }
+                                                    component.saveImage(
+                                                        bitmap = it,
+                                                        onComplete = essentials::parseSaveResult
+                                                    )
                                                 },
                                                 onSaveFile = { fileUri, content ->
                                                     component.saveContentTo(
                                                         content = content,
-                                                        fileUri = fileUri
-                                                    ) { result ->
-                                                        context.parseFileSaveResult(
-                                                            saveResult = result,
-                                                            essentials = essentials
-                                                        )
-                                                    }
+                                                        fileUri = fileUri,
+                                                        onResult = essentials::parseFileSaveResult
+                                                    )
                                                 },
                                                 onConvertTemplateFilterToString = component::convertTemplateFilterToString,
                                                 onRemoveTemplateFilter = component::removeTemplateFilter,
@@ -838,12 +830,10 @@ fun AddFiltersSheet(
                                                         mutableStateOf(false)
                                                     }
                                                     val saveNeutralLut: (String?) -> Unit = {
-                                                        component.saveNeutralLut(it) { saveResult ->
-                                                            context.parseSaveResult(
-                                                                saveResult = saveResult,
-                                                                essentials = essentials
-                                                            )
-                                                        }
+                                                        component.saveNeutralLut(
+                                                            oneTimeSaveLocationUri = it,
+                                                            onComplete = essentials::parseSaveResult
+                                                        )
                                                     }
                                                     Row {
                                                         ShareButton(

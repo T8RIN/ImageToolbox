@@ -55,7 +55,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -211,13 +210,9 @@ fun CompareContent(
             component.saveBitmap(
                 percent = compareProgress,
                 imageFormat = imageFormat,
-                oneTimeSaveLocationUri = oneTimeSaveLocationUri
-            ) { saveResult ->
-                context.parseSaveResult(
-                    saveResult = saveResult,
-                    essentials = essentials
-                )
-            }
+                oneTimeSaveLocationUri = oneTimeSaveLocationUri,
+                onComplete = essentials::parseSaveResult
+            )
             showShareSheet = false
         },
         onShare = { imageFormat ->

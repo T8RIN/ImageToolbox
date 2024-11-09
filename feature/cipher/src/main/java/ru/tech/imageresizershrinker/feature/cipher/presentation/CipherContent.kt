@@ -107,7 +107,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -159,12 +158,10 @@ fun CipherContent(
         contract = ActivityResultContracts.CreateDocument("*/*"),
         onResult = {
             it?.let { uri ->
-                component.saveCryptographyTo(uri) { result ->
-                    context.parseFileSaveResult(
-                        saveResult = result,
-                        essentials = essentials
-                    )
-                }
+                component.saveCryptographyTo(
+                    uri = uri,
+                    onResult = essentials::parseFileSaveResult
+                )
             }
         }
     )

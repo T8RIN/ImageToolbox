@@ -78,8 +78,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilenam
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -224,12 +222,10 @@ fun GifToolsContent(
         contract = ActivityResultContracts.CreateDocument("image/gif"),
         onResult = {
             it?.let { uri ->
-                component.saveGifTo(uri) { result ->
-                    context.parseFileSaveResult(
-                        saveResult = result,
-                        essentials = essentials
-                    )
-                }
+                component.saveGifTo(
+                    uri = uri,
+                    onResult = essentials::parseSaveResult
+                )
             }
         }
     )
@@ -510,12 +506,7 @@ fun GifToolsContent(
                             essentials.showActivateFilesToast()
                         }
                     },
-                    onResult = { results ->
-                        context.parseSaveResults(
-                            results = results,
-                            essentials = essentials
-                        )
-                    }
+                    onResult = essentials::parseSaveResults
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {

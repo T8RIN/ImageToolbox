@@ -76,8 +76,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilenam
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
-import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -141,12 +139,10 @@ fun WebpToolsContent(
         contract = ActivityResultContracts.CreateDocument("image/webp"),
         onResult = {
             it?.let { uri ->
-                component.saveWebpTo(uri) { result ->
-                    context.parseFileSaveResult(
-                        saveResult = result,
-                        essentials = essentials
-                    )
-                }
+                component.saveWebpTo(
+                    uri = uri,
+                    onResult = essentials::parseFileSaveResult
+                )
             }
         }
     )
@@ -360,12 +356,7 @@ fun WebpToolsContent(
                             essentials.showActivateFilesToast()
                         }
                     },
-                    onResult = { results ->
-                        context.parseSaveResults(
-                            results = results,
-                            essentials = essentials
-                        )
-                    }
+                    onResult = essentials::parseSaveResults
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {
