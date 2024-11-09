@@ -29,26 +29,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.FolderShared
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -58,8 +54,8 @@ fun SavingFolderSettingItemGroup(
 ) {
     Column(modifier) {
         val context = LocalContext.current
-        val toastHostState = LocalToastHostState.current
-        val scope = rememberCoroutineScope()
+        val essentials = rememberLocalEssentials()
+
         val settingsState = LocalSettingsState.current
         val currentFolderUri = settingsState.saveFolderUri
         val launcher = rememberLauncherForActivityResult(
@@ -105,13 +101,7 @@ fun SavingFolderSettingItemGroup(
                 runCatching {
                     launcher.launch(currentFolderUri)
                 }.onFailure {
-                    scope.launch {
-                        toastHostState.showToast(
-                            message = context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
-                        )
-                    }
+                    essentials.showActivateFilesToast()
                 }
             },
             title = stringResource(R.string.custom),

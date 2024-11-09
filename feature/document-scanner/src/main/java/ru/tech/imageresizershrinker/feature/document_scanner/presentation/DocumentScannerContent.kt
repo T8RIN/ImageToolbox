@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.Share
@@ -81,7 +80,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -185,11 +183,7 @@ fun DocumentScannerContent(
                             runCatching {
                                 documentScanner.scan()
                             }.onFailure {
-                                essentials.showToast(
-                                    message = context.getString(R.string.activate_files),
-                                    icon = Icons.Outlined.FolderOff,
-                                    duration = ToastDuration.Long
-                                )
+                                essentials.showActivateFilesToast()
                             }
                         }
                         .padding(12.dp),
@@ -213,11 +207,7 @@ fun DocumentScannerContent(
                     runCatching {
                         additionalDocumentScanner.scan()
                     }.onFailure {
-                        essentials.showToast(
-                            message = context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
-                        )
+                        essentials.showActivateFilesToast()
                     }
                 },
                 addUrisContent = { width ->
@@ -359,11 +349,7 @@ fun DocumentScannerContent(
                     runCatching {
                         documentScanner.scan()
                     }.onFailure {
-                        essentials.showToast(
-                            message = context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
-                        )
+                        essentials.showActivateFilesToast()
                     }
                 },
                 secondaryButtonIcon = Icons.Rounded.DocumentScanner,

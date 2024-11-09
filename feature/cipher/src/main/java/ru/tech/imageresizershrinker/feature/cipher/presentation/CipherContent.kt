@@ -58,7 +58,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FileDownload
@@ -120,7 +119,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -297,11 +295,7 @@ fun CipherContent(
                                                         runCatching {
                                                             filePicker.launch(arrayOf("*/*"))
                                                         }.onFailure {
-                                                            essentials.showToast(
-                                                                message = context.getString(R.string.activate_files),
-                                                                icon = Icons.Outlined.FolderOff,
-                                                                duration = ToastDuration.Long
-                                                            )
+                                                            essentials.showActivateFilesToast()
                                                         }
                                                     }
                                                     .padding(12.dp),
@@ -380,11 +374,7 @@ fun CipherContent(
                                                     runCatching {
                                                         filePicker.launch(arrayOf("*/*"))
                                                     }.onFailure {
-                                                        essentials.showToast(
-                                                            message = context.getString(R.string.activate_files),
-                                                            icon = Icons.Outlined.FolderOff,
-                                                            duration = ToastDuration.Long
-                                                        )
+                                                        essentials.showActivateFilesToast()
                                                     }
                                                 },
                                                 modifier = Modifier.padding(top = 16.dp),
@@ -627,13 +617,7 @@ fun CipherContent(
                                                             runCatching {
                                                                 saveLauncher.launch(name)
                                                             }.onFailure {
-                                                                essentials.showToast(
-                                                                    message = context.getString(
-                                                                        R.string.activate_files
-                                                                    ),
-                                                                    icon = Icons.Outlined.FolderOff,
-                                                                    duration = ToastDuration.Long
-                                                                )
+                                                                essentials.showActivateFilesToast()
                                                             }
                                                         },
                                                         modifier = Modifier
@@ -714,11 +698,7 @@ fun CipherContent(
                     runCatching {
                         filePicker.launch(arrayOf("*/*"))
                     }.onFailure {
-                        essentials.showToast(
-                            message = context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
-                        )
+                        essentials.showActivateFilesToast()
                     }
                 },
                 modifier = Modifier

@@ -49,7 +49,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
@@ -104,7 +103,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -454,11 +452,7 @@ fun ApngToolsContent(
                         runCatching {
                             saveApngLauncher.launch("$name.png")
                         }.onFailure {
-                            essentials.showToast(
-                                message = context.getString(R.string.activate_files),
-                                icon = Icons.Outlined.FolderOff,
-                                duration = ToastDuration.Long
-                            )
+                            essentials.showActivateFilesToast()
                         }
                     },
                     onResult = { results ->

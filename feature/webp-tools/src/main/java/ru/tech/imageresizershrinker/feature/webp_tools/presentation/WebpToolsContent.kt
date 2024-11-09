@@ -47,7 +47,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
@@ -98,7 +97,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelect
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -359,11 +357,7 @@ fun WebpToolsContent(
                         runCatching {
                             saveWebpLauncher.launch("$name.webp")
                         }.onFailure {
-                            essentials.showToast(
-                                message = context.getString(R.string.activate_files),
-                                icon = Icons.Outlined.FolderOff,
-                                duration = ToastDuration.Long
-                            )
+                            essentials.showActivateFilesToast()
                         }
                     },
                     onResult = { results ->

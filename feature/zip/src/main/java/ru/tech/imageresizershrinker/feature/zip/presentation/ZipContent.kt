@@ -36,7 +36,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileOpen
@@ -80,7 +79,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -187,11 +185,7 @@ fun ZipContent(
                             runCatching {
                                 filePicker.launch(arrayOf("*/*"))
                             }.onFailure {
-                                essentials.showToast(
-                                    message = context.getString(R.string.activate_files),
-                                    icon = Icons.Outlined.FolderOff,
-                                    duration = ToastDuration.Long
-                                )
+                                essentials.showActivateFilesToast()
                             }
                         }
                         .padding(12.dp),
@@ -291,13 +285,7 @@ fun ZipContent(
                                 runCatching {
                                     saveLauncher.launch(name)
                                 }.onFailure {
-                                    essentials.showToast(
-                                        message = context.getString(
-                                            R.string.activate_files
-                                        ),
-                                        icon = Icons.Outlined.FolderOff,
-                                        duration = ToastDuration.Long
-                                    )
+                                    essentials.showActivateFilesToast()
                                 }
                             },
                             modifier = Modifier
@@ -364,11 +352,7 @@ fun ZipContent(
                     runCatching {
                         additionalFilePicker.launch(arrayOf("*/*"))
                     }.onFailure {
-                        essentials.showToast(
-                            message = context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
-                        )
+                        essentials.showActivateFilesToast()
                     }
                 }
             )
@@ -380,11 +364,7 @@ fun ZipContent(
                     runCatching {
                         filePicker.launch(arrayOf("*/*"))
                     }.onFailure {
-                        essentials.showToast(
-                            message = context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
-                        )
+                        essentials.showActivateFilesToast()
                     }
                 },
                 secondaryButtonIcon = Icons.Rounded.FileOpen,

@@ -62,7 +62,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Close
@@ -133,7 +132,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -396,11 +394,7 @@ fun PdfToolsContent(
                                 runCatching {
                                     savePdfLauncher.launch("$name.pdf")
                                 }.onFailure {
-                                    essentials.showToast(
-                                        message = context.getString(R.string.activate_files),
-                                        icon = Icons.Outlined.FolderOff,
-                                        duration = ToastDuration.Long
-                                    )
+                                    essentials.showActivateFilesToast()
                                 }
                             }
                         } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
@@ -704,11 +698,7 @@ fun PdfToolsContent(
                                                 runCatching {
                                                     selectionPdfPicker.launch(arrayOf("application/pdf"))
                                                 }.onFailure {
-                                                    essentials.showToast(
-                                                        message = context.getString(R.string.activate_files),
-                                                        icon = Icons.Outlined.FolderOff,
-                                                        duration = ToastDuration.Long
-                                                    )
+                                                    essentials.showActivateFilesToast()
                                                 }
                                             },
                                             modifier = Modifier

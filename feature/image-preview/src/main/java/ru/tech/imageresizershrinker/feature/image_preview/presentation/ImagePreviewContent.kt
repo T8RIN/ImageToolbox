@@ -47,7 +47,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -64,7 +63,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -82,13 +80,13 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FolderOpened
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.listFilesInDirectory
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -98,8 +96,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -125,13 +121,9 @@ fun ImagePreviewContent(
 
     val settingsState = LocalSettingsState.current
 
-    val confettiHostState = LocalConfettiHostState.current
-    val scope = rememberCoroutineScope()
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple),
@@ -167,18 +159,11 @@ fun ImagePreviewContent(
 
     val pickImage = imagePicker::pickImage
 
-    val toastHostState = LocalToastHostState.current
     val pickDirectory: () -> Unit = {
         runCatching {
             openDirectoryLauncher.launch(previousFolder)
         }.onFailure {
-            scope.launch {
-                toastHostState.showToast(
-                    message = context.getString(R.string.activate_files),
-                    icon = Icons.Outlined.FolderOff,
-                    duration = ToastDuration.Long
-                )
-            }
+            essentials.showActivateFilesToast()
         }
     }
 

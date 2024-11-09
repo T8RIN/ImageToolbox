@@ -28,8 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.model.UiSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -41,19 +39,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
 fun rememberLocalEssentials(): LocalEssentials {
     val toastHostState = LocalToastHostState.current
     val confettiHostState = LocalConfettiHostState.current
-    val settingsState = LocalSettingsState.current
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
     return remember(
-        settingsState,
         toastHostState,
         coroutineScope,
         confettiHostState,
         context
     ) {
         LocalEssentials(
-            settingsState = settingsState,
             toastHostState = toastHostState,
             confettiHostState = confettiHostState,
             coroutineScope = coroutineScope,
@@ -63,7 +58,6 @@ fun rememberLocalEssentials(): LocalEssentials {
 }
 
 data class LocalEssentials internal constructor(
-    val settingsState: UiSettingsState,
     val toastHostState: ToastHostState,
     val confettiHostState: ConfettiHostState,
     val coroutineScope: CoroutineScope,
