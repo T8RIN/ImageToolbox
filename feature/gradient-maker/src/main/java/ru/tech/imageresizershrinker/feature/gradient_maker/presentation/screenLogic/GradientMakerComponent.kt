@@ -77,7 +77,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                     onError = {}
                 )
             }
-            clearState()
+            resetState()
             _gradientAlpha.update { 0.5f }
         }
     }
@@ -380,7 +380,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun clearState() {
+    override fun resetState() {
         _selectedUri.update { Uri.EMPTY }
         _uris.update { emptyList() }
         _gradientAlpha.update { 1f }

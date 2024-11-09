@@ -78,7 +78,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -97,7 +96,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.domain.utils.toInt
 import ru.tech.imageresizershrinker.core.resources.R
@@ -107,11 +105,11 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
@@ -122,10 +120,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -146,9 +142,9 @@ fun CipherContent(
 
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
+
+    val essentials = rememberLocalEssentials()
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     var showTip by rememberSaveable { mutableStateOf(false) }
@@ -168,11 +164,7 @@ fun CipherContent(
                 component.saveCryptographyTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
-                        onSuccess = {
-                            confettiHostState.showConfetti()
-                        },
-                        toastHostState = toastHostState,
-                        scope = scope
+                        essentials = essentials
                     )
                 }
             }
@@ -305,13 +297,11 @@ fun CipherContent(
                                                         runCatching {
                                                             filePicker.launch(arrayOf("*/*"))
                                                         }.onFailure {
-                                                            scope.launch {
-                                                                toastHostState.showToast(
-                                                                    message = context.getString(R.string.activate_files),
-                                                                    icon = Icons.Outlined.FolderOff,
-                                                                    duration = ToastDuration.Long
-                                                                )
-                                                            }
+                                                            essentials.showToast(
+                                                                message = context.getString(R.string.activate_files),
+                                                                icon = Icons.Outlined.FolderOff,
+                                                                duration = ToastDuration.Long
+                                                            )
                                                         }
                                                     }
                                                     .padding(12.dp),
@@ -390,13 +380,11 @@ fun CipherContent(
                                                     runCatching {
                                                         filePicker.launch(arrayOf("*/*"))
                                                     }.onFailure {
-                                                        scope.launch {
-                                                            toastHostState.showToast(
-                                                                message = context.getString(R.string.activate_files),
-                                                                icon = Icons.Outlined.FolderOff,
-                                                                duration = ToastDuration.Long
-                                                            )
-                                                        }
+                                                        essentials.showToast(
+                                                            message = context.getString(R.string.activate_files),
+                                                            icon = Icons.Outlined.FolderOff,
+                                                            duration = ToastDuration.Long
+                                                        )
                                                     }
                                                 },
                                                 modifier = Modifier.padding(top = 16.dp),
@@ -480,16 +468,15 @@ fun CipherContent(
                                                     }
                                                 ) {
                                                     if (it is InvalidKeyException) {
-                                                        scope.launch {
-                                                            toastHostState.showToast(
-                                                                context.getString(R.string.invalid_password_or_not_encrypted),
-                                                                Icons.Rounded.ErrorOutline
-                                                            )
-                                                        }
+                                                        essentials.showToast(
+                                                            message = context.getString(R.string.invalid_password_or_not_encrypted),
+                                                            icon = Icons.Rounded.ErrorOutline
+                                                        )
                                                     } else if (it != null) {
-                                                        scope.launch {
-                                                            toastHostState.showError(context, it)
-                                                        }
+                                                        essentials.showErrorToast(
+                                                            context = context,
+                                                            error = it
+                                                        )
                                                     }
                                                 }
                                             },
@@ -641,15 +628,13 @@ fun CipherContent(
                                                             runCatching {
                                                                 saveLauncher.launch(name)
                                                             }.onFailure {
-                                                                scope.launch {
-                                                                    toastHostState.showToast(
-                                                                        message = context.getString(
-                                                                            R.string.activate_files
-                                                                        ),
-                                                                        icon = Icons.Outlined.FolderOff,
-                                                                        duration = ToastDuration.Long
-                                                                    )
-                                                                }
+                                                                essentials.showToast(
+                                                                    message = context.getString(
+                                                                        R.string.activate_files
+                                                                    ),
+                                                                    icon = Icons.Outlined.FolderOff,
+                                                                    duration = ToastDuration.Long
+                                                                )
                                                             }
                                                         },
                                                         modifier = Modifier
@@ -678,12 +663,9 @@ fun CipherContent(
                                                             component.byteArray?.let {
                                                                 component.shareFile(
                                                                     it = it,
-                                                                    filename = name
-                                                                ) {
-                                                                    scope.launch {
-                                                                        confettiHostState.showConfetti()
-                                                                    }
-                                                                }
+                                                                    filename = name,
+                                                                    onComplete = showConfetti
+                                                                )
                                                             }
                                                         },
                                                         modifier = Modifier
@@ -733,13 +715,11 @@ fun CipherContent(
                     runCatching {
                         filePicker.launch(arrayOf("*/*"))
                     }.onFailure {
-                        scope.launch {
-                            toastHostState.showToast(
-                                message = context.getString(R.string.activate_files),
-                                icon = Icons.Outlined.FolderOff,
-                                duration = ToastDuration.Long
-                            )
-                        }
+                        essentials.showToast(
+                            message = context.getString(R.string.activate_files),
+                            icon = Icons.Outlined.FolderOff,
+                            duration = ToastDuration.Long
+                        )
                     }
                 },
                 modifier = Modifier

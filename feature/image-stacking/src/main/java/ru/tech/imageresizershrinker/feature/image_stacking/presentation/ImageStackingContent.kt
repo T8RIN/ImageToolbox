@@ -34,7 +34,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,7 +47,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -57,6 +55,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -73,9 +72,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -94,17 +91,12 @@ fun ImageStackingContent(
     val settingsState = LocalSettingsState.current
 
     val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     LaunchedEffect(component.previewBitmap) {
         component.previewBitmap?.let {
@@ -130,9 +122,7 @@ fun ImageStackingContent(
         }
     }
 
-    val addImages = {
-        addImagesImagePicker.pickImage()
-    }
+    val addImages = addImagesImagePicker::pickImage
 
     val pickImage = imagePicker::pickImage
 
@@ -152,9 +142,7 @@ fun ImageStackingContent(
         component.saveBitmaps(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
-                onSuccess = showConfetti,
-                toastHostState = toastHostState,
-                scope = scope
+                essentials = essentials
             )
         }
     }
@@ -283,12 +271,10 @@ fun ImageStackingContent(
                                         value = image,
                                         index = index,
                                         showError = {
-                                            scope.launch {
-                                                toastHostState.showError(
-                                                    context = context,
-                                                    error = it
-                                                )
-                                            }
+                                            essentials.showErrorToast(
+                                                context = context,
+                                                error = it
+                                            )
                                         }
                                     )
                                 },

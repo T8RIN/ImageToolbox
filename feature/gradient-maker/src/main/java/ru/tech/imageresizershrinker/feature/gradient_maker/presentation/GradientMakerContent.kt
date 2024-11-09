@@ -44,7 +44,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,7 +59,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.blend
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -70,6 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
@@ -87,9 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -110,7 +107,6 @@ fun GradientMakerContent(
     onNavigate: (Screen) -> Unit,
     component: GradientMakerComponent
 ) {
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
     val settingsState = LocalSettingsState.current
@@ -120,11 +116,9 @@ fun GradientMakerContent(
 
     val context = LocalComponentActivity.current
 
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch { confettiHostState.showConfetti() }
-    }
-    val toastHostState = LocalToastHostState.current
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     var allowPickingImage by rememberSaveable(component.initialUris) {
         mutableStateOf(
@@ -146,7 +140,7 @@ fun GradientMakerContent(
 
     LaunchedEffect(allowPickingImage) {
         if (allowPickingImage != true) {
-            component.clearState()
+            component.resetState()
         }
     }
 
@@ -167,12 +161,13 @@ fun GradientMakerContent(
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { uris ->
-        uris.takeIf { it.isNotEmpty() }?.let {
+        uris.takeIf { it.isNotEmpty() }?.let { uriList ->
             allowPickingImage = true
-            component.setUris(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
+            component.setUris(uriList) {
+                essentials.showErrorToast(
+                    context = context,
+                    error = it
+                )
             }
             component.updateGradientAlpha(0.5f)
         }
@@ -402,18 +397,14 @@ fun GradientMakerContent(
                         onStandaloneGradientSaveResult = { saveResult ->
                             context.parseSaveResult(
                                 saveResult = saveResult,
-                                onSuccess = showConfetti,
-                                toastHostState = toastHostState,
-                                scope = scope
+                                essentials = essentials
                             )
                         },
                         onResult = { results ->
                             context.parseSaveResults(
-                                scope = scope,
+                                essentials = essentials,
                                 results = results,
-                                toastHostState = toastHostState,
-                                isOverwritten = settingsState.overwriteFiles,
-                                showConfetti = showConfetti
+                                isOverwritten = settingsState.overwriteFiles
                             )
                         }
                     )
@@ -480,9 +471,10 @@ fun GradientMakerContent(
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
             component.updateSelectedUri(uri = uri) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
+                essentials.showErrorToast(
+                    context = context,
+                    error = it
+                )
             }
         },
         onUriRemoved = { uri ->
@@ -553,7 +545,7 @@ fun GradientMakerContent(
             if (allowPickingImage != null) {
                 allowPickingImage = null
                 themeState.updateColorTuple(appColorTuple)
-                component.clearState()
+                component.resetState()
             } else onGoBack()
         },
         onDismiss = { showExitDialog = false },

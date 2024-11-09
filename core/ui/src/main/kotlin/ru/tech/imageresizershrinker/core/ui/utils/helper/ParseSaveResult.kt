@@ -22,83 +22,66 @@ import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 
-fun Context.parseSaveResult(
+fun Activity.parseSaveResult(
     saveResult: SaveResult,
-    onSuccess: suspend () -> Unit,
-    toastHostState: ToastHostState,
-    scope: CoroutineScope
+    essentials: LocalEssentials
 ) {
     when (saveResult) {
         is SaveResult.Error.Exception -> {
-            scope.launch {
-                toastHostState.showError(
-                    context = this@parseSaveResult,
-                    error = saveResult.throwable
-                )
-            }
+            essentials.showErrorToast(
+                context = this@parseSaveResult,
+                error = saveResult.throwable
+            )
         }
 
         is SaveResult.Success -> {
             saveResult.message?.let {
-                scope.launch {
-                    toastHostState.showToast(
-                        message = it,
-                        icon = Icons.Rounded.Save,
-                        duration = ToastDuration.Long
-                    )
-                }
+                essentials.showToast(
+                    message = it,
+                    icon = Icons.Rounded.Save,
+                    duration = ToastDuration.Long
+                )
             }
-            scope.launch { onSuccess() }
+            essentials.showConfetti()
             showReview(this@parseSaveResult)
         }
 
-        SaveResult.Error.MissingPermissions -> Unit //Requesting permissions does FileController
+        SaveResult.Error.MissingPermissions -> requestStoragePermission()
     }
 }
 
 fun Context.parseFileSaveResult(
     saveResult: SaveResult,
-    onSuccess: suspend () -> Unit,
-    toastHostState: ToastHostState,
-    scope: CoroutineScope
+    essentials: LocalEssentials
 ) {
     if (saveResult is SaveResult.Error.Exception) {
-        scope.launch {
-            toastHostState.showError(this@parseFileSaveResult, saveResult.throwable)
-        }
+        essentials.showErrorToast(
+            context = this@parseFileSaveResult,
+            error = saveResult.throwable
+        )
     } else if (saveResult is SaveResult.Success) {
-        scope.launch {
-            onSuccess()
-        }
-        scope.launch {
-            toastHostState.showToast(
-                getString(
-                    R.string.saved_to_without_filename,
-                    ""
-                ),
-                Icons.Rounded.Save
-            )
-            showReview(this@parseFileSaveResult)
-        }
+        essentials.showToast(
+            message = getString(
+                R.string.saved_to_without_filename,
+                ""
+            ),
+            icon = Icons.Rounded.Save
+        )
+        showReview(this@parseFileSaveResult)
     }
 }
 
 fun Activity.parseSaveResults(
-    scope: CoroutineScope,
     results: List<SaveResult>,
-    toastHostState: ToastHostState,
     isOverwritten: Boolean,
-    showConfetti: () -> Unit
+    essentials: LocalEssentials
 ) {
     val failed = results.count { it is SaveResult.Error }
     val done = results.count { it is SaveResult.Success }
@@ -106,11 +89,31 @@ fun Activity.parseSaveResults(
     if (results.any { it == SaveResult.Error.MissingPermissions }) requestStoragePermission()
     else if (failed == 0) {
         if (done == 1) {
-            scope.launch {
-                val saveResult = results.first { it is SaveResult.Success } as? SaveResult.Success
+            val saveResult = results.first { it is SaveResult.Success } as? SaveResult.Success
+            val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
+            essentials.showToast(
+                message = saveResult?.message ?: getString(
+                    R.string.saved_to_without_filename,
+                    savingPath
+                ),
+                icon = Icons.Rounded.Save,
+                duration = ToastDuration.Long
+            )
+        } else {
+            if (isOverwritten) {
+                essentials.showToast(
+                    message = getString(R.string.images_overwritten),
+                    icon = Icons.Rounded.Save,
+                    duration = ToastDuration.Long
+                )
+
+            } else {
+                val saveResult =
+                    results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
                 val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
-                toastHostState.showToast(
-                    message = saveResult?.message ?: getString(
+
+                essentials.showToast(
+                    message = getString(
                         R.string.saved_to_without_filename,
                         savingPath
                     ),
@@ -118,62 +121,34 @@ fun Activity.parseSaveResults(
                     duration = ToastDuration.Long
                 )
             }
-        } else {
-            if (isOverwritten) {
-                scope.launch {
-                    toastHostState.showToast(
-                        message = getString(R.string.images_overwritten),
-                        icon = Icons.Rounded.Save,
-                        duration = ToastDuration.Long
-                    )
-                }
-            } else {
-                val saveResult =
-                    results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
-                val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
-                scope.launch {
-                    toastHostState.showToast(
-                        message = getString(
-                            R.string.saved_to_without_filename,
-                            savingPath
-                        ),
-                        icon = Icons.Rounded.Save,
-                        duration = ToastDuration.Long
-                    )
-                }
-            }
             showReview(this)
-            showConfetti()
+            essentials.showConfetti()
         }
 
         showReview(this)
-        showConfetti()
+        essentials.showConfetti()
     } else if (failed < done) {
-        scope.launch {
-            showConfetti()
-            val saveResult = results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
-            toastHostState.showToast(
-                message = saveResult?.message
-                    ?: getString(
-                        R.string.saved_to_without_filename,
-                        saveResult?.savingPath
-                    ),
-                icon = Icons.Rounded.Save,
-                duration = ToastDuration.Long
-            )
-            toastHostState.showToast(
-                message = getString(R.string.failed_to_save, failed),
-                icon = Icons.Rounded.ErrorOutline,
-                duration = ToastDuration.Long
-            )
-        }
+        essentials.showConfetti()
+        val saveResult = results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
+        essentials.showToast(
+            message = saveResult?.message
+                ?: getString(
+                    R.string.saved_to_without_filename,
+                    saveResult?.savingPath
+                ),
+            icon = Icons.Rounded.Save,
+            duration = ToastDuration.Long
+        )
+        essentials.showToast(
+            message = getString(R.string.failed_to_save, failed),
+            icon = Icons.Rounded.ErrorOutline,
+            duration = ToastDuration.Long
+        )
     } else {
-        scope.launch {
-            toastHostState.showToast(
-                message = getString(R.string.failed_to_save, failed),
-                icon = Icons.Rounded.ErrorOutline,
-                duration = ToastDuration.Long
-            )
-        }
+        essentials.showToast(
+            message = getString(R.string.failed_to_save, failed),
+            icon = Icons.Rounded.ErrorOutline,
+            duration = ToastDuration.Long
+        )
     }
 }

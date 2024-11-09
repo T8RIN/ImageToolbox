@@ -76,7 +76,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -105,7 +104,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -115,6 +113,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -143,9 +142,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
@@ -177,19 +174,14 @@ fun FiltersContent(
     val settingsState = LocalSettingsState.current
 
     val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val appColorTuple = rememberAppColorTuple()
 
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     LaunchedEffect(component.previewBitmap) {
         component.previewBitmap?.let {
@@ -335,11 +327,9 @@ fun FiltersContent(
                 is Screen.Filter.Type.Basic -> {
                     component.saveBitmaps(it) { results ->
                         context.parseSaveResults(
-                            scope = scope,
+                            essentials = essentials,
                             results = results,
-                            toastHostState = toastHostState,
-                            isOverwritten = settingsState.overwriteFiles,
-                            showConfetti = showConfetti
+                            isOverwritten = settingsState.overwriteFiles
                         )
                     }
                 }
@@ -348,9 +338,7 @@ fun FiltersContent(
                     component.saveMaskedBitmap(it) { saveResult ->
                         context.parseSaveResult(
                             saveResult = saveResult,
-                            onSuccess = showConfetti,
-                            toastHostState = toastHostState,
-                            scope = scope
+                            essentials = essentials
                         )
                     }
                 }
@@ -530,17 +518,15 @@ fun FiltersContent(
                                             FilterItem(
                                                 backgroundColor = MaterialTheme.colorScheme.surface,
                                                 filter = filter,
-                                                onFilterChange = {
+                                                onFilterChange = { newValue ->
                                                     component.updateFilter(
-                                                        value = it,
+                                                        value = newValue,
                                                         index = index,
                                                         showError = {
-                                                            scope.launch {
-                                                                toastHostState.showError(
-                                                                    context,
-                                                                    it
-                                                                )
-                                                            }
+                                                            essentials.showErrorToast(
+                                                                context = context,
+                                                                error = it
+                                                            )
                                                         }
                                                     )
                                                 },
@@ -634,17 +620,15 @@ fun FiltersContent(
                                                     R.string.mask_indexed,
                                                     index + 1
                                                 ),
-                                                onMaskChange = {
+                                                onMaskChange = { filterMask ->
                                                     component.updateMask(
-                                                        value = it,
+                                                        value = filterMask,
                                                         index = index,
                                                         showError = {
-                                                            scope.launch {
-                                                                toastHostState.showError(
-                                                                    context = context,
-                                                                    error = it
-                                                                )
-                                                            }
+                                                            essentials.showErrorToast(
+                                                                context = context,
+                                                                error = it
+                                                            )
                                                         }
                                                     )
                                                 },
@@ -1129,9 +1113,10 @@ fun FiltersContent(
                                             try {
                                                 component.updateSelectedUri(uri = uri)
                                             } catch (e: Exception) {
-                                                scope.launch {
-                                                    toastHostState.showError(context, e)
-                                                }
+                                                essentials.showErrorToast(
+                                                    context = context,
+                                                    error = e
+                                                )
                                             }
                                         },
                                         onUriRemoved = { uri ->

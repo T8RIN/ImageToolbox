@@ -33,7 +33,7 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
 
 class DocumentScanner internal constructor(
     private val context: ComponentActivity,
@@ -94,7 +94,7 @@ fun rememberDocumentScanner(
             scannerLauncher = scannerLauncher,
             onFailure = {
                 scope.launch {
-                    toastHostState.showError(
+                    toastHostState.showErrorToast(
                         context = context,
                         error = it
                     )

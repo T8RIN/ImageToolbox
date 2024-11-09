@@ -77,7 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -202,7 +202,7 @@ internal fun MainTopAppBar(
                                 onClick = {
                                     scope.launch {
                                         context.createScreenShortcut(screen) {
-                                            toastHostState.showError(context, it)
+                                            toastHostState.showErrorToast(context, it)
                                         }
                                     }
                                 },

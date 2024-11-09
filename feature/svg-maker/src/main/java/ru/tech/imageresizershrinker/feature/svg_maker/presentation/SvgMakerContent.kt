@@ -21,30 +21,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -57,10 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.components.SvgParamsSelector
@@ -74,20 +68,16 @@ fun SvgMakerContent(
 ) {
     val context = LocalComponentActivity.current
 
-    val toastHostState = LocalToastHostState.current
-
     val settingsState = LocalSettingsState.current
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+
+    val essentials = rememberLocalEssentials()
+    val showConfetti: () -> Unit = essentials::showConfetti
+
     val onError: (Throwable) -> Unit = {
-        scope.launch {
-            toastHostState.showError(context, it)
-        }
+        essentials.showErrorToast(
+            context = context,
+            error = it
+        )
     }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
@@ -175,19 +165,7 @@ fun SvgMakerContent(
                 uris = component.uris,
                 isPortrait = true,
                 onRemoveUri = component::removeUri,
-                onAddUris = {
-                    runCatching {
-                        addImagesImagePicker.pickImage()
-                    }.onFailure {
-                        scope.launch {
-                            toastHostState.showToast(
-                                message = context.getString(R.string.activate_files),
-                                icon = Icons.Outlined.FolderOff,
-                                duration = ToastDuration.Long
-                            )
-                        }
-                    }
-                }
+                onAddUris = addImagesImagePicker::pickImage
             )
         },
         showImagePreviewAsStickyHeader = false,
@@ -204,11 +182,9 @@ fun SvgMakerContent(
             val save: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.save(it) { results ->
                     context.parseSaveResults(
-                        scope = scope,
                         results = results,
-                        toastHostState = toastHostState,
                         isOverwritten = settingsState.overwriteFiles,
-                        showConfetti = showConfetti
+                        essentials = essentials
                     )
                 }
             }
@@ -220,19 +196,7 @@ fun SvgMakerContent(
             }
             BottomButtonsBlock(
                 targetState = component.uris.isEmpty() to isPortrait,
-                onSecondaryButtonClick = {
-                    runCatching {
-                        imagePicker.pickImage()
-                    }.onFailure {
-                        scope.launch {
-                            toastHostState.showToast(
-                                message = context.getString(R.string.activate_files),
-                                icon = Icons.Outlined.FolderOff,
-                                duration = ToastDuration.Long
-                            )
-                        }
-                    }
-                },
+                onSecondaryButtonClick = imagePicker::pickImage,
                 isPrimaryButtonVisible = component.uris.isNotEmpty(),
                 onPrimaryButtonClick = {
                     save(null)

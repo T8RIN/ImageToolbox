@@ -148,7 +148,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
 
     suspend fun addTemplateFilterFromString(
         string: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
+        onSuccess: (filterName: String, filtersCount: Int) -> Unit,
         onError: suspend () -> Unit
     ) {
         if (favoriteFiltersInteractor.isValidTemplateFilter(string)) {

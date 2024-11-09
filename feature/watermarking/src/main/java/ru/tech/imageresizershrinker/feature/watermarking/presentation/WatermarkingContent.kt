@@ -28,7 +28,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -41,7 +40,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -52,6 +50,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
@@ -72,9 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -92,7 +89,6 @@ fun WatermarkingContent(
     onNavigate: (Screen) -> Unit,
     component: WatermarkingComponent
 ) {
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
     val settingsState = LocalSettingsState.current
@@ -100,14 +96,9 @@ fun WatermarkingContent(
 
     val context = LocalComponentActivity.current
 
-    val confettiHostState = LocalConfettiHostState.current
-    val toastHostState = LocalToastHostState.current
-
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imageLoader = LocalImageLoader.current
     LaunchedEffect(component.selectedUri) {
@@ -125,11 +116,12 @@ fun WatermarkingContent(
     val imagePicker = rememberImagePicker(
         mode = localImagePickerMode(Picker.Multiple)
     ) { list ->
-        list.takeIf { it.isNotEmpty() }?.let {
-            component.setUris(it) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
+        list.takeIf { it.isNotEmpty() }?.let { uriList ->
+            component.setUris(uriList) {
+                essentials.showErrorToast(
+                    context = context,
+                    error = it
+                )
             }
         }
     }
@@ -293,11 +285,9 @@ fun WatermarkingContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(it) { results ->
                     context.parseSaveResults(
-                        scope = scope,
                         results = results,
-                        toastHostState = toastHostState,
                         isOverwritten = settingsState.overwriteFiles,
-                        showConfetti = showConfetti
+                        essentials = essentials
                     )
                 }
             }
@@ -361,9 +351,10 @@ fun WatermarkingContent(
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
             component.updateSelectedUri(uri = uri) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
+                essentials.showErrorToast(
+                    context = context,
+                    error = it
+                )
             }
         },
         onUriRemoved = { uri ->

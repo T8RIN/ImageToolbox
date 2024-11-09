@@ -90,7 +90,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -173,7 +173,7 @@ fun FilterEditOption(
                                     onFilterChange = {
                                         updateFilter(it, index) {
                                             scope.launch {
-                                                toastHostState.showError(
+                                                toastHostState.showErrorToast(
                                                     context = context,
                                                     error = it
                                                 )

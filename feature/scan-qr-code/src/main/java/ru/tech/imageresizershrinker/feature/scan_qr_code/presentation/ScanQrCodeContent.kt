@@ -49,12 +49,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -78,12 +76,12 @@ import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamil
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -99,7 +97,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -107,18 +104,17 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ScanQrCodeContent(
     onGoBack: () -> Unit,
     component: ScanQrCodeComponent
 ) {
     val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
 
-    val confettiHostState = LocalConfettiHostState.current
-
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     var qrContent by rememberSaveable(component.initialQrCodeContent) {
         mutableStateOf(component.initialQrCodeContent ?: "")
@@ -132,7 +128,7 @@ fun ScanQrCodeContent(
         component.addTemplateFilterFromString(
             string = qrContent,
             onSuccess = { filterName, filtersCount ->
-                toastHostState.showToast(
+                essentials.showToast(
                     message = context.getString(
                         R.string.added_filter_template,
                         filterName,
@@ -172,20 +168,10 @@ fun ScanQrCodeContent(
             component.saveBitmap(bitmap, oneTimeSaveLocationUri) { saveResult ->
                 context.parseSaveResult(
                     saveResult = saveResult,
-                    onSuccess = {
-                        confettiHostState.showConfetti()
-                    },
-                    toastHostState = toastHostState,
-                    scope = scope
+                    essentials = essentials
                 )
             }
         }
-
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
 
     val isLandscape by isLandscapeOrientationAsState()
 

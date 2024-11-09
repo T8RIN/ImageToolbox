@@ -329,7 +329,7 @@ fun rememberToastHostState() = remember { ToastHostState() }
 
 val LocalToastHostState = compositionLocalOf { ToastHostState() }
 
-suspend fun ToastHostState.showError(
+suspend fun ToastHostState.showErrorToast(
     context: Context,
     error: Throwable
 ) = showToast(

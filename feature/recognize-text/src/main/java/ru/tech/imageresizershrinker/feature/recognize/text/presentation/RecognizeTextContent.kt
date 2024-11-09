@@ -41,7 +41,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -52,7 +51,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
@@ -60,7 +58,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -71,6 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -84,10 +82,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
@@ -118,7 +114,6 @@ fun RecognizeTextContent(
     }
     val isHaveText = editedText.notNullAnd { it.isNotEmpty() }
 
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
     val settingsState = LocalSettingsState.current
@@ -126,8 +121,8 @@ fun RecognizeTextContent(
 
     val context = LocalContext.current
 
-    val confettiHostState = LocalConfettiHostState.current
-    val toastHostState = LocalToastHostState.current
+    val essentials = rememberLocalEssentials()
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     var downloadDialogData by rememberSaveable {
         mutableStateOf<List<UiDownloadData>>(emptyList())
@@ -136,9 +131,10 @@ fun RecognizeTextContent(
     val startRecognition = {
         component.startRecognition(
             onError = {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
+                essentials.showErrorToast(
+                    context = context,
+                    error = it
+                )
             },
             onRequestDownload = { data ->
                 downloadDialogData = data.map { it.toUi() }
@@ -206,21 +202,18 @@ fun RecognizeTextContent(
                 label = context.getString(R.string.recognize_text),
                 value = it
             )
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Rounded.ContentCopy,
-                    message = context.getString(R.string.copied),
-                )
-            }
+            essentials.showToast(
+                icon = Icons.Rounded.ContentCopy,
+                message = context.getString(R.string.copied),
+            )
         }
     }
 
     val shareText: () -> Unit = {
-        component.shareText(editedText) {
-            scope.launch {
-                confettiHostState.showConfetti()
-            }
-        }
+        component.shareText(
+            text = editedText,
+            onComplete = showConfetti
+        )
     }
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
@@ -234,11 +227,7 @@ fun RecognizeTextContent(
                 component.exportLanguagesTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
-                        onSuccess = {
-                            confettiHostState.showConfetti()
-                        },
-                        toastHostState = toastHostState,
-                        scope = scope
+                        essentials = essentials
                     )
                 }
             }
@@ -252,21 +241,18 @@ fun RecognizeTextContent(
                 component.importLanguagesFrom(
                     uri = uri,
                     onSuccess = {
-                        scope.launch {
-                            confettiHostState.showConfetti()
-                        }
-                        scope.launch {
-                            toastHostState.showToast(
-                                message = context.getString(R.string.languages_imported),
-                                icon = Icons.Outlined.Language
-                            )
-                        }
+                        showConfetti()
+                        essentials.showToast(
+                            message = context.getString(R.string.languages_imported),
+                            icon = Icons.Outlined.Language
+                        )
                         startRecognition()
                     },
                     onFailure = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+                        essentials.showErrorToast(
+                            context = context,
+                            error = it
+                        )
                     }
                 )
             }
@@ -290,11 +276,7 @@ fun RecognizeTextContent(
                 onResult = { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
-                        onSuccess = {
-                            confettiHostState.showConfetti()
-                        },
-                        toastHostState = toastHostState,
-                        scope = scope
+                        essentials = essentials
                     )
                 }
             )
@@ -540,9 +522,7 @@ fun RecognizeTextContent(
                     },
                     onComplete = {
                         downloadDialogData = emptyList()
-                        scope.launch {
-                            confettiHostState.showConfetti()
-                        }
+                        showConfetti()
                         startRecognition()
                     }
                 )
@@ -551,13 +531,11 @@ fun RecognizeTextContent(
             dataRemaining = dataRemaining,
             onNoConnection = {
                 downloadDialogData = emptyList()
-                scope.launch {
-                    toastHostState.showToast(
-                        message = context.getString(R.string.no_connection),
-                        icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
-                        duration = ToastDuration.Long
-                    )
-                }
+                essentials.showToast(
+                    message = context.getString(R.string.no_connection),
+                    icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
+                    duration = ToastDuration.Long
+                )
             },
             onDismiss = {
                 downloadDialogData = emptyList()

@@ -84,7 +84,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -104,11 +103,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -118,6 +115,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
@@ -135,10 +133,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -155,9 +151,9 @@ fun PdfToolsContent(
     component: PdfToolsComponent
 ) {
     val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
+
+    val essentials = rememberLocalEssentials()
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -183,12 +179,6 @@ fun PdfToolsContent(
         }
     }
 
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
-
     val savePdfLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
@@ -196,11 +186,7 @@ fun PdfToolsContent(
                 component.savePdfTo(uri) { result ->
                     context.parseFileSaveResult(
                         saveResult = result,
-                        onSuccess = {
-                            confettiHostState.showConfetti()
-                        },
-                        toastHostState = toastHostState,
-                        scope = scope
+                        essentials = essentials
                     )
                 }
             }
@@ -361,9 +347,10 @@ fun PdfToolsContent(
                         }
                     }
                 }.onFailure {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+                    essentials.showErrorToast(
+                        context = context,
+                        error = it
+                    )
                 }
             },
             containerColor = MaterialTheme.colorScheme.tertiaryContainer
@@ -398,11 +385,9 @@ fun PdfToolsContent(
                 val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
                     component.savePdfToImages(it) { results ->
                         context.parseSaveResults(
-                            scope = scope,
                             results = results,
-                            toastHostState = toastHostState,
                             isOverwritten = false,
-                            showConfetti = showConfetti
+                            essentials = essentials
                         )
                     }
                 }
@@ -417,13 +402,11 @@ fun PdfToolsContent(
                                 runCatching {
                                     savePdfLauncher.launch("$name.pdf")
                                 }.onFailure {
-                                    scope.launch {
-                                        toastHostState.showToast(
-                                            message = context.getString(R.string.activate_files),
-                                            icon = Icons.Outlined.FolderOff,
-                                            duration = ToastDuration.Long
-                                        )
-                                    }
+                                    essentials.showToast(
+                                        message = context.getString(R.string.activate_files),
+                                        icon = Icons.Outlined.FolderOff,
+                                        duration = ToastDuration.Long
+                                    )
                                 }
                             }
                         } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
@@ -704,12 +687,10 @@ fun PdfToolsContent(
                                                                 }
                                                             }
                                                         }.onFailure {
-                                                            scope.launch {
-                                                                toastHostState.showError(
-                                                                    context,
-                                                                    it
-                                                                )
-                                                            }
+                                                            essentials.showErrorToast(
+                                                                context = context,
+                                                                error = it
+                                                            )
                                                         }
                                                     },
                                                     startIcon = it.icon,
@@ -734,13 +715,11 @@ fun PdfToolsContent(
                                                 runCatching {
                                                     selectionPdfPicker.launch(arrayOf("application/pdf"))
                                                 }.onFailure {
-                                                    scope.launch {
-                                                        toastHostState.showToast(
-                                                            message = context.getString(R.string.activate_files),
-                                                            icon = Icons.Outlined.FolderOff,
-                                                            duration = ToastDuration.Long
-                                                        )
-                                                    }
+                                                    essentials.showToast(
+                                                        message = context.getString(R.string.activate_files),
+                                                        icon = Icons.Outlined.FolderOff,
+                                                        duration = ToastDuration.Long
+                                                    )
                                                 }
                                             },
                                             modifier = Modifier

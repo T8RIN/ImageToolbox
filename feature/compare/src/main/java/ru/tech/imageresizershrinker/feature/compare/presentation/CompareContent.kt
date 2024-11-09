@@ -38,33 +38,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareScreenContent
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareScreenTopAppBar
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareShareSheet
@@ -80,18 +77,12 @@ fun CompareContent(
 ) {
     val settingsState = LocalSettingsState.current
 
-    val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
+    val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+    val essentials = rememberLocalEssentials()
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     var compareProgress by rememberSaveable { mutableFloatStateOf(50f) }
 
@@ -112,12 +103,10 @@ fun CompareContent(
     ) { uris ->
         uris.takeIf { it.isNotEmpty() }?.let {
             if (uris.size != 2) {
-                scope.launch {
-                    toastHostState.showToast(
-                        message = context.getString(R.string.pick_two_images),
-                        icon = Icons.Rounded.ErrorOutline
-                    )
-                }
+                essentials.showToast(
+                    message = context.getString(R.string.pick_two_images),
+                    icon = Icons.Rounded.ErrorOutline
+                )
             } else {
                 component.updateUris(
                     onSuccess = {
@@ -125,12 +114,10 @@ fun CompareContent(
                     },
                     uris = it[0] to it[1],
                     onError = {
-                        scope.launch {
-                            toastHostState.showToast(
-                                context.getString(R.string.something_went_wrong),
-                                Icons.Rounded.ErrorOutline
-                            )
-                        }
+                        essentials.showToast(
+                            context.getString(R.string.something_went_wrong),
+                            Icons.Rounded.ErrorOutline
+                        )
                     }
                 )
             }
@@ -228,17 +215,17 @@ fun CompareContent(
             ) { saveResult ->
                 context.parseSaveResult(
                     saveResult = saveResult,
-                    onSuccess = showConfetti,
-                    toastHostState = toastHostState,
-                    scope = scope
+                    essentials = essentials
                 )
             }
             showShareSheet = false
         },
         onShare = { imageFormat ->
-            component.shareBitmap(compareProgress, imageFormat) {
-                showConfetti()
-            }
+            component.shareBitmap(
+                percent = compareProgress,
+                imageFormat = imageFormat,
+                onComplete = showConfetti
+            )
             showShareSheet = false
         },
         onCopy = { imageFormat, manager ->

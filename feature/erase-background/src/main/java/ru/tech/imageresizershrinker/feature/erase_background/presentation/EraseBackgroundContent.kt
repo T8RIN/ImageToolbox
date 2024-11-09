@@ -79,7 +79,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -105,7 +104,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -115,6 +113,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -134,9 +133,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -161,18 +158,13 @@ fun EraseBackgroundContent(
     component: EraseBackgroundComponent,
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHostState.current
     val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     LaunchedEffect(component.bitmap) {
         component.bitmap?.let {
@@ -189,11 +181,12 @@ fun EraseBackgroundContent(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                component.setUri(it) {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let { uri ->
+                component.setUri(uri) {
+                    essentials.showErrorToast(
+                        context = context,
+                        error = it
+                    )
                 }
             }
         }
@@ -221,9 +214,7 @@ fun EraseBackgroundContent(
         component.saveBitmap(it) { saveResult ->
             context.parseSaveResult(
                 saveResult = saveResult,
-                onSuccess = showConfetti,
-                toastHostState = toastHostState,
-                scope = scope
+                essentials = essentials
             )
         }
     }
@@ -481,9 +472,10 @@ fun EraseBackgroundContent(
                         component.autoEraseBackground(
                             onSuccess = showConfetti,
                             onFailure = {
-                                scope.launch {
-                                    toastHostState.showError(context, it)
-                                }
+                                essentials.showErrorToast(
+                                    context = context,
+                                    error = it
+                                )
                             }
                         )
                     }

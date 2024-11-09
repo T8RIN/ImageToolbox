@@ -96,7 +96,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -108,7 +107,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -156,7 +154,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -165,6 +162,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
@@ -182,8 +181,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -209,7 +206,7 @@ fun AddFiltersSheet(
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     canAddTemplates: Boolean = true
 ) {
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
     val groupedFilters by remember(context, canAddTemplates) {
         derivedStateOf {
             UiFilter.groupedEntries(context).let { lists ->
@@ -235,14 +232,9 @@ fun AddFiltersSheet(
 
     val previewModel = component.previewModel
 
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
-    val toastHostState = LocalToastHostState.current
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     val favoriteFilters by component.favoritesFlow.collectAsUiState()
     val templateFilters by component.templatesFlow.collectAsUiState()
@@ -551,9 +543,7 @@ fun AddFiltersSheet(
                                                     component.saveImage(it) { saveResult ->
                                                         context.parseSaveResult(
                                                             saveResult = saveResult,
-                                                            onSuccess = showConfetti,
-                                                            toastHostState = toastHostState,
-                                                            scope = scope
+                                                            essentials = essentials
                                                         )
                                                     }
                                                 },
@@ -564,11 +554,7 @@ fun AddFiltersSheet(
                                                     ) { result ->
                                                         context.parseFileSaveResult(
                                                             saveResult = result,
-                                                            onSuccess = {
-                                                                confettiHostState.showConfetti()
-                                                            },
-                                                            toastHostState = toastHostState,
-                                                            scope = scope
+                                                            essentials = essentials
                                                         )
                                                     }
                                                 },
@@ -720,12 +706,10 @@ fun AddFiltersSheet(
                                                             startDownloadIfNeeded = true,
                                                             forceUpdate = forceUpdate,
                                                             onFailure = {
-                                                                scope.launch {
-                                                                    toastHostState.showError(
-                                                                        context,
-                                                                        it
-                                                                    )
-                                                                }
+                                                                essentials.showErrorToast(
+                                                                    context = context,
+                                                                    error = it
+                                                                )
                                                             },
                                                             downloadOnlyNewData = downloadOnlyNewData
                                                         )
@@ -862,9 +846,7 @@ fun AddFiltersSheet(
                                                         component.saveNeutralLut(it) { saveResult ->
                                                             context.parseSaveResult(
                                                                 saveResult = saveResult,
-                                                                onSuccess = showConfetti,
-                                                                toastHostState = toastHostState,
-                                                                scope = scope
+                                                                essentials = essentials
                                                             )
                                                         }
                                                     }
@@ -953,9 +935,10 @@ fun AddFiltersSheet(
                                                 startDownloadIfNeeded = true,
                                                 forceUpdate = forceUpdate,
                                                 onFailure = {
-                                                    scope.launch {
-                                                        toastHostState.showError(context, it)
-                                                    }
+                                                    essentials.showErrorToast(
+                                                        context = context,
+                                                        error = it
+                                                    )
                                                 },
                                                 downloadOnlyNewData = downloadOnlyNewData
                                             )

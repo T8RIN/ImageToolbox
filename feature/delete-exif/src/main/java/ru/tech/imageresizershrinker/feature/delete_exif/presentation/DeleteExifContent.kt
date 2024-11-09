@@ -30,7 +30,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -45,7 +44,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -56,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -69,9 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.AddExifSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
@@ -88,17 +85,13 @@ fun DeleteExifContent(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
+
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiHostState.showConfetti()
-        }
-    }
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     LaunchedEffect(component.bitmap) {
         component.bitmap?.let {
@@ -113,9 +106,10 @@ fun DeleteExifContent(
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
             component.updateUris(uris) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
+                essentials.showErrorToast(
+                    context = context,
+                    error = it
+                )
             }
         }
     }
@@ -132,11 +126,9 @@ fun DeleteExifContent(
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(it) { results ->
             context.parseSaveResults(
-                scope = scope,
                 results = results,
-                toastHostState = toastHostState,
                 isOverwritten = settingsState.overwriteFiles,
-                showConfetti = showConfetti
+                essentials = essentials
             )
         }
     }
@@ -335,9 +327,10 @@ fun DeleteExifContent(
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
             component.updateSelectedUri(uri = uri) {
-                scope.launch {
-                    toastHostState.showError(context, it)
-                }
+                essentials.showErrorToast(
+                    context = context,
+                    error = it
+                )
             }
         },
         onUriRemoved = { uri ->

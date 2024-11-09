@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
@@ -33,14 +32,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
 @Composable
@@ -57,19 +54,17 @@ internal fun SettingItem(
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
     val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
-    val confettiHostState = LocalConfettiHostState.current
+    val essentials = rememberLocalEssentials()
+    val scope = essentials.coroutineScope
+    val showConfetti: () -> Unit = essentials::showConfetti
 
     fun tryGetUpdate(
         isNewRequest: Boolean = true,
         onNoUpdates: () -> Unit = {
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Rounded.FileDownloadOff,
-                    message = context.getString(R.string.no_updates)
-                )
-            }
+            essentials.showToast(
+                icon = Icons.Rounded.FileDownloadOff,
+                message = context.getString(R.string.no_updates)
+            )
         },
     ) = onTryGetUpdate(isNewRequest, onNoUpdates)
 
@@ -132,11 +127,7 @@ internal fun SettingItem(
                             onResult = { result ->
                                 context.parseFileSaveResult(
                                     saveResult = result,
-                                    onSuccess = {
-                                        confettiHostState.showConfetti()
-                                    },
-                                    toastHostState = toastHostState,
-                                    scope = scope
+                                    essentials = essentials
                                 )
                             }
                         )
@@ -197,7 +188,7 @@ internal fun SettingItem(
 
                     if (clicks == 0) return@LaunchedEffect
 
-                    toastHostState.currentToastData?.dismiss()
+                    essentials.toastHostState.currentToastData?.dismiss()
                     if (clicks == 1) {
                         tryGetUpdate()
                     }
@@ -301,27 +292,26 @@ internal fun SettingItem(
 
             Setting.Restore -> {
                 RestoreSettingItem(
-                    onObtainBackupFile = {
+                    onObtainBackupFile = { uri ->
                         component.restoreBackupFrom(
-                            uri = it,
+                            uri = uri,
                             onSuccess = {
                                 scope.launch {
-                                    confettiHostState.showConfetti()
+                                    showConfetti()
                                     //Wait for confetti to appear, then trigger font scale adjustment
                                     delay(300L)
                                     context.recreate()
                                 }
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        context.getString(R.string.settings_restored),
-                                        Icons.Rounded.Save
-                                    )
-                                }
+                                essentials.showToast(
+                                    context.getString(R.string.settings_restored),
+                                    Icons.Rounded.Save
+                                )
                             },
                             onFailure = {
-                                scope.launch {
-                                    toastHostState.showError(context, it)
-                                }
+                                essentials.showErrorToast(
+                                    context = context,
+                                    error = it
+                                )
                             }
                         )
                     }

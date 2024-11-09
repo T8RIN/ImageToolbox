@@ -114,7 +114,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIf
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.other.showErrorToast
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
 
@@ -159,7 +159,7 @@ fun PickColorFromImageContent(
                 ?.let {
                     component.setUri(it) {
                         scope.launch {
-                            toastHostState.showError(context, it)
+                            toastHostState.showErrorToast(context, it)
                         }
                     }
                 }
