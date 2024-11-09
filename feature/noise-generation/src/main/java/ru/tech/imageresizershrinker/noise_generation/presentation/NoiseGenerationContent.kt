@@ -38,8 +38,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.animate
@@ -75,7 +73,6 @@ fun NoiseGenerationContent(
     val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val isPortrait by isPortraitOrientationAsState()
@@ -111,17 +108,9 @@ fun NoiseGenerationContent(
             uris = editSheetData,
             visible = editSheetData.isNotEmpty(),
             onDismiss = {
-                if (!it) {
-                    editSheetData = emptyList()
-                }
+                editSheetData = emptyList()
             },
-            onNavigate = { screen ->
-                scope.launch {
-                    editSheetData = emptyList()
-                    delay(200)
-                    onNavigate(screen)
-                }
-            }
+            onNavigate = onNavigate
         )
     }
 

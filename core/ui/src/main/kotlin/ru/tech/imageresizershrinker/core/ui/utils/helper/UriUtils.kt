@@ -174,3 +174,19 @@ fun String.decodeEscaped(): String {
         URLDecoder.decode(URLDecoder.decode(this))
     }
 }
+
+fun Uri.isApng(context: Context): Boolean {
+    return context.getFilename(this).toString().endsWith(".png")
+        .or(context.contentResolver.getType(this)?.contains("png") == true)
+        .or(context.contentResolver.getType(this)?.contains("apng") == true)
+}
+
+fun Uri.isWebp(context: Context): Boolean {
+    return context.getFilename(this).toString().endsWith(".webp")
+        .or(context.contentResolver.getType(this)?.contains("webp") == true)
+}
+
+fun Uri.isJxl(context: Context): Boolean {
+    return context.getFilename(this).toString().endsWith(".jxl")
+        .or(context.contentResolver.getType(this)?.contains("jxl") == true)
+}

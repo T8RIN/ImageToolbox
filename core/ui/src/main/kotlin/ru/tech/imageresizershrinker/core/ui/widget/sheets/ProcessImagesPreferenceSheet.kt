@@ -31,9 +31,12 @@ import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -49,7 +52,7 @@ fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
     extraImageType: String? = null,
     visible: Boolean,
-    onDismiss: (Boolean) -> Unit,
+    onDismiss: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
     EnhancedModalBottomSheet(
@@ -62,15 +65,14 @@ fun ProcessImagesPreferenceSheet(
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    onDismiss(false)
-                },
+                onClick = onDismiss
             ) {
                 AutoSizeText(stringResource(id = R.string.cancel))
             }
         },
         sheetContent = {
             val urisCorrespondingScreens by uris.screenList(extraImageType)
+            val scope = rememberCoroutineScope()
 
             Box(Modifier.fillMaxWidth()) {
                 LazyVerticalStaggeredGrid(
@@ -89,13 +91,21 @@ fun ProcessImagesPreferenceSheet(
                     items(urisCorrespondingScreens) { screen ->
                         ScreenPreference(
                             screen = screen,
-                            navigate = onNavigate
+                            navigate = {
+                                scope.launch {
+                                    onDismiss()
+                                    delay(200)
+                                    onNavigate(screen)
+                                }
+                            }
                         )
                     }
                 }
             }
         },
         visible = visible,
-        onDismiss = onDismiss
+        onDismiss = {
+            if (!it) onDismiss()
+        }
     )
 }

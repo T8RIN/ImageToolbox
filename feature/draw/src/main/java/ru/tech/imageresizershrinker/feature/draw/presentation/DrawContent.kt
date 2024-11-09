@@ -111,7 +111,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.coerceIn
 import ru.tech.imageresizershrinker.core.domain.model.pt
@@ -163,6 +162,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
@@ -190,7 +190,6 @@ fun DrawContent(
     val context = LocalComponentActivity.current
 
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val appColorTuple = rememberAppColorTuple()
 
@@ -209,13 +208,7 @@ fun DrawContent(
         } else onGoBack()
     }
 
-    LaunchedEffect(component.bitmap) {
-        if (allowChangeColor) {
-            component.bitmap?.let {
-                themeState.updateColorByImage(it)
-            }
-        }
-    }
+    AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker(Picker.Single) { uris ->
         uris.firstOrNull()?.let { uri ->
@@ -587,17 +580,9 @@ fun DrawContent(
                             uris = editSheetData,
                             visible = editSheetData.isNotEmpty(),
                             onDismiss = {
-                                if (!it) {
-                                    editSheetData = emptyList()
-                                }
+                                editSheetData = emptyList()
                             },
-                            onNavigate = { screen ->
-                                scope.launch {
-                                    editSheetData = emptyList()
-                                    delay(200)
-                                    onNavigate(screen)
-                                }
-                            }
+                            onNavigate = onNavigate
                         )
                         EnhancedIconButton(
                             onClick = component::clearDrawing,

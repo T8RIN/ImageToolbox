@@ -410,17 +410,9 @@ fun CollageMakerContent(
             uris = editSheetData,
             visible = editSheetData.isNotEmpty(),
             onDismiss = {
-                if (!it) {
-                    editSheetData = emptyList()
-                }
+                editSheetData = emptyList()
             },
-            onNavigate = { screen ->
-                scope.launch {
-                    editSheetData = emptyList()
-                    delay(200)
-                    onNavigate(screen)
-                }
-            }
+            onNavigate = onNavigate
         )
     }
 

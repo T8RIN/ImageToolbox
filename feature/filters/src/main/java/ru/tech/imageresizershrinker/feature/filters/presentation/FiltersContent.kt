@@ -90,10 +90,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.histogram.ImageHistogram
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
@@ -101,7 +99,6 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -149,6 +146,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
@@ -171,22 +169,11 @@ fun FiltersContent(
     val settingsState = LocalSettingsState.current
 
     val context = LocalComponentActivity.current
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
-
-    val appColorTuple = rememberAppColorTuple()
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    LaunchedEffect(component.previewBitmap) {
-        component.previewBitmap?.let {
-            if (allowChangeColor) {
-                themeState.updateColorByImage(it)
-            }
-        } ?: themeState.updateColorTuple(appColorTuple)
-    }
+    AutoContentBasedColors(component.previewBitmap)
 
     val imagePicker = rememberImagePicker(
         picker = Picker.Multiple,
@@ -261,17 +248,9 @@ fun FiltersContent(
                 uris = editSheetData,
                 visible = editSheetData.isNotEmpty(),
                 onDismiss = {
-                    if (!it) {
-                        editSheetData = emptyList()
-                    }
+                    editSheetData = emptyList()
                 },
-                onNavigate = { screen ->
-                    scope.launch {
-                        editSheetData = emptyList()
-                        delay(200)
-                        onNavigate(screen)
-                    }
-                }
+                onNavigate = onNavigate
             )
             ShowOriginalButton(
                 canShow = component.canShow(),

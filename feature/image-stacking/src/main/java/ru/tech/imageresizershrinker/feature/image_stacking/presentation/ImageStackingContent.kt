@@ -29,7 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,11 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -75,6 +70,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackImageItem
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.components.StackingParamsSelector
@@ -86,23 +82,12 @@ fun ImageStackingContent(
     onNavigate: (Screen) -> Unit,
     component: ImageStackingComponent
 ) {
-    val settingsState = LocalSettingsState.current
-
     val context = LocalComponentActivity.current
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    LaunchedEffect(component.previewBitmap) {
-        component.previewBitmap?.let {
-            if (allowChangeColor) {
-                themeState.updateColorByImage(it)
-            }
-        }
-    }
+    AutoContentBasedColors(component.previewBitmap)
 
     val imagePicker = rememberImagePicker(
         picker = Picker.Multiple,
@@ -186,17 +171,9 @@ fun ImageStackingContent(
                 uris = editSheetData,
                 visible = editSheetData.isNotEmpty(),
                 onDismiss = {
-                    if (!it) {
-                        editSheetData = emptyList()
-                    }
+                    editSheetData = emptyList()
                 },
-                onNavigate = { screen ->
-                    scope.launch {
-                        editSheetData = emptyList()
-                        delay(200)
-                        onNavigate(screen)
-                    }
-                }
+                onNavigate = onNavigate
             )
             ZoomButton(
                 onClick = { showZoomSheet = true },

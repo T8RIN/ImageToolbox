@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,12 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -69,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.components.AutoRotateLimitBoxToggle
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.components.LimitsResizeSelector
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
@@ -79,23 +75,12 @@ fun LimitsResizeContent(
     onNavigate: (Screen) -> Unit,
     component: LimitsResizeComponent
 ) {
-    val settingsState = LocalSettingsState.current
-
     val context = LocalComponentActivity.current
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    LaunchedEffect(component.bitmap) {
-        component.bitmap?.let {
-            if (allowChangeColor) {
-                themeState.updateColorByImage(it)
-            }
-        }
-    }
+    AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
         component.updateUris(
@@ -177,17 +162,9 @@ fun LimitsResizeContent(
                     uris = editSheetData,
                     visible = editSheetData.isNotEmpty(),
                     onDismiss = {
-                        if (!it) {
-                            editSheetData = emptyList()
-                        }
+                        editSheetData = emptyList()
                     },
-                    onNavigate = { screen ->
-                        scope.launch {
-                            editSheetData = emptyList()
-                            delay(200)
-                            onNavigate(screen)
-                        }
-                    }
+                    onNavigate = onNavigate
                 )
             }
             ZoomButton(

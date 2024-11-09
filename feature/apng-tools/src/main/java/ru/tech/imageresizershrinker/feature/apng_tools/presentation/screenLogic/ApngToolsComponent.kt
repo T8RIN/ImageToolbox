@@ -491,6 +491,11 @@ class ApngToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    val canSave: Boolean
+        get() = (imageFrames == ImageFrames.All)
+            .or(type is Screen.ApngTools.Type.ImageToApng)
+            .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(

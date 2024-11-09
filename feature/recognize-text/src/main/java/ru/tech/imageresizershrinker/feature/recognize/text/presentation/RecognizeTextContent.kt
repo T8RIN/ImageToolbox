@@ -50,12 +50,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
@@ -87,6 +85,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.DownloadLanguageDialog
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.FilterSelectionBar
@@ -115,11 +115,6 @@ fun RecognizeTextContent(
     }
     val isHaveText = editedText.notNullAnd { it.isNotEmpty() }
 
-    val themeState = LocalDynamicThemeState.current
-
-    val settingsState = LocalSettingsState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
-
     val context = LocalContext.current
 
     val essentials = rememberLocalEssentials()
@@ -133,29 +128,29 @@ fun RecognizeTextContent(
         component.startRecognition(
             onFailure = essentials::showFailureToast,
             onRequestDownload = { data ->
-                downloadDialogData = data.map { it.toUi() }
+                downloadDialogData = data.map(DownloadData::toUi)
             }
         )
     }
 
     LaunchedEffect(component.initialUri) {
         component.initialUri?.let {
-            component.updateUri(it, startRecognition)
+            component.updateUri(
+                uri = it,
+                onImageSet = startRecognition
+            )
         }
     }
 
     val imageLoader = LocalImageLoader.current
-    LaunchedEffect(component.uri) {
-        component.uri?.let {
-            if (allowChangeColor) {
-                imageLoader.execute(
-                    ImageRequest.Builder(context).data(it).build()
-                ).drawable?.toBitmap()?.let { bitmap ->
-                    themeState.updateColorByImage(bitmap)
-                }
-            }
+    AutoContentBasedColors(
+        model = component.uri,
+        selector = {
+            imageLoader.execute(
+                ImageRequest.Builder(context).data(it).build()
+            ).drawable?.toBitmap()
         }
-    }
+    )
 
     LaunchedEffect(component.previewBitmap, component.filtersAdded) {
         if (component.previewBitmap != null) {

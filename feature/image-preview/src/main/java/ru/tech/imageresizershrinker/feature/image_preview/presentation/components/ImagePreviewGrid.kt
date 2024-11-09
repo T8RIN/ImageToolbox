@@ -34,7 +34,6 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,12 +48,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.request.ImageRequest
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -63,6 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 
 @Composable
 internal fun ImagePreviewGrid(
@@ -184,26 +181,17 @@ internal fun ImagePreviewGrid(
         )
     }
 
-    val themeState = LocalDynamicThemeState.current
-    val settingsState = LocalSettingsState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
-
-    val appColorTuple = rememberAppColorTuple()
-
-
     val context = LocalContext.current
     val imageLoader = LocalImageLoader.current
-    LaunchedEffect(selectedUri) {
-        selectedUri?.let { uri ->
-            if (allowChangeColor) {
-                imageLoader.execute(
-                    ImageRequest.Builder(context)
-                        .data(uri.toUri())
-                        .build()
-                ).drawable?.toBitmap()?.let {
-                    themeState.updateColorByImage(it)
-                }
-            }
-        } ?: themeState.updateColorTuple(appColorTuple)
-    }
+
+    AutoContentBasedColors(
+        model = selectedUri,
+        selector = { uri ->
+            imageLoader.execute(
+                ImageRequest.Builder(context)
+                    .data(uri.toUri())
+                    .build()
+            ).drawable?.toBitmap()
+        }
+    )
 }

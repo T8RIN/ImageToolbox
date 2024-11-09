@@ -62,7 +62,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,7 +73,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -84,7 +82,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.smarttoolfactory.colordetector.parser.rememberColorParser
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -113,6 +110,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIf
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -123,8 +121,6 @@ fun PickColorFromImageContent(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val parser = rememberColorParser()
 
@@ -133,19 +129,8 @@ fun PickColorFromImageContent(
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(component.bitmap) {
-        component.bitmap?.let {
-            if (allowChangeColor) {
-                themeState.updateColorByImage(it)
-            }
-        }
-    }
-
-    LaunchedEffect(component.color) {
-        if (!component.color.isUnspecified) {
-            if (allowChangeColor) themeState.updateColor(component.color)
-        }
-    }
+    AutoContentBasedColors(component.bitmap)
+    AutoContentBasedColors(component.color)
 
     val imagePicker = rememberImagePicker(Picker.Single) { uris ->
         uris.firstOrNull()?.let {

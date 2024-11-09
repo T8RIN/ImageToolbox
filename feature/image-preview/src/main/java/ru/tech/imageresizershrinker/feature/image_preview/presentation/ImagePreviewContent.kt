@@ -73,7 +73,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
@@ -401,15 +400,9 @@ fun ImagePreviewContent(
                 uris = selectedUris,
                 visible = wantToEdit,
                 onDismiss = {
-                    wantToEdit = it
+                    wantToEdit = false
                 },
-                onNavigate = { screen ->
-                    scope.launch {
-                        wantToEdit = false
-                        delay(200)
-                        onNavigate(screen)
-                    }
-                }
+                onNavigate = onNavigate
             )
 
             BackHandler(enabled = !component.uris.isNullOrEmpty(), onBack = onBack)

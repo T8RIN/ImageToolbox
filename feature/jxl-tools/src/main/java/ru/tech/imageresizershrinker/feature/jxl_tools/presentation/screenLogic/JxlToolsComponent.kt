@@ -523,6 +523,11 @@ class JxlToolsComponent @AssistedInject internal constructor(
 
     fun selectAllConvertedImages() = updateJxlFrames(ImageFrames.All)
 
+    val canSave: Boolean
+        get() = (imageFrames == ImageFrames.All)
+            .or(type !is Screen.JxlTools.Type.JxlToImage)
+            .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(

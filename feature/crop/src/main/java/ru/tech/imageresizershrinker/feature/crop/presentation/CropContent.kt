@@ -84,7 +84,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.smarttoolfactory.cropper.model.OutlineType
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -123,6 +122,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
@@ -139,8 +139,6 @@ fun CropContent(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalComponentActivity.current
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
@@ -153,13 +151,7 @@ fun CropContent(
         else onGoBack()
     }
 
-    LaunchedEffect(component.bitmap) {
-        component.bitmap?.let {
-            if (allowChangeColor) {
-                themeState.updateColorByImage(it)
-            }
-        }
-    }
+    AutoContentBasedColors(component.bitmap)
 
     var coercePointsToImageArea by rememberSaveable {
         mutableStateOf(true)
@@ -387,17 +379,9 @@ fun CropContent(
                                 uris = editSheetData,
                                 visible = editSheetData.isNotEmpty(),
                                 onDismiss = {
-                                    if (!it) {
-                                        editSheetData = emptyList()
-                                    }
+                                    editSheetData = emptyList()
                                 },
-                                onNavigate = { screen ->
-                                    scope.launch {
-                                        editSheetData = emptyList()
-                                        delay(200)
-                                        onNavigate(screen)
-                                    }
-                                }
+                                onNavigate = onNavigate
                             )
                         }
                     )

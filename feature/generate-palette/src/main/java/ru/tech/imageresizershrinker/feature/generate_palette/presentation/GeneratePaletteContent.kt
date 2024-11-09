@@ -37,7 +37,6 @@ import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,11 +47,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Theme
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -75,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.components.GeneratePaletteScreenControls
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
@@ -84,12 +81,6 @@ fun GeneratePaletteContent(
     onGoBack: () -> Unit,
     component: GeneratePaletteComponent
 ) {
-    val settingsState = LocalSettingsState.current
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
-
-    val appColorTuple = rememberAppColorTuple()
-
     val essentials = rememberLocalEssentials()
 
     var useMaterialYouPalette by rememberSaveable {
@@ -100,13 +91,10 @@ fun GeneratePaletteContent(
         mutableStateOf(component.initialUri != null)
     }
 
-    LaunchedEffect(component.bitmap) {
-        component.bitmap?.let {
-            if (allowChangeColor && useMaterialYouPalette == false) {
-                themeState.updateColorByImage(it)
-            }
-        }
-    }
+    AutoContentBasedColors(
+        model = component.bitmap,
+        allowChangeColor = useMaterialYouPalette == false
+    )
 
     val imagePicker = rememberImagePicker(Picker.Single) { uris ->
         uris.firstOrNull()?.let {
@@ -241,7 +229,6 @@ fun GeneratePaletteContent(
             if (useMaterialYouPalette != null) {
                 useMaterialYouPalette = null
                 component.setUri(null)
-                themeState.updateColorTuple(appColorTuple)
             } else onGoBack()
         },
         actions = {

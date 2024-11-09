@@ -51,13 +51,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -88,6 +83,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.ColorStopSelection
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientPreview
@@ -104,17 +100,9 @@ fun GradientMakerContent(
     onNavigate: (Screen) -> Unit,
     component: GradientMakerComponent
 ) {
-    val themeState = LocalDynamicThemeState.current
-
-    val settingsState = LocalSettingsState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
-
-    val appColorTuple = rememberAppColorTuple()
-
     val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     var allowPickingImage by rememberSaveable(component.initialUris) {
@@ -124,16 +112,16 @@ fun GradientMakerContent(
         )
     }
 
-    LaunchedEffect(component.brush, component.selectedUri) {
-        if (allowChangeColor && allowPickingImage != null) {
+    AutoContentBasedColors(
+        model = component.brush to component.selectedUri,
+        selector = { (_, uri) ->
             component.createGradientBitmap(
-                data = component.selectedUri,
+                data = uri,
                 integerSize = IntegerSize(1000, 1000)
-            )?.let { bitmap ->
-                themeState.updateColorByImage(bitmap)
-            }
-        }
-    }
+            )
+        },
+        allowChangeColor = allowPickingImage != null
+    )
 
     LaunchedEffect(allowPickingImage) {
         if (allowPickingImage != true) {
@@ -224,17 +212,9 @@ fun GradientMakerContent(
                 uris = editSheetData,
                 visible = editSheetData.isNotEmpty(),
                 onDismiss = {
-                    if (!it) {
-                        editSheetData = emptyList()
-                    }
+                    editSheetData = emptyList()
                 },
-                onNavigate = { screen ->
-                    scope.launch {
-                        editSheetData = emptyList()
-                        delay(200)
-                        onNavigate(screen)
-                    }
-                }
+                onNavigate = onNavigate
             )
         },
         topAppBarPersistentActions = {
@@ -522,7 +502,6 @@ fun GradientMakerContent(
         onExit = {
             if (allowPickingImage != null) {
                 allowPickingImage = null
-                themeState.updateColorTuple(appColorTuple)
                 component.resetState()
             } else onGoBack()
         },

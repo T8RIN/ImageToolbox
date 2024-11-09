@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.jxl_tools.presentation
 
-import android.content.Context
-import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -66,12 +64,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isJxl
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -629,13 +626,3 @@ fun JxlToolsContent(
         visible = showExitDialog
     )
 }
-
-private fun Uri.isJxl(context: Context): Boolean {
-    return context.getFilename(this).toString().endsWith(".jxl")
-        .or(context.contentResolver.getType(this)?.contains("jxl") == true)
-}
-
-private val JxlToolsComponent.canSave: Boolean
-    get() = (imageFrames == ImageFrames.All)
-        .or(type !is Screen.JxlTools.Type.JxlToImage)
-        .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

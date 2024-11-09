@@ -72,7 +72,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -90,7 +89,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.t8rin.histogram.ImageHistogram
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
@@ -120,8 +118,6 @@ fun ImagePager(
     onShare: (Uri) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-
     AnimatedVisibility(
         visible = visible,
         modifier = Modifier.fillMaxSize(),
@@ -429,15 +425,9 @@ fun ImagePager(
             uris = listOfNotNull(selectedUri),
             visible = wantToEdit,
             onDismiss = {
-                wantToEdit = it
+                wantToEdit = false
             },
-            onNavigate = { screen ->
-                scope.launch {
-                    wantToEdit = false
-                    delay(200)
-                    onNavigate(screen)
-                }
-            }
+            onNavigate = onNavigate
         )
 
         if (visible) {

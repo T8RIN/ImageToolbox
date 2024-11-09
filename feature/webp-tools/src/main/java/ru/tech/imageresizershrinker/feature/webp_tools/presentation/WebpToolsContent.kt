@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.webp_tools.presentation
 
-import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -66,16 +65,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isWebp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -112,7 +108,6 @@ fun WebpToolsContent(
     val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(
@@ -253,17 +248,9 @@ fun WebpToolsContent(
                 uris = editSheetData,
                 visible = editSheetData.isNotEmpty(),
                 onDismiss = {
-                    if (!it) {
-                        editSheetData = emptyList()
-                    }
+                    editSheetData = emptyList()
                 },
-                onNavigate = { screen ->
-                    scope.launch {
-                        editSheetData = emptyList()
-                        delay(200)
-                        onNavigate(screen)
-                    }
-                }
+                onNavigate = onNavigate
             )
         },
         imagePreview = {
@@ -480,13 +467,3 @@ fun WebpToolsContent(
         visible = showExitDialog
     )
 }
-
-private fun Uri.isWebp(context: Context): Boolean {
-    return context.getFilename(this).toString().endsWith(".webp")
-        .or(context.contentResolver.getType(this)?.contains("webp") == true)
-}
-
-private val WebpToolsComponent.canSave: Boolean
-    get() = (imageFrames == ImageFrames.All)
-        .or(type is Screen.WebpTools.Type.ImageToWebp)
-        .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

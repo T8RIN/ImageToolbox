@@ -36,7 +36,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,14 +49,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
@@ -79,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 
 @Composable
@@ -88,23 +83,11 @@ fun LoadNetImageContent(
     component: LoadNetImageComponent
 ) {
     val context = LocalComponentActivity.current
-    val themeState = LocalDynamicThemeState.current
-    val settingsState = LocalSettingsState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val appColorTuple = rememberAppColorTuple()
-
-    LaunchedEffect(component.bitmap) {
-        component.bitmap?.let { image ->
-            if (allowChangeColor) {
-                themeState.updateColorByImage(image)
-            }
-        } ?: themeState.updateColorTuple(appColorTuple)
-    }
+    AutoContentBasedColors(component.bitmap)
 
     var scaleType by rememberSaveable(
         saver = Saver(
@@ -334,15 +317,9 @@ fun LoadNetImageContent(
         uris = listOfNotNull(component.tempUri),
         visible = wantToEdit,
         onDismiss = {
-            wantToEdit = it
+            wantToEdit = false
         },
-        onNavigate = { screen ->
-            scope.launch {
-                wantToEdit = false
-                delay(200)
-                onNavigate(screen)
-            }
-        }
+        onNavigate = onNavigate
     )
 }
 

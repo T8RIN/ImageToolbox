@@ -73,7 +73,6 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -94,9 +93,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.pt
@@ -136,6 +133,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
@@ -157,20 +155,12 @@ fun EraseBackgroundContent(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalComponentActivity.current
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    LaunchedEffect(component.bitmap) {
-        component.bitmap?.let {
-            if (allowChangeColor) {
-                themeState.updateColorByImage(it)
-            }
-        }
-    }
+    AutoContentBasedColors(component.bitmap)
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -402,17 +392,9 @@ fun EraseBackgroundContent(
                             uris = editSheetData,
                             visible = editSheetData.isNotEmpty(),
                             onDismiss = {
-                                if (!it) {
-                                    editSheetData = emptyList()
-                                }
+                                editSheetData = emptyList()
                             },
-                            onNavigate = { screen ->
-                                scope.launch {
-                                    editSheetData = emptyList()
-                                    delay(200)
-                                    onNavigate(screen)
-                                }
-                            }
+                            onNavigate = onNavigate
                         )
                         EnhancedIconButton(
                             onClick = { component.clearDrawing() },

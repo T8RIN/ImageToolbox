@@ -158,7 +158,7 @@ fun RootContent(
                     uris = component.uris ?: emptyList(),
                     extraImageType = component.extraImageType,
                     visible = showSelectSheet,
-                    onDismiss = { showSelectSheet = it },
+                    onDismiss = { showSelectSheet = false },
                     onNavigate = { screen ->
                         GlobalExceptionHandler.registerScreenOpen(screen)
                         component.navigateTo(screen)

@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,12 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -74,6 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkDataSelector
@@ -87,29 +83,20 @@ fun WatermarkingContent(
     onNavigate: (Screen) -> Unit,
     component: WatermarkingComponent
 ) {
-    val themeState = LocalDynamicThemeState.current
-
-    val settingsState = LocalSettingsState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
-
     val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val imageLoader = LocalImageLoader.current
-    LaunchedEffect(component.selectedUri) {
-        component.selectedUri.let {
-            if (allowChangeColor) {
-                imageLoader.execute(
-                    ImageRequest.Builder(context).data(it).build()
-                ).drawable?.toBitmap()?.let { bitmap ->
-                    themeState.updateColorByImage(bitmap)
-                }
-            }
+    AutoContentBasedColors(
+        model = component.selectedUri,
+        selector = {
+            imageLoader.execute(
+                ImageRequest.Builder(context).data(it).build()
+            ).drawable?.toBitmap()
         }
-    }
+    )
 
     val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
         component.setUris(
@@ -184,17 +171,9 @@ fun WatermarkingContent(
                 uris = editSheetData,
                 visible = editSheetData.isNotEmpty(),
                 onDismiss = {
-                    if (!it) {
-                        editSheetData = emptyList()
-                    }
+                    editSheetData = emptyList()
                 },
-                onNavigate = { screen ->
-                    scope.launch {
-                        editSheetData = emptyList()
-                        delay(200)
-                        onNavigate(screen)
-                    }
-                }
+                onNavigate = onNavigate
             )
             EnhancedIconButton(
                 enabled = component.internalBitmap != null,
