@@ -21,6 +21,9 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +56,7 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -100,9 +104,22 @@ fun FullscreenEditOption(
 ) {
     val scope = rememberCoroutineScope()
 
+    var predictiveBackProgress by remember {
+        mutableFloatStateOf(0f)
+    }
+
+    LaunchedEffect(predictiveBackProgress, visible) {
+        if (!visible && predictiveBackProgress != 0f) {
+            delay(600)
+            predictiveBackProgress = 0f
+        }
+    }
+
     AnimatedVisibility(
         visible = visible,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        enter = fadeIn(tween(600)),
+        exit = fadeOut(tween(600))
     ) {
         var showExitDialog by remember(visible) { mutableStateOf(false) }
         val internalOnDismiss = {
@@ -112,9 +129,7 @@ fun FullscreenEditOption(
         val direction = LocalLayoutDirection.current
         val focus = LocalFocusManager.current
 
-        var predictiveBackProgress by remember {
-            mutableFloatStateOf(0f)
-        }
+
         val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
         val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
 
@@ -316,11 +331,9 @@ fun FullscreenEditOption(
                             predictiveBackProgress = event.progress
                         }
                         internalOnDismiss()
-                    } catch (_: Exception) {
+                    } catch (e: Exception) {
+                        predictiveBackProgress = 0f
                     }
-
-                    delay(400)
-                    predictiveBackProgress = 0f
                 }
             } else {
                 BackHandler(onBack = internalOnDismiss)

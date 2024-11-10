@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
-import android.view.Window
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
@@ -49,9 +48,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.compositionLocalWithComputedDefaultOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -64,13 +60,11 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogWindowProvider
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -170,15 +164,6 @@ fun BasicEnhancedAlertDialog(
 
     if (visibleAnimated) {
         FullscreenPopup {
-            val dialogWindow = LocalDialogWindow.current
-
-            SideEffect {
-                dialogWindow.let { window ->
-                    window?.setDimAmount(0f)
-                    window?.setWindowAnimations(-1)
-                }
-            }
-
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -254,11 +239,6 @@ fun BasicEnhancedAlertDialog(
         }
     }
 }
-
-private val LocalDialogWindow: ProvidableCompositionLocal<Window?> =
-    compositionLocalWithComputedDefaultOf {
-        (LocalView.currentValue.parent as? DialogWindowProvider)?.window
-    }
 
 @Composable
 private fun EnhancedAlertDialogContent(
