@@ -610,7 +610,8 @@ fun BitmapDrawer(
                                     strokeWidth = strokeWidth,
                                     canvasSize = canvasSize,
                                     path = path,
-                                    paint = pathPaint
+                                    paint = pathPaint,
+                                    invalidations = invalidations
                                 )
                             } else {
                                 drawPath(path, pathPaint)
@@ -641,7 +642,8 @@ fun BitmapDrawer(
                                 strokeWidth = strokeWidth,
                                 canvasSize = canvasSize,
                                 path = androidPath,
-                                paint = drawPaint
+                                paint = drawPaint,
+                                invalidations = invalidations
                             )
                         } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
                             drawPath(

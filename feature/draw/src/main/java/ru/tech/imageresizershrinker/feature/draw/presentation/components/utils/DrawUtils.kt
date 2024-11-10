@@ -333,13 +333,14 @@ fun NativeCanvas.drawRepeatedImageOnPath(
     canvasSize: IntegerSize,
     path: NativePath,
     paint: NativePaint,
+    invalidations: Int
 ) {
     val context = LocalContext.current
     var pathImage by remember(strokeWidth, canvasSize) {
         mutableStateOf<Bitmap?>(null)
     }
     val imageLoader = LocalImageLoader.current
-    LaunchedEffect(pathImage, drawMode.imageData, strokeWidth, canvasSize) {
+    LaunchedEffect(pathImage, drawMode.imageData, strokeWidth, canvasSize, invalidations) {
         if (pathImage == null) {
             pathImage = imageLoader.execute(
                 ImageRequest.Builder(context)
