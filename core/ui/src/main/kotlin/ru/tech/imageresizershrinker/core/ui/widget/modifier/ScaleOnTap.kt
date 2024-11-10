@@ -17,7 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -39,7 +41,13 @@ fun Modifier.scaleOnTap(
     onRelease: (time: Long) -> Unit
 ) = this.composed {
     var scaleState by remember(initial) { mutableFloatStateOf(initial) }
-    val scale by animateFloatAsState(scaleState)
+    val scale by animateFloatAsState(
+        targetValue = scaleState,
+        animationSpec = spring(
+            dampingRatio = 0.3f,
+            stiffness = Spring.StiffnessMediumLow
+        )
+    )
     val haptics = LocalHapticFeedback.current
 
     Modifier
