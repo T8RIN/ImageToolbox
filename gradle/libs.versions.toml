@@ -10,7 +10,7 @@ jvmTarget = "17"
 compose-compiler = "1.5.15"
 
 imageToolboxLibs = "3.0.0"
-trickle = "1.2.1"
+trickle = "1.2.2"
 
 avifCoder = "2.0.6"
 avifCoderCoil = "2.0.6"
