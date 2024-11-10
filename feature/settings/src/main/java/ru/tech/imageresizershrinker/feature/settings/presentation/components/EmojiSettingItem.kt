@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -58,7 +59,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 @Composable
 fun EmojiSettingItem(
     selectedEmojiIndex: Int,
-    onAddColorTupleFromEmoji: (getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) -> Unit,
+    onAddColorTupleFromEmoji: (String) -> Unit,
     onUpdateEmoji: (Int) -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ContainerShapeDefaults.topShape
@@ -67,6 +68,7 @@ fun EmojiSettingItem(
     val toastHost = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    var showSecretDescriptionDialog by rememberSaveable { mutableStateOf("") }
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
     var showEmojiDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -105,7 +107,6 @@ fun EmojiSettingItem(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                val emojis = Emoji.allIcons()
                 EmojiItem(
                     emoji = emoji?.toString(),
                     modifier = Modifier.then(
@@ -113,15 +114,12 @@ fun EmojiSettingItem(
                             Modifier.scaleOnTap(
                                 onRelease = { time ->
                                     if (time > 500) {
-                                        onAddColorTupleFromEmoji(
-                                            { index ->
-                                                index?.let {
-                                                    emojis[it].toString()
-                                                } ?: ""
-                                            }, {
-                                                showShoeDescriptionDialog = it
-                                            }
-                                        )
+                                        onAddColorTupleFromEmoji(emoji.toString())
+                                        if (emoji.toString().contains("frog", true)) {
+                                            showSecretDescriptionDialog = emoji.toString()
+                                        } else if (emoji.toString().contains("shoe", true)) {
+                                            showShoeDescriptionDialog = emoji.toString()
+                                        }
                                     }
                                 }
                             )
@@ -176,6 +174,34 @@ fun EmojiSettingItem(
         },
         onDismissRequest = {
             showShoeDescriptionDialog = ""
+        }
+    )
+
+    EnhancedAlertDialog(
+        visible = showSecretDescriptionDialog.isNotEmpty(),
+        icon = {
+            EmojiItem(
+                emoji = showSecretDescriptionDialog,
+                fontScale = 1f,
+                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+            )
+        },
+        text = {
+            Text(
+                text = "\uD83D\uDC49 \uD83D\uDC46, \uD83D\uDC47 \uD83D\uDE4B \uD83D\uDC70 ❗ \uD83D\uDC64 \uD83D\uDC96 \uD83D\uDCF6 \uD83C\uDF05",
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = { showSecretDescriptionDialog = "" }
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
+        onDismissRequest = {
+            showSecretDescriptionDialog = ""
         }
     )
 }

@@ -52,7 +52,7 @@ fun Modifier.scaleOnTap(
 
     Modifier
         .scale(scale)
-        .pointerInput(Unit) {
+        .pointerInput(onHold, onRelease, min, max, initial) {
             detectTapGestures(
                 onPress = {
                     val time = System.currentTimeMillis()
