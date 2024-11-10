@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("unused", "UNCHECKED_CAST")
+
 package ru.tech.imageresizershrinker.core.ui.theme
 
 import androidx.compose.animation.core.FiniteAnimationSpec
@@ -24,7 +26,6 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MotionScheme
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 
-@Suppress("UNCHECKED_CAST")
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 internal val CustomMotionScheme: MotionScheme = object : MotionScheme {
     val SpringDefaultSpatialDamping = 0.9f
@@ -42,7 +43,7 @@ internal val CustomMotionScheme: MotionScheme = object : MotionScheme {
 
     private val defaultSpatialSpec =
         tween<Any>(
-            durationMillis = 600,
+            durationMillis = 400,
             easing = FancyTransitionEasing
         )
 
@@ -66,13 +67,13 @@ internal val CustomMotionScheme: MotionScheme = object : MotionScheme {
 
     private val fastEffectsSpec =
         tween<Any>(
-            durationMillis = 400,
+            durationMillis = 300,
             easing = FancyTransitionEasing
         )
 
     private val slowEffectsSpec =
         tween<Any>(
-            durationMillis = 800,
+            durationMillis = 500,
             easing = FancyTransitionEasing
         )
 
