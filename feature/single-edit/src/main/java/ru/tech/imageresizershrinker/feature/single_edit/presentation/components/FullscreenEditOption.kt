@@ -115,9 +115,7 @@ fun FullscreenEditOption(
         var predictiveBackProgress by remember {
             mutableFloatStateOf(0f)
         }
-        val animatedPredictiveBackProgress by animateFloatAsState(
-            predictiveBackProgress
-        )
+        val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
         val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
 
 
@@ -318,11 +316,11 @@ fun FullscreenEditOption(
                             predictiveBackProgress = event.progress
                         }
                         internalOnDismiss()
-                        delay(400)
-                        predictiveBackProgress = 0f
-                    } catch (e: Exception) {
-                        predictiveBackProgress = 0f
+                    } catch (_: Exception) {
                     }
+
+                    delay(400)
+                    predictiveBackProgress = 0f
                 }
             } else {
                 BackHandler(onBack = internalOnDismiss)

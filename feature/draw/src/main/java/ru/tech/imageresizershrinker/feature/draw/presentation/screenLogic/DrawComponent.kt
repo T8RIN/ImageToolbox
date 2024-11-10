@@ -300,6 +300,7 @@ class DrawComponent @AssistedInject internal constructor(
         _drawBehavior.update {
             DrawBehavior.None
         }
+        _drawPathMode.update { DrawPathMode.Free }
         _uri.value = Uri.EMPTY
         _backgroundColor.value = Color.Transparent
         registerChangesCleared()

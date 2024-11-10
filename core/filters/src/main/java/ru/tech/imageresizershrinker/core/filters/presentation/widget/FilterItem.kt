@@ -46,6 +46,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -84,13 +85,20 @@ fun <T> FilterItem(
     previewOnly: Boolean = false,
     onFilterChange: (value: Any) -> Unit,
     backgroundColor: Color = Color.Unspecified,
-    shape: Shape = MaterialTheme.shapes.extraLarge
+    shape: Shape = MaterialTheme.shapes.extraLarge,
+    canHide: Boolean = true
 ) {
     var isControlsExpanded by rememberSaveable {
         mutableStateOf(true)
     }
 
     val isVisible = filter.isVisible
+
+    if (!canHide && !isVisible) {
+        SideEffect {
+            filter.isVisible = true
+        }
+    }
 
     Box(
         modifier = Modifier.then(
@@ -133,72 +141,83 @@ fun <T> FilterItem(
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (!previewOnly) {
-                        Box {
-                            var showPopup by remember {
-                                mutableStateOf(false)
-                            }
-
-                            EnhancedIconButton(
-                                onClick = {
-                                    showPopup = true
+                        if (canHide) {
+                            Box {
+                                var showPopup by remember {
+                                    mutableStateOf(false)
                                 }
+
+                                EnhancedIconButton(
+                                    onClick = {
+                                        showPopup = true
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.MoreVert,
+                                        contentDescription = "more"
+                                    )
+                                }
+
+                                EnhancedDropdownMenu(
+                                    expanded = showPopup,
+                                    onDismissRequest = { showPopup = false },
+                                    shape = MaterialTheme.shapes.extraLarge
+                                ) {
+                                    EnhancedButton(
+                                        modifier = Modifier
+                                            .padding(horizontal = 8.dp)
+                                            .width(164.dp),
+                                        onClick = {
+                                            onRemove()
+                                            showPopup = false
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.tertiary
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.RemoveCircleOutline,
+                                            contentDescription = stringResource(R.string.remove)
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(stringResource(R.string.remove))
+                                    }
+                                    Spacer(Modifier.height(4.dp))
+                                    EnhancedButton(
+                                        modifier = Modifier
+                                            .padding(horizontal = 8.dp)
+                                            .width(164.dp),
+                                        onClick = {
+                                            filter.isVisible = !isVisible
+                                            onFilterChange(filter.value as Any)
+                                            showPopup = false
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.primary
+                                    ) {
+                                        Icon(
+                                            imageVector = if (isVisible) {
+                                                Icons.Outlined.VisibilityOff
+                                            } else {
+                                                Icons.Rounded.Visibility
+                                            },
+                                            contentDescription = stringResource(R.string.remove)
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            stringResource(
+                                                if (isVisible) R.string.hide
+                                                else R.string.show
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                            EnhancedIconButton(
+                                onClick = onRemove
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.MoreVert,
-                                    contentDescription = "more"
+                                    imageVector = Icons.Rounded.RemoveCircleOutline,
+                                    contentDescription = stringResource(R.string.remove)
                                 )
-                            }
-
-                            EnhancedDropdownMenu(
-                                expanded = showPopup,
-                                onDismissRequest = { showPopup = false },
-                                shape = MaterialTheme.shapes.extraLarge
-                            ) {
-                                EnhancedButton(
-                                    modifier = Modifier
-                                        .padding(horizontal = 8.dp)
-                                        .width(164.dp),
-                                    onClick = {
-                                        onRemove()
-                                        showPopup = false
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.tertiary
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.RemoveCircleOutline,
-                                        contentDescription = stringResource(R.string.remove)
-                                    )
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(stringResource(R.string.remove))
-                                }
-                                Spacer(Modifier.height(4.dp))
-                                EnhancedButton(
-                                    modifier = Modifier
-                                        .padding(horizontal = 8.dp)
-                                        .width(164.dp),
-                                    onClick = {
-                                        filter.isVisible = !isVisible
-                                        onFilterChange(filter.value as Any)
-                                        showPopup = false
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                ) {
-                                    Icon(
-                                        imageVector = if (isVisible) {
-                                            Icons.Outlined.VisibilityOff
-                                        } else {
-                                            Icons.Rounded.Visibility
-                                        },
-                                        contentDescription = stringResource(R.string.remove)
-                                    )
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(
-                                        stringResource(
-                                            if (isVisible) R.string.hide
-                                            else R.string.show
-                                        )
-                                    )
-                                }
                             }
                         }
                     }
