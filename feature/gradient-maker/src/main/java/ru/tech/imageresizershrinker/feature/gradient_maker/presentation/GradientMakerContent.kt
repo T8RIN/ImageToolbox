@@ -135,9 +135,18 @@ fun GradientMakerContent(
     LaunchedEffect(component.colorStops) {
         if (component.colorStops.isEmpty()) {
             colorScheme.apply {
-                component.addColorStop(0f to primary.blend(primaryContainer, 0.5f))
-                component.addColorStop(0.5f to secondary.blend(secondaryContainer, 0.5f))
-                component.addColorStop(1f to tertiary.blend(tertiaryContainer, 0.5f))
+                component.addColorStop(
+                    pair = 0f to primary.blend(primaryContainer, 0.5f),
+                    isInitial = true
+                )
+                component.addColorStop(
+                    pair = 0.5f to secondary.blend(secondaryContainer, 0.5f),
+                    isInitial = true
+                )
+                component.addColorStop(
+                    pair = 1f to tertiary.blend(tertiaryContainer, 0.5f),
+                    isInitial = true
+                )
             }
         }
     }

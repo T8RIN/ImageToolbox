@@ -250,7 +250,7 @@ fun DeleteExifContent(
                     if (isPortrait) actions()
                 },
                 onSecondaryButtonLongClick = {
-
+                    showOneTimeImagePickingDialog = true
                 }
             )
             OneTimeSaveLocationSelectionDialog(

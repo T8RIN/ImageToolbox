@@ -58,6 +58,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareScreenContent
@@ -171,8 +172,14 @@ fun CompareContent(
         }
 
         if (component.bitmapData == null) {
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             EnhancedFloatingActionButton(
                 onClick = pickImage,
+                onLongClick = {
+                    showOneTimeImagePickingDialog = true
+                },
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
@@ -187,6 +194,12 @@ fun CompareContent(
                     Text(stringResource(R.string.pick_image_alt))
                     Spacer(Modifier.width(16.dp))
                 }
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
             )
         }
     }

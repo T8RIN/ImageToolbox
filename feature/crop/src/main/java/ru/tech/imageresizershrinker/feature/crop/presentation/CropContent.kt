@@ -105,6 +105,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -274,6 +275,13 @@ fun CropContent(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
+    }
+
+    var showOneTimeImagePickingDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var showFolderSelectionDialog by rememberSaveable {
+        mutableStateOf(false)
     }
 
     var crop by remember { mutableStateOf(false) }
@@ -463,6 +471,9 @@ fun CropContent(
                             ) {
                                 EnhancedFloatingActionButton(
                                     onClick = pickImage,
+                                    onLongClick = {
+                                        showOneTimeImagePickingDialog = true
+                                    },
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                     content = {
                                         Icon(
@@ -490,9 +501,6 @@ fun CropContent(
                                 }
                                 AnimatedVisibility(component.isBitmapChanged) {
                                     Column {
-                                        var showFolderSelectionDialog by rememberSaveable {
-                                            mutableStateOf(false)
-                                        }
                                         Spacer(modifier = Modifier.height(8.dp))
                                         EnhancedFloatingActionButton(
                                             onClick = {
@@ -507,12 +515,6 @@ fun CropContent(
                                                 contentDescription = stringResource(R.string.save)
                                             )
                                         }
-                                        OneTimeSaveLocationSelectionDialog(
-                                            visible = showFolderSelectionDialog,
-                                            onDismiss = { showFolderSelectionDialog = false },
-                                            onSaveRequest = saveBitmap,
-                                            formatForFilenameSelection = component.getFormatForFilenameSelection()
-                                        )
                                     }
                                 }
                             }
@@ -537,6 +539,9 @@ fun CropContent(
                 ) {
                     EnhancedFloatingActionButton(
                         onClick = pickImage,
+                        onLongClick = {
+                            showOneTimeImagePickingDialog = true
+                        },
                         content = {
                             Spacer(Modifier.width(16.dp))
                             Icon(
@@ -591,6 +596,9 @@ fun CropContent(
                             Row {
                                 EnhancedFloatingActionButton(
                                     onClick = pickImage,
+                                    onLongClick = {
+                                        showOneTimeImagePickingDialog = true
+                                    },
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                 ) {
                                     val expanded =
@@ -614,9 +622,6 @@ fun CropContent(
                                 }
                                 AnimatedVisibility(component.isBitmapChanged) {
                                     Row {
-                                        var showFolderSelectionDialog by rememberSaveable {
-                                            mutableStateOf(false)
-                                        }
                                         Spacer(modifier = Modifier.width(8.dp))
                                         EnhancedFloatingActionButton(
                                             onClick = {
@@ -631,12 +636,6 @@ fun CropContent(
                                                 contentDescription = stringResource(R.string.save)
                                             )
                                         }
-                                        OneTimeSaveLocationSelectionDialog(
-                                            visible = showFolderSelectionDialog,
-                                            onDismiss = { showFolderSelectionDialog = false },
-                                            onSaveRequest = saveBitmap,
-                                            formatForFilenameSelection = component.getFormatForFilenameSelection()
-                                        )
                                     }
                                 }
                             }
@@ -654,6 +653,20 @@ fun CropContent(
     } else {
         content(PaddingValues())
     }
+
+    OneTimeSaveLocationSelectionDialog(
+        visible = showFolderSelectionDialog,
+        onDismiss = { showFolderSelectionDialog = false },
+        onSaveRequest = saveBitmap,
+        formatForFilenameSelection = component.getFormatForFilenameSelection()
+    )
+
+    OneTimeImagePickingDialog(
+        onDismiss = { showOneTimeImagePickingDialog = false },
+        picker = Picker.Single,
+        imagePicker = imagePicker,
+        visible = showOneTimeImagePickingDialog
+    )
 
     ResetDialog(
         visible = showResetDialog,

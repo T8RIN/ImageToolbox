@@ -116,6 +116,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.HelperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -175,6 +176,13 @@ fun EraseBackgroundContent(
     }
 
     val pickImage = imagePicker::pickImage
+
+    var showOneTimeImagePickingDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var showFolderSelectionDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     AutoFilePicker(
         onAutoPick = pickImage,
@@ -562,6 +570,9 @@ fun EraseBackgroundContent(
                 }
                 EnhancedFloatingActionButton(
                     onClick = pickImage,
+                    onLongClick = {
+                        showOneTimeImagePickingDialog = true
+                    },
                     modifier = Modifier
                         .align(settingsState.fabAlignment)
                         .navigationBarsPadding()
@@ -600,11 +611,11 @@ fun EraseBackgroundContent(
                                 },
                                 floatingActionButton = {
                                     Row {
-                                        var showFolderSelectionDialog by rememberSaveable {
-                                            mutableStateOf(false)
-                                        }
                                         EnhancedFloatingActionButton(
                                             onClick = pickImage,
+                                            onLongClick = {
+                                                showOneTimeImagePickingDialog = true
+                                            },
                                             containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                         ) {
                                             Icon(
@@ -626,12 +637,6 @@ fun EraseBackgroundContent(
                                                 contentDescription = stringResource(R.string.save)
                                             )
                                         }
-                                        OneTimeSaveLocationSelectionDialog(
-                                            visible = showFolderSelectionDialog,
-                                            onDismiss = { showFolderSelectionDialog = false },
-                                            onSaveRequest = saveBitmap,
-                                            formatForFilenameSelection = component.getFormatForFilenameSelection()
-                                        )
                                     }
                                 }
                             )
@@ -706,11 +711,11 @@ fun EraseBackgroundContent(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            var showFolderSelectionDialog by rememberSaveable {
-                                mutableStateOf(false)
-                            }
                             EnhancedFloatingActionButton(
                                 onClick = pickImage,
+                                onLongClick = {
+                                    showOneTimeImagePickingDialog = true
+                                },
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
                             ) {
                                 Icon(
@@ -732,12 +737,6 @@ fun EraseBackgroundContent(
                                     contentDescription = stringResource(R.string.save)
                                 )
                             }
-                            OneTimeSaveLocationSelectionDialog(
-                                visible = showFolderSelectionDialog,
-                                onDismiss = { showFolderSelectionDialog = false },
-                                onSaveRequest = saveBitmap,
-                                formatForFilenameSelection = component.getFormatForFilenameSelection()
-                            )
                         }
                     }
                 }
@@ -745,6 +744,19 @@ fun EraseBackgroundContent(
         }
     }
 
+    OneTimeSaveLocationSelectionDialog(
+        visible = showFolderSelectionDialog,
+        onDismiss = { showFolderSelectionDialog = false },
+        onSaveRequest = saveBitmap,
+        formatForFilenameSelection = component.getFormatForFilenameSelection()
+    )
+
+    OneTimeImagePickingDialog(
+        onDismiss = { showOneTimeImagePickingDialog = false },
+        picker = Picker.Single,
+        imagePicker = imagePicker,
+        visible = showOneTimeImagePickingDialog
+    )
 
     LoadingDialog(
         visible = component.isSaving || component.isImageLoading || component.isErasingBG,

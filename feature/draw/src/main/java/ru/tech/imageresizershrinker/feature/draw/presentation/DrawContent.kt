@@ -141,6 +141,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.HelperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -220,6 +221,13 @@ fun DrawContent(
     }
 
     val pickImage = imagePicker::pickImage
+
+    var showOneTimeImagePickingDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var showFolderSelectionDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmap(
@@ -747,6 +755,9 @@ fun DrawContent(
                     ) {
                         EnhancedFloatingActionButton(
                             onClick = pickImage,
+                            onLongClick = {
+                                showOneTimeImagePickingDialog = true
+                            },
                             modifier = Modifier
                                 .navigationBarsPadding()
                                 .padding(16.dp),
@@ -910,6 +921,9 @@ fun DrawContent(
                                         if (drawBehavior is DrawBehavior.Image) {
                                             EnhancedFloatingActionButton(
                                                 onClick = pickImage,
+                                                onLongClick = {
+                                                    showOneTimeImagePickingDialog = true
+                                                },
                                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                             ) {
                                                 Icon(
@@ -918,9 +932,6 @@ fun DrawContent(
                                                 )
                                             }
                                             Spacer(modifier = Modifier.width(8.dp))
-                                        }
-                                        var showFolderSelectionDialog by rememberSaveable {
-                                            mutableStateOf(false)
                                         }
                                         EnhancedFloatingActionButton(
                                             onClick = {
@@ -935,12 +946,6 @@ fun DrawContent(
                                                 contentDescription = stringResource(R.string.save)
                                             )
                                         }
-                                        OneTimeSaveLocationSelectionDialog(
-                                            visible = showFolderSelectionDialog,
-                                            onDismiss = { showFolderSelectionDialog = false },
-                                            onSaveRequest = saveBitmap,
-                                            formatForFilenameSelection = component.getFormatForFilenameSelection()
-                                        )
                                     }
                                 }
                             )
@@ -1028,11 +1033,11 @@ fun DrawContent(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            var showFolderSelectionDialog by rememberSaveable {
-                                mutableStateOf(false)
-                            }
                             EnhancedFloatingActionButton(
                                 onClick = pickImage,
+                                onLongClick = {
+                                    showOneTimeImagePickingDialog = true
+                                },
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
                             ) {
                                 Icon(
@@ -1054,18 +1059,26 @@ fun DrawContent(
                                     contentDescription = stringResource(R.string.save)
                                 )
                             }
-                            OneTimeSaveLocationSelectionDialog(
-                                visible = showFolderSelectionDialog,
-                                onDismiss = { showFolderSelectionDialog = false },
-                                onSaveRequest = saveBitmap,
-                                formatForFilenameSelection = component.getFormatForFilenameSelection()
-                            )
                         }
                     }
                 }
             }
         }
     }
+
+    OneTimeSaveLocationSelectionDialog(
+        visible = showFolderSelectionDialog,
+        onDismiss = { showFolderSelectionDialog = false },
+        onSaveRequest = saveBitmap,
+        formatForFilenameSelection = component.getFormatForFilenameSelection()
+    )
+
+    OneTimeImagePickingDialog(
+        onDismiss = { showOneTimeImagePickingDialog = false },
+        picker = Picker.Single,
+        imagePicker = imagePicker,
+        visible = showOneTimeImagePickingDialog
+    )
 
     LoadingDialog(
         visible = component.isSaving || component.isImageLoading,

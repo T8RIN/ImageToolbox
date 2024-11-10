@@ -962,9 +962,13 @@ fun FiltersContent(
                                         ),
                                     horizontalArrangement = Arrangement.Center
                                 ) {
+                                    var showOneTimeImagePickingDialog by rememberSaveable {
+                                        mutableStateOf(false)
+                                    }
                                     EnhancedFloatingActionButton(
-                                        onClick = {
-                                            selectionFilterPicker.pickImage()
+                                        onClick = selectionFilterPicker::pickImage,
+                                        onLongClick = {
+                                            showOneTimeImagePickingDialog = true
                                         },
                                         modifier = Modifier
                                             .navigationBarsPadding()
@@ -979,6 +983,12 @@ fun FiltersContent(
                                             Text(stringResource(R.string.pick_image_alt))
                                             Spacer(Modifier.width(16.dp))
                                         }
+                                    )
+                                    OneTimeImagePickingDialog(
+                                        onDismiss = { showOneTimeImagePickingDialog = false },
+                                        picker = Picker.Multiple,
+                                        imagePicker = selectionFilterPicker,
+                                        visible = showOneTimeImagePickingDialog
                                     )
                                 }
                             }

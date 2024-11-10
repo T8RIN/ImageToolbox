@@ -58,6 +58,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageForma
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
@@ -270,6 +271,9 @@ fun ImageStitchingContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 isPrimaryButtonVisible = component.previewBitmap != null,
                 targetState = (component.uris.isNullOrEmpty()) to isPortrait,
@@ -282,6 +286,9 @@ fun ImageStitchingContent(
                 },
                 actions = {
                     if (isPortrait) actions()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
                 }
             )
             OneTimeSaveLocationSelectionDialog(
@@ -289,6 +296,12 @@ fun ImageStitchingContent(
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = saveBitmaps,
                 formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
             )
         },
         noDataControls = {

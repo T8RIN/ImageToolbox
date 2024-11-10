@@ -500,7 +500,7 @@ fun JxlToolsContent(
                     }
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (component.type is Screen.JxlTools.Type.ImageToJxl) {
+                onSecondaryButtonLongClick = if (component.type is Screen.JxlTools.Type.ImageToJxl || component.type == null) {
                     {
                         showOneTimeImagePickingDialog = true
                     }

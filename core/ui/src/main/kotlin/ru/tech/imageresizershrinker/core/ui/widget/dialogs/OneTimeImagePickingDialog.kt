@@ -115,7 +115,8 @@ fun OneTimeImagePickingDialog(
                             scrollableState = scrollState,
                             isVertical = true
                         )
-                        .verticalScroll(scrollState),
+                        .verticalScroll(scrollState)
+                        .padding(vertical = 2.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     val data = remember {

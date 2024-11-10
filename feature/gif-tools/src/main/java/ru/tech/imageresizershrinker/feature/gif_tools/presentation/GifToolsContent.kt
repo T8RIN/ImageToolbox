@@ -538,7 +538,7 @@ fun GifToolsContent(
                     if (isPortrait) it()
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (component.type is Screen.GifTools.Type.ImageToGif) {
+                onSecondaryButtonLongClick = if (component.type is Screen.GifTools.Type.ImageToGif || component.type == null) {
                     {
                         showOneTimeImagePickingDialog = true
                     }

@@ -374,7 +374,7 @@ fun WebpToolsContent(
                     if (isPortrait) it()
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (component.type is Screen.WebpTools.Type.ImageToWebp) {
+                onSecondaryButtonLongClick = if (component.type is Screen.WebpTools.Type.ImageToWebp || component.type == null) {
                     {
                         showOneTimeImagePickingDialog = true
                     }

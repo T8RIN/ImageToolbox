@@ -332,9 +332,14 @@ class GradientMakerComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun addColorStop(pair: Pair<Float, Color>) {
+    fun addColorStop(
+        pair: Pair<Float, Color>,
+        isInitial: Boolean = false
+    ) {
         gradientState.colorStops.add(pair)
-        registerChanges()
+        if (!isInitial) {
+            registerChanges()
+        }
     }
 
     fun updateColorStop(

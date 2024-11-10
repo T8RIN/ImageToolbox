@@ -467,7 +467,7 @@ fun ApngToolsContent(
                     if (isPortrait) it()
                 },
                 showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (component.type is Screen.ApngTools.Type.ImageToApng) {
+                onSecondaryButtonLongClick = if (component.type is Screen.ApngTools.Type.ImageToApng || component.type == null) {
                     {
                         showOneTimeImagePickingDialog = true
                     }
