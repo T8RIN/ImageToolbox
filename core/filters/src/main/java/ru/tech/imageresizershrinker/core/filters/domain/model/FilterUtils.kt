@@ -26,9 +26,9 @@ inline fun <V : Any, reified T : Filter<V>> createFilter(
     T::class.java.classLoader,
     arrayOf(T::class.java)
 ) { _, method, _ ->
-    when (method.name) {
-        "getValue" -> value
-        "getIsVisible" -> true
+    when {
+        method.name == "getValue" -> value
+        method.name.contains("isVisible") -> true
         else -> null
     }
 } as T
