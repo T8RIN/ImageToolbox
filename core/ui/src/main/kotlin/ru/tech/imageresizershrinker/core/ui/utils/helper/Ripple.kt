@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import androidx.compose.foundation.Indication
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material.RippleDefaults
-import androidx.compose.material.ripple
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp

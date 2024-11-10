@@ -21,8 +21,6 @@ import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -68,6 +66,8 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.animation.springSpec
+import ru.tech.imageresizershrinker.core.ui.utils.animation.tweenSpec
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
 @Composable
@@ -172,8 +172,8 @@ fun BasicEnhancedAlertDialog(
                 LaunchedEffect(Unit) { animateIn = true }
                 AnimatedVisibility(
                     visible = animateIn && visible,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
+                    enter = fadeIn(springSpec()),
+                    exit = fadeOut(springSpec()),
                 ) {
                     val alpha = 0.5f * animatedScale
 
@@ -186,16 +186,16 @@ fun BasicEnhancedAlertDialog(
                 }
                 AnimatedVisibility(
                     visible = animateIn && visible,
-                    enter = fadeIn(tween(300)) + scaleIn(
+                    enter = fadeIn(tweenSpec(300)) + scaleIn(
                         initialScale = .8f,
-                        animationSpec = spring(
+                        animationSpec = springSpec(
                             dampingRatio = Spring.DampingRatioMediumBouncy,
                             stiffness = Spring.StiffnessMediumLow
                         )
                     ),
-                    exit = fadeOut(tween(300)) + scaleOut(
+                    exit = fadeOut(tweenSpec(300)) + scaleOut(
                         targetScale = .8f,
-                        animationSpec = spring(
+                        animationSpec = springSpec(
                             dampingRatio = Spring.DampingRatioMediumBouncy,
                             stiffness = Spring.StiffnessMediumLow
                         )

@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,6 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostS
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toClipData
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
@@ -70,7 +70,7 @@ class MediaPickerActivity : M3Activity() {
         } else {
             getString(R.string.pick_single_media)
         }
-        setContent {
+        setContentWithWindowSizeClass {
             val settingsState = component.settingsState.toUiState(
                 allEmojis = Emoji.allIcons(),
                 allIconShapes = IconShapeDefaults.shapes,

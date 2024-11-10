@@ -22,7 +22,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -63,6 +62,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
+import ru.tech.imageresizershrinker.core.ui.utils.animation.tweenSpec
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -385,9 +385,10 @@ object EnhancedBottomSheetDefaults {
         @Composable
         get() = MaterialTheme.colorScheme.scrim.copy(0.32f)
 
-    val animationSpec: AnimationSpec<Float> = tween(
-        durationMillis = 600,
-        easing = FancyTransitionEasing
-    )
+    val animationSpec: AnimationSpec<Float>
+        get() = tweenSpec(
+            durationMillis = 600,
+            easing = FancyTransitionEasing
+        )
 
 }
