@@ -9,7 +9,7 @@ versionCode = "156"
 jvmTarget = "17"
 compose-compiler = "1.5.15"
 
-imageToolboxLibs = "3.0.0"
+imageToolboxLibs = "3.0.1"
 trickle = "1.2.2"
 
 avifCoder = "2.0.6"
@@ -74,8 +74,10 @@ mlkitDocumentScanner = "16.0.0-beta1"
 zxingAndroidEmbedded = "4.3.0"
 capturable = "3.0.0"
 moshi = "1.15.1"
+aboutlibraries = "11.2.3"
 
 [libraries]
+aboutlibraries-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutlibraries" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 trickle = { module = "com.github.t8rin:trickle", version.ref = "trickle" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
@@ -180,6 +182,7 @@ agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
+aboutlibraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "aboutlibraries" }
 
 [plugins]
 image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" }

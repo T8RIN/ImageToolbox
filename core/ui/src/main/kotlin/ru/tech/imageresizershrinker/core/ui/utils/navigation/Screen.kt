@@ -124,13 +124,15 @@ sealed class Screen(
             is WebpTools -> "WEBP_Tools"
             is NoiseGeneration -> "Noise_Generation"
             is CollageMaker -> "Collage_Maker"
+            is LibrariesInfo -> "Libraries_Info"
         }
 
     val icon: ImageVector?
         get() = when (this) {
             EasterEgg,
             Main,
-            Settings -> null
+            Settings,
+            LibrariesInfo -> null
 
             is SingleEdit -> Icons.Outlined.ImageEdit
             is ApngTools -> Icons.Rounded.ApngBox
@@ -775,6 +777,13 @@ sealed class Screen(
         id = 33,
         title = R.string.collage_maker,
         subtitle = R.string.collage_maker_sub
+    )
+
+    @Serializable
+    data object LibrariesInfo : Screen(
+        id = -4,
+        title = 0,
+        subtitle = 0
     )
 
     companion object {

@@ -366,6 +366,9 @@ fun SettingsContent(
                                                         },
                                                         onNavigateToSettings = {
                                                             onNavigate(Screen.Settings)
+                                                        },
+                                                        onNavigateToLibrariesInfo = {
+                                                            onNavigate(Screen.LibrariesInfo)
                                                         }
                                                     )
                                                 }
@@ -391,6 +394,9 @@ fun SettingsContent(
                                                         },
                                                         onNavigateToSettings = {
                                                             onNavigate(Screen.Settings)
+                                                        },
+                                                        onNavigateToLibrariesInfo = {
+                                                            onNavigate(Screen.LibrariesInfo)
                                                         }
                                                     )
                                                 }
@@ -425,6 +431,9 @@ fun SettingsContent(
                                     },
                                     onNavigateToSettings = {
                                         onNavigate(Screen.Settings)
+                                    },
+                                    onNavigateToLibrariesInfo = {
+                                        onNavigate(Screen.LibrariesInfo)
                                     }
                                 )
                             }

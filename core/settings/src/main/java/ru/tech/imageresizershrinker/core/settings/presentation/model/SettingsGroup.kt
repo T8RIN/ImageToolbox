@@ -271,6 +271,7 @@ sealed class SettingsGroup(
         titleId = R.string.about_app,
         settingsList = listOf(
             Setting.CurrentVersionCode,
+            Setting.OpenSourceLicenses,
             Setting.HelpTranslate,
             Setting.IssueTracker,
             Setting.TelegramChannel,

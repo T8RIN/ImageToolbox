@@ -49,6 +49,7 @@ internal fun SettingItem(
     ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToLibrariesInfo: () -> Unit,
     isUpdateAvailable: Boolean,
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
@@ -190,9 +191,7 @@ internal fun SettingItem(
 
                 CurrentVersionCodeSettingItem(
                     isUpdateAvailable = isUpdateAvailable,
-                    onClick = {
-                        clicks++
-                    }
+                    onClick = { clicks++ }
                 )
             }
 
@@ -517,6 +516,10 @@ internal fun SettingItem(
 
             Setting.CenterAlignDialogButtons -> {
                 CenterAlignDialogButtonsSettingItem(onClick = component::toggleIsCenterAlignDialogButtons)
+            }
+
+            Setting.OpenSourceLicenses -> {
+                OpenSourceLicensesSettingItem(onClick = onNavigateToLibrariesInfo)
             }
         }
     }

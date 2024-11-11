@@ -61,6 +61,7 @@ import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePrev
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.ImageStackingContent
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingContent
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.JxlToolsContent
+import ru.tech.imageresizershrinker.feature.libraries_info.presentation.LibrariesInfoContent
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeContent
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetImageContent
 import ru.tech.imageresizershrinker.feature.main.presentation.MainContent
@@ -432,6 +433,13 @@ internal fun ScreenSelector(
                     component = instance.component,
                     onGoBack = onGoBack,
                     onNavigate = onNavigate
+                )
+            }
+
+            is NavigationChild.LibrariesInfo -> {
+                LibrariesInfoContent(
+                    component = instance.component,
+                    onGoBack = onGoBack,
                 )
             }
         }

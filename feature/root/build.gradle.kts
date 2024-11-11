@@ -62,4 +62,5 @@ dependencies {
     implementation(projects.feature.webpTools)
     implementation(projects.feature.noiseGeneration)
     implementation(projects.feature.colllageMaker)
+    implementation(projects.feature.librariesInfo)
 }

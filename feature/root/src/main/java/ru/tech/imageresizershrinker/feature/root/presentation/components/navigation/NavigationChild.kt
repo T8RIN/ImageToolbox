@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.feature.image_preview.presentation.screenLog
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.screenLogic.ImageStackingComponent
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.screenLogic.ImageStitchingComponent
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic.JxlToolsComponent
+import ru.tech.imageresizershrinker.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
@@ -92,4 +93,5 @@ sealed class NavigationChild {
     class WebpTools(val component: WebpToolsComponent) : NavigationChild()
     class WeightResize(val component: WeightResizeComponent) : NavigationChild()
     class Zip(val component: ZipComponent) : NavigationChild()
+    class LibrariesInfo(val component: LibrariesInfoComponent) : NavigationChild()
 }

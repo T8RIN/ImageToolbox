@@ -33,6 +33,7 @@ buildscript {
         classpath(libs.firebase.crashlytics.gradle)
         classpath(libs.baselineprofile.gradle)
         classpath(libs.detekt.gradle)
+        classpath(libs.aboutlibraries.gradle)
     }
 }
 

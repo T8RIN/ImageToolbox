@@ -21,6 +21,7 @@ import android.graphics.Typeface
 import android.text.style.StyleSpan
 import android.text.style.URLSpan
 import android.text.style.UnderlineSpan
+import android.text.util.Linkify
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.core.text.HtmlCompat
+import androidx.core.text.toSpannable
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 
@@ -59,7 +61,11 @@ fun HtmlText(
     onHyperlinkClick: (uri: String) -> Unit = {}
 ) {
     val spanned = remember(html) {
-        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY, null, null)
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT, null, null)
+            .toSpannable()
+            .also {
+                Linkify.addLinks(it, Linkify.WEB_URLS)
+            }
     }
 
     val annotatedText = remember(spanned, hyperlinkStyle) {

@@ -1490,4 +1490,6 @@
     <string name="apply">Apply</string>
     <string name="center_align_dialog_buttons">Center Dialog Buttons</string>
     <string name="center_align_dialog_buttons_sub">Buttons of dialogs will be postioned at center instead of left side if possible</string>
+    <string name="open_source_licenses">Open Source Licenses</string>
+    <string name="open_source_licenses_sub">View licenses of open source libraries used in this app</string>
 </resources>

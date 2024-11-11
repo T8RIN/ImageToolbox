@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget
 
 import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +42,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
@@ -136,16 +134,16 @@ fun UpdateSheet(
                                     .fillMaxWidth()
                                     .verticalScroll(rememberScrollState())
                             ) {
+                                val linkHandler = LocalUriHandler.current
                                 HtmlText(
                                     html = changelog.trimIndent(),
                                     modifier = Modifier.padding(
                                         start = 24.dp,
                                         end = 24.dp,
                                         top = 24.dp
-                                    )
-                                ) { uri ->
-                                    context.startActivity(Intent(Intent.ACTION_VIEW, uri.toUri()))
-                                }
+                                    ),
+                                    onHyperlinkClick = linkHandler::openUri
+                                )
                             }
                         }
                     }

@@ -463,4 +463,8 @@ sealed class Setting(
         subtitle = R.string.center_align_dialog_buttons_sub
     )
 
+    data object OpenSourceLicenses : Setting(
+        title = R.string.open_source_licenses,
+        subtitle = R.string.open_source_licenses_sub
+    )
 }
