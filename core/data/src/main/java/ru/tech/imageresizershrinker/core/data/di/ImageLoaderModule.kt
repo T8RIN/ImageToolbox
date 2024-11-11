@@ -30,7 +30,6 @@ import coil.util.DebugLogger
 import coil.util.Logger
 import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
-import com.github.awxkee.avifcoil.decoder.HeifDecoder
 import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.psd.coil.PsdDecoder
@@ -42,6 +41,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import oupson.apng.coil.AnimatedPngDecoder
+import ru.tech.imageresizershrinker.core.data.coil.HeifDecoderCoil2
 import ru.tech.imageresizershrinker.core.data.coil.TimeMeasureInterceptor
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
@@ -84,7 +84,7 @@ internal object ImageLoaderModule {
             }
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) {
-                add(HeifDecoder.Factory())
+                add(HeifDecoderCoil2.Factory())
             }
             add(AnimatedJxlDecoder.Factory(context))
             add(Jpeg2000Decoder.Factory())
