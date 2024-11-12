@@ -818,6 +818,7 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
   <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
 </a>
 
+
 # ⚖️ License
 
 ```xml
