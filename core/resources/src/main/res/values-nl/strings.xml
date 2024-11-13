@@ -1470,4 +1470,8 @@
     <string name="fancy">Fraai</string>
     <string name="material_2_sub">Material 2 gebaseerde schuifregelaar, niet modern, eenvoudig en rechttoe rechtaan</string>
     <string name="apply">Toepassen</string>
+    <string name="center_align_dialog_buttons">Dialoogknoppen centreren</string>
+    <string name="open_source_licenses">Open source-licenties</string>
+    <string name="open_source_licenses_sub">Bekijk licenties van open source-bibliotheken die in deze app worden gebruikt</string>
+    <string name="center_align_dialog_buttons_sub">Knoppen van dialogen worden indien mogelijk in het midden geplaatst in plaats van aan de linkerkant</string>
 </resources>
