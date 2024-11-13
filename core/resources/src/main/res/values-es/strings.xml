@@ -179,7 +179,7 @@
     <string name="file_explorer_picker">Explorador de archivos</string>
     <string name="photo_picker_sub">El selector de fotos moderno de Android que aparece en la parte inferior de la pantalla, puede que funcione solo en Android 12+ y además tiene problemas para recibir metadatos EXIF</string>
     <string name="gallery_picker_sub">Selector simple de imágenes de la galería, solo funcionará si tienes alguna app que provea selección de fotos</string>
-    <string name="order_sub">Determina el orden de las opciones en la pantalla principal</string>
+    <string name="order_sub">Determina el orden de las herramientas en la pantalla principal</string>
     <string name="replace_sequence_number_sub">Si está habilitado, reemplaza la marca de tiempo estándar por el número de secuencia de imágenes si usas el procesamiento por lotes</string>
     <string name="load_image_from_net_sub">Carga cualquier imagen de Internet, obtén una vista previa, haz zoom y también guárdala o edítala si lo deseas.</string>
     <string name="image_link">Enlace de imagen</string>
@@ -245,7 +245,7 @@
     <string name="replace_sequence_number">Reemplazar número de secuencia</string>
     <string name="paint_color">Color de pintura</string>
     <string name="background_color">Color de fondo</string>
-    <string name="cipher_sub">Encriptar y Desencriptar cualquier archivo (no únicamente imágenes) basado en el algoritmo de encriptación AES</string>
+    <string name="cipher_sub">Encriptar y desencriptar cualquier archivo (no únicamente imágenes) basado en el algoritmo de encriptación AES</string>
     <string name="pick_file">Escoger archivo</string>
     <string name="encrypt">Encriptar</string>
     <string name="pick_file_to_start">Escoge el archivo para empezar</string>
@@ -308,7 +308,7 @@
     <string name="effort_sub">Un valor de %1$d significa comprimir rápidamente, resultando en un peso de archivo relativamente grande. %2$d significa tomar más tiempo comprimiendo, resultando en un peso de archivo más pequeño.</string>
     <string name="backup_sub">Respalda tus configuraciones en la app a un archivo</string>
     <string name="corrupted_file_or_not_a_backup">Archivo corrompido o no es un respaldo</string>
-    <string name="presets_sub" formatted="false">Si has seleccionado el preajuste 125, la imagen se guardará al 125% del tamaño de la imagen original con su calidad al 100%, y si escoges el preajuste 50 entonces la imagen se guardará al 50% del tamaño original con su calidad al 50%</string>
+    <string name="presets_sub" formatted="false">Si has seleccionado el preajuste 125, la imagen se guardará al 125% del tamaño de la imagen original. Si eliges el preajuste 50, entonces la imagen se guardará al 50% del tamaño original</string>
     <string name="analytics_sub">Permitir la recolección de estadísticas anónimas de uso de la app</string>
     <string name="font_scale">Tamaño de fuente</string>
     <string name="allow_betas">Permitir betas</string>
@@ -395,7 +395,7 @@
     <string name="empty">Vacío</string>
     <string name="suffix">Sufijo</string>
     <string name="search_option">Buscar</string>
-    <string name="search_option_sub">Permite buscar entre todas las opciones disponibles en la pantalla principal.</string>
+    <string name="search_option_sub">Permite buscar entre todas las herramientas disponibles en la pantalla principal.</string>
     <string name="free">Gratis</string>
     <string name="images_overwritten">Imágenes sobrescritas en el destino original</string>
     <string name="blur_edges">Bordes borrosos</string>
@@ -1023,4 +1023,33 @@
     <string name="delete_template_warn">Estás a punto de eliminar la plantilla de filtro seleccionada. Esta operación no se puede deshacer</string>
     <string name="added_filter_template">Añadir plantilla de filtro con nombre \"%1$s\" (%2$d)</string>
     <string name="scan_qr_code_to_replace_content">Escanear código QR para reemplazar el contenido del campo, o escribe algo para generar un nuevo código QR</string>
+    <string name="tag_compression">Compresión</string>
+    <string name="tag_resolution_unit">Unidad de resolución</string>
+    <string name="tag_x_resolution">Resolución X</string>
+    <string name="tag_y_resolution">Resolución Y</string>
+    <string name="tag_transfer_function">Función de transferencia</string>
+    <string name="default_line_width">Anchura de línea predeterminada</string>
+    <string name="show_settings_in_landscape">Mostrar ajustes en vista horizontal</string>
+    <string name="embedded_picker">Selector integrado</string>
+    <string name="embedded_picker_sub">Utiliza el propio selector de imagen de Image Toolbox en lugar de los predeterminados del sistema</string>
+    <string name="no_permissions">Sin permisos</string>
+    <string name="request">Solicitar</string>
+    <string name="auto_paste">Pegado automático</string>
+    <string name="auto_paste_sub">Permite que la aplicación pegue automáticamente los datos del portapapeles, para que aparezcan en la pantalla principal y puedas procesarlos</string>
+    <string name="gif_type_to_jxl_sub">Convertir imágenes GIF a fotografías animadas JXL</string>
+    <string name="apng_type_to_jxl_sub">Convertir imágenes APNG a fotografías animadas JXL</string>
+    <string name="jxl_type_to_images_sub">Convertir animación JXL a un lote de fotografías</string>
+    <string name="jxl_type_to_jxl_sub">Convertir lote de fotografías a animación JXL</string>
+    <string name="skip_file_picking_sub">El selector de archivos se mostrará inmediatamente si es posible en la pantalla elegida</string>
+    <string name="skip_file_picking">Omitir selección de archivos</string>
+    <string name="compression_type">Tipo de compresión</string>
+    <string name="images_to_svg">Imágenes a SVG</string>
+    <string name="images_to_svg_sub">Trazar imágenes dadas a imágenes SVG</string>
+    <string name="path_omit">Omitir ruta</string>
+    <string name="downscale_image">Reducir imagen</string>
+    <string name="downscale_image_sub">La imagen se reducirá a dimensiones más bajas antes de procesarla, esto ayuda a que la herramienta funcione más rápida y segura</string>
+    <string name="min_color_ratio">Relación de color mínima</string>
+    <string name="lines_threshold">Umbral de líneas</string>
+    <string name="quadratic_threshold">Umbral cuadrático</string>
+    <string name="reset_properties_sub">Todas las propiedades se establecerán a valores predeterminados, ten en cuenta que esta acción no se puede deshacer</string>
 </resources>
