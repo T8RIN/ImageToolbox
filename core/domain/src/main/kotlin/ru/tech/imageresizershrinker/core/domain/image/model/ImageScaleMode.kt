@@ -497,6 +497,14 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = Lanczos6Jinc(scaleColorSpace)
     }
 
+    class Area(
+        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
+    ) : ImageScaleMode(48) {
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Area(scaleColorSpace)
+    }
+
     companion object {
         val Default = Bilinear()
 
@@ -538,6 +546,7 @@ sealed class ImageScaleMode(val value: Int) {
                 Lagrange3(),
                 Lanczos6(),
                 Lanczos6Jinc(),
+                Area()
             )
         }
 

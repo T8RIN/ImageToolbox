@@ -59,7 +59,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Opacity : Filter<Float>
     interface Posterize : Filter<Float>
     interface RGB : WrapperFilter<ColorModel>
-    interface Saturation : Filter<Float>
+    interface Saturation : PairFilter<Float, Boolean>
     interface Sepia : SimpleFilter
     interface Sharpen : Filter<Float>
     interface Sketch : Filter<Float>

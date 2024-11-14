@@ -19,12 +19,24 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiSaturationFilter(
-    override val value: Float = 2f,
-) : UiFilter<Float>(
+    override val value: Pair<Float, Boolean> = 2f to true,
+) : UiFilter<Pair<Float, Boolean>>(
     title = R.string.saturation,
     value = value,
-    valueRange = 0f..2f
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.strength,
+            valueRange = 0f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.enable_tonemapping,
+            valueRange = 0f..0f,
+            roundTo = 0
+        )
+    )
 ), Filter.Saturation

@@ -33,7 +33,7 @@ import com.radzivon.bartoshyk.avif.coder.ScaleMode
 import kotlinx.coroutines.runInterruptible
 import okio.ByteString.Companion.encodeUtf8
 
-class HeifDecoderCoil2(
+internal class HeifDecoderCoil2(
     private val source: SourceResult,
     private val options: Options,
     private val exceptionLogger: ((Exception) -> Unit)? = null,

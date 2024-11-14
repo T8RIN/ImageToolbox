@@ -419,6 +419,7 @@ internal class AndroidImageScaler @Inject constructor(
         is ImageScaleMode.Lagrange3 -> ResizeFunction.Lagrange3
         is ImageScaleMode.Lanczos6 -> ResizeFunction.Lanczos6
         is ImageScaleMode.Lanczos6Jinc -> ResizeFunction.Lanczos6Jinc
+        is ImageScaleMode.Area -> ResizeFunction.Area
     }
 
     private fun ScaleColorSpace.toColorSpace(): AireScaleColorSpace = when (this) {

@@ -425,6 +425,7 @@ private val ImageScaleMode.title: Int
         is ImageScaleMode.Lagrange3 -> R.string.lagrange_3
         is ImageScaleMode.Lanczos6 -> R.string.lanczos_6
         is ImageScaleMode.Lanczos6Jinc -> R.string.lanczos_6_jinc
+        is ImageScaleMode.Area -> R.string.area
     }
 
 private val ImageScaleMode.subtitle: Int
@@ -480,4 +481,5 @@ private val ImageScaleMode.subtitle: Int
         is ImageScaleMode.Lagrange3 -> R.string.lagrange_3_sub
         is ImageScaleMode.Lanczos6 -> R.string.lanczos_6_sub
         is ImageScaleMode.Lanczos6Jinc -> R.string.lanczos_6_jinc_sub
+        is ImageScaleMode.Area -> R.string.area_sub
     }
