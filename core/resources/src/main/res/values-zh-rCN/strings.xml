@@ -1470,4 +1470,8 @@
     <string name="fancy_sub">带有动画效果的定制的精美滑块，这是这款应用程序的默认设置</string>
     <string name="material_you_slider_sub">现代基于 Material You 设计的滑块，充满未来感、新颖独特，方便易用</string>
     <string name="apply">接受</string>
+    <string name="center_align_dialog_buttons">居中对话框按钮</string>
+    <string name="open_source_licenses">开源许可证</string>
+    <string name="open_source_licenses_sub">查看此应用中所使用的开源库的许可证</string>
+    <string name="center_align_dialog_buttons_sub">如果可能的话，对话框的按钮将被置于居中位置，而非左侧。</string>
 </resources>
