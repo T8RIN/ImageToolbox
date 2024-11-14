@@ -26,9 +26,10 @@ import android.graphics.pdf.PdfRenderer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.size.Size
+import coil3.ImageLoader
+import coil3.request.ImageRequest
+import coil3.size.Size
+import coil3.toBitmap
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -36,7 +37,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.data.utils.getSuitableConfig
-import ru.tech.imageresizershrinker.core.data.utils.toBitmap
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
@@ -186,12 +186,12 @@ internal class AndroidPdfManager @Inject constructor(
                     val r = PdfRenderer(fileDescriptor)
                     List(r.pageCount) {
                         val page = r.openPage(it)
-                        page?.run {
+                        page.run {
                             IntegerSize(width, height)
                         }.also {
                             page.close()
                         }
-                    }.filterNotNull().also {
+                    }.also {
                         pagesBuf[uri] = it
                     }
                 }
@@ -217,7 +217,7 @@ internal class AndroidPdfManager @Inject constructor(
                     .data(uri)
                     .size(Size.ORIGINAL)
                     .build()
-            ).drawable?.toBitmap()?.let {
+            ).image?.toBitmap()?.let {
                 imageScaler.scaleImage(
                     image = it,
                     width = (it.width * percent / 100f).roundToInt(),

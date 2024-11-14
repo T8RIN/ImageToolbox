@@ -47,11 +47,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import coil.request.ImageRequest
+import coil3.request.ImageRequest
+import coil3.toBitmap
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -191,7 +191,7 @@ internal fun ImagePreviewGrid(
                 ImageRequest.Builder(context)
                     .data(uri.toUri())
                     .build()
-            ).drawable?.toBitmap()
+            ).image?.toBitmap()
         }
     )
 }

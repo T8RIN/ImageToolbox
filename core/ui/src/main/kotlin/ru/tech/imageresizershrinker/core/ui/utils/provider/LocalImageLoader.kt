@@ -18,6 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
 import androidx.compose.runtime.compositionLocalOf
-import coil.ImageLoader
+import coil3.ImageLoader
 
 val LocalImageLoader = compositionLocalOf<ImageLoader> { error("No ImageLoader provided") }

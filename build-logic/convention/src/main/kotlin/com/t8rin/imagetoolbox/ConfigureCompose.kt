@@ -19,6 +19,11 @@ package com.t8rin.imagetoolbox
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 
 internal fun Project.configureCompose(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
@@ -28,15 +33,20 @@ internal fun Project.configureCompose(
             compose = true
         }
 
-        composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("compose.compiler").get().toString()
+        dependencies {
+            "implementation"(libs.findLibrary("androidx.material3").get())
+            "implementation"(libs.findLibrary("androidx.material3.window.sizeclass").get())
+            "implementation"(libs.findLibrary("androidx.material").get())
+            "implementation"(libs.findLibrary("androidx.material.icons.extended").get())
         }
-        kotlinOptions {
-            freeCompilerArgs += listOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
-                        "${project.rootProject.projectDir.absolutePath}/compose_compiler_config.conf"
-            )
-        }
+    }
+
+    extensions.configure<ComposeCompilerGradlePluginExtension> {
+        featureFlags = setOf(
+            ComposeFeatureFlag.OptimizeNonSkippingGroups
+        )
+
+        stabilityConfigurationFile =
+            rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
     }
 }

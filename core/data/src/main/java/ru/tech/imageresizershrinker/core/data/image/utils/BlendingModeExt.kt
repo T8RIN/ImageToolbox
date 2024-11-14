@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.data.image.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.ui.graphics.BlendMode
 import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
 import android.graphics.BlendMode as AndroidBlendMode
 import android.graphics.PorterDuff.Mode as PorterDuffMode
@@ -52,7 +51,7 @@ fun BlendingMode.toPorterDuffMode(): PorterDuffMode = when (this) {
 }
 
 /**
- * Convert the compose [BlendMode] to the underlying Android platform [AndroidBlendMode]
+ * Convert the domain [BlendingMode] to the underlying Android platform [AndroidBlendMode]
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 fun BlendingMode.toAndroidBlendMode(): AndroidBlendMode = when (this) {

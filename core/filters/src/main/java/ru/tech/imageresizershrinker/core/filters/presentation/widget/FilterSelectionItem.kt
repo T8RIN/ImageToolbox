@@ -89,9 +89,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.transform.Transformation
+import coil3.compose.rememberAsyncImagePainter
+import coil3.request.ImageRequest
+import coil3.request.error
+import coil3.request.transformations
+import coil3.toBitmap
+import coil3.transform.Transformation
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
@@ -106,7 +109,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -172,7 +174,7 @@ internal fun FilterSelectionItem(
         onSuccess = {
             loading = false
             scope.launch {
-                isBitmapDark = calculateBrightnessEstimate(it.result.drawable.toBitmap()) < 110
+                isBitmapDark = calculateBrightnessEstimate(it.result.image.toBitmap()) < 110
             }
         }
     )

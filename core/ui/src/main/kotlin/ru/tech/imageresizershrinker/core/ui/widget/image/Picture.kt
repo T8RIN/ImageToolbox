@@ -39,13 +39,16 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.graphics.drawable.toBitmapOrNull
-import coil.ImageLoader
-import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageScope
-import coil.request.ImageRequest
-import coil.transform.Transformation
+import coil3.ImageLoader
+import coil3.compose.AsyncImagePainter
+import coil3.compose.SubcomposeAsyncImage
+import coil3.compose.SubcomposeAsyncImageScope
+import coil3.request.ImageRequest
+import coil3.request.allowHardware
+import coil3.request.crossfade
+import coil3.request.transformations
+import coil3.toBitmap
+import coil3.transform.Transformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -155,7 +158,7 @@ fun Picture(
         onSuccess = {
             if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
                 activity.window.colorMode =
-                    if (it.result.drawable.toBitmapOrNull(400, 400)?.hasGainmap() == true) {
+                    if (it.result.image.toBitmap(400, 400).hasGainmap()) {
                         ActivityInfo.COLOR_MODE_HDR
                     } else ActivityInfo.COLOR_MODE_DEFAULT
             }

@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.data.utils
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.core.graphics.drawable.toBitmap
 import java.io.ByteArrayOutputStream
 
@@ -45,8 +44,6 @@ fun Bitmap.toSoftware(): Bitmap = copy(getSuitableConfig(this), false) ?: this
 
 val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
-val ImageBitmap.aspectRatio: Float get() = width / height.toFloat()
-
 val Drawable.aspectRatio: Float get() = intrinsicWidth / intrinsicHeight.toFloat()
 
 val Bitmap.safeAspectRatio: Float
@@ -56,11 +53,6 @@ val Bitmap.safeAspectRatio: Float
 
 val Bitmap.safeConfig: Bitmap.Config
     get() = config ?: getSuitableConfig(this)
-
-val ImageBitmap.safeAspectRatio: Float
-    get() = aspectRatio
-        .coerceAtLeast(0.005f)
-        .coerceAtMost(1000f)
 
 val Drawable.safeAspectRatio: Float
     get() = aspectRatio

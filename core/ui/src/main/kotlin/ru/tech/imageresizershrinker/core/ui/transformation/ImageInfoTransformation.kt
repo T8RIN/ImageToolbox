@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.core.ui.transformation
 
 import android.graphics.Bitmap
-import coil.size.Size
-import coil.size.pxOrElse
+import coil3.size.Size
+import coil3.size.pxOrElse
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asCoil
 import kotlin.math.roundToInt
-import coil.transform.Transformation as CoilTransformation
+import coil3.transform.Transformation as CoilTransformation
 
 class ImageInfoTransformation @AssistedInject internal constructor(
     @Assisted private val imageInfo: ImageInfo,
@@ -45,7 +45,7 @@ class ImageInfoTransformation @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
-) : CoilTransformation, Transformation<Bitmap> {
+) : CoilTransformation(), Transformation<Bitmap> {
 
     override val cacheKey: String
         get() = Triple(imageInfo, preset, transformations).hashCode().toString()

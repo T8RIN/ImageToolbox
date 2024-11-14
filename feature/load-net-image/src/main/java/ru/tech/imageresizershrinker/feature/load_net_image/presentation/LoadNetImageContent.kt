@@ -48,11 +48,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter
+import coil3.compose.AsyncImagePainter
+import coil3.toBitmap
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -212,7 +212,7 @@ fun LoadNetImageContent(
                         if (it is AsyncImagePainter.State.Error) {
                             component.updateBitmap(null)
                         } else if (it is AsyncImagePainter.State.Success) {
-                            component.updateBitmap(it.result.drawable.toBitmap())
+                            component.updateBitmap(it.result.image.toBitmap())
                         }
                         imageState = it
                     },

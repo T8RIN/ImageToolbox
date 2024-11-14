@@ -90,8 +90,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import coil.memory.MemoryCache
-import coil.request.ImageRequest
+import coil3.Image
+import coil3.asImage
+import coil3.memory.MemoryCache
+import coil3.request.ImageRequest
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -477,9 +479,9 @@ private fun PdfPage(
     val imageLoader = LocalImageLoader.current
     val imageLoadingScope = rememberCoroutineScope()
 
-    val cacheValue: Bitmap? = imageLoader.memoryCache?.get(cacheKey)?.bitmap
+    val cacheValue: Image? = imageLoader.memoryCache?.get(cacheKey)?.image
 
-    var bitmap: Bitmap? by remember { mutableStateOf(cacheValue) }
+    var bitmap: Image? by remember { mutableStateOf(cacheValue) }
     if (bitmap == null) {
         DisposableEffect(cacheKey, index) {
             val job = imageLoadingScope.launch(Dispatchers.IO) {
@@ -503,7 +505,7 @@ private fun PdfPage(
                                     null,
                                     PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
                                 )
-                                bitmap = destinationBitmap
+                                bitmap = destinationBitmap.asImage()
                             }
                         }
                     } catch (e: Exception) {
@@ -518,11 +520,13 @@ private fun PdfPage(
         }
     }
 
-    val request = ImageRequest.Builder(context)
-        .size(renderWidth, renderHeight)
-        .memoryCacheKey(cacheKey)
-        .data(bitmap)
-        .build()
+    val request = remember(context, renderWidth, renderHeight, bitmap) {
+        ImageRequest.Builder(context)
+            .size(renderWidth, renderHeight)
+            .memoryCacheKey(cacheKey)
+            .data(bitmap)
+            .build()
+    }
 
     val transition = updateTransition(selected)
     val padding by transition.animateDp { s ->

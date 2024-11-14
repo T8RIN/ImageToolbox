@@ -51,9 +51,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.transform.Transformation
+import coil3.compose.rememberAsyncImagePainter
+import coil3.request.ImageRequest
+import coil3.request.error
+import coil3.request.transformations
+import coil3.toBitmap
+import coil3.transform.Transformation
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
@@ -63,7 +66,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
@@ -108,7 +110,7 @@ internal fun TemplateFilterSelectionItem(
         onSuccess = {
             loading = false
             scope.launch {
-                isBitmapDark = calculateBrightnessEstimate(it.result.drawable.toBitmap()) < 110
+                isBitmapDark = calculateBrightnessEstimate(it.result.image.toBitmap()) < 110
             }
         }
     )

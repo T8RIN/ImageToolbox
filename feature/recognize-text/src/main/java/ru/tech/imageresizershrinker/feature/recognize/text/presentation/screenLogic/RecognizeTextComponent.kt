@@ -70,7 +70,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitio
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import coil.transform.Transformation as CoilTransformation
+import coil3.transform.Transformation as CoilTransformation
 
 class RecognizeTextComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,

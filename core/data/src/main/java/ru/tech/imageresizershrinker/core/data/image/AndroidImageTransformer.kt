@@ -20,12 +20,13 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.size.Size
+import coil3.ImageLoader
+import coil3.request.ImageRequest
+import coil3.request.transformations
+import coil3.size.Size
+import coil3.toBitmap
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.utils.toBitmap
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -68,7 +69,7 @@ internal class AndroidImageTransformer @Inject constructor(
             }
             .build()
 
-        return@withContext imageLoader.execute(request).drawable?.toBitmap()
+        return@withContext imageLoader.execute(request).image?.toBitmap()
     }
 
     override suspend fun transform(
@@ -89,7 +90,7 @@ internal class AndroidImageTransformer @Inject constructor(
             .size(size.width, size.height)
             .build()
 
-        return@withContext imageLoader.execute(request).drawable?.toBitmap()
+        return@withContext imageLoader.execute(request).image?.toBitmap()
     }
 
     override suspend fun applyPresetBy(
@@ -105,7 +106,7 @@ internal class AndroidImageTransformer @Inject constructor(
                     .data(it)
                     .size(Size.ORIGINAL)
                     .build()
-            ).drawable?.run { intrinsicWidth sizeTo intrinsicHeight }
+            ).image?.run { width sizeTo height }
         } ?: IntegerSize(image.width, image.height)
 
         val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f

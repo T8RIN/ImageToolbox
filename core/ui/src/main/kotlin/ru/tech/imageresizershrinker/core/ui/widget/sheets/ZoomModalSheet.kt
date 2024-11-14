@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
+import android.content.res.Resources
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -50,7 +51,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.transform.Transformation
+import coil3.asDrawable
+import coil3.transform.Transformation
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -107,7 +109,8 @@ fun ZoomModalSheet(
                         model = data,
                         contentDescription = null,
                         onSuccess = {
-                            aspectRatio = it.result.drawable.safeAspectRatio
+                            aspectRatio =
+                                it.result.image.asDrawable(Resources.getSystem()).safeAspectRatio
                         },
                         contentScale = ContentScale.FillBounds,
                         showTransparencyChecker = false,

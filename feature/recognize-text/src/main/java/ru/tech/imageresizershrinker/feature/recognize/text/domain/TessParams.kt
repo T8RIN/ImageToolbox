@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.domain
 
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_CHOP_ENABLE
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_EDGES_MAX_CHILDREN_PER_OUTLINE
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_ENABLE_NEW_SEGSEARCH

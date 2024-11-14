@@ -34,6 +34,7 @@ buildscript {
         classpath(libs.baselineprofile.gradle)
         classpath(libs.detekt.gradle)
         classpath(libs.aboutlibraries.gradle)
+        classpath(libs.compose.compiler.gradle)
     }
 }
 

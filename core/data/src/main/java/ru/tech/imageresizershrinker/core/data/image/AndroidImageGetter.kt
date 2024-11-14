@@ -26,15 +26,16 @@ import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.size.Size
+import coil3.ImageLoader
+import coil3.request.ImageRequest
+import coil3.request.transformations
+import coil3.size.Size
+import coil3.toBitmap
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.utils.toBitmap
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -106,7 +107,7 @@ internal class AndroidImageGetter @Inject constructor(
                         if (originalSize) size(Size.ORIGINAL)
                     }
                     .build()
-            ).drawable?.toBitmap()
+            ).image?.toBitmap()
         }.getOrNull()
     }
 
@@ -127,7 +128,7 @@ internal class AndroidImageGetter @Inject constructor(
                         )
                     }
                     .build()
-            ).drawable?.toBitmap()
+            ).image?.toBitmap()
         }.getOrNull()
     }
 
@@ -146,7 +147,7 @@ internal class AndroidImageGetter @Inject constructor(
                         } ?: size(Size.ORIGINAL)
                     }
                     .build()
-            ).drawable?.toBitmap()
+            ).image?.toBitmap()
         }.getOrNull()
     }
 
@@ -167,7 +168,7 @@ internal class AndroidImageGetter @Inject constructor(
             .build()
 
         runCatching {
-            imageLoader.execute(request).drawable?.toBitmap()?.let { bitmap ->
+            imageLoader.execute(request).image?.toBitmap()?.let { bitmap ->
                 val newUri = uri.toUri().tryGetLocation(context)
                 val fd = context.contentResolver.openFileDescriptor(newUri, "r")
                 val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
@@ -205,7 +206,7 @@ internal class AndroidImageGetter @Inject constructor(
             .build()
 
         runCatching {
-            imageLoader.execute(request).drawable?.toBitmap()
+            imageLoader.execute(request).image?.toBitmap()
         }.getOrNull()
     }
 

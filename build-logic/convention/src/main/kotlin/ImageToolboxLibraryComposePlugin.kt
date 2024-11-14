@@ -17,35 +17,19 @@
 
 import com.android.build.api.dsl.LibraryExtension
 import com.t8rin.imagetoolbox.configureCompose
-import com.t8rin.imagetoolbox.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.getByType
 
 @Suppress("UNUSED")
 class ImageToolboxLibraryComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            dependencies {
-                "implementation"(libs.findLibrary("androidx.material3").get())
-                "implementation"(libs.findLibrary("androidx.material3.window.sizeclass").get())
-                "implementation"(libs.findLibrary("androidx.material").get())
-                "implementation"(libs.findLibrary("androidx.material.icons.extended").get())
-            }
+            apply(plugin = "com.android.library")
+            apply(plugin = "org.jetbrains.kotlin.plugin.compose")
 
-            extensions.configure<LibraryExtension> {
-                configureCompose(this)
-            }
-
-            tasks.withType<KotlinCompile> {
-                compilerOptions.freeCompilerArgs.addAll(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:strongSkipping=true",
-                )
-            }
+            configureCompose(extensions.getByType<LibraryExtension>())
         }
     }
 }

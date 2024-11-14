@@ -17,7 +17,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
@@ -28,6 +28,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.mikepenz.aboutlibraries.plugin")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -38,14 +39,14 @@ android {
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
-        
+
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
         targetSdk = libs.versions.androidTargetSdk.get().toIntOrNull()
         versionCode = libs.versions.versionCode.get().toIntOrNull()
         versionName = System.getenv("VERSION_NAME") ?: libs.versions.versionName.get()
 
-        archivesName.set("image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
+        setProperty("archivesBaseName", "image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
     }
 
     androidResources {
@@ -92,12 +93,10 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
-    kotlinOptions {
-        jvmTarget = javaVersion.toString()
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvmTarget.get()))
+        }
     }
 
     buildFeatures {

@@ -57,12 +57,12 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
-import coil.request.ImageRequest
+import coil3.request.ImageRequest
+import coil3.toBitmap
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
@@ -347,7 +347,7 @@ fun NativeCanvas.drawRepeatedImageOnPath(
                     .data(drawMode.imageData)
                     .size(strokeWidth.toPx(canvasSize).roundToInt())
                     .build()
-            ).drawable?.toBitmap()
+            ).image?.toBitmap()
         }
     }
     pathImage?.let { bitmap ->

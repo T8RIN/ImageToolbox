@@ -19,8 +19,8 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
 import android.graphics.Bitmap
-import coil.size.Size
-import coil.size.pxOrElse
+import coil3.size.Size
+import coil3.size.pxOrElse
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import ru.tech.imageresizershrinker.core.data.utils.asCoil
@@ -28,11 +28,11 @@ import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import java.lang.Integer.max
-import coil.transform.Transformation as CoilTransformation
+import coil3.transform.Transformation as CoilTransformation
 
 internal abstract class GPUFilterTransformation(
     private val context: Context,
-) : CoilTransformation, Transformation<Bitmap> {
+) : CoilTransformation(), Transformation<Bitmap> {
 
     /**
      * Create the [GPUImageFilter] to apply to this [Transformation]

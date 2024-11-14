@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil3.toBitmap
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -119,7 +120,7 @@ fun ImageSplitterContent(
                     .padding(4.dp)
                     .clip(MaterialTheme.shapes.medium),
                 onSuccess = {
-                    aspectRatio = it.result.drawable.safeAspectRatio
+                    aspectRatio = it.result.image.toBitmap().safeAspectRatio
                 }
             )
         } else {

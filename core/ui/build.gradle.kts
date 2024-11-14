@@ -49,6 +49,8 @@ dependencies {
     api(libs.coilCompose)
     api(libs.coilGif)
     api(libs.coilSvg)
+    api(libs.coilNetwork)
+    api(libs.ktor)
 
     //Modules
     api(libs.toolbox.uCrop)
@@ -71,7 +73,7 @@ dependencies {
 
     api(libs.reorderable)
 
-    api(libs.compose)
+    api(libs.shadowGadgets)
     api(libs.shadowsPlus)
 
     api(libs.kotlinx.collections.immutable)

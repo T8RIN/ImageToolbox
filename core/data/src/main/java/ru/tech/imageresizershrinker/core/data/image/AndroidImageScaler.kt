@@ -18,9 +18,8 @@
 package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.PorterDuff
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
@@ -234,7 +233,7 @@ internal class AndroidImageScaler @Inject constructor(
         ).apply {
             setHasAlpha(true)
         }.applyCanvas {
-            drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+            drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
             canvasColor?.let {
                 drawColor(it)
             } ?: blurredBitmap?.let {
@@ -320,7 +319,7 @@ internal class AndroidImageScaler @Inject constructor(
         ).apply {
             setHasAlpha(true)
         }.applyCanvas {
-            drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+            drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
             canvasColor?.let {
                 drawColor(it)
             } ?: blurredBitmap?.let {

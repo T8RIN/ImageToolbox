@@ -7,16 +7,15 @@ versionName = "3.1.0-rc01"
 versionCode = "156"
 
 jvmTarget = "17"
-compose-compiler = "1.5.15"
 
-imageToolboxLibs = "3.0.1"
+imageToolboxLibs = "3.1.1"
 trickle = "1.2.2"
 
 avifCoder = "2.0.8"
 avifCoderCoil = "2.0.8"
 aire = "0.15.4"
-jxlCoder = "2.4.0"
-jxlCoderCoil = "2.4.0"
+jxlCoder = "2.4.0.1"
+jxlCoderCoil = "2.4.0.1"
 jpegliCoder = "1.0.1"
 
 tesseract = "4.7.0"
@@ -40,12 +39,13 @@ detekt = "1.23.7"
 detektCompose = "0.4.18"
 decompose = "3.2.2"
 
-kotlin = "1.9.25"
+kotlin = "2.0.21"
 agp = "8.7.2"
 hilt = "2.52"
 gms = "4.4.2"
 
-coil = "2.7.0"
+ktor = "3.0.1"
+coil = "3.0.2"
 appCompat = "1.7.0"
 androidxCore = "1.15.0"
 androidxLifecycle = "2.9.0-alpha07"
@@ -58,13 +58,13 @@ reviewKtx = "2.0.2"
 splashScreen = "1.2.0-alpha02"
 
 espresso = "3.6.1"
-ksp = "1.9.25-1.0.20"
+ksp = "2.0.21-1.0.27"
 
 androidx-test-ext-junit = "1.2.1"
 documentfile = "1.0.1"
 uiautomator = "2.3.0"
 androidxMacroBenchmark = "1.4.0-alpha05"
-quickie = "1.12.4"
+quickie = "1.13.0"
 
 material = "1.13.0-alpha07"
 jsoup = "1.18.1"
@@ -128,13 +128,14 @@ androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", vers
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeVersion" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
 avif-coder-coil = { module = "com.github.awxkee:avif-coder-coil", version.ref = "avifCoderCoil" }
-compose = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "shadowGadgets" }
+shadowGadgets = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "shadowGadgets" }
 datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "androidx-datastorePreferencesAndroid" }
 fadingEdges = { module = "com.github.t8rin:ComposeFadingEdges", version.ref = "fadingEdges" }
 firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
@@ -144,10 +145,14 @@ decomposeExtensions = { module = "com.arkivanov.decompose:extensions-compose", v
 shadowsPlus = { module = "com.github.GIGAMOLE:ComposeShadowsPlus", version.ref = "shadowsPlus" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
-coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-coilGif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
-coilSvg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+
+ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+coilNetwork = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+coilCompose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coilGif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coil" }
+coilSvg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
+coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
 jxl-coder-coil = { module = "io.github.awxkee:jxl-coder-coil", version.ref = "jxlCoderCoil" }
 jxl-coder = { module = "io.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
@@ -183,6 +188,7 @@ detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", v
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
 aboutlibraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "aboutlibraries" }
+compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
 image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" }

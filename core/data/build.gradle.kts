@@ -24,9 +24,12 @@ android.namespace = "ru.tech.imageresizershrinker.core.data"
 
 dependencies {
     api(libs.coil)
-    api(libs.coilCompose)
+    api(libs.coilNetwork)
+    api(libs.ktor)
     implementation(libs.coilGif)
     implementation(libs.coilSvg)
+
+    implementation(libs.androidx.compose.ui.graphics)
 
     api(libs.datastore.preferences.android)
 
