@@ -126,11 +126,7 @@ jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegl
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
-androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeVersion" }
-androidx-material = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
-androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
@@ -143,8 +139,6 @@ konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "k
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decomposeExtensions = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 shadowsPlus = { module = "com.github.GIGAMOLE:ComposeShadowsPlus", version.ref = "shadowsPlus" }
-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
 
 ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 coilNetwork = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
@@ -166,7 +160,6 @@ reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reo
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 
@@ -185,10 +178,21 @@ kotlinx-serialization-gradle = { module = "org.jetbrains.kotlin:kotlin-serializa
 ksp-gradle = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
 aboutlibraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "aboutlibraries" }
 compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+
+# Used in convention plugins
+dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
+
+androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
+androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+
+desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
 
 [plugins]
 image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" }

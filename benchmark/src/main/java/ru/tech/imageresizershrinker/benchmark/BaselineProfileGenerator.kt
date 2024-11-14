@@ -17,10 +17,12 @@
 
 package ru.tech.imageresizershrinker.benchmark
 
+import androidx.annotation.RequiresApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import org.junit.Rule
 import org.junit.Test
 
+@RequiresApi(28)
 class BaselineProfileGenerator {
     @get:Rule
     val baselineProfileRule = BaselineProfileRule()
