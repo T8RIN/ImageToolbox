@@ -33,6 +33,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
+    createFlavors: Boolean = true
 ) {
     commonExtension.apply {
         compileSdk = libs.findVersion("androidCompileSdk").get().toString().toIntOrNull()
@@ -41,14 +42,16 @@ internal fun Project.configureKotlinAndroid(
             minSdk = libs.findVersion("androidMinSdk").get().toString().toIntOrNull()
         }
 
-        flavorDimensions += "app"
+        if (createFlavors) {
+            flavorDimensions += "app"
 
-        productFlavors {
-            create("foss") {
-                dimension = "app"
-            }
-            create("market") {
-                dimension = "app"
+            productFlavors {
+                create("foss") {
+                    dimension = "app"
+                }
+                create("market") {
+                    dimension = "app"
+                }
             }
         }
 

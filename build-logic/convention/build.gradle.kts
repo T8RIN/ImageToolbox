@@ -50,9 +50,9 @@ gradlePlugin {
             id = "image.toolbox.library"
             implementationClass = "ImageToolboxLibraryPlugin"
         }
-        register("imageToolboxLibraryHilt") {
+        register("imageToolboxHiltPlugin") {
             id = "image.toolbox.hilt"
-            implementationClass = "ImageToolboxLibraryHiltPlugin"
+            implementationClass = "ImageToolboxHiltPlugin"
         }
         register("imageToolboxLibraryFeature") {
             id = "image.toolbox.feature"
@@ -61,6 +61,10 @@ gradlePlugin {
         register("imageToolboxLibraryComposePlugin") {
             id = "image.toolbox.compose"
             implementationClass = "ImageToolboxLibraryComposePlugin"
+        }
+        register("imageToolboxApplicationPlugin") {
+            id = "image.toolbox.application"
+            implementationClass = "ImageToolboxApplicationPlugin"
         }
     }
 }

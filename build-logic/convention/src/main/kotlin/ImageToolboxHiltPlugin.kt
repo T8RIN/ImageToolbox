@@ -21,7 +21,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 @Suppress("UNUSED")
-class ImageToolboxLibraryHiltPlugin : Plugin<Project> {
+class ImageToolboxHiltPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {

@@ -17,32 +17,20 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("com.mikepenz.aboutlibraries.plugin")
-    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.image.toolbox.application)
+    alias(libs.plugins.image.toolbox.hilt)
 }
 
 android {
     var isFoss = false
 
     namespace = "ru.tech.imageresizershrinker"
-    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
 
         applicationId = "ru.tech.imageresizershrinker"
-        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
-        targetSdk = libs.versions.androidTargetSdk.get().toIntOrNull()
         versionCode = libs.versions.versionCode.get().toIntOrNull()
         versionName = System.getenv("VERSION_NAME") ?: libs.versions.versionName.get()
 
@@ -85,24 +73,6 @@ android {
         }
     }
 
-    val javaVersion = JavaVersion.toVersion(libs.versions.jvmTarget.get())
-
-    compileOptions {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-        isCoreLibraryDesugaringEnabled = true
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvmTarget.get()))
-        }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
     splits {
         abi {
             isEnable = true
@@ -126,24 +96,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.desugaring)
-
-    implementation(libs.hilt)
-    kapt(libs.dagger.hilt.compiler)
-
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material3.window.sizeclass)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.material)
-
-    implementation(projects.core.domain)
-    implementation(projects.core.ui)
-    implementation(projects.core.data)
-    implementation(projects.core.resources)
-    implementation(projects.core.settings)
-    implementation(projects.core.filters)
-    implementation(projects.core.crash)
-
     implementation(projects.feature.root)
     implementation(projects.feature.mediaPicker)
     implementation(projects.feature.quickTiles)

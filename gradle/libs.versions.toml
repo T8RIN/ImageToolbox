@@ -195,3 +195,4 @@ image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" 
 image-toolbox-hilt = { id = "image.toolbox.hilt", version = "unspecified" }
 image-toolbox-feature = { id = "image.toolbox.feature", version = "unspecified" }
 image-toolbox-compose = { id = "image.toolbox.compose", version = "unspecified" }
+image-toolbox-application = { id = "image.toolbox.application", version = "unspecified" }
