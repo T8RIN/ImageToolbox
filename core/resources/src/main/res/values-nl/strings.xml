@@ -1474,4 +1474,7 @@
     <string name="open_source_licenses">Open source-licenties</string>
     <string name="open_source_licenses_sub">Bekijk licenties van open source-bibliotheken die in deze app worden gebruikt</string>
     <string name="center_align_dialog_buttons_sub">Knoppen van dialogen worden indien mogelijk in het midden geplaatst in plaats van aan de linkerkant</string>
+    <string name="area">Oppervlakte</string>
+    <string name="enable_tonemapping">Tonemapping inschakelen</string>
+    <string name="area_sub">Het gebied van de puls is de integratie van hoogte\nover breedte. Breedte is de tijd die een deeltje\nvoor de laser doorbrengt en wordt beïnvloed door\ndeeltjesgrootte en schedesnelheid. Een groot\ndeeltje heeft een grotere breedte en dus een hoger\ngebied. Het omgekeerde geldt voor kleinere\ndeeltjes. Wanneer een deeltjesgrootte wordt\nsamengesteld met een lage scheidingssnelheid,\nresulteert dit in een grotere breedte. Houd er\nrekening mee dat de geluidssnelheid tijdens het\nexperiment constant blijft en niet afhankelijk is\nvan de druk/stroomsnelheid van het monster.</string>
 </resources>

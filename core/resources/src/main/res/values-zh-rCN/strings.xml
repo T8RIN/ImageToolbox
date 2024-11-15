@@ -1474,4 +1474,7 @@
     <string name="open_source_licenses">开源许可证</string>
     <string name="open_source_licenses_sub">查看此应用中所使用的开源库的许可证</string>
     <string name="center_align_dialog_buttons_sub">如果可能的话，对话框的按钮将被置于居中位置，而非左侧。</string>
+    <string name="area">区域</string>
+    <string name="enable_tonemapping">启用色调映射</string>
+    <string name="area_sub">脉冲面积是高度对宽度的积分。宽度是粒子处于激光前的时间，它受粒子尺寸和鞘层速度的影响。大粒子会有较大的宽度，因此脉冲面积也会更大。对于较小的粒子，情况则相反。当粒子尺寸与较低的鞘层速度共同作用时，这将导致宽度增大。要记住，在实验过程中鞘层速度保持恒定，而且它不取决于样品压力/流速。</string>
 </resources>
