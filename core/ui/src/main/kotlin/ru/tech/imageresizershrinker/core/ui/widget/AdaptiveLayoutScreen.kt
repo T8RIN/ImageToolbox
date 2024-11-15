@@ -157,90 +157,90 @@ fun AdaptiveLayoutScreen(
                         topAppBarPersistentActions()
                     }
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    val direction = LocalLayoutDirection.current
-                    if (!isPortrait && canShowScreenData && placeImagePreview) {
-                        Box(
+                val screenWidthDp = LocalConfiguration.current.screenWidthDp
+                AnimatedContent(
+                    targetState = canShowScreenData,
+                    transitionSpec = {
+                        fancySlideTransition(
+                            isForward = targetState,
+                            screenWidthDp = screenWidthDp
+                        )
+                    },
+                    modifier = Modifier.fillMaxSize()
+                ) { canShowScreenData ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        val direction = LocalLayoutDirection.current
+                        if (!isPortrait && canShowScreenData && placeImagePreview) {
+                            Box(
+                                modifier = Modifier
+                                    .then(
+                                        if (controls != null) {
+                                            Modifier.container(
+                                                shape = RectangleShape,
+                                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                                            )
+                                        } else Modifier
+                                    )
+                                    .fillMaxHeight()
+                                    .padding(
+                                        start = WindowInsets
+                                            .displayCutout
+                                            .asPaddingValues()
+                                            .calculateStartPadding(direction)
+                                    )
+                                    .weight(1.2f)
+                                    .padding(20.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                imagePreview()
+                            }
+                        }
+                        val internalHeight = rememberAvailableHeight(
+                            imageState = imageState,
+                            expanded = forceImagePreviewToMax
+                        )
+                        val cutout = if (!placeImagePreview) {
+                            WindowInsets
+                                .displayCutout
+                                .asPaddingValues()
+                                .calculateStartPadding(direction)
+                        } else 0.dp
+
+                        val state = rememberLazyListState()
+                        LazyColumn(
+                            state = state,
+                            contentPadding = PaddingValues(
+                                bottom = WindowInsets
+                                    .navigationBars
+                                    .asPaddingValues()
+                                    .calculateBottomPadding() + WindowInsets.ime
+                                    .asPaddingValues()
+                                    .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
+                                top = if (!canShowScreenData || !isPortrait) contentPadding else 0.dp,
+                                start = contentPadding + cutout,
+                                end = contentPadding
+                            ),
                             modifier = Modifier
-                                .then(
-                                    if (controls != null) {
-                                        Modifier.container(
-                                            shape = RectangleShape,
-                                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                                        )
-                                    } else Modifier
+                                .weight(
+                                    if (controls == null) 0.01f
+                                    else 1f
                                 )
                                 .fillMaxHeight()
-                                .padding(
-                                    start = WindowInsets
-                                        .displayCutout
-                                        .asPaddingValues()
-                                        .calculateStartPadding(direction)
-                                )
-                                .weight(1.2f)
-                                .padding(20.dp),
-                            contentAlignment = Alignment.Center
+                                .clipToBounds()
                         ) {
-                            imagePreview()
-                        }
-                    }
-                    val internalHeight = rememberAvailableHeight(
-                        imageState = imageState,
-                        expanded = forceImagePreviewToMax
-                    )
-                    val cutout = if (!placeImagePreview) {
-                        WindowInsets
-                            .displayCutout
-                            .asPaddingValues()
-                            .calculateStartPadding(direction)
-                    } else 0.dp
-
-                    val state = rememberLazyListState()
-                    LazyColumn(
-                        state = state,
-                        contentPadding = PaddingValues(
-                            bottom = WindowInsets
-                                .navigationBars
-                                .asPaddingValues()
-                                .calculateBottomPadding() + WindowInsets.ime
-                                .asPaddingValues()
-                                .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
-                            top = if (!canShowScreenData || !isPortrait) contentPadding else 0.dp,
-                            start = contentPadding + cutout,
-                            end = contentPadding
-                        ),
-                        modifier = Modifier
-                            .weight(
-                                if (controls == null) 0.01f
-                                else 1f
-                            )
-                            .fillMaxHeight()
-                            .clipToBounds()
-                    ) {
-                        if (showImagePreviewAsStickyHeader && placeImagePreview) {
-                            imageStickyHeader(
-                                visible = isPortrait && canShowScreenData,
-                                internalHeight = internalHeight,
-                                imageState = imageState,
-                                onStateChange = { imageState = it },
-                                imageBlock = imagePreview
-                            )
-                        }
-                        item {
-                            val screenWidthDp = LocalConfiguration.current.screenWidthDp
-                            AnimatedContent(
-                                targetState = canShowScreenData,
-                                transitionSpec = {
-                                    fancySlideTransition(
-                                        isForward = targetState,
-                                        screenWidthDp = screenWidthDp
-                                    )
-                                },
-                                modifier = Modifier.fillMaxSize()
-                            ) { canShowScreenData ->
+                            if (showImagePreviewAsStickyHeader && placeImagePreview) {
+                                imageStickyHeader(
+                                    visible = isPortrait && canShowScreenData,
+                                    internalHeight = internalHeight,
+                                    imageState = imageState,
+                                    onStateChange = { imageState = it },
+                                    imageBlock = imagePreview
+                                )
+                            }
+                            item {
                                 Column(
                                     modifier = Modifier.fillMaxSize(),
                                     verticalArrangement = Arrangement.Center,
@@ -259,9 +259,9 @@ fun AdaptiveLayoutScreen(
                                 }
                             }
                         }
-                    }
-                    if (!isPortrait && canShowScreenData) {
-                        buttons(actions)
+                        if (!isPortrait && canShowScreenData) {
+                            buttons(actions)
+                        }
                     }
                 }
             }
