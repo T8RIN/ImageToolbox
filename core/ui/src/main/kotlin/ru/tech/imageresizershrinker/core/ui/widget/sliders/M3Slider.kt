@@ -97,7 +97,7 @@ fun M3Slider(
             .padding(horizontal = 12.dp, vertical = 6.dp),
         value = animateFloatAsState(
             targetValue = value,
-            animationSpec = tween(200)
+            animationSpec = tween(100)
         ).value,
         colors = colors,
         onValueChange = onValueChange,

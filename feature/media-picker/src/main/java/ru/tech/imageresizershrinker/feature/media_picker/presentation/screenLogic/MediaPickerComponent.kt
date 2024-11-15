@@ -156,7 +156,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     if (data.isEmpty()) {
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))
                     }
-                    _mediaState.collectMedia(data, error, albumId)
+                    _mediaState.collectMedia(data.distinctBy { it.id }, error, albumId)
                     _filteredMediaState.emit(mediaState.value)
                 }
         }
@@ -276,7 +276,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                                 ignoreCase = true
                             )
                         }
-                    },
+                    }.distinctBy { it.id },
                     error = mediaState.value.error,
                     albumId = selectedAlbumId
                 )

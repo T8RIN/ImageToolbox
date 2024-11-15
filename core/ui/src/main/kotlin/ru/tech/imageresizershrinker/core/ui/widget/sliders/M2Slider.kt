@@ -95,7 +95,7 @@ fun M2Slider(
             .padding(horizontal = 12.dp),
         value = animateFloatAsState(
             targetValue = value,
-            animationSpec = tween(200)
+            animationSpec = tween(100)
         ).value,
         colors = colors.toCustom(),
         onValueChange = onValueChange,

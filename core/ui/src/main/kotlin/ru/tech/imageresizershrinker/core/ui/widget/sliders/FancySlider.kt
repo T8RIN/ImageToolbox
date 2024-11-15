@@ -153,7 +153,7 @@ fun FancySlider(
             colors = colors.toCustom(),
             value = animateFloatAsState(
                 targetValue = value,
-                animationSpec = tween(200)
+                animationSpec = tween(100)
             ).value,
             onValueChange = onValueChange,
             onValueChangeFinished = onValueChangeFinished,
