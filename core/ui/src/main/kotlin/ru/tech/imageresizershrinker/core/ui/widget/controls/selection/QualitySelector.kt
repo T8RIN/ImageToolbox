@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import kotlin.math.roundToInt
 
 @Composable
 fun QualitySelector(
@@ -139,10 +140,10 @@ fun QualitySelector(
                             stringResource(R.string.quality)
                         } else stringResource(R.string.effort),
                         icon = if (isQuality) currentIcon else Icons.Rounded.Stream,
-                        valueRange = type.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
-                        steps = type.compressionRange.let { it.last - it.first - 1 },
+                        valueRange = type.compressionRange.let { it.first.toFloat()..it.endInclusive.toFloat() },
+                        steps = type.compressionRange.let { it.endInclusive - it.first - 1 },
                         internalStateTransformation = {
-                            it.toInt().coerceIn(type.compressionRange).toFloat()
+                            it.roundToInt().coerceIn(type.compressionRange).toFloat()
                         },
                         onValueChange = {
                             when (type) {
@@ -181,7 +182,7 @@ fun QualitySelector(
                                 text = stringResource(
                                     R.string.effort_sub,
                                     type.compressionRange.first,
-                                    type.compressionRange.last
+                                    type.compressionRange.endInclusive
                                 ),
                                 fontSize = 12.sp,
                                 textAlign = TextAlign.Center,
@@ -208,11 +209,11 @@ fun QualitySelector(
                             valueRange = 0f..4f,
                             steps = 3,
                             internalStateTransformation = {
-                                it.toInt().coerceIn(0..4).toFloat()
+                                it.roundToInt().coerceIn(0..4).toFloat()
                             },
                             onValueChange = {
                                 jxlQuality?.copy(
-                                    speed = it.toInt()
+                                    speed = it.roundToInt()
                                 )?.coerceIn(imageFormat)?.let(onQualityChange)
                             },
                             behaveAsContainer = false
@@ -275,11 +276,11 @@ fun QualitySelector(
                         icon = Icons.Outlined.ColorLens,
                         valueRange = 2f..1024f,
                         internalStateTransformation = {
-                            it.toInt().coerceIn(2..1024).toFloat()
+                            it.roundToInt().coerceIn(2..1024).toFloat()
                         },
                         onValueChange = {
                             pngLossyQuality?.copy(
-                                maxColors = it.toInt()
+                                maxColors = it.roundToInt()
                             )?.coerceIn(imageFormat)?.let(onQualityChange)
                         },
                         behaveAsContainer = false
@@ -365,11 +366,11 @@ fun QualitySelector(
                             valueRange = 0f..51f,
                             steps = 50,
                             internalStateTransformation = {
-                                it.toInt().coerceIn(0..51).toFloat()
+                                it.roundToInt().coerceIn(0..51).toFloat()
                             },
                             onValueChange = {
                                 heicQuality?.copy(
-                                    constantRateFactor = it.toInt()
+                                    constantRateFactor = it.roundToInt()
                                 )?.coerceIn(imageFormat)?.let(onQualityChange)
                             },
                             behaveAsContainer = false
