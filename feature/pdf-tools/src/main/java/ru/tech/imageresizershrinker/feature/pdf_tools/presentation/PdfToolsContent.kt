@@ -21,7 +21,6 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandIn
@@ -31,42 +30,21 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -78,37 +56,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
@@ -121,19 +88,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImagesPreference
-import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewer
-import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewerOrientation
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToolsContentImpl
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 
@@ -143,8 +101,6 @@ fun PdfToolsContent(
     onGoBack: () -> Unit,
     component: PdfToolsComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -282,544 +238,209 @@ fun PdfToolsContent(
         }
     }
 
-    val selectAllToggle = remember { mutableStateOf(false) }
-    val deselectAllToggle = remember { mutableStateOf(false) }
-
-    val actionButtons: @Composable RowScope.(pdfType: Screen.PdfTools.Type?) -> Unit = {
-        val pdfType = it
-        AnimatedVisibility(
-            visible = pdfType != null,
-            enter = fadeIn() + scaleIn() + expandHorizontally(),
-            exit = fadeOut() + scaleOut() + shrinkHorizontally()
-        ) {
-            ShareButton(
-                onShare = {
-                    component.preformSharing(showConfetti)
-                }
-            )
-        }
-    }
-
-    val buttons: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = { pdfType ->
-        EnhancedFloatingActionButton(
-            onClick = {
-                when (pdfType) {
-                    is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
-                    is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
-                    else -> pdfToImagesPicker.pickFile()
-                }
-            },
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer
-        ) {
-            Icon(
-                imageVector = when (pdfType) {
-                    is Screen.PdfTools.Type.ImagesToPdf -> Icons.Rounded.AddPhotoAlternate
-                    else -> Icons.Rounded.FileOpen
-                },
-                contentDescription = stringResource(R.string.pick)
-            )
-        }
-        if (pdfType !is Screen.PdfTools.Type.Preview) {
-            val visible by remember(component.pdfToImageState?.pages, pdfType) {
-                derivedStateOf {
-                    (component.pdfToImageState?.pages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
-                }
-            }
-            if (visible) {
-                if (isPortrait) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                } else {
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
-
-            AnimatedVisibility(
-                visible = visible,
-                enter = fadeIn() + scaleIn() + expandIn(),
-                exit = fadeOut() + scaleOut() + shrinkOut()
-            ) {
-                val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
-                    component.savePdfToImages(
-                        oneTimeSaveLocationUri = it,
-                        onComplete = essentials::parseSaveResults
-                    )
-                }
-                var showFolderSelectionDialog by rememberSaveable {
-                    mutableStateOf(false)
-                }
-                EnhancedFloatingActionButton(
-                    onClick = {
-                        if (pdfType is Screen.PdfTools.Type.ImagesToPdf && component.imagesToPdfState != null) {
-                            val name = component.generatePdfFilename()
-                            component.convertImagesToPdf {
-                                runCatching {
-                                    savePdfLauncher.launch("$name.pdf")
-                                }.onFailure {
-                                    essentials.showActivateFilesToast()
-                                }
-                            }
-                        } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
-                            savePdfToImages(null)
-                        }
-                    },
-                    onLongClick = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
-                        { showFolderSelectionDialog = true }
-                    } else null
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Save,
-                        contentDescription = stringResource(R.string.save)
-                    )
-                }
-                OneTimeSaveLocationSelectionDialog(
-                    visible = showFolderSelectionDialog,
-                    onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = savePdfToImages
-                )
-            }
-        }
-    }
-
-    val controls: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = { pdfType ->
-        if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
-            Column(
-                modifier = Modifier.padding(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ImageReorderCarousel(
-                    images = component.imagesToPdfState,
-                    onReorder = component::reorderImagesToPdf,
-                    onNeedToAddImage = { addImagesToPdfPicker.pickImage() },
-                    onNeedToRemoveImageAt = component::removeImageToPdfAt
-                )
-                Spacer(Modifier.height(8.dp))
-                PresetSelector(
-                    value = component.presetSelected,
-                    includeTelegramOption = false,
-                    onValueChange = {
-                        if (it is Preset.Percentage) {
-                            component.selectPreset(it)
-                        }
-                    },
-                    showWarning = component.showOOMWarning
-                )
-                Spacer(
-                    Modifier.height(8.dp)
-                )
-                ScaleSmallImagesToLargeToggle(
-                    checked = component.scaleSmallImagesToLarge,
-                    onCheckedChange = {
-                        component.toggleScaleSmallImagesToLarge()
-                    }
-                )
-            }
-        } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
-            Column(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                PresetSelector(
-                    value = component.presetSelected,
-                    includeTelegramOption = false,
-                    onValueChange = {
-                        if (it is Preset.Percentage) {
-                            component.selectPreset(it)
-                        }
-                    },
-                    showWarning = component.showOOMWarning
-                )
-                if (component.imageInfo.imageFormat.canChangeCompressionValue) {
-                    Spacer(
-                        Modifier.height(8.dp)
-                    )
-                }
-                QualitySelector(
-                    imageFormat = component.imageInfo.imageFormat,
-                    enabled = true,
-                    quality = component.imageInfo.quality,
-                    onQualityChange = component::setQuality
-                )
-                Spacer(
-                    Modifier.height(8.dp)
-                )
-                ImageFormatSelector(
-                    value = component.imageInfo.imageFormat,
-                    onValueChange = component::updateImageFormat
-                )
-            }
-        }
-    }
-
-    Box {
-        Surface(
-            modifier = Modifier.pointerInput(Unit) {
+    Surface(
+        modifier = Modifier
+            .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
                         focus.clearFocus()
                     }
                 )
+            }
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        PdfToolsContentImpl(
+            component = component,
+            scrollBehavior = scrollBehavior,
+            onGoBack = onBack,
+            isPortrait = isPortrait,
+            actionButtons = { pdfType ->
+                AnimatedVisibility(
+                    visible = pdfType != null,
+                    enter = fadeIn() + scaleIn() + expandHorizontally(),
+                    exit = fadeOut() + scaleOut() + shrinkHorizontally()
+                ) {
+                    ShareButton(
+                        onShare = {
+                            component.preformSharing(showConfetti)
+                        }
+                    )
+                }
             },
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-            ) {
-                Column(Modifier.fillMaxSize()) {
-                    val title = @Composable {
-                        AnimatedContent(
-                            targetState = component.pdfType to component.pdfPreviewUri,
-                            transitionSpec = { fadeIn() togetherWith fadeOut() },
-                            modifier = Modifier.marquee()
-                        ) { (pdfType, previewUri) ->
-                            Text(
-                                text = previewUri?.let {
-                                    context.getFilename(it)
-                                } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
-                                textAlign = TextAlign.Center
-                            )
+            onPickContent = {
+                when (it) {
+                    is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
+                    is Screen.PdfTools.Type.PdfToImages -> pdfToImagesPicker.pickFile()
+                    is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
+                }
+            },
+            onSelectPdf = selectionPdfPicker::pickFile,
+            buttons = { pdfType ->
+                EnhancedFloatingActionButton(
+                    onClick = {
+                        when (pdfType) {
+                            is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
+                            is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
+                            else -> pdfToImagesPicker.pickFile()
+                        }
+                    },
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                ) {
+                    Icon(
+                        imageVector = when (pdfType) {
+                            is Screen.PdfTools.Type.ImagesToPdf -> Icons.Rounded.AddPhotoAlternate
+                            else -> Icons.Rounded.FileOpen
+                        },
+                        contentDescription = stringResource(R.string.pick)
+                    )
+                }
+                if (pdfType !is Screen.PdfTools.Type.Preview) {
+                    val visible by remember(component.pdfToImageState?.pages, pdfType) {
+                        derivedStateOf {
+                            (component.pdfToImageState?.pages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
                         }
                     }
-                    val navigationIcon = @Composable {
-                        EnhancedIconButton(
-                            onClick = onBack
+                    if (visible) {
+                        if (isPortrait) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                        } else {
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+                    }
+
+                    AnimatedVisibility(
+                        visible = visible,
+                        enter = fadeIn() + scaleIn() + expandIn(),
+                        exit = fadeOut() + scaleOut() + shrinkOut()
+                    ) {
+                        val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
+                            component.savePdfToImages(
+                                oneTimeSaveLocationUri = it,
+                                onComplete = essentials::parseSaveResults
+                            )
+                        }
+                        var showFolderSelectionDialog by rememberSaveable {
+                            mutableStateOf(false)
+                        }
+                        EnhancedFloatingActionButton(
+                            onClick = {
+                                if (pdfType is Screen.PdfTools.Type.ImagesToPdf && component.imagesToPdfState != null) {
+                                    val name = component.generatePdfFilename()
+                                    component.convertImagesToPdf {
+                                        runCatching {
+                                            savePdfLauncher.launch("$name.pdf")
+                                        }.onFailure {
+                                            essentials.showActivateFilesToast()
+                                        }
+                                    }
+                                } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                                    savePdfToImages(null)
+                                }
+                            },
+                            onLongClick = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                                { showFolderSelectionDialog = true }
+                            } else null
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(R.string.exit)
+                                imageVector = Icons.Rounded.Save,
+                                contentDescription = stringResource(R.string.save)
                             )
                         }
-                    }
-                    val actions: @Composable RowScope.() -> Unit = {
-                        if (!isPortrait) {
-                            actionButtons(component.pdfType)
-                        }
-                        if (component.pdfType == null) {
-                            TopAppBarEmoji()
-                        } else {
-                            val pagesSize = component.pdfToImageState?.pages?.size
-                            val visible by remember(
-                                component.pdfToImageState?.pages,
-                                component.pdfType
-                            ) {
-                                derivedStateOf {
-                                    (pagesSize != 0 && component.pdfType is Screen.PdfTools.Type.PdfToImages)
-                                }
-                            }
-                            AnimatedVisibility(
-                                visible = component.pdfType is Screen.PdfTools.Type.PdfToImages,
-                                enter = fadeIn() + scaleIn() + expandHorizontally(),
-                                exit = fadeOut() + scaleOut() + shrinkHorizontally()
-                            ) {
-                                EnhancedIconButton(
-                                    onClick = {
-                                        selectAllToggle.value = true
-                                    },
-                                    enabled = component.pdfType != null
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.SelectAll,
-                                        contentDescription = "Select All"
-                                    )
-                                }
-                            }
-                            AnimatedVisibility(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .container(
-                                        shape = CircleShape,
-                                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                                        resultPadding = 0.dp
-                                    ),
-                                visible = visible
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(start = 12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    pagesSize?.takeIf { it != 0 }?.let {
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(
-                                            text = pagesSize.toString(),
-                                            fontSize = 20.sp,
-                                            fontWeight = FontWeight.Medium
-                                        )
-                                    }
-                                    EnhancedIconButton(
-                                        onClick = {
-                                            deselectAllToggle.value = true
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Close,
-                                            contentDescription = stringResource(R.string.close)
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    EnhancedTopAppBar(
-                        type = EnhancedTopAppBarType.Large,
-                        scrollBehavior = scrollBehavior,
-                        title = title,
-                        navigationIcon = navigationIcon,
-                        actions = actions
-                    )
-
-                    val screenWidth = LocalConfiguration.current.screenWidthDp
-
-                    AnimatedContent(
-                        transitionSpec = {
-                            fancySlideTransition(
-                                isForward = targetState != null,
-                                screenWidthDp = screenWidth
-                            )
-                        },
-                        targetState = component.pdfType
-                    ) { pdfType ->
-                        when (pdfType) {
-                            null -> {
-                                Column {
-                                    val cutout = WindowInsets.displayCutout.asPaddingValues()
-                                    LazyVerticalStaggeredGrid(
-                                        modifier = Modifier.weight(1f),
-                                        columns = StaggeredGridCells.Adaptive(300.dp),
-                                        horizontalArrangement = Arrangement.spacedBy(
-                                            space = 12.dp,
-                                            alignment = Alignment.CenterHorizontally
-                                        ),
-                                        verticalItemSpacing = 12.dp,
-                                        contentPadding = PaddingValues(
-                                            bottom = 12.dp + WindowInsets
-                                                .navigationBars
-                                                .asPaddingValues()
-                                                .calculateBottomPadding(),
-                                            top = 12.dp,
-                                            end = 12.dp + cutout.calculateEndPadding(
-                                                LocalLayoutDirection.current
-                                            ),
-                                            start = 12.dp + cutout.calculateStartPadding(
-                                                LocalLayoutDirection.current
-                                            )
-                                        ),
-                                    ) {
-                                        Screen.PdfTools.Type.entries.forEach {
-                                            item {
-                                                PreferenceItem(
-                                                    onClick = {
-                                                        when (it) {
-                                                            is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
-                                                            is Screen.PdfTools.Type.PdfToImages -> pdfToImagesPicker.pickFile()
-                                                            is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
-                                                        }
-                                                    },
-                                                    startIcon = it.icon,
-                                                    title = stringResource(it.title),
-                                                    subtitle = stringResource(it.subtitle),
-                                                    modifier = Modifier.fillMaxWidth()
-                                                )
-                                            }
-                                        }
-                                    }
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .drawHorizontalStroke(true)
-                                            .background(
-                                                MaterialTheme.colorScheme.surfaceContainer
-                                            ),
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        EnhancedFloatingActionButton(
-                                            onClick = selectionPdfPicker::pickFile,
-                                            modifier = Modifier
-                                                .navigationBarsPadding()
-                                                .padding(16.dp),
-                                            content = {
-                                                Spacer(Modifier.width(16.dp))
-                                                Icon(
-                                                    imageVector = Icons.Rounded.FileOpen,
-                                                    contentDescription = stringResource(R.string.pick_file)
-                                                )
-                                                Spacer(Modifier.width(16.dp))
-                                                Text(stringResource(R.string.pick_file))
-                                                Spacer(Modifier.width(16.dp))
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-
-                            else -> {
-                                Column {
-                                    Row(
-                                        modifier = Modifier.weight(1f),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        if (pdfType is Screen.PdfTools.Type.Preview || pdfType is Screen.PdfTools.Type.PdfToImages) {
-                                            val direction = LocalLayoutDirection.current
-                                            Box(
-                                                modifier = Modifier
-                                                    .container(
-                                                        shape = RectangleShape,
-                                                        resultPadding = 0.dp,
-                                                        color = if (pdfType is Screen.PdfTools.Type.Preview || !isPortrait) {
-                                                            MaterialTheme.colorScheme.surfaceContainerLow
-                                                        } else MaterialTheme.colorScheme.surface
-                                                    )
-                                                    .weight(1.2f)
-                                                    .clipToBounds(),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                if (pdfType is Screen.PdfTools.Type.Preview) {
-                                                    PdfViewer(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        uriState = component.pdfPreviewUri,
-                                                        contentPadding = PaddingValues(
-                                                            start = 20.dp + WindowInsets.displayCutout
-                                                                .asPaddingValues()
-                                                                .calculateStartPadding(direction),
-                                                            end = 20.dp
-                                                        )
-                                                    )
-                                                } else {
-                                                    Column(
-                                                        modifier = if (isPortrait) {
-                                                            Modifier
-                                                                .fillMaxSize()
-                                                                .verticalScroll(rememberScrollState())
-                                                        } else Modifier,
-                                                        horizontalAlignment = Alignment.CenterHorizontally
-                                                    ) {
-                                                        var pagesCount by remember {
-                                                            mutableIntStateOf(
-                                                                1
-                                                            )
-                                                        }
-                                                        PdfViewer(
-                                                            modifier = if (isPortrait) {
-                                                                Modifier
-                                                                    .height(
-                                                                        (130.dp * pagesCount).coerceAtMost(
-                                                                            420.dp
-                                                                        )
-                                                                    )
-                                                                    .fillMaxWidth()
-                                                            } else {
-                                                                Modifier.fillMaxWidth()
-                                                            }.padding(
-                                                                start = WindowInsets
-                                                                    .displayCutout
-                                                                    .asPaddingValues()
-                                                                    .calculateStartPadding(direction)
-                                                            ),
-                                                            onGetPagesCount = { pagesCount = it },
-                                                            uriState = component.pdfToImageState?.uri,
-                                                            orientation = PdfViewerOrientation.Grid,
-                                                            enableSelection = true,
-                                                            selectAllToggle = selectAllToggle,
-                                                            deselectAllToggle = deselectAllToggle,
-                                                            selectedPages = component.pdfToImageState?.pages
-                                                                ?: emptyList(),
-                                                            updateSelectedPages = component::updatePdfToImageSelection,
-                                                            spacing = 4.dp
-                                                        )
-                                                        if (isPortrait) {
-                                                            controls(pdfType)
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        if (pdfType !is Screen.PdfTools.Type.Preview && !isPortrait || pdfType is Screen.PdfTools.Type.ImagesToPdf) {
-                                            val direction = LocalLayoutDirection.current
-                                            Box(
-                                                modifier = Modifier
-                                                    .weight(0.7f)
-                                                    .fillMaxHeight()
-                                                    .clipToBounds()
-                                            ) {
-                                                Column(
-                                                    modifier = Modifier
-                                                        .verticalScroll(rememberScrollState())
-                                                        .then(
-                                                            if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
-                                                                Modifier.padding(
-                                                                    start = WindowInsets
-                                                                        .displayCutout
-                                                                        .asPaddingValues()
-                                                                        .calculateStartPadding(
-                                                                            direction
-                                                                        )
-                                                                )
-                                                            } else Modifier
-                                                        )
-                                                ) {
-                                                    controls(pdfType)
-                                                }
-                                            }
-                                        }
-                                        if (!isPortrait) {
-                                            val direction = LocalLayoutDirection.current
-                                            Column(
-                                                Modifier
-                                                    .container(RectangleShape)
-                                                    .fillMaxHeight()
-                                                    .padding(horizontal = 16.dp)
-                                                    .navigationBarsPadding()
-                                                    .padding(
-                                                        end = WindowInsets.displayCutout
-                                                            .asPaddingValues()
-                                                            .calculateEndPadding(direction)
-                                                    ),
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                verticalArrangement = Arrangement.Center
-                                            ) {
-                                                buttons(pdfType)
-                                            }
-                                        }
-                                    }
-                                    if (isPortrait) {
-                                        BottomAppBar(
-                                            actions = {
-                                                actionButtons(pdfType)
-                                            },
-                                            floatingActionButton = {
-                                                Row {
-                                                    buttons(pdfType)
-                                                }
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        }
+                        OneTimeSaveLocationSelectionDialog(
+                            visible = showFolderSelectionDialog,
+                            onDismiss = { showFolderSelectionDialog = false },
+                            onSaveRequest = savePdfToImages
+                        )
                     }
                 }
-
-                if (component.left != 0) {
-                    LoadingDialog(
-                        visible = component.isSaving,
-                        done = component.done,
-                        left = component.left,
-                        onCancelLoading = component::cancelSaving
-                    )
-                } else {
-                    LoadingDialog(
-                        visible = component.isSaving,
-                        onCancelLoading = component::cancelSaving
-                    )
+            },
+            controls = { pdfType ->
+                if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
+                    Column(
+                        modifier = Modifier.padding(20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        ImageReorderCarousel(
+                            images = component.imagesToPdfState,
+                            onReorder = component::reorderImagesToPdf,
+                            onNeedToAddImage = { addImagesToPdfPicker.pickImage() },
+                            onNeedToRemoveImageAt = component::removeImageToPdfAt
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        PresetSelector(
+                            value = component.presetSelected,
+                            includeTelegramOption = false,
+                            onValueChange = {
+                                if (it is Preset.Percentage) {
+                                    component.selectPreset(it)
+                                }
+                            },
+                            showWarning = component.showOOMWarning
+                        )
+                        Spacer(
+                            Modifier.height(8.dp)
+                        )
+                        ScaleSmallImagesToLargeToggle(
+                            checked = component.scaleSmallImagesToLarge,
+                            onCheckedChange = {
+                                component.toggleScaleSmallImagesToLarge()
+                            }
+                        )
+                    }
+                } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                    Column(
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        PresetSelector(
+                            value = component.presetSelected,
+                            includeTelegramOption = false,
+                            onValueChange = {
+                                if (it is Preset.Percentage) {
+                                    component.selectPreset(it)
+                                }
+                            },
+                            showWarning = component.showOOMWarning
+                        )
+                        if (component.imageInfo.imageFormat.canChangeCompressionValue) {
+                            Spacer(
+                                Modifier.height(8.dp)
+                            )
+                        }
+                        QualitySelector(
+                            imageFormat = component.imageInfo.imageFormat,
+                            enabled = true,
+                            quality = component.imageInfo.quality,
+                            onQualityChange = component::setQuality
+                        )
+                        Spacer(
+                            Modifier.height(8.dp)
+                        )
+                        ImageFormatSelector(
+                            value = component.imageInfo.imageFormat,
+                            onValueChange = component::updateImageFormat
+                        )
+                    }
                 }
             }
-        }
+        )
+    }
+
+    if (component.left != 0) {
+        LoadingDialog(
+            visible = component.isSaving,
+            done = component.done,
+            left = component.left,
+            onCancelLoading = component::cancelSaving
+        )
+    } else {
+        LoadingDialog(
+            visible = component.isSaving,
+            onCancelLoading = component::cancelSaving
+        )
     }
 
     ExitWithoutSavingDialog(

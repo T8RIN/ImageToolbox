@@ -94,6 +94,7 @@ import coil3.Image
 import coil3.asImage
 import coil3.memory.MemoryCache
 import coil3.request.ImageRequest
+import coil3.toBitmap
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -148,7 +149,7 @@ fun PdfViewer(
             val listState = rememberLazyListState()
             BoxWithConstraints(modifier = modifier.animateContentSize()) {
                 val density = LocalDensity.current
-                val width = with(density) { maxWidth.toPx() }.toInt()
+                val width = with(density) { this@BoxWithConstraints.maxWidth.toPx() }.toInt()
                 val height = (width * sqrt(2f)).toInt()
 
                 val context = LocalContext.current
@@ -176,7 +177,7 @@ fun PdfViewer(
                                 }
                             }
                             value = renderer
-                        }.exceptionOrNull()?.let(showError)
+                        }.onFailure(showError)
                     }
                     awaitDispose {
                         val currentRenderer = value
@@ -508,7 +509,7 @@ private fun PdfPage(
                                 bitmap = destinationBitmap.asImage()
                             }
                         }
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         //Just catch and return in case the renderer is being closed
                         return@launch
                     }
@@ -524,7 +525,7 @@ private fun PdfPage(
         ImageRequest.Builder(context)
             .size(renderWidth, renderHeight)
             .memoryCacheKey(cacheKey)
-            .data(bitmap)
+            .data(bitmap?.toBitmap())
             .build()
     }
 

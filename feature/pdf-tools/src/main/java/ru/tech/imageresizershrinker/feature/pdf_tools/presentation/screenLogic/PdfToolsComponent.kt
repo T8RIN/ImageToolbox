@@ -188,7 +188,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
     }
 
     fun clearType() {
-        registerChangesCleared()
         _pdfType.update { null }
         _pdfPreviewUri.update { null }
         _imagesToPdfState.update { null }
@@ -197,6 +196,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _showOOMWarning.value = false
         _imageInfo.value = ImageInfo()
         resetCalculatedData()
+        registerChangesCleared()
     }
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
