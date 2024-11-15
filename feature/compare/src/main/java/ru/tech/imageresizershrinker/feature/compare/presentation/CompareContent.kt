@@ -131,12 +131,14 @@ fun CompareContent(
     val isPortrait by isPortraitOrientationAsState()
 
     var showShareSheet by rememberSaveable { mutableStateOf(false) }
-    Box(
-        Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+    Box {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+        ) {
             var isLabelsEnabled by rememberSaveable {
                 mutableStateOf(true)
             }

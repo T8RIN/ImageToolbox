@@ -17,100 +17,50 @@
 
 package ru.tech.imageresizershrinker.feature.pick_color.presentation
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.colordetector.ImageColorDetector
-import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
-import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageBottomAppBar
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageContentImpl
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageTopAppBar
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,9 +70,6 @@ fun PickColorFromImageContent(
     component: PickColorComponent
 ) {
     val settingsState = LocalSettingsState.current
-    val context = LocalContext.current
-
-    val parser = rememberColorParser()
 
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
@@ -149,7 +96,7 @@ fun PickColorFromImageContent(
     )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val scrollState = rememberScrollState()
+
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -192,393 +139,40 @@ fun PickColorFromImageContent(
         mutableStateOf(false)
     }
 
-    Box(
-        Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-    ) {
-        val color = component.color
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            AnimatedContent(
-                modifier = Modifier.drawHorizontalStroke(),
-                targetState = component.bitmap == null,
-                transitionSpec = { fadeIn() togetherWith fadeOut() }
-            ) { noBmp ->
-                if (noBmp) {
-                    EnhancedTopAppBar(
-                        type = EnhancedTopAppBarType.Large,
-                        scrollBehavior = scrollBehavior,
-                        modifier = Modifier,
-                        navigationIcon = {
-                            EnhancedIconButton(
-                                onClick = onGoBack
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                    contentDescription = stringResource(R.string.exit)
-                                )
-                            }
-                        },
-                        title = {
-                            Text(
-                                text = stringResource(R.string.pick_color),
-                                modifier = Modifier.marquee()
-                            )
-                        },
-                        actions = {
-                            if (component.bitmap == null) {
-                                TopAppBarEmoji()
-                            }
-                        }
-                    )
-                } else {
-                    Surface(
-                        color = MaterialTheme.colorScheme.surfaceContainer,
-                        modifier = Modifier.animateContentSize(),
-                    ) {
-                        Column {
-                            Column(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Row {
-                                        EnhancedIconButton(
-                                            onClick = onGoBack,
-                                            modifier = Modifier.statusBarsPadding()
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                                contentDescription = stringResource(R.string.exit)
-                                            )
-                                        }
-                                        if (isPortrait) {
-                                            Spacer(modifier = Modifier.weight(1f))
-                                            magnifierButton()
-                                            Spacer(modifier = Modifier.width(4.dp))
-                                        }
-                                    }
-                                    if (!isPortrait) {
-                                        ProvideTextStyle(
-                                            value = LocalTextStyle.current.merge(
-                                                MaterialTheme.typography.headlineSmall
-                                            )
-                                        ) {
-                                            Row(
-                                                verticalAlignment = Alignment.CenterVertically,
-                                                modifier = Modifier
-                                                    .padding(
-                                                        start = 16.dp,
-                                                        end = 16.dp
-                                                    )
-                                                    .statusBarsPadding()
-                                            ) {
-                                                Text(stringResource(R.string.color))
-
-                                                Text(
-                                                    modifier = Modifier
-                                                        .padding(horizontal = 8.dp)
-                                                        .clip(RoundedCornerShape(8.dp))
-                                                        .clickable {
-                                                            context.copyToClipboard(
-                                                                context.getString(R.string.color),
-                                                                color.toHex()
-                                                            )
-                                                            essentials.showToast(
-                                                                icon = Icons.Rounded.ContentPaste,
-                                                                message = context.getString(R.string.color_copied)
-                                                            )
-                                                        }
-                                                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                                                        .border(
-                                                            settingsState.borderWidth,
-                                                            MaterialTheme.colorScheme.outlineVariant(
-                                                                onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                            ),
-                                                            RoundedCornerShape(8.dp)
-                                                        )
-                                                        .padding(horizontal = 6.dp),
-                                                    text = color.toHex(),
-                                                    style = LocalTextStyle.current.copy(
-                                                        fontWeight = FontWeight.Bold,
-                                                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                                                    )
-                                                )
-
-                                                Text(
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(2.dp),
-                                                    text = remember(color) {
-                                                        derivedStateOf {
-                                                            parser.parseColorName(color)
-                                                        }
-                                                    }.value
-                                                )
-
-                                                Box(
-                                                    Modifier
-                                                        .padding(
-                                                            vertical = 4.dp,
-                                                            horizontal = 16.dp
-                                                        )
-                                                        .background(
-                                                            color = animateColorAsState(color).value,
-                                                            shape = RoundedCornerShape(12.dp)
-                                                        )
-                                                        .height(40.dp)
-                                                        .width(72.dp)
-                                                        .border(
-                                                            width = settingsState.borderWidth,
-                                                            color = MaterialTheme.colorScheme.outlineVariant(
-                                                                onTopOf = animateColorAsState(color).value
-                                                            ),
-                                                            shape = RoundedCornerShape(11.dp)
-                                                        )
-                                                        .clip(RoundedCornerShape(12.dp))
-                                                        .clickable {
-                                                            context.copyToClipboard(
-                                                                context.getString(R.string.color),
-                                                                color.toHex()
-                                                            )
-                                                            essentials.showToast(
-                                                                icon = Icons.Rounded.ContentPaste,
-                                                                message = context.getString(R.string.color_copied)
-                                                            )
-                                                        }
-                                                )
-                                            }
-                                        }
-                                    }
-                                    Spacer(
-                                        Modifier
-                                            .weight(1f)
-                                            .padding(start = 8.dp)
-                                    )
-                                }
-                                if (isPortrait) {
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    ProvideTextStyle(
-                                        value = LocalTextStyle.current.merge(
-                                            MaterialTheme.typography.headlineSmall
-                                        )
-                                    ) {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            modifier = Modifier
-                                                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                                        ) {
-                                            Text(stringResource(R.string.color))
-
-                                            Text(
-                                                modifier = Modifier
-                                                    .padding(horizontal = 8.dp)
-                                                    .clip(RoundedCornerShape(8.dp))
-                                                    .clickable {
-                                                        context.copyToClipboard(
-                                                            context.getString(R.string.color),
-                                                            color.toHex()
-                                                        )
-                                                        essentials.showToast(
-                                                            icon = Icons.Rounded.ContentPaste,
-                                                            message = context.getString(R.string.color_copied)
-                                                        )
-                                                    }
-                                                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                                                    .border(
-                                                        settingsState.borderWidth,
-                                                        MaterialTheme.colorScheme.outlineVariant(
-                                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                        ),
-                                                        RoundedCornerShape(8.dp)
-                                                    )
-                                                    .padding(horizontal = 6.dp),
-                                                text = color.toHex(),
-                                                style = LocalTextStyle.current.copy(
-                                                    fontWeight = FontWeight.Bold,
-                                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                                )
-                                            )
-
-                                            Spacer(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .padding(2.dp)
-                                            )
-
-                                            Box(
-                                                Modifier
-                                                    .padding(vertical = 4.dp)
-                                                    .background(
-                                                        color = animateColorAsState(color).value,
-                                                        shape = RoundedCornerShape(12.dp)
-                                                    )
-                                                    .height(40.dp)
-                                                    .width(72.dp)
-                                                    .border(
-                                                        width = settingsState.borderWidth,
-                                                        color = MaterialTheme.colorScheme.outlineVariant(
-                                                            onTopOf = animateColorAsState(color).value
-                                                        ),
-                                                        shape = RoundedCornerShape(11.dp)
-                                                    )
-                                                    .clip(RoundedCornerShape(12.dp))
-                                                    .clickable {
-                                                        context.copyToClipboard(
-                                                            context.getString(R.string.color),
-                                                            color.toHex()
-                                                        )
-                                                        essentials.showToast(
-                                                            icon = Icons.Rounded.ContentPaste,
-                                                            message = context.getString(R.string.color_copied)
-                                                        )
-                                                    }
-                                            )
-                                        }
-                                    }
-                                } else {
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            Box(
-                modifier = Modifier.weight(1f)
-            ) {
-                component.bitmap?.let {
-                    if (isPortrait) {
-                        AnimatedContent(
-                            targetState = it
-                        ) { bitmap ->
-                            ImageColorDetector(
-                                panEnabled = panEnabled,
-                                imageBitmap = bitmap.asImageBitmap(),
-                                color = component.color,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(16.dp)
-                                    .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                    .container(resultPadding = 8.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .transparencyChecker(),
-                                isMagnifierEnabled = settingsState.magnifierEnabled,
-                                onColorChange = component::updateColor
-                            )
-                        }
-                    } else {
-                        Row {
-                            Box(
-                                modifier = Modifier.weight(0.8f)
-                            ) {
-                                Box(Modifier.align(Alignment.Center)) {
-                                    AnimatedContent(
-                                        targetState = it
-                                    ) { bitmap ->
-                                        val direction = LocalLayoutDirection.current
-                                        ImageColorDetector(
-                                            panEnabled = panEnabled,
-                                            imageBitmap = bitmap.asImageBitmap(),
-                                            color = component.color,
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .padding(20.dp)
-                                                .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                                .padding(
-                                                    start = WindowInsets
-                                                        .displayCutout
-                                                        .asPaddingValues()
-                                                        .calculateStartPadding(direction)
-                                                )
-                                                .container(resultPadding = 8.dp)
-                                                .clip(RoundedCornerShape(12.dp))
-                                                .transparencyChecker(),
-                                            isMagnifierEnabled = settingsState.magnifierEnabled,
-                                            onColorChange = component::updateColor
-                                        )
-                                    }
-                                }
-                            }
-                            val direction = LocalLayoutDirection.current
-                            Column(
-                                Modifier
-                                    .container(
-                                        shape = RectangleShape,
-                                        resultPadding = 0.dp
-                                    )
-                                    .fillMaxHeight()
-                                    .padding(horizontal = 20.dp)
-                                    .padding(
-                                        end = WindowInsets.displayCutout
-                                            .asPaddingValues()
-                                            .calculateEndPadding(direction)
-                                    )
-                                    .navigationBarsPadding(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                magnifierButton()
-                                Spacer(modifier = Modifier.height(8.dp))
-                                switch()
-                                Spacer(modifier = Modifier.height(16.dp))
-                                EnhancedFloatingActionButton(
-                                    onClick = pickImage,
-                                    onLongClick = {
-                                        showOneTimeImagePickingDialog = true
-                                    },
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.AddPhotoAlternate,
-                                        contentDescription = stringResource(R.string.pick_image_alt)
-                                    )
-                                }
-                            }
-                        }
-                    }
-                } ?: Column(Modifier.verticalScroll(scrollState)) {
-                    ImageNotPickedWidget(
-                        onPickImage = pickImage,
-                        modifier = Modifier
-                            .padding(bottom = 88.dp, top = 20.dp, start = 20.dp, end = 20.dp)
-                            .navigationBarsPadding()
-                    )
-                }
-            }
-            if (component.bitmap != null && isPortrait) {
-                BottomAppBar(
-                    modifier = Modifier
-                        .drawHorizontalStroke(true),
-                    actions = {
-                        switch()
-                        Text(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(2.dp)
-                                .offset(x = (-10).dp),
-                            text = remember(color) {
-                                derivedStateOf {
-                                    parser.parseColorName(color)
-                                }
-                            }.value,
-                            textAlign = TextAlign.Center
-                        )
-                    },
-                    floatingActionButton = {
-                        EnhancedFloatingActionButton(
-                            onClick = pickImage,
-                            onLongClick = {
-                                showOneTimeImagePickingDialog = true
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.AddPhotoAlternate,
-                                contentDescription = stringResource(R.string.pick_image_alt)
-                            )
-                        }
-                    }
-                )
-            }
+    Box {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+        ) {
+            PickColorFromImageTopAppBar(
+                bitmap = component.bitmap,
+                scrollBehavior = scrollBehavior,
+                onGoBack = onGoBack,
+                isPortrait = isPortrait,
+                magnifierButton = magnifierButton,
+                color = component.color
+            )
+            PickColorFromImageContentImpl(
+                bitmap = component.bitmap,
+                isPortrait = isPortrait,
+                panEnabled = panEnabled,
+                onColorChange = component::updateColor,
+                onPickImage = pickImage,
+                onOneTimePickImage = { showOneTimeImagePickingDialog = true },
+                magnifierButton = magnifierButton,
+                switch = switch,
+                color = component.color
+            )
+            PickColorFromImageBottomAppBar(
+                bitmap = component.bitmap,
+                isPortrait = isPortrait,
+                switch = switch,
+                color = component.color,
+                onPickImage = pickImage,
+                onOneTimePickImage = { showOneTimeImagePickingDialog = true },
+            )
         }
 
         if (component.bitmap == null) {
