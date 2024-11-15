@@ -75,7 +75,7 @@ internal object ImageLoaderModule {
 
     @Provides
     fun provideComponentRegistry(
-        interceptor: TimeMeasureInterceptor
+        timeMeasureInterceptor: TimeMeasureInterceptor
     ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
             add(AnimatedPngDecoder.Factory())
@@ -94,7 +94,7 @@ internal object ImageLoaderModule {
             add(QoiDecoder.Factory())
             add(PsdDecoder.Factory())
             add(DjvuDecoder.Factory())
-            if (BuildConfig.DEBUG) add(interceptor)
+            if (BuildConfig.DEBUG) add(timeMeasureInterceptor)
         }
         .build()
 
