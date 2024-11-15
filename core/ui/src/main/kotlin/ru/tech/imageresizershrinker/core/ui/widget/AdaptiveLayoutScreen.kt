@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
@@ -34,7 +36,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -55,6 +60,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -63,6 +69,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
@@ -90,7 +97,12 @@ fun AdaptiveLayoutScreen(
     showImagePreviewAsStickyHeader: Boolean = true,
     autoClearFocus: Boolean = true,
     placeImagePreview: Boolean = true,
-    showActionsInTopAppBar: Boolean = true
+    showActionsInTopAppBar: Boolean = true,
+    insetsForNoData: WindowInsets = WindowInsets.navigationBars.union(
+        WindowInsets.displayCutout.only(
+            WindowInsetsSides.Horizontal
+        )
+    )
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -150,31 +162,29 @@ fun AdaptiveLayoutScreen(
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     val direction = LocalLayoutDirection.current
-                    if (!isPortrait && canShowScreenData) {
-                        if (placeImagePreview) {
-                            Box(
-                                modifier = Modifier
-                                    .then(
-                                        if (controls != null) {
-                                            Modifier.container(
-                                                shape = RectangleShape,
-                                                color = MaterialTheme.colorScheme.surfaceContainerLow
-                                            )
-                                        } else Modifier
-                                    )
-                                    .fillMaxHeight()
-                                    .padding(
-                                        start = WindowInsets
-                                            .displayCutout
-                                            .asPaddingValues()
-                                            .calculateStartPadding(direction)
-                                    )
-                                    .weight(1.2f)
-                                    .padding(20.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                imagePreview()
-                            }
+                    if (!isPortrait && canShowScreenData && placeImagePreview) {
+                        Box(
+                            modifier = Modifier
+                                .then(
+                                    if (controls != null) {
+                                        Modifier.container(
+                                            shape = RectangleShape,
+                                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                    } else Modifier
+                                )
+                                .fillMaxHeight()
+                                .padding(
+                                    start = WindowInsets
+                                        .displayCutout
+                                        .asPaddingValues()
+                                        .calculateStartPadding(direction)
+                                )
+                                .weight(1.2f)
+                                .padding(20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            imagePreview()
                         }
                     }
                     val internalHeight = rememberAvailableHeight(
@@ -220,15 +230,33 @@ fun AdaptiveLayoutScreen(
                             )
                         }
                         item {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                if (canShowScreenData) {
-                                    if (!showImagePreviewAsStickyHeader && isPortrait && placeImagePreview) imagePreview()
-                                    if (controls != null) controls(state)
-                                } else noDataControls()
+                            val screenWidthDp = LocalConfiguration.current.screenWidthDp
+                            AnimatedContent(
+                                targetState = canShowScreenData,
+                                transitionSpec = {
+                                    fancySlideTransition(
+                                        isForward = targetState,
+                                        screenWidthDp = screenWidthDp
+                                    )
+                                },
+                                modifier = Modifier.fillMaxSize()
+                            ) { canShowScreenData ->
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    if (canShowScreenData) {
+                                        if (!showImagePreviewAsStickyHeader && isPortrait && placeImagePreview) imagePreview()
+                                        if (controls != null) controls(state)
+                                    } else {
+                                        Box(
+                                            modifier = Modifier.windowInsetsPadding(insetsForNoData)
+                                        ) {
+                                            noDataControls()
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

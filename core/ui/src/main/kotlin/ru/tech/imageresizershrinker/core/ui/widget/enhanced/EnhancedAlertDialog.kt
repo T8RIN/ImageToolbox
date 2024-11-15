@@ -231,7 +231,7 @@ fun BasicEnhancedAlertDialog(
                         onDismissRequest()
                         delay(400)
                         scale = 1f
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         scale = 1f
                     }
                 }
@@ -337,7 +337,7 @@ private fun ProvideContentColorTextStyle(
 }
 
 private val DialogMinWidth = 280.dp
-private val DialogMaxWidth = 560.dp
+private val DialogMaxWidth = 480.dp
 
 private val ButtonsHorizontalSpacing = 8.dp
 private val ButtonsVerticalSpacing = 12.dp

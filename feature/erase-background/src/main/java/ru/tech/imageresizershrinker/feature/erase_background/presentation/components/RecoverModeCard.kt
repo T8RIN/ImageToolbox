@@ -38,13 +38,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun RecoverModeCard(
+    modifier: Modifier = Modifier
+        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
     selected: Boolean,
     enabled: Boolean,
     onClick: () -> Unit,
 ) {
     PreferenceRowSwitch(
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(24.dp),
         enabled = enabled,
         title = stringResource(R.string.restore_background),

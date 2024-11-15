@@ -24,6 +24,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -259,67 +260,58 @@ fun CropContent(
             }
         },
         controls = {
-            Spacer(modifier = Modifier.height(16.dp))
-            FreeCornersCropToggle(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                value = component.cropType == CropType.FreeCorners,
-                onClick = component::toggleFreeCornersCrop
-            )
-            BoxAnimatedVisibility(
-                visible = component.cropType == CropType.FreeCorners,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                CoercePointsToImageBoundsToggle(
-                    value = coercePointsToImageArea,
-                    onValueChange = { coercePointsToImageArea = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .padding(horizontal = 16.dp)
+                FreeCornersCropToggle(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = component.cropType == CropType.FreeCorners,
+                    onClick = component::toggleFreeCornersCrop
+                )
+                BoxAnimatedVisibility(
+                    visible = component.cropType == CropType.FreeCorners,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    CoercePointsToImageBoundsToggle(
+                        value = coercePointsToImageArea,
+                        onValueChange = { coercePointsToImageArea = it },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                BoxAnimatedVisibility(
+                    visible = component.cropType != CropType.FreeCorners,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    Column {
+                        AspectRatioSelector(
+                            modifier = Modifier.fillMaxWidth(),
+                            selectedAspectRatio = component.selectedAspectRatio,
+                            onAspectRatioChange = component::setCropAspectRatio
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        CropMaskSelection(
+                            onCropMaskChange = component::setCropMask,
+                            selectedItem = component.cropProperties.cropOutlineProperty,
+                            loadImage = {
+                                component.loadImage(it)?.asImageBitmap()
+                            }
+                        )
+                    }
+                }
+                ImageFormatSelector(
+                    modifier = Modifier.navigationBarsPadding(),
+                    entries = if (component.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
+                        ImageFormatGroup.entries
+                    } else ImageFormatGroup.alphaContainedEntries,
+                    value = component.imageFormat,
+                    onValueChange = {
+                        component.setImageFormat(it)
+                    }
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            BoxAnimatedVisibility(
-                visible = component.cropType != CropType.FreeCorners,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
-                Column {
-                    AspectRatioSelector(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        selectedAspectRatio = component.selectedAspectRatio,
-                        onAspectRatioChange = component::setCropAspectRatio
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    CropMaskSelection(
-                        onCropMaskChange = component::setCropMask,
-                        selectedItem = component.cropProperties.cropOutlineProperty,
-                        loadImage = {
-                            component.loadImage(it)?.asImageBitmap()
-                        },
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
-            ImageFormatSelector(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .navigationBarsPadding(),
-                entries = if (component.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
-                    ImageFormatGroup.entries
-                } else ImageFormatGroup.alphaContainedEntries,
-                value = component.imageFormat,
-                onValueChange = {
-                    component.setImageFormat(it)
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
         },
         buttons = {
             var showFolderSelectionDialog by rememberSaveable {

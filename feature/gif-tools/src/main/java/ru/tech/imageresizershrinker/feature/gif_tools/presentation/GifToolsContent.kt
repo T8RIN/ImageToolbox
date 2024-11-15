@@ -557,6 +557,7 @@ fun GifToolsContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
+        insetsForNoData = WindowInsets(0),
         noDataControls = {
             val types = remember {
                 Screen.GifTools.Type.entries

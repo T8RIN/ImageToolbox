@@ -17,6 +17,10 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -46,53 +50,58 @@ fun EnhancedTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     type: EnhancedTopAppBarType = EnhancedTopAppBarType.Normal
 ) {
-    when (type) {
-        EnhancedTopAppBarType.Center -> {
-            CenterAlignedTopAppBar(
-                title = title,
-                modifier = modifier,
-                navigationIcon = navigationIcon,
-                actions = actions,
-                windowInsets = windowInsets,
-                colors = colors,
-                scrollBehavior = scrollBehavior
-            )
-        }
+    AnimatedContent(
+        targetState = type,
+        transitionSpec = { fadeIn() togetherWith fadeOut() }
+    ) {
+        when (it) {
+            EnhancedTopAppBarType.Center -> {
+                CenterAlignedTopAppBar(
+                    title = title,
+                    modifier = modifier,
+                    navigationIcon = navigationIcon,
+                    actions = actions,
+                    windowInsets = windowInsets,
+                    colors = colors,
+                    scrollBehavior = scrollBehavior
+                )
+            }
 
-        EnhancedTopAppBarType.Normal -> {
-            TopAppBar(
-                title = title,
-                modifier = modifier,
-                navigationIcon = navigationIcon,
-                actions = actions,
-                windowInsets = windowInsets,
-                colors = colors,
-                scrollBehavior = scrollBehavior
-            )
-        }
+            EnhancedTopAppBarType.Normal -> {
+                TopAppBar(
+                    title = title,
+                    modifier = modifier,
+                    navigationIcon = navigationIcon,
+                    actions = actions,
+                    windowInsets = windowInsets,
+                    colors = colors,
+                    scrollBehavior = scrollBehavior
+                )
+            }
 
-        EnhancedTopAppBarType.Medium -> {
-            MediumTopAppBar(
-                title = title,
-                modifier = modifier,
-                navigationIcon = navigationIcon,
-                actions = actions,
-                windowInsets = windowInsets,
-                colors = colors,
-                scrollBehavior = scrollBehavior
-            )
-        }
+            EnhancedTopAppBarType.Medium -> {
+                MediumTopAppBar(
+                    title = title,
+                    modifier = modifier,
+                    navigationIcon = navigationIcon,
+                    actions = actions,
+                    windowInsets = windowInsets,
+                    colors = colors,
+                    scrollBehavior = scrollBehavior
+                )
+            }
 
-        EnhancedTopAppBarType.Large -> {
-            LargeTopAppBar(
-                title = title,
-                modifier = modifier,
-                navigationIcon = navigationIcon,
-                actions = actions,
-                windowInsets = windowInsets,
-                colors = colors,
-                scrollBehavior = scrollBehavior
-            )
+            EnhancedTopAppBarType.Large -> {
+                LargeTopAppBar(
+                    title = title,
+                    modifier = modifier,
+                    navigationIcon = navigationIcon,
+                    actions = actions,
+                    windowInsets = windowInsets,
+                    colors = colors,
+                    scrollBehavior = scrollBehavior
+                )
+            }
         }
     }
 }

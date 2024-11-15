@@ -321,6 +321,7 @@ fun GradientMakerContent(
                 backgroundColor = MaterialTheme.colorScheme.surfaceContainer
             )
         },
+        insetsForNoData = WindowInsets(0),
         noDataControls = {
             val preference1 = @Composable {
                 val screen = remember {

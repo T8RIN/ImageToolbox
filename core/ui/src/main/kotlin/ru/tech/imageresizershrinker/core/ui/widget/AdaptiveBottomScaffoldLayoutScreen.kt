@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,12 +27,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -59,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -72,18 +79,21 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     onGoBack: () -> Unit,
     shouldDisableBackHandler: Boolean,
     isPortrait: Boolean,
-    actions: @Composable RowScope.() -> Unit,
+    actions: @Composable RowScope.(BottomSheetScaffoldState) -> Unit,
     topAppBarPersistentActions: @Composable RowScope.(BottomSheetScaffoldState) -> Unit = {},
     mainContent: @Composable () -> Unit,
     mainContentWeight: Float = 0.5f,
-    controls: @Composable ColumnScope.() -> Unit,
+    controls: @Composable ColumnScope.(BottomSheetScaffoldState) -> Unit,
     buttons: @Composable (actions: @Composable RowScope.() -> Unit) -> Unit,
     noDataControls: @Composable () -> Unit = {},
     canShowScreenData: Boolean,
     showActionsInTopAppBar: Boolean = true,
     collapseTopAppBarWhenHaveData: Boolean = true,
     autoClearFocus: Boolean = true,
+    enableNoDataScroll: Boolean = true
 ) {
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp
+
     val settingsState = LocalSettingsState.current
 
     val scrollBehavior = if (collapseTopAppBarWhenHaveData && canShowScreenData) null
@@ -139,43 +149,80 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                         }
                     },
                     actions = {
-                        if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions()
+                        if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions(
+                            scaffoldState
+                        )
                         topAppBarPersistentActions(scaffoldState)
                     },
                 )
 
-                canShowScreenData.takeIf { it }?.let {
-                    if (isPortrait) {
-                        mainContent()
+                AnimatedContent(
+                    targetState = canShowScreenData,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    transitionSpec = {
+                        fancySlideTransition(
+                            isForward = targetState,
+                            screenWidthDp = screenWidthDp
+                        )
+                    }
+                ) { canShowScreenData ->
+                    if (canShowScreenData) {
+                        if (isPortrait) {
+                            mainContent()
+                        } else {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    Modifier
+                                        .zIndex(-100f)
+                                        .container(shape = RectangleShape, resultPadding = 0.dp)
+                                        .weight(0.8f)
+                                ) {
+                                    mainContent()
+                                }
+                                Column(
+                                    Modifier
+                                        .weight(mainContentWeight)
+                                        .verticalScroll(scrollState)
+                                ) {
+                                    controls(scaffoldState)
+                                }
+                                buttons {
+                                    actions(scaffoldState)
+                                }
+                            }
+                        }
                     } else {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
+                            modifier = Modifier
+                                .then(
+                                    if (enableNoDataScroll) {
+                                        Modifier
+                                            .fillMaxSize()
+                                            .verticalScroll(scrollState)
+                                            .padding(
+                                                bottom = 88.dp,
+                                                top = 20.dp,
+                                                start = 20.dp,
+                                                end = 20.dp
+                                            )
+                                            .windowInsetsPadding(
+                                                WindowInsets.navigationBars.union(
+                                                    WindowInsets.displayCutout.only(
+                                                        WindowInsetsSides.Horizontal
+                                                    )
+                                                )
+                                            )
+                                    } else Modifier
+                                ),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Box(
-                                Modifier
-                                    .zIndex(-100f)
-                                    .container(shape = RectangleShape, resultPadding = 0.dp)
-                                    .weight(0.8f)
-                            ) {
-                                mainContent()
-                            }
-                            Column(
-                                Modifier
-                                    .weight(mainContentWeight)
-                                    .verticalScroll(scrollState)
-                            ) {
-                                controls()
-                            }
-                            buttons(actions)
+                            noDataControls()
                         }
                     }
-                } ?: Column(
-                    modifier = Modifier
-                        .verticalScroll(scrollState)
-                        .padding(bottom = 88.dp, top = 20.dp, start = 20.dp, end = 20.dp)
-                        .navigationBarsPadding()
-                ) {
-                    noDataControls()
                 }
             }
 
@@ -183,7 +230,9 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                 Box(
                     modifier = Modifier.align(settingsState.fabAlignment)
                 ) {
-                    buttons(actions)
+                    buttons {
+                        actions(scaffoldState)
+                    }
                 }
             }
         }
@@ -199,36 +248,54 @@ fun AdaptiveBottomScaffoldLayoutScreen(
             }
         } else Modifier
     ) {
-        if (isPortrait && canShowScreenData) {
-            val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-            BottomSheetScaffold(
-                scaffoldState = scaffoldState,
-                sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
-                    .calculateBottomPadding(),
-                sheetDragHandle = null,
-                sheetShape = RectangleShape,
-                sheetContent = {
-                    Column(
-                        Modifier
-                            .heightIn(max = screenHeight * 0.7f)
-                            .pointerInput(Unit) {
-                                detectTapGestures { focus.clearFocus() }
-                            }
-                    ) {
-                        buttons(actions)
-                        ProvideContainerDefaults(
-                            color = EnhancedBottomSheetDefaults.contentContainerColor
+        AnimatedContent(
+            targetState = isPortrait && canShowScreenData,
+            transitionSpec = {
+                fancySlideTransition(
+                    isForward = targetState,
+                    screenWidthDp = screenWidthDp
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+        ) { useScaffold ->
+            if (useScaffold) {
+                val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+                BottomSheetScaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    scaffoldState = scaffoldState,
+                    sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
+                        .calculateBottomPadding(),
+                    sheetDragHandle = null,
+                    sheetShape = RectangleShape,
+                    sheetContent = {
+                        Column(
+                            Modifier
+                                .heightIn(max = screenHeight * 0.7f)
+                                .pointerInput(Unit) {
+                                    detectTapGestures { focus.clearFocus() }
+                                }
                         ) {
-                            Column(Modifier.verticalScroll(scrollState)) {
-                                controls()
+                            buttons {
+                                actions(scaffoldState)
+                            }
+                            ProvideContainerDefaults(
+                                color = EnhancedBottomSheetDefaults.contentContainerColor
+                            ) {
+                                Column(Modifier.verticalScroll(scrollState)) {
+                                    controls(scaffoldState)
+                                }
                             }
                         }
-                    }
-                },
-                content = content
-            )
-        } else {
-            content(PaddingValues())
+                    },
+                    content = content
+                )
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    content(PaddingValues())
+                }
+            }
         }
     }
 

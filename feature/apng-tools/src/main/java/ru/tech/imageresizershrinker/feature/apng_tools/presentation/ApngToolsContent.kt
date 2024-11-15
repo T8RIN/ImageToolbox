@@ -485,6 +485,7 @@ fun ApngToolsContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
+        insetsForNoData = WindowInsets(0),
         noDataControls = {
             val types = remember {
                 Screen.ApngTools.Type.entries

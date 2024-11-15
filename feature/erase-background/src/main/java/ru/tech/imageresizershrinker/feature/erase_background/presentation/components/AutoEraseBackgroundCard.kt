@@ -48,12 +48,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
 fun AutoEraseBackgroundCard(
+    modifier: Modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
     onClick: () -> Unit,
     onReset: () -> Unit
 ) {
     Column(
         Modifier
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp)
+            .then(modifier)
             .container(resultPadding = 8.dp, shape = RoundedCornerShape(24.dp))
     ) {
         val notFoss = BuildConfig.FLAVOR != "foss"

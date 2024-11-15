@@ -392,6 +392,7 @@ fun WebpToolsContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
+        insetsForNoData = WindowInsets(0),
         noDataControls = {
             val types = remember {
                 Screen.WebpTools.Type.entries

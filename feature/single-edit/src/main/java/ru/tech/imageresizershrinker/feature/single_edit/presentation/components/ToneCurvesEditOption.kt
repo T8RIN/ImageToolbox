@@ -100,9 +100,12 @@ fun ToneCurvesEditOption(
             )
         }
 
+        var isDefault by remember(editorState) {
+            mutableStateOf(editorState.isDefault())
+        }
         FullscreenEditOption(
             showControls = false,
-            canGoBack = false,
+            canGoBack = isDefault,
             visible = visible,
             modifier = Modifier.heightIn(max = LocalConfiguration.current.screenHeightDp.dp / 1.5f),
             onDismiss = {
@@ -192,7 +195,10 @@ fun ToneCurvesEditOption(
                         }
                         .asPaddingValues() + PaddingValues(16.dp),
                     containerModifier = Modifier.align(Alignment.Center),
-                    showOriginal = showOriginal
+                    showOriginal = showOriginal,
+                    onStateChange = {
+                        isDefault = it.isDefault()
+                    }
                 )
             }
         }

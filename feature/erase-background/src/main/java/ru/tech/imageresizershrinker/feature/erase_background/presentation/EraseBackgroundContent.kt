@@ -17,61 +17,36 @@
 
 package ru.tech.imageresizershrinker.feature.erase_background.presentation
 
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.ZoomIn
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -82,18 +57,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.pt
@@ -103,12 +73,13 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSim
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -118,22 +89,17 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.saver.PtSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
@@ -177,23 +143,9 @@ fun EraseBackgroundContent(
 
     val pickImage = imagePicker::pickImage
 
-    var showOneTimeImagePickingDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var showFolderSelectionDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-
     AutoFilePicker(
         onAutoPick = pickImage,
         isPickedAlready = component.initialUri != null
-    )
-
-    val scaffoldState = rememberBottomSheetScaffoldState()
-
-    val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState
     )
 
     val onBack = {
@@ -226,17 +178,7 @@ fun EraseBackgroundContent(
     }
 
     val configuration = LocalConfiguration.current
-    val sizeClass = LocalWindowSizeClass.current.widthSizeClass
-    val portrait =
-        remember(
-            LocalLifecycleOwner.current.lifecycle.observeAsState().value,
-            sizeClass,
-            configuration
-        ) {
-            derivedStateOf {
-                configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact
-            }
-        }.value
+    val isPortrait by isPortraitOrientationAsState()
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
@@ -275,487 +217,283 @@ fun EraseBackgroundContent(
         }
     }
 
-    val image: @Composable () -> Unit = @Composable {
-        AnimatedContent(
-            targetState = remember(component.bitmap) {
-                derivedStateOf {
-                    component.bitmap?.copy(
-                        Bitmap.Config.ARGB_8888,
-                        true
-                    )?.asImageBitmap() ?: ImageBitmap(
-                        configuration.screenWidthDp,
-                        configuration.screenHeightDp
-                    )
-                }
-            }.value,
-            transitionSpec = { fadeIn() togetherWith fadeOut() }
-        ) { imageBitmap ->
-            val direction = LocalLayoutDirection.current
-            val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
-            BitmapEraser(
-                imageBitmapForShader = component.internalBitmap?.asImageBitmap(),
-                imageBitmap = imageBitmap,
-                paths = component.paths,
-                strokeWidth = strokeWidth,
-                brushSoftness = brushSoftness,
-                onAddPath = component::addPath,
-                isRecoveryOn = component.isRecoveryOn,
-                modifier = Modifier
-                    .padding(
-                        start = WindowInsets
-                            .displayCutout
-                            .asPaddingValues()
-                            .calculateStartPadding(direction)
-                    )
-                    .padding(16.dp)
-                    .aspectRatio(aspectRatio, portrait)
-                    .fillMaxSize(),
-                panEnabled = panEnabled,
-                originalImagePreviewAlpha = originalImagePreviewAlpha,
-                drawPathMode = drawPathMode,
-                helperGridParams = component.helperGridParams
+    AdaptiveBottomScaffoldLayoutScreen(
+        title = {
+            TopAppBarTitle(
+                title = stringResource(R.string.background_remover),
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
+                size = null,
+                originalSize = null
             )
-        }
-    }
-
-    val topAppBar = @Composable {
-        AnimatedContent(
-            targetState = component.bitmap == null,
-            transitionSpec = {
-                fadeIn() togetherWith fadeOut() using SizeTransform(false)
-            }
-        ) { noBitmap ->
-            if (noBitmap) {
-                EnhancedTopAppBar(
-                    type = EnhancedTopAppBarType.Large,
-                    scrollBehavior = scrollBehavior,
-                    title = {
-                        Text(
-                            text = stringResource(R.string.background_remover),
-                            modifier = Modifier.marquee()
-                        )
-                    },
-                    navigationIcon = {
-                        EnhancedIconButton(
-                            onClick = onBack
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(R.string.exit)
-                            )
-                        }
-                    },
-                    actions = {
-                        TopAppBarEmoji()
-                    }
-                )
-            } else {
-                EnhancedTopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(R.string.background_remover),
-                            modifier = Modifier.marquee()
-                        )
-                    },
-                    actions = {
-                        if (portrait) {
-                            EnhancedIconButton(
-                                onClick = {
-                                    scope.launch {
-                                        if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                            scaffoldState.bottomSheetState.partialExpand()
-                                        } else {
-                                            scaffoldState.bottomSheetState.expand()
-                                        }
-                                    }
-                                },
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Tune,
-                                    contentDescription = stringResource(R.string.properties)
-                                )
-                            }
-                        }
-                        var editSheetData by remember {
-                            mutableStateOf(listOf<Uri>())
-                        }
-                        ShareButton(
-                            enabled = component.bitmap != null,
-                            onShare = {
-                                component.shareBitmap(showConfetti)
-                            },
-                            onCopy = { manager ->
-                                component.cacheCurrentImage { uri ->
-                                    manager.setClip(uri.asClip(context))
-                                    showConfetti()
-                                }
-                            },
-                            onEdit = {
-                                component.cacheCurrentImage { uri ->
-                                    editSheetData = listOf(uri)
-                                }
-                            }
-                        )
-                        ProcessImagesPreferenceSheet(
-                            uris = editSheetData,
-                            visible = editSheetData.isNotEmpty(),
-                            onDismiss = {
-                                editSheetData = emptyList()
-                            },
-                            onNavigate = onNavigate
-                        )
-                        EnhancedIconButton(
-                            onClick = { component.clearDrawing() },
-                            enabled = component.paths.isNotEmpty()
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Delete,
-                                contentDescription = stringResource(R.string.delete)
-                            )
-                        }
-                    },
-                    navigationIcon = {
-                        EnhancedIconButton(
-                            onClick = onBack
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(R.string.exit)
-                            )
-                        }
-                    }
-                )
-            }
-        }
-    }
-
-    val controls = @Composable {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            if (!portrait) {
-                Row(
-                    Modifier
-                        .padding(top = 8.dp)
-                        .container(CircleShape)
-                ) {
-                    secondaryControls()
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            RecoverModeCard(
+        },
+        onGoBack = onBack,
+        isPortrait = isPortrait,
+        shouldDisableBackHandler = !component.haveChanges,
+        actions = {
+            secondaryControls()
+            RecoverModeButton(
                 selected = component.isRecoveryOn,
                 enabled = !panEnabled,
                 onClick = component::toggleEraser
             )
-            AutoEraseBackgroundCard(
-                onClick = {
-                    scope.launch {
-                        scaffoldState.bottomSheetState.partialExpand()
-                        component.autoEraseBackground(
-                            onSuccess = showConfetti,
-                            onFailure = essentials::showFailureToast
+        },
+        topAppBarPersistentActions = { scaffoldState ->
+            if (component.bitmap == null) TopAppBarEmoji()
+            else {
+                if (isPortrait) {
+                    EnhancedIconButton(
+                        onClick = {
+                            scope.launch {
+                                if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                    scaffoldState.bottomSheetState.partialExpand()
+                                } else {
+                                    scaffoldState.bottomSheetState.expand()
+                                }
+                            }
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Tune,
+                            contentDescription = stringResource(R.string.properties)
                         )
                     }
-                },
-                onReset = component::resetImage
-            )
-            OriginalImagePreviewAlphaSelector(
-                value = originalImagePreviewAlpha,
-                onValueChange = {
-                    originalImagePreviewAlpha = it
-                },
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
-            )
-            DrawPathModeSelector(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 8.dp
-                ),
-                value = drawPathMode,
-                onValueChange = component::updateDrawPathMode,
-                values = remember {
-                    listOf(
-                        DrawPathMode.Free,
-                        DrawPathMode.Line,
-                        DrawPathMode.Lasso,
-                        DrawPathMode.Rect(),
-                        DrawPathMode.Oval
+                }
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
+                ShareButton(
+                    enabled = component.bitmap != null,
+                    onShare = {
+                        component.shareBitmap(showConfetti)
+                    },
+                    onCopy = { manager ->
+                        component.cacheCurrentImage { uri ->
+                            manager.setClip(uri.asClip(context))
+                            showConfetti()
+                        }
+                    },
+                    onEdit = {
+                        component.cacheCurrentImage { uri ->
+                            editSheetData = listOf(uri)
+                        }
+                    }
+                )
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = {
+                        editSheetData = emptyList()
+                    },
+                    onNavigate = onNavigate
+                )
+                EnhancedIconButton(
+                    onClick = { component.clearDrawing() },
+                    enabled = component.paths.isNotEmpty()
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = stringResource(R.string.delete)
                     )
                 }
-            )
-            BoxAnimatedVisibility(drawPathMode.isStroke) {
-                LineWidthSelector(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    value = strokeWidth.value,
-                    onValueChange = { strokeWidth = it.pt }
-                )
             }
-            BrushSoftnessSelector(
-                modifier = Modifier
-                    .padding(top = 8.dp, end = 16.dp, start = 16.dp),
-                value = brushSoftness.value,
-                onValueChange = { brushSoftness = it.pt }
-            )
-            TrimImageToggle(
-                checked = component.trimImage,
-                onCheckedChange = { component.setTrimImage(it) },
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
-            )
-            HelperGridParamsSelector(
-                value = component.helperGridParams,
-                onValueChange = component::updateHelperGridParams,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
-            )
-            val settingsInteractor = LocalSimpleSettingsInteractor.current
-            PreferenceRowSwitch(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 8.dp
-                    ),
-                shape = RoundedCornerShape(24.dp),
-                title = stringResource(R.string.magnifier),
-                subtitle = stringResource(R.string.magnifier_sub),
-                checked = settingsState.magnifierEnabled,
-                onClick = {
-                    scope.launch {
-                        settingsInteractor.toggleMagnifierEnabled()
-                    }
-                },
-                startIcon = Icons.Outlined.ZoomIn
-            )
-            SaveExifWidget(
-                imageFormat = component.imageFormat,
-                checked = component.saveExif,
-                onCheckedChange = component::setSaveExif,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
-            )
-            ImageFormatSelector(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-                    .navigationBarsPadding(),
-                entries = ImageFormatGroup.alphaContainedEntries,
-                value = component.imageFormat,
-                onValueChange = {
-                    component.setImageFormat(it)
-                }
-            )
-        }
-    }
-
-    AnimatedContent(
-        transitionSpec = {
-            fadeIn() togetherWith fadeOut()
         },
-        targetState = component.bitmap == null
-    ) { noBitmap ->
-        if (noBitmap) {
-            Box(Modifier.fillMaxSize()) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                ) {
-                    topAppBar()
-                    Column(
-                        Modifier.verticalScroll(rememberScrollState())
-                    ) {
-                        ImageNotPickedWidget(
-                            onPickImage = pickImage,
-                            modifier = Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp)
+        mainContent = {
+            AnimatedContent(
+                targetState = remember(component.bitmap) {
+                    derivedStateOf {
+                        component.bitmap?.copy(
+                            Bitmap.Config.ARGB_8888,
+                            true
+                        )?.asImageBitmap() ?: ImageBitmap(
+                            configuration.screenWidthDp,
+                            configuration.screenHeightDp
                         )
-                        Spacer(modifier = Modifier.height(108.dp))
                     }
-                }
-                EnhancedFloatingActionButton(
-                    onClick = pickImage,
-                    onLongClick = {
-                        showOneTimeImagePickingDialog = true
-                    },
+                }.value,
+                transitionSpec = { fadeIn() togetherWith fadeOut() }
+            ) { imageBitmap ->
+                val direction = LocalLayoutDirection.current
+                val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
+                BitmapEraser(
+                    imageBitmapForShader = component.internalBitmap?.asImageBitmap(),
+                    imageBitmap = imageBitmap,
+                    paths = component.paths,
+                    strokeWidth = strokeWidth,
+                    brushSoftness = brushSoftness,
+                    onAddPath = component::addPath,
+                    isRecoveryOn = component.isRecoveryOn,
                     modifier = Modifier
-                        .align(settingsState.fabAlignment)
-                        .navigationBarsPadding()
-                        .padding(16.dp),
-                    content = {
-                        Spacer(Modifier.width(16.dp))
-                        Icon(
-                            imageVector = Icons.Rounded.AddPhotoAlternate,
-                            contentDescription = stringResource(R.string.pick_image_alt)
+                        .padding(
+                            start = WindowInsets
+                                .displayCutout
+                                .asPaddingValues()
+                                .calculateStartPadding(direction)
                         )
-                        Spacer(Modifier.width(16.dp))
-                        Text(stringResource(R.string.pick_image_alt))
-                        Spacer(Modifier.width(16.dp))
-                    }
+                        .padding(16.dp)
+                        .aspectRatio(
+                            ratio = aspectRatio,
+                            matchHeightConstraintsFirst = isPortrait
+                        )
+                        .fillMaxSize(),
+                    panEnabled = panEnabled,
+                    originalImagePreviewAlpha = originalImagePreviewAlpha,
+                    drawPathMode = drawPathMode,
+                    helperGridParams = component.helperGridParams
                 )
             }
-        } else {
-            if (portrait) {
-                BottomSheetScaffold(
-                    scaffoldState = scaffoldState,
-                    sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
-                        .calculateBottomPadding(),
-                    sheetDragHandle = null,
-                    sheetShape = RectangleShape,
-                    sheetContent = {
-                        Column(Modifier.fillMaxHeight(0.8f)) {
-                            BottomAppBar(
-                                modifier = Modifier.drawHorizontalStroke(true),
-                                actions = {
-                                    secondaryControls()
-                                    RecoverModeButton(
-                                        selected = component.isRecoveryOn,
-                                        enabled = !panEnabled,
-                                        onClick = component::toggleEraser
-                                    )
-                                },
-                                floatingActionButton = {
-                                    Row {
-                                        EnhancedFloatingActionButton(
-                                            onClick = pickImage,
-                                            onLongClick = {
-                                                showOneTimeImagePickingDialog = true
-                                            },
-                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.AddPhotoAlternate,
-                                                contentDescription = stringResource(R.string.pick_image_alt)
-                                            )
-                                        }
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        EnhancedFloatingActionButton(
-                                            onClick = {
-                                                saveBitmap(null)
-                                            },
-                                            onLongClick = {
-                                                showFolderSelectionDialog = true
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Save,
-                                                contentDescription = stringResource(R.string.save)
-                                            )
-                                        }
-                                    }
-                                }
-                            )
-                            Column(Modifier.verticalScroll(rememberScrollState())) {
-                                ProvideContainerDefaults(
-                                    color = EnhancedBottomSheetDefaults.contentContainerColor
-                                ) {
-                                    controls()
-                                }
-                            }
-                        }
-                    },
-                    content = {
-                        Column(
-                            Modifier.padding(it),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            topAppBar()
-                            image()
-                        }
-                    }
-                )
-            } else {
-                Column {
-                    topAppBar()
+        },
+        controls = { scaffoldState ->
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (!isPortrait) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .container(shape = CircleShape)
                     ) {
-                        Box(
-                            Modifier
-                                .container(
-                                    shape = RectangleShape,
-                                    resultPadding = 0.dp
-                                )
-                                .weight(1.2f)
-                                .clipToBounds(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            image()
-                        }
-                        LazyColumn(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            contentPadding = PaddingValues(
-                                bottom = WindowInsets
-                                    .navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding() + WindowInsets.ime
-                                    .asPaddingValues()
-                                    .calculateBottomPadding(),
-                            ),
-                            modifier = Modifier
-                                .weight(0.7f)
-                                .clipToBounds()
-                        ) {
-                            item {
-                                controls()
-                            }
-                        }
-                        val direction = LocalLayoutDirection.current
-                        Column(
-                            Modifier
-                                .container(RectangleShape)
-                                .padding(horizontal = 20.dp)
-                                .fillMaxHeight()
-                                .navigationBarsPadding()
-                                .padding(
-                                    end = WindowInsets.displayCutout
-                                        .asPaddingValues()
-                                        .calculateEndPadding(direction)
-                                ),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            EnhancedFloatingActionButton(
-                                onClick = pickImage,
-                                onLongClick = {
-                                    showOneTimeImagePickingDialog = true
-                                },
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.AddPhotoAlternate,
-                                    contentDescription = stringResource(R.string.pick_image_alt)
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(16.dp))
-                            EnhancedFloatingActionButton(
-                                onClick = {
-                                    saveBitmap(null)
-                                },
-                                onLongClick = {
-                                    showFolderSelectionDialog = true
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Save,
-                                    contentDescription = stringResource(R.string.save)
-                                )
-                            }
-                        }
+                        secondaryControls()
                     }
                 }
+                RecoverModeCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    selected = component.isRecoveryOn,
+                    enabled = !panEnabled,
+                    onClick = component::toggleEraser
+                )
+                AutoEraseBackgroundCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        scope.launch {
+                            scaffoldState.bottomSheetState.partialExpand()
+                            component.autoEraseBackground(
+                                onSuccess = showConfetti,
+                                onFailure = essentials::showFailureToast
+                            )
+                        }
+                    },
+                    onReset = component::resetImage
+                )
+                OriginalImagePreviewAlphaSelector(
+                    value = originalImagePreviewAlpha,
+                    onValueChange = {
+                        originalImagePreviewAlpha = it
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                DrawPathModeSelector(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = drawPathMode,
+                    onValueChange = component::updateDrawPathMode,
+                    values = remember {
+                        listOf(
+                            DrawPathMode.Free,
+                            DrawPathMode.Line,
+                            DrawPathMode.Lasso,
+                            DrawPathMode.Rect(),
+                            DrawPathMode.Oval
+                        )
+                    }
+                )
+                BoxAnimatedVisibility(drawPathMode.isStroke) {
+                    LineWidthSelector(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = strokeWidth.value,
+                        onValueChange = { strokeWidth = it.pt }
+                    )
+                }
+                BrushSoftnessSelector(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = brushSoftness.value,
+                    onValueChange = { brushSoftness = it.pt }
+                )
+                TrimImageToggle(
+                    checked = component.trimImage,
+                    onCheckedChange = { component.setTrimImage(it) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                HelperGridParamsSelector(
+                    value = component.helperGridParams,
+                    onValueChange = component::updateHelperGridParams,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                val settingsInteractor = LocalSimpleSettingsInteractor.current
+                PreferenceRowSwitch(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                    title = stringResource(R.string.magnifier),
+                    subtitle = stringResource(R.string.magnifier_sub),
+                    checked = settingsState.magnifierEnabled,
+                    onClick = {
+                        scope.launch {
+                            settingsInteractor.toggleMagnifierEnabled()
+                        }
+                    },
+                    startIcon = Icons.Outlined.ZoomIn
+                )
+                SaveExifWidget(
+                    imageFormat = component.imageFormat,
+                    checked = component.saveExif,
+                    onCheckedChange = component::setSaveExif,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                ImageFormatSelector(
+                    modifier = Modifier.navigationBarsPadding(),
+                    entries = ImageFormatGroup.alphaContainedEntries,
+                    value = component.imageFormat,
+                    onValueChange = {
+                        component.setImageFormat(it)
+                    }
+                )
             }
-        }
-    }
-
-    OneTimeSaveLocationSelectionDialog(
-        visible = showFolderSelectionDialog,
-        onDismiss = { showFolderSelectionDialog = false },
-        onSaveRequest = saveBitmap,
-        formatForFilenameSelection = component.getFormatForFilenameSelection()
-    )
-
-    OneTimeImagePickingDialog(
-        onDismiss = { showOneTimeImagePickingDialog = false },
-        picker = Picker.Single,
-        imagePicker = imagePicker,
-        visible = showOneTimeImagePickingDialog
+        },
+        buttons = {
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+            BottomButtonsBlock(
+                targetState = (component.bitmap == null) to isPortrait,
+                onSecondaryButtonClick = pickImage,
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
+                },
+                onPrimaryButtonClick = {
+                    saveBitmap(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
+                actions = {
+                    if (isPortrait) it()
+                }
+            )
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = saveBitmap,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Single,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
+        },
+        noDataControls = {
+            ImageNotPickedWidget(
+                onPickImage = pickImage
+            )
+        },
+        canShowScreenData = component.bitmap != null,
+        showActionsInTopAppBar = false,
+        mainContentWeight = 0.65f
     )
 
     LoadingDialog(
@@ -768,11 +506,6 @@ fun EraseBackgroundContent(
         onExit = onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
-    )
-
-    BackHandler(
-        enabled = component.haveChanges,
-        onBack = onBack
     )
 
     DrawLockScreenOrientation()

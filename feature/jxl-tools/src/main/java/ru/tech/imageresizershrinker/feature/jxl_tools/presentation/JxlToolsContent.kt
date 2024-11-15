@@ -518,6 +518,7 @@ fun JxlToolsContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
+        insetsForNoData = WindowInsets(0),
         noDataControls = {
             val types = remember {
                 Screen.JxlTools.Type.entries

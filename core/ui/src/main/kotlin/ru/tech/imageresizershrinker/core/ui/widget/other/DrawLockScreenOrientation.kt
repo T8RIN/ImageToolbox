@@ -41,18 +41,20 @@ fun DrawLockScreenOrientation() {
 }
 
 @Composable
-fun LockScreenOrientation() {
+fun LockScreenOrientation(
+    mode: Int? = null
+) {
     val activity = LocalComponentActivity.current
     DisposableEffect(activity) {
         val originalOrientation = activity.requestedOrientation
-        activity.lockOrientation()
+        activity.lockOrientation(mode)
         onDispose {
             activity.requestedOrientation = originalOrientation
         }
     }
 }
 
-private fun Activity.lockOrientation() {
+private fun Activity.lockOrientation(mode: Int? = null) {
     val display = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
         display
     } else {
@@ -80,5 +82,5 @@ private fun Activity.lockOrientation() {
 
         else -> 0
     }
-    requestedOrientation = orientation
+    requestedOrientation = mode ?: orientation
 }

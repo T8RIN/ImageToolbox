@@ -297,6 +297,7 @@ fun GeneratePaletteContent(
             if (useMaterialYouPalette == null) 12.dp
             else 20.dp
         ).value,
+        insetsForNoData = WindowInsets(0),
         noDataControls = {
             preferences()
         },
