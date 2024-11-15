@@ -20,69 +20,34 @@ package ru.tech.imageresizershrinker.feature.crop.presentation
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.smarttoolfactory.cropper.model.OutlineType
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -91,16 +56,15 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -108,21 +72,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
@@ -138,7 +97,6 @@ fun CropContent(
     onNavigate: (Screen) -> Unit,
     component: CropComponent
 ) {
-    val settingsState = LocalSettingsState.current
     val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
@@ -184,35 +142,123 @@ fun CropContent(
         )
     }
 
-
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val scrollState = rememberScrollState()
-
     val isPortrait by isPortraitOrientationAsState()
-
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
-            confirmValueChange = {
-                when (it) {
-                    SheetValue.Hidden -> false
-                    else -> true
-                }
-            }
-        )
-    )
 
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
 
-    val focus = LocalFocusManager.current
+    var crop by remember { mutableStateOf(false) }
 
-    LaunchedEffect(scaffoldState.bottomSheetState.currentValue) {
-        if (scaffoldState.bottomSheetState.currentValue != SheetValue.Expanded) {
-            focus.clearFocus()
-        }
-    }
-
-    val controls: @Composable () -> Unit = {
-        Column(Modifier.verticalScroll(rememberScrollState())) {
+    AdaptiveBottomScaffoldLayoutScreen(
+        title = {
+            TopAppBarTitle(
+                title = stringResource(R.string.crop),
+                input = component.bitmap,
+                isLoading = component.isImageLoading,
+                size = null,
+                originalSize = null
+            )
+        },
+        onGoBack = onBack,
+        isPortrait = isPortrait,
+        shouldDisableBackHandler = component.bitmap == null,
+        actions = {
+            var job by remember { mutableStateOf<Job?>(null) }
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                modifier = Modifier.padding(horizontal = 16.dp),
+                onClick = {
+                    job?.cancel()
+                    job = scope.launch {
+                        delay(500)
+                        crop = true
+                    }
+                }
+            ) {
+                Text(stringResource(R.string.crop))
+            }
+        },
+        topAppBarPersistentActions = { scaffoldState ->
+            if (component.bitmap == null) TopAppBarEmoji()
+            else {
+                if (isPortrait) {
+                    EnhancedIconButton(
+                        onClick = {
+                            scope.launch {
+                                if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                    scaffoldState.bottomSheetState.partialExpand()
+                                } else {
+                                    scaffoldState.bottomSheetState.expand()
+                                }
+                            }
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Tune,
+                            contentDescription = stringResource(R.string.properties)
+                        )
+                    }
+                }
+                EnhancedIconButton(
+                    onClick = { showResetDialog = true },
+                    enabled = component.bitmap != null && component.isBitmapChanged
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.ImageReset,
+                        contentDescription = stringResource(R.string.reset_image)
+                    )
+                }
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
+                ShareButton(
+                    enabled = component.bitmap != null,
+                    onShare = {
+                        component.shareBitmap(showConfetti)
+                    },
+                    onEdit = {
+                        component.cacheCurrentImage { uri ->
+                            editSheetData = listOf(uri)
+                        }
+                    },
+                    onCopy = { manager ->
+                        component.cacheCurrentImage { uri ->
+                            manager.setClip(uri.asClip(context))
+                            showConfetti()
+                        }
+                    }
+                )
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = {
+                        editSheetData = emptyList()
+                    },
+                    onNavigate = onNavigate
+                )
+            }
+        },
+        mainContent = {
+            component.bitmap?.let { bitmap ->
+                Cropper(
+                    bitmap = bitmap,
+                    crop = crop,
+                    onImageCropStarted = component::imageCropStarted,
+                    onImageCropFinished = {
+                        component.imageCropFinished()
+                        if (it != null) {
+                            component.updateBitmap(it)
+                        }
+                        crop = false
+                    },
+                    rotationState = rotationState,
+                    cropProperties = component.cropProperties,
+                    cropType = component.cropType,
+                    addVerticalInsets = !isPortrait,
+                    coercePointsToImageArea = coercePointsToImageArea
+                )
+            }
+        },
+        controls = {
             Spacer(modifier = Modifier.height(16.dp))
             FreeCornersCropToggle(
                 modifier = Modifier
@@ -274,398 +320,67 @@ fun CropContent(
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-        }
-    }
-
-    var showOneTimeImagePickingDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var showFolderSelectionDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    var crop by remember { mutableStateOf(false) }
-    val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
-        Box(
-            Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (component.bitmap == null) {
-                    EnhancedTopAppBar(
-                        type = EnhancedTopAppBarType.Large,
-                        scrollBehavior = scrollBehavior,
-                        title = {
-                            Text(
-                                text = stringResource(R.string.crop),
-                                modifier = Modifier.marquee()
-                            )
-                        },
-                        navigationIcon = {
-                            EnhancedIconButton(
-                                onClick = onBack
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                    contentDescription = stringResource(R.string.exit)
-                                )
-                            }
-                        },
-                        actions = {
-                            TopAppBarEmoji()
-                        }
-                    )
-                } else {
-                    EnhancedTopAppBar(
-                        title = {
-                            Text(
-                                text = stringResource(R.string.crop),
-                                modifier = Modifier.marquee()
-                            )
-                        },
-                        navigationIcon = {
-                            EnhancedIconButton(
-                                onClick = onBack
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                    contentDescription = stringResource(R.string.exit)
-                                )
-                            }
-                        },
-                        actions = {
-                            if (isPortrait) {
-                                EnhancedIconButton(
-                                    onClick = {
-                                        scope.launch {
-                                            if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                                scaffoldState.bottomSheetState.partialExpand()
-                                            } else {
-                                                scaffoldState.bottomSheetState.expand()
-                                            }
-                                        }
-                                    },
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Tune,
-                                        contentDescription = stringResource(R.string.properties)
-                                    )
-                                }
-                            }
-                            EnhancedIconButton(
-                                onClick = { showResetDialog = true },
-                                enabled = component.bitmap != null && component.isBitmapChanged
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.ImageReset,
-                                    contentDescription = stringResource(R.string.reset_image)
-                                )
-                            }
-                            var editSheetData by remember {
-                                mutableStateOf(listOf<Uri>())
-                            }
-                            ShareButton(
-                                enabled = component.bitmap != null,
-                                onShare = {
-                                    component.shareBitmap(showConfetti)
-                                },
-                                onEdit = {
-                                    component.cacheCurrentImage { uri ->
-                                        editSheetData = listOf(uri)
-                                    }
-                                },
-                                onCopy = { manager ->
-                                    component.cacheCurrentImage { uri ->
-                                        manager.setClip(uri.asClip(context))
-                                        showConfetti()
-                                    }
-                                }
-                            )
-                            ProcessImagesPreferenceSheet(
-                                uris = editSheetData,
-                                visible = editSheetData.isNotEmpty(),
-                                onDismiss = {
-                                    editSheetData = emptyList()
-                                },
-                                onNavigate = onNavigate
-                            )
-                        }
-                    )
-                }
-
-                component.bitmap?.let { bitmap ->
-                    if (isPortrait) {
-                        Cropper(
-                            bitmap = bitmap,
-                            crop = crop,
-                            onImageCropStarted = component::imageCropStarted,
-                            onImageCropFinished = {
-                                component.imageCropFinished()
-                                if (it != null) {
-                                    component.updateBitmap(it)
-                                }
-                                crop = false
-                            },
-                            rotationState = rotationState,
-                            cropProperties = component.cropProperties,
-                            cropType = component.cropType,
-                            addVerticalInsets = false,
-                            coercePointsToImageArea = coercePointsToImageArea
-                        )
-                    } else {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
-                                Modifier
-                                    .zIndex(-100f)
-                                    .container(shape = RectangleShape, resultPadding = 0.dp)
-                                    .weight(0.8f)
-                            ) {
-                                Cropper(
-                                    bitmap = bitmap,
-                                    crop = crop,
-                                    onImageCropStarted = component::imageCropStarted,
-                                    onImageCropFinished = {
-                                        component.imageCropFinished()
-                                        if (it != null) {
-                                            component.updateBitmap(it)
-                                        }
-                                        crop = false
-                                    },
-                                    rotationState = rotationState,
-                                    cropType = component.cropType,
-                                    cropProperties = component.cropProperties,
-                                    addVerticalInsets = true,
-                                    coercePointsToImageArea = coercePointsToImageArea
-                                )
-                            }
-
-                            Column(
-                                Modifier
-                                    .weight(0.5f)
-                                    .pointerInput(Unit) {
-                                        detectTapGestures { focus.clearFocus() }
-                                    }
-                            ) {
-                                controls()
-                            }
-                            val direction = LocalLayoutDirection.current
-                            Column(
-                                modifier = Modifier
-                                    .container(
-                                        shape = RectangleShape
-                                    )
-                                    .padding(horizontal = 20.dp)
-                                    .fillMaxHeight()
-                                    .navigationBarsPadding()
-                                    .padding(
-                                        end = WindowInsets.displayCutout
-                                            .asPaddingValues()
-                                            .calculateEndPadding(direction)
-                                    ),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                EnhancedFloatingActionButton(
-                                    onClick = pickImage,
-                                    onLongClick = {
-                                        showOneTimeImagePickingDialog = true
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    content = {
-                                        Icon(
-                                            imageVector = Icons.Rounded.AddPhotoAlternate,
-                                            contentDescription = stringResource(R.string.pick_image_alt)
-                                        )
-                                    }
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                var job by remember { mutableStateOf<Job?>(null) }
-                                EnhancedFloatingActionButton(
-                                    onClick = {
-                                        job?.cancel()
-                                        job = scope.launch {
-                                            delay(500)
-                                            crop = true
-                                        }
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.CropSmall,
-                                        contentDescription = stringResource(R.string.crop)
-                                    )
-                                }
-                                AnimatedVisibility(component.isBitmapChanged) {
-                                    Column {
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        EnhancedFloatingActionButton(
-                                            onClick = {
-                                                saveBitmap(null)
-                                            },
-                                            onLongClick = {
-                                                showFolderSelectionDialog = true
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Save,
-                                                contentDescription = stringResource(R.string.save)
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } ?: Column(Modifier.verticalScroll(scrollState)) {
-                    ImageNotPickedWidget(
-                        onPickImage = pickImage,
-                        modifier = Modifier
-                            .padding(bottom = 88.dp, top = 20.dp, start = 20.dp, end = 20.dp)
-                            .navigationBarsPadding()
-                    )
-                }
+        },
+        buttons = {
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
             }
-
-            if (component.bitmap == null) {
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .navigationBarsPadding()
-                        .align(settingsState.fabAlignment)
-                ) {
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+            var job by remember { mutableStateOf<Job?>(null) }
+            BottomButtonsBlock(
+                targetState = (component.bitmap == null) to isPortrait,
+                onSecondaryButtonClick = pickImage,
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
+                },
+                onPrimaryButtonClick = {
+                    saveBitmap(null)
+                },
+                isPrimaryButtonVisible = component.isBitmapChanged,
+                columnarFab = {
                     EnhancedFloatingActionButton(
-                        onClick = pickImage,
-                        onLongClick = {
-                            showOneTimeImagePickingDialog = true
-                        },
-                        content = {
-                            Spacer(Modifier.width(16.dp))
-                            Icon(
-                                imageVector = Icons.Rounded.AddPhotoAlternate,
-                                contentDescription = stringResource(R.string.pick_image_alt)
-                            )
-                            Spacer(Modifier.width(16.dp))
-                            Text(stringResource(R.string.pick_image_alt))
-                            Spacer(Modifier.width(16.dp))
-                        }
-                    )
-                }
-            }
-        }
-    }
-
-    if (isPortrait && component.bitmap != null) {
-        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-        BottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
-                .calculateBottomPadding(),
-            sheetDragHandle = null,
-            sheetShape = RectangleShape,
-            sheetContent = {
-                Column(
-                    Modifier
-                        .heightIn(max = screenHeight * 0.7f)
-                        .pointerInput(Unit) {
-                            detectTapGestures { focus.clearFocus() }
-                        }
-                ) {
-                    BottomAppBar(
-                        modifier = Modifier.drawHorizontalStroke(true),
-                        actions = {
-                            var job by remember { mutableStateOf<Job?>(null) }
-                            EnhancedButton(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                modifier = Modifier.padding(horizontal = 16.dp),
-                                onClick = {
-                                    job?.cancel()
-                                    job = scope.launch {
-                                        delay(500)
-                                        crop = true
-                                    }
-                                }
-                            ) {
-                                Text(stringResource(R.string.crop))
+                        onClick = {
+                            job?.cancel()
+                            job = scope.launch {
+                                delay(500)
+                                crop = true
                             }
                         },
-                        floatingActionButton = {
-                            Row {
-                                EnhancedFloatingActionButton(
-                                    onClick = pickImage,
-                                    onLongClick = {
-                                        showOneTimeImagePickingDialog = true
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                                ) {
-                                    val expanded =
-                                        scrollState.isScrollingUp() && component.bitmap == null
-                                    val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                                    Row(
-                                        modifier = Modifier.padding(horizontal = horizontalPadding),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.AddPhotoAlternate,
-                                            contentDescription = stringResource(R.string.pick_image_alt)
-                                        )
-                                        AnimatedVisibility(visible = expanded) {
-                                            Row {
-                                                Spacer(Modifier.width(8.dp))
-                                                Text(stringResource(R.string.pick_image_alt))
-                                            }
-                                        }
-                                    }
-                                }
-                                AnimatedVisibility(component.isBitmapChanged) {
-                                    Row {
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        EnhancedFloatingActionButton(
-                                            onClick = {
-                                                saveBitmap(null)
-                                            },
-                                            onLongClick = {
-                                                showFolderSelectionDialog = true
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Save,
-                                                contentDescription = stringResource(R.string.save)
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    )
-                    ProvideContainerDefaults(
-                        color = EnhancedBottomSheetDefaults.contentContainerColor
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ) {
-                        controls()
+                        Icon(
+                            imageVector = Icons.Rounded.CropSmall,
+                            contentDescription = stringResource(R.string.crop)
+                        )
                     }
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
+                actions = {
+                    if (isPortrait) it()
                 }
-            },
-            content = content
-        )
-    } else {
-        content(PaddingValues())
-    }
-
-    OneTimeSaveLocationSelectionDialog(
-        visible = showFolderSelectionDialog,
-        onDismiss = { showFolderSelectionDialog = false },
-        onSaveRequest = saveBitmap,
-        formatForFilenameSelection = component.getFormatForFilenameSelection()
-    )
-
-    OneTimeImagePickingDialog(
-        onDismiss = { showOneTimeImagePickingDialog = false },
-        picker = Picker.Single,
-        imagePicker = imagePicker,
-        visible = showOneTimeImagePickingDialog
+            )
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = saveBitmap,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Single,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
+        },
+        noDataControls = {
+            ImageNotPickedWidget(onPickImage = pickImage)
+        },
+        canShowScreenData = component.bitmap != null,
+        showActionsInTopAppBar = false
     )
 
     ResetDialog(
