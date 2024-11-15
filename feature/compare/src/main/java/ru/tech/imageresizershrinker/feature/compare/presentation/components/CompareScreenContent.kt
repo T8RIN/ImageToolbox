@@ -222,7 +222,6 @@ fun CompareScreenContent(
                                     .asPaddingValues()
                                     .calculateStartPadding(direction)
                             )
-                            .padding(20.dp)
                     ) {
                         Box(
                             modifier = Modifier

@@ -88,26 +88,34 @@ internal fun CompareScreenContentImpl(
                                 afterImage = after,
                                 beforeLabel = {
                                     b?.let { (uri) ->
-                                        CompareLabel(
-                                            uri = uri,
-                                            alignment = Alignment.TopStart,
-                                            enabled = isLabelsEnabled,
-                                            shape = RoundedCornerShape(
-                                                bottomEnd = 16.dp
+                                        Box(
+                                            modifier = Modifier.matchParentSize()
+                                        ) {
+                                            CompareLabel(
+                                                uri = uri,
+                                                alignment = Alignment.TopStart,
+                                                enabled = isLabelsEnabled,
+                                                shape = RoundedCornerShape(
+                                                    bottomEnd = 16.dp
+                                                )
                                             )
-                                        )
+                                        }
                                     }
                                 },
                                 afterLabel = {
                                     a?.let { (uri) ->
-                                        CompareLabel(
-                                            uri = uri,
-                                            alignment = Alignment.BottomEnd,
-                                            enabled = isLabelsEnabled,
-                                            shape = RoundedCornerShape(
-                                                topStart = 16.dp
+                                        Box(
+                                            modifier = Modifier.matchParentSize()
+                                        ) {
+                                            CompareLabel(
+                                                uri = uri,
+                                                alignment = Alignment.BottomEnd,
+                                                enabled = isLabelsEnabled,
+                                                shape = RoundedCornerShape(
+                                                    topStart = 16.dp
+                                                )
                                             )
-                                        )
+                                        }
                                     }
                                 }
                             )
@@ -247,15 +255,26 @@ internal fun CompareScreenContentImpl(
                             contentScale = ContentScale.Inside
                         )
                     }
-                    CompareLabel(
-                        uri = if (showSecondImage) bitmapPair.second?.first
-                        else bitmapPair.first?.first,
-                        alignment = Alignment.TopStart,
-                        enabled = isLabelsEnabled,
-                        shape = RoundedCornerShape(
-                            bottomEnd = 16.dp
+                    Box(
+                        modifier = Modifier.matchParentSize()
+                    ) {
+                        CompareLabel(
+                            uri = if (showSecondImage) bitmapPair.second?.first
+                            else bitmapPair.first?.first,
+                            alignment = if (showSecondImage) Alignment.BottomEnd
+                            else Alignment.TopStart,
+                            enabled = isLabelsEnabled,
+                            shape = if (showSecondImage) {
+                                RoundedCornerShape(
+                                    topStart = 16.dp
+                                )
+                            } else {
+                                RoundedCornerShape(
+                                    bottomEnd = 16.dp
+                                )
+                            }
                         )
-                    )
+                    }
                 }
             }
 
@@ -280,23 +299,31 @@ internal fun CompareScreenContentImpl(
                             modifier = Modifier.alpha(compareProgress / 100f)
                         )
                     }
-                    CompareLabel(
-                        uri = bitmapPair.first?.first,
-                        alignment = Alignment.TopStart,
-                        enabled = isLabelsEnabled,
-                        shape = RoundedCornerShape(
-                            bottomEnd = 16.dp
+                    Box(
+                        modifier = Modifier.matchParentSize()
+                    ) {
+                        CompareLabel(
+                            uri = bitmapPair.first?.first,
+                            alignment = Alignment.TopStart,
+                            enabled = isLabelsEnabled,
+                            shape = RoundedCornerShape(
+                                bottomEnd = 16.dp
+                            )
                         )
-                    )
-                    CompareLabel(
-                        uri = bitmapPair.second?.first,
-                        modifier = Modifier.alpha(compareProgress / 100f),
-                        alignment = Alignment.BottomEnd,
-                        enabled = isLabelsEnabled,
-                        shape = RoundedCornerShape(
-                            topStart = 16.dp
+                    }
+                    Box(
+                        modifier = Modifier.matchParentSize()
+                    ) {
+                        CompareLabel(
+                            uri = bitmapPair.second?.first,
+                            modifier = Modifier.alpha(compareProgress / 100f),
+                            alignment = Alignment.BottomEnd,
+                            enabled = isLabelsEnabled,
+                            shape = RoundedCornerShape(
+                                topStart = 16.dp
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
