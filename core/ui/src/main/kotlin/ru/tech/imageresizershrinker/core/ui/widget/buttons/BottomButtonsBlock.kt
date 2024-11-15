@@ -19,6 +19,11 @@ package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -74,11 +79,13 @@ fun BottomButtonsBlock(
     onPrimaryButtonClick: () -> Unit,
     onPrimaryButtonLongClick: (() -> Unit)? = null,
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
+    primaryButtonText: String = "",
     isPrimaryButtonVisible: Boolean = true,
     isSecondaryButtonVisible: Boolean = true,
     showNullDataButtonAsContainer: Boolean = false,
     columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit
+    actions: @Composable RowScope.() -> Unit,
+    isPrimaryButtonEnabled: Boolean = true
 ) {
     AnimatedContent(
         targetState = targetState
@@ -144,13 +151,41 @@ fun BottomButtonsBlock(
                             Row {
                                 Spacer(Modifier.width(8.dp))
                                 EnhancedFloatingActionButton(
-                                    onClick = onPrimaryButtonClick,
-                                    onLongClick = onPrimaryButtonLongClick
+                                    onClick = if (isPrimaryButtonEnabled) onPrimaryButtonClick
+                                    else null,
+                                    onLongClick = if (isPrimaryButtonEnabled) onPrimaryButtonLongClick
+                                    else null,
+                                    containerColor = takeColorFromScheme {
+                                        if (isPrimaryButtonEnabled) primaryContainer
+                                        else surfaceContainerHighest
+                                    },
+                                    contentColor = takeColorFromScheme {
+                                        if (isPrimaryButtonEnabled) onPrimaryContainer
+                                        else outline
+                                    }
                                 ) {
-                                    Icon(
-                                        imageVector = primaryButtonIcon,
-                                        contentDescription = null
-                                    )
+                                    AnimatedContent(
+                                        targetState = primaryButtonIcon to primaryButtonText,
+                                        transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                                    ) { (icon, text) ->
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Center
+                                        ) {
+                                            if (text.isNotEmpty()) {
+                                                Spacer(Modifier.width(16.dp))
+                                            }
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null
+                                            )
+                                            if (text.isNotEmpty()) {
+                                                Spacer(Modifier.width(16.dp))
+                                                Text(text)
+                                                Spacer(Modifier.width(16.dp))
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -196,16 +231,42 @@ fun BottomButtonsBlock(
                     it()
                 }
                 AnimatedVisibility(visible = isPrimaryButtonVisible) {
-                    Column {
-                        Spacer(Modifier.height(8.dp))
-                        EnhancedFloatingActionButton(
-                            onClick = onPrimaryButtonClick,
-                            onLongClick = onPrimaryButtonLongClick
-                        ) {
-                            Icon(
-                                imageVector = primaryButtonIcon,
-                                contentDescription = null
-                            )
+                    EnhancedFloatingActionButton(
+                        onClick = if (isPrimaryButtonEnabled) onPrimaryButtonClick
+                        else null,
+                        onLongClick = if (isPrimaryButtonEnabled) onPrimaryButtonLongClick
+                        else null,
+                        containerColor = takeColorFromScheme {
+                            if (isPrimaryButtonEnabled) primaryContainer
+                            else surfaceContainerHighest
+                        },
+                        contentColor = takeColorFromScheme {
+                            if (isPrimaryButtonEnabled) onPrimaryContainer
+                            else outline
+                        },
+                        modifier = Modifier.padding(top = 8.dp)
+                    ) {
+                        AnimatedContent(
+                            targetState = primaryButtonIcon to primaryButtonText,
+                            transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                        ) { (icon, text) ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                if (text.isNotEmpty()) {
+                                    Spacer(Modifier.width(16.dp))
+                                }
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null
+                                )
+                                if (text.isNotEmpty()) {
+                                    Spacer(Modifier.width(16.dp))
+                                    Text(text)
+                                    Spacer(Modifier.width(16.dp))
+                                }
+                            }
                         }
                     }
                 }

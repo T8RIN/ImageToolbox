@@ -56,7 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.containerFabBorder
 
 @Composable
 fun EnhancedFloatingActionButton(
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     onLongClick: (() -> Unit)? = null,
     type: EnhancedFloatingActionButtonType = EnhancedFloatingActionButtonType.Primary,
@@ -92,7 +92,7 @@ fun EnhancedFloatingActionButton(
                         }
 
                         is PressInteraction.Release -> {
-                            if (!isLongClick) {
+                            if (!isLongClick && onClick != null) {
                                 onClick()
                                 focus.clearFocus()
                                 haptics.performHapticFeedback(
@@ -111,7 +111,7 @@ fun EnhancedFloatingActionButton(
 
         FloatingActionButton(
             onClick = {
-                if (onLongClick == null) {
+                if (onLongClick == null && onClick != null) {
                     onClick()
                     focus.clearFocus()
                     haptics.performHapticFeedback(
