@@ -340,7 +340,7 @@ class FilterComponent @AssistedInject internal constructor(
         updatePreview()
     }
 
-    fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
+    fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
     fun performSharing(onComplete: () -> Unit) {
         savingJob = componentScope.launch {
@@ -409,8 +409,9 @@ class FilterComponent @AssistedInject internal constructor(
     }
 
     fun setQuality(quality: Quality) {
-        _imageInfo.value = _imageInfo.value.copy(quality = quality)
-        updatePreview()
+        _imageInfo.update(onValueChanged = ::updatePreview) {
+            it.copy(quality = quality)
+        }
     }
 
     private fun updatePreview() {

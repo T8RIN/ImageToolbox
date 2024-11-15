@@ -17,11 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderColors
@@ -95,55 +90,48 @@ fun EnhancedSlider(
         }
     }
 
-    AnimatedContent(
-        targetState = settingsState.sliderType,
-        transitionSpec = {
-            fadeIn() togetherWith fadeOut() using SizeTransform(false)
+    when (settingsState.sliderType) {
+        SliderType.Fancy -> {
+            FancySlider(
+                value = value,
+                enabled = enabled,
+                colors = realColors,
+                interactionSource = interactionSource,
+                thumbShape = MaterialStarShape,
+                modifier = modifier,
+                onValueChange = onValueChange,
+                onValueChangeFinished = onValueChangeFinished,
+                valueRange = valueRange,
+                steps = steps
+            )
         }
-    ) { animatedSliderType ->
-        when (animatedSliderType) {
-            SliderType.Fancy -> {
-                FancySlider(
-                    value = value,
-                    enabled = enabled,
-                    colors = realColors,
-                    interactionSource = interactionSource,
-                    thumbShape = MaterialStarShape,
-                    modifier = modifier,
-                    onValueChange = onValueChange,
-                    onValueChangeFinished = onValueChangeFinished,
-                    valueRange = valueRange,
-                    steps = steps
-                )
-            }
 
-            SliderType.MaterialYou -> {
-                M3Slider(
-                    value = value,
-                    enabled = enabled,
-                    colors = realColors,
-                    interactionSource = interactionSource,
-                    modifier = modifier,
-                    onValueChange = onValueChange,
-                    onValueChangeFinished = onValueChangeFinished,
-                    valueRange = valueRange,
-                    steps = steps
-                )
-            }
+        SliderType.MaterialYou -> {
+            M3Slider(
+                value = value,
+                enabled = enabled,
+                colors = realColors,
+                interactionSource = interactionSource,
+                modifier = modifier,
+                onValueChange = onValueChange,
+                onValueChangeFinished = onValueChangeFinished,
+                valueRange = valueRange,
+                steps = steps
+            )
+        }
 
-            SliderType.Material -> {
-                M2Slider(
-                    value = value,
-                    enabled = enabled,
-                    colors = realColors,
-                    interactionSource = interactionSource,
-                    modifier = modifier,
-                    onValueChange = onValueChange,
-                    onValueChangeFinished = onValueChangeFinished,
-                    valueRange = valueRange,
-                    steps = steps
-                )
-            }
+        SliderType.Material -> {
+            M2Slider(
+                value = value,
+                enabled = enabled,
+                colors = realColors,
+                interactionSource = interactionSource,
+                modifier = modifier,
+                onValueChange = onValueChange,
+                onValueChangeFinished = onValueChangeFinished,
+                valueRange = valueRange,
+                steps = steps
+            )
         }
     }
 }
