@@ -103,7 +103,7 @@ internal class AndroidMediaRetriever @Inject constructor(
     ): Flow<Result<List<Media>>> = context.retrieveMedia {
         val query = Query.MediaQuery().copy(
             bundle = Bundle().apply {
-                when (allowedMedia) {
+                val mimeType = when (allowedMedia) {
                     is AllowedMedia.Photos -> "image%"
                     AllowedMedia.Videos -> "video%"
                     AllowedMedia.Both -> "%/%"
@@ -111,6 +111,10 @@ internal class AndroidMediaRetriever @Inject constructor(
                 putString(
                     ContentResolver.QUERY_ARG_SQL_SELECTION,
                     MediaStore.MediaColumns.BUCKET_ID + "= ? and (" + MediaStore.MediaColumns.MIME_TYPE + " like ? OR ${MediaStore.MediaColumns.DATA} LIKE ?)"
+                )
+                putStringArray(
+                    ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
+                    arrayOf(albumId.toString(), mimeType, "%.jxl", "%.qoi")
                 )
             }
         )
