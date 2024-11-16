@@ -110,7 +110,7 @@ internal class AndroidMediaRetriever @Inject constructor(
                 }
                 putString(
                     ContentResolver.QUERY_ARG_SQL_SELECTION,
-                    MediaStore.MediaColumns.BUCKET_ID + "= ? and (" + MediaStore.MediaColumns.MIME_TYPE + " like ? OR ${MediaStore.MediaColumns.DATA} LIKE ?)"
+                    MediaStore.MediaColumns.BUCKET_ID + "= ? and (" + MediaStore.MediaColumns.MIME_TYPE + " like ? OR ${MediaStore.MediaColumns.DATA} LIKE ? OR ${MediaStore.MediaColumns.DATA} LIKE ?)"
                 )
                 putStringArray(
                     ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,

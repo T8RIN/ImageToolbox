@@ -141,8 +141,8 @@ class MediaPickerActivity : M3Activity() {
         finish()
     }
 
-    private val String?.pickImage: Boolean get() = this?.startsWith("image") ?: false
-    private val String?.pickVideo: Boolean get() = this?.startsWith("video") ?: false
+    private val String?.pickImage: Boolean get() = this?.startsWith("image") == true
+    private val String?.pickVideo: Boolean get() = this?.startsWith("video") == true
     private val String?.allowedMedia: AllowedMedia
         get() = if (pickImage) AllowedMedia.Photos(this?.takeLastWhile { it != '/' })
         else if (pickVideo) AllowedMedia.Videos

@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import java.util.Locale
 
@@ -277,8 +278,9 @@ internal fun List<Uri>.screenList(
 private fun Context.getExtension(
     uri: String
 ): String? {
-    if (uri.endsWith(".qoi")) return "qoi"
-    if (uri.endsWith(".jxl")) return "jxl"
+    val filename = getFilename(uri.toUri()) ?: ""
+    if (filename.endsWith(".qoi")) return "qoi"
+    if (filename.endsWith(".jxl")) return "jxl"
     return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
         MimeTypeMap.getSingleton()
             .getExtensionFromMimeType(

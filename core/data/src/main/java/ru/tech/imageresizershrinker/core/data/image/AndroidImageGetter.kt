@@ -36,6 +36,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -249,7 +250,9 @@ internal class AndroidImageGetter @Inject constructor(
     }
 
     override fun getExtension(uri: String): String? {
-        if (uri.endsWith(".jxl")) return "jxl"
+        val filename = uri.toUri().getFilename(context) ?: ""
+        if (filename.endsWith(".qoi")) return "qoi"
+        if (filename.endsWith(".jxl")) return "jxl"
         return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
             MimeTypeMap.getSingleton()
                 .getExtensionFromMimeType(

@@ -143,20 +143,19 @@ class MediaPickerComponent @AssistedInject internal constructor(
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
-                    val data = result.getOrNull()?.filter {
-                        if (allowedMedia is AllowedMedia.Photos) {
-                            val ext = allowedMedia.ext
-                            if (ext != null && ext != "*") {
-                                it.uri.endsWith(ext)
-                            } else true
-                        } else true
-                    } ?: emptyList()
+                    val data =
+                        if (allowedMedia is AllowedMedia.Photos && allowedMedia.ext != null && allowedMedia.ext != "*") {
+                            result.getOrNull()?.filter { it.uri.endsWith(allowedMedia.ext) }
+                        } else {
+                            result.getOrNull()
+                        }?.distinctBy { it.id } ?: emptyList()
+
                     val error = if (result.isFailure) result.exceptionOrNull().makeLog()?.message
                         ?: "An error occurred" else ""
                     if (data.isEmpty()) {
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))
                     }
-                    _mediaState.collectMedia(data.distinctBy { it.id }, error, albumId)
+                    _mediaState.collectMedia(data, error, albumId)
                     _filteredMediaState.emit(mediaState.value)
                 }
         }
