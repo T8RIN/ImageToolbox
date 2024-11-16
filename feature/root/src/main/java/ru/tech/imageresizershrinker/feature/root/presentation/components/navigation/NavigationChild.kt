@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic.ZipComp
 import ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic.ImageSplitterComponent
 import ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 
-sealed class NavigationChild {
+internal sealed class NavigationChild {
     class ApngTools(val component: ApngToolsComponent) : NavigationChild()
     class Cipher(val component: CipherComponent) : NavigationChild()
     class CollageMaker(val component: CollageMakerComponent) : NavigationChild()

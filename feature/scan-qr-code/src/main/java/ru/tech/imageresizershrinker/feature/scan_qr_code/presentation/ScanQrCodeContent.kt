@@ -20,22 +20,16 @@ package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -61,21 +55,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.Typography
-import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
@@ -90,16 +79,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
-import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components.QrCodePreview
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
@@ -173,95 +161,14 @@ fun ScanQrCodeContent(
 
     val isLandscape by isLandscapeOrientationAsState()
 
-    @Composable
-    fun QrCodePreview() {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(Modifier.capturable(captureController)) {
-                if (qrImageUri != null) {
-                    Spacer(modifier = Modifier.height(32.dp))
-                }
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .then(
-                            if ((qrImageUri != null || qrDescription.isNotEmpty()) && qrContent.isNotEmpty()) {
-                                Modifier
-                                    .background(
-                                        color = takeColorFromScheme {
-                                            if (isLandscape) {
-                                                surfaceContainerLowest
-                                            } else surfaceContainerLow
-                                        },
-                                        shape = RoundedCornerShape(16.dp)
-                                    )
-                                    .padding(16.dp)
-                            } else Modifier
-                        )
-                ) {
-                    val targetSize = min(min(maxWidth, maxHeight), 300.dp)
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        QrCode(
-                            content = qrContent,
-                            modifier = Modifier
-                                .padding(
-                                    top = if (qrImageUri != null) 36.dp else 0.dp,
-                                    bottom = if (qrDescription.isNotEmpty()) 16.dp else 0.dp
-                                )
-                                .then(
-                                    if (isLandscape) {
-                                        Modifier
-                                            .weight(1f, false)
-                                            .aspectRatio(1f)
-                                    } else Modifier
-                                )
-                                .size(targetSize),
-                            shape = RoundedCornerShape(
-                                animateIntAsState(qrCornersSize).value.dp
-                            )
-                        )
-
-                        BoxAnimatedVisibility(visible = qrDescription.isNotEmpty() && qrContent.isNotEmpty()) {
-                            MaterialTheme(
-                                typography = Typography(qrDescriptionFont)
-                            ) {
-                                Text(
-                                    text = qrDescription,
-                                    style = MaterialTheme.typography.headlineSmall,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.width(targetSize)
-                                )
-                            }
-                        }
-                    }
-
-                    if (qrImageUri != null && qrContent.isNotEmpty()) {
-                        Picture(
-                            modifier = Modifier
-                                .align(Alignment.TopCenter)
-                                .offset(y = (-48).dp)
-                                .size(64.dp),
-                            model = qrImageUri,
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null,
-                            shape = MaterialTheme.shapes.medium
-                        )
-                    }
-                }
-            }
-        }
-    }
-
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
         title = {
-            Text(
-                text = stringResource(R.string.qr_code),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.marquee()
+            TopAppBarTitle(
+                title = stringResource(R.string.qr_code),
+                input = null,
+                isLoading = false,
+                size = null,
             )
         },
         onGoBack = onGoBack,
@@ -271,7 +178,10 @@ fun ScanQrCodeContent(
                 onShare = {
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        component.shareImage(bitmap, showConfetti)
+                        component.shareImage(
+                            bitmap = bitmap,
+                            onComplete = showConfetti
+                        )
                     }
                 },
                 onCopy = { manager ->
@@ -290,12 +200,30 @@ fun ScanQrCodeContent(
         },
         showImagePreviewAsStickyHeader = false,
         imagePreview = {
-            if (isLandscape) QrCodePreview()
+            if (isLandscape) {
+                QrCodePreview(
+                    captureController = captureController,
+                    isLandscape = true,
+                    qrImageUri = qrImageUri,
+                    qrDescription = qrDescription,
+                    qrContent = qrContent,
+                    qrCornersSize = qrCornersSize,
+                    qrDescriptionFont = qrDescriptionFont
+                )
+            }
         },
         controls = {
             if (!isLandscape) {
                 Spacer(modifier = Modifier.height(20.dp))
-                QrCodePreview()
+                QrCodePreview(
+                    captureController = captureController,
+                    isLandscape = false,
+                    qrImageUri = qrImageUri,
+                    qrDescription = qrDescription,
+                    qrContent = qrContent,
+                    qrCornersSize = qrCornersSize,
+                    qrDescriptionFont = qrDescriptionFont
+                )
                 Spacer(modifier = Modifier.height(16.dp))
             }
             LinkPreviewList(
