@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.media_picker.domain.model
 
+import kotlinx.coroutines.coroutineScope
+
 sealed class MediaOrder(private val orderType: OrderType) {
     class Label(orderType: OrderType) : MediaOrder(orderType)
     class Date(orderType: OrderType) : MediaOrder(orderType)
@@ -30,10 +32,10 @@ sealed class MediaOrder(private val orderType: OrderType) {
         }
     }
 
-    fun sortMedia(media: List<Media>): List<Media> {
-        return when (orderType) {
+    suspend fun sortMedia(media: List<Media>): List<Media> = coroutineScope {
+        when (orderType) {
             OrderType.Ascending -> {
-                when (this) {
+                when (this@MediaOrder) {
                     is Date -> media.sortedBy { it.timestamp }
                     is Label -> media.sortedBy { it.label.lowercase() }
                     is Expiry -> media.sortedBy { it.expiryTimestamp ?: it.timestamp }
@@ -41,7 +43,7 @@ sealed class MediaOrder(private val orderType: OrderType) {
             }
 
             OrderType.Descending -> {
-                when (this) {
+                when (this@MediaOrder) {
                     is Date -> media.sortedByDescending { it.timestamp }
                     is Label -> media.sortedByDescending { it.label.lowercase() }
                     is Expiry -> media.sortedByDescending { it.expiryTimestamp ?: it.timestamp }

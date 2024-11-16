@@ -17,11 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.media_picker.data
 
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
@@ -41,12 +41,12 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaOrder
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
 import javax.inject.Inject
 
+@RequiresApi(26)
 internal class AndroidMediaRetriever @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, MediaRetriever {
 
-    @SuppressLint("InlinedApi")
     override fun getAlbumsWithType(
         allowedMedia: AllowedMedia
     ): Flow<Result<List<Album>>> = context.retrieveAlbums {
@@ -81,7 +81,11 @@ internal class AndroidMediaRetriever @Inject constructor(
                 )
             }
         )
-        it.getAlbums(query, fileQuery, mediaOrder = MediaOrder.Date(OrderType.Descending))
+        it.getAlbums(
+            query = query,
+            fileQuery = fileQuery,
+            mediaOrder = MediaOrder.Date(OrderType.Descending)
+        )
     }
 
     override fun mediaFlowWithType(
@@ -93,7 +97,6 @@ internal class AndroidMediaRetriever @Inject constructor(
         getMediaByType(allowedMedia)
     }.flowOn(defaultDispatcher).conflate()
 
-    @SuppressLint("InlinedApi")
     override fun getMediaByAlbumIdWithType(
         albumId: Long,
         allowedMedia: AllowedMedia
@@ -130,7 +133,10 @@ internal class AndroidMediaRetriever @Inject constructor(
             }
         )
         /** return@retrieveMedia */
-        it.getMedia(query, fileQuery)
+        it.getMedia(
+            mediaQuery = query,
+            fileQuery = fileQuery
+        )
     }
 
     override fun getMediaByType(
@@ -142,7 +148,10 @@ internal class AndroidMediaRetriever @Inject constructor(
             AllowedMedia.Both -> Query.MediaQuery()
         }
         val fileQuery = Query.FileQuery(getSupportedFileSequence(allowedMedia).toList())
-        it.getMedia(mediaQuery = query, fileQuery = fileQuery)
+        it.getMedia(
+            mediaQuery = query,
+            fileQuery = fileQuery
+        )
     }
 
     private val uris = arrayOf(
@@ -153,21 +162,23 @@ internal class AndroidMediaRetriever @Inject constructor(
 
     private fun Context.retrieveMedia(
         dataBody: suspend (ContentResolver) -> List<Media>
-    ) = contentFlowObserver(uris).map {
-        try {
-            Result.success(dataBody.invoke(contentResolver))
-        } catch (e: Exception) {
-            Result.failure(e)
+    ) = contentFlowObserver(
+        uris = uris,
+        coroutineContext = ioDispatcher
+    ).map {
+        runCatching {
+            dataBody.invoke(contentResolver)
         }
     }.conflate()
 
     private fun Context.retrieveAlbums(
         dataBody: suspend (ContentResolver) -> List<Album>
-    ) = contentFlowObserver(uris).map {
-        try {
-            Result.success(dataBody.invoke(contentResolver))
-        } catch (e: Exception) {
-            Result.failure(e)
+    ) = contentFlowObserver(
+        uris = uris,
+        coroutineContext = ioDispatcher
+    ).map {
+        runCatching {
+            dataBody.invoke(contentResolver)
         }
     }.conflate()
 

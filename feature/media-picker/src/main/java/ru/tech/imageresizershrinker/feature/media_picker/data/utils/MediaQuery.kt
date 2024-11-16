@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.media_picker.data.utils
 
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
@@ -27,8 +26,9 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import androidx.annotation.RequiresApi
+import kotlinx.coroutines.coroutineScope
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.EXTENDED_DATE_FORMAT
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
 import java.io.File
 import kotlin.random.Random
 
+@RequiresApi(26)
 sealed class Query(
     var projection: Array<String>,
     var bundle: Bundle? = null
@@ -60,7 +61,6 @@ sealed class Query(
         ).toTypedArray(),
     )
 
-    @SuppressLint("InlinedApi")
     class PhotoQuery : Query(
         projection = listOfNotNull(
             MediaStore.MediaColumns._ID,
@@ -90,7 +90,6 @@ sealed class Query(
         }
     )
 
-    @SuppressLint("InlinedApi")
     class VideoQuery : Query(
         projection = listOfNotNull(
             MediaStore.MediaColumns._ID,
@@ -136,7 +135,6 @@ sealed class Query(
         )
     )
 
-    @SuppressLint("InlinedApi")
     class FileQuery(fileExtensions: List<String>) : Query(
         projection = listOfNotNull(
             MediaStore.MediaColumns._ID,
@@ -177,7 +175,6 @@ sealed class Query(
     }
 
     companion object {
-        @SuppressLint("InlinedApi")
         val defaultBundle = Bundle().apply {
             putStringArray(
                 ContentResolver.QUERY_ARG_SORT_COLUMNS,
@@ -192,9 +189,10 @@ sealed class Query(
 
 }
 
-@SuppressLint("InlinedApi")
+@RequiresApi(26)
 private fun Query.copyAsAlbum(): Query {
     val bundle = this.bundle ?: Bundle()
+
     return this.copy(
         bundle = bundle.apply {
             putInt(
@@ -205,82 +203,84 @@ private fun Query.copyAsAlbum(): Query {
                 ContentResolver.QUERY_ARG_SORT_COLUMNS,
                 arrayOf(MediaStore.MediaColumns.DATE_MODIFIED)
             )
-        },
+        }
     )
 }
 
-@SuppressLint("InlinedApi")
+@RequiresApi(26)
 suspend fun ContentResolver.getAlbums(
     query: Query = Query.AlbumQuery(),
     fileQuery: Query = Query.AlbumQuery(),
     mediaOrder: MediaOrder = MediaOrder.Date(OrderType.Descending)
-): List<Album> {
-    return withContext(Dispatchers.IO) {
-        val timeStart = System.currentTimeMillis()
-        val albums = ArrayList<Album>()
-        val albumQuery = query.copyAsAlbum()
-        val albumFileQuery = fileQuery.copyAsAlbum()
-        query(albumQuery, albumFileQuery).use {
-            with(it) {
-                while (moveToNext()) {
-                    try {
-                        val albumId =
-                            getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID))
-                        val id = getLong(getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-                        val label: String? = try {
-                            getString(
-                                getColumnIndexOrThrow(
-                                    MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
-                                )
-                            )
-                        } catch (e: Exception) {
-                            Build.MODEL
-                        }
-                        val thumbnailPath =
-                            getString(getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
-                        val thumbnailRelativePath =
-                            getString(
-                                getColumnIndexOrThrow(
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                        MediaStore.MediaColumns.RELATIVE_PATH
-                                    } else MediaStore.MediaColumns.DATA
-                                )
-                            )
-                        val thumbnailDate =
-                            getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED))
-                        val mimeType =
-                            getString(getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE))
-                        val contentUri = if (mimeType.contains("image"))
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        else
-                            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                        val album = Album(
-                            id = albumId,
-                            label = label ?: Build.MODEL,
-                            uri = ContentUris.withAppendedId(contentUri, id).toString(),
-                            pathToThumbnail = thumbnailPath,
-                            relativePath = thumbnailRelativePath,
-                            timestamp = thumbnailDate,
-                            count = 1
-                        )
-                        val currentAlbum = albums.find { a -> a.id == albumId }
-                        if (currentAlbum == null)
-                            albums.add(album)
-                        else {
-                            val i = albums.indexOf(currentAlbum)
-                            albums[i] = albums[i].let { a -> a.copy(count = a.count + 1) }
-                            if (albums[i].timestamp <= thumbnailDate) {
-                                albums[i] = album.copy(count = albums[i].count)
-                            }
-                        }
+): List<Album> = coroutineScope {
+    val timeStart = System.currentTimeMillis()
+    val albums = ArrayList<Album>()
+    val albumQuery = query.copyAsAlbum()
+    val albumFileQuery = fileQuery.copyAsAlbum()
 
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+    query(
+        mediaQuery = albumQuery,
+        fileQuery = albumFileQuery
+    ).use {
+        with(it) {
+            while (moveToNext()) {
+                runCatching {
+                    val albumId =
+                        getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID))
+                    val id = getLong(getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
+                    val label: String? = try {
+                        getString(
+                            getColumnIndexOrThrow(
+                                MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
+                            )
+                        )
+                    } catch (_: Exception) {
+                        Build.MODEL
+                    }
+                    val thumbnailPath =
+                        getString(getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
+                    val thumbnailRelativePath =
+                        getString(
+                            getColumnIndexOrThrow(
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    MediaStore.MediaColumns.RELATIVE_PATH
+                                } else MediaStore.MediaColumns.DATA
+                            )
+                        )
+                    val thumbnailDate =
+                        getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED))
+                    val mimeType =
+                        getString(getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE))
+                    val contentUri = if (mimeType.contains("image"))
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    else
+                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                    val album = Album(
+                        id = albumId,
+                        label = label ?: Build.MODEL,
+                        uri = ContentUris.withAppendedId(contentUri, id).toString(),
+                        pathToThumbnail = thumbnailPath,
+                        relativePath = thumbnailRelativePath,
+                        timestamp = thumbnailDate,
+                        count = 1
+                    )
+                    val currentAlbum = albums.find { a -> a.id == albumId }
+                    if (currentAlbum == null)
+                        albums.add(album)
+                    else {
+                        val i = albums.indexOf(currentAlbum)
+                        albums[i] = albums[i].let { a -> a.copy(count = a.count + 1) }
+                        if (albums[i].timestamp <= thumbnailDate) {
+                            albums[i] = album.copy(count = albums[i].count)
+                        }
                     }
                 }
             }
         }
-        return@withContext mediaOrder.sortAlbums(albums).also {
+    }
+
+    mediaOrder.sortAlbums(albums).also {
+        if (BuildConfig.DEBUG) {
             println("Album parsing took: ${System.currentTimeMillis() - timeStart}ms")
         }
     }

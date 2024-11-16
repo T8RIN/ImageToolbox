@@ -77,7 +77,7 @@ class RootComponent @AssistedInject internal constructor(
 
     private val navController = StackNavigation<Screen>()
 
-    val childStack: Value<ChildStack<Screen, NavigationChild>> =
+    internal val childStack: Value<ChildStack<Screen, NavigationChild>> =
         childStack(
             source = navController,
             initialConfiguration = Screen.Main,

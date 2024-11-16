@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.FULL_DATE_
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaOrder
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
+import kotlin.coroutines.CoroutineContext
 import kotlin.io.path.Path
 import kotlin.io.path.extension
 
@@ -44,19 +45,23 @@ private var observerJob: Job? = null
  * Register an observer class that gets callbacks when data identified by a given content URI
  * changes.
  */
-fun Context.contentFlowObserver(uris: Array<Uri>) = callbackFlow {
+fun Context.contentFlowObserver(
+    uris: Array<Uri>,
+    coroutineContext: CoroutineContext
+) = callbackFlow {
     val observer = object : ContentObserver(null) {
         override fun onChange(selfChange: Boolean) {
             observerJob?.cancel()
-            observerJob = launch(Dispatchers.IO) {
+            observerJob = launch(coroutineContext) {
                 send(false)
             }
         }
     }
-    for (uri in uris)
+    for (uri in uris) {
         contentResolver.registerContentObserver(uri, true, observer)
+    }
     // trigger first.
-    observerJob = launch(Dispatchers.IO) {
+    observerJob = launch(coroutineContext) {
         send(true)
     }
     awaitClose {
@@ -69,7 +74,7 @@ suspend fun ContentResolver.getMedia(
     fileQuery: Query = Query.MediaQuery(),
     mediaOrder: MediaOrder = MediaOrder.Date(OrderType.Descending)
 ): List<Media> {
-    return withContext(Dispatchers.IO) {
+    return coroutineScope {
         val media = ArrayList<Media>()
         query(mediaQuery, fileQuery).use { cursor ->
             while (cursor.moveToNext()) {
@@ -80,7 +85,8 @@ suspend fun ContentResolver.getMedia(
                 }
             }
         }
-        return@withContext mediaOrder.sortMedia(media)
+
+        mediaOrder.sortMedia(media)
     }
 }
 
@@ -166,11 +172,10 @@ fun Cursor.getMediaFromCursor(): Media {
     )
 }
 
-
 suspend fun ContentResolver.query(
     mediaQuery: Query,
     fileQuery: Query
-): Cursor = withContext(Dispatchers.IO) {
+): Cursor = coroutineScope {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         MergeCursor(
             arrayOf(

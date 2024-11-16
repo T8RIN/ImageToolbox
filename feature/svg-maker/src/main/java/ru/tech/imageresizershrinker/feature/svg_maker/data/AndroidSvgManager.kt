@@ -32,9 +32,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgManager
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
-import java.io.BufferedWriter
 import java.io.File
-import java.io.FileWriter
 import javax.inject.Inject
 
 
@@ -57,9 +55,7 @@ internal class AndroidSvgManager @Inject constructor(
                 val file = File(folder, "${randomStringGenerator.generate(10)}.svg")
 
                 withContext(ioDispatcher) {
-                    BufferedWriter(
-                        FileWriter(file)
-                    ).use { writer ->
+                    file.bufferedWriter().use { writer ->
                         ImageTracerAndroid.imageToSVG(
                             imageGetter.getImage(
                                 data = uri,
