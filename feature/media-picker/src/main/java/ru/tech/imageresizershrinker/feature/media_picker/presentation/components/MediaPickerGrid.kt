@@ -357,11 +357,8 @@ internal fun MediaPickerGrid(
                 }
 
                 is MediaItem.MediaViewItem -> {
-                    val selectionState = remember { mutableStateOf(true) }
-
                     MediaImage(
                         media = item.media,
-                        selectionState = selectionState,
                         canClick = !isSelectionOfAll || !allowMultiple,
                         onItemClick = {
                             hapticFeedback.performHapticFeedback(

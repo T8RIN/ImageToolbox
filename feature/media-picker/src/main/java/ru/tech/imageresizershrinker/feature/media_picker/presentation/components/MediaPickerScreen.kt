@@ -42,15 +42,19 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -76,6 +80,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -598,6 +603,46 @@ fun MediaPickerScreen(
                             }
                         }
                     }
+                }
+            }
+        }
+
+        AnimatedVisibility(
+            visible = selectedMedia.isNotEmpty()
+        ) {
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .drawHorizontalStroke(true)
+                    .background(
+                        MaterialTheme.colorScheme.surfaceContainer
+                    ),
+                contentPadding = WindowInsets.safeDrawing
+                    .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                    .asPaddingValues()
+            ) {
+                items(selectedMedia) { media ->
+                    MediaImage(
+                        media = media,
+                        canClick = true,
+                        onItemClick = {
+                            selectedMedia.remove(media)
+                        },
+                        onItemLongClick = {
+                            selectedMedia.remove(media)
+                        },
+                        selectionIndex = remember(selectedMedia, media) {
+                            derivedStateOf {
+                                if (selectedMedia.size > 1) {
+                                    selectedMedia.indexOf(media)
+                                } else -1
+                            }
+                        }.value,
+                        isSelected = true,
+                        modifier = Modifier
+                            .size(72.dp)
+                            .animateItem()
+                    )
                 }
             }
         }

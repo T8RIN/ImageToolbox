@@ -44,7 +44,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,7 +68,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 fun MediaImage(
     modifier: Modifier = Modifier,
     media: Media,
-    selectionState: MutableState<Boolean>,
+    isInSelection: Boolean = true,
     isSelected: Boolean,
     selectionIndex: Int,
     canClick: Boolean,
@@ -216,7 +215,7 @@ fun MediaImage(
         }
 
         AnimatedVisibility(
-            visible = selectionState.value,
+            visible = isInSelection,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
