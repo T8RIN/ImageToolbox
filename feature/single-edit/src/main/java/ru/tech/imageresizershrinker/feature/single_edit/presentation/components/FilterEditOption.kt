@@ -283,6 +283,7 @@ fun FilterEditOption(
                 contentAlignment = Alignment.Center
             ) {
                 val direction = LocalLayoutDirection.current
+                //TODO: Fix that filter not applying
                 Picture(
                     model = bitmap,
                     shape = RectangleShape,
