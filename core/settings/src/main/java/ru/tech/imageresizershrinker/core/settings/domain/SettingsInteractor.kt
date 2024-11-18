@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
@@ -211,4 +212,25 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleIsCenterAlignDialogButtons()
 
+}
+
+fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor {
+    val instance = this@toSimpleSettingsInteractor
+
+    return object : SimpleSettingsInteractor {
+        override suspend fun toggleMagnifierEnabled() = instance.toggleMagnifierEnabled()
+
+        override suspend fun setOneTimeSaveLocations(
+            value: List<OneTimeSaveLocation>
+        ) = instance.setOneTimeSaveLocations(value)
+
+        override suspend fun toggleFavoriteColor(
+            color: ColorModel,
+            forceExclude: Boolean
+        ) = instance.toggleFavoriteColor(
+            color = color,
+            forceExclude = forceExclude
+        )
+
+    }
 }

@@ -88,7 +88,7 @@ fun RootContent(
             getEmojiColorTuple = component::getColorTupleFromEmoji
         ),
         toastHostState = component.toastHostState,
-        simpleSettingsInteractor = component.getSettingsInteractor()
+        simpleSettingsInteractor = component.simpleSettingsInteractor
     ) {
         SecureModeHandler()
 

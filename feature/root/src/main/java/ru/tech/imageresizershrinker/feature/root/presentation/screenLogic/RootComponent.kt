@@ -34,7 +34,6 @@ import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
-import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -49,9 +48,10 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
+import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.toSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -69,6 +69,9 @@ class RootComponent @AssistedInject internal constructor(
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    val simpleSettingsInteractor: SimpleSettingsInteractor =
+        settingsManager.toSimpleSettingsInteractor()
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
@@ -218,53 +221,11 @@ class RootComponent @AssistedInject internal constructor(
         }
     }
 
-    @Suppress("unused")
-    private fun isNeedUpdateTest() {
-        if (BuildConfig.DEBUG) {
-            val updateVersions = listOf(
-                "2.6.0",
-                "2.7.0",
-                "2.6.0-rc1",
-                "2.6.0-rc01",
-                "3.0.0",
-                "2.6.0-beta02",
-                BuildConfig.VERSION_NAME,
-                "2.6.1",
-                "2.6.1-alpha01",
-                "2.6.0-rc02",
-                "2.5.1"
-            )
-            val currentVersions = listOf(
-                BuildConfig.VERSION_NAME,
-                "2.6.0-beta03",
-                "2.5.0",
-                "2.5.1",
-                "2.6.0",
-                "2.6.2"
-            )
-            val allowBetas = listOf(false, true)
-
-            allowBetas.forEach { betas ->
-                currentVersions.forEach { current ->
-                    updateVersions.forEach { update ->
-                        val needUpdate = isNeedUpdate(
-                            currentName = current,
-                            updateName = update,
-                            allowBetas = betas
-                        )
-                        "$current -> $update = $needUpdate, for betaAllowed = $betas".makeLog("Test_Updates")
-                    }
-                }
-            }
-        }
-    }
-
     private fun isNeedUpdate(
         currentName: String,
         updateName: String,
         allowBetas: Boolean = settingsState.allowBetas
     ): Boolean {
-
         val betaList = listOf(
             "alpha", "beta", "rc"
         )
@@ -370,8 +331,6 @@ class RootComponent @AssistedInject internal constructor(
     fun hideTelegramGroupDialog() {
         _showTelegramGroupDialog.update { false }
     }
-
-    fun getSettingsInteractor(): SettingsInteractor = settingsManager
 
     fun adjustPerformance(performanceClass: PerformanceClass) {
         componentScope.launch {
