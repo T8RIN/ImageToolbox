@@ -22,6 +22,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -319,7 +320,7 @@ private fun EnhancedModalSheetImpl(
                     autoElevation = autoElevation
                 )
                 .clip(shape)
-                .animateContentSize(),
+                .animateContentSize(spring()),
             modifier = modifier,
             shape = shape,
             elevation = elevation,

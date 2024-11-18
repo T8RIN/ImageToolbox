@@ -17,13 +17,12 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,8 +35,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
@@ -100,21 +102,26 @@ fun DownloadLanguageDialog(
         }
     )
 
-    if (downloadStarted) {
-        BasicAlertDialog(onDismissRequest = {}) {
-            Box(
-                Modifier.fillMaxSize()
-            ) {
-                LoadingIndicator(downloadProgress / 100) {
-                    AutoSizeText(
-                        text = dataRemaining,
-                        maxLines = 1,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.width(it * 0.8f),
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
+    BasicEnhancedAlertDialog(
+        onDismissRequest = {},
+        visible = downloadStarted,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LoadingIndicator(
+            progress = downloadProgress / 100,
+            loaderSize = 64.dp
+        ) {
+            AutoSizeText(
+                text = dataRemaining,
+                maxLines = 1,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.width(it * 0.8f),
+                textAlign = TextAlign.Center,
+                style = LocalTextStyle.current.copy(
+                    fontSize = 12.sp,
+                    lineHeight = 12.sp
+                )
+            )
         }
     }
 }

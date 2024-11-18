@@ -60,7 +60,6 @@ import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material.icons.rounded.Update
 import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -110,6 +109,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -630,40 +630,39 @@ internal fun FilterSelectionItem(
         }
     )
 
-    if (cubeLutDownloadProgress != null) {
-        BasicAlertDialog(onDismissRequest = {}) {
-            Box(
-                Modifier.fillMaxSize()
+    BasicEnhancedAlertDialog(
+        onDismissRequest = {},
+        visible = cubeLutDownloadProgress != null,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LoadingIndicator(
+            progress = (cubeLutDownloadProgress?.currentPercent ?: 0f) / 100,
+            loaderSize = 72.dp
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
             ) {
-                LoadingIndicator(
-                    progress = cubeLutDownloadProgress.currentPercent / 100,
-                    loaderSize = 64.dp
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp)
-                    ) {
-                        Text(
-                            text = cubeLutDownloadProgress.run { "$itemsDownloaded/$itemsCount" },
-                            maxLines = 1,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Center,
-                            fontSize = 12.sp,
-                            lineHeight = 12.sp
-                        )
-                        Spacer(Modifier.height(2.dp))
-                        Text(
-                            text = readableByteCount(cubeLutDownloadProgress.currentTotalSize),
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            fontSize = 10.sp,
-                            lineHeight = 10.sp
-                        )
-                    }
-                }
+                Text(
+                    text = cubeLutDownloadProgress?.run { "$itemsDownloaded/$itemsCount" }
+                        ?: "",
+                    maxLines = 1,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center,
+                    fontSize = 12.sp,
+                    lineHeight = 12.sp
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = readableByteCount(cubeLutDownloadProgress?.currentTotalSize ?: 0),
+                    maxLines = 1,
+                    textAlign = TextAlign.Center,
+                    fontSize = 10.sp,
+                    lineHeight = 10.sp
+                )
             }
         }
     }

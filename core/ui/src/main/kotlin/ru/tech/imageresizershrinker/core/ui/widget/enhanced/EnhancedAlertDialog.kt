@@ -31,6 +31,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
@@ -146,7 +147,7 @@ fun BasicEnhancedAlertDialog(
     visible: Boolean,
     onDismissRequest: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable BoxScope.() -> Unit
 ) {
     var visibleAnimated by remember { mutableStateOf(false) }
 
@@ -206,10 +207,9 @@ fun BasicEnhancedAlertDialog(
                         modifier = modifier
                             .safeDrawingPadding()
                             .padding(horizontal = 48.dp, vertical = 24.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        content()
-                    }
+                        contentAlignment = Alignment.Center,
+                        content = content
+                    )
                 }
             }
 

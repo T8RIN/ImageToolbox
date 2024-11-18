@@ -1493,6 +1493,6 @@
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="open_source_licenses_sub">View licenses of open source libraries used in this app</string>
     <string name="area">Area</string>
-    <string name="area_sub">The Area of the pulse is the integration of Height\nover Width. Width is the time a particle spends in\nfront of the laser and is affected by particle size\nand sheath velocity. A large particle will have\nlarger Width and consequently higher Area. The\ninverse is true for smaller particles. When a\nparticle size is compounded with a low sheath\nvelocity, this will result in a larger Width. Keep in\nmind that sheath velocity remains constant\nduring the experiment, and it is not dependent\non sample pressure/flow rate.</string>
+    <string name="area_sub">Resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire\'-free results. But when the image is zoomed, it is similar to the \"Nearest\" method.</string>
     <string name="enable_tonemapping">Enable Tonemapping</string>
 </resources>
