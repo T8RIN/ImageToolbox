@@ -20,10 +20,13 @@ package ru.tech.imageresizershrinker.core.ui.widget.preferences
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,6 +45,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
+private val DefaultTransition: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform =
+    {
+        fadeIn() + scaleIn() + slideInVertically() togetherWith fadeOut() + scaleOut() + slideOutVertically() using SizeTransform(
+            clip = false
+        )
+    }
 
 @Composable
 fun PreferenceItem(
@@ -63,8 +73,8 @@ fun PreferenceItem(
         fontWeight = FontWeight.Medium,
         lineHeight = 18.sp
     ),
-    startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() },
-    endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() },
+    startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultTransition,
+    endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultTransition,
     onDisabledClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
         .fillMaxWidth()
