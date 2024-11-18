@@ -98,7 +98,7 @@ fun WatermarkingContent(
         }
     )
 
-    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.setUris(
             uris = uris,
             onFailure = essentials::showFailureToast

@@ -116,10 +116,7 @@ fun ApngToolsContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val imagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::setImageUris
-    )
+    val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleApngLauncher = rememberFilePicker(
         type = FileType.Single,
@@ -390,10 +387,9 @@ fun ApngToolsContent(
                 }
 
                 is Screen.ApngTools.Type.ImageToApng -> {
-                    val addImagesToPdfPicker = rememberImagePicker(
-                        picker = Picker.Multiple,
-                        onSuccess = component::addImageToUris
-                    )
+                    val addImagesToPdfPicker =
+                        rememberImagePicker(onSuccess = component::addImageToUris)
+
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,

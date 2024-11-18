@@ -132,7 +132,7 @@ fun CollageMakerContent(
         }
     }
 
-    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size in 2..10) {
             component.updateUris(uris)
         } else {

@@ -115,10 +115,7 @@ fun GifToolsContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val imagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::setImageUris
-    )
+    val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleGifLauncher = rememberFilePicker(
         type = FileType.Single,
@@ -450,10 +447,8 @@ fun GifToolsContent(
                 }
 
                 is Screen.GifTools.Type.ImageToGif -> {
-                    val addImagesToGifPicker = rememberImagePicker(
-                        picker = Picker.Multiple,
-                        onSuccess = component::addImageToUris
-                    )
+                    val addImagesToGifPicker =
+                        rememberImagePicker(onSuccess = component::addImageToUris)
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageReorderCarousel(
                         images = type.imageUris,

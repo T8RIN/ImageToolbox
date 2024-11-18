@@ -64,7 +64,6 @@ import com.smarttoolfactory.cropper.widget.CropFrameDisplayCard
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -86,18 +85,16 @@ fun CropMaskSelection(
 
     val scope = rememberCoroutineScope()
 
-    val maskLauncher = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let {
-            scope.launch {
-                loadImage(it)?.let {
-                    onCropMaskChange(
-                        outlineProperties.last().run {
-                            copy(
-                                cropOutline = (cropOutline as ImageMaskOutline).copy(image = it)
-                            )
-                        }
-                    )
-                }
+    val maskLauncher = rememberImagePicker { uri: Uri ->
+        scope.launch {
+            loadImage(uri)?.let {
+                onCropMaskChange(
+                    outlineProperties.last().run {
+                        copy(
+                            cropOutline = (cropOutline as ImageMaskOutline).copy(image = it)
+                        )
+                    }
+                )
             }
         }
     }

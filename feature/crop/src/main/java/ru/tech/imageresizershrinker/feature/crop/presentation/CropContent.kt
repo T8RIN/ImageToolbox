@@ -119,14 +119,12 @@ fun CropContent(
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
-    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let {
-            rotationState.floatValue = 0f
-            component.setUri(
-                uri = it,
-                onFailure = essentials::showFailureToast
-            )
-        }
+    val imagePicker = rememberImagePicker { uri: Uri ->
+        rotationState.floatValue = 0f
+        component.setUri(
+            uri = uri,
+            onFailure = essentials::showFailureToast
+        )
     }
 
     val pickImage = imagePicker::pickImage

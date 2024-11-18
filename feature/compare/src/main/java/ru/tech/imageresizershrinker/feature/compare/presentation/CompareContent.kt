@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.compare.presentation
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -97,7 +98,7 @@ fun CompareContent(
         }
     }
 
-    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size != 2) {
             essentials.showToast(
                 message = context.getString(R.string.pick_two_images),

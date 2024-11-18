@@ -123,10 +123,7 @@ fun ImagePreviewContent(
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val imagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::updateUris
-    )
+    val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
 
     var isLoadingImages by rememberSaveable {
         mutableStateOf(false)

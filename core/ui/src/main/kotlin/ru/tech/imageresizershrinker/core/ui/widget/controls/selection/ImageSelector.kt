@@ -68,9 +68,7 @@ fun ImageSelector(
     shape: Shape = RoundedCornerShape(20.dp),
     contentScale: ContentScale = ContentScale.Inside
 ) {
-    val imagePicker = rememberImagePicker(Picker.Single) { list ->
-        list.firstOrNull()?.let(onValueChange)
-    }
+    val imagePicker = rememberImagePicker(onSuccess = onValueChange)
 
     var showOneTimeImagePickingDialog by rememberSaveable {
         mutableStateOf(false)

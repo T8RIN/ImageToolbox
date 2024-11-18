@@ -184,13 +184,11 @@ fun DrawContent(
 
     AutoContentBasedColors(component.bitmap)
 
-    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let { uri ->
-            component.setUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        }
+    val imagePicker = rememberImagePicker { uri: Uri ->
+        component.setUri(
+            uri = uri,
+            onFailure = essentials::showFailureToast
+        )
     }
 
     val pickImage = imagePicker::pickImage

@@ -143,14 +143,9 @@ fun FiltersContent(
 
     AutoContentBasedColors(component.previewBitmap)
 
-    val imagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::setBasicFilter
-    )
+    val imagePicker = rememberImagePicker(onSuccess = component::setBasicFilter)
 
-    val pickSingleImageLauncher = rememberImagePicker(Picker.Single) { list ->
-        list.firstOrNull()?.let(component::setMaskFilter)
-    }
+    val pickSingleImageLauncher = rememberImagePicker(onSuccess = component::setMaskFilter)
 
     var showAddMaskSheet by rememberSaveable { mutableStateOf(false) }
 
@@ -245,7 +240,7 @@ fun FiltersContent(
         if (!showSelectionFilterPicker) tempSelectionUris = null
     }
 
-    val selectionFilterPicker = rememberImagePicker(Picker.Multiple) { uris ->
+    val selectionFilterPicker = rememberImagePicker { uris: List<Uri> ->
         tempSelectionUris = uris
         if (uris.size > 1) {
             component.setBasicFilter(tempSelectionUris)

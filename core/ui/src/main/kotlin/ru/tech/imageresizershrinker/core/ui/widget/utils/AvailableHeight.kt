@@ -20,18 +20,17 @@ package ru.tech.imageresizershrinker.core.ui.widget.utils
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,6 +43,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 
 @Composable
@@ -56,7 +57,7 @@ fun rememberAvailableHeight(
     return animateDpAsState(
         targetValue = fullHeight.times(
             when {
-                expanded || imageState.position == 4 -> 1f
+                expanded || imageState.position == 4 -> 0.98f
                 imageState.position == 3 -> 0.7f
                 imageState.position == 2 -> 0.5f
                 imageState.position == 1 -> 0.35f
@@ -69,18 +70,21 @@ fun rememberAvailableHeight(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberFullHeight(): Dp {
-    var fullHeight by rememberSaveable(
+    var fullHeight by remember(
         LocalConfiguration.current,
         LocalLifecycleOwner.current.lifecycle.observeAsState().value
-    ) { mutableFloatStateOf(0f) }
+    ) { mutableStateOf(0.dp) }
 
     val density = LocalDensity.current
 
-    if (fullHeight == 0f) {
+    if (fullHeight == 0.dp) {
         FullscreenPopup {
-            Column {
-                TopAppBar(
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                EnhancedTopAppBar(
                     title = { Text(" ") },
+                    type = EnhancedTopAppBarType.Normal,
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(Color.Transparent)
                 )
                 Spacer(
@@ -88,20 +92,22 @@ fun rememberFullHeight(): Dp {
                         .weight(1f)
                         .onSizeChanged {
                             with(density) {
-                                fullHeight = it.height.toDp().value
+                                fullHeight = it.height.toDp()
                             }
                         }
                 )
                 BottomAppBar(
                     containerColor = Color.Transparent,
-                    floatingActionButton = {},
+                    floatingActionButton = {
+                        Spacer(Modifier.height(56.dp))
+                    },
                     actions = {}
                 )
             }
         }
     }
 
-    return fullHeight.dp
+    return fullHeight
 }
 
 fun ImageHeaderState.isExpanded() = this.position == 4 && isBlocked

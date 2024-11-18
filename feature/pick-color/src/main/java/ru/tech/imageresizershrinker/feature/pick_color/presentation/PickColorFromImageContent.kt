@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.pick_color.presentation
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -79,13 +80,11 @@ fun PickColorFromImageContent(
     AutoContentBasedColors(component.bitmap)
     AutoContentBasedColors(component.color)
 
-    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let {
-            component.setUri(
-                uri = it,
-                onFailure = essentials::showFailureToast
-            )
-        }
+    val imagePicker = rememberImagePicker { uri: Uri ->
+        component.setUri(
+            uri = uri,
+            onFailure = essentials::showFailureToast
+        )
     }
 
     val pickImage = imagePicker::pickImage

@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.jxl_tools.presentation
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -152,17 +153,17 @@ fun JxlToolsContent(
         )
     }
 
-    val imagePicker = rememberImagePicker(Picker.Multiple) { list ->
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.setType(
-            type = Screen.JxlTools.Type.ImageToJxl(list),
+            type = Screen.JxlTools.Type.ImageToJxl(uris),
             onFailure = onFailure
         )
     }
 
-    val addImagesImagePicker = rememberImagePicker(Picker.Multiple) { list ->
+    val addImagesImagePicker = rememberImagePicker { uris: List<Uri> ->
         component.setType(
             type = Screen.JxlTools.Type.ImageToJxl(
-                (component.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(list)
+                (component.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(uris)
                     ?.distinct()
             ),
             onFailure = onFailure

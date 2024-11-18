@@ -76,9 +76,7 @@ fun ImageSplitterContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val imagePicker = rememberImagePicker(Picker.Single) { list ->
-        list.firstOrNull()?.let(component::updateUri)
-    }
+    val imagePicker = rememberImagePicker(onSuccess = component::updateUri)
 
     val pickImage = imagePicker::pickImage
 

@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.generate_palette.presentation
 
+import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -96,14 +97,12 @@ fun GeneratePaletteContent(
         allowChangeColor = useMaterialYouPalette == false
     )
 
-    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let {
-            showPreferencePicker = true
-            component.setUri(
-                uri = it,
-                onFailure = essentials::showFailureToast
-            )
-        }
+    val imagePicker = rememberImagePicker { uri: Uri ->
+        showPreferencePicker = true
+        component.setUri(
+            uri = uri,
+            onFailure = essentials::showFailureToast
+        )
     }
 
     AutoFilePicker(
@@ -111,24 +110,20 @@ fun GeneratePaletteContent(
         isPickedAlready = component.initialUri != null
     )
 
-    val paletteImageLauncher = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let {
-            useMaterialYouPalette = false
-            component.setUri(
-                uri = it,
-                onFailure = essentials::showFailureToast
-            )
-        }
+    val paletteImageLauncher = rememberImagePicker { uri: Uri ->
+        useMaterialYouPalette = false
+        component.setUri(
+            uri = uri,
+            onFailure = essentials::showFailureToast
+        )
     }
 
-    val materialYouImageLauncher = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let {
-            useMaterialYouPalette = true
-            component.setUri(
-                uri = it,
-                onFailure = essentials::showFailureToast
-            )
-        }
+    val materialYouImageLauncher = rememberImagePicker { uri: Uri ->
+        useMaterialYouPalette = true
+        component.setUri(
+            uri = uri,
+            onFailure = essentials::showFailureToast
+        )
     }
 
     val pickImage = when (useMaterialYouPalette) {

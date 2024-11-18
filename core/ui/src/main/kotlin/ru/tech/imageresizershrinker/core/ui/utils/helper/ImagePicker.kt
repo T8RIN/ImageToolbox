@@ -258,6 +258,34 @@ fun rememberImagePicker(
     onSuccess = onSuccess
 )
 
+@JvmName("rememberSingleImagePicker")
+@Composable
+fun rememberImagePicker(
+    imageExtension: String = DefaultExtension,
+    onFailure: () -> Unit = {},
+    onSuccess: (Uri) -> Unit,
+): ImagePicker = rememberImagePicker(
+    mode = localImagePickerMode(picker = Picker.Single),
+    imageExtension = imageExtension,
+    onFailure = onFailure,
+    onSuccess = {
+        it.firstOrNull()?.let(onSuccess)
+    }
+)
+
+@JvmName("rememberMultipleImagePicker")
+@Composable
+fun rememberImagePicker(
+    imageExtension: String = DefaultExtension,
+    onFailure: () -> Unit = {},
+    onSuccess: (List<Uri>) -> Unit,
+): ImagePicker = rememberImagePicker(
+    mode = localImagePickerMode(picker = Picker.Multiple),
+    imageExtension = imageExtension,
+    onFailure = onFailure,
+    onSuccess = onSuccess
+)
+
 @Composable
 fun rememberImagePicker(
     mode: ImagePickerMode,

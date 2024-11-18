@@ -71,7 +71,6 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -211,15 +210,9 @@ fun PdfToolsContent(
         }
     )
 
-    val imagesToPdfPicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::setImagesToPdf
-    )
+    val imagesToPdfPicker = rememberImagePicker(onSuccess = component::setImagesToPdf)
 
-    val addImagesToPdfPicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::addImagesToPdf
-    )
+    val addImagesToPdfPicker = rememberImagePicker(onSuccess = component::addImagesToPdf)
 
     val focus = LocalFocusManager.current
 

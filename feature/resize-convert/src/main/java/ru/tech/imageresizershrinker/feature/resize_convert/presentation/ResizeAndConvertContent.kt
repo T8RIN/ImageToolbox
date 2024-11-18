@@ -100,7 +100,7 @@ fun ResizeAndConvertContent(
 
     AutoContentBasedColors(component.bitmap)
 
-    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.updateUris(
             uris = uris,
             onFailure = essentials::showFailureToast

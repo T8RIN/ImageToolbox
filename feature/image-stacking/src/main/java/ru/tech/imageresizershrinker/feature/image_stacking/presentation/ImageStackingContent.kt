@@ -89,15 +89,9 @@ fun ImageStackingContent(
 
     AutoContentBasedColors(component.previewBitmap)
 
-    val imagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::updateUris
-    )
+    val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
 
-    val addImagesImagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::addUrisToEnd
-    )
+    val addImagesImagePicker = rememberImagePicker(onSuccess = component::addUrisToEnd)
 
     val addImages = addImagesImagePicker::pickImage
 

@@ -152,7 +152,7 @@ fun GradientMakerContent(
     }
 
 
-    val imagePicker = rememberImagePicker(Picker.Multiple) { uris ->
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
         allowPickingImage = true
         component.setUris(
             uris = uris,

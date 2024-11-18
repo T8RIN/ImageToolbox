@@ -52,7 +52,6 @@ import coil3.toBitmap
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
@@ -75,9 +74,9 @@ internal fun ImagePreviewGrid(
     contentPadding: PaddingValues? = null,
     initialShowImagePreviewDialog: Boolean = false
 ) {
-    val imagePicker = rememberImagePicker(Picker.Multiple) { list ->
+    val imagePicker = rememberImagePicker { uriList: List<Uri> ->
         val uris = (data ?: emptyList()).toMutableList()
-        list.forEach {
+        uriList.forEach {
             if (it !in uris) uris.add(it)
         }
         onAddImages?.invoke(uris)

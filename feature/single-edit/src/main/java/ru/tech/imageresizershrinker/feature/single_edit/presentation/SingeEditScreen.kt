@@ -100,10 +100,7 @@ fun SingleEditContent(
 
     val imageInfo = component.imageInfo
 
-    val imagePicker = rememberImagePicker(Picker.Single) { uris ->
-        uris.firstOrNull()?.let(component::setUri)
-    }
-
+    val imagePicker = rememberImagePicker(onSuccess = component::setUri)
     val pickImage = imagePicker::pickImage
 
     AutoFilePicker(

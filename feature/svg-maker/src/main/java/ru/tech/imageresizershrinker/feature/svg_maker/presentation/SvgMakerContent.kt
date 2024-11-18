@@ -74,20 +74,14 @@ fun SvgMakerContent(
         else onGoBack()
     }
 
-    val imagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::setUris
-    )
+    val imagePicker = rememberImagePicker(onSuccess = component::setUris)
 
     AutoFilePicker(
         onAutoPick = imagePicker::pickImage,
         isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
-    val addImagesImagePicker = rememberImagePicker(
-        picker = Picker.Multiple,
-        onSuccess = component::addUris
-    )
+    val addImagesImagePicker = rememberImagePicker(onSuccess = component::addUris)
 
     val isPortrait by isPortraitOrientationAsState()
 
