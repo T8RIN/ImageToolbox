@@ -19,13 +19,10 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalHapticFeedback
 import com.arkivanov.decompose.retainedComponent
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -36,16 +33,13 @@ import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toClipData
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
+import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRoot
@@ -70,19 +64,13 @@ class MediaPickerActivity : M3Activity() {
         } else {
             getString(R.string.pick_single_media)
         }
-        setContent {
-            val settingsState = component.settingsState.toUiState(
-                allEmojis = Emoji.allIcons(),
-                allIconShapes = IconShapeDefaults.shapes,
-                getEmojiColorTuple = component::getColorTupleFromEmoji
-            )
-
-            CompositionLocalProvider(
-                LocalSettingsState provides settingsState,
-                LocalConfettiHostState provides rememberConfettiHostState(),
-                LocalImageLoader provides component.imageLoader,
-                LocalHapticFeedback provides rememberCustomHapticFeedback(settingsState.hapticsStrength),
-                LocalConfettiHostState provides rememberConfettiHostState(),
+        setContentWithWindowSizeClass {
+            ImageToolboxCompositionLocals(
+                settingsState = component.settingsState.toUiState(
+                    allEmojis = Emoji.allIcons(),
+                    allIconShapes = IconShapeDefaults.shapes,
+                    getEmojiColorTuple = component::getColorTupleFromEmoji
+                )
             ) {
                 SecureModeHandler()
 

@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import coil3.ImageLoader
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
@@ -59,7 +58,6 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaState
 
 class MediaPickerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     private val mediaRetriever: MediaRetriever,

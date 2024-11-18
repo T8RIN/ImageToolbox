@@ -21,7 +21,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -53,14 +52,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -83,7 +80,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.Github
 import ru.tech.imageresizershrinker.core.resources.icons.Robot
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.Black
 import ru.tech.imageresizershrinker.core.ui.theme.Blue
@@ -92,9 +88,10 @@ import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
+import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
@@ -117,7 +114,7 @@ class CrashActivity : CrashHandler() {
             "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}), App: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n\n"
         val body = "$deviceInfo$ex"
 
-        setContent {
+        setContentWithWindowSizeClass {
             val toastHostState = rememberToastHostState()
             val scope = rememberCoroutineScope()
 
@@ -136,15 +133,12 @@ class CrashActivity : CrashHandler() {
 
             val linkHandler = LocalUriHandler.current
 
-            val settingsState = getSettingsState()
-
-            CompositionLocalProvider(
-                LocalSettingsState provides settingsState.toUiState(
+            ImageToolboxCompositionLocals(
+                settingsState = getSettingsState().toUiState(
                     allEmojis = Emoji.allIcons(),
                     allIconShapes = IconShapeDefaults.shapes,
                     getEmojiColorTuple = ::getColorTupleFromEmoji
-                ),
-                LocalHapticFeedback provides rememberCustomHapticFeedback(settingsState.hapticsStrength)
+                )
             ) {
                 SecureModeHandler()
 

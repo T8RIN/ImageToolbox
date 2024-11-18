@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
-import coil3.ImageLoader
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -64,7 +63,6 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class RootComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     private val childProvider: ChildProvider,

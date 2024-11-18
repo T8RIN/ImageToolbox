@@ -24,6 +24,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -50,9 +51,12 @@ fun Modifier.scaleOnTap(
     )
     val haptics = LocalHapticFeedback.current
 
+    val onHold = rememberUpdatedState(onHold)
+    val onRelease = rememberUpdatedState(onRelease)
+
     Modifier
         .scale(scale)
-        .pointerInput(onHold, onRelease, min, max, initial) {
+        .pointerInput(min, max, initial) {
             detectTapGestures(
                 onPress = {
                     val time = System.currentTimeMillis()
@@ -60,10 +64,10 @@ fun Modifier.scaleOnTap(
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )
-                    onHold()
+                    onHold.value()
                     delay(200)
                     tryAwaitRelease()
-                    onRelease(System.currentTimeMillis() - time)
+                    onRelease.value(System.currentTimeMillis() - time)
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )

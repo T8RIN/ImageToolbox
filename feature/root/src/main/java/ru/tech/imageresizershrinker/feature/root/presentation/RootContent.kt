@@ -23,7 +23,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -34,7 +33,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalHapticFeedback
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
@@ -42,19 +40,14 @@ import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberEditPresetsController
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
@@ -87,25 +80,19 @@ fun RootContent(
         randomEmojiKey++
     }
 
-    val settingsState = component.settingsState.toUiState(
-        allEmojis = Emoji.allIcons(),
-        allIconShapes = IconShapeDefaults.shapes,
-        randomEmojiKey = randomEmojiKey,
-        getEmojiColorTuple = component::getColorTupleFromEmoji
-    )
-
-    val editPresetsController = rememberEditPresetsController()
-
-    CompositionLocalProvider(
-        LocalToastHostState provides component.toastHostState,
-        LocalSettingsState provides settingsState,
-        LocalSimpleSettingsInteractor provides component.getSettingsInteractor(),
-        LocalEditPresetsController provides editPresetsController,
-        LocalConfettiHostState provides rememberConfettiHostState(),
-        LocalImageLoader provides component.imageLoader,
-        LocalHapticFeedback provides rememberCustomHapticFeedback(component.settingsState.hapticsStrength)
+    ImageToolboxCompositionLocals(
+        settingsState = component.settingsState.toUiState(
+            allEmojis = Emoji.allIcons(),
+            allIconShapes = IconShapeDefaults.shapes,
+            randomEmojiKey = randomEmojiKey,
+            getEmojiColorTuple = component::getColorTupleFromEmoji
+        ),
+        toastHostState = component.toastHostState,
+        simpleSettingsInteractor = component.getSettingsInteractor()
     ) {
         SecureModeHandler()
+
+        val settingsState = LocalSettingsState.current
 
         LaunchedEffect(settingsState) {
             GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
@@ -113,6 +100,8 @@ fun RootContent(
         }
 
         ImageToolboxTheme {
+            val editPresetsController = LocalEditPresetsController.current
+
             val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
             if (!tiramisu) {
