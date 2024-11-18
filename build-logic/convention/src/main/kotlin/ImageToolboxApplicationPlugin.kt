@@ -35,7 +35,6 @@ class ImageToolboxApplicationPlugin : Plugin<Project> {
             apply(plugin = "com.android.application")
             apply(plugin = "org.jetbrains.kotlin.android")
             apply(plugin = "kotlin-parcelize")
-            apply(plugin = "kotlin-kapt")
             apply(plugin = "com.google.gms.google-services")
             apply(plugin = "com.google.firebase.crashlytics")
             apply(plugin = "com.mikepenz.aboutlibraries.plugin")

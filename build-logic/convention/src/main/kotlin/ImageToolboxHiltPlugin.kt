@@ -26,11 +26,11 @@ class ImageToolboxHiltPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("dagger.hilt.android.plugin")
-                apply("org.jetbrains.kotlin.kapt")
+                apply("com.google.devtools.ksp")
             }
             dependencies {
                 "implementation"(libs.findLibrary("hilt").get())
-                "kapt"(libs.findLibrary("dagger.hilt.compiler").get())
+                "ksp"(libs.findLibrary("dagger.hilt.compiler").get())
             }
         }
     }
