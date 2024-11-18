@@ -812,6 +812,8 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
   </picture>
 </a>
 
+![](https://repobeats.axiom.co/api/embed/c62092c6ec0d00e67496223d50e39f48a582c532.svg)
+
 # 📢 Contributors
 
 <a href="https://github.com/t8rin/imageresizer/graphs/contributors">
