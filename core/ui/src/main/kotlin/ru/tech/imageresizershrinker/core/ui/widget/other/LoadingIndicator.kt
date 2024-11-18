@@ -104,7 +104,7 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
                 .align(
                     Alignment.Center
                 )
-                .size(minHeight / 2),
+                .size(this.minHeight / 2),
             trackColor = MaterialTheme.colorScheme.secondary.copy(0.3f),
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
@@ -194,7 +194,7 @@ fun BoxScope.LoadingIndicator(
             contentAlignment = Alignment.Center
         ) {
             EnhancedCircularProgressIndicator(
-                modifier = Modifier.size(maxWidth),
+                modifier = Modifier.size(this.maxWidth),
                 color = MaterialTheme.colorScheme.secondary.copy(0.3f),
                 trackColor = MaterialTheme.colorScheme.surfaceContainer
             )
