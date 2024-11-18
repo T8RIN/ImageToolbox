@@ -69,6 +69,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.gigamole.composefadingedges.FadingEdgesGravity
 import com.smarttoolfactory.gesture.detectPointerTransformGestures
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
@@ -147,7 +148,8 @@ fun LazyListScope.imageStickyHeader(
                         length = animateDpAsState(
                             if (imageState.position == 4) 0.dp
                             else 16.dp
-                        ).value
+                        ).value,
+                        gravity = FadingEdgesGravity.End
                     )
                     .background(color)
                     .padding(
