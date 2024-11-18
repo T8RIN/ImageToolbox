@@ -52,7 +52,9 @@ fun EnhancedSlider(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     val settingsState = LocalSettingsState.current
-    val realColors = colors ?: when (settingsState.sliderType) {
+    val sliderType = settingsState.sliderType
+
+    val realColors = colors ?: when (sliderType) {
         SliderType.Fancy -> {
             SliderDefaults.colors(
                 activeTickColor = MaterialTheme.colorScheme.inverseSurface,
@@ -90,7 +92,7 @@ fun EnhancedSlider(
         }
     }
 
-    when (settingsState.sliderType) {
+    when (sliderType) {
         SliderType.Fancy -> {
             FancySlider(
                 value = value,

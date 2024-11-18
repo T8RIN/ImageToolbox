@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -43,8 +44,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 
 @Composable
@@ -57,7 +56,7 @@ fun rememberAvailableHeight(
     return animateDpAsState(
         targetValue = fullHeight.times(
             when {
-                expanded || imageState.position == 4 -> 0.98f
+                expanded || imageState.position == 4 -> 1f
                 imageState.position == 3 -> 0.7f
                 imageState.position == 2 -> 0.5f
                 imageState.position == 1 -> 0.35f
@@ -82,9 +81,8 @@ fun rememberFullHeight(): Dp {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                EnhancedTopAppBar(
+                TopAppBar(
                     title = { Text(" ") },
-                    type = EnhancedTopAppBarType.Normal,
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(Color.Transparent)
                 )
                 Spacer(

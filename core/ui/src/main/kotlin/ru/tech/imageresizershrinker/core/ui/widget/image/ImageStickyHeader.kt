@@ -20,15 +20,14 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -36,10 +35,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
@@ -71,15 +68,16 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.gesture.detectPointerTransformGestures
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
-import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.imageStickyHeader(
@@ -142,8 +140,24 @@ fun LazyListScope.imageStickyHeader(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(internalHeight)
+                    .fadingEdges(
+                        scrollableState = null,
+                        isVertical = true,
+                        length = animateDpAsState(
+                            if (imageState.position == 4) 0.dp
+                            else 16.dp
+                        ).value
+                    )
                     .background(color)
-                    .padding(padding),
+                    .padding(
+                        start = padding,
+                        end = padding,
+                        top = padding,
+                        bottom = animateDpAsState(
+                            if (controlsVisible) padding / 2
+                            else padding
+                        ).value
+                    ),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -152,45 +166,27 @@ fun LazyListScope.imageStickyHeader(
                         .weight(1f, false)
                         .then(imageModifier)
                         .pointerInput(Unit) {
-                            detectTapGestures {
-                                controlsVisible = true
-                            }
-                        }
-                        .pointerInput(Unit) {
-                            detectTransformGestures { _, _, _, _ ->
-                                controlsVisible = true
-                            }
+                            detectPointerTransformGestures(
+                                consume = false,
+                                onGestureEnd = {},
+                                onGestureStart = {
+                                    controlsVisible = true
+                                },
+                                onGesture = { _, _, _, _, _, _ -> }
+                            )
                         }
                 ) {
                     imageBlock()
                 }
-                Spacer(
-                    Modifier.height(
-                        animateDpAsState(
-                            if (controlsVisible) 36.dp else 0.dp
-                        ).value
-                    )
-                )
-            }
-            Box {
-                GradientEdge(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(16.dp),
-                    startColor = color,
-                    endColor = Color.Transparent
-                )
                 BoxAnimatedVisibility(
                     visible = controlsVisible,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .offset(y = (-48).dp),
-                    enter = fadeIn() + scaleIn(),
-                    exit = fadeOut() + scaleOut()
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth(0.7f),
+                            .fillMaxWidth(0.7f)
+                            .padding(top = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         EnhancedSlider(
