@@ -64,9 +64,9 @@ import ru.tech.imageresizershrinker.core.settings.presentation.model.isFirstLaun
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersionPreRelease
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.canPinShortcuts
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.createScreenShortcut
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -75,9 +75,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarTyp
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -136,7 +134,7 @@ internal fun MainTopAppBar(
             val context = LocalContext.current
 
             if (context.canPinShortcuts()) {
-                val toastHostState = LocalToastHostState.current
+                val essentials = rememberLocalEssentials()
 
                 var showShortcutAddingSheet by rememberSaveable {
                     mutableStateOf(false)
@@ -200,11 +198,7 @@ internal fun MainTopAppBar(
                         items(screenList) { screen ->
                             PreferenceItem(
                                 onClick = {
-                                    scope.launch {
-                                        context.createScreenShortcut(screen) {
-                                            toastHostState.showFailureToast(context, it)
-                                        }
-                                    }
+                                    essentials.createScreenShortcut(screen)
                                 },
                                 startIcon = screen.icon,
                                 title = stringResource(screen.title),

@@ -475,7 +475,7 @@ object ContextUtils {
 
     suspend fun Context.createScreenShortcut(
         screen: Screen,
-        onFailure: suspend (Throwable) -> Unit = {},
+        onFailure: (Throwable) -> Unit = {},
     ) = withContext(Dispatchers.Main.immediate) {
         runCatching {
             val context = this@createScreenShortcut

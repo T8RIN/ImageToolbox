@@ -133,7 +133,7 @@ fun Uri.lastModified(context: Context): Long? = with(context.contentResolver) {
 fun List<Uri>.sortedByType(
     sortType: SortType,
     context: Context
-) = when (sortType) {
+): List<Uri> = when (sortType) {
     SortType.Date -> sortedByDate(context)
     SortType.DateReversed -> sortedByDate(context).reversed()
     SortType.Name -> sortedByName(context)
@@ -142,13 +142,13 @@ fun List<Uri>.sortedByType(
 
 fun List<Uri>.sortedByDate(
     context: Context
-) = sortedBy {
+): List<Uri> = sortedBy {
     it.lastModified(context)
 }
 
 fun List<Uri>.sortedByName(
     context: Context
-) = sortedBy {
+): List<Uri> = sortedBy {
     context.getFilename(it)
 }
 
@@ -166,11 +166,11 @@ fun Any.toImageModel() = ImageModel(this)
 
 fun String.toFileModel() = FileModel(this)
 
-@Suppress("DEPRECATION")
 fun String.decodeEscaped(): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         URLDecoder.decode(URLDecoder.decode(this, Charsets.UTF_8), Charsets.UTF_8)
     } else {
+        @Suppress("DEPRECATION")
         URLDecoder.decode(URLDecoder.decode(this))
     }
 }

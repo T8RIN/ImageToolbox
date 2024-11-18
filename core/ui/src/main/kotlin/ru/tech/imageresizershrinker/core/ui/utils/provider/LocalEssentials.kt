@@ -32,9 +32,11 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.createScreenShortcut
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -130,5 +132,14 @@ data class LocalEssentials internal constructor(
             saveResult = saveResult,
             essentials = this
         )
+    }
+
+    fun createScreenShortcut(screen: Screen) {
+        coroutineScope.launch {
+            context.createScreenShortcut(
+                screen = screen,
+                onFailure = ::showFailureToast
+            )
+        }
     }
 }
