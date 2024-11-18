@@ -21,6 +21,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,7 +41,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil3.ImageLoader
+import coil3.annotation.ExperimentalCoilApi
+import coil3.compose.AsyncImageModelEqualityDelegate
 import coil3.compose.AsyncImagePainter
+import coil3.compose.LocalAsyncImageModelEqualityDelegate
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageScope
 import coil3.request.ImageRequest
@@ -59,6 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun Picture(
     modifier: Modifier = Modifier,
@@ -140,47 +145,51 @@ fun Picture(
         }
     }
 
-    SubcomposeAsyncImage(
-        model = request,
-        imageLoader = imageLoader,
-        contentDescription = contentDescription,
-        modifier = modifier
-            .clip(shape)
-            .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
-            .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier),
-        contentScale = contentScale,
-        loading = {
-            if (loading != null) loading(it)
-            shimmerVisible = true
-        },
-        success = success,
-        error = error,
-        onSuccess = {
-            if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
-                activity.window.colorMode =
-                    if (it.result.image.toBitmap(400, 400).hasGainmap()) {
-                        ActivityInfo.COLOR_MODE_HDR
-                    } else ActivityInfo.COLOR_MODE_DEFAULT
-            }
-            shimmerVisible = false
-            onSuccess?.invoke(it)
-            onState?.invoke(it)
-        },
-        onLoading = {
-            onLoading?.invoke(it)
-            onState?.invoke(it)
-        },
-        onError = {
-            if (error != null) shimmerVisible = false
-            onError?.invoke(it)
-            onState?.invoke(it)
-            errorOccurred = true
-        },
-        alignment = alignment,
-        alpha = alpha,
-        colorFilter = colorFilter,
-        filterQuality = filterQuality
-    )
+    CompositionLocalProvider(
+        LocalAsyncImageModelEqualityDelegate provides AsyncImageModelEqualityDelegate.AllProperties
+    ) {
+        SubcomposeAsyncImage(
+            model = request,
+            imageLoader = imageLoader,
+            contentDescription = contentDescription,
+            modifier = modifier
+                .clip(shape)
+                .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
+                .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier),
+            contentScale = contentScale,
+            loading = {
+                if (loading != null) loading(it)
+                shimmerVisible = true
+            },
+            success = success,
+            error = error,
+            onSuccess = {
+                if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
+                    activity.window.colorMode =
+                        if (it.result.image.toBitmap(400, 400).hasGainmap()) {
+                            ActivityInfo.COLOR_MODE_HDR
+                        } else ActivityInfo.COLOR_MODE_DEFAULT
+                }
+                shimmerVisible = false
+                onSuccess?.invoke(it)
+                onState?.invoke(it)
+            },
+            onLoading = {
+                onLoading?.invoke(it)
+                onState?.invoke(it)
+            },
+            onError = {
+                if (error != null) shimmerVisible = false
+                onError?.invoke(it)
+                onState?.invoke(it)
+                errorOccurred = true
+            },
+            alignment = alignment,
+            alpha = alpha,
+            colorFilter = colorFilter,
+            filterQuality = filterQuality
+        )
+    }
 
     //Needed for triggering recomposition
     LaunchedEffect(errorOccurred) {
