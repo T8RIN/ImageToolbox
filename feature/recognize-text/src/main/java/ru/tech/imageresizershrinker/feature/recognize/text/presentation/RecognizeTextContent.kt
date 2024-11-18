@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -57,15 +58,14 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.ImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -226,23 +226,20 @@ fun RecognizeTextContent(
     )
 
     val importLanguagesPicker = rememberFilePicker(
-        type = FileType.Single,
         mimeTypes = listOf("application/zip")
-    ) { uris ->
-        uris.firstOrNull()?.let {
-            component.importLanguagesFrom(
-                uri = it,
-                onSuccess = {
-                    showConfetti()
-                    essentials.showToast(
-                        message = context.getString(R.string.languages_imported),
-                        icon = Icons.Outlined.Language
-                    )
-                    startRecognition()
-                },
-                onFailure = essentials::showFailureToast
-            )
-        }
+    ) { uri: Uri ->
+        component.importLanguagesFrom(
+            uri = uri,
+            onSuccess = {
+                showConfetti()
+                essentials.showToast(
+                    message = context.getString(R.string.languages_imported),
+                    icon = Icons.Outlined.Language
+                )
+                startRecognition()
+            },
+            onFailure = essentials::showFailureToast
+        )
     }
 
     val onExportLanguages: () -> Unit = {

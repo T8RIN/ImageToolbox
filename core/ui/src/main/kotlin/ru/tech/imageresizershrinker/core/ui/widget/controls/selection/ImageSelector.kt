@@ -47,11 +47,10 @@ import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -136,9 +135,8 @@ fun FileSelector(
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     shape: Shape = RoundedCornerShape(20.dp)
 ) {
-    val pickFileLauncher = rememberFilePicker(FileType.Single) {
-        it.firstOrNull()?.let(onValueChange)
-    }
+    val pickFileLauncher = rememberFilePicker(onSuccess = onValueChange)
+
     val context = LocalContext.current
 
     PreferenceItemOverload(

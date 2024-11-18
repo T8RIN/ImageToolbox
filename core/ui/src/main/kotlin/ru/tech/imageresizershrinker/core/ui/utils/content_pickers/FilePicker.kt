@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.utils.helper
+package ru.tech.imageresizershrinker.core.ui.utils.content_pickers
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -114,5 +114,33 @@ fun rememberFilePicker(
         }
     }.value
 }
+
+@JvmName("rememberMultipleFilePicker")
+@Composable
+fun rememberFilePicker(
+    mimeTypes: List<String> = DefaultMimeTypes,
+    onFailure: () -> Unit = {},
+    onSuccess: (List<Uri>) -> Unit,
+): FilePicker = rememberFilePicker(
+    type = FileType.Multiple,
+    mimeTypes = mimeTypes,
+    onFailure = onFailure,
+    onSuccess = onSuccess
+)
+
+@JvmName("rememberSingleFilePicker")
+@Composable
+fun rememberFilePicker(
+    mimeTypes: List<String> = DefaultMimeTypes,
+    onFailure: () -> Unit = {},
+    onSuccess: (Uri) -> Unit,
+): FilePicker = rememberFilePicker(
+    type = FileType.Multiple,
+    mimeTypes = mimeTypes,
+    onFailure = onFailure,
+    onSuccess = {
+        it.firstOrNull()?.let(onSuccess)
+    }
+)
 
 private val DefaultMimeTypes = listOf("*/*")

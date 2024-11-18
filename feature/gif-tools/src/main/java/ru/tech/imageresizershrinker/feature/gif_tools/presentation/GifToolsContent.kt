@@ -74,12 +74,11 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -118,25 +117,21 @@ fun GifToolsContent(
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleGifLauncher = rememberFilePicker(
-        type = FileType.Single,
         mimeTypes = listOf("image/gif")
-    ) { uris ->
-        uris.firstOrNull()?.let {
-            if (it.isGif(context)) {
-                component.setGifUri(it)
-            } else {
-                essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Rounded.Gif
-                )
-            }
+    ) { uri: Uri ->
+        if (uri.isGif(context)) {
+            component.setGifUri(uri)
+        } else {
+            essentials.showToast(
+                message = context.getString(R.string.select_gif_image_to_start),
+                icon = Icons.Rounded.Gif
+            )
         }
     }
 
     val pickMultipleGifToJxlLauncher = rememberFilePicker(
-        type = FileType.Multiple,
         mimeTypes = listOf("image/gif")
-    ) { list ->
+    ) { list: List<Uri> ->
         list.filter {
             it.isGif(context)
         }.let { uris ->
@@ -154,9 +149,8 @@ fun GifToolsContent(
     }
 
     val pickMultipleGifToWebpLauncher = rememberFilePicker(
-        type = FileType.Multiple,
         mimeTypes = listOf("image/gif")
-    ) { list ->
+    ) { list: List<Uri> ->
         list.filter {
             it.isGif(context)
         }.let { uris ->
@@ -174,9 +168,8 @@ fun GifToolsContent(
     }
 
     val addGifsToJxlLauncher = rememberFilePicker(
-        type = FileType.Multiple,
         mimeTypes = listOf("image/gif")
-    ) { list ->
+    ) { list: List<Uri> ->
         list.filter {
             it.isGif(context)
         }.let { uris ->
@@ -197,9 +190,8 @@ fun GifToolsContent(
     }
 
     val addGifsToWebpLauncher = rememberFilePicker(
-        type = FileType.Multiple,
         mimeTypes = listOf("image/gif")
-    ) { list ->
+    ) { list: List<Uri> ->
         list.filter {
             it.isGif(context)
         }.let { uris ->

@@ -73,12 +73,11 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isApng
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -119,25 +118,21 @@ fun ApngToolsContent(
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleApngLauncher = rememberFilePicker(
-        type = FileType.Single,
         mimeTypes = listOf("image/png", "image/apng")
-    ) { uris ->
-        uris.firstOrNull()?.let {
-            if (it.isApng(context)) {
-                component.setApngUri(it)
-            } else {
-                essentials.showToast(
-                    message = context.getString(R.string.select_apng_image_to_start),
-                    icon = Icons.Rounded.Apng
-                )
-            }
+    ) { uri: Uri ->
+        if (uri.isApng(context)) {
+            component.setApngUri(uri)
+        } else {
+            essentials.showToast(
+                message = context.getString(R.string.select_apng_image_to_start),
+                icon = Icons.Rounded.Apng
+            )
         }
     }
 
     val pickMultipleApngLauncher = rememberFilePicker(
-        type = FileType.Multiple,
         mimeTypes = listOf("image/png", "image/apng")
-    ) { list ->
+    ) { list: List<Uri> ->
         list.filter {
             it.isApng(context)
         }.let { uris ->
@@ -155,9 +150,8 @@ fun ApngToolsContent(
     }
 
     val addApngLauncher = rememberFilePicker(
-        type = FileType.Multiple,
         mimeTypes = listOf("image/png", "image/apng")
-    ) { list ->
+    ) { list: List<Uri> ->
         list.filter {
             it.isApng(context)
         }.let { uris ->

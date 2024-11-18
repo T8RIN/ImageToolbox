@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.utils.helper
+package ru.tech.imageresizershrinker.core.ui.utils.content_pickers
 
 import android.Manifest
 import android.content.ActivityNotFoundException
@@ -47,8 +47,11 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.PicturePickerMode
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.core.ui.utils.helper.MediaPickerActivityClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import java.io.File
 import kotlin.random.Random
@@ -400,6 +403,7 @@ fun rememberImagePicker(
 }
 
 private object CameraException : Throwable("No Camera permission") {
+    @Suppress("unused")
     private fun readResolve(): Any = CameraException
 }
 

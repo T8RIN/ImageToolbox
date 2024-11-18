@@ -27,8 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.DownloadFile
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -38,11 +37,7 @@ fun RestoreSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val filePicker = rememberFilePicker(FileType.Single) { uris ->
-        uris.firstOrNull()?.let {
-            onObtainBackupFile(it)
-        }
-    }
+    val filePicker = rememberFilePicker(onSuccess = onObtainBackupFile)
 
     PreferenceItem(
         onClick = filePicker::pickFile,

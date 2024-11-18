@@ -66,9 +66,8 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -121,20 +120,14 @@ fun ZipContent(
         }
     )
 
-    val filePicker = rememberFilePicker(
-        type = FileType.Multiple,
-        onSuccess = component::setUris
-    )
+    val filePicker = rememberFilePicker(onSuccess = component::setUris)
 
     AutoFilePicker(
         onAutoPick = filePicker::pickFile,
         isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
-    val additionalFilePicker = rememberFilePicker(
-        type = FileType.Multiple,
-        onSuccess = component::addUris
-    )
+    val additionalFilePicker = rememberFilePicker(onSuccess = component::addUris)
 
     val isPortrait by isPortraitOrientationAsState()
 

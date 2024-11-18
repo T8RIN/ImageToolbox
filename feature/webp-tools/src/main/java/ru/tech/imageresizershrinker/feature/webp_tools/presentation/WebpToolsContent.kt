@@ -68,12 +68,11 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isWebp
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -113,18 +112,15 @@ fun WebpToolsContent(
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleWebpLauncher = rememberFilePicker(
-        type = FileType.Single,
         mimeTypes = listOf("image/webp")
-    ) { uris ->
-        uris.firstOrNull()?.let {
-            if (it.isWebp(context)) {
-                component.setWebpUri(it)
-            } else {
-                essentials.showToast(
-                    message = context.getString(R.string.select_webp_image_to_start),
-                    icon = Icons.Rounded.Webp
-                )
-            }
+    ) { uri: Uri ->
+        if (uri.isWebp(context)) {
+            component.setWebpUri(uri)
+        } else {
+            essentials.showToast(
+                message = context.getString(R.string.select_webp_image_to_start),
+                icon = Icons.Rounded.Webp
+            )
         }
     }
 

@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,8 +42,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -99,28 +99,26 @@ internal fun FilterTemplateAddingGroup(
         )
     }
 
-    val importFromFileLauncher = rememberFilePicker(FileType.Single) { uris ->
-        uris.firstOrNull()?.let {
-            addTemplateFilterFromUri(
-                uri = it.toString(),
-                onSuccess = { filterName, filtersCount ->
-                    toastHostState.showToast(
-                        message = context.getString(
-                            R.string.added_filter_template,
-                            filterName,
-                            filtersCount
-                        ),
-                        icon = Icons.Outlined.AutoFixHigh
-                    )
-                },
-                onFailure = {
-                    toastHostState.showToast(
-                        message = context.getString(R.string.opened_file_have_no_filter_template),
-                        icon = Icons.Outlined.AutoFixHigh
-                    )
-                }
-            )
-        }
+    val importFromFileLauncher = rememberFilePicker { uri: Uri ->
+        addTemplateFilterFromUri(
+            uri = uri.toString(),
+            onSuccess = { filterName, filtersCount ->
+                toastHostState.showToast(
+                    message = context.getString(
+                        R.string.added_filter_template,
+                        filterName,
+                        filtersCount
+                    ),
+                    icon = Icons.Outlined.AutoFixHigh
+                )
+            },
+            onFailure = {
+                toastHostState.showToast(
+                    message = context.getString(R.string.opened_file_have_no_filter_template),
+                    icon = Icons.Outlined.AutoFixHigh
+                )
+            }
+        )
     }
 
     var showFilterTemplateCreationSheet by rememberSaveable {

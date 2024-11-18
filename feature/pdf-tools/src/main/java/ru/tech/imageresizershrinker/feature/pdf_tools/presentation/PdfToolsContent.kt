@@ -70,10 +70,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.FileType
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -130,18 +129,14 @@ fun PdfToolsContent(
     )
 
     val pdfToImagesPicker = rememberFilePicker(
-        type = FileType.Single,
-        mimeTypes = listOf("application/pdf")
-    ) { uris ->
-        uris.firstOrNull()?.let(component::setPdfToImagesUri)
-    }
+        mimeTypes = listOf("application/pdf"),
+        onSuccess = component::setPdfToImagesUri
+    )
 
     val pdfPreviewPicker = rememberFilePicker(
-        type = FileType.Single,
-        mimeTypes = listOf("application/pdf")
-    ) { uris ->
-        uris.firstOrNull()?.let(component::setPdfPreview)
-    }
+        mimeTypes = listOf("application/pdf"),
+        onSuccess = component::setPdfPreview
+    )
 
     var tempSelectionUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var showSelectionPdfPicker by rememberSaveable { mutableStateOf(false) }
@@ -149,13 +144,10 @@ fun PdfToolsContent(
         if (!showSelectionPdfPicker) tempSelectionUri = null
     }
     val selectionPdfPicker = rememberFilePicker(
-        type = FileType.Single,
         mimeTypes = listOf("application/pdf")
-    ) { uris ->
-        uris.firstOrNull()?.let {
-            tempSelectionUri = it
-            showSelectionPdfPicker = true
-        }
+    ) { uri: Uri ->
+        tempSelectionUri = uri
+        showSelectionPdfPicker = true
     }
 
     EnhancedModalBottomSheet(
