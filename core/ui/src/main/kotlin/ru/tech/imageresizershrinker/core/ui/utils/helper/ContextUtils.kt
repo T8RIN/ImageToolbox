@@ -405,7 +405,7 @@ object ContextUtils {
             System.getProperty("os.name")
         }.getOrNull() ?: getSystemProperty("os.name")
         return listOf("redmagic", "magic", "red").all {
-            osName?.contains(it, true) ?: false
+            osName?.contains(it, true) == true
         }
     }
 
@@ -538,7 +538,7 @@ object ContextUtils {
             }
         } else {
             @Suppress("DEPRECATION")
-            return connectivityManager.activeNetworkInfo?.isConnected ?: false
+            return connectivityManager.activeNetworkInfo?.isConnected == true
         }
     }
 }

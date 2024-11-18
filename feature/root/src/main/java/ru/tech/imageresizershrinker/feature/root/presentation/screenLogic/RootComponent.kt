@@ -312,13 +312,13 @@ class RootComponent @AssistedInject internal constructor(
 
     fun hideSelectDialog() {
         _showSelectDialog.value = false
+        _uris.update { null }
     }
 
-    fun updateUris(uris: List<Uri>?) {
-        _uris.value = null
+    fun updateUris(uris: List<Uri>) {
         _uris.value = uris
 
-        if (!uris.isNullOrEmpty() || (uris.isNullOrEmpty() && extraImageType != null)) {
+        if (uris.isNotEmpty() || extraImageType != null) {
             _showSelectDialog.value = true
         }
     }

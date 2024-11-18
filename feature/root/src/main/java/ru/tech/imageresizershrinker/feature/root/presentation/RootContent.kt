@@ -107,30 +107,11 @@ fun RootContent(
     ) {
         SecureModeHandler()
 
-        var showSelectSheet by rememberSaveable(component.showSelectDialog) {
-            mutableStateOf(component.showSelectDialog)
-        }
-        var showUpdateSheet by rememberSaveable(component.showUpdateDialog) {
-            mutableStateOf(component.showUpdateDialog)
-        }
         LaunchedEffect(settingsState) {
             GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
             GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectAnalytics)
         }
 
-        LaunchedEffect(showSelectSheet) {
-            if (!showSelectSheet) {
-                delay(600)
-                component.hideSelectDialog()
-                component.updateUris(null)
-            }
-        }
-        LaunchedEffect(showUpdateSheet) {
-            if (!showUpdateSheet) {
-                delay(600)
-                component.cancelledUpdate()
-            }
-        }
         ImageToolboxTheme {
             val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
@@ -157,12 +138,12 @@ fun RootContent(
                 ProcessImagesPreferenceSheet(
                     uris = component.uris ?: emptyList(),
                     extraImageType = component.extraImageType,
-                    visible = showSelectSheet,
-                    onDismiss = { showSelectSheet = false },
+                    visible = component.showSelectDialog,
+                    onDismiss = component::hideSelectDialog,
                     onNavigate = { screen ->
                         GlobalExceptionHandler.registerScreenOpen(screen)
                         component.navigateTo(screen)
-                        showSelectSheet = false
+                        component.hideSelectDialog()
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             runCatching {
                                 clipboardManager.clearPrimaryClip()
@@ -188,10 +169,8 @@ fun RootContent(
             UpdateSheet(
                 tag = component.tag,
                 changelog = component.changelog,
-                visible = showUpdateSheet,
-                onDismiss = {
-                    showUpdateSheet = false
-                }
+                visible = component.showUpdateDialog,
+                onDismiss = component::cancelledUpdate
             )
 
             ConfettiHost()

@@ -93,7 +93,7 @@ internal fun ScreenSelector(
     val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val onGoBack: () -> Unit = {
-        component.updateUris(null)
+        component.hideSelectDialog()
         component.navigateBack()
         themeState.updateColorTuple(appColorTuple)
     }

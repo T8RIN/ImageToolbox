@@ -263,6 +263,7 @@ private fun EnhancedModalSheetImpl(
     }
 
     LaunchedEffect(sheetState.currentValue, sheetState.targetValue, sheetState.progress) {
+        delay(600)
         if (sheetState.progress == 1f && sheetState.currentValue == sheetState.targetValue) {
             val newVisible = sheetState.isVisible
             if (newVisible != visible) {
@@ -336,7 +337,7 @@ private fun EnhancedModalSheetImpl(
                                 predictiveBackProgress = event.progress
                             }
                             onVisibleChange(false)
-                        } catch (e: CancellationException) {
+                        } catch (_: CancellationException) {
                             clean()
                         }
                     }

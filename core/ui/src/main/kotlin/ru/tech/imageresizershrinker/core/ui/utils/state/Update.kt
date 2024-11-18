@@ -23,7 +23,15 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 
 inline fun <T> MutableState<T>.update(
-    onValueChanged: () -> Unit = {},
+    transform: (T) -> T
+): T = run {
+    transform(this.value).also {
+        this.value = it
+    }
+}
+
+inline fun <T> MutableState<T>.update(
+    onValueChanged: () -> Unit,
     transform: (T) -> T
 ): T = run {
     transform(this.value).also {
