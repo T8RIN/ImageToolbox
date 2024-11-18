@@ -115,9 +115,7 @@ abstract class M3Activity : AppCompatActivity() {
     }
 
     private fun handleSystemBarsBehavior() {
-        val safeController: WindowInsetsControllerCompat? = windowInsetsController
-
-        safeController?.apply {
+        windowInsetsController?.apply {
             when (settingsState.systemBarsVisibility) {
                 SystemBarsVisibility.Auto -> {
                     val orientation = resources.configuration.orientation
