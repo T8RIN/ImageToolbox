@@ -29,8 +29,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -76,6 +74,7 @@ abstract class M3Activity : AppCompatActivity() {
                     .collect { state ->
                         _settingsState.update { state }
                         handleSystemBarsBehavior()
+                        updateFirebaseParams()
                     }
             }
         }
@@ -88,16 +87,23 @@ abstract class M3Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        adjustFontSize(settingsState.fontScale)
         enableEdgeToEdge()
-        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+
+        adjustFontSize(settingsState.fontScale)
+
+        updateFirebaseParams()
+
         GlobalExceptionHandler.initialize(
             applicationContext = applicationContext,
             activityToBeLaunched = CrashActivity::class.java,
         )
-        Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
 
         handleSystemBarsBehavior()
+    }
+
+    private fun updateFirebaseParams() {
+        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+        GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
     }
 
     private var recreationJob: Job? by smartJob()

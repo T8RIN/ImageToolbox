@@ -26,10 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
@@ -68,13 +66,6 @@ fun RootContent(
         simpleSettingsInteractor = component.simpleSettingsInteractor
     ) {
         SecureModeHandler()
-
-        val settingsState = LocalSettingsState.current
-
-        LaunchedEffect(settingsState) {
-            GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
-            GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectAnalytics)
-        }
 
         ImageToolboxThemeSurface {
             AppExitDialog(component)
