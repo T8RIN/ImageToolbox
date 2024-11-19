@@ -12,7 +12,7 @@ imageToolboxLibs = "3.2.3"
 trickle = "1.2.2"
 
 avifCoder = "2.0.9"
-avifCoderCoil = "2.0.9"
+avifCoderCoil = "2.9.0.1"
 aire = "0.15.5"
 jxlCoder = "2.4.0.5"
 jxlCoderCoil = "2.4.0.5"
