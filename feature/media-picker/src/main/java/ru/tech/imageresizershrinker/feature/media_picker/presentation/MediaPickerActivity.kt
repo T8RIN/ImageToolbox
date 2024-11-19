@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositi
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRoot
+import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRootContent
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 import javax.inject.Inject
 
@@ -76,7 +76,7 @@ class MediaPickerActivity : M3Activity() {
 
                 ImageToolboxTheme {
                     val dynamicTheme = LocalDynamicThemeState.current
-                    MediaPickerRoot(
+                    MediaPickerRootContent(
                         component = component,
                         title = title,
                         allowedMedia = intent.type.allowedMedia,

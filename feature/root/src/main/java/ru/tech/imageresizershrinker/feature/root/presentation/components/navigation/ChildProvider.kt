@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components.navigation
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.items
 import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -42,10 +43,12 @@ import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic.J
 import ru.tech.imageresizershrinker.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
+import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
+import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.screenLogic.SingleEditComponent
@@ -95,9 +98,10 @@ internal class ChildProvider @Inject constructor(
     private val zipComponentFactory: ZipComponent.Factory,
     private val easterEggComponentFactory: EasterEggComponent.Factory,
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
-    private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory
+    private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
+    private val mainComponentFactory: MainComponent.Factory
 ) {
-    fun createChild(
+    fun RootComponent.createChild(
         config: Screen,
         componentContext: ComponentContext
     ): NavigationChild = when (config) {
@@ -114,8 +118,17 @@ internal class ChildProvider @Inject constructor(
         )
 
         Screen.Main -> NavigationChild.Main(
-            settingsComponentFactory(
-                componentContext = componentContext
+            mainComponentFactory(
+                componentContext = componentContext,
+                onTryGetUpdate = ::tryGetUpdate,
+                onGetClipList = ::updateUris,
+                onNavigate = { screen ->
+                    if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
+                        navigateBack()
+                    }
+                    navigateToNew(screen)
+                },
+                isUpdateAvailable = isUpdateAvailable
             )
         )
 
@@ -311,7 +324,15 @@ internal class ChildProvider @Inject constructor(
 
         Screen.Settings -> NavigationChild.Settings(
             settingsComponentFactory(
-                componentContext = componentContext
+                componentContext = componentContext,
+                onTryGetUpdate = ::tryGetUpdate,
+                onNavigate = { screen ->
+                    if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
+                        navigateBack()
+                    }
+                    navigateToNew(screen)
+                },
+                isUpdateAvailable = isUpdateAvailable
             )
         )
 

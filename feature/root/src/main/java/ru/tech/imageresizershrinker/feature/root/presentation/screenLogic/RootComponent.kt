@@ -31,6 +31,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
@@ -78,14 +79,22 @@ class RootComponent @AssistedInject internal constructor(
 
     private val navController = StackNavigation<Screen>()
 
-    internal val childStack: Value<ChildStack<Screen, NavigationChild>> =
+    internal val childStack: Value<ChildStack<Screen, NavigationChild>> by lazy {
         childStack(
             source = navController,
             initialConfiguration = Screen.Main,
             serializer = Screen.serializer(),
             handleBackButton = true,
-            childFactory = childProvider::createChild,
+            childFactory = { screen, context ->
+                with(childProvider) {
+                    createChild(
+                        config = screen,
+                        componentContext = context
+                    )
+                }
+            }
         )
+    }
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -99,8 +108,8 @@ class RootComponent @AssistedInject internal constructor(
     private val _showUpdateDialog = mutableStateOf(false)
     val showUpdateDialog by _showUpdateDialog
 
-    private val _isUpdateAvailable = mutableStateOf(false)
-    val isUpdateAvailable by _isUpdateAvailable
+    private val _isUpdateAvailable: MutableValue<Boolean> = MutableValue(false)
+    val isUpdateAvailable: Value<Boolean> = _isUpdateAvailable
 
     private val _isUpdateCancelled = mutableStateOf(false)
 
@@ -164,9 +173,10 @@ class RootComponent @AssistedInject internal constructor(
 
     fun tryGetUpdate(
         isNewRequest: Boolean = false,
-        isInstalledFromMarket: Boolean,
         onNoUpdates: () -> Unit = {}
     ) {
+        val isInstalledFromMarket = settingsManager.isInstalledFromPlayStore()
+
         if (settingsState.appOpenCount < 2 && !isNewRequest) return
 
         val showDialog = settingsState.showUpdateDialogOnStartup
@@ -303,13 +313,10 @@ class RootComponent @AssistedInject internal constructor(
         _shouldShowExitDialog.update { false }
     }
 
-    fun toggleAllowBetas(installedFromMarket: Boolean) {
+    fun toggleAllowBetas() {
         componentScope.launch {
             settingsManager.toggleAllowBetas()
-            tryGetUpdate(
-                isNewRequest = true,
-                isInstalledFromMarket = installedFromMarket
-            )
+            tryGetUpdate(isNewRequest = true)
         }
     }
 
@@ -347,12 +354,6 @@ class RootComponent @AssistedInject internal constructor(
     fun notShowDonateDialogAgain() {
         componentScope.launch {
             settingsManager.setNotShowDonateDialogAgain()
-        }
-    }
-
-    fun toggleFavoriteScreen(screen: Screen) {
-        componentScope.launch {
-            settingsManager.toggleFavoriteScreen(screen.id)
         }
     }
 

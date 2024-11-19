@@ -61,7 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 @Suppress("KotlinConstantConditions")
 @Composable
 internal fun FirstLaunchSetupDialog(
-    toggleAllowBetas: (Boolean) -> Unit,
+    toggleAllowBetas: () -> Unit,
     toggleShowUpdateDialog: () -> Unit,
     adjustPerformance: (PerformanceClass) -> Unit
 ) {
@@ -137,9 +137,7 @@ internal fun FirstLaunchSetupDialog(
                             subtitle = stringResource(R.string.allow_betas_sub),
                             checked = settingsState.allowBetas,
                             onClick = {
-                                toggleAllowBetas(
-                                    context.isInstalledFromPlayStore()
-                                )
+                                toggleAllowBetas()
                             },
                             startIcon = Icons.Rounded.Beta
                         )

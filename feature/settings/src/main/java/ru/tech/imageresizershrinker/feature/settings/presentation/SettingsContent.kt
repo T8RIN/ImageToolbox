@@ -78,6 +78,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
@@ -110,16 +111,13 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.Se
 @Composable
 fun SettingsContent(
     component: SettingsComponent,
-    onTryGetUpdate: (
-        isNewRequest: Boolean,
-        onNoUpdates: Lambda
-    ) -> Unit,
-    onNavigate: (Screen) -> Unit,
-    isUpdateAvailable: Boolean,
     onGoBack: Lambda? = null,
-    isStandaloneScreen: Boolean = true,
     appBarNavigationIcon: (@Composable (Boolean, Lambda) -> Unit)? = null
 ) {
+    val isStandaloneScreen = appBarNavigationIcon == null
+
+    val isUpdateAvailable by component.isUpdateAvailable.subscribeAsState()
+
     val layoutDirection = LocalLayoutDirection.current
     val initialSettingGroups = remember {
         SettingsGroup.entries.filter {
@@ -358,17 +356,16 @@ fun SettingsContent(
                                                     SettingItem(
                                                         setting = setting,
                                                         component = component,
-                                                        onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
                                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                                                         onNavigateToEasterEgg = {
-                                                            onNavigate(Screen.EasterEgg)
+                                                            component.onNavigate(Screen.EasterEgg)
                                                         },
                                                         onNavigateToSettings = {
-                                                            onNavigate(Screen.Settings)
+                                                            component.onNavigate(Screen.Settings)
                                                         },
                                                         onNavigateToLibrariesInfo = {
-                                                            onNavigate(Screen.LibrariesInfo)
+                                                            component.onNavigate(Screen.LibrariesInfo)
                                                         }
                                                     )
                                                 }
@@ -387,16 +384,15 @@ fun SettingsContent(
                                                     SettingItem(
                                                         setting = setting,
                                                         component = component,
-                                                        onTryGetUpdate = onTryGetUpdate,
                                                         isUpdateAvailable = isUpdateAvailable,
                                                         onNavigateToEasterEgg = {
-                                                            onNavigate(Screen.EasterEgg)
+                                                            component.onNavigate(Screen.EasterEgg)
                                                         },
                                                         onNavigateToSettings = {
-                                                            onNavigate(Screen.Settings)
+                                                            component.onNavigate(Screen.Settings)
                                                         },
                                                         onNavigateToLibrariesInfo = {
-                                                            onNavigate(Screen.LibrariesInfo)
+                                                            component.onNavigate(Screen.LibrariesInfo)
                                                         }
                                                     )
                                                 }
@@ -424,16 +420,15 @@ fun SettingsContent(
                                     group = group,
                                     setting = setting,
                                     component = component,
-                                    onTryGetUpdate = onTryGetUpdate,
                                     isUpdateAvailable = isUpdateAvailable,
                                     onNavigateToEasterEgg = {
-                                        onNavigate(Screen.EasterEgg)
+                                        component.onNavigate(Screen.EasterEgg)
                                     },
                                     onNavigateToSettings = {
-                                        onNavigate(Screen.Settings)
+                                        component.onNavigate(Screen.Settings)
                                     },
                                     onNavigateToLibrariesInfo = {
-                                        onNavigate(Screen.LibrariesInfo)
+                                        component.onNavigate(Screen.LibrariesInfo)
                                     }
                                 )
                             }

@@ -88,7 +88,7 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
         }
 
         fun setAllowCollectCrashlytics(value: Boolean) {
-            Firebase.crashlytics.setCrashlyticsCollectionEnabled(value)
+            Firebase.crashlytics.isCrashlyticsCollectionEnabled = value
             allowCollectCrashlytics = value
         }
 

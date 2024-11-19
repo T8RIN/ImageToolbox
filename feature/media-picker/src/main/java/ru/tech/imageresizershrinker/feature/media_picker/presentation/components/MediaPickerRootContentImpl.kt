@@ -120,7 +120,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMed
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
-fun MediaPickerScreen(
+internal fun MediaPickerRootContentImpl(
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
     component: MediaPickerComponent,

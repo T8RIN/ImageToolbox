@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation
 
-import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -67,6 +66,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.idapgroup.snowfall.snowfall
 import com.idapgroup.snowfall.types.FlakeType
 import kotlinx.coroutines.delay
@@ -83,25 +83,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainContentImpl
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainDrawerContent
+import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
-import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
 @Composable
 fun MainContent(
-    settingsComponent: SettingsComponent,
-    onTryGetUpdate: (
-        isNewRequest: Boolean,
-        onNoUpdates: () -> Unit
-    ) -> Unit,
-    onNavigate: (Screen) -> Unit,
-    isUpdateAvailable: Boolean,
-    onUpdateUris: (List<Uri>) -> Unit,
-    onToggleFavorite: (Screen) -> Unit
+    component: MainComponent
 ) {
-    fun tryGetUpdate(
-        isNewRequest: Boolean,
-        onNoUpdates: () -> Unit
-    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
+    val isUpdateAvailable by component.isUpdateAvailable.subscribeAsState()
 
     val settingsState = LocalSettingsState.current
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
@@ -121,42 +110,37 @@ fun MainContent(
                 layoutDirection = layoutDirection,
                 settingsBlockContent = {
                     SettingsContent(
-                        onTryGetUpdate = ::tryGetUpdate,
-                        isUpdateAvailable = isUpdateAvailable,
-                        onNavigate = onNavigate,
-                        isStandaloneScreen = false,
-                        component = settingsComponent
-                    ) { showSettingsSearch, onCloseSearch ->
-                        AnimatedContent(
-                            targetState = !isSheetSlideable to showSettingsSearch,
-                            transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                        ) { (expanded, searching) ->
-                            if (searching) {
-                                EnhancedIconButton(
-                                    onClick = onCloseSearch
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                        contentDescription = stringResource(R.string.exit)
-                                    )
-                                }
-                            } else if (expanded) {
-                                EnhancedIconButton(
-                                    onClick = {
-                                        sheetExpanded = !sheetExpanded
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Rounded.MenuOpen,
-                                        contentDescription = "Expand",
-                                        modifier = Modifier.rotate(
-                                            animateFloatAsState(if (!sheetExpanded) 0f else 180f).value
+                        component = component.settingsComponent,
+                        appBarNavigationIcon = { showSettingsSearch, onCloseSearch ->
+                            AnimatedContent(
+                                targetState = !isSheetSlideable to showSettingsSearch,
+                                transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                            ) { (expanded, searching) ->
+                                if (searching) {
+                                    EnhancedIconButton(onClick = onCloseSearch) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                            contentDescription = stringResource(R.string.exit)
                                         )
-                                    )
+                                    }
+                                } else if (expanded) {
+                                    EnhancedIconButton(
+                                        onClick = {
+                                            sheetExpanded = !sheetExpanded
+                                        }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Rounded.MenuOpen,
+                                            contentDescription = "Expand",
+                                            modifier = Modifier.rotate(
+                                                animateFloatAsState(if (!sheetExpanded) 0f else 180f).value
+                                            )
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
+                    )
                 }
             )
         }
@@ -178,9 +162,9 @@ fun MainContent(
                 onShowSnowfall = {
                     showSnowfall = true
                 },
-                onGetClipList = onUpdateUris,
+                onGetClipList = component::parseClipList,
                 onTryGetUpdate = {
-                    tryGetUpdate(
+                    component.tryGetUpdate(
                         isNewRequest = true,
                         onNoUpdates = {
                             scope.launch {
@@ -193,8 +177,8 @@ fun MainContent(
                     )
                 },
                 isUpdateAvailable = isUpdateAvailable,
-                onNavigate = onNavigate,
-                onToggleFavorite = onToggleFavorite
+                onNavigate = component.onNavigate,
+                onToggleFavorite = component::toggleFavoriteScreen
             )
         }
     }

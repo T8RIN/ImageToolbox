@@ -21,7 +21,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.arkivanov.decompose.retainedComponent
 import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
@@ -62,10 +61,7 @@ class AppActivity : M3Activity() {
             onColdStart = component::cancelShowingExitDialog,
             onGetUris = component::updateUris,
             onShowToast = component::showToast,
-            onNavigate = { screen ->
-                GlobalExceptionHandler.registerScreenOpen(screen)
-                component.navigateTo(screen)
-            },
+            onNavigate = component::navigateTo,
             isHasUris = !component.uris.isNullOrEmpty(),
             onWantGithubReview = component::onWantGithubReview,
             isOpenEditInsteadOfPreview = component.settingsState.openEditInsteadOfPreview

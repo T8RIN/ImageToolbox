@@ -52,10 +52,6 @@ internal fun SearchableSettingItem(
     setting: Setting,
     shape: Shape,
     component: SettingsComponent,
-    onTryGetUpdate: (
-        isNewRequest: Boolean,
-        onNoUpdates: () -> Unit
-    ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToLibrariesInfo: () -> Unit,
@@ -105,7 +101,6 @@ internal fun SearchableSettingItem(
             SettingItem(
                 setting = setting,
                 component = component,
-                onTryGetUpdate = onTryGetUpdate,
                 isUpdateAvailable = isUpdateAvailable,
                 onNavigateToEasterEgg = onNavigateToEasterEgg,
                 onNavigateToSettings = onNavigateToSettings,

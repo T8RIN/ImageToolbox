@@ -43,10 +43,6 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.Se
 internal fun SettingItem(
     setting: Setting,
     component: SettingsComponent,
-    onTryGetUpdate: (
-        isNewRequest: Boolean,
-        onNoUpdates: () -> Unit,
-    ) -> Unit,
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToLibrariesInfo: () -> Unit,
@@ -57,16 +53,6 @@ internal fun SettingItem(
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
-
-    fun tryGetUpdate(
-        isNewRequest: Boolean = true,
-        onNoUpdates: () -> Unit = {
-            essentials.showToast(
-                icon = Icons.Rounded.FileDownloadOff,
-                message = context.getString(R.string.no_updates)
-            )
-        },
-    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
 
     ProvideContainerDefaults(
         color = containerColor,
@@ -86,9 +72,7 @@ internal fun SettingItem(
                     AllowBetasSettingItem(
                         onClick = {
                             component.toggleAllowBetas()
-                            tryGetUpdate(
-                                onNoUpdates = {}
-                            )
+                            component.tryGetUpdate()
                         }
                     )
                 }
@@ -185,7 +169,12 @@ internal fun SettingItem(
 
                     essentials.toastHostState.currentToastData?.dismiss()
                     if (clicks == 1) {
-                        tryGetUpdate()
+                        component.tryGetUpdate {
+                            essentials.showToast(
+                                icon = Icons.Rounded.FileDownloadOff,
+                                message = context.getString(R.string.no_updates)
+                            )
+                        }
                     }
                 }
 
@@ -332,7 +321,7 @@ internal fun SettingItem(
 
             Setting.CheckUpdatesButton -> {
                 CheckUpdatesButtonSettingItem(
-                    onClick = ::tryGetUpdate
+                    onClick = component::tryGetUpdate
                 )
             }
 

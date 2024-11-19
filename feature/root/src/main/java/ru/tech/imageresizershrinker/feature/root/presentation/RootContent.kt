@@ -43,7 +43,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -113,8 +112,7 @@ fun RootContent(
 
             Surface(Modifier.fillMaxSize()) {
                 ScreenSelector(
-                    component = component,
-                    onRegisterScreenOpen = GlobalExceptionHandler.Companion::registerScreenOpen
+                    component = component
                 )
 
                 EditPresetsSheet(
@@ -130,7 +128,6 @@ fun RootContent(
                     visible = component.showSelectDialog,
                     onDismiss = component::hideSelectDialog,
                     onNavigate = { screen ->
-                        GlobalExceptionHandler.registerScreenOpen(screen)
                         component.navigateTo(screen)
                         component.hideSelectDialog()
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -169,9 +166,7 @@ fun RootContent(
             )
 
             SideEffect {
-                component.tryGetUpdate(
-                    isInstalledFromMarket = context.isInstalledFromPlayStore()
-                )
+                component.tryGetUpdate()
             }
 
             FirstLaunchSetupDialog(

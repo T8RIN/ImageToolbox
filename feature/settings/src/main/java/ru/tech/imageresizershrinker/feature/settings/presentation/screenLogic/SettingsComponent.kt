@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.Value
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.assisted.Assisted
@@ -55,6 +56,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 class SettingsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted private val onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
+    @Assisted val isUpdateAvailable: Value<Boolean>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
@@ -63,6 +67,11 @@ class SettingsComponent @AssistedInject internal constructor(
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
+
+    fun tryGetUpdate(
+        isNewRequest: Boolean = false,
+        onNoUpdates: () -> Unit = {}
+    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
 
     init {
         if (settingsState.clearCacheOnLaunch) clearCache()
@@ -641,6 +650,11 @@ class SettingsComponent @AssistedInject internal constructor(
 
     @AssistedFactory
     fun interface Factory {
-        operator fun invoke(componentContext: ComponentContext): SettingsComponent
+        operator fun invoke(
+            componentContext: ComponentContext,
+            onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
+            onNavigate: (Screen) -> Unit,
+            isUpdateAvailable: Value<Boolean>,
+        ): SettingsComponent
     }
 }

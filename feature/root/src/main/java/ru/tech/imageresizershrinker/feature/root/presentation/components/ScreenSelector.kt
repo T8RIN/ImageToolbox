@@ -35,14 +35,11 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerContent
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
-import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.animation.AlphaEasing
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.utils.animation.PointToPointEasing
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
@@ -85,12 +82,10 @@ import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGeneratio
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
 internal fun ScreenSelector(
-    component: RootComponent,
-    onRegisterScreenOpen: (Screen) -> Unit,
+    component: RootComponent
 ) {
     val appColorTuple = rememberAppColorTuple()
 
-    val context = LocalComponentActivity.current
     val themeState = LocalDynamicThemeState.current
     val onGoBack: () -> Unit = {
         component.hideSelectDialog()
@@ -100,18 +95,10 @@ internal fun ScreenSelector(
 
     val onNavigate: (Screen) -> Unit = { destination ->
         component.navigateTo(destination)
-        onRegisterScreenOpen(destination)
-    }
-
-    val onTryGetUpdate: (Boolean, Lambda) -> Unit = { isNewRequest, onNoUpdates ->
-        component.tryGetUpdate(
-            isNewRequest = isNewRequest,
-            isInstalledFromMarket = context.isInstalledFromPlayStore(),
-            onNoUpdates = onNoUpdates
-        )
     }
 
     val childStack by component.childStack.subscribeAsState()
+
     Children(
         stack = childStack,
         modifier = Modifier.fillMaxSize(),
@@ -140,16 +127,16 @@ internal fun ScreenSelector(
         )
     ) { screen ->
         when (val instance = screen.instance) {
+            is NavigationChild.Main -> {
+                MainContent(
+                    component = instance.component
+                )
+            }
+
             is NavigationChild.Settings -> {
                 SettingsContent(
                     component = instance.component,
-                    onTryGetUpdate = onTryGetUpdate,
-                    isUpdateAvailable = component.isUpdateAvailable,
-                    onGoBack = onGoBack,
-                    onNavigate = { destination ->
-                        component.navigateToNew(destination)
-                        onRegisterScreenOpen(destination)
-                    }
+                    onGoBack = onGoBack
                 )
             }
 
@@ -157,23 +144,6 @@ internal fun ScreenSelector(
                 EasterEggContent(
                     onGoBack = onGoBack,
                     component = instance.component
-                )
-            }
-
-            is NavigationChild.Main -> {
-                MainContent(
-                    onTryGetUpdate = onTryGetUpdate,
-                    isUpdateAvailable = component.isUpdateAvailable,
-                    onUpdateUris = component::updateUris,
-                    onNavigate = { destination ->
-                        if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
-                            component.navigateBack()
-                        }
-                        component.navigateToNew(destination)
-                        onRegisterScreenOpen(destination)
-                    },
-                    onToggleFavorite = component::toggleFavoriteScreen,
-                    settingsComponent = instance.component
                 )
             }
 

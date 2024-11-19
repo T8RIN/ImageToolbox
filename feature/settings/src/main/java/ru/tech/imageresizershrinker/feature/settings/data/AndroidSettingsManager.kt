@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
@@ -492,9 +493,9 @@ internal class AndroidSettingsManager @Inject constructor(
             context.contentResolver.openInputStream(uri)?.use { input ->
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 byteArrayOutputStream.write(input.readBytes())
-                try {
+                runCatching {
                     PreferencesMapCompat.readFrom(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
-                } catch (t: Throwable) {
+                }.onFailure {
                     throw Throwable(context.getString(R.string.corrupted_file_or_not_a_backup))
                 }
                 File(
@@ -1086,6 +1087,8 @@ internal class AndroidSettingsManager @Inject constructor(
             )
         }
     }
+
+    override fun isInstalledFromPlayStore(): Boolean = context.isInstalledFromPlayStore()
 
     private suspend fun setFavoriteScreens(data: List<Int>) {
         dataStore.edit { prefs ->

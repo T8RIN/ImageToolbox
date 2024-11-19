@@ -127,3 +127,25 @@ internal fun Context.cacheSize(): String = runCatching {
     }
     readableByteCount(size)
 }.getOrNull() ?: "0 B"
+
+
+fun Context.isInstalledFromPlayStore(): Boolean = verifyInstallerId(
+    listOf(
+        "com.android.vending",
+        "com.google.android.feedback"
+    )
+)
+
+private fun Context.verifyInstallerId(
+    validInstallers: List<String>,
+): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
+
+private fun Context.getInstallerPackageName(packageName: String): String? {
+    kotlin.runCatching {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            return packageManager.getInstallSourceInfo(packageName).installingPackageName
+        @Suppress("DEPRECATION")
+        return packageManager.getInstallerPackageName(packageName)
+    }
+    return null
+}

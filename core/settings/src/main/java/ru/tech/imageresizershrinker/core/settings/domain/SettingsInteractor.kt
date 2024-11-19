@@ -212,6 +212,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleIsCenterAlignDialogButtons()
 
+    fun isInstalledFromPlayStore(): Boolean
+
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor {

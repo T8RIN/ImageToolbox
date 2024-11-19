@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic.J
 import ru.tech.imageresizershrinker.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
+import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
@@ -79,7 +80,7 @@ internal sealed class NavigationChild {
     class JxlTools(val component: JxlToolsComponent) : NavigationChild()
     class LimitResize(val component: LimitsResizeComponent) : NavigationChild()
     class LoadNetImage(val component: LoadNetImageComponent) : NavigationChild()
-    class Main(val component: SettingsComponent) : NavigationChild()
+    class Main(val component: MainComponent) : NavigationChild()
     class NoiseGeneration(val component: NoiseGenerationComponent) : NavigationChild()
     class PdfTools(val component: PdfToolsComponent) : NavigationChild()
     class PickColorFromImage(val component: PickColorComponent) : NavigationChild()

@@ -74,7 +74,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MediaPickerActivity.MediaPickerRoot(
+internal fun MediaPickerActivity.MediaPickerRootContent(
     component: MediaPickerComponent,
     title: String,
     allowedMedia: AllowedMedia,
@@ -114,7 +114,7 @@ internal fun MediaPickerActivity.MediaPickerRoot(
                 Environment.isExternalStorageManager() || isInstalledFromPlayStore()
             if (!hasPermissionAllowed(permission)) {
                 ActivityCompat.requestPermissions(
-                    this@MediaPickerRoot,
+                    this@MediaPickerRootContent,
                     arrayOf(permission),
                     0
                 )
@@ -162,7 +162,7 @@ internal fun MediaPickerActivity.MediaPickerRoot(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    MediaPickerScreen(
+                    MediaPickerRootContentImpl(
                         allowedMedia = allowedMedia,
                         allowMultiple = allowMultiple,
                         component = component,
@@ -199,7 +199,7 @@ internal fun MediaPickerActivity.MediaPickerRoot(
                     EnhancedButton(
                         onClick = {
                             ActivityCompat.requestPermissions(
-                                this@MediaPickerRoot,
+                                this@MediaPickerRootContent,
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                     arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
                                 } else arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
