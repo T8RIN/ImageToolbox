@@ -42,6 +42,7 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
@@ -81,7 +82,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
-import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberForeverLazyListState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 
 @Composable
@@ -215,10 +215,7 @@ fun AdaptiveLayoutScreen(
                                 .calculateStartPadding(direction)
                         } else 0.dp
 
-                        val listState = rememberForeverLazyListState(
-                            key = "adaptive",
-                            params = canShowScreenData.toString()
-                        )
+                        val listState = rememberLazyListState()
                         var isScrolled by rememberSaveable(canShowScreenData) {
                             mutableStateOf(false)
                         }
