@@ -240,7 +240,7 @@ internal fun MediaPickerRootContentImpl(
                                     ) {
                                         Box {
                                             Picture(
-                                                model = it.uri,
+                                                model = if (width != 1.dp) it.uri else null,
                                                 modifier = Modifier
                                                     .padding(top = 8.dp)
                                                     .height(100.dp)

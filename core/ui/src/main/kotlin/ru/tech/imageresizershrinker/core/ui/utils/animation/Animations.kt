@@ -38,14 +38,15 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 fun fancySlideTransition(
     isForward: Boolean,
-    screenWidthDp: Int
+    screenWidthDp: Int,
+    duration: Int = 600
 ): ContentTransform = if (isForward) {
     slideInHorizontally(
-        animationSpec = tween(600, easing = FancyTransitionEasing),
+        animationSpec = tween(duration, easing = FancyTransitionEasing),
         initialOffsetX = { screenWidthDp }) + fadeIn(
         tween(300, 100)
     ) togetherWith slideOutHorizontally(
-        animationSpec = tween(600, easing = FancyTransitionEasing),
+        animationSpec = tween(duration, easing = FancyTransitionEasing),
         targetOffsetX = { -screenWidthDp }) + fadeOut(
         tween(300, 100)
     )

@@ -53,6 +53,8 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -163,7 +165,8 @@ fun AdaptiveLayoutScreen(
                     transitionSpec = {
                         fancySlideTransition(
                             isForward = targetState,
-                            screenWidthDp = screenWidthDp
+                            screenWidthDp = screenWidthDp,
+                            duration = 300
                         )
                     },
                     modifier = Modifier.fillMaxSize()
@@ -210,6 +213,16 @@ fun AdaptiveLayoutScreen(
                         } else 0.dp
 
                         val state = rememberLazyListState()
+                        var isScrolled by rememberSaveable(canShowScreenData) {
+                            mutableStateOf(false)
+                        }
+                        LaunchedEffect(canShowScreenData) {
+                            if (canShowScreenData && !isScrolled) {
+                                delay(500)
+                                state.animateScrollToItem(0)
+                                isScrolled = true
+                            }
+                        }
                         LazyColumn(
                             state = state,
                             contentPadding = PaddingValues(
