@@ -63,7 +63,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -89,6 +91,7 @@ fun LazyListScope.imageStickyHeader(
     onStateChange: (ImageHeaderState) -> Unit,
     backgroundColor: Color = Color.Unspecified,
     padding: Dp = 20.dp,
+    onGloballyPositioned: (LayoutCoordinates) -> Unit = {},
     imageModifier: Modifier = Modifier,
     imageBlock: @Composable () -> Unit,
 ) {
@@ -131,6 +134,7 @@ fun LazyListScope.imageStickyHeader(
                         controlsVisible = true
                     }
                 }
+                .onGloballyPositioned(onGloballyPositioned)
                 .animateContentSize()
         ) {
             val color = if (backgroundColor.isSpecified) {

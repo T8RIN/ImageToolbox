@@ -27,10 +27,12 @@ import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil3.ImageLoader
+import coil3.gif.repeatCount
 import coil3.request.ImageRequest
 import coil3.request.transformations
 import coil3.size.Size
 import coil3.toBitmap
+import com.awxkee.jxlcoder.coil.enableJxlAnimation
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -68,6 +70,15 @@ internal class AndroidImageGetter @Inject constructor(
             .launchIn(CoroutineScope(defaultDispatcher))
     }
 
+    @Suppress("FunctionName")
+    private fun DefaultImageRequest(
+        model: Any?
+    ): ImageRequest.Builder = ImageRequest
+        .Builder(context)
+        .data(model)
+        .repeatCount(0)
+        .enableJxlAnimation(false)
+
     override suspend fun getImage(
         uri: String,
         originalSize: Boolean
@@ -101,9 +112,7 @@ internal class AndroidImageGetter @Inject constructor(
     ): Bitmap? = withContext(defaultDispatcher) {
         runCatching {
             imageLoader.execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(data)
+                DefaultImageRequest(data)
                     .apply {
                         if (originalSize) size(Size.ORIGINAL)
                     }
@@ -118,9 +127,7 @@ internal class AndroidImageGetter @Inject constructor(
     ): Bitmap? = withContext(defaultDispatcher) {
         runCatching {
             imageLoader.execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(data)
+                DefaultImageRequest(data)
                     .apply {
                         size(
                             size?.let {
@@ -139,9 +146,7 @@ internal class AndroidImageGetter @Inject constructor(
     ): Bitmap? = withContext(defaultDispatcher) {
         runCatching {
             imageLoader.execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(data)
+                DefaultImageRequest(data)
                     .apply {
                         size?.let {
                             size(it)
@@ -157,9 +162,7 @@ internal class AndroidImageGetter @Inject constructor(
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
     ): ImageData<Bitmap, ExifInterface>? = withContext(defaultDispatcher) {
-        val request = ImageRequest
-            .Builder(context)
-            .data(uri)
+        val request = DefaultImageRequest(uri)
             .transformations(
                 transformations.map { it.toCoil() }
             )
@@ -194,9 +197,7 @@ internal class AndroidImageGetter @Inject constructor(
         transformations: List<Transformation<Bitmap>>,
         size: IntegerSize?
     ): Bitmap? = withContext(defaultDispatcher) {
-        val request = ImageRequest
-            .Builder(context)
-            .data(data)
+        val request = DefaultImageRequest(data)
             .transformations(
                 transformations.map { it.toCoil() }
             )
@@ -219,9 +220,7 @@ internal class AndroidImageGetter @Inject constructor(
     ) {
         val bmp = runCatching {
             imageLoader.enqueue(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
+                DefaultImageRequest(uri)
                     .apply {
                         if (originalSize) size(Size.ORIGINAL)
                     }

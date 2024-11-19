@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
@@ -54,6 +53,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -68,7 +68,9 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
@@ -79,6 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberForeverLazyListState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 
 @Composable
@@ -109,6 +112,7 @@ fun AdaptiveLayoutScreen(
     val settingsState = LocalSettingsState.current
 
     var imageState by rememberImageState()
+
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = topAppBarState, canScroll = { !imageState.isExpanded() && !forceImagePreviewToMax }
@@ -165,8 +169,7 @@ fun AdaptiveLayoutScreen(
                     transitionSpec = {
                         fancySlideTransition(
                             isForward = targetState,
-                            screenWidthDp = screenWidthDp,
-                            duration = 300
+                            screenWidthDp = screenWidthDp
                         )
                     },
                     modifier = Modifier.fillMaxSize()
@@ -212,24 +215,23 @@ fun AdaptiveLayoutScreen(
                                 .calculateStartPadding(direction)
                         } else 0.dp
 
-                        val state = rememberLazyListState()
+                        val listState = rememberForeverLazyListState(
+                            key = "adaptive",
+                            params = canShowScreenData.toString()
+                        )
                         var isScrolled by rememberSaveable(canShowScreenData) {
                             mutableStateOf(false)
                         }
-                        LaunchedEffect(canShowScreenData) {
-                            if (canShowScreenData && !isScrolled) {
-                                delay(500)
-                                state.animateScrollToItem(0)
-                                isScrolled = true
-                            }
+                        val scope = rememberCoroutineScope {
+                            Dispatchers.Main.immediate
                         }
+
                         LazyColumn(
-                            state = state,
+                            state = listState,
                             contentPadding = PaddingValues(
                                 bottom = WindowInsets
                                     .navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding() + WindowInsets.ime
+                                    .union(WindowInsets.ime)
                                     .asPaddingValues()
                                     .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
                                 top = if (!canShowScreenData || !isPortrait) contentPadding else 0.dp,
@@ -250,7 +252,15 @@ fun AdaptiveLayoutScreen(
                                     internalHeight = internalHeight,
                                     imageState = imageState,
                                     onStateChange = { imageState = it },
-                                    imageBlock = imagePreview
+                                    imageBlock = imagePreview,
+                                    onGloballyPositioned = {
+                                        if (!isScrolled) {
+                                            scope.launch {
+                                                listState.animateScrollToItem(0)
+                                                isScrolled = true
+                                            }
+                                        }
+                                    }
                                 )
                             }
                             item {
@@ -261,7 +271,7 @@ fun AdaptiveLayoutScreen(
                                 ) {
                                     if (canShowScreenData) {
                                         if (!showImagePreviewAsStickyHeader && isPortrait && placeImagePreview) imagePreview()
-                                        if (controls != null) controls(state)
+                                        if (controls != null) controls(listState)
                                     } else {
                                         Box(
                                             modifier = Modifier.windowInsetsPadding(insetsForNoData)

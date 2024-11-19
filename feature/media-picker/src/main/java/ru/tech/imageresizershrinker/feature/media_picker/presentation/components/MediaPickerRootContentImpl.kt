@@ -239,14 +239,20 @@ internal fun MediaPickerRootContentImpl(
                                         exit = fadeOut() + shrinkVertically()
                                     ) {
                                         Box {
-                                            Picture(
-                                                model = if (width != 1.dp) it.uri else null,
-                                                modifier = Modifier
-                                                    .padding(top = 8.dp)
-                                                    .height(100.dp)
-                                                    .width(width),
-                                                shape = RoundedCornerShape(12.dp)
-                                            )
+                                            BoxAnimatedVisibility(
+                                                visible = width > 1.dp,
+                                                enter = fadeIn() + scaleIn(),
+                                                exit = fadeOut() + scaleOut()
+                                            ) {
+                                                Picture(
+                                                    model = it.uri,
+                                                    modifier = Modifier
+                                                        .padding(top = 8.dp)
+                                                        .height(100.dp)
+                                                        .width(width),
+                                                    shape = RoundedCornerShape(12.dp)
+                                                )
+                                            }
                                             Box(
                                                 modifier = Modifier
                                                     .padding(top = 8.dp)

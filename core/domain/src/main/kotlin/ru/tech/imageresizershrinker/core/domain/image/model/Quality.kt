@@ -92,7 +92,7 @@ sealed class Quality(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
         @IntRange(from = 1, to = 10)
-        val effort: Int = 5,
+        val effort: Int = 2,
         @IntRange(from = 0, to = 4)
         val speed: Int = 0,
         val channels: Channels = Channels.RGBA
