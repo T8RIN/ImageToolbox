@@ -41,10 +41,11 @@ internal fun ScreenSelector(
         animation = toolboxPredictiveBackAnimation(
             backHandler = component.backHandler,
             onBack = component::navigateBack
-        )
-    ) { screen ->
-        screen.instance.Content()
-    }
+        ),
+        content = { child ->
+            child.instance.Content()
+        }
+    )
 
     ScreenBasedMaxBrightnessEnforcement(childStack.items.lastOrNull()?.configuration)
 }
