@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.crash.components
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
@@ -157,6 +158,17 @@ abstract class M3Activity : AppCompatActivity() {
             systemBarsBehavior = if (settingsState.isSystemBarsVisibleBySwipe) {
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             } else WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
+        }
+
+        if (settingsState.isSecureMode) {
+            window?.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+        } else {
+            window?.clearFlags(
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
         }
     }
 

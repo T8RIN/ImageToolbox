@@ -32,7 +32,6 @@ import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
-import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.feature.root.presentation.components.RootDialogs
 import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
@@ -65,8 +64,6 @@ fun RootContent(
         toastHostState = component.toastHostState,
         simpleSettingsInteractor = component.simpleSettingsInteractor
     ) {
-        SecureModeHandler()
-
         ImageToolboxThemeSurface {
             AppExitDialog(component)
 

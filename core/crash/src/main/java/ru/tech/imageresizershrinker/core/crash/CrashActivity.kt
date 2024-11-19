@@ -91,7 +91,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import javax.inject.Inject
@@ -119,8 +118,6 @@ class CrashActivity : CrashHandler() {
                     getEmojiColorTuple = ::getColorTupleFromEmoji
                 )
             ) {
-                SecureModeHandler()
-
                 val toastHostState = LocalToastHostState.current
                 val scope = rememberCoroutineScope()
 

@@ -40,7 +40,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toClipData
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRootContent
@@ -73,8 +72,6 @@ class MediaPickerActivity : M3Activity() {
                     getEmojiColorTuple = component::getColorTupleFromEmoji
                 )
             ) {
-                SecureModeHandler()
-
                 ImageToolboxThemeSurface {
                     val dynamicTheme = LocalDynamicThemeState.current
                     MediaPickerRootContent(
