@@ -51,11 +51,14 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 class FormatConversionComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
@@ -453,6 +456,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): FormatConversionComponent
     }
 }

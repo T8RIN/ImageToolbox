@@ -43,7 +43,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.animate
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.derivedValueOf
@@ -66,8 +65,6 @@ import ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic.No
 
 @Composable
 fun NoiseGenerationContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: NoiseGenerationComponent
 ) {
     val context = LocalComponentActivity.current
@@ -110,7 +107,7 @@ fun NoiseGenerationContent(
             onDismiss = {
                 editSheetData = emptyList()
             },
-            onNavigate = onNavigate
+            onNavigate = component.onNavigate
         )
     }
 
@@ -123,7 +120,7 @@ fun NoiseGenerationContent(
                 modifier = Modifier.marquee()
             )
         },
-        onGoBack = onGoBack,
+        onGoBack = component.onGoBack,
         actions = {},
         topAppBarPersistentActions = {
             TopAppBarEmoji()

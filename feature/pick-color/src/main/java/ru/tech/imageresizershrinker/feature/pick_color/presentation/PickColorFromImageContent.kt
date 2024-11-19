@@ -62,13 +62,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageBottomAppBar
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageContentImpl
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageTopAppBar
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickColorFromImageContent(
-    onGoBack: () -> Unit,
-    component: PickColorComponent
+    component: PickColorFromImageComponent
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -95,7 +94,6 @@ fun PickColorFromImageContent(
     )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -148,7 +146,7 @@ fun PickColorFromImageContent(
             PickColorFromImageTopAppBar(
                 bitmap = component.bitmap,
                 scrollBehavior = scrollBehavior,
-                onGoBack = onGoBack,
+                onGoBack = component.onGoBack,
                 isPortrait = isPortrait,
                 magnifierButton = magnifierButton,
                 color = component.color

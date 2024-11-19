@@ -42,12 +42,15 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.noise_generation.domain.NoiseGenerator
 import ru.tech.imageresizershrinker.noise_generation.domain.model.NoiseParams
 
 class NoiseGenerationComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     dispatchersHolder: DispatchersHolder,
     private val noiseGenerator: NoiseGenerator<Bitmap>,
     private val fileController: FileController,
@@ -225,7 +228,9 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): NoiseGenerationComponent
     }
 

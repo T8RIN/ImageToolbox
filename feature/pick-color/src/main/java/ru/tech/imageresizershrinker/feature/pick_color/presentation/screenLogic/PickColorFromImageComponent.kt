@@ -33,9 +33,10 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 
-class PickColorComponent @AssistedInject internal constructor(
+class PickColorFromImageComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
+    @Assisted val onGoBack: () -> Unit,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder
@@ -95,6 +96,7 @@ class PickColorComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
-        ): PickColorComponent
+            onGoBack: () -> Unit,
+        ): PickColorFromImageComponent
     }
 }

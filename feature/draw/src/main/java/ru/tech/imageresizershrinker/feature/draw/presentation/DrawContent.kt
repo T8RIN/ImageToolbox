@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.draw.presentation
 
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
@@ -61,7 +60,6 @@ import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -104,7 +102,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
@@ -152,12 +149,8 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenCol
 import ru.tech.imageresizershrinker.feature.draw.presentation.screenLogic.DrawComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
-@SuppressLint("AutoboxingStateCreation")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: DrawComponent,
 ) {
     val settingsState = LocalSettingsState.current
@@ -179,7 +172,9 @@ fun DrawContent(
         } else if (component.drawBehavior !is DrawBehavior.None) {
             component.resetDrawBehavior()
             themeState.updateColorTuple(appColorTuple)
-        } else onGoBack()
+        } else {
+            component.onGoBack()
+        }
     }
 
     AutoContentBasedColors(component.bitmap)
@@ -358,7 +353,7 @@ fun DrawContent(
                     onDismiss = {
                         editSheetData = emptyList()
                     },
-                    onNavigate = onNavigate
+                    onNavigate = component.onNavigate
                 )
                 EnhancedIconButton(
                     onClick = component::clearDrawing,
@@ -830,7 +825,7 @@ fun DrawContent(
             if (component.drawBehavior !is DrawBehavior.None) {
                 component.resetDrawBehavior()
                 themeState.updateColorTuple(appColorTuple)
-            } else onGoBack()
+            } else component.onGoBack()
         },
         onDismiss = { showExitDialog = false },
         visible = showExitDialog

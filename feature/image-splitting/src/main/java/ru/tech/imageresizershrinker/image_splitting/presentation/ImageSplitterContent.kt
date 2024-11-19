@@ -46,7 +46,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -69,8 +68,6 @@ import ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic.Ima
 
 @Composable
 fun ImageSplitterContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: ImageSplitterComponent
 ) {
     val essentials = rememberLocalEssentials()
@@ -98,7 +95,7 @@ fun ImageSplitterContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     @Composable
@@ -177,7 +174,7 @@ fun ImageSplitterContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
         },
         showImagePreviewAsStickyHeader = false,
@@ -242,7 +239,7 @@ fun ImageSplitterContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

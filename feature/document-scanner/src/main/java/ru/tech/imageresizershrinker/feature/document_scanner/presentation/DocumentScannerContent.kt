@@ -85,7 +85,6 @@ import ru.tech.imageresizershrinker.feature.document_scanner.presentation.screen
 
 @Composable
 fun DocumentScannerContent(
-    onGoBack: () -> Unit,
     component: DocumentScannerComponent
 ) {
     val haptics = LocalHapticFeedback.current
@@ -97,7 +96,7 @@ fun DocumentScannerContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val savePdfLauncher = rememberLauncherForActivityResult(
@@ -372,7 +371,7 @@ fun DocumentScannerContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

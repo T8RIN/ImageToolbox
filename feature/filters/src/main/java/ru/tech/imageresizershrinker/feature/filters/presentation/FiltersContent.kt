@@ -126,15 +126,13 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskFilterPreference
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FilterComponent
+import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FiltersComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FiltersContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
-    component: FilterComponent
+    component: FiltersComponent
 ) {
     val context = LocalComponentActivity.current
 
@@ -156,7 +154,7 @@ fun FiltersContent(
         if (component.haveChanges) showExitDialog = true
         else if (component.filterType != null) {
             component.clearType()
-        } else onGoBack()
+        } else component.onGoBack()
     }
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
@@ -198,7 +196,7 @@ fun FiltersContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
             ShowOriginalButton(
                 canShow = component.canShow(),
@@ -923,7 +921,7 @@ fun FiltersContent(
         onExit = {
             if (component.filterType != null) {
                 component.clearType()
-            } else onGoBack()
+            } else component.onGoBack()
         },
         onDismiss = { showExitDialog = false },
         visible = showExitDialog

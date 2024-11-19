@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -61,7 +60,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
@@ -91,11 +89,8 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.screenLogic.CropComponent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CropContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: CropComponent
 ) {
     val context = LocalComponentActivity.current
@@ -108,7 +103,7 @@ fun CropContent(
 
     val onBack = {
         if (component.bitmap != null) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     AutoContentBasedColors(component.bitmap)
@@ -232,7 +227,7 @@ fun CropContent(
                     onDismiss = {
                         editSheetData = emptyList()
                     },
-                    onNavigate = onNavigate
+                    onNavigate = component.onNavigate
                 )
             }
         },
@@ -380,7 +375,7 @@ fun CropContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

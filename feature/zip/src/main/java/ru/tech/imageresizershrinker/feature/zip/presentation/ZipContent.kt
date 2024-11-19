@@ -90,7 +90,6 @@ import java.util.Locale
 
 @Composable
 fun ZipContent(
-    onGoBack: () -> Unit,
     component: ZipComponent
 ) {
     val haptics = LocalHapticFeedback.current
@@ -105,7 +104,7 @@ fun ZipContent(
     val onBack = {
         if (component.uris.isNotEmpty() && component.byteArray != null) {
             showExitDialog = true
-        } else onGoBack()
+        } else component.onGoBack()
     }
 
     val saveLauncher = rememberLauncherForActivityResult(
@@ -366,7 +365,7 @@ fun ZipContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

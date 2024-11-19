@@ -86,7 +86,6 @@ import kotlin.random.Random
 
 @Composable
 fun EasterEggContent(
-    onGoBack: () -> Unit,
     component: EasterEggComponent
 ) {
     val confettiHostState = LocalConfettiHostState.current
@@ -135,7 +134,7 @@ fun EasterEggContent(
             },
             navigationIcon = {
                 EnhancedIconButton(
-                    onClick = onGoBack
+                    onClick = component.onGoBack
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
@@ -149,7 +148,7 @@ fun EasterEggContent(
         BoxWithConstraints(
             modifier = Modifier.weight(1f)
         ) {
-            val width = constraints.maxWidth
+            val width = this.constraints.maxWidth
             val height = constraints.maxHeight
             val ballSize = (min(maxWidth, maxHeight) * 0.3f).coerceAtMost(180.dp)
             val ballSizePx = with(LocalDensity.current) { ballSize.toPx().roundToInt() }

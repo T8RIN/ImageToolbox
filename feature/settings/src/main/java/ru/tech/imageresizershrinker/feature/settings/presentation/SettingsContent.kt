@@ -79,7 +79,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
@@ -111,8 +110,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.Se
 @Composable
 fun SettingsContent(
     component: SettingsComponent,
-    onGoBack: Lambda? = null,
-    appBarNavigationIcon: (@Composable (Boolean, Lambda) -> Unit)? = null
+    appBarNavigationIcon: (@Composable (Boolean, () -> Unit) -> Unit)? = null
 ) {
     val isStandaloneScreen = appBarNavigationIcon == null
 
@@ -245,20 +243,19 @@ fun SettingsContent(
             },
             navigationIcon = {
                 if (appBarNavigationIcon != null) {
-                    appBarNavigationIcon(
-                        showSearch,
-                        Lambda {
-                            showSearch = false
-                            searchKeyword = ""
-                        }
-                    )
-                } else if (onGoBack != null) {
+                    appBarNavigationIcon(showSearch) {
+                        showSearch = false
+                        searchKeyword = ""
+                    }
+                } else if (component.onGoBack != null) {
                     EnhancedIconButton(
                         onClick = {
                             if (showSearch) {
                                 showSearch = false
                                 searchKeyword = ""
-                            } else onGoBack()
+                            } else {
+                                component.onGoBack()
+                            }
                         },
                         containerColor = Color.Transparent
                     ) {

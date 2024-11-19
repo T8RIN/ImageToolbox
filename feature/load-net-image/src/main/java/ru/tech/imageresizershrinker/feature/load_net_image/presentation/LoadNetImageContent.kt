@@ -55,7 +55,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -78,8 +77,6 @@ import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLo
 
 @Composable
 fun LoadNetImageContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: LoadNetImageComponent
 ) {
     val context = LocalComponentActivity.current
@@ -145,7 +142,7 @@ fun LoadNetImageContent(
                 modifier = Modifier.marquee()
             )
         },
-        onGoBack = onGoBack,
+        onGoBack = component.onGoBack,
         actions = {
             ShareButton(
                 enabled = component.bitmap != null,
@@ -271,7 +268,7 @@ fun LoadNetImageContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (false) to !isLandscape,
+                targetState = false to !isLandscape,
                 onSecondaryButtonClick = {
                     component.bitmap?.let { bitmap ->
                         component.cacheImage(
@@ -319,7 +316,7 @@ fun LoadNetImageContent(
         onDismiss = {
             wantToEdit = false
         },
-        onNavigate = onNavigate
+        onNavigate = component.onNavigate
     )
 }
 

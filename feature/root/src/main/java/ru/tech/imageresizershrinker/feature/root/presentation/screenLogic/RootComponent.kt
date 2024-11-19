@@ -28,6 +28,7 @@ import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.items
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
@@ -59,6 +60,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.ChildProvider
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
+import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.BackEventObserver
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -365,16 +367,39 @@ class RootComponent @AssistedInject internal constructor(
 
     @OptIn(DelicateDecomposeApi::class)
     fun navigateTo(screen: Screen) {
+        hideSelectDialog()
         navController.push(screen)
     }
 
     fun navigateToNew(screen: Screen) {
+        if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
+            navigateBack()
+        }
         navController.pushNew(screen)
     }
 
+    private val backEventsObservers: MutableList<BackEventObserver> = mutableListOf()
+
     fun navigateBack() {
+        backEventsObservers.forEach { observer ->
+            observer.onBack(childStack.items.lastOrNull()?.configuration)
+        }
+        hideSelectDialog()
         navController.pop()
     }
+
+    fun addBackEventsObserver(
+        observer: BackEventObserver
+    ) {
+        backEventsObservers.add(observer)
+    }
+
+    fun removeBackEventsObserver(
+        observer: BackEventObserver
+    ) {
+        backEventsObservers.remove(observer)
+    }
+
 
     @AssistedFactory
     fun interface Factory {

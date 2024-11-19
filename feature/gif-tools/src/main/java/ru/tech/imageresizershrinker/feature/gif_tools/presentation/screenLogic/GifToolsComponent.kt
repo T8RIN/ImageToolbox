@@ -60,6 +60,7 @@ import java.util.Locale
 class GifToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.GifTools.Type?,
+    @Assisted val onGoBack: () -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
@@ -578,6 +579,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialType: Screen.GifTools.Type?,
+            onGoBack: () -> Unit,
         ): GifToolsComponent
     }
 

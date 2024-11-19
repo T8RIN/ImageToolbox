@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
@@ -52,6 +53,8 @@ import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
 class ImageStitchingComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageCombiner: ImageCombiner<Bitmap>,
@@ -325,6 +328,8 @@ class ImageStitchingComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): ImageStitchingComponent
     }
 

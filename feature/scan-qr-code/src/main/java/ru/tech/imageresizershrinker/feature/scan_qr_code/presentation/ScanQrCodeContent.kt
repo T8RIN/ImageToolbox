@@ -94,7 +94,6 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ScanQrCodeContent(
-    onGoBack: () -> Unit,
     component: ScanQrCodeComponent
 ) {
     val context = LocalComponentActivity.current
@@ -171,7 +170,7 @@ fun ScanQrCodeContent(
                 size = null,
             )
         },
-        onGoBack = onGoBack,
+        onGoBack = component.onGoBack,
         actions = {
             ShareButton(
                 enabled = qrContent.isNotEmpty(),

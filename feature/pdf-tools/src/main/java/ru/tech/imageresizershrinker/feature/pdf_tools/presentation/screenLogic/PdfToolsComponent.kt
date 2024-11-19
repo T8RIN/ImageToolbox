@@ -54,6 +54,7 @@ import kotlin.random.Random
 class PdfToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.PdfTools.Type?,
+    @Assisted val onGoBack: () -> Unit,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val pdfManager: PdfManager<Bitmap>,
@@ -451,6 +452,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialType: Screen.PdfTools.Type?,
+            onGoBack: () -> Unit,
         ): PdfToolsComponent
     }
 

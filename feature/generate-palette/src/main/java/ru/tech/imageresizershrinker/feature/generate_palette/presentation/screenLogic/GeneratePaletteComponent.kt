@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 class GeneratePaletteComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
+    @Assisted val onGoBack: () -> Unit,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     dispatchersHolder: DispatchersHolder
@@ -86,6 +87,7 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
+            onGoBack: () -> Unit,
         ): GeneratePaletteComponent
     }
 }

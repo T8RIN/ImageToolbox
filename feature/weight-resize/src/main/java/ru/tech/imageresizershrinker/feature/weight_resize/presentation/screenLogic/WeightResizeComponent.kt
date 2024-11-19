@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScaler
 
@@ -55,6 +56,8 @@ import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScal
 class WeightResizeComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -494,6 +497,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): WeightResizeComponent
     }
 }

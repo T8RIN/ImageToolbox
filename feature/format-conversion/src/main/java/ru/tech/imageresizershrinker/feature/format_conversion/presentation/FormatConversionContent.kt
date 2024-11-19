@@ -43,7 +43,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -74,8 +73,6 @@ import ru.tech.imageresizershrinker.feature.format_conversion.presentation.scree
 
 @Composable
 fun FormatConversionContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: FormatConversionComponent
 ) {
     val context = LocalComponentActivity.current
@@ -114,7 +111,7 @@ fun FormatConversionContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
@@ -176,7 +173,7 @@ fun FormatConversionContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
         },
         imagePreview = {
@@ -320,7 +317,7 @@ fun FormatConversionContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components.navigation
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.items
 import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -31,7 +30,7 @@ import ru.tech.imageresizershrinker.feature.document_scanner.presentation.screen
 import ru.tech.imageresizershrinker.feature.draw.presentation.screenLogic.DrawComponent
 import ru.tech.imageresizershrinker.feature.easter_egg.presentation.screenLogic.EasterEggComponent
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
-import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FilterComponent
+import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FiltersComponent
 import ru.tech.imageresizershrinker.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.screenLogic.GifToolsComponent
@@ -45,7 +44,7 @@ import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLog
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
@@ -71,7 +70,7 @@ internal class ChildProvider @Inject constructor(
     private val documentScannerComponentFactory: DocumentScannerComponent.Factory,
     private val drawComponentFactory: DrawComponent.Factory,
     private val eraseBackgroundComponentFactory: EraseBackgroundComponent.Factory,
-    private val filterComponentFactory: FilterComponent.Factory,
+    private val filtersComponentFactory: FiltersComponent.Factory,
     private val formatConversionComponentFactory: FormatConversionComponent.Factory,
     private val generatePaletteComponentFactory: GeneratePaletteComponent.Factory,
     private val gifToolsComponentFactory: GifToolsComponent.Factory,
@@ -85,7 +84,7 @@ internal class ChildProvider @Inject constructor(
     private val loadNetImageComponentFactory: LoadNetImageComponent.Factory,
     private val noiseGenerationComponentFactory: NoiseGenerationComponent.Factory,
     private val pdfToolsComponentFactory: PdfToolsComponent.Factory,
-    private val pickColorFromImageComponentFactory: PickColorComponent.Factory,
+    private val pickColorFromImageComponentFactory: PickColorFromImageComponent.Factory,
     private val recognizeTextComponentFactory: RecognizeTextComponent.Factory,
     private val resizeAndConvertComponentFactory: ResizeAndConvertComponent.Factory,
     private val scanQrCodeComponentFactory: ScanQrCodeComponent.Factory,
@@ -107,13 +106,15 @@ internal class ChildProvider @Inject constructor(
     ): NavigationChild = when (config) {
         Screen.ColorTools -> NavigationChild.ColorTools(
             colorToolsComponentFactory(
-                componentContext = componentContext
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
             )
         )
 
         Screen.EasterEgg -> NavigationChild.EasterEgg(
             easterEggComponentFactory(
-                componentContext = componentContext
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
             )
         )
 
@@ -122,12 +123,7 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 onTryGetUpdate = ::tryGetUpdate,
                 onGetClipList = ::updateUris,
-                onNavigate = { screen ->
-                    if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
-                        navigateBack()
-                    }
-                    navigateToNew(screen)
-                },
+                onNavigate = ::navigateToNew,
                 isUpdateAvailable = isUpdateAvailable
             )
         )
@@ -135,21 +131,26 @@ internal class ChildProvider @Inject constructor(
         is Screen.ApngTools -> NavigationChild.ApngTools(
             apngToolsComponentFactory(
                 componentContext = componentContext,
-                initialType = config.type
+                initialType = config.type,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.Cipher -> NavigationChild.Cipher(
             cipherComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.CollageMaker -> NavigationChild.CollageMaker(
             collageMakerComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
@@ -158,167 +159,206 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 initialComparableUris = config.uris
                     ?.takeIf { it.size == 2 }
-                    ?.let { it[0] to it[1] }
+                    ?.let { it[0] to it[1] },
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.Crop -> NavigationChild.Crop(
             cropComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.DeleteExif -> NavigationChild.DeleteExif(
             deleteExifComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         Screen.DocumentScanner -> NavigationChild.DocumentScanner(
             documentScannerComponentFactory(
-                componentContext = componentContext
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.Draw -> NavigationChild.Draw(
             drawComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.EraseBackground -> NavigationChild.EraseBackground(
             eraseBackgroundComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.Filter -> NavigationChild.Filter(
-            filterComponentFactory(
+            filtersComponentFactory(
                 componentContext = componentContext,
-                initialType = config.type
+                initialType = config.type,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.FormatConversion -> NavigationChild.FormatConversion(
             formatConversionComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.GeneratePalette -> NavigationChild.GeneratePalette(
             generatePaletteComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.GifTools -> NavigationChild.GifTools(
             gifToolsComponentFactory(
                 componentContext = componentContext,
-                initialType = config.type
+                initialType = config.type,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.GradientMaker -> NavigationChild.GradientMaker(
             gradientMakerComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.ImagePreview -> NavigationChild.ImagePreview(
             imagePreviewComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.ImageSplitting -> NavigationChild.ImageSplitting(
             imageSplittingComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uri
+                initialUris = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.ImageStacking -> NavigationChild.ImageStacking(
             imageStackingComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.ImageStitching -> NavigationChild.ImageStitching(
             imageStitchingComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.JxlTools -> NavigationChild.JxlTools(
             jxlToolsComponentFactory(
                 componentContext = componentContext,
-                initialType = config.type
+                initialType = config.type,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.LimitResize -> NavigationChild.LimitResize(
             limitResizeComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.LoadNetImage -> NavigationChild.LoadNetImage(
             loadNetImageComponentFactory(
                 componentContext = componentContext,
-                initialUrl = config.url
+                initialUrl = config.url,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
 
         Screen.NoiseGeneration -> NavigationChild.NoiseGeneration(
             noiseGenerationComponentFactory(
-                componentContext = componentContext
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
             )
         )
 
         is Screen.PdfTools -> NavigationChild.PdfTools(
             pdfToolsComponentFactory(
                 componentContext = componentContext,
-                initialType = config.type
+                initialType = config.type,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.PickColorFromImage -> NavigationChild.PickColorFromImage(
             pickColorFromImageComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.RecognizeText -> NavigationChild.RecognizeText(
             recognizeTextComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.ResizeAndConvert -> NavigationChild.ResizeAndConvert(
             resizeAndConvertComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.ScanQrCode -> NavigationChild.ScanQrCode(
             scanQrCodeComponentFactory(
                 componentContext = componentContext,
-                initialQrCodeContent = config.qrCodeContent
+                initialQrCodeContent = config.qrCodeContent,
+                onGoBack = ::navigateBack
             )
         )
 
@@ -326,61 +366,68 @@ internal class ChildProvider @Inject constructor(
             settingsComponentFactory(
                 componentContext = componentContext,
                 onTryGetUpdate = ::tryGetUpdate,
-                onNavigate = { screen ->
-                    if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
-                        navigateBack()
-                    }
-                    navigateToNew(screen)
-                },
-                isUpdateAvailable = isUpdateAvailable
+                onNavigate = ::navigateToNew,
+                isUpdateAvailable = isUpdateAvailable,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.SingleEdit -> NavigationChild.SingleEdit(
             singleEditComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri
+                initialUri = config.uri,
+                onNavigate = ::navigateTo,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.SvgMaker -> NavigationChild.SvgMaker(
             svgMakerComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack
             )
         )
 
         is Screen.Watermarking -> NavigationChild.Watermarking(
             watermarkingComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.WebpTools -> NavigationChild.WebpTools(
             webpToolsComponentFactory(
                 componentContext = componentContext,
-                initialType = config.type
+                initialType = config.type,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.WeightResize -> NavigationChild.WeightResize(
             weightResizeComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
         is Screen.Zip -> NavigationChild.Zip(
             zipComponentFactory(
                 componentContext = componentContext,
-                initialUris = config.uris
+                initialUris = config.uris,
+                onGoBack = ::navigateBack
             )
         )
 
         Screen.LibrariesInfo -> NavigationChild.LibrariesInfo(
             librariesInfoComponentFactory(
-                componentContext = componentContext
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
             )
         )
     }

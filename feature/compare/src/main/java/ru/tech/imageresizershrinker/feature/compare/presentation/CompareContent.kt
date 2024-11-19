@@ -72,7 +72,6 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.screenLogic.Com
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompareContent(
-    onGoBack: () -> Unit,
     component: CompareComponent
 ) {
     val settingsState = LocalSettingsState.current
@@ -147,7 +146,7 @@ fun CompareContent(
             CompareScreenTopAppBar(
                 imageNotPicked = component.bitmapData == null,
                 scrollBehavior = scrollBehavior,
-                onNavigationIconClick = onGoBack,
+                onNavigationIconClick = component.onGoBack,
                 onShareButtonClick = {
                     showShareSheet = true
                 },

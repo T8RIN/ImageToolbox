@@ -17,82 +17,279 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.components.navigation
 
+import androidx.compose.runtime.Composable
+import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerContent
 import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
+import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
+import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
+import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
 import ru.tech.imageresizershrinker.feature.compare.presentation.screenLogic.CompareComponent
+import ru.tech.imageresizershrinker.feature.crop.presentation.CropContent
 import ru.tech.imageresizershrinker.feature.crop.presentation.screenLogic.CropComponent
+import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifContent
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
+import ru.tech.imageresizershrinker.feature.document_scanner.presentation.DocumentScannerContent
 import ru.tech.imageresizershrinker.feature.document_scanner.presentation.screenLogic.DocumentScannerComponent
+import ru.tech.imageresizershrinker.feature.draw.presentation.DrawContent
 import ru.tech.imageresizershrinker.feature.draw.presentation.screenLogic.DrawComponent
+import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggContent
 import ru.tech.imageresizershrinker.feature.easter_egg.presentation.screenLogic.EasterEggComponent
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundContent
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
-import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FilterComponent
+import ru.tech.imageresizershrinker.feature.filters.presentation.FiltersContent
+import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FiltersComponent
+import ru.tech.imageresizershrinker.feature.format_conversion.presentation.FormatConversionContent
 import ru.tech.imageresizershrinker.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
+import ru.tech.imageresizershrinker.feature.generate_palette.presentation.GeneratePaletteContent
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
+import ru.tech.imageresizershrinker.feature.gif_tools.presentation.GifToolsContent
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.screenLogic.GifToolsComponent
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.GradientMakerContent
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
+import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewContent
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
+import ru.tech.imageresizershrinker.feature.image_stacking.presentation.ImageStackingContent
 import ru.tech.imageresizershrinker.feature.image_stacking.presentation.screenLogic.ImageStackingComponent
+import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingContent
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.screenLogic.ImageStitchingComponent
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.JxlToolsContent
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic.JxlToolsComponent
+import ru.tech.imageresizershrinker.feature.libraries_info.presentation.LibrariesInfoContent
 import ru.tech.imageresizershrinker.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
+import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeContent
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
+import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetImageContent
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
+import ru.tech.imageresizershrinker.feature.main.presentation.MainContent
 import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsContent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorComponent
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageContent
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextContent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
+import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertContent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.ScanQrCodeContent
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
+import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditContent
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.screenLogic.SingleEditComponent
+import ru.tech.imageresizershrinker.feature.svg_maker.presentation.SvgMakerContent
 import ru.tech.imageresizershrinker.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingContent
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.screenLogic.WatermarkingComponent
+import ru.tech.imageresizershrinker.feature.webp_tools.presentation.WebpToolsContent
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
+import ru.tech.imageresizershrinker.feature.weight_resize.presentation.WeightResizeContent
 import ru.tech.imageresizershrinker.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
+import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
 import ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic.ZipComponent
+import ru.tech.imageresizershrinker.image_splitting.presentation.ImageSplitterContent
 import ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic.ImageSplitterComponent
+import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGenerationContent
 import ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 
+
 internal sealed class NavigationChild {
-    class ApngTools(val component: ApngToolsComponent) : NavigationChild()
-    class Cipher(val component: CipherComponent) : NavigationChild()
-    class CollageMaker(val component: CollageMakerComponent) : NavigationChild()
-    class ColorTools(val component: ColorToolsComponent) : NavigationChild()
-    class Compare(val component: CompareComponent) : NavigationChild()
-    class Crop(val component: CropComponent) : NavigationChild()
-    class DeleteExif(val component: DeleteExifComponent) : NavigationChild()
-    class DocumentScanner(val component: DocumentScannerComponent) : NavigationChild()
-    class Draw(val component: DrawComponent) : NavigationChild()
-    class EasterEgg(val component: EasterEggComponent) : NavigationChild()
-    class EraseBackground(val component: EraseBackgroundComponent) : NavigationChild()
-    class Filter(val component: FilterComponent) : NavigationChild()
-    class FormatConversion(val component: FormatConversionComponent) : NavigationChild()
-    class GeneratePalette(val component: GeneratePaletteComponent) : NavigationChild()
-    class GifTools(val component: GifToolsComponent) : NavigationChild()
-    class GradientMaker(val component: GradientMakerComponent) : NavigationChild()
-    class ImagePreview(val component: ImagePreviewComponent) : NavigationChild()
-    class ImageSplitting(val component: ImageSplitterComponent) : NavigationChild()
-    class ImageStacking(val component: ImageStackingComponent) : NavigationChild()
-    class ImageStitching(val component: ImageStitchingComponent) : NavigationChild()
-    class JxlTools(val component: JxlToolsComponent) : NavigationChild()
-    class LimitResize(val component: LimitsResizeComponent) : NavigationChild()
-    class LoadNetImage(val component: LoadNetImageComponent) : NavigationChild()
-    class Main(val component: MainComponent) : NavigationChild()
-    class NoiseGeneration(val component: NoiseGenerationComponent) : NavigationChild()
-    class PdfTools(val component: PdfToolsComponent) : NavigationChild()
-    class PickColorFromImage(val component: PickColorComponent) : NavigationChild()
-    class RecognizeText(val component: RecognizeTextComponent) : NavigationChild()
-    class ResizeAndConvert(val component: ResizeAndConvertComponent) : NavigationChild()
-    class ScanQrCode(val component: ScanQrCodeComponent) : NavigationChild()
-    class Settings(val component: SettingsComponent) : NavigationChild()
-    class SingleEdit(val component: SingleEditComponent) : NavigationChild()
-    class SvgMaker(val component: SvgMakerComponent) : NavigationChild()
-    class Watermarking(val component: WatermarkingComponent) : NavigationChild()
-    class WebpTools(val component: WebpToolsComponent) : NavigationChild()
-    class WeightResize(val component: WeightResizeComponent) : NavigationChild()
-    class Zip(val component: ZipComponent) : NavigationChild()
-    class LibrariesInfo(val component: LibrariesInfoComponent) : NavigationChild()
+
+    @Composable
+    abstract fun Content()
+
+
+    class ApngTools(val component: ApngToolsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ApngToolsContent(component)
+    }
+
+    class Cipher(val component: CipherComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = CipherContent(component)
+    }
+
+    class CollageMaker(val component: CollageMakerComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = CollageMakerContent(component)
+    }
+
+    class ColorTools(val component: ColorToolsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ColorToolsContent(component)
+    }
+
+    class Compare(val component: CompareComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = CompareContent(component)
+    }
+
+    class Crop(val component: CropComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = CropContent(component)
+    }
+
+    class DeleteExif(val component: DeleteExifComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = DeleteExifContent(component)
+    }
+
+    class DocumentScanner(val component: DocumentScannerComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = DocumentScannerContent(component)
+    }
+
+    class Draw(val component: DrawComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = DrawContent(component)
+    }
+
+    class EasterEgg(val component: EasterEggComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = EasterEggContent(component)
+    }
+
+    class EraseBackground(val component: EraseBackgroundComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = EraseBackgroundContent(component)
+    }
+
+    class Filter(val component: FiltersComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = FiltersContent(component)
+    }
+
+    class FormatConversion(val component: FormatConversionComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = FormatConversionContent(component)
+    }
+
+    class GeneratePalette(val component: GeneratePaletteComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = GeneratePaletteContent(component)
+    }
+
+    class GifTools(val component: GifToolsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = GifToolsContent(component)
+    }
+
+    class GradientMaker(val component: GradientMakerComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = GradientMakerContent(component)
+    }
+
+    class ImagePreview(val component: ImagePreviewComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ImagePreviewContent(component)
+    }
+
+    class ImageSplitting(val component: ImageSplitterComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ImageSplitterContent(component)
+    }
+
+    class ImageStacking(val component: ImageStackingComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ImageStackingContent(component)
+    }
+
+    class ImageStitching(val component: ImageStitchingComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ImageStitchingContent(component)
+    }
+
+    class JxlTools(val component: JxlToolsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = JxlToolsContent(component)
+    }
+
+    class LimitResize(val component: LimitsResizeComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = LimitsResizeContent(component)
+    }
+
+    class LoadNetImage(val component: LoadNetImageComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = LoadNetImageContent(component)
+    }
+
+    class Main(val component: MainComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = MainContent(component)
+    }
+
+    class NoiseGeneration(val component: NoiseGenerationComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = NoiseGenerationContent(component)
+    }
+
+    class PdfTools(val component: PdfToolsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = PdfToolsContent(component)
+    }
+
+    class PickColorFromImage(val component: PickColorFromImageComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = PickColorFromImageContent(component)
+    }
+
+    class RecognizeText(val component: RecognizeTextComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = RecognizeTextContent(component)
+    }
+
+    class ResizeAndConvert(val component: ResizeAndConvertComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ResizeAndConvertContent(component)
+    }
+
+    class ScanQrCode(val component: ScanQrCodeComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ScanQrCodeContent(component)
+    }
+
+    class Settings(val component: SettingsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = SettingsContent(component)
+    }
+
+    class SingleEdit(val component: SingleEditComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = SingleEditContent(component)
+    }
+
+    class SvgMaker(val component: SvgMakerComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = SvgMakerContent(component)
+    }
+
+    class Watermarking(val component: WatermarkingComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = WatermarkingContent(component)
+    }
+
+    class WebpTools(val component: WebpToolsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = WebpToolsContent(component)
+    }
+
+    class WeightResize(val component: WeightResizeComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = WeightResizeContent(component)
+    }
+
+    class Zip(val component: ZipComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ZipContent(component)
+    }
+
+    class LibrariesInfo(val component: LibrariesInfoComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = LibrariesInfoContent(component)
+    }
+
 }

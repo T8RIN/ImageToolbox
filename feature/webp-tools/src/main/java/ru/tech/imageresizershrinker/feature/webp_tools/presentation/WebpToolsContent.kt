@@ -100,8 +100,6 @@ import ru.tech.imageresizershrinker.feature.webp_tools.presentation.screenLogic.
 
 @Composable
 fun WebpToolsContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: WebpToolsComponent
 ) {
     val context = LocalComponentActivity.current
@@ -140,7 +138,7 @@ fun WebpToolsContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()
@@ -243,7 +241,7 @@ fun WebpToolsContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
         },
         imagePreview = {

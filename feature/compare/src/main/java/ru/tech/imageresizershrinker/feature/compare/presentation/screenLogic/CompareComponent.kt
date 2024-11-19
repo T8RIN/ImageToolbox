@@ -51,6 +51,7 @@ import kotlin.math.roundToInt
 class CompareComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialComparableUris: Pair<Uri, Uri>?,
+    @Assisted val onGoBack: () -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -271,6 +272,7 @@ class CompareComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialComparableUris: Pair<Uri, Uri>?,
+            onGoBack: () -> Unit,
         ): CompareComponent
     }
 

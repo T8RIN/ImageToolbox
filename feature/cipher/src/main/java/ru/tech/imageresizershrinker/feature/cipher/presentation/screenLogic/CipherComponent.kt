@@ -40,6 +40,7 @@ import java.security.InvalidKeyException
 class CipherComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
+    @Assisted val onGoBack: () -> Unit,
     private val cryptographyManager: CryptographyManager,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
@@ -159,6 +160,7 @@ class CipherComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
+            onGoBack: () -> Unit,
         ): CipherComponent
     }
 }

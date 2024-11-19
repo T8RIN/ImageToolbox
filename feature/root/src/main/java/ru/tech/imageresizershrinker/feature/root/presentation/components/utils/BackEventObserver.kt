@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.utils
+package ru.tech.imageresizershrinker.feature.root.presentation.components.utils
 
-inline fun <reified T> T?.notNullAnd(
-    predicate: (T) -> Boolean
-): Boolean = if (this != null) predicate(this)
-else false
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+
+fun interface BackEventObserver {
+    fun onBack(closedScreen: Screen?)
+}

@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
 class ZipComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
     private val zipManager: ZipManager,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
@@ -158,6 +159,7 @@ class ZipComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
         ): ZipComponent
     }
 }

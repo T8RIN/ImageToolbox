@@ -108,7 +108,6 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ColorToolsContent(
-    onGoBack: () -> Unit,
     component: ColorToolsComponent
 ) {
     val scope = rememberCoroutineScope()
@@ -143,7 +142,7 @@ fun ColorToolsContent(
             )
         },
         shouldDisableBackHandler = true,
-        onGoBack = onGoBack,
+        onGoBack = component.onGoBack,
         actions = {},
         topAppBarPersistentActions = {
             TopAppBarEmoji()

@@ -106,7 +106,6 @@ import ru.tech.imageresizershrinker.feature.gif_tools.presentation.screenLogic.G
 
 @Composable
 fun GifToolsContent(
-    onGoBack: () -> Unit,
     component: GifToolsComponent
 ) {
     val context = LocalComponentActivity.current
@@ -227,7 +226,7 @@ fun GifToolsContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()

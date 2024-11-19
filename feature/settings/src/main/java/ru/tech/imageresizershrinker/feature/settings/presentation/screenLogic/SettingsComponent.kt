@@ -59,6 +59,7 @@ class SettingsComponent @AssistedInject internal constructor(
     @Assisted private val onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     @Assisted val isUpdateAvailable: Value<Boolean>,
+    @Assisted val onGoBack: (() -> Unit)?,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
@@ -655,6 +656,7 @@ class SettingsComponent @AssistedInject internal constructor(
             onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
             onNavigate: (Screen) -> Unit,
             isUpdateAvailable: Value<Boolean>,
+            onGoBack: (() -> Unit)?,
         ): SettingsComponent
     }
 }

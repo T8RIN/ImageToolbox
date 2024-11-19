@@ -61,6 +61,8 @@ import java.util.Locale
 class ApngToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted initialType: Screen.ApngTools.Type?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
@@ -501,6 +503,8 @@ class ApngToolsComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialType: Screen.ApngTools.Type?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): ApngToolsComponent
     }
 }

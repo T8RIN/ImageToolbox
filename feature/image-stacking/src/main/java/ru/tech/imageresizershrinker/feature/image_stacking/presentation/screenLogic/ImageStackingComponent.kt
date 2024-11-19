@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.ImageStacker
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
@@ -50,6 +51,8 @@ import ru.tech.imageresizershrinker.feature.image_stacking.domain.toStackImage
 class ImageStackingComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageStacker: ImageStacker<Bitmap>,
     private val fileController: FileController,
@@ -297,6 +300,8 @@ class ImageStackingComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): ImageStackingComponent
     }
 

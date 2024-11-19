@@ -96,7 +96,6 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.P
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PdfToolsContent(
-    onGoBack: () -> Unit,
     component: PdfToolsComponent
 ) {
     val essentials = rememberLocalEssentials()
@@ -107,12 +106,14 @@ fun PdfToolsContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val onBack = {
-        if (component.pdfType is Screen.PdfTools.Type.Preview) onGoBack()
+        if (component.pdfType is Screen.PdfTools.Type.Preview) component.onGoBack()
         else {
             if (component.haveChanges) showExitDialog = true
             else if (component.pdfType != null) {
                 component.clearType()
-            } else onGoBack()
+            } else {
+                component.onGoBack()
+            }
         }
     }
 
@@ -432,7 +433,9 @@ fun PdfToolsContent(
         onExit = {
             if (component.pdfType != null) {
                 component.clearType()
-            } else onGoBack()
+            } else {
+                component.onGoBack()
+            }
         },
         onDismiss = { showExitDialog = false },
         visible = showExitDialog

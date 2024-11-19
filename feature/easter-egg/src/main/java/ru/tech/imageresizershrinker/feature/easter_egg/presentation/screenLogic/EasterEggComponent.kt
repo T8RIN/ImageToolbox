@@ -26,13 +26,15 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 
 class EasterEggComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted val onGoBack: () -> Unit,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            onGoBack: () -> Unit,
         ): EasterEggComponent
     }
 

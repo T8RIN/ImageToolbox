@@ -96,8 +96,6 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLo
 
 @Composable
 fun GradientMakerContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: GradientMakerComponent
 ) {
     val context = LocalComponentActivity.current
@@ -186,7 +184,7 @@ fun GradientMakerContent(
         },
         onGoBack = {
             if (component.haveChanges) showExitDialog = true
-            else onGoBack()
+            else component.onGoBack()
         },
         actions = {
             if (component.uris.isNotEmpty()) {
@@ -223,7 +221,7 @@ fun GradientMakerContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
         },
         topAppBarPersistentActions = {
@@ -513,7 +511,9 @@ fun GradientMakerContent(
             if (allowPickingImage != null) {
                 allowPickingImage = null
                 component.resetState()
-            } else onGoBack()
+            } else {
+                component.onGoBack()
+            }
         },
         onDismiss = { showExitDialog = false },
         visible = showExitDialog

@@ -100,7 +100,6 @@ import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic.J
 
 @Composable
 fun JxlToolsContent(
-    onGoBack: () -> Unit,
     component: JxlToolsComponent
 ) {
     val context = LocalComponentActivity.current
@@ -222,7 +221,7 @@ fun JxlToolsContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()

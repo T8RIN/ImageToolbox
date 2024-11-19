@@ -129,7 +129,6 @@ fun RootContent(
                     onDismiss = component::hideSelectDialog,
                     onNavigate = { screen ->
                         component.navigateTo(screen)
-                        component.hideSelectDialog()
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             runCatching {
                                 clipboardManager.clearPrimaryClip()

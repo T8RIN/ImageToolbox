@@ -41,7 +41,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -83,8 +82,6 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.screenLogic
 
 @Composable
 fun SingleEditContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: SingleEditComponent,
 ) {
     val context = LocalComponentActivity.current
@@ -138,7 +135,7 @@ fun SingleEditContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     var showCropper by rememberSaveable { mutableStateOf(false) }
@@ -202,7 +199,7 @@ fun SingleEditContent(
                 uris = editSheetData,
                 visible = editSheetData.isNotEmpty(),
                 onDismiss = { editSheetData = emptyList() },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
 
             EnhancedIconButton(
@@ -369,7 +366,7 @@ fun SingleEditContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

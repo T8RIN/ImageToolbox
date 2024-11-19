@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -54,6 +55,8 @@ import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgrou
 class EraseBackgroundComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -389,6 +392,8 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): EraseBackgroundComponent
     }
 

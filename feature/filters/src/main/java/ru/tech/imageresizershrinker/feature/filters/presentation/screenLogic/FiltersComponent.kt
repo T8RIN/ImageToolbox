@@ -63,9 +63,11 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
 
-class FilterComponent @AssistedInject internal constructor(
+class FiltersComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.Filter.Type?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -738,7 +740,9 @@ class FilterComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialType: Screen.Filter.Type?,
-        ): FilterComponent
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
+        ): FiltersComponent
     }
 
 }

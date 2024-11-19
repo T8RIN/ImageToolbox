@@ -24,6 +24,17 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatable
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.stack.animation.slide
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
+import com.arkivanov.essenty.backhandler.BackHandler
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 fun fancySlideTransition(
     isForward: Boolean,
@@ -69,4 +80,32 @@ private fun <T> openCloseTransitionSpec(
     durationMillis = duration,
     delayMillis = delay,
     easing = TransitionEasing
+)
+
+@OptIn(ExperimentalDecomposeApi::class)
+fun <NavigationChild : Any> toolboxPredictiveBackAnimation(
+    backHandler: BackHandler,
+    onBack: () -> Unit
+): StackAnimation<Screen, NavigationChild>? = predictiveBackAnimation(
+    backHandler = backHandler,
+    onBack = onBack,
+    fallbackAnimation = stackAnimation(
+        fade(
+            tween(
+                durationMillis = 300,
+                easing = AlphaEasing
+            )
+        ) + slide(
+            tween(
+                durationMillis = 400,
+                easing = FancyTransitionEasing
+            )
+        ) + scale(
+            tween(
+                durationMillis = 500,
+                easing = PointToPointEasing
+            )
+        )
+    ),
+    selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
 )

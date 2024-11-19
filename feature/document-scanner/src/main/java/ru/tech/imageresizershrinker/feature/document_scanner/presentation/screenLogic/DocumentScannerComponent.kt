@@ -54,6 +54,7 @@ import kotlin.random.Random
 
 class DocumentScannerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted val onGoBack: () -> Unit,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -272,7 +273,8 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            onGoBack: () -> Unit,
         ): DocumentScannerComponent
     }
 

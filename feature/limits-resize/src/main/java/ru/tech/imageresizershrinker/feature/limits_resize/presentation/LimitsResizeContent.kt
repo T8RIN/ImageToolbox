@@ -38,7 +38,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -71,8 +70,6 @@ import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLog
 
 @Composable
 fun LimitsResizeContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: LimitsResizeComponent
 ) {
     val context = LocalComponentActivity.current
@@ -100,7 +97,7 @@ fun LimitsResizeContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -164,7 +161,7 @@ fun LimitsResizeContent(
                     onDismiss = {
                         editSheetData = emptyList()
                     },
-                    onNavigate = onNavigate
+                    onNavigate = component.onNavigate
                 )
             }
             ZoomButton(
@@ -320,7 +317,7 @@ fun LimitsResizeContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

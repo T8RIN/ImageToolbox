@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersS
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
@@ -67,6 +68,8 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathP
 class DrawComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -471,6 +474,8 @@ class DrawComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): DrawComponent
     }
 }

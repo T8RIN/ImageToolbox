@@ -53,6 +53,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransforma
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
@@ -61,6 +62,8 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.componen
 class GradientMakerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -539,6 +542,8 @@ class GradientMakerComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): GradientMakerComponent
     }
 }

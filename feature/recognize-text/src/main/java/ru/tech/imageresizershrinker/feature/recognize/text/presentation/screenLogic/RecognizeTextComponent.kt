@@ -75,6 +75,7 @@ import coil3.transform.Transformation as CoilTransformation
 class RecognizeTextComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
+    @Assisted val onGoBack: () -> Unit,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTextReader: ImageTextReader<Bitmap>,
     private val settingsManager: SettingsManager,
@@ -395,14 +396,16 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         domainAspectRatio: DomainAspectRatio,
         aspectRatio: AspectRatio
     ) {
-        _cropProperties.value = _cropProperties.value.copy(
-            aspectRatio = aspectRatio.takeIf {
-                domainAspectRatio != DomainAspectRatio.Original
-            } ?: _previewBitmap.value?.let {
-                AspectRatio(it.safeAspectRatio)
-            } ?: aspectRatio,
-            fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
-        )
+        _cropProperties.update {
+            it.copy(
+                aspectRatio = aspectRatio.takeIf {
+                    domainAspectRatio != DomainAspectRatio.Original
+                } ?: _previewBitmap.value?.let {
+                    AspectRatio(it.safeAspectRatio)
+                } ?: aspectRatio,
+                fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
+            )
+        }
         _selectedAspectRatio.update { domainAspectRatio }
     }
 
@@ -525,6 +528,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
+            onGoBack: () -> Unit,
         ): RecognizeTextComponent
     }
 

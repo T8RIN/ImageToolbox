@@ -42,11 +42,14 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 class LoadNetImageComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUrl: String,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -174,6 +177,8 @@ class LoadNetImageComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUrl: String,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): LoadNetImageComponent
     }
 }

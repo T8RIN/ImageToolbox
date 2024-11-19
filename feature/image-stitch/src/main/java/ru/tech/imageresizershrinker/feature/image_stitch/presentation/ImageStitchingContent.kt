@@ -44,7 +44,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -79,8 +78,6 @@ import kotlin.math.roundToLong
 
 @Composable
 fun ImageStitchingContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: ImageStitchingComponent
 ) {
     val context = LocalComponentActivity.current
@@ -107,7 +104,7 @@ fun ImageStitchingContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -169,7 +166,7 @@ fun ImageStitchingContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
             ZoomButton(
                 onClick = { showZoomSheet = true },
@@ -315,7 +312,7 @@ fun ImageStitchingContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

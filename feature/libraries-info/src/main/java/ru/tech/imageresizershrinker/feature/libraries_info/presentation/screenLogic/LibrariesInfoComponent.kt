@@ -31,6 +31,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 class LibrariesInfoComponent @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted val onGoBack: () -> Unit,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -43,11 +44,10 @@ class LibrariesInfoComponent @AssistedInject constructor(
 
     @AssistedFactory
     fun interface Factory {
-
         operator fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            onGoBack: () -> Unit
         ): LibrariesInfoComponent
-
     }
 
 }

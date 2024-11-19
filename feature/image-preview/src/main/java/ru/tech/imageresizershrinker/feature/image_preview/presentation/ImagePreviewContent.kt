@@ -82,7 +82,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.listFilesInDirectory
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -103,15 +102,13 @@ import ru.tech.imageresizershrinker.feature.image_preview.presentation.screenLog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagePreviewContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: ImagePreviewComponent
 ) {
     var showExitDialog by rememberSaveable {
         mutableStateOf(false)
     }
     val onBack = {
-        if (component.uris.isNullOrEmpty()) onGoBack()
+        if (component.uris.isNullOrEmpty()) component.onGoBack()
         else showExitDialog = true
     }
 
@@ -193,7 +190,7 @@ fun ImagePreviewContent(
                     },
                     navigationIcon = {
                         EnhancedIconButton(
-                            onClick = onGoBack
+                            onClick = component.onGoBack
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
@@ -303,7 +300,7 @@ fun ImagePreviewContent(
                             },
                             onRemove = component::removeUri,
                             initialShowImagePreviewDialog = initialShowImagePreviewDialog,
-                            onNavigate = onNavigate,
+                            onNavigate = component.onNavigate,
                             imageFrames = component.imageFrames,
                             onFrameSelectionChange = component::updateImageFrames
                         )
@@ -399,7 +396,7 @@ fun ImagePreviewContent(
                 onDismiss = {
                     wantToEdit = false
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
 
             BackHandler(enabled = !component.uris.isNullOrEmpty(), onBack = onBack)
@@ -412,7 +409,7 @@ fun ImagePreviewContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog,
         title = stringResource(id = R.string.image_preview),

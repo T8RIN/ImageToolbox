@@ -79,7 +79,6 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 
 @Composable
 fun GeneratePaletteContent(
-    onGoBack: () -> Unit,
     component: GeneratePaletteComponent
 ) {
     val essentials = rememberLocalEssentials()
@@ -224,7 +223,9 @@ fun GeneratePaletteContent(
             if (useMaterialYouPalette != null) {
                 useMaterialYouPalette = null
                 component.setUri(null)
-            } else onGoBack()
+            } else {
+                component.onGoBack()
+            }
         },
         actions = {
             ZoomButton(

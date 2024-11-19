@@ -110,7 +110,6 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CipherContent(
-    onGoBack: () -> Unit,
     component: CipherComponent
 ) {
     val haptics = LocalHapticFeedback.current
@@ -130,7 +129,7 @@ fun CipherContent(
 
     val onBack = {
         if (!canGoBack) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val saveLauncher = rememberLauncherForActivityResult(
@@ -532,7 +531,7 @@ fun CipherContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

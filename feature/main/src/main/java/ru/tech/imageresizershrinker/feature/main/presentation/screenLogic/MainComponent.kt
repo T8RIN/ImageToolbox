@@ -44,7 +44,8 @@ class MainComponent @AssistedInject internal constructor(
         componentContext = componentContext,
         onTryGetUpdate = onTryGetUpdate,
         onNavigate = onNavigate,
-        isUpdateAvailable = isUpdateAvailable
+        isUpdateAvailable = isUpdateAvailable,
+        onGoBack = null
     )
 
     fun tryGetUpdate(

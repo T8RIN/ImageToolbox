@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
@@ -56,6 +57,8 @@ import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 class WatermarkingComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -414,6 +417,8 @@ class WatermarkingComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): WatermarkingComponent
     }
 }

@@ -56,6 +56,8 @@ import java.util.Locale
 class WebpToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.WebpTools.Type?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
@@ -408,6 +410,8 @@ class WebpToolsComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialType: Screen.WebpTools.Type?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): WebpToolsComponent
     }
 

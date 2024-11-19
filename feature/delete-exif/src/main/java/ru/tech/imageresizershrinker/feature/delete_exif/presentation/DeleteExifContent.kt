@@ -45,7 +45,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -73,8 +72,6 @@ import ru.tech.imageresizershrinker.feature.delete_exif.presentation.screenLogic
 
 @Composable
 fun DeleteExifContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: DeleteExifComponent
 ) {
     val context = LocalComponentActivity.current
@@ -133,7 +130,7 @@ fun DeleteExifContent(
         },
         onGoBack = {
             if (component.uris?.isNotEmpty() == true) showExitDialog = true
-            else onGoBack()
+            else component.onGoBack()
         },
         actions = {
             if (component.previewBitmap != null) {
@@ -162,7 +159,7 @@ fun DeleteExifContent(
                     onDismiss = {
                         editSheetData = emptyList()
                     },
-                    onNavigate = onNavigate
+                    onNavigate = component.onNavigate
                 )
             }
             ZoomButton(
@@ -304,7 +301,7 @@ fun DeleteExifContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

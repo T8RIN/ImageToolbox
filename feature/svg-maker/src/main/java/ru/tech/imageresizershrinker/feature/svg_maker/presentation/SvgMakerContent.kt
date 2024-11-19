@@ -59,7 +59,6 @@ import ru.tech.imageresizershrinker.feature.svg_maker.presentation.screenLogic.S
 
 @Composable
 fun SvgMakerContent(
-    onGoBack: () -> Unit,
     component: SvgMakerComponent
 ) {
     val essentials = rememberLocalEssentials()
@@ -71,7 +70,7 @@ fun SvgMakerContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val imagePicker = rememberImagePicker(onSuccess = component::setUris)
@@ -214,7 +213,7 @@ fun SvgMakerContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

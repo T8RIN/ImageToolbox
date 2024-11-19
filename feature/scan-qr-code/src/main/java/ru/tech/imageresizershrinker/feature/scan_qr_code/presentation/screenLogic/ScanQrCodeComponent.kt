@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 class ScanQrCodeComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialQrCodeContent: String?,
+    @Assisted val onGoBack: () -> Unit,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
@@ -168,6 +169,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialQrCodeContent: String?,
+            onGoBack: () -> Unit,
         ): ScanQrCodeComponent
     }
 

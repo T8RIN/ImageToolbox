@@ -40,7 +40,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -79,8 +78,6 @@ import ru.tech.imageresizershrinker.feature.watermarking.presentation.screenLogi
 
 @Composable
 fun WatermarkingContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: WatermarkingComponent
 ) {
     val context = LocalComponentActivity.current
@@ -133,7 +130,7 @@ fun WatermarkingContent(
         },
         onGoBack = {
             if (component.haveChanges) showExitDialog = true
-            else onGoBack()
+            else component.onGoBack()
         },
         topAppBarPersistentActions = {
             if (component.previewBitmap == null) TopAppBarEmoji()
@@ -173,7 +170,7 @@ fun WatermarkingContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
             EnhancedIconButton(
                 enabled = component.internalBitmap != null,
@@ -364,7 +361,7 @@ fun WatermarkingContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack,
+        onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

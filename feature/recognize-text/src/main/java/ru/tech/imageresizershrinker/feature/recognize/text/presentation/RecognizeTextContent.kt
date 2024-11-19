@@ -104,7 +104,6 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.
 
 @Composable
 fun RecognizeTextContent(
-    onGoBack: () -> Unit,
     component: RecognizeTextComponent
 ) {
     val text = component.recognitionData?.text?.takeIf {
@@ -284,7 +283,7 @@ fun RecognizeTextContent(
                 )
             }
         },
-        onGoBack = onGoBack,
+        onGoBack = component.onGoBack,
         topAppBarPersistentActions = {
             if (component.uri == null) TopAppBarEmoji()
             ZoomButton(

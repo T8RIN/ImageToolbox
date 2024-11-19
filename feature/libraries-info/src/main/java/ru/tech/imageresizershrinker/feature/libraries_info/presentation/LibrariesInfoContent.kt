@@ -84,8 +84,7 @@ import ru.tech.imageresizershrinker.feature.libraries_info.presentation.screenLo
 
 @Composable
 fun LibrariesInfoContent(
-    component: LibrariesInfoComponent,
-    onGoBack: () -> Unit
+    component: LibrariesInfoComponent
 ) {
     val essentials = rememberLocalEssentials()
     Surface(
@@ -103,7 +102,9 @@ fun LibrariesInfoContent(
                     Text(stringResource(R.string.open_source_licenses))
                 },
                 navigationIcon = {
-                    EnhancedIconButton(onGoBack) {
+                    EnhancedIconButton(
+                        onClick = component.onGoBack
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = null
@@ -145,7 +146,7 @@ fun LibrariesInfoContent(
                     if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
                         component.selectLibrary(library)
                     } else if (!license?.url.isNullOrBlank()) {
-                        license?.url?.also {
+                        license.url?.also {
                             runCatching {
                                 linkHandler.openUri(it)
                             }.onFailure(essentials::showFailureToast)
@@ -258,7 +259,7 @@ fun LibrariesInfoContent(
                                     predictiveBackProgress = event.progress
                                 }
                                 component.selectLibrary(null)
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 predictiveBackProgress = 0f
                             }
                         }

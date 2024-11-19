@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTempl
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
@@ -80,6 +81,8 @@ import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgrou
 class SingleEditComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
@@ -535,7 +538,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
+    fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
     fun setPreset(preset: Preset) {
         componentScope.launch {
@@ -790,6 +793,8 @@ class SingleEditComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): SingleEditComponent
     }
 }

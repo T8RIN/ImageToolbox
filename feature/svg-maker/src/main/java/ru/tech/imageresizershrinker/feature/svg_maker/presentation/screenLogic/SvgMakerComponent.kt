@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 class SvgMakerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val onGoBack: () -> Unit,
     private val svgManager: SvgManager,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
@@ -206,6 +207,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            onGoBack: () -> Unit,
         ): SvgMakerComponent
     }
 

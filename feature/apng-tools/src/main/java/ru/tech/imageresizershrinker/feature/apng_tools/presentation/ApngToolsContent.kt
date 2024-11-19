@@ -106,8 +106,6 @@ import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.
 
 @Composable
 fun ApngToolsContent(
-    onGoBack: () -> Unit,
-    onNavigate: (Screen) -> Unit,
     component: ApngToolsComponent
 ) {
     val context = LocalComponentActivity.current
@@ -187,7 +185,7 @@ fun ApngToolsContent(
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else onGoBack()
+        else component.onGoBack()
     }
 
     val isPortrait by isPortraitOrientationAsState()
@@ -294,7 +292,7 @@ fun ApngToolsContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                onNavigate = onNavigate
+                onNavigate = component.onNavigate
             )
         },
         imagePreview = {
