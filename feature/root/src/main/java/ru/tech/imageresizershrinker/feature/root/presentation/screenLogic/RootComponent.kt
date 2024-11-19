@@ -177,9 +177,8 @@ class RootComponent @AssistedInject internal constructor(
         isNewRequest: Boolean = false,
         onNoUpdates: () -> Unit = {}
     ) {
-        val isInstalledFromMarket = settingsManager.isInstalledFromPlayStore()
-
         if (settingsState.appOpenCount < 2 && !isNewRequest) return
+        val isInstalledFromMarket = settingsManager.isInstalledFromPlayStore()
 
         val showDialog = settingsState.showUpdateDialogOnStartup
         if (isInstalledFromMarket) {

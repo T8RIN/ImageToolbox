@@ -17,9 +17,14 @@
 
 package ru.tech.imageresizershrinker.core.ui.theme
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -46,6 +51,23 @@ fun ImageToolboxTheme(
             style = settingsState.themeStyle,
             isInvertColors = settingsState.isInvertThemeColors,
             content = content
+        )
+    }
+}
+
+@Composable
+fun ImageToolboxThemeSurface(
+    content: @Composable BoxScope.() -> Unit
+) {
+    ImageToolboxTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            content = {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    content = content
+                )
+            }
         )
     }
 }

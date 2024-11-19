@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.root.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -36,6 +35,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -91,8 +91,10 @@ internal fun EditPresetsSheet(
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState())
                 ) { list ->
+                    var expanded by remember { mutableStateOf(false) }
+
                     FlowRow(
-                        Modifier
+                        modifier = Modifier
                             .align(Alignment.Center)
                             .fillMaxWidth()
                             .padding(16.dp),
@@ -114,7 +116,6 @@ internal fun EditPresetsSheet(
                                 AutoSizeText(it.toString())
                             }
                         }
-                        var expanded by remember { mutableStateOf(false) }
                         EnhancedChip(
                             onClick = {
                                 expanded = true
@@ -129,71 +130,65 @@ internal fun EditPresetsSheet(
                                 )
                             }
                         )
-                        var value by remember(expanded) { mutableStateOf("") }
-                        EnhancedAlertDialog(
-                            visible = expanded,
-                            onDismissRequest = { expanded = false },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.PhotoSizeSelectSmall,
-                                    contentDescription = null
-                                )
-                            },
-                            title = {
-                                Text(stringResource(R.string.presets))
-                            },
-                            text = {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    OutlinedTextField(
-                                        shape = RoundedCornerShape(16.dp),
-                                        value = value,
-                                        textStyle = MaterialTheme.typography.titleMedium.copy(
-                                            textAlign = TextAlign.Center
-                                        ),
-                                        maxLines = 1,
-                                        keyboardOptions = KeyboardOptions(
-                                            keyboardType = KeyboardType.Number
-                                        ),
-                                        onValueChange = {
-                                            if (it.isDigitsOnly()) {
-                                                value = it
-                                            }
-                                        }
-                                    )
+                    }
+
+                    var value by remember(expanded) { mutableStateOf("") }
+                    EnhancedAlertDialog(
+                        visible = expanded,
+                        onDismissRequest = { expanded = false },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.PhotoSizeSelectSmall,
+                                contentDescription = null
+                            )
+                        },
+                        title = {
+                            Text(stringResource(R.string.presets))
+                        },
+                        text = {
+                            OutlinedTextField(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(16.dp),
+                                value = value,
+                                textStyle = MaterialTheme.typography.titleMedium.copy(
+                                    textAlign = TextAlign.Center
+                                ),
+                                maxLines = 1,
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number
+                                ),
+                                onValueChange = {
+                                    if (it.isDigitsOnly()) {
+                                        value = it.toIntOrNull()?.coerceAtMost(500)?.toString()
+                                            ?: ""
+                                    }
+                                },
+                                placeholder = {
                                     Text(
-                                        text = "%",
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = stringResource(R.string.enter_percent),
                                         style = MaterialTheme.typography.titleMedium.copy(
                                             textAlign = TextAlign.Center
-                                        )
+                                        ),
+                                        color = LocalContentColor.current.copy(0.5f)
                                     )
                                 }
-                            },
-                            confirmButton = {
-                                EnhancedButton(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = if (settingsState.isNightMode) 0.5f
-                                        else 1f
-                                    ),
-                                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                    ),
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    onClick = {
-                                        onUpdatePresets(
-                                            list + (value.toIntOrNull() ?: 0)
-                                        )
-                                        expanded = false
-                                    },
-                                ) {
-                                    Text(stringResource(R.string.add))
-                                }
+                            )
+                        },
+                        confirmButton = {
+                            EnhancedButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                onClick = {
+                                    onUpdatePresets(
+                                        list + (value.toIntOrNull() ?: 0)
+                                    )
+                                    expanded = false
+                                },
+                            ) {
+                                Text(stringResource(R.string.add))
                             }
-                        )
-                    }
+                        }
+                    )
                 }
             }
         },

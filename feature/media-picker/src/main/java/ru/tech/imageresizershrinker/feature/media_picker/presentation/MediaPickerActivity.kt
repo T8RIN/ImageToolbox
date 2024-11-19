@@ -34,13 +34,14 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
+import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toClipData
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.other.SecureModeHandler
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRootContent
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
@@ -74,7 +75,7 @@ class MediaPickerActivity : M3Activity() {
             ) {
                 SecureModeHandler()
 
-                ImageToolboxTheme {
+                ImageToolboxThemeSurface {
                     val dynamicTheme = LocalDynamicThemeState.current
                     MediaPickerRootContent(
                         component = component,
@@ -83,6 +84,7 @@ class MediaPickerActivity : M3Activity() {
                         allowMultiple = allowMultiple
                     )
                     ConfettiHost()
+                    ToastHost()
 
                     val scope = rememberCoroutineScope()
                     SideEffect {

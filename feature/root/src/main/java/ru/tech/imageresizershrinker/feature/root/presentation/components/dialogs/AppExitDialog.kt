@@ -15,20 +15,48 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.root.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs
 
+import android.os.Build
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoorBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
+
+
+@Composable
+internal fun AppExitDialog(component: RootComponent) {
+    val context = LocalComponentActivity.current
+
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
+    val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    if (!tiramisu) {
+        BackHandler {
+            if (component.shouldShowDialog) showExitDialog = true
+            else context.finishAffinity()
+        }
+    }
+
+    AppExitDialog(
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog && !tiramisu
+    )
+}
 
 @Composable
 internal fun AppExitDialog(

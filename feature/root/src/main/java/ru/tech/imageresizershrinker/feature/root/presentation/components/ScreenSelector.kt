@@ -25,6 +25,7 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.toolboxPredictiveBackAnimation
 import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.ResetThemeOnGoBack
+import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.ScreenBasedMaxBrightnessEnforcement
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 
 @Composable

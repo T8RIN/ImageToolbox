@@ -88,7 +88,7 @@ import kotlin.coroutines.resume
 
 @Composable
 fun ToastHost(
-    hostState: ToastHostState,
+    hostState: ToastHostState = LocalToastHostState.current,
     modifier: Modifier = Modifier.fillMaxSize(),
     alignment: Alignment = Alignment.BottomCenter,
     transitionSpec: AnimatedContentTransitionScope<ToastData?>.() -> ContentTransform = { ToastDefaults.transition },

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.root.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.StarRate

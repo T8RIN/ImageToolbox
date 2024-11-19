@@ -1495,4 +1495,5 @@
     <string name="area">Area</string>
     <string name="area_sub">Resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire\'-free results. But when the image is zoomed, it is similar to the \"Nearest\" method.</string>
     <string name="enable_tonemapping">Enable Tonemapping</string>
+    <string name="enter_percent">Enter %</string>
 </resources>
