@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 class LoadNetImageComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted val initialUrl: String,
+    @Assisted initialUrl: String,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
@@ -56,6 +56,15 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    init {
+        debounce {
+            updateTargetUrl(initialUrl)
+        }
+    }
+
+    private val _targetUrl: MutableState<String> = mutableStateOf("")
+    val targetUrl: String by _targetUrl
 
     private val _bitmap = mutableStateOf<Bitmap?>(null)
     val bitmap by _bitmap
@@ -66,8 +75,15 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
-    fun updateBitmap(bitmap: Bitmap?) {
-        _bitmap.value = bitmap
+    fun updateTargetUrl(newUrl: String) {
+        _targetUrl.update(
+            onValueChanged = {
+                debouncedImageCalculation {
+                    _bitmap.update { imageGetter.getImage(data = newUrl) }
+                }
+            },
+            transform = { newUrl }
+        )
     }
 
     private var savingJob: Job? by smartJob {
@@ -75,13 +91,12 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmap(
-        link: String,
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
         savingJob = componentScope.launch {
             _isSaving.update { true }
-            imageGetter.getImage(data = link)?.let { bitmap ->
+            imageGetter.getImage(data = targetUrl)?.let { bitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
@@ -170,7 +185,6 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
-
 
     @AssistedFactory
     fun interface Factory {
