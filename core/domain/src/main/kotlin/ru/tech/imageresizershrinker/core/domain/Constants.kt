@@ -31,3 +31,6 @@ const val BitcoinWallet = "17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq"
 const val USDTWallet = "TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7"
 const val TONSpaceWallet = "UQDMePBU-FaxwaIME8p7h2spRITeRxvtCPegtKefeV5v-sN1"
 const val TONWallet = "UQB44LtN0zArKGcWTbNxU7zAkGYunVs1rkn_VsLq71G4bdmK"
+
+const val USER_AGENT =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"

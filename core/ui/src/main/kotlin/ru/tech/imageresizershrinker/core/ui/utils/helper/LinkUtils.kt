@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import ru.tech.imageresizershrinker.core.domain.USER_AGENT
 
 object LinkUtils {
     fun parseLinks(text: String): Set<String> {
@@ -48,6 +49,7 @@ suspend fun LinkPreview(
     runCatching {
         Jsoup
             .connect(link)
+            .userAgent(USER_AGENT)
             .execute()
             .parse()
             .getElementsByTag("meta")

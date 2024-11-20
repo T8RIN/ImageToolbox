@@ -211,6 +211,9 @@ fun LoadNetImageContent(
                 allowHardware = false,
                 model = component.targetUrl,
                 modifier = Modifier
+                    .container(
+                        resultPadding = 8.dp
+                    )
                     .then(
                         if (component.bitmap == null) {
                             Modifier
@@ -219,9 +222,6 @@ fun LoadNetImageContent(
                         } else {
                             Modifier.aspectRatio(component.bitmap?.safeAspectRatio ?: 2f)
                         }
-                    )
-                    .container(
-                        resultPadding = 8.dp
                     ),
                 isLoadingFromDifferentPlace = component.isImageLoading,
                 contentScale = ContentScale.FillBounds,
@@ -324,7 +324,8 @@ fun LoadNetImageContent(
                                     layout(result.measuredWidth, result.measuredHeight) {
                                         result.place(0, 0)
                                     }
-                                }
+                                },
+                            showExtension = false
                         )
                     }
                 }

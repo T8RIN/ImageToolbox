@@ -23,6 +23,7 @@ import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import ru.tech.imageresizershrinker.core.domain.USER_AGENT
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -44,27 +45,23 @@ internal class AndroidHtmlImageParser @Inject constructor(
         url: String,
         onFailure: (message: String) -> Unit
     ): List<String> = withContext(defaultDispatcher) {
-        val baseImage = imageGetter.getImage(data = url)?.let {
-            shareProvider.cacheImage(
-                image = it,
-                imageInfo = ImageInfo(
-                    width = it.width,
-                    height = it.height,
-                    imageFormat = ImageFormat.Png.Lossless
-                )
-            )
-        }.let(::listOfNotNull)
+        val realUrl = if (url.isMalformed()) {
+            "https://$url"
+        } else url
 
-        val parsedImages = if (url.isNotEmpty()) {
+        val baseImage = loadImage(realUrl)
+
+        val parsedImages = if (realUrl.isNotEmpty()) {
             runCatching {
                 val parsed = Jsoup
-                    .connect(url)
+                    .connect(realUrl)
+                    .userAgent(USER_AGENT)
                     .execute()
                     .parse()
 
                 val list = parsed.getElementsByTag("img")
                     .mapNotNull { element ->
-                        element.absUrl("src").takeIf { it.isNotEmpty() }
+                        element.absUrl("src").takeIf { it.isNotEmpty() }?.substringBefore("?")
                     }
 
                 val content = parsed.getElementsByTag("meta")
@@ -75,7 +72,16 @@ internal class AndroidHtmlImageParser @Inject constructor(
                         }
                     }
 
-                content + list
+                val favIcon = loadImage(
+                    parsed.head()
+                        .select("link[href~=.*\\.ico]")
+                        .firstOrNull()
+                        ?.attr("href") ?: ""
+                ).ifEmpty {
+                    loadImage(realUrl.removeSuffix("/") + "/favicon.ico")
+                }
+
+                content + list + favIcon
             }.onFailure {
                 if (it is UnknownHostException) onFailure(context.getString(R.string.unknown_host))
             }.getOrNull() ?: emptyList()
@@ -85,5 +91,20 @@ internal class AndroidHtmlImageParser @Inject constructor(
 
         baseImage + parsedImages
     }
+
+    private suspend fun loadImage(
+        url: String
+    ): List<String> = imageGetter.getImage(data = url)?.let {
+        shareProvider.cacheImage(
+            image = it,
+            imageInfo = ImageInfo(
+                width = it.width,
+                height = it.height,
+                imageFormat = ImageFormat.Png.Lossless
+            )
+        )
+    }.let(::listOfNotNull)
+
+    private fun String.isMalformed(): Boolean = !(startsWith("https://") || startsWith("http://"))
 
 }
