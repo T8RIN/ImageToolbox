@@ -19,7 +19,6 @@ plugins {
     alias(libs.plugins.image.toolbox.library)
     alias(libs.plugins.image.toolbox.hilt)
     alias(libs.plugins.image.toolbox.compose)
-    kotlin("plugin.serialization")
 }
 
 android.namespace = "ru.tech.imageresizershrinker.core.ui"

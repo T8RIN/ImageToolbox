@@ -21,9 +21,8 @@ import coil3.intercept.Interceptor
 import coil3.request.ImageResult
 import coil3.request.transformations
 import com.t8rin.logger.makeLog
-import javax.inject.Inject
 
-internal class TimeMeasureInterceptor @Inject constructor() : Interceptor {
+internal object TimeMeasureInterceptor : Interceptor {
 
     override suspend fun intercept(
         chain: Interceptor.Chain

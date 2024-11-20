@@ -67,6 +67,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -115,7 +116,9 @@ fun ImagesPreviewWithSelection(
     },
     showExtension: Boolean = true,
     endAdditionalItem: (@Composable LazyGridItemScope.() -> Unit)? = null,
-    isContentAlignToCenter: Boolean = true
+    isContentAlignToCenter: Boolean = true,
+    contentScale: ContentScale = ContentScale.Crop,
+    modifier: Modifier? = null
 ) {
     val state = rememberLazyGridState()
     val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
@@ -150,7 +153,7 @@ fun ImagesPreviewWithSelection(
     }
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val modifier = if (isPortrait) {
+    val modifier = modifier ?: if (isPortrait) {
         Modifier.height(
             (130.dp * imageUris.size).coerceAtMost(420.dp)
         )
@@ -232,7 +235,8 @@ fun ImagesPreviewWithSelection(
                         isAboveImageScrimEnabled = isAboveImageScrimEnabled,
                         isSelectionMode = isSelectionMode,
                         aboveImageContent = aboveImageContent,
-                        showExtension = showExtension
+                        showExtension = showExtension,
+                        contentScale = contentScale
                     )
                 }
                 endAdditionalItem?.let {
@@ -306,7 +310,8 @@ fun ImagesPreviewWithSelection(
                         aboveImageContent = aboveImageContent,
                         isSelectionMode = isSelectionMode,
                         isAboveImageScrimEnabled = isAboveImageScrimEnabled,
-                        showExtension = showExtension
+                        showExtension = showExtension,
+                        contentScale = contentScale
                     )
                 }
                 endAdditionalItem?.let {
@@ -341,14 +346,8 @@ private fun ImageItem(
     isSelectionMode: Boolean,
     isAboveImageScrimEnabled: Boolean,
     showExtension: Boolean,
-    aboveImageContent: @Composable BoxScope.(index: Int) -> Unit = {
-        Text(
-            text = (index + 1).toString(),
-            color = Color.White,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Medium
-        )
-    }
+    aboveImageContent: @Composable BoxScope.(index: Int) -> Unit,
+    contentScale: ContentScale
 ) {
     val transition = updateTransition(selected)
     val padding by transition.animateDp { s ->
@@ -395,7 +394,8 @@ private fun ImageItem(
             },
             filterQuality = FilterQuality.High,
             shape = RectangleShape,
-            model = uri
+            model = uri,
+            contentScale = contentScale
         )
         Box(
             modifier = Modifier

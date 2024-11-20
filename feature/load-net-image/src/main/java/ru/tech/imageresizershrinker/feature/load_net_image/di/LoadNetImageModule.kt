@@ -15,23 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.feature.load_net_image.di
 
-android.namespace = "ru.tech.imageresizershrinker.feature.filters"
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.feature.load_net_image.data.AndroidHtmlImageParser
+import ru.tech.imageresizershrinker.feature.load_net_image.domain.HtmlImageParser
+import javax.inject.Singleton
 
-dependencies {
-    api(projects.core.filters)
-    implementation(projects.feature.draw)
-    implementation(projects.feature.pickColor)
-    implementation(projects.feature.compare)
-    implementation(libs.kotlin.reflect)
-    implementation(libs.aire)
-    implementation(libs.trickle)
-    implementation(libs.toolbox.gpuimage)
-    implementation(libs.toolbox.opencvTools)
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface LoadNetImageModule {
+
+    @Binds
+    @Singleton
+    fun parser(
+        impl: AndroidHtmlImageParser
+    ): HtmlImageParser
+
 }

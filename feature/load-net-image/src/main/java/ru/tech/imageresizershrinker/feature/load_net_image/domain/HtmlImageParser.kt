@@ -15,23 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.feature.load_net_image.domain
 
-android.namespace = "ru.tech.imageresizershrinker.feature.filters"
+interface HtmlImageParser {
 
-dependencies {
-    api(projects.core.filters)
-    implementation(projects.feature.draw)
-    implementation(projects.feature.pickColor)
-    implementation(projects.feature.compare)
-    implementation(libs.kotlin.reflect)
-    implementation(libs.aire)
-    implementation(libs.trickle)
-    implementation(libs.toolbox.gpuimage)
-    implementation(libs.toolbox.opencvTools)
+    suspend fun parseImagesSrc(
+        url: String,
+        onFailure: (message: String) -> Unit
+    ): List<String>
+
 }

@@ -66,8 +66,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun Picture(
-    modifier: Modifier = Modifier,
     model: Any?,
+    modifier: Modifier = Modifier,
     transformations: List<Transformation> = emptyList(),
     manualImageLoader: ImageLoader? = null,
     contentDescription: String? = null,

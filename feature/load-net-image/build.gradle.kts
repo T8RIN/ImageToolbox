@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.load_net_image"
+
+dependencies {
+    implementation(libs.jsoup)
+}

@@ -44,6 +44,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import oupson.apng.coil.AnimatedPngDecoder
+import ru.tech.imageresizershrinker.core.data.coil.Base64Fetcher
 import ru.tech.imageresizershrinker.core.data.coil.TimeMeasureInterceptor
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
@@ -74,9 +75,7 @@ internal object ImageLoaderModule {
     else null
 
     @Provides
-    fun provideComponentRegistry(
-        timeMeasureInterceptor: TimeMeasureInterceptor
-    ): ComponentRegistry = ComponentRegistry.Builder()
+    fun provideComponentRegistry(): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
             add(AnimatedPngDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 28) add(AnimatedImageDecoder.Factory())
@@ -94,7 +93,8 @@ internal object ImageLoaderModule {
             add(QoiDecoder.Factory())
             add(PsdDecoder.Factory())
             add(DjvuDecoder.Factory())
-            if (BuildConfig.DEBUG) add(timeMeasureInterceptor)
+            add(Base64Fetcher.Factory())
+            if (BuildConfig.DEBUG) add(TimeMeasureInterceptor)
         }
         .build()
 

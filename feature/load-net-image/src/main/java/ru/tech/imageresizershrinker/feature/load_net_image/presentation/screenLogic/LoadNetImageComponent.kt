@@ -22,6 +22,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
@@ -35,15 +36,18 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.load_net_image.domain.HtmlImageParser
 
 class LoadNetImageComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -54,6 +58,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
+    private val htmlImageParser: HtmlImageParser,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -69,17 +74,37 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     private val _bitmap = mutableStateOf<Bitmap?>(null)
     val bitmap by _bitmap
 
-    private val _tempUri: MutableState<Uri?> = mutableStateOf(null)
-    val tempUri by _tempUri
+    private val _parsedImages: MutableState<List<String>> = mutableStateOf(emptyList())
+    val parsedImages: List<String> by _parsedImages
+
+    private val _imageFrames: MutableState<ImageFrames> = mutableStateOf(ImageFrames.All)
+    val imageFrames by _imageFrames
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
-    fun updateTargetUrl(newUrl: String) {
+    private val _done: MutableState<Int> = mutableIntStateOf(0)
+    val done by _done
+
+    private val _left: MutableState<Int> = mutableIntStateOf(-1)
+    val left by _left
+
+    fun updateTargetUrl(
+        newUrl: String,
+        onFailure: (String) -> Unit = {}
+    ) {
         _targetUrl.update(
             onValueChanged = {
                 debouncedImageCalculation {
-                    _bitmap.update { imageGetter.getImage(data = newUrl) }
+                    val newImages = htmlImageParser.parseImagesSrc(
+                        url = newUrl,
+                        onFailure = onFailure
+                    )
+
+                    newImages.firstOrNull().let { src ->
+                        _bitmap.update { src?.let { imageGetter.getImage(data = src) } }
+                    }
+                    _parsedImages.update { newImages }
                 }
             },
             transform = { newUrl }
@@ -90,70 +115,92 @@ class LoadNetImageComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun saveBitmap(
+    fun saveBitmaps(
         oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = componentScope.launch {
             _isSaving.update { true }
-            imageGetter.getImage(data = targetUrl)?.let { bitmap ->
-                onComplete(
-                    fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
-                            imageInfo = ImageInfo(
-                                width = bitmap.width,
-                                height = bitmap.height,
-                                imageFormat = ImageFormat.Png.Lossless
+
+            val results = mutableListOf<SaveResult>()
+            val positions = imageFrames.getFramePositions(parsedImages.size)
+
+            _done.value = 0
+            _left.value = positions.size
+
+            parsedImages.forEachIndexed { index, url ->
+                if ((index + 1) in positions) {
+                    imageGetter.getImage(data = url)?.let { bitmap ->
+                        fileController.save(
+                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                imageInfo = ImageInfo(
+                                    width = bitmap.width,
+                                    height = bitmap.height,
+                                    imageFormat = ImageFormat.Png.Lossless
+                                ),
+                                originalUri = "_",
+                                sequenceNumber = null,
+                                data = imageCompressor.compress(
+                                    image = bitmap,
+                                    imageFormat = ImageFormat.Png.Lossless,
+                                    quality = Quality.Base(100)
+                                )
                             ),
-                            originalUri = "_",
-                            sequenceNumber = null,
-                            data = imageCompressor.compress(
-                                image = bitmap,
-                                imageFormat = ImageFormat.Png.Lossless,
-                                quality = Quality.Base(100)
-                            )
-                        ),
-                        keepOriginalMetadata = false,
-                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
+                    }?.let(results::add) ?: results.add(
+                        SaveResult.Error.Exception(Throwable())
                     )
-                )
+                    _done.value++
+                }
             }
+            onResult(results.onSuccess(::registerSave))
             _isSaving.update { false }
         }
     }
 
-    fun cacheImage(
-        image: Bitmap,
-        imageInfo: ImageInfo
-    ) {
-        componentScope.launch {
-            _isSaving.value = true
-            _tempUri.value = shareProvider.cacheImage(image, imageInfo)?.toUri()
-            _isSaving.value = false
+    fun performSharing(onComplete: () -> Unit) {
+        cacheImages { uris ->
+            componentScope.launch {
+                shareProvider.shareUris(uris.map { it.toString() })
+                onComplete()
+            }
         }
     }
 
-    fun shareBitmap(
-        onComplete: () -> Unit
+    fun cacheImages(
+        onComplete: (List<Uri>) -> Unit
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch {
+        savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
-            bitmap?.let { image ->
-                shareProvider.shareImage(
-                    imageInfo = ImageInfo(
-                        width = image.width,
-                        height = image.height,
-                        imageFormat = ImageFormat.Png.Lossless
-                    ),
-                    image = image,
-                    onComplete = {
-                        _isSaving.value = false
-                        onComplete()
-                    }
-                )
+
+            val positions =
+                imageFrames.getFramePositions(parsedImages.size).map { it - 1 }
+
+            _done.value = 0
+            _left.value = positions.size
+
+            val uris = parsedImages.filterIndexed { index, _ ->
+                index in positions
             }
+            onComplete(
+                uris.mapNotNull {
+                    val image = imageGetter.getImage(data = it) ?: return@mapNotNull null
+
+                    shareProvider.cacheImage(
+                        image = image,
+                        imageInfo = ImageInfo(
+                            width = image.width,
+                            height = image.height,
+                            imageFormat = ImageFormat.Png.Lossless
+                        )
+                    )?.toUri()
+                }
+            )
+            _isSaving.value = false
         }
     }
 
@@ -164,11 +211,15 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _done.value = 0
+        _left.value = 1
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = componentScope.launch {
             _isSaving.value = true
-            bitmap?.let { image ->
+            imageFrames.getFramePositions(parsedImages.size).firstOrNull()?.let {
+                imageGetter.getImage(data = parsedImages[it - 1])
+            }?.let { image ->
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = ImageInfo(
@@ -185,6 +236,15 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
+
+    fun updateImageFrames(imageFrames: ImageFrames) {
+        _imageFrames.update { imageFrames }
+        registerChanges()
+    }
+
+    fun clearImagesSelection() = updateImageFrames(ImageFrames.ManualSelection(emptyList()))
+
+    fun selectAllImages() = updateImageFrames(ImageFrames.All)
 
     @AssistedFactory
     fun interface Factory {
