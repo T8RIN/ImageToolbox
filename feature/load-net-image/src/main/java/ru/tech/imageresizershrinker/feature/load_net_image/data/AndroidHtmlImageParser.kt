@@ -45,9 +45,10 @@ internal class AndroidHtmlImageParser @Inject constructor(
         url: String,
         onFailure: (message: String) -> Unit
     ): List<String> = withContext(defaultDispatcher) {
-        val realUrl = if (url.isMalformed()) {
-            "https://$url"
-        } else url
+        val trimmedUrl = url.trim()
+        val realUrl = if (trimmedUrl.isMalformed()) {
+            "https://$trimmedUrl"
+        } else trimmedUrl
 
         val baseImage = loadImage(realUrl)
 
