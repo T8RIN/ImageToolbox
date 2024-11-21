@@ -74,11 +74,11 @@ import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton

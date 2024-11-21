@@ -67,10 +67,10 @@ import ru.tech.imageresizershrinker.core.domain.model.coerceIn
 import ru.tech.imageresizershrinker.core.domain.model.pt
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.resources.icons.Highlighter
@@ -306,12 +306,12 @@ fun DrawModeSelector(
                 LaunchedEffect(dashMinimum, value) {
                     if (value is DrawMode.Image && value.repeatingInterval < dashMinimum.pt) {
                         onValueChange(
-                            (value as? DrawMode.Image)?.copy(
+                            value.copy(
                                 repeatingInterval = value.repeatingInterval.coerceIn(
                                     dashMinimum.pt,
                                     100.pt
                                 )
-                            ) ?: value
+                            )
                         )
                     }
                 }

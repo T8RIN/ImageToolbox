@@ -73,9 +73,9 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.histogram.ImageHistogram
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker

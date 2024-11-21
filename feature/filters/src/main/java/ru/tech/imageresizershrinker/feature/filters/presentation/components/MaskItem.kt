@@ -61,8 +61,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
