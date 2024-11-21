@@ -20,13 +20,7 @@ package ru.tech.imageresizershrinker.feature.filters.presentation
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -40,11 +34,9 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.rounded.AutoFixHigh
@@ -70,12 +62,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.histogram.ImageHistogram
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
-import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
@@ -91,9 +78,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -104,16 +88,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
-import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -121,11 +100,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddEditMaskSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterPreference
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentControls
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentSheets
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskFilterPreference
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FiltersComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
@@ -145,10 +123,7 @@ fun FiltersContent(
 
     val pickSingleImageLauncher = rememberImagePicker(onSuccess = component::setMaskFilter)
 
-    var showAddMaskSheet by rememberSaveable { mutableStateOf(false) }
-
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
-    var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
         if (component.haveChanges) showExitDialog = true
@@ -157,16 +132,10 @@ fun FiltersContent(
         } else component.onGoBack()
     }
 
-    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
-    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
-
     val isPortrait by isPortraitOrientationAsState()
-
-    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
 
     var showOriginal by remember { mutableStateOf(false) }
 
-    var showReorderSheet by rememberSaveable { mutableStateOf(false) }
     val actions: @Composable RowScope.() -> Unit = {
         Spacer(modifier = Modifier.width(8.dp))
         if (component.bitmap != null) {
@@ -205,13 +174,22 @@ fun FiltersContent(
                 }
             )
         }
+        var showCompareSheet by rememberSaveable { mutableStateOf(false) }
         CompareButton(
             onClick = { showCompareSheet = true },
             visible = component.previewBitmap != null
         )
+        CompareSheet(
+            data = component.bitmap to component.previewBitmap,
+            visible = showCompareSheet,
+            onDismiss = {
+                showCompareSheet = false
+            }
+        )
+
         if (component.bitmap != null && (component.basicFilterState.filters.size >= 2 || component.maskingFilterState.masks.size >= 2)) {
             EnhancedIconButton(
-                onClick = { showReorderSheet = true }
+                onClick = component::showReorderSheet
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Tune,
@@ -220,12 +198,6 @@ fun FiltersContent(
             }
         }
     }
-
-    var showColorPicker by rememberSaveable { mutableStateOf(false) }
-    var tempColor by rememberSaveable(
-        showColorPicker,
-        stateSaver = ColorSaver
-    ) { mutableStateOf(Color.Black) }
 
     var tempSelectionUris by rememberSaveable {
         mutableStateOf<List<Uri>?>(
@@ -302,6 +274,12 @@ fun FiltersContent(
         },
         topAppBarPersistentActions = {
             if (component.previewBitmap != null) {
+                var showColorPicker by rememberSaveable { mutableStateOf(false) }
+                var tempColor by rememberSaveable(
+                    showColorPicker,
+                    stateSaver = ColorSaver
+                ) { mutableStateOf(Color.Black) }
+
                 EnhancedIconButton(
                     onClick = {
                         showColorPicker = true
@@ -313,42 +291,62 @@ fun FiltersContent(
                         contentDescription = stringResource(R.string.pipette)
                     )
                 }
+                PickColorFromImageSheet(
+                    visible = showColorPicker,
+                    onDismiss = {
+                        showColorPicker = false
+                    },
+                    bitmap = component.previewBitmap,
+                    onColorChange = { tempColor = it },
+                    color = tempColor
+                )
+
+                var showZoomSheet by rememberSaveable { mutableStateOf(false) }
                 ZoomButton(
                     onClick = { showZoomSheet = true },
                     visible = component.bitmap != null,
                 )
+                ZoomModalSheet(
+                    data = component.previewBitmap,
+                    visible = showZoomSheet,
+                    onDismiss = {
+                        showZoomSheet = false
+                    }
+                )
             }
             if (component.bitmap == null) {
                 TopAppBarEmoji()
-            }
-            if (component.bitmap != null && !isPortrait) actions()
-            if (component.bitmap != null && isPortrait) {
-                when (component.filterType) {
-                    is Screen.Filter.Type.Basic -> {
-                        EnhancedIconButton(
-                            containerColor = MaterialTheme.colorScheme.mixedContainer,
-                            onClick = { showAddFilterSheet = true }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.AutoFixHigh,
-                                contentDescription = stringResource(R.string.add_filter)
-                            )
+            } else {
+                if (isPortrait) {
+                    when (component.filterType) {
+                        is Screen.Filter.Type.Basic -> {
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.mixedContainer,
+                                onClick = component::showAddFiltersSheet
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.AutoFixHigh,
+                                    contentDescription = stringResource(R.string.add_filter)
+                                )
+                            }
                         }
-                    }
 
-                    is Screen.Filter.Type.Masking -> {
-                        EnhancedIconButton(
-                            containerColor = MaterialTheme.colorScheme.mixedContainer,
-                            onClick = { showAddMaskSheet = true }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Texture,
-                                contentDescription = stringResource(R.string.add_mask)
-                            )
+                        is Screen.Filter.Type.Masking -> {
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.mixedContainer,
+                                onClick = component::showAddFiltersSheet
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Texture,
+                                    contentDescription = stringResource(R.string.add_mask)
+                                )
+                            }
                         }
-                    }
 
-                    null -> Unit
+                        null -> Unit
+                    }
+                } else {
+                    actions()
                 }
             }
         },
@@ -374,245 +372,7 @@ fun FiltersContent(
         forceImagePreviewToMax = showOriginal,
         isPortrait = isPortrait,
         controls = {
-            val filterType = component.filterType
-
-            val histogramItem = @Composable {
-                PreferenceItemOverload(
-                    title = stringResource(R.string.histogram),
-                    subtitle = stringResource(R.string.histogram_sub),
-                    endIcon = {
-                        AnimatedContent(component.previewBitmap != null) {
-                            if (it) {
-                                ImageHistogram(
-                                    image = component.previewBitmap,
-                                    modifier = Modifier
-                                        .width(100.dp)
-                                        .height(65.dp),
-                                    bordersColor = Color.White
-                                )
-                            } else {
-                                Box(modifier = Modifier.size(56.dp)) {
-                                    LoadingIndicator()
-                                }
-                            }
-                        }
-                    },
-                    shape = RoundedCornerShape(24.dp),
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(Modifier.size(8.dp))
-            }
-
-            when (filterType) {
-                is Screen.Filter.Type.Basic -> {
-                    val filterList = component.basicFilterState.filters
-                    if (component.bitmap != null) {
-                        ImageCounter(
-                            imageCount = component.basicFilterState.uris?.size?.takeIf { it > 1 },
-                            onRepick = {
-                                showPickImageFromUrisSheet = true
-                            }
-                        )
-                        if (filterList.isNotEmpty()) histogramItem()
-                        AnimatedContent(
-                            targetState = filterList.isNotEmpty(),
-                            transitionSpec = {
-                                fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
-                            }
-                        ) { notEmpty ->
-                            if (notEmpty) {
-                                Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
-                                    TitleItem(text = stringResource(R.string.filters))
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.spacedBy(
-                                            8.dp
-                                        ),
-                                        modifier = Modifier.padding(8.dp)
-                                    ) {
-                                        filterList.forEachIndexed { index, filter ->
-                                            FilterItem(
-                                                backgroundColor = MaterialTheme.colorScheme.surface,
-                                                filter = filter,
-                                                onFilterChange = { newValue ->
-                                                    component.updateFilter(
-                                                        value = newValue,
-                                                        index = index,
-                                                        onFailure = essentials::showFailureToast
-                                                    )
-                                                },
-                                                onLongPress = {
-                                                    showReorderSheet = true
-                                                },
-                                                showDragHandle = false,
-                                                onRemove = {
-                                                    component.removeFilterAtIndex(index)
-                                                }
-                                            )
-                                        }
-                                        AddFilterButton(
-                                            onClick = {
-                                                showAddFilterSheet = true
-                                            },
-                                            modifier = Modifier.padding(
-                                                horizontal = 16.dp
-                                            )
-                                        )
-                                    }
-                                }
-                            } else {
-                                AddFilterButton(
-                                    onClick = {
-                                        showAddFilterSheet = true
-                                    },
-                                    modifier = Modifier.padding(
-                                        horizontal = 16.dp
-                                    )
-                                )
-                            }
-                        }
-                        Spacer(Modifier.size(8.dp))
-                        if (filterList.isEmpty()) histogramItem()
-                        SaveExifWidget(
-                            imageFormat = component.imageInfo.imageFormat,
-                            checked = component.keepExif,
-                            onCheckedChange = component::setKeepExif
-                        )
-                        if (component.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
-                            Modifier.size(8.dp)
-                        )
-                        QualitySelector(
-                            imageFormat = component.imageInfo.imageFormat,
-                            enabled = component.bitmap != null,
-                            quality = component.imageInfo.quality,
-                            onQualityChange = component::setQuality
-                        )
-                        Spacer(Modifier.size(8.dp))
-                        ImageFormatSelector(
-                            value = component.imageInfo.imageFormat,
-                            onValueChange = {
-                                component.setImageFormat(it)
-                            }
-                        )
-                    }
-                    Spacer(Modifier.height(8.dp))
-                }
-
-                is Screen.Filter.Type.Masking -> {
-                    val maskList = component.maskingFilterState.masks
-                    if (component.bitmap != null) {
-                        if (maskList.isNotEmpty()) histogramItem()
-                        AnimatedContent(
-                            targetState = maskList.isNotEmpty(),
-                            transitionSpec = {
-                                fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
-                            }
-                        ) { notEmpty ->
-                            if (notEmpty) {
-                                Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
-                                    TitleItem(text = stringResource(R.string.masks))
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.spacedBy(
-                                            4.dp
-                                        ),
-                                        modifier = Modifier.padding(8.dp)
-                                    ) {
-                                        maskList.forEachIndexed { index, mask ->
-                                            MaskItem(
-                                                backgroundColor = MaterialTheme.colorScheme.surface,
-                                                imageUri = component.maskingFilterState.uri,
-                                                previousMasks = maskList.take(index),
-                                                mask = mask,
-                                                titleText = stringResource(
-                                                    R.string.mask_indexed,
-                                                    index + 1
-                                                ),
-                                                onMaskChange = { filterMask ->
-                                                    component.updateMask(
-                                                        value = filterMask,
-                                                        index = index,
-                                                        showError = essentials::showFailureToast
-                                                    )
-                                                },
-                                                onLongPress = {
-                                                    showReorderSheet = true
-                                                },
-                                                showDragHandle = false,
-                                                onRemove = {
-                                                    component.removeMaskAtIndex(index)
-                                                },
-                                                addMaskSheetComponent = component.addMaskSheetComponent
-                                            )
-                                        }
-                                        EnhancedButton(
-                                            containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                            onClick = {
-                                                showAddMaskSheet = true
-                                            },
-                                            modifier = Modifier.padding(
-                                                start = 16.dp,
-                                                end = 16.dp,
-                                                top = 4.dp
-                                            )
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Texture,
-                                                contentDescription = stringResource(R.string.add_mask)
-                                            )
-                                            Spacer(Modifier.width(8.dp))
-                                            Text(stringResource(id = R.string.add_mask))
-                                        }
-                                    }
-                                }
-                            } else {
-                                EnhancedButton(
-                                    containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                    onClick = {
-                                        showAddMaskSheet = true
-                                    },
-                                    modifier = Modifier.padding(
-                                        horizontal = 16.dp
-                                    )
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Texture,
-                                        contentDescription = stringResource(R.string.add_mask)
-                                    )
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(stringResource(id = R.string.add_mask))
-                                }
-                            }
-                        }
-                        Spacer(Modifier.size(8.dp))
-                        if (maskList.isEmpty()) histogramItem()
-                        SaveExifWidget(
-                            imageFormat = component.imageInfo.imageFormat,
-                            checked = component.keepExif,
-                            onCheckedChange = component::setKeepExif
-                        )
-                        if (component.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
-                            Modifier.size(8.dp)
-                        )
-                        QualitySelector(
-                            imageFormat = component.imageInfo.imageFormat,
-                            enabled = component.bitmap != null,
-                            quality = component.imageInfo.quality,
-                            onQualityChange = component::setQuality
-                        )
-                        Spacer(Modifier.size(8.dp))
-                        ImageFormatSelector(
-                            value = component.imageInfo.imageFormat,
-                            onValueChange = {
-                                component.setImageFormat(it)
-                            }
-                        )
-                    }
-                    Spacer(Modifier.height(8.dp))
-                }
-
-                else -> null
-            }
+            FiltersContentControls(component)
         },
         buttons = {
             val filterType = component.filterType
@@ -660,13 +420,7 @@ fun FiltersContent(
                 isPrimaryButtonVisible = component.canSave,
                 columnarFab = {
                     EnhancedFloatingActionButton(
-                        onClick = {
-                            when (filterType) {
-                                is Screen.Filter.Type.Basic -> showAddFilterSheet = true
-                                is Screen.Filter.Type.Masking -> showAddMaskSheet = true
-                                null -> Unit
-                            }
-                        },
+                        onClick = component::showAddFiltersSheet,
                         containerColor = MaterialTheme.colorScheme.mixedContainer
                     ) {
                         when (filterType) {
@@ -690,7 +444,7 @@ fun FiltersContent(
 
                 },
                 actions = {
-                    if (isPortrait) actions()
+                    if (isPortrait) it()
                 },
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
@@ -816,99 +570,7 @@ fun FiltersContent(
         ).value,
     )
 
-    PickColorFromImageSheet(
-        visible = showColorPicker,
-        onDismiss = {
-            showColorPicker = false
-        },
-        bitmap = component.previewBitmap,
-        onColorChange = { tempColor = it },
-        color = tempColor
-    )
-
-    ZoomModalSheet(
-        data = component.previewBitmap,
-        visible = showZoomSheet,
-        onDismiss = {
-            showZoomSheet = false
-        }
-    )
-
-    CompareSheet(
-        data = component.bitmap to component.previewBitmap,
-        visible = showCompareSheet,
-        onDismiss = {
-            showCompareSheet = false
-        }
-    )
-
-    if (component.filterType is Screen.Filter.Type.Basic) {
-        PickImageFromUrisSheet(
-            transformations = listOf(
-                component.imageInfoTransformationFactory(
-                    imageInfo = component.imageInfo,
-                    transformations = component.basicFilterState.filters.map(
-                        component.filterProvider::filterToTransformation
-                    )
-                )
-            ),
-            visible = showPickImageFromUrisSheet,
-            onDismiss = {
-                showPickImageFromUrisSheet = false
-            },
-            uris = component.basicFilterState.uris,
-            selectedUri = component.basicFilterState.selectedUri,
-            onUriPicked = { uri ->
-                component.updateSelectedUri(
-                    uri = uri,
-                    onFailure = essentials::showFailureToast
-                )
-            },
-            onUriRemoved = { uri ->
-                component.updateUrisSilently(removedUri = uri)
-            },
-            columns = if (isPortrait) 2 else 4,
-        )
-
-        AddFiltersSheet(
-            visible = showAddFilterSheet,
-            onVisibleChange = { showAddFilterSheet = it },
-            previewBitmap = component.previewBitmap,
-            onFilterPicked = { component.addFilter(it.newInstance()) },
-            onFilterPickedWithParams = { component.addFilter(it) },
-            component = component.addFiltersSheetComponent,
-            filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent
-        )
-
-        FilterReorderSheet(
-            filterList = component.basicFilterState.filters,
-            visible = showReorderSheet,
-            onDismiss = {
-                showReorderSheet = false
-            },
-            onReorder = component::updateFiltersOrder
-        )
-    } else if (component.filterType is Screen.Filter.Type.Masking) {
-        AddEditMaskSheet(
-            visible = showAddMaskSheet,
-            targetBitmapUri = component.maskingFilterState.uri,
-            onMaskPicked = component::addMask,
-            onDismiss = {
-                showAddMaskSheet = false
-            },
-            masks = component.maskingFilterState.masks,
-            component = component.addMaskSheetComponent
-        )
-
-        MaskReorderSheet(
-            maskList = component.maskingFilterState.masks,
-            visible = showReorderSheet,
-            onDismiss = {
-                showReorderSheet = false
-            },
-            onReorder = component::updateMasksOrder
-        )
-    }
+    FiltersContentSheets(component)
 
     LoadingDialog(
         visible = component.isSaving,
@@ -921,7 +583,9 @@ fun FiltersContent(
         onExit = {
             if (component.filterType != null) {
                 component.clearType()
-            } else component.onGoBack()
+            } else {
+                component.onGoBack()
+            }
         },
         onDismiss = { showExitDialog = false },
         visible = showExitDialog

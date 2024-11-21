@@ -108,6 +108,39 @@ class FiltersComponent @AssistedInject internal constructor(
         )
     )
 
+    private val _isPickImageFromUrisSheetVisible = mutableStateOf(false)
+    val isPickImageFromUrisSheetVisible by _isPickImageFromUrisSheetVisible
+
+    fun showPickImageFromUrisSheet() {
+        _isPickImageFromUrisSheetVisible.update { true }
+    }
+
+    fun hidePickImageFromUrisSheet() {
+        _isPickImageFromUrisSheetVisible.update { false }
+    }
+
+    private val _isAddFiltersSheetVisible = mutableStateOf(false)
+    val isAddFiltersSheetVisible by _isAddFiltersSheetVisible
+
+    fun showAddFiltersSheet() {
+        _isAddFiltersSheetVisible.update { true }
+    }
+
+    fun hideAddFiltersSheet() {
+        _isAddFiltersSheetVisible.update { false }
+    }
+
+    private val _isReorderSheetVisible = mutableStateOf(false)
+    val isReorderSheetVisible by _isReorderSheetVisible
+
+    fun showReorderSheet() {
+        _isReorderSheetVisible.update { true }
+    }
+
+    fun hideReorderSheet() {
+        _isReorderSheetVisible.update { false }
+    }
+
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
 
@@ -318,6 +351,10 @@ class FiltersComponent @AssistedInject internal constructor(
         filterJob = null
         updateCanSave()
         updatePreview()
+    }
+
+    fun addFilterNewInstance(filter: UiFilter<*>) {
+        addFilter(filter.newInstance())
     }
 
     fun addFilter(filter: UiFilter<*>) {

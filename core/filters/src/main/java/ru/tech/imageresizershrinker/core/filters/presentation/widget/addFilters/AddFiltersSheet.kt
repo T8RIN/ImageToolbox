@@ -522,3 +522,26 @@ fun AddFiltersSheet(
         previewBitmap = previewBitmap
     )
 }
+
+@Composable
+fun AddFiltersSheet(
+    component: AddFiltersSheetComponent,
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
+    visible: Boolean,
+    onDismiss: () -> Unit,
+    previewBitmap: Bitmap?,
+    onFilterPicked: (UiFilter<*>) -> Unit,
+    onFilterPickedWithParams: (UiFilter<*>) -> Unit,
+    canAddTemplates: Boolean = true
+) {
+    AddFiltersSheet(
+        component = component,
+        filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent,
+        visible = visible,
+        onVisibleChange = { if (!it) onDismiss() },
+        previewBitmap = previewBitmap,
+        onFilterPicked = onFilterPicked,
+        onFilterPickedWithParams = onFilterPickedWithParams,
+        canAddTemplates = canAddTemplates
+    )
+}
