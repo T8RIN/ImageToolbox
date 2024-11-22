@@ -20,28 +20,13 @@ package ru.tech.imageresizershrinker.feature.filters.presentation
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Colorize
-import androidx.compose.material.icons.rounded.AutoFixHigh
-import androidx.compose.material.icons.rounded.FileOpen
-import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Badge
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,54 +43,37 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterPreference
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentActionButtons
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentControls
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentNoData
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentSheets
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskFilterPreference
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentTopAppBarActions
 import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FiltersComponent
-import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,7 +89,7 @@ fun FiltersContent(
 
     val imagePicker = rememberImagePicker(onSuccess = component::setBasicFilter)
 
-    val pickSingleImageLauncher = rememberImagePicker(onSuccess = component::setMaskFilter)
+    val pickSingleImagePicker = rememberImagePicker(onSuccess = component::setMaskFilter)
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -204,10 +172,9 @@ fun FiltersContent(
             null
         )
     }
-    var showSelectionFilterPicker by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(showSelectionFilterPicker) {
-        if (!showSelectionFilterPicker) tempSelectionUris = null
+    LaunchedEffect(component.isSelectionFilterPickerVisible) {
+        if (!component.isSelectionFilterPickerVisible) tempSelectionUris = null
     }
 
     val selectionFilterPicker = rememberImagePicker { uris: List<Uri> ->
@@ -215,7 +182,7 @@ fun FiltersContent(
         if (uris.size > 1) {
             component.setBasicFilter(tempSelectionUris)
         } else {
-            showSelectionFilterPicker = true
+            component.showSelectionFilterPicker()
         }
     }
 
@@ -273,82 +240,10 @@ fun FiltersContent(
             }
         },
         topAppBarPersistentActions = {
-            if (component.previewBitmap != null) {
-                var showColorPicker by rememberSaveable { mutableStateOf(false) }
-                var tempColor by rememberSaveable(
-                    showColorPicker,
-                    stateSaver = ColorSaver
-                ) { mutableStateOf(Color.Black) }
-
-                EnhancedIconButton(
-                    onClick = {
-                        showColorPicker = true
-                    },
-                    enabled = component.previewBitmap != null
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Colorize,
-                        contentDescription = stringResource(R.string.pipette)
-                    )
-                }
-                PickColorFromImageSheet(
-                    visible = showColorPicker,
-                    onDismiss = {
-                        showColorPicker = false
-                    },
-                    bitmap = component.previewBitmap,
-                    onColorChange = { tempColor = it },
-                    color = tempColor
-                )
-
-                var showZoomSheet by rememberSaveable { mutableStateOf(false) }
-                ZoomButton(
-                    onClick = { showZoomSheet = true },
-                    visible = component.bitmap != null,
-                )
-                ZoomModalSheet(
-                    data = component.previewBitmap,
-                    visible = showZoomSheet,
-                    onDismiss = {
-                        showZoomSheet = false
-                    }
-                )
-            }
-            if (component.bitmap == null) {
-                TopAppBarEmoji()
-            } else {
-                if (isPortrait) {
-                    when (component.filterType) {
-                        is Screen.Filter.Type.Basic -> {
-                            EnhancedIconButton(
-                                containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                onClick = component::showAddFiltersSheet
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.AutoFixHigh,
-                                    contentDescription = stringResource(R.string.add_filter)
-                                )
-                            }
-                        }
-
-                        is Screen.Filter.Type.Masking -> {
-                            EnhancedIconButton(
-                                containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                onClick = component::showAddFiltersSheet
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Texture,
-                                    contentDescription = stringResource(R.string.add_mask)
-                                )
-                            }
-                        }
-
-                        null -> Unit
-                    }
-                } else {
-                    actions()
-                }
-            }
+            FiltersContentTopAppBarActions(
+                component = component,
+                actions = actions
+            )
         },
         actions = actions,
         showActionsInTopAppBar = false,
@@ -374,194 +269,22 @@ fun FiltersContent(
         controls = {
             FiltersContentControls(component)
         },
-        buttons = {
-            val filterType = component.filterType
-
-            val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-                when (filterType) {
-                    is Screen.Filter.Type.Basic -> {
-                        component.saveBitmaps(
-                            oneTimeSaveLocationUri = it,
-                            onResult = essentials::parseSaveResults
-                        )
-                    }
-
-                    is Screen.Filter.Type.Masking -> {
-                        component.saveMaskedBitmap(
-                            oneTimeSaveLocationUri = it,
-                            onComplete = essentials::parseSaveResult
-                        )
-                    }
-
-                    else -> Unit
-                }
-            }
-            var showFolderSelectionDialog by rememberSaveable {
-                mutableStateOf(false)
-            }
-            var showOneTimeImagePickingDialog by rememberSaveable {
-                mutableStateOf(false)
-            }
-            BottomButtonsBlock(
-                targetState = (component.basicFilterState.uris.isNullOrEmpty() && component.maskingFilterState.uri == null) to isPortrait,
-                onSecondaryButtonClick = {
-                    when (filterType) {
-                        is Screen.Filter.Type.Basic -> imagePicker.pickImage()
-                        is Screen.Filter.Type.Masking -> pickSingleImageLauncher.pickImage()
-                        null -> selectionFilterPicker.pickImage()
-                    }
-                },
-                onPrimaryButtonClick = {
-                    saveBitmaps(null)
-                },
-                onPrimaryButtonLongClick = {
-                    showFolderSelectionDialog = true
-                },
-                isPrimaryButtonVisible = component.canSave,
-                columnarFab = {
-                    EnhancedFloatingActionButton(
-                        onClick = component::showAddFiltersSheet,
-                        containerColor = MaterialTheme.colorScheme.mixedContainer
-                    ) {
-                        when (filterType) {
-                            is Screen.Filter.Type.Basic -> {
-                                Icon(
-                                    imageVector = Icons.Rounded.AutoFixHigh,
-                                    contentDescription = null
-                                )
-                            }
-
-                            is Screen.Filter.Type.Masking -> {
-                                Icon(
-                                    imageVector = Icons.Rounded.Texture,
-                                    contentDescription = null
-                                )
-                            }
-
-                            null -> Unit
-                        }
-                    }
-
-                },
-                actions = {
-                    if (isPortrait) it()
-                },
-                onSecondaryButtonLongClick = {
-                    showOneTimeImagePickingDialog = true
-                },
-                showNullDataButtonAsContainer = true
-            )
-            OneTimeSaveLocationSelectionDialog(
-                visible = showFolderSelectionDialog,
-                onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = saveBitmaps,
-                formatForFilenameSelection = component.getFormatForFilenameSelection()
-            )
-            OneTimeImagePickingDialog(
-                onDismiss = { showOneTimeImagePickingDialog = false },
-                picker = if (filterType !is Screen.Filter.Type.Masking) {
-                    Picker.Multiple
-                } else {
-                    Picker.Single
-                },
-                imagePicker = selectionFilterPicker,
-                visible = showOneTimeImagePickingDialog
+        buttons = { actions ->
+            FiltersContentActionButtons(
+                component = component,
+                actions = actions,
+                imagePicker = imagePicker,
+                pickSingleImagePicker = pickSingleImagePicker,
+                selectionFilterPicker = selectionFilterPicker
             )
         },
         insetsForNoData = WindowInsets(0),
         noDataControls = {
-            val preference1 = @Composable {
-                BasicFilterPreference(
-                    onClick = imagePicker::pickImage,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            val preference2 = @Composable {
-                MaskFilterPreference(
-                    onClick = pickSingleImageLauncher::pickImage,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            if (isPortrait) {
-                Column {
-                    preference1()
-                    Spacer(modifier = Modifier.height(8.dp))
-                    preference2()
-                }
-            } else {
-                val direction = LocalLayoutDirection.current
-                Row(
-                    modifier = Modifier.padding(
-                        WindowInsets.displayCutout.asPaddingValues()
-                            .let {
-                                PaddingValues(
-                                    start = it.calculateStartPadding(direction),
-                                    end = it.calculateEndPadding(direction)
-                                )
-                            }
-                    )
-                ) {
-                    preference1.withModifier(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    preference2.withModifier(modifier = Modifier.weight(1f))
-                }
-            }
-
-            EnhancedModalBottomSheet(
-                visible = showSelectionFilterPicker,
-                onDismiss = {
-                    showSelectionFilterPicker = it
-                },
-                confirmButton = {
-                    EnhancedButton(
-                        onClick = {
-                            showSelectionFilterPicker = false
-                        },
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    ) {
-                        Text(stringResource(id = R.string.close))
-                    }
-                },
-                sheetContent = {
-                    if (tempSelectionUris == null) {
-                        showSelectionFilterPicker = false
-                    }
-
-                    LazyVerticalStaggeredGrid(
-                        columns = StaggeredGridCells.Adaptive(250.dp),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 12.dp,
-                            alignment = Alignment.CenterHorizontally
-                        ),
-                        verticalItemSpacing = 12.dp,
-                        contentPadding = PaddingValues(12.dp),
-                    ) {
-                        item {
-                            BasicFilterPreference(
-                                onClick = {
-                                    component.setBasicFilter(tempSelectionUris)
-                                    showSelectionFilterPicker = false
-                                },
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        item {
-                            MaskFilterPreference(
-                                onClick = {
-                                    component.setMaskFilter(tempSelectionUris?.firstOrNull())
-                                    showSelectionFilterPicker = false
-                                },
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    }
-                },
-                title = {
-                    TitleItem(
-                        text = stringResource(id = R.string.pick_file),
-                        icon = Icons.Rounded.FileOpen
-                    )
-                }
+            FiltersContentNoData(
+                component = component,
+                imagePicker = imagePicker,
+                pickSingleImagePicker = pickSingleImagePicker,
+                tempSelectionUris = tempSelectionUris
             )
         },
         contentPadding = animateDpAsState(

@@ -25,6 +25,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
@@ -35,13 +37,13 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivit
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
 
-class DocumentScanner internal constructor(
+private class DocumentScannerImpl(
     private val context: ComponentActivity,
     private val scannerLauncher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>,
     private val onFailure: (Throwable) -> Unit
-) {
+) : DocumentScanner {
 
-    fun scan() {
+    override fun scan() {
         val options = GmsDocumentScannerOptions.Builder()
             .setGalleryImportAllowed(true)
             .setResultFormats(
@@ -60,6 +62,12 @@ class DocumentScanner internal constructor(
             .addOnFailureListener(onFailure)
     }
 
+}
+
+@Stable
+@Immutable
+interface DocumentScanner {
+    fun scan()
 }
 
 
@@ -89,7 +97,7 @@ fun rememberDocumentScanner(
     }
 
     return remember(context, scannerLauncher) {
-        DocumentScanner(
+        DocumentScannerImpl(
             context = context,
             scannerLauncher = scannerLauncher,
             onFailure = {

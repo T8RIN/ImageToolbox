@@ -28,6 +28,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.content.ContextCompat
@@ -37,16 +39,16 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
-import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerImpl
+import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerDelegate
 
-class DocumentScanner internal constructor(
+private class DocumentScannerImpl(
     private val context: Context,
-    private val scanner: DocumentScannerImpl,
+    private val scanner: DocumentScannerDelegate,
     private val scannerLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>,
     private val requestPermissionLauncher: ManagedActivityResultLauncher<String, Boolean>
-) {
+) : DocumentScanner {
 
-    fun scan() {
+    override fun scan() {
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.CAMERA
@@ -60,6 +62,11 @@ class DocumentScanner internal constructor(
 
 }
 
+@Stable
+@Immutable
+interface DocumentScanner {
+    fun scan()
+}
 
 @Composable
 fun rememberDocumentScanner(
@@ -70,7 +77,7 @@ fun rememberDocumentScanner(
     val context = LocalComponentActivity.current
 
     val scanner = remember(context) {
-        DocumentScannerImpl(
+        DocumentScannerDelegate(
             activity = context,
             successHandler = { imageUris ->
                 onSuccess(
@@ -112,7 +119,7 @@ fun rememberDocumentScanner(
     }
 
     return remember(context, scannerLauncher) {
-        DocumentScanner(
+        DocumentScannerImpl(
             context = context,
             scanner = scanner,
             scannerLauncher = scannerLauncher,

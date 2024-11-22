@@ -141,6 +141,17 @@ class FiltersComponent @AssistedInject internal constructor(
         _isReorderSheetVisible.update { false }
     }
 
+    private val _isSelectionFilterPickerVisible = mutableStateOf(false)
+    val isSelectionFilterPickerVisible by _isSelectionFilterPickerVisible
+
+    fun showSelectionFilterPicker() {
+        _isSelectionFilterPickerVisible.update { true }
+    }
+
+    fun hideSelectionFilterPicker() {
+        _isSelectionFilterPickerVisible.update { false }
+    }
+
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
 
