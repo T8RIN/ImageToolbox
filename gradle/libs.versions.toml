@@ -3,8 +3,8 @@ androidMinSdk = "21"
 androidTargetSdk = "35"
 androidCompileSdk = "35"
 
-versionName = "3.1.0-rc02"
-versionCode = "157"
+versionName = "3.1.0-rc03"
+versionCode = "158"
 
 jvmTarget = "17"
 
@@ -64,7 +64,7 @@ androidx-test-ext-junit = "1.2.1"
 documentfile = "1.0.1"
 uiautomator = "2.3.0"
 androidxMacroBenchmark = "1.4.0-alpha05"
-quickie = "1.13.0"
+quickie = "1.13.1"
 
 material = "1.13.0-alpha08"
 jsoup = "1.18.1"
