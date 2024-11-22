@@ -541,4 +541,15 @@ object ContextUtils {
             return connectivityManager.activeNetworkInfo?.isConnected == true
         }
     }
+
+    fun Context.shareText(value: String) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, value)
+        }
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(shareIntent)
+    }
 }

@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Github
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.shareText
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.bottomShape
@@ -96,10 +97,17 @@ fun AuthorLinksSheet(
                     PreferenceItem(
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            Intent(Intent.ACTION_SENDTO).apply {
-                                data =
-                                    "mailto:${context.getString(R.string.developer_email)}".toUri()
-                                context.startActivity(this)
+                            val mail = context.getString(R.string.developer_email)
+                            runCatching {
+                                context.startActivity(
+                                    Intent(Intent.ACTION_SENDTO).apply {
+                                        data =
+                                            "mailto:$mail".toUri()
+
+                                    }
+                                )
+                            }.onFailure {
+                                context.shareText(mail)
                             }
                         },
                         shape = centerShape,
