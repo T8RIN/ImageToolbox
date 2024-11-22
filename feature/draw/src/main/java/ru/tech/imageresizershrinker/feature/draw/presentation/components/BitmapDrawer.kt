@@ -483,7 +483,7 @@ fun BitmapDrawer(
                     paths,
                     backgroundColor,
                     drawMode,
-                    //invalidations
+                    invalidations
                 ) {
                     shaderBitmap = onRequestFiltering(
                         outputImage.asAndroidBitmap(),
