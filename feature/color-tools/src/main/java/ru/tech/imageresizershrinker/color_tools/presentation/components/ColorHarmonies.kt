@@ -17,115 +17,187 @@
 
 package ru.tech.imageresizershrinker.color_tools.presentation.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material.icons.rounded.ContentPaste
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.Analogous
-import ru.tech.imageresizershrinker.core.resources.icons.AnalogousComplementary
-import ru.tech.imageresizershrinker.core.resources.icons.Complementary
-import ru.tech.imageresizershrinker.core.resources.icons.SplitComplementary
-import ru.tech.imageresizershrinker.core.resources.icons.SquareHarmony
-import ru.tech.imageresizershrinker.core.resources.icons.Tetradic
-import ru.tech.imageresizershrinker.core.resources.icons.Triadic
-import ru.tech.imageresizershrinker.core.ui.theme.toColor
-import android.graphics.Color as AndroidColor
-
-fun Color.applyHarmony(
-    type: HarmonyType
-): List<Color> {
-    val (h, s, v) = toHSV()
-    return when (type) {
-        HarmonyType.COMPLEMENTARY -> listOf(
-            hsvToColor(h, s, v),
-            hsvToColor((h + 180) % 360, s, v)
-        )
-
-        HarmonyType.ANALOGOUS -> listOf(
-            hsvToColor(h, s, v),
-            hsvToColor((h + 30) % 360, s, v),
-            hsvToColor((h - 30 + 360) % 360, s, v)
-        )
-
-        HarmonyType.ANALOGOUS_COMPLEMENTARY -> listOf(
-            hsvToColor(h, s, v),
-            hsvToColor((h + 30) % 360, s, v),
-            hsvToColor((h - 30 + 360) % 360, s, v),
-            hsvToColor((h + 180) % 360, s, v)
-        )
-
-        HarmonyType.TRIADIC -> listOf(
-            hsvToColor(h, s, v),
-            hsvToColor((h + 120) % 360, s, v),
-            hsvToColor((h - 120 + 360) % 360, s, v)
-        )
-
-        HarmonyType.SPLIT_COMPLEMENTARY -> listOf(
-            hsvToColor(h, s, v),
-            hsvToColor((h + 150) % 360, s, v),
-            hsvToColor((h - 150 + 360) % 360, s, v)
-        )
-
-        HarmonyType.TETRADIC -> listOf(
-            hsvToColor(h, s, v),
-            hsvToColor((h + 30) % 360, s, v),
-            hsvToColor((h + 180) % 360, s, v),
-            hsvToColor((h + 210) % 360, s, v)
-        )
-
-        HarmonyType.SQUARE -> listOf(
-            hsvToColor(h, s, v),
-            hsvToColor((h + 90) % 360, s, v),
-            hsvToColor((h + 180) % 360, s, v),
-            hsvToColor((h + 270) % 360, s, v)
-        )
-    }.map { it.copy(alpha) }
-}
-
-enum class HarmonyType {
-    COMPLEMENTARY,
-    ANALOGOUS,
-    ANALOGOUS_COMPLEMENTARY,
-    TRIADIC,
-    SPLIT_COMPLEMENTARY,
-    TETRADIC,
-    SQUARE
-}
+import ru.tech.imageresizershrinker.core.ui.theme.inverse
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
-fun HarmonyType.title(): String = when (this) {
-    HarmonyType.COMPLEMENTARY -> stringResource(R.string.harmony_complementary)
-    HarmonyType.ANALOGOUS -> stringResource(R.string.harmony_analogous)
-    HarmonyType.TRIADIC -> stringResource(R.string.harmony_triadic)
-    HarmonyType.SPLIT_COMPLEMENTARY -> stringResource(R.string.harmony_split_complementary)
-    HarmonyType.TETRADIC -> stringResource(R.string.harmony_tetradic)
-    HarmonyType.SQUARE -> stringResource(R.string.harmony_square)
-    HarmonyType.ANALOGOUS_COMPLEMENTARY -> stringResource(R.string.harmony_analogous_complementary)
-}
+internal fun ColorHarmonies(
+    selectedColor: Color,
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val toastHostState = LocalToastHostState.current
 
-fun HarmonyType.icon(): ImageVector = when (this) {
-    HarmonyType.COMPLEMENTARY -> Icons.Filled.Complementary
-    HarmonyType.ANALOGOUS -> Icons.Filled.Analogous
-    HarmonyType.ANALOGOUS_COMPLEMENTARY -> Icons.Filled.AnalogousComplementary
-    HarmonyType.TRIADIC -> Icons.Filled.Triadic
-    HarmonyType.SPLIT_COMPLEMENTARY -> Icons.Filled.SplitComplementary
-    HarmonyType.TETRADIC -> Icons.Filled.Tetradic
-    HarmonyType.SQUARE -> Icons.Filled.SquareHarmony
-}
+    var selectedHarmony by rememberSaveable {
+        mutableStateOf(HarmonyType.COMPLEMENTARY)
+    }
+    val harmonies by remember(selectedColor, selectedHarmony) {
+        derivedStateOf {
+            selectedColor.applyHarmony(selectedHarmony)
+        }
+    }
 
-fun Color.toHSV(): FloatArray {
-    val hsv = FloatArray(3)
-    AndroidColor.colorToHSV(toArgb(), hsv)
-    return hsv
-}
+    ExpandableItem(
+        visibleContent = {
+            TitleItem(
+                text = stringResource(R.string.color_harmonies),
+                icon = Icons.Rounded.BarChart
+            )
+        },
+        expandableContent = {
+            Column(
+                modifier = Modifier.Companion.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 8.dp
+                ),
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.Companion.fillMaxWidth()
+                ) {
+                    HarmonyType.entries.forEach {
+                        EnhancedChip(
+                            selected = it == selectedHarmony,
+                            onClick = { selectedHarmony = it },
+                            selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+                            modifier = Modifier.Companion.weight(1f)
+                        ) {
+                            Icon(
+                                imageVector = it.icon(),
+                                contentDescription = null
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.Companion.height(8.dp))
+                AnimatedContent(
+                    targetState = selectedHarmony,
+                    transitionSpec = {
+                        fadeIn() togetherWith fadeOut()
+                    }
+                ) {
+                    Text(it.title())
+                }
+                Spacer(Modifier.Companion.height(8.dp))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    harmonies.forEach { color ->
+                        val boxColor by animateColorAsState(color)
+                        val contentColor = boxColor.inverse(
+                            fraction = { cond ->
+                                if (cond) 0.8f
+                                else 0.5f
+                            },
+                            darkMode = boxColor.luminance() < 0.3f
+                        )
+                        Box(
+                            modifier = Modifier.Companion
+                                .heightIn(min = 120.dp)
+                                .weight(1f)
+                                .clip(RoundedCornerShape(8.dp))
+                                .transparencyChecker()
+                                .background(boxColor)
+                                .clickable {
+                                    context.copyToClipboard(
+                                        label = context.getString(R.string.color),
+                                        value = getFormattedColor(color)
+                                    )
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            icon = Icons.Rounded.ContentPaste,
+                                            message = context.getString(R.string.color_copied)
+                                        )
+                                    }
+                                }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ContentCopy,
+                                contentDescription = stringResource(R.string.copy),
+                                tint = contentColor,
+                                modifier = Modifier.Companion
+                                    .align(Alignment.Companion.TopEnd)
+                                    .padding(4.dp)
+                                    .size(28.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = androidx.compose.foundation.shape.RoundedCornerShape(
+                                            8.dp
+                                        )
+                                    )
+                                    .padding(2.dp)
+                            )
 
-fun hsvToColor(
-    h: Float,
-    s: Float,
-    v: Float
-): Color {
-    return AndroidColor.HSVToColor(floatArrayOf(h, s, v)).toColor()
+                            Text(
+                                text = color.toHex(),
+                                color = contentColor,
+                                modifier = Modifier.Companion
+                                    .align(Alignment.Companion.BottomStart)
+                                    .padding(4.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = androidx.compose.foundation.shape.RoundedCornerShape(
+                                            8.dp
+                                        )
+                                    )
+                                    .padding(horizontal = 4.dp),
+                                fontSize = 12.sp
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        initialState = false
+    )
 }

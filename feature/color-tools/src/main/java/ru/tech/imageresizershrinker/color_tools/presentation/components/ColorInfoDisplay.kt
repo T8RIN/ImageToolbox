@@ -21,6 +21,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,9 +37,11 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
+import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.smarttoolfactory.colordetector.util.HexUtil
 import com.smarttoolfactory.colorpicker.util.HexVisualTransformation
 import com.smarttoolfactory.colorpicker.util.hexRegexSingleChar
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import kotlin.math.roundToInt
 import android.graphics.Color as AndroidColor
@@ -142,6 +148,14 @@ fun ColorInfoDisplay(
     }
 }
 
+internal fun getFormattedColor(color: Color): String {
+    return if (color.alpha == 1f) {
+        ColorUtil.colorToHex(color)
+    } else {
+        ColorUtil.colorToHexAlpha(color)
+    }.uppercase()
+}
+
 @Composable
 private fun ColorEditableField(
     label: String,
@@ -164,7 +178,19 @@ private fun ColorEditableField(
         label = {
             Text(label)
         },
-        singleLine = true
+        singleLine = true,
+        endIcon = {
+            EnhancedIconButton(
+                onClick = { onCopy(value) },
+                forceMinimumInteractiveComponentSize = false,
+                modifier = Modifier.size(36.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.ContentCopy,
+                    contentDescription = null
+                )
+            }
+        }
     )
 }
 
@@ -188,14 +214,10 @@ fun Color.toRGB(): String {
     return "$r, $g, $b"
 }
 
-fun rgbToColor(rgb: String): Color? {
-    return try {
-        val (r, g, b) = rgb.split(",").map { it.trim().toInt() }
-        Color(r / 255f, g / 255f, b / 255f)
-    } catch (e: Throwable) {
-        null
-    }
-}
+fun rgbToColor(rgb: String): Color? = runCatching {
+    val (r, g, b) = rgb.split(",").map { it.trim().toInt() }
+    Color(r / 255f, g / 255f, b / 255f)
+}.getOrNull()
 
 fun Color.toHSVString(): String {
     val hsv = FloatArray(3)
@@ -203,16 +225,12 @@ fun Color.toHSVString(): String {
     return "${hsv[0].roundToInt()}, ${(hsv[1] * 100).roundToInt()}, ${(hsv[2] * 100).roundToInt()}"
 }
 
-fun hsvToColor(hsv: String): Color? {
-    return try {
-        val (h, s, v) = hsv.split(",")
-            .map { it.trim().toInt() }
-        val colorInt = AndroidColor.HSVToColor(floatArrayOf(h.toFloat(), s / 100f, v / 100f))
-        Color(colorInt)
-    } catch (e: Throwable) {
-        null
-    }
-}
+fun hsvToColor(hsv: String): Color? = runCatching {
+    val (h, s, v) = hsv.split(",")
+        .map { it.trim().toInt() }
+    val colorInt = AndroidColor.HSVToColor(floatArrayOf(h.toFloat(), s / 100f, v / 100f))
+    Color(colorInt)
+}.getOrNull()
 
 fun Color.toHSL(): String {
     val hsl = FloatArray(3)
@@ -220,16 +238,12 @@ fun Color.toHSL(): String {
     return "${hsl[0].roundToInt()}, ${(hsl[1] * 100).roundToInt()}, ${(hsl[2] * 100).roundToInt()}"
 }
 
-fun hslToColor(hsl: String): Color? {
-    return try {
-        val (h, s, l) = hsl.split(",")
-            .map { it.trim().toInt() }
-        val colorInt = ColorUtils.HSLToColor(floatArrayOf(h.toFloat(), s / 100f, l / 100f))
-        Color(colorInt)
-    } catch (e: Throwable) {
-        null
-    }
-}
+fun hslToColor(hsl: String): Color? = runCatching {
+    val (h, s, l) = hsl.split(",")
+        .map { it.trim().toInt() }
+    val colorInt = ColorUtils.HSLToColor(floatArrayOf(h.toFloat(), s / 100f, l / 100f))
+    Color(colorInt)
+}.getOrNull()
 
 fun Color.toCMYK(): String {
     val k = (1 - maxOf(red, green, blue))
@@ -239,14 +253,10 @@ fun Color.toCMYK(): String {
     return "${(c * 100).roundToInt()}, ${(m * 100).roundToInt()}, ${(y * 100).roundToInt()}, ${(k * 100).roundToInt()}"
 }
 
-fun cmykToColor(cmyk: String): Color? {
-    return try {
-        val (c, m, y, k) = cmyk.split(",").map { it.trim().toInt() / 100f }
-        val r = 255 * (1 - c) * (1 - k)
-        val g = 255 * (1 - m) * (1 - k)
-        val b = 255 * (1 - y) * (1 - k)
-        Color(r / 255f, g / 255f, b / 255f)
-    } catch (e: Throwable) {
-        null
-    }
-}
+fun cmykToColor(cmyk: String): Color? = runCatching {
+    val (c, m, y, k) = cmyk.split(",").map { it.trim().toInt() / 100f }
+    val r = 255 * (1 - c) * (1 - k)
+    val g = 255 * (1 - m) * (1 - k)
+    val b = 255 * (1 - y) * (1 - k)
+    Color(r / 255f, g / 255f, b / 255f)
+}.getOrNull()
