@@ -78,6 +78,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.util.fastForEach
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.density
 import kotlin.math.ceil
 
 /**
@@ -929,12 +930,8 @@ fun ImageVector.toImageBitmap(
     iconPadding: Int = 0
 ): ImageBitmap {
     val imageBitmap = ImageBitmap(width, height)
-    val density = object : Density {
-        override val density: Float
-            get() = context.resources.displayMetrics.density
-        override val fontScale: Float
-            get() = context.resources.configuration.fontScale
-    }
+    val density = context.density
+
     val painter = createVectorPainterFromImageVector(
         density = density,
         imageVector = this,

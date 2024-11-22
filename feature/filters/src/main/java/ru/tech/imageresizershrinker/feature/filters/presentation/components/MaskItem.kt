@@ -73,6 +73,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.addEditMaskSheet.AddEditMaskSheet
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.addEditMaskSheet.AddMaskSheetComponent
 
 @Composable
 fun MaskItem(

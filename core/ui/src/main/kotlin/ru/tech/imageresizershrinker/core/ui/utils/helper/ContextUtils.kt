@@ -38,6 +38,7 @@ import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Density
 import androidx.core.app.ActivityCompat
 import androidx.core.app.PendingIntentCompat
 import androidx.core.content.pm.ShortcutInfoCompat
@@ -552,4 +553,12 @@ object ContextUtils {
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(shareIntent)
     }
+
+    val Context.density: Density
+        get() = object : Density {
+            override val density: Float
+                get() = resources.displayMetrics.density
+            override val fontScale: Float
+                get() = resources.configuration.fontScale
+        }
 }

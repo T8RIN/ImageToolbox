@@ -53,7 +53,6 @@ import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
@@ -63,6 +62,7 @@ import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.density
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
@@ -272,19 +272,14 @@ fun DrawLineStyle.asPathEffect(
                 createOutline(
                     size = Size(strokeWidth, strokeWidth),
                     layoutDirection = LayoutDirection.Ltr,
-                    density = object : Density {
-                        override val density: Float
-                            get() = context.resources.displayMetrics.density
-                        override val fontScale: Float
-                            get() = context.resources.configuration.fontScale
-                    }
+                    density = context.density
                 )
             )
         }
 
         val path: Path? = when (shape) {
             is Shape -> shape.toPath()
-            is android.graphics.Path -> shape.asComposePath()
+            is NativePath -> shape.asComposePath()
             is Path -> shape
             null -> MaterialStarShape.toPath()
             else -> null

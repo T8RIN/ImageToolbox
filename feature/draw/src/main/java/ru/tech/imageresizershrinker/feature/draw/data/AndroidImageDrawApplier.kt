@@ -42,12 +42,12 @@ import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
+import ru.tech.imageresizershrinker.core.data.utils.density
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -450,12 +450,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                     createOutline(
                         size = Size(strokeWidth, strokeWidth),
                         layoutDirection = LayoutDirection.Ltr,
-                        density = object : Density {
-                            override val density: Float
-                                get() = context.resources.displayMetrics.density
-                            override val fontScale: Float
-                                get() = context.resources.configuration.fontScale
-                        }
+                        density = context.density
                     )
                 )
             }

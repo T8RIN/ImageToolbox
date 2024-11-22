@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import androidx.compose.ui.unit.Density
 import androidx.core.content.ContextCompat
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineDispatcher
@@ -149,3 +150,11 @@ private fun Context.getInstallerPackageName(packageName: String): String? {
     }
     return null
 }
+
+val Context.density: Density
+    get() = object : Density {
+        override val density: Float
+            get() = resources.displayMetrics.density
+        override val fontScale: Float
+            get() = resources.configuration.fontScale
+    }

@@ -1,0 +1,292 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Cancel
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.DeleteOutline
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.Green
+import ru.tech.imageresizershrinker.core.ui.theme.Red
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedCheckbox
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
+import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
+import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+internal fun LazyItemScope.DownloadedLanguageItem(
+    index: Int,
+    value: List<OCRLanguage>,
+    lang: OCRLanguage,
+    downloadedLanguages: List<OCRLanguage>,
+    onWantDelete: (OCRLanguage) -> Unit,
+    onValueChange: (Boolean, OCRLanguage) -> Unit,
+    onValueChangeForced: (List<OCRLanguage>, RecognitionType) -> Unit,
+    currentRecognitionType: RecognitionType
+) {
+    val settingsState = LocalSettingsState.current
+    val selected by remember(value, lang) {
+        derivedStateOf {
+            lang in value
+        }
+    }
+    val scope = rememberCoroutineScope()
+    val state = rememberRevealState()
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+    val isDragged by interactionSource.collectIsDraggedAsState()
+    val shape = ContainerShapeDefaults.shapeForIndex(
+        index = index,
+        size = downloadedLanguages.size,
+        forceDefault = isDragged
+    )
+    SwipeToReveal(
+        state = state,
+        modifier = Modifier.Companion.animateItem(),
+        revealedContentEnd = {
+            Box(
+                Modifier.Companion
+                    .fillMaxSize()
+                    .container(
+                        color = MaterialTheme.colorScheme.errorContainer,
+                        shape = shape,
+                        autoShadowElevation = 0.dp,
+                        resultPadding = 0.dp
+                    )
+                    .clickable {
+                        scope.launch {
+                            state.animateTo(RevealValue.Default)
+                        }
+                        onWantDelete(lang)
+                    }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.DeleteOutline,
+                    contentDescription = stringResource(R.string.delete),
+                    modifier = Modifier.Companion
+                        .padding(16.dp)
+                        .padding(end = 8.dp)
+                        .align(Alignment.Companion.CenterEnd),
+                    tint = MaterialTheme.colorScheme.onErrorContainer
+                )
+            }
+        },
+        directions = setOf(RevealDirection.EndToStart),
+        swipeableContent = {
+            val haptics = LocalHapticFeedback.current
+            Row(
+                modifier = Modifier.Companion
+                    .fillMaxWidth()
+                    .container(
+                        shape = shape,
+                        color = animateColorAsState(
+                            if (selected) {
+                                MaterialTheme
+                                    .colorScheme
+                                    .mixedContainer
+                                    .copy(0.8f)
+                            } else EnhancedBottomSheetDefaults.contentContainerColor
+                        ).value,
+                        resultPadding = 0.dp
+                    )
+                    .combinedClickable(
+                        onLongClick = {
+                            haptics.performHapticFeedback(
+                                HapticFeedbackType.Companion.LongPress
+                            )
+                            scope.launch {
+                                state.animateTo(RevealValue.FullyRevealedStart)
+                            }
+                        }
+                    ) {
+                        haptics.performHapticFeedback(
+                            HapticFeedbackType.Companion.LongPress
+                        )
+                        onValueChange(selected, lang)
+                    }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.Companion.CenterVertically
+            ) {
+                AnimatedVisibility(visible = value.size > 1) {
+                    LocalMinimumInteractiveComponentSize.ProvidesValue(
+                        Dp.Companion.Unspecified
+                    ) {
+                        EnhancedCheckbox(
+                            checked = selected,
+                            onCheckedChange = {
+                                onValueChange(selected, lang)
+                            },
+                            modifier = Modifier.Companion.padding(end = 8.dp)
+                        )
+                    }
+                }
+                Column {
+                    Text(
+                        text = lang.name,
+                        style = LocalTextStyle.current.copy(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Companion.Medium,
+                            lineHeight = 18.sp
+                        )
+                    )
+                    if (lang.name != lang.localizedName) {
+                        Spacer(modifier = Modifier.Companion.height(2.dp))
+                        Text(
+                            text = lang.localizedName,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Companion.Normal,
+                            lineHeight = 14.sp,
+                            color = LocalContentColor.current.copy(alpha = 0.5f)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.Companion.weight(1f))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.Companion.container()
+                ) {
+                    RecognitionType.entries.forEach { type ->
+                        Column(
+                            horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.Companion
+                                .clip(CircleShape)
+                                .clickable {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.Companion.LongPress
+                                    )
+                                    onValueChangeForced(value, type)
+                                }
+                        ) {
+                            val notDownloaded by remember(
+                                type,
+                                lang.downloaded
+                            ) {
+                                derivedStateOf {
+                                    type !in lang.downloaded
+                                }
+                            }
+                            val displayName by remember(type) {
+                                derivedStateOf {
+                                    type.displayName.first().uppercase()
+                                }
+                            }
+                            val green = Green
+                            val red = Red
+                            val color by remember(
+                                currentRecognitionType,
+                                red,
+                                green,
+                                lang.downloaded
+                            ) {
+                                derivedStateOf {
+                                    when (type) {
+                                        currentRecognitionType -> if (type in lang.downloaded) {
+                                            green
+                                        } else red
+
+                                        !in lang.downloaded -> red.copy(
+                                            0.3f
+                                        )
+
+                                        else -> green.copy(0.3f)
+                                    }
+                                }
+                            }
+                            Text(
+                                text = displayName,
+                                fontSize = 12.sp
+                            )
+                            Spacer(modifier = Modifier.Companion.height(4.dp))
+                            Icon(
+                                imageVector = if (notDownloaded) {
+                                    Icons.Rounded.Cancel
+                                } else Icons.Rounded.CheckCircle,
+                                contentDescription = null,
+                                tint = animateColorAsState(color).value,
+                                modifier = Modifier.Companion
+                                    .size(28.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(),
+                                        shape = CircleShape
+                                    )
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        interactionSource = interactionSource
+    )
+}
