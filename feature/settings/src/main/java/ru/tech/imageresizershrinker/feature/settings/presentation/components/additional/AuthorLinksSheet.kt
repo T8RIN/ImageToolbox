@@ -101,9 +101,7 @@ fun AuthorLinksSheet(
                             runCatching {
                                 context.startActivity(
                                     Intent(Intent.ACTION_SENDTO).apply {
-                                        data =
-                                            "mailto:$mail".toUri()
-
+                                        data = "mailto:$mail".toUri()
                                     }
                                 )
                             }.onFailure {
