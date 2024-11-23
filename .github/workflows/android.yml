@@ -38,7 +38,7 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Signed apks FOSS
           path: app/build/outputs/apk/foss/release/*-signed.apk
@@ -57,7 +57,7 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Signed apks Market
           path: app/build/outputs/apk/market/release/*-signed.apk
