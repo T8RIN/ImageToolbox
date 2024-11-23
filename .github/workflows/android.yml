@@ -14,9 +14,9 @@ jobs:
         uses: pierotofy/set-swap-space@master
         with:
           swap-size-gb: 10
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'adopt'
@@ -38,7 +38,7 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Signed apks FOSS
           path: app/build/outputs/apk/foss/release/*-signed.apk
@@ -57,7 +57,7 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Signed apks Market
           path: app/build/outputs/apk/market/release/*-signed.apk
