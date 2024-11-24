@@ -93,6 +93,11 @@ android {
             excludes += ".bin"
         }
     }
+
+    aboutLibraries {
+        // Remove the "generated" timestamp to allow for reproducible builds
+        excludeFields = arrayOf("generated")
+    }
 }
 
 dependencies {
