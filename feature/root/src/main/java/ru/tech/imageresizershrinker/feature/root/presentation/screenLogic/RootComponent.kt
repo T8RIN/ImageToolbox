@@ -24,13 +24,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.items
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
@@ -39,6 +37,7 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
@@ -364,10 +363,12 @@ class RootComponent @AssistedInject internal constructor(
         }
     }
 
-    @OptIn(DelicateDecomposeApi::class)
     fun navigateTo(screen: Screen) {
-        hideSelectDialog()
-        navController.push(screen)
+        componentScope.launch {
+            delay(100)
+            hideSelectDialog()
+            navController.pushNew(screen)
+        }
     }
 
     fun navigateToNew(screen: Screen) {

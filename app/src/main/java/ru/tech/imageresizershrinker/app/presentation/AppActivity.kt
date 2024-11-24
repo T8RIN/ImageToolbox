@@ -41,7 +41,7 @@ class AppActivity : M3Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        parseImage(intent)
+        if (savedInstanceState == null) parseImage(intent)
 
         setContentWithWindowSizeClass {
             RootContent(component = component)

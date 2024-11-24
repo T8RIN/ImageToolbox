@@ -25,6 +25,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -134,10 +135,14 @@ data class LocalEssentials internal constructor(
         )
     }
 
-    fun createScreenShortcut(screen: Screen) {
+    fun createScreenShortcut(
+        screen: Screen,
+        tint: Color = Color.Unspecified
+    ) {
         coroutineScope.launch {
             context.createScreenShortcut(
                 screen = screen,
+                tint = tint,
                 onFailure = ::showFailureToast
             )
         }
