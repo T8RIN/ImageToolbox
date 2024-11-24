@@ -19,7 +19,11 @@ package ru.tech.imageresizershrinker.colllage_maker.presentation
 
 import android.content.pm.ActivityInfo
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,6 +52,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -73,6 +78,7 @@ import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.Coll
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -89,6 +95,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
@@ -167,6 +174,10 @@ fun CollageMakerContent(
         else component.onGoBack()
     }
 
+    var resettingTrigger by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+
     AdaptiveBottomScaffoldLayoutScreen(
         title = {
             TopAppBarTitle(
@@ -225,7 +236,28 @@ fun CollageMakerContent(
             )
         },
         topAppBarPersistentActions = {
-            TopAppBarEmoji()
+            if (component.uris.isNullOrEmpty()) {
+                TopAppBarEmoji()
+            } else {
+                var showResetDialog by rememberSaveable {
+                    mutableStateOf(false)
+                }
+                EnhancedIconButton(
+                    onClick = { showResetDialog = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.ImageReset,
+                        contentDescription = stringResource(R.string.reset_image)
+                    )
+                }
+                ResetDialog(
+                    visible = showResetDialog,
+                    onDismiss = { showResetDialog = false },
+                    onReset = {
+                        resettingTrigger++
+                    }
+                )
+            }
         },
         mainContent = {
             var isLoading by rememberSaveable(component.uris) {
@@ -253,31 +285,36 @@ fun CollageMakerContent(
                             bottom = bottomPadding
                         )
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .zoomable(rememberZoomState())
-                            .container(
-                                shape = RoundedCornerShape(4.dp),
-                                resultPadding = 0.dp
-                            )
-                            .shimmer(visible = isLoading),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Collage(
+                    AnimatedContent(
+                        targetState = component.uris to resettingTrigger,
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
+                    ) { (uris) ->
+                        Box(
                             modifier = Modifier
-                                .padding(4.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .transparencyChecker(),
-                            images = component.uris ?: emptyList(),
-                            collageType = component.collageType,
-                            collageCreationTrigger = component.collageCreationTrigger,
-                            onCollageCreated = component::updateCollageBitmap,
-                            backgroundColor = component.backgroundColor,
-                            spacing = component.spacing,
-                            cornerRadius = component.cornerRadius,
-                            aspectRatio = 1f / component.aspectRatio.value,
-                            outputScaleRatio = 2f
-                        )
+                                .zoomable(rememberZoomState())
+                                .container(
+                                    shape = RoundedCornerShape(4.dp),
+                                    resultPadding = 0.dp
+                                )
+                                .shimmer(visible = isLoading),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Collage(
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .transparencyChecker(),
+                                images = uris ?: emptyList(),
+                                collageType = component.collageType,
+                                collageCreationTrigger = component.collageCreationTrigger,
+                                onCollageCreated = component::updateCollageBitmap,
+                                backgroundColor = component.backgroundColor,
+                                spacing = component.spacing,
+                                cornerRadius = component.cornerRadius,
+                                aspectRatio = 1f / component.aspectRatio.value,
+                                outputScaleRatio = 2f
+                            )
+                        }
                     }
                 }
                 val density = LocalDensity.current
