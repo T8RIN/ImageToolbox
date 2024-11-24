@@ -80,6 +80,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     shouldDisableBackHandler: Boolean,
     isPortrait: Boolean,
     actions: @Composable RowScope.(BottomSheetScaffoldState) -> Unit,
+    modifier: Modifier = Modifier,
     topAppBarPersistentActions: @Composable RowScope.(BottomSheetScaffoldState) -> Unit = {},
     mainContent: @Composable () -> Unit,
     mainContentWeight: Float = 0.5f,
@@ -98,9 +99,6 @@ fun AdaptiveBottomScaffoldLayoutScreen(
 
     val scrollBehavior = if (collapseTopAppBarWhenHaveData && canShowScreenData) null
     else TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-    val scrollState = rememberScrollState()
-
 
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
@@ -183,6 +181,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                 ) {
                                     mainContent()
                                 }
+                                val scrollState = rememberScrollState()
                                 Column(
                                     Modifier
                                         .weight(mainContentWeight)
@@ -200,6 +199,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                             modifier = Modifier
                                 .then(
                                     if (enableNoDataScroll) {
+                                        val scrollState = rememberScrollState()
                                         Modifier
                                             .fillMaxSize()
                                             .verticalScroll(scrollState)
@@ -241,12 +241,12 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = if (autoClearFocus) {
-            Modifier.pointerInput(Unit) {
+            modifier.pointerInput(Unit) {
                 detectTapGestures {
                     focus.clearFocus()
                 }
             }
-        } else Modifier
+        } else modifier
     ) {
         AnimatedContent(
             targetState = isPortrait && canShowScreenData,
@@ -281,6 +281,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                             ProvideContainerDefaults(
                                 color = EnhancedBottomSheetDefaults.contentContainerColor
                             ) {
+                                val scrollState = rememberScrollState()
                                 Column(Modifier.verticalScroll(scrollState)) {
                                     controls(scaffoldState)
                                 }

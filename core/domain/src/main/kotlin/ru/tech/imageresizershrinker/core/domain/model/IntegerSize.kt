@@ -57,6 +57,10 @@ data class IntegerSize(
         val Undefined by lazy {
             IntegerSize(-1, -1)
         }
+
+        val Zero by lazy {
+            IntegerSize(0, 0)
+        }
     }
 }
 

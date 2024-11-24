@@ -19,6 +19,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.haptics
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.HapticFeedbackConstants
@@ -52,13 +53,14 @@ private fun View.reallyPerformHapticFeedback(feedbackConstant: Int) {
 private fun Context.isTouchExplorationEnabled(): Boolean {
     val accessibilityManager = getSystemService<AccessibilityManager>()
 
-    return accessibilityManager?.isTouchExplorationEnabled ?: false
+    return accessibilityManager?.isTouchExplorationEnabled == true
 }
 
 internal data class CustomHapticFeedback(
     val hapticsStrength: Int,
     val view: View
 ) : HapticFeedback {
+    @SuppressLint("InlinedApi")
     override fun performHapticFeedback(hapticFeedbackType: HapticFeedbackType) {
         when (hapticFeedbackType) {
             HapticFeedbackType.LongPress -> {
@@ -73,6 +75,34 @@ internal data class CustomHapticFeedback(
                     view.reallyPerformHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE)
                 } else view.reallyPerformHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
             }
+
+            HapticFeedbackType.Confirm ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.CONFIRM)
+
+            HapticFeedbackType.ContextClick ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+
+            HapticFeedbackType.GestureEnd ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.GESTURE_END)
+
+            HapticFeedbackType.GestureThresholdActivate ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.GESTURE_THRESHOLD_ACTIVATE)
+
+            HapticFeedbackType.Reject -> view.reallyPerformHapticFeedback(HapticFeedbackConstants.REJECT)
+            HapticFeedbackType.SegmentFrequentTick ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.SEGMENT_FREQUENT_TICK)
+
+            HapticFeedbackType.SegmentTick ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.SEGMENT_TICK)
+
+            HapticFeedbackType.ToggleOff ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.TOGGLE_OFF)
+
+            HapticFeedbackType.ToggleOn ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.TOGGLE_ON)
+
+            HapticFeedbackType.VirtualKey ->
+                view.reallyPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
         }
     }
 }

@@ -21,12 +21,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,23 +38,27 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 @Composable
 fun BoxWithConstraintsScope.EditBox(
+    state: EditBoxState,
     onTap: () -> Unit,
     modifier: Modifier = Modifier,
-    state: EditBoxState = remember { EditBoxState() },
     shape: Shape = RoundedCornerShape(4.dp),
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
         derivedStateOf {
-            IntSize(
+            IntegerSize(
                 constraints.maxWidth,
                 constraints.maxHeight
             )
@@ -72,10 +76,10 @@ fun BoxWithConstraintsScope.EditBox(
 
 @Composable
 fun EditBox(
+    state: EditBoxState,
     onTap: () -> Unit,
-    parentSize: IntSize,
+    parentSize: IntegerSize,
     modifier: Modifier = Modifier,
-    state: EditBoxState = remember { EditBoxState() },
     shape: Shape = RoundedCornerShape(4.dp),
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -102,14 +106,8 @@ fun EditBox(
     }
 
     val tapScale = remember { Animatable(1f) }
-
-    LaunchedEffect(state.isActive) {
-        if (state.isActive) {
-            tapScale.animateTo(0.95f)
-            tapScale.animateTo(1.02f)
-            tapScale.animateTo(1f)
-        }
-    }
+    val scope = rememberCoroutineScope()
+    val haptics = LocalHapticFeedback.current
 
     val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
     Box(
@@ -130,6 +128,14 @@ fun EditBox(
             .pointerInput(onTap) {
                 detectTapGestures {
                     onTap()
+                    if (state.isActive) {
+                        scope.launch {
+                            haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                            tapScale.animateTo(0.95f)
+                            tapScale.animateTo(1.02f)
+                            tapScale.animateTo(1f)
+                        }
+                    }
                 }
             }
             .transformable(
