@@ -645,7 +645,7 @@ internal fun BoxWithConstraintsScope.Layer(
 
                             style.copy(
                                 color = type.color.toColor(),
-                                fontSize = (fullSize * type.size / 10).sp,
+                                fontSize = (fullSize * type.size / 5).sp,
                                 fontFamily = UiFontFamily.entries.firstOrNull {
                                     (it.fontRes ?: 0) == type.font
                                 }?.fontFamily,

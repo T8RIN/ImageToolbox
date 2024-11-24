@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic
 
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.*
@@ -37,7 +36,6 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -45,7 +43,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -60,12 +57,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     dispatchersHolder: DispatchersHolder,
     private val fileController: FileController,
-    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val settingsProvider: SettingsProvider,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     init {
@@ -102,11 +97,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _backgroundColor: MutableState<Color> = mutableStateOf(Color.Transparent)
-    val backgroundColor by _backgroundColor
-
     private val _uri = mutableStateOf(Uri.EMPTY)
-    val uri: Uri by _uri
 
     private val _imageFormat = mutableStateOf(ImageFormat.Default)
     val imageFormat by _imageFormat
@@ -153,16 +144,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 )
             }
             _isSaving.value = false
-        }
-    }
-
-    private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
-        val bmp = imageGetter.getImage(uri = uri.toString(), originalSize = false)?.image
-        val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
-        return if (imageRatio <= 1.05f) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
     }
 
@@ -220,7 +201,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             BackgroundBehavior.None
         }
         _uri.value = Uri.EMPTY
-        _backgroundColor.value = Color.Transparent
         registerChangesCleared()
     }
 
@@ -239,7 +219,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 color = color.toArgb()
             )
         }
-        _backgroundColor.value = color
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
@@ -258,11 +237,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             }
             _isSaving.value = false
         }
-    }
-
-    fun updateBackgroundColor(color: Color) {
-        _backgroundColor.value = color
-        registerChanges()
     }
 
     fun cancelSaving() {
