@@ -37,6 +37,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Density
 import androidx.core.app.ActivityCompat
@@ -478,6 +479,7 @@ object ContextUtils {
 
     suspend fun Context.createScreenShortcut(
         screen: Screen,
+        tint: Color = Color.Unspecified,
         onFailure: (Throwable) -> Unit = {},
     ) = withContext(Dispatchers.Main.immediate) {
         runCatching {
@@ -487,7 +489,7 @@ object ContextUtils {
                     context = context,
                     width = 256,
                     height = 256,
-                    tint = Color(0xFF5F823E)
+                    tint = tint.takeOrElse { Color(0xFF5F823E) }
                 )
 
                 val info = ShortcutInfoCompat.Builder(context, screen.id.toString())
