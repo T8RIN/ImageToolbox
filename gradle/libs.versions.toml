@@ -3,8 +3,8 @@ androidMinSdk = "21"
 androidTargetSdk = "35"
 androidCompileSdk = "35"
 
-versionName = "3.1.0"
-versionCode = "159"
+versionName = "3.2.0-alpha01"
+versionCode = "160"
 
 jvmTarget = "17"
 
@@ -75,6 +75,7 @@ zxingAndroidEmbedded = "4.3.0"
 capturable = "3.0.0"
 moshi = "1.15.1"
 aboutlibraries = "11.2.3"
+junit = "4.13.2"
 
 [libraries]
 aboutlibraries-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutlibraries" }
@@ -193,6 +194,7 @@ androidx-material = { module = "androidx.compose.material:material", version.ref
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 
 desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" }

@@ -66,6 +66,8 @@ import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetI
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 import ru.tech.imageresizershrinker.feature.main.presentation.MainContent
 import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.MarkupLayersContent
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsContent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageContent
@@ -290,6 +292,11 @@ internal sealed class NavigationChild {
     class LibrariesInfo(val component: LibrariesInfoComponent) : NavigationChild() {
         @Composable
         override fun Content() = LibrariesInfoContent(component)
+    }
+
+    class MarkupLayers(val component: MarkupLayersComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = MarkupLayersContent(component)
     }
 
 }

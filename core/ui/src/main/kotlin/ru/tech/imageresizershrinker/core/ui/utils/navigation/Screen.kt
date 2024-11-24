@@ -36,6 +36,7 @@ import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Grain
+import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
@@ -125,6 +126,7 @@ sealed class Screen(
             is NoiseGeneration -> "Noise_Generation"
             is CollageMaker -> "Collage_Maker"
             is LibrariesInfo -> "Libraries_Info"
+            is MarkupLayers -> "Markup Layers"
         }
 
     val icon: ImageVector?
@@ -168,7 +170,15 @@ sealed class Screen(
             is WebpTools -> Icons.Rounded.WebpBox
             NoiseGeneration -> Icons.Outlined.Grain
             is CollageMaker -> Icons.Outlined.AutoAwesomeMosaic
+            is MarkupLayers -> Icons.Outlined.Layers //TODO: Icons for this and stacking
         }
+
+    @Serializable
+    data object LibrariesInfo : Screen(
+        id = -4,
+        title = 0,
+        subtitle = 0
+    )
 
     @Serializable
     data object Settings : Screen(
@@ -780,10 +790,12 @@ sealed class Screen(
     )
 
     @Serializable
-    data object LibrariesInfo : Screen(
-        id = -4,
-        title = 0,
-        subtitle = 0
+    data class MarkupLayers(
+        val uri: KUri? = null
+    ) : Screen(
+        id = 34,
+        title = R.string.markup_layers,
+        subtitle = R.string.markup_layers_sub
     )
 
     companion object {
@@ -806,6 +818,7 @@ sealed class Screen(
                     Filter(),
                     Draw(),
                     EraseBackground(),
+                    MarkupLayers(),
                     CollageMaker(),
                     ImageStitching(),
                     ImageStacking(),
