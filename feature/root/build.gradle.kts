@@ -63,4 +63,5 @@ dependencies {
     implementation(projects.feature.noiseGeneration)
     implementation(projects.feature.colllageMaker)
     implementation(projects.feature.librariesInfo)
+    implementation(projects.feature.markupLayers)
 }

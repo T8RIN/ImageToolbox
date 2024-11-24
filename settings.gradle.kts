@@ -17,6 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:markup-layers")
+
+
 include(":feature:libraries-info")
 
 

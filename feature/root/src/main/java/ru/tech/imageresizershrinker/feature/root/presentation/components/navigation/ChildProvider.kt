@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.feature.libraries_info.presentation.screenLo
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
@@ -98,7 +99,8 @@ internal class ChildProvider @Inject constructor(
     private val easterEggComponentFactory: EasterEggComponent.Factory,
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
-    private val mainComponentFactory: MainComponent.Factory
+    private val mainComponentFactory: MainComponent.Factory,
+    private val markupLayersComponentFactory: MarkupLayersComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -428,6 +430,15 @@ internal class ChildProvider @Inject constructor(
             librariesInfoComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
+            )
+        )
+
+        is Screen.MarkupLayers -> NavigationChild.MarkupLayers(
+            markupLayersComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
     }

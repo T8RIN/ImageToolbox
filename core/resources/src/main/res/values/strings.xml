@@ -1497,4 +1497,6 @@
     <string name="enable_tonemapping">Enable Tonemapping</string>
     <string name="enter_percent">Enter %</string>
     <string name="unknown_host">Cannot access the site, try using VPN or check if the url correct</string>
+    <string name="markup_layers">Markup Layers</string>
+    <string name="markup_layers_sub">Layers mode with ability to freely place images, text and more</string>
 </resources>
