@@ -189,7 +189,7 @@ object ContextUtils {
         DocumentFile.fromSingleUri(this, uri)?.name
     }?.decodeEscaped()
 
-    fun Context.parseImageFromIntent(
+    fun Activity.parseImageFromIntent(
         intent: Intent?,
         onStart: () -> Unit,
         onColdStart: () -> Unit,
@@ -201,10 +201,12 @@ object ContextUtils {
         onWantGithubReview: () -> Unit,
         isOpenEditInsteadOfPreview: Boolean,
     ) {
-        onStart()
-        if (intent?.type != null && !isHasUris) onColdStart()
+        if (intent == null) return
 
-        if (intent?.action == Intent.ACTION_BUG_REPORT) {
+        onStart()
+        if (intent.type != null && !isHasUris) onColdStart()
+
+        if (intent.action == Intent.ACTION_BUG_REPORT) {
             onWantGithubReview()
             return
         }
@@ -212,16 +214,16 @@ object ContextUtils {
         if (intent.getScreenOpeningShortcut(onNavigate)) return
 
         runCatching {
-            val startsWithImage = intent?.type?.startsWith("image/") == true
-            val hasExtraFormats = intent?.clipData?.clipList()
+            val startsWithImage = intent.type?.startsWith("image/") == true
+            val hasExtraFormats = intent.clipData?.clipList()
                 ?.any {
                     it.toString().endsWith(".jxl") || it.toString().endsWith(".qoi")
                 } == true
-            val dataHasExtraFormats = intent?.data.toString().let {
+            val dataHasExtraFormats = intent.data.toString().let {
                 it.endsWith(".jxl") || it.endsWith(".qoi")
             }
 
-            if ((startsWithImage || hasExtraFormats || dataHasExtraFormats) && intent != null) {
+            if ((startsWithImage || hasExtraFormats || dataHasExtraFormats)) {
                 when (intent.action) {
                     Intent.ACTION_VIEW -> {
                         val data = intent.data
@@ -269,7 +271,7 @@ object ContextUtils {
                         }
                     }
                 }
-            } else if (intent?.type != null) {
+            } else if (intent.type != null) {
                 val text = intent.getStringExtra(Intent.EXTRA_TEXT)
                 val multiplePdfs = intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM) != null
 
