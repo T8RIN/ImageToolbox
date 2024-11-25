@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -39,6 +40,7 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -52,7 +54,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.rounded.FormatColorFill
-import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -77,6 +78,7 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -85,16 +87,22 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastAny
 import androidx.core.graphics.applyCanvas
 import coil3.request.ImageRequest
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
+import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -112,6 +120,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontResSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -121,7 +130,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSe
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -239,11 +250,7 @@ fun MarkupLayersContent(
                     } else {
                         component.addLayer(
                             UiMarkupLayer(
-                                type = LayerType.Text.Default.copy(
-                                    color = Random.nextInt(),
-                                    font = UiFontFamily.entries.random().fontRes ?: 0,
-                                    text = "KJFdjkfdfdvnkcvnjcvckvkcvcvjk"
-                                ),
+                                type = LayerType.Text.Default,
                                 state = EditBoxState()
                             )
                         )
@@ -315,7 +322,12 @@ fun MarkupLayersContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clipToBounds(),
+                    .clipToBounds()
+                    //TODO: Improve
+                    .zoomable(
+                        zoomState = rememberZoomState(maxScale = 10f),
+                        zoomEnabled = !component.layers.fastAny { it.state.isActive }
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 BoxWithConstraints(
@@ -445,8 +457,8 @@ fun MarkupLayersContent(
                     PreferenceItem(
                         onClick = pickImage,
                         startIcon = Icons.Outlined.ImageTooltip,
-                        title = stringResource(R.string.draw_on_image),
-                        subtitle = stringResource(R.string.draw_on_image_sub),
+                        title = stringResource(R.string.layers_on_image),
+                        subtitle = stringResource(R.string.layers_on_image_sub),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -454,8 +466,8 @@ fun MarkupLayersContent(
                     PreferenceItem(
                         onClick = { showBackgroundDrawingSetup = true },
                         startIcon = Icons.Outlined.FormatPaint,
-                        title = stringResource(R.string.draw_on_background),
-                        subtitle = stringResource(R.string.draw_on_background_sub),
+                        title = stringResource(R.string.layers_on_background),
+                        subtitle = stringResource(R.string.layers_on_background_sub),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -486,8 +498,8 @@ fun MarkupLayersContent(
             EnhancedModalBottomSheet(
                 title = {
                     TitleItem(
-                        text = stringResource(R.string.draw),
-                        icon = Icons.Rounded.FormatPaint
+                        text = stringResource(R.string.markup_layers),
+                        icon = Icons.Rounded.Stacks
                     )
                 },
                 confirmButton = {
@@ -646,6 +658,7 @@ internal fun BoxWithConstraintsScope.Layer(
                             style.copy(
                                 color = type.color.toColor(),
                                 fontSize = (fullSize * type.size / 5).sp,
+                                lineHeight = (fullSize * type.size / 5).sp,
                                 fontFamily = UiFontFamily.entries.firstOrNull {
                                     (it.fontRes ?: 0) == type.font
                                 }?.fontFamily,
@@ -657,12 +670,15 @@ internal fun BoxWithConstraintsScope.Layer(
                             )
                         }
                     }
-                    Text(
+                    AutoSizeText(
                         text = type.text,
                         style = mergedStyle,
                         modifier = Modifier
-                            .padding(16.dp)
-                            .background(type.backgroundColor.toColor())
+                            .background(
+                                color = type.backgroundColor.toColor(),
+                                shape = RoundedCornerShape(3.dp)
+                            )
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
                     )
                 }
             }
@@ -693,7 +709,7 @@ internal fun BoxWithConstraintsScope.Layer(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(8.dp)
+                .padding(16.dp)
         ) {
             when (type) {
                 is LayerType.Image -> {
@@ -717,6 +733,82 @@ internal fun BoxWithConstraintsScope.Layer(
                         colors = RoundedTextFieldColors(
                             isError = false,
                             containerColor = SafeLocalContainerColor
+                        ),
+                        modifier = Modifier.container(
+                            shape = ContainerShapeDefaults.defaultShape,
+                            color = MaterialTheme.colorScheme.surface,
+                            resultPadding = 8.dp
+                        )
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    FontResSelector(
+                        fontRes = type.font,
+                        onValueChange = {
+                            onUpdateLayer(
+                                layer.copy(
+                                    type.copy(
+                                        font = it.fontRes ?: 0
+                                    )
+                                )
+                            )
+                        },
+                        shape = ContainerShapeDefaults.topShape,
+                        color = MaterialTheme.colorScheme.surface
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    EnhancedSliderItem(
+                        value = type.size,
+                        title = stringResource(R.string.font_scale),
+                        internalStateTransformation = {
+                            it.roundToTwoDigits()
+                        },
+                        onValueChange = {
+                            onUpdateLayer(
+                                layer.copy(
+                                    type.copy(size = it)
+                                )
+                            )
+                        },
+                        valueRange = 0.01f..1f,
+                        shape = ContainerShapeDefaults.centerShape,
+                        color = MaterialTheme.colorScheme.surface
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    ColorRowSelector(
+                        value = type.backgroundColor.toColor(),
+                        onValueChange = {
+                            onUpdateLayer(
+                                layer.copy(
+                                    type.copy(
+                                        backgroundColor = it.toArgb()
+                                    )
+                                )
+                            )
+                        },
+                        title = stringResource(R.string.background_color),
+                        titleFontWeight = FontWeight.Medium,
+                        modifier = Modifier.container(
+                            shape = ContainerShapeDefaults.centerShape,
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    ColorRowSelector(
+                        value = type.color.toColor(),
+                        onValueChange = {
+                            onUpdateLayer(
+                                layer.copy(
+                                    type.copy(
+                                        color = it.toArgb()
+                                    )
+                                )
+                            )
+                        },
+                        title = stringResource(R.string.text_color),
+                        titleFontWeight = FontWeight.Medium,
+                        modifier = Modifier.container(
+                            shape = ContainerShapeDefaults.bottomShape,
+                            color = MaterialTheme.colorScheme.surface
                         )
                     )
                 }

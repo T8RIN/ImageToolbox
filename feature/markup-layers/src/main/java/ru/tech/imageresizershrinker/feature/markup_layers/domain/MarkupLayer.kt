@@ -76,7 +76,7 @@ sealed interface LayerType {
                 Text(
                     color = -16777216,
                     style = 0,
-                    size = 0.1f,
+                    size = 0.2f,
                     font = 0,
                     backgroundColor = 0,
                     text = "Text"

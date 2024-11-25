@@ -209,7 +209,7 @@ fun WatermarkParamsSelectionGroup(
                                     )
                                 )
                             },
-                            title = stringResource(R.string.background_color),
+                            title = stringResource(R.string.text_color),
                             titleFontWeight = FontWeight.Medium,
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
@@ -228,7 +228,7 @@ fun WatermarkParamsSelectionGroup(
                                     )
                                 )
                             },
-                            title = stringResource(R.string.text_color),
+                            title = stringResource(R.string.background_color),
                             titleFontWeight = FontWeight.Medium,
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
