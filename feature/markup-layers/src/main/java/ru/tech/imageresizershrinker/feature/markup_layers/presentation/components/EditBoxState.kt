@@ -47,8 +47,8 @@ class EditBoxState(
         val extraWidth = (parentMaxWidth - contentSize.width * scale).absoluteValue
         val extraHeight = (parentMaxHeight - contentSize.height * scale).absoluteValue
 
-        val maxX = extraWidth / 2
-        val maxY = extraHeight / 2
+        val maxX = extraWidth / 2 // + contentSize.width * scale / 2
+        val maxY = extraHeight / 2 // + contentSize.height * scale / 2
 
         offset = Offset(
             x = (offset.x + panChange.x).coerceIn(-maxX, maxX),
