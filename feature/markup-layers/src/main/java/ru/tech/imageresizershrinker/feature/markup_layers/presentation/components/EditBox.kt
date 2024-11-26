@@ -17,6 +17,7 @@ import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.Shape
@@ -45,6 +47,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
@@ -155,6 +158,30 @@ fun EditBox(
             color = Color.Transparent,
             modifier = Modifier.matchParentSize()
         ) { }
+    }
+
+    if (state.isActive) {
+        val globalTransformState =
+            rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+                state.applyChanges(
+                    parentMaxWidth = parentMaxWidth,
+                    parentMaxHeight = parentMaxHeight,
+                    contentSize = contentSize,
+                    zoomChange = zoomChange,
+                    offsetChange = Offset.Zero,
+                    rotationChange = rotationChange
+                )
+            }
+
+        Box(
+            Modifier
+                .zIndex(-100f)
+                .fillMaxSize()
+                .transformable(
+                    state = globalTransformState,
+                    enabled = state.isActive
+                )
+        )
     }
 }
 
