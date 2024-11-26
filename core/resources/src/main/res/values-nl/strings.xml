@@ -1476,5 +1476,14 @@
     <string name="center_align_dialog_buttons_sub">Knoppen van dialogen worden indien mogelijk in het midden geplaatst in plaats van aan de linkerkant</string>
     <string name="area">Oppervlakte</string>
     <string name="enable_tonemapping">Tonemapping inschakelen</string>
-    <string name="area_sub">Het gebied van de puls is de integratie van hoogte\nover breedte. Breedte is de tijd die een deeltje\nvoor de laser doorbrengt en wordt beïnvloed door\ndeeltjesgrootte en schedesnelheid. Een groot\ndeeltje heeft een grotere breedte en dus een hoger\ngebied. Het omgekeerde geldt voor kleinere\ndeeltjes. Wanneer een deeltjesgrootte wordt\nsamengesteld met een lage scheidingssnelheid,\nresulteert dit in een grotere breedte. Houd er\nrekening mee dat de geluidssnelheid tijdens het\nexperiment constant blijft en niet afhankelijk is\nvan de druk/stroomsnelheid van het monster.</string>
+    <string name="area_sub">Opnieuw bemonsteren op basis van pixelgebiedrelatie. Deze methode geniet de voorkeur beelddecimering, omdat het resultaten levert zonder moiré. Maar wanneer het beeld is ingezoomd, is het vergelijkbaar met de \"Dichtstbijzijnde\" -methode.</string>
+    <string name="markup_layers_sub">Lagen-modus met mogelijkheid om afbeeldingen, tekst en meer vrij te plaatsen</string>
+    <string name="edit_layer">Laag bewerken</string>
+    <string name="layers_on_background">Lagen in achtergrond</string>
+    <string name="layers_on_background_sub">Hetzelfde als eerste optie, maar met kleur in plaats van afbeelding</string>
+    <string name="unknown_host">Geen toegang tot de site, probeer VPN te gebruiken of controleer of de url correct is</string>
+    <string name="markup_layers">Opmaaklagen</string>
+    <string name="layers_on_image">Lagen over afbeelding</string>
+    <string name="layers_on_image_sub">Gebruik afbeelding als achtergrond en voeg er verschillende lagen bovenop toe</string>
+    <string name="enter_percent">% invoeren</string>
 </resources>
