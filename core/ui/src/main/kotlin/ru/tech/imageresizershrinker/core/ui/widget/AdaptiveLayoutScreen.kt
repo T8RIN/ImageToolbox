@@ -253,6 +253,7 @@ fun AdaptiveLayoutScreen(
                                     onGloballyPositioned = {
                                         if (!isScrolled) {
                                             scope.launch {
+                                                delay(200)
                                                 listState.animateScrollToItem(0)
                                                 isScrolled = true
                                             }

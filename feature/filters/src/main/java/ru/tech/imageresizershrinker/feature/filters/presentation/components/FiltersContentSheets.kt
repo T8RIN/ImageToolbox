@@ -82,7 +82,7 @@ internal fun FiltersContentSheets(
             visible = component.isAddFiltersSheetVisible,
             targetBitmapUri = component.maskingFilterState.uri,
             onMaskPicked = component::addMask,
-            onDismiss = component::showAddFiltersSheet,
+            onDismiss = component::hideAddFiltersSheet,
             masks = component.maskingFilterState.masks,
             component = component.addMaskSheetComponent
         )
