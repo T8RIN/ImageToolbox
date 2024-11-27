@@ -1352,7 +1352,7 @@
     <string name="ci_channel_sub">获取应用程序新版本的通知并阅读公告</string>
     <string name="ci_channel">自动构建（CI）频道</string>
     <string name="one_time_save_location">单次保存位置</string>
-    <string name="group">组</string>
+    <string name="group">Telegram群组</string>
     <string name="one_time_save_location_sub">查看和编辑单次保存位置，您可以在大多数选项中长按保存按钮来使用这些位置</string>
     <string name="image_toolbox_in_telegram">ImageToolbox 中的 Telegram 🎉</string>
     <string name="image_toolbox_in_telegram_sub">加入我们的聊天室，在这里你可以讨论任何你想讨论的问题，还可以查看 CI 频道，我将在这里发布测试版和公告。</string>
@@ -1476,5 +1476,14 @@
     <string name="center_align_dialog_buttons_sub">如果可能的话，对话框的按钮将被置于居中位置，而非左侧。</string>
     <string name="area">区域</string>
     <string name="enable_tonemapping">启用色调映射</string>
-    <string name="area_sub">脉冲面积是高度对宽度的积分。宽度是粒子处于激光前的时间，它受粒子尺寸和鞘层速度的影响。大粒子会有较大的宽度，因此脉冲面积也会更大。对于较小的粒子，情况则相反。当粒子尺寸与较低的鞘层速度共同作用时，这将导致宽度增大。要记住，在实验过程中鞘层速度保持恒定，而且它不取决于样品压力/流速。</string>
+    <string name="area_sub">利用像素面积关系进行重采样。 这可能是图像缩放的首选方法，因为它可以获得无摩尔纹的效果。 但在放大图像时，它与 \"近似像素 \"方法类似。</string>
+    <string name="enter_percent">输入 %</string>
+    <string name="unknown_host">无法连接到此网站，请尝试使用VPN或检查URL是否正确</string>
+    <string name="edit_layer">编辑图层</string>
+    <string name="layers_on_image_sub">使用图片作为背景，并在其上添加不同的图层</string>
+    <string name="layers_on_background_sub">与第一个选项相同，但用颜色代替图像</string>
+    <string name="markup_layers">标记图层</string>
+    <string name="markup_layers_sub">图层模式，可自由放置图像、文本等内容</string>
+    <string name="layers_on_image">图片上的图层</string>
+    <string name="layers_on_background">背景图层</string>
 </resources>
