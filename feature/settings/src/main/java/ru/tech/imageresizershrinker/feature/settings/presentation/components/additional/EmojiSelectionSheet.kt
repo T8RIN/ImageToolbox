@@ -308,8 +308,7 @@ fun EmojiSelectionSheet(
                                         EmojiItem(
                                             emoji = emoji.toString(),
                                             fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                            fontScale = 1f,
-                                            isFullQuality = false
+                                            fontScale = 1f
                                         )
                                     }
                                 }

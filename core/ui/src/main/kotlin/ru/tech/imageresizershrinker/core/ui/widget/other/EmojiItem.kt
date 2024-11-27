@@ -59,7 +59,6 @@ fun EmojiItem(
     modifier: Modifier = Modifier,
     fontSize: TextUnit = LocalTextStyle.current.fontSize,
     fontScale: Float,
-    isFullQuality: Boolean = true,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -80,6 +79,7 @@ fun EmojiItem(
                     .data(emoji)
                     .memoryCacheKey(emoji)
                     .diskCacheKey(emoji)
+                    .size(512)
                     .listener(
                         onStart = {
                             shimmering = true
@@ -93,9 +93,7 @@ fun EmojiItem(
             }
         }.value,
         imageLoader = LocalImageLoader.current,
-        filterQuality = if (isFullQuality) {
-            FilterQuality.High
-        } else FilterQuality.None
+        filterQuality = FilterQuality.High
     )
 
     AnimatedContent(
