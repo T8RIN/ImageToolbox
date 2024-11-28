@@ -39,7 +39,7 @@ class EditBoxState(
         rotationChange: Float
     ) {
         rotation += rotationChange
-        scale = (scale * zoomChange).fastCoerceIn(0.5f, 10f)
+        scale = (scale * zoomChange).fastCoerceIn(0.3f, 10f)
         val panChange = (offsetChange * scale).rotateBy(rotation)
 
         val contentSize = contentSize.rotateBy(rotation)

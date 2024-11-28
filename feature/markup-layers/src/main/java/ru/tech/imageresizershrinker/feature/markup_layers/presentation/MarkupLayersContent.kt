@@ -49,7 +49,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatPaint
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.FormatColorFill
+import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -122,12 +124,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
-import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.EditBoxState
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.AddTextLayerDialog
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.Layer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
-import kotlin.random.Random
 
 @Composable
 fun MarkupLayersContent(
@@ -215,27 +216,40 @@ fun MarkupLayersContent(
         isPortrait = isPortrait,
         shouldDisableBackHandler = component.backgroundBehavior is BackgroundBehavior.None,
         actions = {
-            EnhancedButton(
+            val layerImagePicker = rememberImagePicker { uri: Uri ->
+                component.addLayer(
+                    UiMarkupLayer(
+                        type = LayerType.Image(uri)
+                    )
+                )
+            }
+            var showTextEnteringDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+            EnhancedIconButton(
                 onClick = {
-                    if (Random.nextInt(0, 3) == 0) {
-                        component.addLayer(
-                            UiMarkupLayer(
-                                type = LayerType.Image.Default,
-                                state = EditBoxState()
-                            )
-                        )
-                    } else {
-                        component.addLayer(
-                            UiMarkupLayer(
-                                type = LayerType.Text.Default,
-                                state = EditBoxState()
-                            )
-                        )
-                    }
+                    showTextEnteringDialog = true
                 }
             ) {
-                Text("PUSH NEW LAYER")
+                Icon(
+                    imageVector = Icons.Rounded.TextFields,
+                    contentDescription = null
+                )
             }
+            EnhancedIconButton(
+                onClick = layerImagePicker::pickImage
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Image,
+                    contentDescription = null
+                )
+            }
+
+            AddTextLayerDialog(
+                visible = showTextEnteringDialog,
+                onDismiss = { showTextEnteringDialog = false },
+                onAddLayer = component::addLayer
+            )
         },
         topAppBarPersistentActions = { scaffoldState ->
             if (component.backgroundBehavior == BackgroundBehavior.None) TopAppBarEmoji()
@@ -567,7 +581,6 @@ fun MarkupLayersContent(
             )
         },
         canShowScreenData = component.backgroundBehavior !is BackgroundBehavior.None,
-        showActionsInTopAppBar = false,
         mainContentWeight = 0.65f
     )
 

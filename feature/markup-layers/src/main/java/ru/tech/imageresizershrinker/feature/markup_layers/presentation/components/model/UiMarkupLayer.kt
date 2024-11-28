@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 
 data class UiMarkupLayer(
     val type: LayerType,
-    val state: EditBoxState
+    val state: EditBoxState = EditBoxState()
 )
 
 fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
