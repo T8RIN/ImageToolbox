@@ -86,6 +86,12 @@ sealed class Screen(
     @StringRes val subtitle: Int
 ) {
 
+    val isBetaFeature: Boolean
+        get() = when (this) {
+            is MarkupLayers -> true
+            else -> false
+        }
+
     val simpleName: String?
         get() = when (this) {
             is ApngTools -> "APNG_Tools"
@@ -866,7 +872,7 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 54
+        const val FEATURES_COUNT = 55
     }
 }
 

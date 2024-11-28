@@ -132,11 +132,10 @@ class RootComponent @AssistedInject internal constructor(
     val toastHostState = ToastHostState()
 
     init {
-        if (settingsState.clearCacheOnLaunch) fileController.clearCache()
-
         runBlocking {
             settingsManager.registerAppOpen()
             _settingsState.value = settingsManager.getSettingsState()
+            if (settingsState.clearCacheOnLaunch) fileController.clearCache()
         }
         settingsManager
             .getSettingsStateFlow()
@@ -151,6 +150,16 @@ class RootComponent @AssistedInject internal constructor(
                 _showTelegramGroupDialog.update { value }
             }
             .launchIn(componentScope)
+
+        if (settingsState.screenList.size != Screen.entries.size) {
+            componentScope.launch {
+                val currentList = settingsState.screenList
+                val neededList = Screen.entries.filter { it.id !in currentList }.map { it.id }
+                settingsManager.setScreenOrder(
+                    (currentList + neededList).joinToString("/")
+                )
+            }
+        }
     }
 
     fun toggleShowUpdateDialog() {

@@ -1504,4 +1504,5 @@
     <string name="layers_on_image_sub">Use image as background and add different layers on top of it</string>
     <string name="layers_on_background">Layers on background</string>
     <string name="layers_on_background_sub">The same as first option but with color instead of image</string>
+    <string name="beta">Beta</string>
 </resources>

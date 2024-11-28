@@ -24,7 +24,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import java.util.Locale
 
 @Composable
 internal fun filteredScreenListFor(
@@ -67,7 +69,12 @@ internal fun filteredScreenListFor(
                     screens.filter {
                         val string =
                             context.getString(it.title) + " " + context.getString(it.subtitle)
-                        string.contains(other = screenSearchKeyword, ignoreCase = true)
+                        val stringEn = context.getStringLocalized(it.title, Locale.ENGLISH)
+                            .plus(" ")
+                            .plus(context.getStringLocalized(it.subtitle, Locale.ENGLISH))
+                        stringEn.contains(other = screenSearchKeyword, ignoreCase = true).or(
+                            string.contains(other = screenSearchKeyword, ignoreCase = true)
+                        )
                     }
                 } else screens
             }

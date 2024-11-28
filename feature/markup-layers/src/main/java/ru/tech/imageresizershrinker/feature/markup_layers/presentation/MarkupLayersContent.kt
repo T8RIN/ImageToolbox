@@ -53,6 +53,7 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -121,7 +122,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenc
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.AddTextLayerDialog
@@ -204,13 +205,24 @@ fun MarkupLayersContent(
             }
         },
         title = {
-            TopAppBarTitle(
-                title = stringResource(R.string.markup_layers),
-                input = component.backgroundBehavior.takeIf { it !is BackgroundBehavior.None },
-                isLoading = component.isImageLoading,
-                size = null,
-                originalSize = null
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.marquee()
+            ) {
+                Text(
+                    text = stringResource(R.string.markup_layers)
+                )
+                Badge(
+                    content = {
+                        Text(stringResource(R.string.beta))
+                    },
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary,
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .padding(bottom = 12.dp)
+                )
+            }
         },
         onGoBack = onBack,
         isPortrait = isPortrait,
