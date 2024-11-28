@@ -28,6 +28,7 @@ import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Spread
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.xml.image.DrawableImage
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import java.util.concurrent.TimeUnit
@@ -267,7 +268,13 @@ class Particles(
             AppCompatResources.getDrawable(
                 context,
                 R.drawable.ic_launcher_monochrome_24
-            )!!
+            )!!.let {
+                DrawableImage(
+                    drawable = it,
+                    width = it.intrinsicWidth,
+                    height = it.intrinsicHeight
+                )
+            }
         ).let { shape ->
             val delay = 400
             explode(primary, shape) + explode(primary, shape, delay)
