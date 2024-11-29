@@ -18,13 +18,26 @@
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model
 
 import androidx.compose.ui.geometry.Offset
+import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerPosition
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.MarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.EditBoxState
 
 data class UiMarkupLayer(
     val type: LayerType,
-    val state: EditBoxState = EditBoxState()
+    val state: EditBoxState = EditBoxState(isActive = true)
+)
+
+fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
+    type = type,
+    position = LayerPosition(
+        scale = state.scale,
+        rotation = state.rotation,
+        offsetX = state.offset.x,
+        offsetY = state.offset.y,
+        alpha = state.alpha,
+        currentCanvasSize = state.canvasSize
+    )
 )
 
 fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(

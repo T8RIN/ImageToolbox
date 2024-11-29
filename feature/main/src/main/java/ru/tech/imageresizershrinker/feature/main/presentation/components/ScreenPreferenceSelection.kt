@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components
 import android.content.ClipboardManager
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
@@ -216,7 +217,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                                     ) {
-                                        if (screen.isBetaFeature) {
+                                        AnimatedVisibility(screen.isBetaFeature) {
                                             Badge(
                                                 content = {
                                                     Text(stringResource(R.string.beta))

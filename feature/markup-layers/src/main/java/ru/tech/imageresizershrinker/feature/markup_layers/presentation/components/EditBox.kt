@@ -31,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
@@ -147,7 +148,9 @@ fun EditBox(
             ),
         contentAlignment = Alignment.Center
     ) {
-        content()
+        Box(Modifier.alpha(state.alpha)) {
+            content()
+        }
         AnimatedBorder(
             modifier = Modifier.matchParentSize(),
             alpha = borderAlpha,

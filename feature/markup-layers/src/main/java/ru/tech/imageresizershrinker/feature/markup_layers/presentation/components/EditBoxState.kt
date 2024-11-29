@@ -16,9 +16,26 @@ class EditBoxState(
     scale: Float = 1f,
     rotation: Float = 0f,
     offset: Offset = Offset.Zero,
+    alpha: Float = 1f,
     isActive: Boolean = false,
     canvasSize: IntegerSize = IntegerSize.Zero
 ) {
+    fun copy(
+        scale: Float = this.scale,
+        rotation: Float = this.rotation,
+        offset: Offset = this.offset,
+        alpha: Float = this.alpha,
+        isActive: Boolean = this.isActive,
+        canvasSize: IntegerSize = this.canvasSize
+    ): EditBoxState = EditBoxState(
+        scale = scale,
+        rotation = rotation,
+        offset = offset,
+        alpha = alpha,
+        isActive = isActive,
+        canvasSize = canvasSize
+    )
+
     var isActive by mutableStateOf(isActive)
         internal set
 
@@ -63,6 +80,9 @@ class EditBoxState(
         internal set
 
     var offset by mutableStateOf(offset)
+        internal set
+
+    var alpha by mutableFloatStateOf(alpha)
         internal set
 
     private val _canvasSize = mutableStateOf(IntegerSize.Zero)

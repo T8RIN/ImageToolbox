@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,6 +42,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
@@ -74,6 +77,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -89,11 +93,13 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import ru.tech.imageresizershrinker.core.data.utils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
@@ -112,9 +118,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedDropdownMenu
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
@@ -126,7 +134,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.AddTextLayerDialog
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.AnimatedBorder
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.Layer
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.LayerContent
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
@@ -229,6 +239,7 @@ fun MarkupLayersContent(
         shouldDisableBackHandler = component.backgroundBehavior is BackgroundBehavior.None,
         actions = {
             val layerImagePicker = rememberImagePicker { uri: Uri ->
+                component.deactivateAllLayers()
                 component.addLayer(
                     UiMarkupLayer(
                         type = LayerType.Image(uri)
@@ -237,6 +248,72 @@ fun MarkupLayersContent(
             }
             var showTextEnteringDialog by rememberSaveable {
                 mutableStateOf(false)
+            }
+            var showLayersSelection by rememberSaveable {
+                mutableStateOf(false)
+            }
+
+            Box {
+                EnhancedIconButton(
+                    containerColor = takeColorFromScheme {
+                        if (showLayersSelection) tertiary
+                        else Color.Transparent
+                    },
+                    onClick = {
+                        showLayersSelection = !showLayersSelection
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Stacks,
+                        contentDescription = null
+                    )
+                }
+
+                EnhancedDropdownMenu(
+                    expanded = showLayersSelection,
+                    onDismissRequest = { showLayersSelection = false }
+                ) {
+                    component.layers.forEach { (type, state) ->
+                        BoxWithConstraints(
+                            modifier = Modifier
+                                .size(128.dp)
+                                .aspectRatio(bitmap.safeAspectRatio)
+                                .clip(
+                                    RoundedCornerShape(4.dp)
+                                )
+                                .transparencyChecker(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            val scope = this
+
+                            Box(
+                                modifier = Modifier.graphicsLayer(
+                                    scaleX = state.scale,
+                                    scaleY = state.scale,
+                                    rotationZ = state.rotation
+                                )
+                            ) {
+                                LayerContent(
+                                    modifier = Modifier.sizeIn(
+                                        maxWidth = scope.maxWidth,
+                                        maxHeight = scope.maxHeight
+                                    ),
+                                    type = type,
+                                    textFullSize = scope.constraints.run {
+                                        minOf(maxWidth, maxHeight)
+                                    }
+                                )
+                            }
+
+                            AnimatedBorder(
+                                modifier = Modifier.matchParentSize(),
+                                alpha = animateFloatAsState(if (state.isActive) 1f else 0f).value,
+                                scale = state.scale,
+                                shape = RoundedCornerShape(4.dp)
+                            )
+                        }
+                    }
+                }
             }
             EnhancedIconButton(
                 onClick = {
@@ -260,7 +337,10 @@ fun MarkupLayersContent(
             AddTextLayerDialog(
                 visible = showTextEnteringDialog,
                 onDismiss = { showTextEnteringDialog = false },
-                onAddLayer = component::addLayer
+                onAddLayer = {
+                    component.deactivateAllLayers()
+                    component.addLayer(it)
+                }
             )
         },
         topAppBarPersistentActions = { scaffoldState ->
