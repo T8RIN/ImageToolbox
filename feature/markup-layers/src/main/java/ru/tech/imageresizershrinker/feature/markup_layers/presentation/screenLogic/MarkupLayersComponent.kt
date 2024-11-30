@@ -192,7 +192,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     private suspend fun getDrawingBitmap(): Bitmap? = withContext(defaultDispatcher) {
-        null//TODO
+        null //TODO
     }
 
     override fun resetState() {
