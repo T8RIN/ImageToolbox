@@ -838,7 +838,7 @@
     <string name="lossy_compression">非可逆圧縮</string>
     <string name="lossy_compression_sub">ロスレス圧縮ではなく非可逆圧縮を使用してファイルサイズを縮小します</string>
     <string name="speed_sub">画像のデコード速度を制御します。この設定により、生成された画像をより速く開くことができるはずです。%1$dの値は最も遅いデコード速度を、%2$dは最も速いデコード速度を意味します。ただし、この設定を変更すると出力画像のサイズが大きくなる可能性があります。</string>
-    <string name="sorting">ソート</string>
+    <string name="sorting">並び替え</string>
     <string name="sort_by_date">日付順</string>
     <string name="sort_by_date_reversed">日付順(逆)</string>
     <string name="svg_warning">このツールを画像を縮小せずに大きなままで使用することは推奨されません。クラッシュを引き起こし、処理時間が長くなる可能性があります。</string>
