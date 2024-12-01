@@ -88,12 +88,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
+import androidx.compose.ui.window.PopupProperties
 import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import ru.tech.imageresizershrinker.core.data.utils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.resources.icons.Stacks
@@ -271,13 +271,13 @@ fun MarkupLayersContent(
 
                 EnhancedDropdownMenu(
                     expanded = showLayersSelection,
-                    onDismissRequest = { showLayersSelection = false }
+                    onDismissRequest = { },
+                    properties = PopupProperties(dismissOnClickOutside = false)
                 ) {
                     component.layers.forEach { (type, state) ->
                         BoxWithConstraints(
                             modifier = Modifier
                                 .size(128.dp)
-                                .aspectRatio(bitmap.safeAspectRatio)
                                 .clip(
                                     RoundedCornerShape(4.dp)
                                 )
