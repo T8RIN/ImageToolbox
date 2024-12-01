@@ -1470,4 +1470,20 @@
     <string name="fancy">Schick</string>
     <string name="material_2_sub">Auf Material 2 basierender Schieberegler, nicht modern, einfach und geradlinig</string>
     <string name="apply">Anwenden</string>
+    <string name="center_align_dialog_buttons_sub">Schaltflächen der Dialoge werden nach Möglichkeit in der Mitte statt links positioniert</string>
+    <string name="markup_layers">Markup-Ebenen</string>
+    <string name="markup_layers_sub">Ebenenmodus mit der Möglichkeit, Bilder, Text und mehr frei zu platzieren</string>
+    <string name="layers_on_image_sub">Bild als Hintergrund verwenden und verschiedene Ebenen darüber legen</string>
+    <string name="layers_on_image">Ebenen auf dem Bild</string>
+    <string name="center_align_dialog_buttons">Dialogschaltflächen zentrieren</string>
+    <string name="open_source_licenses">Open Source Lizenzen</string>
+    <string name="open_source_licenses_sub">Lizenzen der in dieser App verwendeten Open Source Bibliotheken anzeigen</string>
+    <string name="enter_percent">Eingabe %</string>
+    <string name="unknown_host">Auf Website kann nicht zugegriffen werden, versuche es mit VPN oder überprüfe, ob die URL korrekt ist</string>
+    <string name="edit_layer">Ebene bearbeiten</string>
+    <string name="layers_on_background">Ebenen auf dem Hintergrund</string>
+    <string name="layers_on_background_sub">Das selbe wie bei der ersten Option, aber mit Farbe statt Bild</string>
+    <string name="area">Bereich</string>
+    <string name="area_sub">Resampling unter Verwendung des Pixelflächenverhältnisses. Diese Methode kann bei der Bilddezimierung bevorzugt werden, da sie moirefreie Ergebnisse liefert. Wenn das Bild jedoch gezoomt wird, ähnelt sie der „Nähesten“-Methode.</string>
+    <string name="enable_tonemapping">Tonemapping einschalten</string>
 </resources>
