@@ -150,7 +150,7 @@ fun UiSettingsState.isFirstLaunch(
 fun SettingsState.toUiState(
     allEmojis: ImmutableList<Uri>,
     allIconShapes: ImmutableList<IconShape>,
-    getEmojiColorTuple: suspend (String) -> ColorTuple?,
+    onGetEmojiColorTuple: suspend (String) -> ColorTuple?,
     randomEmojiKey: Any? = null,
 ): UiSettingsState {
     val context = LocalContext.current
@@ -181,7 +181,7 @@ fun SettingsState.toUiState(
             if (useEmojiAsPrimaryColor) {
                 scope.launch {
                     selectedEmojiIndex?.let {
-                        emojiColorTuple = getEmojiColorTuple(
+                        emojiColorTuple = onGetEmojiColorTuple(
                             allEmojis[it].toString()
                         )
                     }

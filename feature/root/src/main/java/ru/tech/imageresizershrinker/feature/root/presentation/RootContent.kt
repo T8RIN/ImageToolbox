@@ -61,7 +61,7 @@ fun RootContent(
             allEmojis = Emoji.allIcons(),
             allIconShapes = IconShapeDefaults.shapes,
             randomEmojiKey = randomEmojiKey,
-            getEmojiColorTuple = component::getColorTupleFromEmoji
+            onGetEmojiColorTuple = component::getColorTupleFromEmoji
         ),
         toastHostState = component.toastHostState,
         simpleSettingsInteractor = component.simpleSettingsInteractor

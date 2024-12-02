@@ -69,7 +69,7 @@ class MediaPickerActivity : M3Activity() {
                 settingsState = component.settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
                     allIconShapes = IconShapeDefaults.shapes,
-                    getEmojiColorTuple = component::getColorTupleFromEmoji
+                    onGetEmojiColorTuple = component::getColorTupleFromEmoji
                 )
             ) {
                 ImageToolboxThemeSurface {

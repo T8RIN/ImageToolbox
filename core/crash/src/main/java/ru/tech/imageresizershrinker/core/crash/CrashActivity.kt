@@ -115,7 +115,7 @@ class CrashActivity : CrashHandler() {
                 settingsState = getSettingsState().toUiState(
                     allEmojis = Emoji.allIcons(),
                     allIconShapes = IconShapeDefaults.shapes,
-                    getEmojiColorTuple = ::getColorTupleFromEmoji
+                    onGetEmojiColorTuple = ::getColorTupleFromEmoji
                 )
             ) {
                 val toastHostState = LocalToastHostState.current
