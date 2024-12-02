@@ -325,7 +325,6 @@ class RootComponent @AssistedInject internal constructor(
     fun toggleAllowBetas() {
         componentScope.launch {
             settingsManager.toggleAllowBetas()
-            tryGetUpdate(isNewRequest = true)
         }
     }
 

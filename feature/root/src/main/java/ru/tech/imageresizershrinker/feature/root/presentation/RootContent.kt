@@ -52,7 +52,9 @@ fun RootContent(
         randomEmojiKey++
     }
 
-    SideEffect(effect = component::tryGetUpdate)
+    if (component.settingsState.appOpenCount >= 2) {
+        SideEffect(effect = component::tryGetUpdate)
+    }
 
     ImageToolboxCompositionLocals(
         settingsState = component.settingsState.toUiState(
