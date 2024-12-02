@@ -11,7 +11,7 @@ jvmTarget = "17"
 imageToolboxLibs = "3.2.5"
 trickle = "1.2.2"
 
-avifCoder = "2.0.9"
+avifCoder = "2.0.10"
 avifCoderCoil = "2.0.9.1"
 aire = "0.15.5"
 jxlCoder = "2.4.0.5"
