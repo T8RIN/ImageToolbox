@@ -18,7 +18,7 @@ jxlCoder = "2.4.0.5"
 jxlCoderCoil = "2.4.0.6"
 jpegliCoder = "1.0.1"
 
-tesseract = "4.7.0"
+tesseract = "4.8.0"
 material3 = "1.4.0-alpha04"
 composeVersion = "1.8.0-alpha06"
 materialIconsExtended = "1.7.5"
