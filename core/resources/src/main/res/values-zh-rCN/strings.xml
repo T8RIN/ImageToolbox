@@ -1486,4 +1486,5 @@
     <string name="markup_layers_sub">图层模式，可自由放置图像、文本等内容</string>
     <string name="layers_on_image">图片上的图层</string>
     <string name="layers_on_background">背景图层</string>
+    <string name="beta">Beta</string>
 </resources>
