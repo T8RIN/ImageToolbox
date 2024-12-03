@@ -235,10 +235,6 @@ fun MainContent(
             }
         }
 
-        val snowFallList = Screen.entries.mapNotNull { screen ->
-            screen.icon?.let { rememberVectorPainter(image = it) }
-        }
-        val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
         AnimatedVisibility(
             visible = showSnowfall,
             modifier = Modifier
@@ -246,6 +242,10 @@ fun MainContent(
             enter = fadeIn(tween(1000)) + slideInVertically(tween(1000)) { -it / 4 },
             exit = fadeOut(tween(1000)) + slideOutVertically(tween(1000)) { it / 4 }
         ) {
+            val snowFallList = Screen.entries.mapNotNull { screen ->
+                screen.icon?.let { rememberVectorPainter(image = it) }
+            }
+            val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
             Box(
                 modifier = Modifier
                     .fillMaxSize()
