@@ -89,7 +89,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
-import androidx.compose.ui.window.PopupProperties
 import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
@@ -274,8 +273,7 @@ fun MarkupLayersContent(
 
                 EnhancedDropdownMenu(
                     expanded = showLayersSelection,
-                    onDismissRequest = { },
-                    properties = PopupProperties(dismissOnClickOutside = false)
+                    onDismissRequest = { showLayersSelection = false }
                 ) {
                     component.layers.forEach { (type, state) ->
                         val density = LocalDensity.current
@@ -290,30 +288,38 @@ fun MarkupLayersContent(
                                 )
                             }
                         }
-                        BoxWithConstraints(
+                        Box(
                             modifier = Modifier
-                                .size(size)
+                                .size(128.dp)
                                 .clip(RoundedCornerShape(4.dp))
-                                .transparencyChecker(),
-                            contentAlignment = Alignment.Center
+                                .transparencyChecker()
                         ) {
-                            val scope = this
-
-                            Box(
-                                modifier = Modifier.graphicsLayer(
-                                    rotationZ = state.rotation
-                                )
+                            BoxWithConstraints(
+                                modifier = Modifier
+                                    .size(size)
+                                    .padding(4.dp),
+                                contentAlignment = Alignment.Center
                             ) {
-                                LayerContent(
-                                    modifier = Modifier.sizeIn(
-                                        maxWidth = scope.maxWidth,
-                                        maxHeight = scope.maxHeight
-                                    ),
-                                    type = type,
-                                    textFullSize = scope.constraints.run {
-                                        minOf(maxWidth * 5f, maxHeight * 5f).roundToInt()
-                                    }
-                                )
+                                val scope = this
+
+                                Box(
+                                    modifier = Modifier
+                                        .graphicsLayer(
+                                            rotationZ = state.rotation
+                                        )
+                                        .padding(6.dp)
+                                ) {
+                                    LayerContent(
+                                        modifier = Modifier.sizeIn(
+                                            maxWidth = scope.maxWidth,
+                                            maxHeight = scope.maxHeight
+                                        ),
+                                        type = type,
+                                        textFullSize = scope.constraints.run {
+                                            minOf(maxWidth * 5f, maxHeight * 5f).roundToInt()
+                                        }
+                                    )
+                                }
                             }
 
                             AnimatedBorder(

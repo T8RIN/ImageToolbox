@@ -85,7 +85,8 @@ internal fun LayerContent(
                         color = type.backgroundColor.toColor(),
                         shape = RoundedCornerShape(3.dp)
                     )
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                maxLines = type.text.count { it == '\n' }.takeIf { it > 0 } ?: 1
             )
         }
     }

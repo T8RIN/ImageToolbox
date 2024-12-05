@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
@@ -79,7 +80,7 @@ internal fun EditLayerSheet(
         }
     ) {
         Column(
-            modifier = Modifier.Companion
+            modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
@@ -106,13 +107,15 @@ internal fun EditLayerSheet(
                             isError = false,
                             containerColor = SafeLocalContainerColor
                         ),
-                        modifier = Modifier.Companion.container(
+                        modifier = Modifier.container(
                             shape = ContainerShapeDefaults.defaultShape,
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 8.dp
-                        )
+                        ),
+                        keyboardOptions = KeyboardOptions(),
+                        singleLine = false
                     )
-                    Spacer(Modifier.Companion.height(8.dp))
+                    Spacer(Modifier.height(8.dp))
                     FontResSelector(
                         fontRes = type.font,
                         onValueChange = {
@@ -127,7 +130,7 @@ internal fun EditLayerSheet(
                         shape = ContainerShapeDefaults.topShape,
                         color = MaterialTheme.colorScheme.surface
                     )
-                    Spacer(modifier = Modifier.Companion.height(4.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     EnhancedSliderItem(
                         value = type.size,
                         title = stringResource(R.string.font_scale),
@@ -145,7 +148,7 @@ internal fun EditLayerSheet(
                         shape = ContainerShapeDefaults.centerShape,
                         color = MaterialTheme.colorScheme.surface
                     )
-                    Spacer(modifier = Modifier.Companion.height(4.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     ColorRowSelector(
                         value = type.backgroundColor.toColor(),
                         onValueChange = {
@@ -159,12 +162,12 @@ internal fun EditLayerSheet(
                         },
                         title = stringResource(R.string.background_color),
                         titleFontWeight = FontWeight.Companion.Medium,
-                        modifier = Modifier.Companion.container(
+                        modifier = Modifier.container(
                             shape = ContainerShapeDefaults.centerShape,
                             color = MaterialTheme.colorScheme.surface
                         )
                     )
-                    Spacer(modifier = Modifier.Companion.height(4.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     ColorRowSelector(
                         value = type.color.toColor(),
                         onValueChange = {
@@ -178,7 +181,7 @@ internal fun EditLayerSheet(
                         },
                         title = stringResource(R.string.text_color),
                         titleFontWeight = FontWeight.Companion.Medium,
-                        modifier = Modifier.Companion.container(
+                        modifier = Modifier.container(
                             shape = ContainerShapeDefaults.bottomShape,
                             color = MaterialTheme.colorScheme.surface
                         )
