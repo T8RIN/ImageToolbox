@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.screenLogic
 
 import android.net.Uri
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.Value
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -41,7 +42,7 @@ class MainComponent @AssistedInject internal constructor(
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     val settingsComponent = settingsComponentFactory(
-        componentContext = componentContext,
+        componentContext = childContext("mainSettings"),
         onTryGetUpdate = onTryGetUpdate,
         onNavigate = onNavigate,
         isUpdateAvailable = isUpdateAvailable,

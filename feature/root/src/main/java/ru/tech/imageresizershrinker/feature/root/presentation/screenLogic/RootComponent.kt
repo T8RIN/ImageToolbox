@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
@@ -37,9 +38,12 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
@@ -60,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.ChildProvider
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
 import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.BackEventObserver
+import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -70,7 +75,24 @@ class RootComponent @AssistedInject internal constructor(
     private val childProvider: ChildProvider,
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
+    settingsComponentFactory: SettingsComponent.Factory,
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    private val _isUpdateAvailable: MutableValue<Boolean> = MutableValue(false)
+    val isUpdateAvailable: Value<Boolean> = _isUpdateAvailable
+
+    private val _concealBackdropChannel: Channel<Boolean> = Channel(Channel.BUFFERED)
+    val concealBackdropFlow: Flow<Boolean> = _concealBackdropChannel.receiveAsFlow()
+
+    val settingsComponent = settingsComponentFactory(
+        componentContext = childContext("rootSettings"),
+        onTryGetUpdate = ::tryGetUpdate,
+        onNavigate = ::navigateTo,
+        isUpdateAvailable = isUpdateAvailable,
+        onGoBack = {
+            _concealBackdropChannel.trySend(true)
+        }
+    )
 
     val simpleSettingsInteractor: SimpleSettingsInteractor =
         settingsManager.toSimpleSettingsInteractor()
@@ -108,9 +130,6 @@ class RootComponent @AssistedInject internal constructor(
 
     private val _showUpdateDialog = mutableStateOf(false)
     val showUpdateDialog by _showUpdateDialog
-
-    private val _isUpdateAvailable: MutableValue<Boolean> = MutableValue(false)
-    val isUpdateAvailable: Value<Boolean> = _isUpdateAvailable
 
     private val _isUpdateCancelled = mutableStateOf(false)
 

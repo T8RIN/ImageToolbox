@@ -247,14 +247,14 @@ fun SettingsContent(
                         showSearch = false
                         searchKeyword = ""
                     }
-                } else if (component.onGoBack != null) {
+                } else if (component.onGoBack != null || showSearch) {
                     EnhancedIconButton(
                         onClick = {
                             if (showSearch) {
                                 showSearch = false
                                 searchKeyword = ""
                             } else {
-                                component.onGoBack()
+                                component.onGoBack?.invoke()
                             }
                         },
                         containerColor = Color.Transparent
