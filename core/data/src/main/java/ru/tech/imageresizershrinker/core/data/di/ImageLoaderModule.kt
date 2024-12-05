@@ -27,6 +27,8 @@ import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
 import coil3.imageLoader
 import coil3.request.allowHardware
+import coil3.request.maxBitmapSize
+import coil3.size.Size
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 import coil3.util.Logger
@@ -66,6 +68,7 @@ internal object ImageLoaderModule {
         .decoderCoroutineContext(dispatchersHolder.decodingDispatcher)
         .fetcherCoroutineContext(dispatchersHolder.ioDispatcher)
         .allowHardware(false)
+        .maxBitmapSize(Size.ORIGINAL)
         .logger(logger)
         .build()
         .also(SingletonImageLoader::setUnsafe)

@@ -86,6 +86,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.window.PopupProperties
@@ -139,6 +140,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.LayerContent
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.rotateBy
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
 @Composable
@@ -275,12 +277,22 @@ fun MarkupLayersContent(
                     properties = PopupProperties(dismissOnClickOutside = false)
                 ) {
                     component.layers.forEach { (type, state) ->
+                        val density = LocalDensity.current
+                        val size by remember(state.rotation, density) {
+                            derivedStateOf {
+                                DpSize(
+                                    width = 128.dp,
+                                    height = 128.dp
+                                ).rotateBy(
+                                    degrees = state.rotation,
+                                    density = density
+                                )
+                            }
+                        }
                         BoxWithConstraints(
                             modifier = Modifier
-                                .size(128.dp)
-                                .clip(
-                                    RoundedCornerShape(4.dp)
-                                )
+                                .size(size)
+                                .clip(RoundedCornerShape(4.dp))
                                 .transparencyChecker(),
                             contentAlignment = Alignment.Center
                         ) {
@@ -288,8 +300,6 @@ fun MarkupLayersContent(
 
                             Box(
                                 modifier = Modifier.graphicsLayer(
-                                    scaleX = state.scale,
-                                    scaleY = state.scale,
                                     rotationZ = state.rotation
                                 )
                             ) {

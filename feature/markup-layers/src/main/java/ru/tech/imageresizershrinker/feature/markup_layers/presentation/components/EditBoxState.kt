@@ -3,6 +3,8 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.util.fastCoerceIn
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -112,6 +114,15 @@ class EditBoxState(
             }
         }
         _canvasSize.value = value
+    }
+}
+
+internal fun DpSize.rotateBy(
+    degrees: Float,
+    density: Density
+): DpSize = with(density) {
+    IntSize(width.roundToPx(), height.roundToPx()).rotateBy(degrees).run {
+        DpSize(width.toDp(), height.toDp())
     }
 }
 

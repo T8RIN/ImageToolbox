@@ -90,7 +90,7 @@ object ContainerShapeDefaults {
     val defaultShape = RoundedCornerShape(16.dp)
 }
 
-private val CornerSize.dp: Dp
+val CornerSize.dp: Dp
     @Composable
     get() = with(LocalDensity.current) { toPx(Size.Unspecified, this).toDp() }
 

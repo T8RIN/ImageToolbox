@@ -20,9 +20,9 @@ package ru.tech.imageresizershrinker.feature.root.presentation.components
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.rememberBackdropScaffoldState
@@ -35,9 +35,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -58,7 +58,7 @@ internal fun SettingsBackdropWrapper(
     settingsComponent: SettingsComponent,
     children: @Composable () -> Unit
 ) {
-    var shape by remember { mutableStateOf<Shape>(RectangleShape) }
+    var shape by remember { mutableStateOf<RoundedCornerShape>(RoundedCornerShape(0.dp)) }
     val scaffoldState = rememberBackdropScaffoldState(
         initialValue = BackdropValue.Concealed,
         animationSpec = tween(
@@ -104,19 +104,19 @@ internal fun SettingsBackdropWrapper(
         },
         appBar = {},
         frontLayerContent = {
+            val alpha by animateFloatAsState(
+                if (scaffoldState.targetValue == BackdropValue.Revealed) 1f else 0f
+            )
+            val color = MaterialTheme.colorScheme.scrim.copy(alpha / 2f)
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .drawWithContent {
+                        drawContent()
+                        drawRect(color)
+                    }
             ) {
                 children()
-
-                val alpha by animateFloatAsState(
-                    if (scaffoldState.targetValue == BackdropValue.Revealed) 1f else 0f
-                )
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.scrim.copy(alpha / 2f))
-                )
 
                 EnhancedModalSheetDragHandle(
                     color = Color.Transparent,
@@ -126,7 +126,7 @@ internal fun SettingsBackdropWrapper(
             }
         },
         backLayerContent = {
-            if (scaffoldState.isRevealed) {
+            if (scaffoldState.targetValue == BackdropValue.Revealed) {
                 PredictiveBackHandler { progress ->
                     try {
                         progress.collect { event ->
@@ -154,12 +154,14 @@ internal fun SettingsBackdropWrapper(
             }
         },
         peekHeight = 0.dp,
-        headerHeight = 72.dp,
+        headerHeight = 70.dp,
         persistentAppBar = false,
-        backLayerBackgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        frontLayerElevation = 0.dp,
+        backLayerBackgroundColor = MaterialTheme.colorScheme.scrim.copy(0.5f)
+            .compositeOver(MaterialTheme.colorScheme.surfaceContainer),
         frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
         frontLayerScrimColor = Color.Transparent,
         frontLayerShape = shape,
-        gesturesEnabled = canExpandSettings
+        gesturesEnabled = false //canExpandSettings
     )
 }
