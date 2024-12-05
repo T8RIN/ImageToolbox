@@ -142,6 +142,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.rotateBy
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
+import kotlin.math.roundToInt
 
 @Composable
 fun MarkupLayersContent(
@@ -310,7 +311,7 @@ fun MarkupLayersContent(
                                     ),
                                     type = type,
                                     textFullSize = scope.constraints.run {
-                                        minOf(maxWidth, maxHeight)
+                                        minOf(maxWidth * 5f, maxHeight * 5f).roundToInt()
                                     }
                                 )
                             }
