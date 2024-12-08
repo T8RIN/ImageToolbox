@@ -253,7 +253,6 @@ internal fun FilterTemplateCreationSheet(
                         imageState = it
                     },
                     padding = 0.dp,
-                    imageModifier = Modifier.padding(bottom = 24.dp),
                     backgroundColor = backgroundColor,
                     imageBlock = preview
                 )
@@ -268,6 +267,7 @@ internal fun FilterTemplateCreationSheet(
                             modifier = Modifier.padding(horizontal = 16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+                            Spacer(Modifier.height(16.dp))
                             ImageSelector(
                                 value = selectedUri ?: previewModel.data,
                                 onValueChange = { selectedUri = it },

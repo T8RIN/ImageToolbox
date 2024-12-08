@@ -22,13 +22,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExtensionOff
 import androidx.compose.material3.Icon
@@ -74,43 +75,36 @@ internal fun TemplatesContent(
     ) { noTemplates ->
         if (noTemplates) {
             Column(
-                modifier = Modifier.Companion
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5f),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Spacer(Modifier.Companion.weight(1f))
+                Spacer(Modifier.weight(1f))
                 Text(
                     text = stringResource(R.string.no_template_filters),
                     fontSize = 18.sp,
-                    textAlign = TextAlign.Companion.Center,
-                    modifier = Modifier.Companion.padding(
-                        start = 24.dp,
-                        end = 24.dp,
-                        top = 8.dp,
-                        bottom = 16.dp
-                    )
+                    textAlign = TextAlign.Center
                 )
+                Spacer(Modifier.height(16.dp))
                 Icon(
                     imageVector = Icons.Outlined.ExtensionOff,
                     contentDescription = null,
-                    modifier = Modifier.Companion
-                        .weight(2f)
-                        .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                        .fillMaxSize()
+                    modifier = Modifier.size(128.dp)
                 )
                 FilterTemplateAddingGroup(
                     onAddTemplateFilterFromString = component::addTemplateFilterFromString,
                     onAddTemplateFilterFromUri = component::addTemplateFilterFromUri,
                     component = filterTemplateCreationSheetComponent
                 )
-                Spacer(Modifier.Companion.weight(1f))
+                Spacer(Modifier.weight(1f))
             }
         } else {
             LazyColumn(
                 state = rememberForeverLazyListState("templates"),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(16.dp)
             ) {
@@ -137,7 +131,7 @@ internal fun TemplatesContent(
                             index = index,
                             size = templateFilters.size
                         ),
-                        modifier = Modifier.Companion.animateItem(),
+                        modifier = Modifier.animateItem(),
                         previewModel = previewModel
                     )
                     FilterTemplateInfoSheet(
