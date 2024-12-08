@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -36,7 +37,6 @@ import coil3.request.ImageRequest
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
-import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 
 @Composable
@@ -77,7 +77,7 @@ internal fun LayerContent(
                     )
                 }
             }
-            AutoSizeText(
+            Text(
                 text = type.text,
                 style = mergedStyle,
                 modifier = Modifier
@@ -85,8 +85,7 @@ internal fun LayerContent(
                         color = type.backgroundColor.toColor(),
                         shape = RoundedCornerShape(3.dp)
                     )
-                    .padding(horizontal = 12.dp, vertical = 8.dp),
-                maxLines = type.text.count { it == '\n' }.takeIf { it > 0 } ?: 1
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
             )
         }
     }

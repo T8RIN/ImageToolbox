@@ -324,8 +324,8 @@ fun AddEditMaskSheet(
                     onStateChange = {
                         imageState = it
                     },
+                    isControlsVisibleIndefinitely = true,
                     padding = 0.dp,
-                    imageModifier = Modifier.padding(bottom = 24.dp),
                     backgroundColor = backgroundColor,
                     imageBlock = drawPreview
                 )

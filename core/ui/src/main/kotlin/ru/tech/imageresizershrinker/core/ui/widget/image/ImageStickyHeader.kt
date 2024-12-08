@@ -59,6 +59,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -72,6 +73,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
+import com.smarttoolfactory.gesture.PointerRequisite
 import com.smarttoolfactory.gesture.detectPointerTransformGestures
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
@@ -82,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import kotlin.math.abs
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.imageStickyHeader(
@@ -91,6 +94,7 @@ fun LazyListScope.imageStickyHeader(
     onStateChange: (ImageHeaderState) -> Unit,
     backgroundColor: Color = Color.Unspecified,
     padding: Dp = 20.dp,
+    isControlsVisibleIndefinitely: Boolean = false,
     onGloballyPositioned: (LayoutCoordinates) -> Unit = {},
     imageModifier: Modifier = Modifier,
     imageBlock: @Composable () -> Unit,
@@ -107,7 +111,7 @@ fun LazyListScope.imageStickyHeader(
         LaunchedEffect(controlsVisible, interactions) {
             if (controlsVisible && !(interactions is DragInteraction.Start || interactions is PressInteraction.Press)) {
                 delay(2500)
-                controlsVisible = false
+                controlsVisible = isControlsVisibleIndefinitely
             }
         }
 
@@ -129,11 +133,15 @@ fun LazyListScope.imageStickyHeader(
                         result.place(0, 0)
                     }
                 }
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        controlsVisible = true
-                    }
-                }
+                .then(
+                    if (!isControlsVisibleIndefinitely) {
+                        Modifier.pointerInput(Unit) {
+                            detectTapGestures {
+                                controlsVisible = true
+                            }
+                        }
+                    } else Modifier
+                )
                 .onGloballyPositioned(onGloballyPositioned)
                 .animateContentSize()
         ) {
@@ -172,16 +180,28 @@ fun LazyListScope.imageStickyHeader(
                     modifier = Modifier
                         .weight(1f, false)
                         .then(imageModifier)
-                        .pointerInput(Unit) {
-                            detectPointerTransformGestures(
-                                consume = false,
-                                onGestureEnd = {},
-                                onGestureStart = {
-                                    controlsVisible = true
-                                },
-                                onGesture = { _, _, _, _, _, _ -> }
-                            )
-                        }
+                        .then(
+                            if (!isControlsVisibleIndefinitely) {
+                                Modifier.pointerInput(Unit) {
+                                    var touchPointerOffset = Offset.Zero
+                                    detectPointerTransformGestures(
+                                        consume = false,
+                                        onGestureEnd = {
+                                            val diff = touchPointerOffset - it.position
+                                            if (abs(diff.x) < 10f && abs(diff.y) < 10f) {
+                                                controlsVisible = true
+                                                it.consume()
+                                            }
+                                        },
+                                        requisite = PointerRequisite.EqualTo,
+                                        onGestureStart = {
+                                            touchPointerOffset = it.position
+                                        },
+                                        onGesture = { _, _, _, _, _, _ -> }
+                                    )
+                                }
+                            } else Modifier
+                        )
                 ) {
                     imageBlock()
                 }
@@ -193,7 +213,7 @@ fun LazyListScope.imageStickyHeader(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(0.7f)
-                            .padding(top = 12.dp),
+                            .padding(vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         EnhancedSlider(

@@ -23,6 +23,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -141,6 +142,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.rotateBy
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Composable
@@ -275,59 +277,79 @@ fun MarkupLayersContent(
                     expanded = showLayersSelection,
                     onDismissRequest = { showLayersSelection = false }
                 ) {
-                    component.layers.forEach { (type, state) ->
-                        val density = LocalDensity.current
-                        val size by remember(state.rotation, density) {
-                            derivedStateOf {
-                                DpSize(
-                                    width = 128.dp,
-                                    height = 128.dp
-                                ).rotateBy(
-                                    degrees = state.rotation,
-                                    density = density
-                                )
-                            }
-                        }
-                        Box(
-                            modifier = Modifier
-                                .size(128.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .transparencyChecker()
-                        ) {
-                            BoxWithConstraints(
-                                modifier = Modifier
-                                    .size(size)
-                                    .padding(4.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                val scope = this
+                    Column(
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ) {
+                        component.layers.forEach { layer ->
+                            val (type, state) = layer
 
-                                Box(
-                                    modifier = Modifier
-                                        .graphicsLayer(
-                                            rotationZ = state.rotation
-                                        )
-                                        .padding(6.dp)
-                                ) {
-                                    LayerContent(
-                                        modifier = Modifier.sizeIn(
-                                            maxWidth = scope.maxWidth,
-                                            maxHeight = scope.maxHeight
-                                        ),
-                                        type = type,
-                                        textFullSize = scope.constraints.run {
-                                            minOf(maxWidth * 5f, maxHeight * 5f).roundToInt()
-                                        }
+                            val density = LocalDensity.current
+                            val size by remember(state.rotation, density) {
+                                derivedStateOf {
+                                    DpSize(
+                                        width = 128.dp,
+                                        height = 128.dp
+                                    ).rotateBy(
+                                        degrees = state.rotation,
+                                        density = density
                                     )
                                 }
                             }
+                            Box(
+                                modifier = Modifier
+                                    .size(128.dp)
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .transparencyChecker()
+                                    .clickable {
+                                        component.activateLayer(layer)
+                                    }
+                            ) {
+                                BoxWithConstraints(
+                                    modifier = Modifier
+                                        .size(size)
+                                        .padding(4.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    val scope = this
 
-                            AnimatedBorder(
-                                modifier = Modifier.matchParentSize(),
-                                alpha = animateFloatAsState(if (state.isActive) 1f else 0f).value,
-                                scale = state.scale,
-                                shape = RoundedCornerShape(4.dp)
-                            )
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(
+                                                if (type is LayerType.Image) {
+                                                    val rounded = abs(state.rotation.roundToInt())
+                                                    if (rounded % 90 == 0) {
+                                                        0.dp
+                                                    } else {
+                                                        12.dp * (rounded % 360) / 360f
+                                                    }
+                                                } else {
+                                                    0.dp
+                                                }
+                                            )
+                                            .graphicsLayer(
+                                                rotationZ = state.rotation
+                                            )
+                                    ) {
+                                        LayerContent(
+                                            modifier = Modifier.sizeIn(
+                                                maxWidth = scope.maxWidth,
+                                                maxHeight = scope.maxHeight
+                                            ),
+                                            type = type,
+                                            textFullSize = scope.constraints.run {
+                                                minOf(maxWidth * 5f, maxHeight * 5f).roundToInt()
+                                            }
+                                        )
+                                    }
+                                }
+
+                                AnimatedBorder(
+                                    modifier = Modifier.matchParentSize(),
+                                    alpha = animateFloatAsState(if (state.isActive) 1f else 0f).value,
+                                    scale = 1f,
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                            }
                         }
                     }
                 }
