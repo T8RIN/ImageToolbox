@@ -36,12 +36,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.gesture.PointerRequisite
+import com.smarttoolfactory.gesture.detectPointerTransformGestures
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
@@ -50,6 +55,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.math.abs
 
 @Composable
 internal fun SettingsBackdropWrapper(
@@ -108,6 +114,7 @@ internal fun SettingsBackdropWrapper(
                 if (scaffoldState.targetValue == BackdropValue.Revealed) 1f else 0f
             )
             val color = MaterialTheme.colorScheme.scrim.copy(alpha / 2f)
+            val scope = rememberCoroutineScope()
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -115,6 +122,32 @@ internal fun SettingsBackdropWrapper(
                         drawContent()
                         drawRect(color)
                     }
+                    .then(
+                        if (canExpandSettings) {
+                            Modifier.pointerInput(Unit) {
+                                var touchPointerOffset = Offset.Zero
+                                detectPointerTransformGestures(
+                                    consume = false,
+                                    onGestureEnd = {
+                                        val diff = touchPointerOffset - it.position
+                                        if (abs(diff.x) < 10f && abs(diff.y) < 10f) {
+                                            it.consume()
+                                            scope.launch {
+                                                if (scaffoldState.isConcealed) scaffoldState.reveal()
+                                                else scaffoldState.conceal()
+                                            }
+                                        }
+                                    },
+                                    numberOfPointers = 3,
+                                    requisite = PointerRequisite.EqualTo,
+                                    onGestureStart = {
+                                        touchPointerOffset = it.position
+                                    },
+                                    onGesture = { _, _, _, _, _, _ -> }
+                                )
+                            }
+                        } else Modifier
+                    )
             ) {
                 children()
 
@@ -162,6 +195,6 @@ internal fun SettingsBackdropWrapper(
         frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
         frontLayerScrimColor = Color.Transparent,
         frontLayerShape = shape,
-        gesturesEnabled = false //canExpandSettings
+        gesturesEnabled = scaffoldState.isRevealed
     )
 }
