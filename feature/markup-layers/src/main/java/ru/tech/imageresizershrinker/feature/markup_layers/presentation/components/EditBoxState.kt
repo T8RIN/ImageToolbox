@@ -41,6 +41,9 @@ class EditBoxState(
     var isActive by mutableStateOf(isActive)
         internal set
 
+    var isInEditMode by mutableStateOf(false)
+        internal set
+
     fun activate() {
         isActive = true
     }

@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -54,6 +55,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.Tune
@@ -265,7 +268,8 @@ fun MarkupLayersContent(
                     },
                     onClick = {
                         showLayersSelection = !showLayersSelection
-                    }
+                    },
+                    enabled = component.layers.isNotEmpty()
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Stacks,
@@ -280,6 +284,40 @@ fun MarkupLayersContent(
                     Column(
                         modifier = Modifier.padding(horizontal = 8.dp)
                     ) {
+                        val activeLayer by remember(component.layers) {
+                            derivedStateOf {
+                                component.layers.find { it.state.isActive }
+                            }
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            EnhancedIconButton(
+                                onClick = {
+                                    activeLayer?.let(component::removeLayer)
+                                },
+                                enabled = activeLayer != null
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Delete,
+                                    contentDescription = null
+                                )
+                            }
+                            Spacer(Modifier.weight(1f))
+                            EnhancedIconButton(
+                                onClick = {
+                                    activeLayer?.state?.isInEditMode = true
+                                    showLayersSelection = false
+                                },
+                                enabled = activeLayer != null
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Build,
+                                    contentDescription = null
+                                )
+                            }
+                        }
                         component.layers.forEach { layer ->
                             val (type, state) = layer
 
@@ -312,18 +350,15 @@ fun MarkupLayersContent(
                                 ) {
                                     val scope = this
 
+                                    val rounded = abs(state.rotation.roundToInt())
+
                                     Box(
                                         modifier = Modifier
                                             .padding(
-                                                if (type is LayerType.Image) {
-                                                    val rounded = abs(state.rotation.roundToInt())
-                                                    if (rounded % 90 == 0) {
-                                                        0.dp
-                                                    } else {
-                                                        12.dp * (rounded % 360) / 360f
-                                                    }
-                                                } else {
+                                                if (rounded % 90 == 0) {
                                                     0.dp
+                                                } else {
+                                                    12.dp * (rounded % 360) / 180f
                                                 }
                                             )
                                             .graphicsLayer(
@@ -337,7 +372,7 @@ fun MarkupLayersContent(
                                             ),
                                             type = type,
                                             textFullSize = scope.constraints.run {
-                                                minOf(maxWidth * 2f, maxHeight * 2f).roundToInt()
+                                                minOf(maxWidth, maxHeight)
                                             }
                                         )
                                     }

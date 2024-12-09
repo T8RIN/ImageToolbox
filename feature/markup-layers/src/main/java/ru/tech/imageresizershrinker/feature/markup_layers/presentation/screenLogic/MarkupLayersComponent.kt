@@ -278,6 +278,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
+    fun removeLayer(layer: UiMarkupLayer) {
+        _layers.update { it - layer }
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(

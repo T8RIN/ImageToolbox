@@ -85,7 +85,10 @@ internal fun LayerContent(
                         color = type.backgroundColor.toColor(),
                         shape = RoundedCornerShape(3.dp)
                     )
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .padding(
+                        horizontal = (textFullSize * type.size / 10).dp,
+                        vertical = (textFullSize * type.size / 12).dp
+                    )
             )
         }
     }

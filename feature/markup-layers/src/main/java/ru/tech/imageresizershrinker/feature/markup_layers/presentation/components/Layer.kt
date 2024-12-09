@@ -19,10 +19,7 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 
@@ -34,14 +31,11 @@ internal fun BoxWithConstraintsScope.Layer(
 ) {
     val type = layer.type
 
-    var showEditDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
     EditBox(
         state = layer.state,
         onTap = {
             if (layer.state.isActive) {
-                showEditDialog = true
+                layer.state.isInEditMode = true
             } else {
                 onActivate()
             }
@@ -59,8 +53,8 @@ internal fun BoxWithConstraintsScope.Layer(
     )
 
     EditLayerSheet(
-        visible = showEditDialog,
-        onDismiss = { showEditDialog = it },
+        visible = layer.state.isInEditMode,
+        onDismiss = { layer.state.isInEditMode = it },
         onUpdateLayer = onUpdateLayer,
         layer = layer
     )
