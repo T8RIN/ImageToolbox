@@ -44,6 +44,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -56,11 +58,29 @@ internal fun BoxScope.SettingsOpenButton(
     canExpandSettings: Boolean
 ) {
     val scope = rememberCoroutineScope()
+    val fastSettingsSide = LocalSettingsState.current.fastSettingsSide
+    val alignment = if (fastSettingsSide == FastSettingsSide.CenterStart) {
+        Alignment.CenterStart
+    } else {
+        Alignment.CenterEnd
+    }
+
+    val shape = if (fastSettingsSide == FastSettingsSide.CenterStart) {
+        RoundedCornerShape(
+            topEnd = 8.dp,
+            bottomEnd = 8.dp
+        )
+    } else {
+        RoundedCornerShape(
+            topStart = 8.dp,
+            bottomStart = 8.dp
+        )
+    }
 
     Surface(
-        color = Color.Companion.Transparent,
-        modifier = Modifier.Companion
-            .align(Alignment.Companion.CenterEnd)
+        color = Color.Transparent,
+        modifier = Modifier
+            .align(alignment)
             .size(
                 height = animateDpAsState(
                     if (isWantOpenSettings) 64.dp
@@ -93,8 +113,8 @@ internal fun BoxScope.SettingsOpenButton(
     ) {
         Box {
             Box(
-                modifier = Modifier.Companion
-                    .align(Alignment.Companion.CenterEnd)
+                modifier = Modifier
+                    .align(alignment)
                     .width(
                         animateDpAsState(
                             if (isWantOpenSettings) 48.dp
@@ -103,16 +123,13 @@ internal fun BoxScope.SettingsOpenButton(
                     )
                     .height(64.dp)
                     .container(
-                        shape = RoundedCornerShape(
-                            topStart = 8.dp,
-                            bottomStart = 8.dp
-                        ),
+                        shape = shape,
                         resultPadding = 0.dp,
                         color = takeColorFromScheme {
                             tertiary.blend(primary, 0.8f)
                         }
                     ),
-                contentAlignment = Alignment.Companion.Center
+                contentAlignment = Alignment.Center
             ) {
                 AnimatedVisibility(
                     visible = isWantOpenSettings,

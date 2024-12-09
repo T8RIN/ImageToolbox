@@ -81,6 +81,7 @@ fun PreferenceRow(
     onClick: (() -> Unit)?,
     onDisabledClick: (() -> Unit)? = null,
     autoShadowElevation: Dp = 1.dp,
+    additionalContent: (@Composable () -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     drawContainer: Boolean = true,
 ) {
@@ -99,27 +100,38 @@ fun PreferenceRow(
             ) else it
         }
     ) {
-        Row(
-            modifier = modifier
-                .then(
-                    if (applyHorizontalPadding) {
-                        Modifier.padding(horizontal = 16.dp)
-                    } else Modifier
-                )
-                .then(
-                    if (drawContainer) {
-                        Modifier.container(
-                            color = color,
-                            shape = shape,
-                            resultPadding = 0.dp,
-                            autoShadowElevation = autoShadowElevation
-                        )
-                    } else Modifier
-                )
-                .then(
-                    onClick
-                        ?.let {
-                            if (enabled) {
+        val rowModifier = modifier
+            .then(
+                if (applyHorizontalPadding) {
+                    Modifier.padding(horizontal = 16.dp)
+                } else Modifier
+            )
+            .then(
+                if (drawContainer) {
+                    Modifier.container(
+                        color = color,
+                        shape = shape,
+                        resultPadding = 0.dp,
+                        autoShadowElevation = autoShadowElevation
+                    )
+                } else Modifier
+            )
+            .then(
+                onClick
+                    ?.let {
+                        if (enabled) {
+                            Modifier.combinedClickable(
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current,
+                                onClick = {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
+                                    onClick()
+                                }
+                            )
+                        } else Modifier.then(
+                            if (onDisabledClick != null) {
                                 Modifier.combinedClickable(
                                     interactionSource = interactionSource,
                                     indication = LocalIndication.current,
@@ -127,81 +139,83 @@ fun PreferenceRow(
                                         haptics.performHapticFeedback(
                                             HapticFeedbackType.LongPress
                                         )
-                                        onClick()
+                                        onDisabledClick()
                                     }
                                 )
-                            } else Modifier.then(
-                                if (onDisabledClick != null) {
-                                    Modifier.combinedClickable(
-                                        interactionSource = interactionSource,
-                                        indication = LocalIndication.current,
-                                        onClick = {
-                                            haptics.performHapticFeedback(
-                                                HapticFeedbackType.LongPress
-                                            )
-                                            onDisabledClick()
-                                        }
-                                    )
-                                } else Modifier
-                            )
-                        } ?: Modifier
-                )
-                .then(resultModifier)
-                .then(
-                    if (changeAlphaWhenDisabled) Modifier.alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value)
-                    else Modifier
-                ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            startContent?.let { content ->
-                ProvideContainerDefaults(null) {
-                    if (drawStartIconContainer) {
-                        IconShapeContainer(
-                            enabled = true,
-                            content = {
-                                content()
-                            },
-                            modifier = Modifier.padding(end = 16.dp)
+                            } else Modifier
                         )
-                    } else content()
-                }
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                AnimatedContent(
-                    targetState = title,
-                    transitionSpec = {
-                        fadeIn().togetherWith(fadeOut())
+                    } ?: Modifier
+            )
+            .then(resultModifier)
+            .then(
+                if (changeAlphaWhenDisabled) Modifier.alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value)
+                else Modifier
+            )
+
+        val rowContent: @Composable (Modifier) -> Unit = {
+            Row(
+                modifier = it,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                startContent?.let { content ->
+                    ProvideContainerDefaults(null) {
+                        if (drawStartIconContainer) {
+                            IconShapeContainer(
+                                enabled = true,
+                                content = {
+                                    content()
+                                },
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        } else content()
                     }
-                ) {
-                    Text(
-                        text = it,
-                        maxLines = maxLines,
-                        style = titleFontStyle,
-                        fontWeight = FontWeight.Medium
-                    )
                 }
-                Spacer(modifier = Modifier.height(2.dp))
-                AnimatedContent(
-                    targetState = subtitle,
-                    transitionSpec = {
-                        fadeIn().togetherWith(fadeOut())
-                    }
-                ) {
-                    it?.let {
+                Column(modifier = Modifier.weight(1f)) {
+                    AnimatedContent(
+                        targetState = title,
+                        transitionSpec = {
+                            fadeIn().togetherWith(fadeOut())
+                        }
+                    ) {
                         Text(
                             text = it,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Normal,
-                            lineHeight = 14.sp,
-                            color = LocalContentColor.current.copy(alpha = 0.5f)
+                            maxLines = maxLines,
+                            style = titleFontStyle,
+                            fontWeight = FontWeight.Medium
                         )
                     }
+                    Spacer(modifier = Modifier.height(2.dp))
+                    AnimatedContent(
+                        targetState = subtitle,
+                        transitionSpec = {
+                            fadeIn().togetherWith(fadeOut())
+                        }
+                    ) {
+                        it?.let {
+                            Text(
+                                text = it,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Normal,
+                                lineHeight = 14.sp,
+                                color = LocalContentColor.current.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.width(8.dp))
+                ProvideContainerDefaults(null) {
+                    endContent?.invoke()
                 }
             }
-            Spacer(Modifier.width(8.dp))
-            ProvideContainerDefaults(null) {
-                endContent?.invoke()
+        }
+
+        if (additionalContent != null) {
+            Column(rowModifier) {
+                rowContent(Modifier)
+                additionalContent()
             }
+        } else {
+            rowContent(rowModifier)
         }
     }
 }
@@ -222,6 +236,7 @@ fun PreferenceRow(
     shape: Shape = RoundedCornerShape(16.dp),
     startIcon: ImageVector?,
     endContent: (@Composable () -> Unit)? = null,
+    additionalContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
 ) {
     PreferenceRow(
@@ -259,6 +274,7 @@ fun PreferenceRow(
             )
         } else Modifier.padding(16.dp),
         applyHorizontalPadding = false,
-        onClick = onClick
+        onClick = onClick,
+        additionalContent = additionalContent
     )
 }

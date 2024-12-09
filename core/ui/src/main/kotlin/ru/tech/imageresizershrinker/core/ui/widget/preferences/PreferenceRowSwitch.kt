@@ -57,6 +57,7 @@ fun PreferenceRowSwitch(
     drawStartIconContainer: Boolean = false,
     onDisabledClick: (() -> Unit)? = null,
     onClick: (Boolean) -> Unit,
+    additionalContent: (@Composable () -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     drawContainer: Boolean = true,
 ) {
@@ -103,7 +104,8 @@ fun PreferenceRowSwitch(
             )
         },
         interactionSource = interactionSource,
-        drawContainer = drawContainer
+        drawContainer = drawContainer,
+        additionalContent = additionalContent
     )
 }
 
@@ -122,7 +124,9 @@ fun PreferenceRowSwitch(
     shape: Shape = RoundedCornerShape(16.dp),
     startIcon: ImageVector?,
     onClick: (Boolean) -> Unit,
+    additionalContent: (@Composable () -> Unit)? = null,
     drawContainer: Boolean = true,
+    resultModifier: Modifier = Modifier.padding(16.dp)
 ) {
     PreferenceRowSwitch(
         modifier = modifier,
@@ -145,9 +149,10 @@ fun PreferenceRowSwitch(
                 )
             }
         },
-        resultModifier = Modifier.padding(16.dp),
+        resultModifier = resultModifier,
         applyHorizontalPadding = false,
         onClick = onClick,
+        additionalContent = additionalContent,
         drawContainer = drawContainer
     )
 }
