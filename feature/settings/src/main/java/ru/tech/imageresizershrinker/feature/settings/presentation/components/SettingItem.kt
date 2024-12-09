@@ -510,6 +510,10 @@ internal fun SettingItem(
             Setting.OpenSourceLicenses -> {
                 OpenSourceLicensesSettingItem(onClick = onNavigateToLibrariesInfo)
             }
+
+            Setting.FastSettingsSide -> {
+                FastSettingsSideSettingItem(onValueChange = component::setFastSettingsSide)
+            }
         }
     }
 }

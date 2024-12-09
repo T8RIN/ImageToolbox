@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
@@ -138,6 +139,7 @@ data class UiSettingsState(
     val mainScreenTitle: String,
     val sliderType: SliderType,
     val isCenterAlignDialogButtons: Boolean,
+    val fastSettingsSide: FastSettingsSide,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -354,7 +356,8 @@ fun SettingsState.toUiState(
                 isCompactSelectorsLayout = isCompactSelectorsLayout,
                 mainScreenTitle = mainScreenTitle,
                 sliderType = sliderType,
-                isCenterAlignDialogButtons = isCenterAlignDialogButtons
+                isCenterAlignDialogButtons = isCenterAlignDialogButtons,
+                fastSettingsSide = fastSettingsSide
             )
         }
     }.value

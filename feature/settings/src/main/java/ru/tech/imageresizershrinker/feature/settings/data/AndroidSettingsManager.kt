@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
@@ -88,6 +89,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DYNAMIC_CO
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.EMOJI_COUNT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.EXIF_WIDGET_INITIAL_STATE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAB_ALIGNMENT
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAST_SETTINGS_SIDE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAVORITE_COLORS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FAVORITE_SCREENS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.FILENAME_PREFIX
@@ -299,7 +301,10 @@ internal class AndroidSettingsManager @Inject constructor(
                 SliderType.fromInt(it)
             } ?: default.sliderType,
             isCenterAlignDialogButtons = prefs[CENTER_ALIGN_DIALOG_BUTTONS]
-                ?: default.isCenterAlignDialogButtons
+                ?: default.isCenterAlignDialogButtons,
+            fastSettingsSide = prefs[FAST_SETTINGS_SIDE]?.let {
+                FastSettingsSide.fromOrdinal(it)
+            } ?: default.fastSettingsSide
         )
     }.onEach { currentSettings = it }
 
@@ -1088,6 +1093,12 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override fun isInstalledFromPlayStore(): Boolean = context.isInstalledFromPlayStore()
+
+    override suspend fun setFastSettingsSide(side: FastSettingsSide) {
+        dataStore.edit {
+            it[FAST_SETTINGS_SIDE] = side.ordinal
+        }
+    }
 
     private suspend fun setFavoriteScreens(data: List<Int>) {
         dataStore.edit { prefs ->

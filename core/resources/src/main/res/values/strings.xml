@@ -1505,4 +1505,6 @@
     <string name="layers_on_background">Layers on background</string>
     <string name="layers_on_background_sub">The same as first option but with color instead of image</string>
     <string name="beta">Beta</string>
+    <string name="fast_settings_side">Fast Settings Side</string>
+    <string name="fast_settings_side_sub">Add floating strip at chosen side while editing images, which will open fast settings if clicked</string>
 </resources>

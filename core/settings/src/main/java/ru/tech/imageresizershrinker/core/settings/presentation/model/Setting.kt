@@ -467,4 +467,9 @@ sealed class Setting(
         title = R.string.open_source_licenses,
         subtitle = R.string.open_source_licenses_sub
     )
+
+    data object FastSettingsSide : Setting(
+        title = R.string.fast_settings_side,
+        subtitle = R.string.fast_settings_side_sub
+    )
 }

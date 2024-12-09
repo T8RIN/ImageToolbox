@@ -18,36 +18,20 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.activity.compose.PredictiveBackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -60,12 +44,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.ui.theme.blend
-import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
@@ -77,7 +59,7 @@ internal fun SettingsBackdropWrapper(
     currentScreen: Screen?,
     concealBackdropFlow: Flow<Boolean>,
     settingsComponent: SettingsComponent,
-    children: @Composable BoxScope.() -> Unit
+    children: @Composable () -> Unit
 ) {
     var shape by remember { mutableStateOf<RoundedCornerShape>(RoundedCornerShape(0.dp)) }
     val scaffoldState = rememberBackdropScaffoldState(
@@ -87,8 +69,8 @@ internal fun SettingsBackdropWrapper(
             easing = FancyTransitionEasing
         )
     )
-    val canExpandSettings =
-        (currentScreen?.id ?: -1) >= 0 //TODO: && settingsComponent.settingsState.addFastSettings
+    val canExpandSettings = ((currentScreen?.id ?: -1) >= 0)
+        .and(settingsComponent.settingsState.fastSettingsSide != FastSettingsSide.None)
 
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
@@ -154,79 +136,15 @@ internal fun SettingsBackdropWrapper(
                             onGesture = { _, _, _, _, _, _ -> }
                         )
                     },
-                    content = children
+                    content = { children() }
                 )
 
-                Surface(
-                    color = Color.Transparent,
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .size(
-                            height = 64.dp,
-                            width = animateDpAsState(
-                                if (isWantOpenSettings) 48.dp
-                                else 24.dp
-                            ).value
-                        )
-                        .clickable(
-                            indication = null,
-                            interactionSource = null
-                        ) {
-                            if (isWantOpenSettings) {
-                                scope.launch {
-                                    scaffoldState.reveal()
-                                    isWantOpenSettings = false
-                                }
-                            } else {
-                                isWantOpenSettings = true
-                            }
-                        }
-                        .alpha(
-                            animateFloatAsState(
-                                if (canExpandSettings) 1f
-                                else 0f
-                            ).value
-                        )
-                ) {
-                    Box {
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .width(
-                                    animateDpAsState(
-                                        if (isWantOpenSettings) 48.dp
-                                        else 4.dp
-                                    ).value
-                                )
-                                .height(64.dp)
-                                .container(
-                                    shape = RoundedCornerShape(
-                                        topStart = 8.dp,
-                                        bottomStart = 8.dp
-                                    ),
-                                    resultPadding = 0.dp,
-                                    color = takeColorFromScheme {
-                                        tertiary.blend(primary, 0.8f)
-                                    }
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            AnimatedVisibility(
-                                visible = isWantOpenSettings,
-                                enter = fadeIn() + scaleIn(),
-                                exit = fadeOut() + scaleOut()
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Settings,
-                                    contentDescription = null,
-                                    tint = takeColorFromScheme {
-                                        onTertiary.blend(onPrimary, 0.8f)
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
+                SettingsOpenButton(
+                    isWantOpenSettings = isWantOpenSettings,
+                    onStateChange = { isWantOpenSettings = it },
+                    scaffoldState = scaffoldState,
+                    canExpandSettings = canExpandSettings
+                )
 
                 EnhancedModalSheetDragHandle(
                     color = Color.Transparent,

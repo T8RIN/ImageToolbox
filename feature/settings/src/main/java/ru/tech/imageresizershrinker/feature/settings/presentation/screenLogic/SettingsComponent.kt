@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
@@ -646,6 +647,12 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleIsCenterAlignDialogButtons() {
         componentScope.launch {
             settingsManager.toggleIsCenterAlignDialogButtons()
+        }
+    }
+
+    fun setFastSettingsSide(side: FastSettingsSide) {
+        componentScope.launch {
+            settingsManager.setFastSettingsSide(side)
         }
     }
 

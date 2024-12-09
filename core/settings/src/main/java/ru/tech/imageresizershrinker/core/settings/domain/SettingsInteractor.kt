@@ -25,6 +25,7 @@ import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
@@ -212,8 +213,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleIsCenterAlignDialogButtons()
 
-    fun isInstalledFromPlayStore(): Boolean
-
+    suspend fun setFastSettingsSide(side: FastSettingsSide)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor {
@@ -233,6 +233,8 @@ fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor {
             color = color,
             forceExclude = forceExclude
         )
+
+        override fun isInstalledFromPlayStore(): Boolean = instance.isInstalledFromPlayStore()
 
     }
 }

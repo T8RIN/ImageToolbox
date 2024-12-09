@@ -337,7 +337,7 @@ fun MarkupLayersContent(
                                             ),
                                             type = type,
                                             textFullSize = scope.constraints.run {
-                                                minOf(maxWidth * 5f, maxHeight * 5f).roundToInt()
+                                                minOf(maxWidth * 2f, maxHeight * 2f).roundToInt()
                                             }
                                         )
                                     }

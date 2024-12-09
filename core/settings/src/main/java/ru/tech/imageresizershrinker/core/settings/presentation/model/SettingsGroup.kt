@@ -343,6 +343,7 @@ sealed class SettingsGroup(
             Setting.SkipFilePicking,
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,
+            Setting.FastSettingsSide,
             Setting.OpenEditInsteadOfPreview,
             Setting.EnableLinksPreview,
             Setting.GeneratePreviews

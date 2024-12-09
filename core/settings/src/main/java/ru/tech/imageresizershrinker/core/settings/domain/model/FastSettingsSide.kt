@@ -15,22 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.settings.domain
+package ru.tech.imageresizershrinker.core.settings.domain.model
 
-import ru.tech.imageresizershrinker.core.domain.model.ColorModel
-import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
+sealed class FastSettingsSide(
+    val ordinal: Int
+) {
 
-interface SimpleSettingsInteractor {
+    data object None : FastSettingsSide(0)
 
-    suspend fun toggleMagnifierEnabled()
+    data object CenterEnd : FastSettingsSide(1)
 
-    suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
+    data object CenterStart : FastSettingsSide(2)
 
-    suspend fun toggleFavoriteColor(
-        color: ColorModel,
-        forceExclude: Boolean
-    )
+    companion object {
 
-    fun isInstalledFromPlayStore(): Boolean
+        val entries: List<FastSettingsSide> by lazy {
+            listOf(
+                None,
+                CenterEnd,
+                CenterStart
+            )
+        }
+
+        fun fromOrdinal(ordinal: Int?): FastSettingsSide? = ordinal?.let(entries::getOrNull)
+    }
 
 }

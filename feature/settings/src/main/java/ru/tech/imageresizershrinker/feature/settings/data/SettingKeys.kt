@@ -110,4 +110,5 @@ internal object SettingKeys {
     val MAIN_SCREEN_TITLE = stringPreferencesKey("MAIN_SCREEN_TITLE")
     val SLIDER_TYPE = intPreferencesKey("SLIDER_TYPE")
     val CENTER_ALIGN_DIALOG_BUTTONS = booleanPreferencesKey("CENTER_ALIGN_DIALOG_BUTTONS")
+    val FAST_SETTINGS_SIDE = intPreferencesKey("FAST_SETTINGS_SIDE")
 }

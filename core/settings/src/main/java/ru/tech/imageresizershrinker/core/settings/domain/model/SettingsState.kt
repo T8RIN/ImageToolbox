@@ -110,6 +110,7 @@ data class SettingsState(
     val mainScreenTitle: String,
     val sliderType: SliderType,
     val isCenterAlignDialogButtons: Boolean,
+    val fastSettingsSide: FastSettingsSide
 ) {
 
     companion object {
@@ -198,7 +199,8 @@ data class SettingsState(
                 isCompactSelectorsLayout = false,
                 mainScreenTitle = "",
                 sliderType = SliderType.Fancy,
-                isCenterAlignDialogButtons = false
+                isCenterAlignDialogButtons = false,
+                fastSettingsSide = FastSettingsSide.CenterEnd
             )
         }
     }
