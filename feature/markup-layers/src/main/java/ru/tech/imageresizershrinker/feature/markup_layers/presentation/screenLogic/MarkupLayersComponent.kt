@@ -286,6 +286,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         _layers.update { layers }
     }
 
+    fun updateBackgroundColor(color: Color) {
+        _backgroundBehavior.update {
+            if (it is BackgroundBehavior.Color) {
+                it.copy(color = color.toArgb())
+            } else it
+        }
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(

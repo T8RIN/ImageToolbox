@@ -123,6 +123,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
@@ -219,7 +220,7 @@ fun MarkupLayersContent(
 
     val bitmap =
         component.bitmap ?: (component.backgroundBehavior as? BackgroundBehavior.Color)?.run {
-            remember {
+            remember(width, height, color) {
                 ImageBitmap(width, height).asAndroidBitmap()
                     .applyCanvas { drawColor(color) }
             }
@@ -390,7 +391,6 @@ fun MarkupLayersContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .clipToBounds()
-                    //TODO: Improve
                     .zoomable(
                         zoomState = rememberZoomState(maxScale = 10f),
                         zoomEnabled = !component.layers.fastAny { it.state.isActive }
@@ -443,6 +443,19 @@ fun MarkupLayersContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val behavior = component.backgroundBehavior
+                if (behavior is BackgroundBehavior.Color) {
+                    ColorRowSelector(
+                        value = behavior.color.toColor(),
+                        onValueChange = component::updateBackgroundColor,
+                        icon = Icons.Rounded.FormatColorFill,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .container(
+                                shape = RoundedCornerShape(24.dp)
+                            )
+                    )
+                }
                 SaveExifWidget(
                     modifier = Modifier.fillMaxWidth(),
                     checked = component.saveExif,
