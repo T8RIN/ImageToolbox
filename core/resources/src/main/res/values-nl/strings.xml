@@ -1487,4 +1487,6 @@
     <string name="layers_on_image_sub">Gebruik afbeelding als achtergrond en voeg er verschillende lagen bovenop toe</string>
     <string name="enter_percent">% invoeren</string>
     <string name="beta">Beta</string>
+    <string name="fast_settings_side">Snelle instellingen-strook</string>
+    <string name="fast_settings_side_sub">Voeg een zwevende strook toe aan de gekozen kant tijdens het bewerken van afbeeldingen, die snelle instellingen opent als erop wordt geklikt</string>
 </resources>
