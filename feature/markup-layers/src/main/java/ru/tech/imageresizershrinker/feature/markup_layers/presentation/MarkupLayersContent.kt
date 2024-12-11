@@ -91,9 +91,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.Layer
-import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.LayersSideMenu
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersActions
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersNoDataControls
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersSideMenu
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersTopAppBarActions
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
@@ -347,7 +347,7 @@ fun MarkupLayersContent(
         mainContentWeight = 0.65f
     )
 
-    LayersSideMenu(
+    MarkupLayersSideMenu(
         visible = showLayersSelection,
         onDismiss = { showLayersSelection = false },
         onRemoveLayer = component::removeLayer,

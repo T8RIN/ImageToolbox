@@ -84,7 +84,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Composable
-internal fun LayersSideMenu(
+internal fun MarkupLayersSideMenu(
     visible: Boolean,
     onDismiss: () -> Unit,
     onRemoveLayer: (UiMarkupLayer) -> Unit,
