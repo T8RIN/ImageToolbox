@@ -112,7 +112,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         _layers.update { it - lastLayer }
         _undoneLayers.update { it + lastLayer }
         registerChanges()
-        registerChanges()
     }
 
     fun redo() {
