@@ -92,7 +92,7 @@ internal fun EditLayerSheet(
                             onUpdateLayer(layer.copy(type.copy(it)))
                         },
                         subtitle = null,
-                        color = Color.Companion.Unspecified
+                        color = Color.Unspecified
                     )
                 }
 
@@ -161,7 +161,7 @@ internal fun EditLayerSheet(
                             )
                         },
                         title = stringResource(R.string.background_color),
-                        titleFontWeight = FontWeight.Companion.Medium,
+                        titleFontWeight = FontWeight.Medium,
                         modifier = Modifier.container(
                             shape = ContainerShapeDefaults.centerShape,
                             color = MaterialTheme.colorScheme.surface
@@ -180,7 +180,7 @@ internal fun EditLayerSheet(
                             )
                         },
                         title = stringResource(R.string.text_color),
-                        titleFontWeight = FontWeight.Companion.Medium,
+                        titleFontWeight = FontWeight.Medium,
                         modifier = Modifier.container(
                             shape = ContainerShapeDefaults.bottomShape,
                             color = MaterialTheme.colorScheme.surface

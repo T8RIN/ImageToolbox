@@ -27,41 +27,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FormatPaint
-import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.FormatColorFill
-import androidx.compose.material.icons.rounded.TextFields
-import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Badge
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -70,42 +54,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
-import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
@@ -113,40 +87,28 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
-import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
-import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.AddTextLayerDialog
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.Layer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.LayersSideMenu
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersActions
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersNoDataControls
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersTopAppBarActions
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
-import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
 @Composable
 fun MarkupLayersContent(
     component: MarkupLayersComponent
 ) {
-    val context = LocalComponentActivity.current
+    LocalComponentActivity.current
 
     val themeState = LocalDynamicThemeState.current
 
     val appColorTuple = rememberAppColorTuple()
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -235,113 +197,17 @@ fun MarkupLayersContent(
         isPortrait = isPortrait,
         shouldDisableBackHandler = component.backgroundBehavior is BackgroundBehavior.None,
         actions = {
-            val layerImagePicker = rememberImagePicker { uri: Uri ->
-                component.deactivateAllLayers()
-                component.addLayer(
-                    UiMarkupLayer(
-                        type = LayerType.Image(uri)
-                    )
-                )
-            }
-            var showTextEnteringDialog by rememberSaveable {
-                mutableStateOf(false)
-            }
-
-            Box {
-                EnhancedIconButton(
-                    containerColor = takeColorFromScheme {
-                        if (showLayersSelection) tertiary
-                        else Color.Transparent
-                    },
-                    onClick = {
-                        showLayersSelection = !showLayersSelection
-                    },
-                    enabled = component.layers.isNotEmpty()
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Stacks,
-                        contentDescription = null
-                    )
-                }
-            }
-            EnhancedIconButton(
-                onClick = {
-                    showTextEnteringDialog = true
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.TextFields,
-                    contentDescription = null
-                )
-            }
-            EnhancedIconButton(
-                onClick = layerImagePicker::pickImage
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Image,
-                    contentDescription = null
-                )
-            }
-
-            AddTextLayerDialog(
-                visible = showTextEnteringDialog,
-                onDismiss = { showTextEnteringDialog = false },
-                onAddLayer = {
-                    component.deactivateAllLayers()
-                    component.addLayer(it)
-                }
+            MarkupLayersActions(
+                component = component,
+                showLayersSelection = showLayersSelection,
+                onToggleLayersSection = { showLayersSelection = !showLayersSelection }
             )
         },
         topAppBarPersistentActions = { scaffoldState ->
-            if (component.backgroundBehavior == BackgroundBehavior.None) TopAppBarEmoji()
-            else {
-                if (isPortrait) {
-                    EnhancedIconButton(
-                        onClick = {
-                            scope.launch {
-                                if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                    scaffoldState.bottomSheetState.partialExpand()
-                                } else {
-                                    scaffoldState.bottomSheetState.expand()
-                                }
-                            }
-                        },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Tune,
-                            contentDescription = stringResource(R.string.properties)
-                        )
-                    }
-                }
-                var editSheetData by remember {
-                    mutableStateOf(listOf<Uri>())
-                }
-                ShareButton(
-                    enabled = component.backgroundBehavior !is BackgroundBehavior.None,
-                    onShare = {
-                        component.shareBitmap(showConfetti)
-                    },
-                    onCopy = { manager ->
-                        component.cacheCurrentImage { uri ->
-                            manager.setClip(uri.asClip(context))
-                            showConfetti()
-                        }
-                    },
-                    onEdit = {
-                        component.cacheCurrentImage { uri ->
-                            editSheetData = listOf(uri)
-                        }
-                    }
-                )
-                ProcessImagesPreferenceSheet(
-                    uris = editSheetData,
-                    visible = editSheetData.isNotEmpty(),
-                    onDismiss = {
-                        editSheetData = emptyList()
-                    },
-                    onNavigate = component.onNavigate
-                )
-            }
+            MarkupLayersTopAppBarActions(
+                component = component,
+                scaffoldState = scaffoldState
+            )
         },
         mainContent = {
             val imageBitmap by remember(bitmap) {
@@ -472,165 +338,9 @@ fun MarkupLayersContent(
         },
         enableNoDataScroll = false,
         noDataControls = {
-            var showBackgroundDrawingSetup by rememberSaveable { mutableStateOf(false) }
-
-            val cutout = WindowInsets.displayCutout.asPaddingValues()
-            LazyVerticalStaggeredGrid(
-                modifier = Modifier.fillMaxHeight(),
-                columns = StaggeredGridCells.Adaptive(300.dp),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 12.dp,
-                    alignment = Alignment.CenterHorizontally
-                ),
-                verticalItemSpacing = 12.dp,
-                contentPadding = PaddingValues(
-                    bottom = 12.dp + WindowInsets
-                        .navigationBars
-                        .asPaddingValues()
-                        .calculateBottomPadding(),
-                    top = 12.dp,
-                    end = 12.dp + cutout.calculateEndPadding(
-                        LocalLayoutDirection.current
-                    ),
-                    start = 12.dp + cutout.calculateStartPadding(
-                        LocalLayoutDirection.current
-                    )
-                ),
-            ) {
-                item {
-                    PreferenceItem(
-                        onClick = pickImage,
-                        startIcon = Icons.Outlined.ImageTooltip,
-                        title = stringResource(R.string.layers_on_image),
-                        subtitle = stringResource(R.string.layers_on_image_sub),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-                item {
-                    PreferenceItem(
-                        onClick = { showBackgroundDrawingSetup = true },
-                        startIcon = Icons.Outlined.FormatPaint,
-                        title = stringResource(R.string.layers_on_background),
-                        subtitle = stringResource(R.string.layers_on_background_sub),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-
-            val density = LocalDensity.current
-            val screenWidth = with(density) { configuration.screenWidthDp.dp.roundToPx() }
-            val screenHeight = with(density) { configuration.screenHeightDp.dp.roundToPx() }
-
-            var width by remember(
-                showBackgroundDrawingSetup,
-                screenWidth
-            ) {
-                mutableIntStateOf(screenWidth)
-            }
-            var height by remember(
-                showBackgroundDrawingSetup,
-                screenHeight
-            ) {
-                mutableIntStateOf(screenHeight)
-            }
-            var sheetBackgroundColor by rememberSaveable(
-                showBackgroundDrawingSetup,
-                stateSaver = ColorSaver
-            ) {
-                mutableStateOf(Color.White)
-            }
-            EnhancedModalBottomSheet(
-                title = {
-                    TitleItem(
-                        text = stringResource(R.string.markup_layers),
-                        icon = Icons.Rounded.Stacks
-                    )
-                },
-                confirmButton = {
-                    EnhancedButton(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
-                            showBackgroundDrawingSetup = false
-                            component.startDrawOnBackground(
-                                reqWidth = width,
-                                reqHeight = height,
-                                color = sheetBackgroundColor
-                            )
-                        }
-                    ) {
-                        AutoSizeText(stringResource(R.string.ok))
-                    }
-                },
-                sheetContent = {
-                    Box {
-                        Column(Modifier.verticalScroll(rememberScrollState())) {
-                            Row(
-                                Modifier
-                                    .padding(16.dp)
-                                    .container(shape = RoundedCornerShape(24.dp))
-                            ) {
-                                RoundedTextField(
-                                    value = width.takeIf { it != 0 }?.toString() ?: "",
-                                    onValueChange = {
-                                        width = it.restrict(8192).toIntOrNull() ?: 0
-                                    },
-                                    shape = RoundedCornerShape(12.dp),
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Number
-                                    ),
-                                    label = {
-                                        Text(stringResource(R.string.width, " "))
-                                    },
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .padding(
-                                            start = 8.dp,
-                                            top = 8.dp,
-                                            bottom = 4.dp,
-                                            end = 4.dp
-                                        )
-                                )
-                                RoundedTextField(
-                                    value = height.takeIf { it != 0 }?.toString() ?: "",
-                                    onValueChange = {
-                                        height = it.restrict(8192).toIntOrNull() ?: 0
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Number
-                                    ),
-                                    shape = RoundedCornerShape(12.dp),
-                                    label = {
-                                        Text(stringResource(R.string.height, " "))
-                                    },
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .padding(
-                                            start = 4.dp,
-                                            top = 8.dp,
-                                            bottom = 4.dp,
-                                            end = 8.dp
-                                        ),
-                                )
-                            }
-                            ColorRowSelector(
-                                value = sheetBackgroundColor,
-                                onValueChange = { sheetBackgroundColor = it },
-                                icon = Icons.Rounded.FormatColorFill,
-                                modifier = Modifier
-                                    .padding(
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        bottom = 16.dp
-                                    )
-                                    .container(RoundedCornerShape(24.dp))
-                            )
-                        }
-                    }
-                },
-                visible = showBackgroundDrawingSetup,
-                onDismiss = {
-                    showBackgroundDrawingSetup = it
-                }
+            MarkupLayersNoDataControls(
+                component = component,
+                onPickImage = pickImage
             )
         },
         canShowScreenData = component.backgroundBehavior !is BackgroundBehavior.None,
