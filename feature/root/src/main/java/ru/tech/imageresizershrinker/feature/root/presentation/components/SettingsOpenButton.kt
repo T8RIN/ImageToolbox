@@ -92,6 +92,7 @@ internal fun BoxScope.SettingsOpenButton(
                 ).value
             )
             .clickable(
+                enabled = canExpandSettings,
                 indication = null,
                 interactionSource = null
             ) {

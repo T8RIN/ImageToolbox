@@ -19,17 +19,9 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,7 +29,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -47,18 +38,9 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.union
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
@@ -68,19 +50,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.rounded.Build
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -96,10 +72,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -108,12 +82,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -144,9 +116,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSe
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
@@ -158,17 +128,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.AddTextLayerDialog
-import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.AnimatedBorder
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.Layer
-import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.LayerContent
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.LayersSideMenu
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
-import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.rotateBy
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
-import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyListState
-import kotlin.math.abs
-import kotlin.math.roundToInt
 
 @Composable
 fun MarkupLayersContent(
@@ -673,236 +637,14 @@ fun MarkupLayersContent(
         mainContentWeight = 0.65f
     )
 
-    FullscreenPopup {
-        BoxWithConstraints(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.CenterEnd
-        ) {
-            if (showLayersSelection) {
-                BackHandler {
-                    showLayersSelection = false
-                }
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .pointerInput(Unit) {
-                            detectTapGestures { showLayersSelection = false }
-                        }
-                )
-            }
-
-            val maxHeightFull = this.maxHeight
-            AnimatedVisibility(
-                visible = showLayersSelection,
-                enter = fadeIn() + expandHorizontally(),
-                exit = fadeOut() + shrinkHorizontally()
-            ) {
-                Surface(
-                    color = Color.Transparent
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .padding(
-                                WindowInsets.systemBars
-                                    .union(WindowInsets.displayCutout)
-                                    .asPaddingValues()
-                            )
-                            .height(
-                                minOf(maxHeightFull, 480.dp)
-                            )
-                            .width(168.dp)
-                            .container(
-                                color = MaterialTheme.colorScheme.surfaceContainer.copy(0.9f),
-                                composeColorOnTopOfBackground = false,
-                                resultPadding = 0.dp
-                            ),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        val activeLayer by remember(component.layers) {
-                            derivedStateOf {
-                                component.layers.find { it.state.isActive }
-                            }
-                        }
-                        Column(
-                            modifier = Modifier.container(
-                                shape = RectangleShape,
-                                color = MaterialTheme.colorScheme.surfaceContainerHigh
-                            )
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                EnhancedIconButton(
-                                    onClick = {
-                                        activeLayer?.let(component::removeLayer)
-                                    },
-                                    enabled = activeLayer != null
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Delete,
-                                        contentDescription = null
-                                    )
-                                }
-                                Spacer(Modifier.weight(1f))
-                                EnhancedIconButton(
-                                    onClick = {
-                                        activeLayer?.state?.isInEditMode = true
-                                        showLayersSelection = false
-                                    },
-                                    enabled = activeLayer != null
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Build,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                            EnhancedSlider(
-                                value = activeLayer?.state?.alpha ?: 1f,
-                                enabled = activeLayer != null,
-                                onValueChange = {
-                                    activeLayer?.state?.alpha = it
-                                },
-                                valueRange = 0f..1f,
-                                drawContainer = false,
-                                modifier = Modifier.padding(horizontal = 8.dp)
-                            )
-                        }
-                        val lazyListState = rememberLazyListState()
-                        val reorderableLazyListState = rememberReorderableLazyListState(
-                            lazyListState = lazyListState
-                        ) { from, to ->
-                            val data = component.layers.toMutableList().apply {
-                                add(to.index, removeAt(from.index))
-                            }
-                            component.reorderLayers(data)
-                        }
-                        LazyColumn(
-                            state = lazyListState,
-                            modifier = Modifier.weight(1f),
-                            contentPadding = PaddingValues(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Bottom)
-                        ) {
-                            items(
-                                items = component.layers,
-                                key = { it.hashCode() }
-                            ) { layer ->
-                                ReorderableItem(
-                                    state = reorderableLazyListState,
-                                    key = layer.hashCode()
-                                ) {
-                                    val (type, state) = layer
-
-                                    val boxSize = 84.dp
-                                    val density = LocalDensity.current
-                                    val size by remember(state.rotation, density) {
-                                        derivedStateOf {
-                                            DpSize(
-                                                width = boxSize,
-                                                height = boxSize
-                                            ).rotateBy(
-                                                degrees = state.rotation,
-                                                density = density
-                                            )
-                                        }
-                                    }
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.SpaceBetween
-                                    ) {
-                                        Icon(
-                                            imageVector = if (layer.state.isVisible) {
-                                                Icons.Rounded.Visibility
-                                            } else {
-                                                Icons.Rounded.VisibilityOff
-                                            },
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .clickable(
-                                                    indication = null,
-                                                    interactionSource = null
-                                                ) {
-                                                    layer.state.isVisible = !layer.state.isVisible
-                                                }
-                                        )
-                                        Spacer(Modifier.width(8.dp))
-                                        Box(
-                                            modifier = Modifier
-                                                .size(boxSize)
-                                                .clip(RoundedCornerShape(4.dp))
-                                                .transparencyChecker()
-                                                .clickable {
-                                                    component.activateLayer(layer)
-                                                }
-                                        ) {
-                                            val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
-
-                                            BoxWithConstraints(
-                                                modifier = Modifier
-                                                    .size(size)
-                                                    .background(
-                                                        MaterialTheme.colorScheme.primary.copy(
-                                                            0.2f * borderAlpha
-                                                        )
-                                                    )
-                                                    .padding(4.dp),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                val scope = this
-
-                                                val rounded = abs(state.rotation.roundToInt())
-
-                                                Box(
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            if (rounded % 90 == 0) {
-                                                                0.dp
-                                                            } else {
-                                                                12.dp * (rounded % 360) / 180f
-                                                            }
-                                                        )
-                                                        .graphicsLayer {
-                                                            rotationZ = state.rotation
-                                                            alpha = state.alpha
-                                                        }
-                                                ) {
-                                                    LayerContent(
-                                                        modifier = Modifier.sizeIn(
-                                                            maxWidth = scope.maxWidth,
-                                                            maxHeight = scope.maxHeight
-                                                        ),
-                                                        type = type,
-                                                        textFullSize = scope.constraints.run {
-                                                            minOf(maxWidth, maxHeight)
-                                                        }
-                                                    )
-                                                }
-                                            }
-
-                                            AnimatedBorder(
-                                                modifier = Modifier.matchParentSize(),
-                                                alpha = borderAlpha,
-                                                scale = 1f,
-                                                shape = RoundedCornerShape(4.dp)
-                                            )
-                                        }
-                                        Spacer(Modifier.width(8.dp))
-                                        Icon(
-                                            imageVector = Icons.Rounded.DragHandle,
-                                            contentDescription = null,
-                                            modifier = Modifier.draggableHandle()
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    LayersSideMenu(
+        visible = showLayersSelection,
+        onDismiss = { showLayersSelection = false },
+        onRemoveLayer = component::removeLayer,
+        onReorderLayers = component::reorderLayers,
+        onActivateLayer = component::activateLayer,
+        layers = component.layers
+    )
 
     LoadingDialog(
         visible = component.isSaving || component.isImageLoading,
