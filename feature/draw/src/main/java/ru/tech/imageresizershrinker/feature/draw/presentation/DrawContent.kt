@@ -95,7 +95,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
@@ -244,10 +243,6 @@ fun DrawContent(
             }
         )
         EnhancedIconButton(
-            containerColor = Color.Transparent,
-            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                luminance = 0.1f
-            ),
             onClick = component::undo,
             enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
         ) {
@@ -257,10 +252,6 @@ fun DrawContent(
             )
         }
         EnhancedIconButton(
-            containerColor = Color.Transparent,
-            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                luminance = 0.1f
-            ),
             onClick = component::redo,
             enabled = component.undonePaths.isNotEmpty()
         ) {

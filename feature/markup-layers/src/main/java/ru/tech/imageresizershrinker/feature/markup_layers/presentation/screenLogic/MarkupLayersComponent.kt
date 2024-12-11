@@ -81,7 +81,49 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private val _layers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
     val layers: List<UiMarkupLayer> by _layers
 
+    private val _lastLayers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
+    val lastLayers: List<UiMarkupLayer> by _lastLayers
+
+    private val _undoneLayers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
+    val undoneLayers: List<UiMarkupLayer> by _undoneLayers
+
+    fun undo() {
+        if (layers.isEmpty() && lastLayers.isNotEmpty()) {
+            _layers.value = lastLayers
+            _lastLayers.value = listOf()
+            return
+        }
+        if (layers.isEmpty()) return
+
+        val lastLayer = layers.last()
+
+        _layers.update { it - lastLayer }
+        _undoneLayers.update { it + lastLayer }
+        registerChanges()
+        registerChanges()
+    }
+
+    fun redo() {
+        if (undoneLayers.isEmpty()) return
+
+        val lastLayer = undoneLayers.last()
+        _layers.update { it + lastLayer }
+        _undoneLayers.update { it - lastLayer }
+        registerChanges()
+    }
+
+    fun clearLayers() {
+        if (layers.isNotEmpty()) {
+            _lastLayers.value = layers
+            _layers.value = listOf()
+            _undoneLayers.value = listOf()
+            registerChanges()
+        }
+    }
+
     fun addLayer(layer: UiMarkupLayer) {
+        _undoneLayers.update { emptyList() }
+        _lastLayers.value = layers
         _layers.update { it + layer }
     }
 
@@ -92,6 +134,45 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun activateLayer(layer: UiMarkupLayer) {
         deactivateAllLayers()
         layer.state.activate()
+    }
+
+    fun copyLayer(layer: UiMarkupLayer) {
+        val copied = layer.copy(
+            isActive = false
+        )
+        _undoneLayers.update { emptyList() }
+        _lastLayers.value = layers
+        _layers.update {
+            it.toMutableList().apply {
+                add(indexOf(layer), copied)
+            }
+        }
+        activateLayer(copied)
+    }
+
+    fun updateLayerAt(
+        index: Int,
+        layer: UiMarkupLayer
+    ) {
+        _undoneLayers.update { emptyList() }
+        _lastLayers.value = layers
+        _layers.update {
+            it.toMutableList().apply {
+                set(index, layer)
+            }
+        }
+    }
+
+    fun removeLayer(layer: UiMarkupLayer) {
+        _undoneLayers.update { emptyList() }
+        _lastLayers.value = layers
+        _layers.update { it - layer }
+    }
+
+    fun reorderLayers(layers: List<UiMarkupLayer>) {
+        _undoneLayers.update { emptyList() }
+        _lastLayers.value = layers
+        _layers.update { layers }
     }
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -266,25 +347,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
-
-    fun updateLayerAt(
-        index: Int,
-        layer: UiMarkupLayer
-    ) {
-        _layers.update {
-            it.toMutableList().apply {
-                set(index, layer)
-            }
-        }
-    }
-
-    fun removeLayer(layer: UiMarkupLayer) {
-        _layers.update { it - layer }
-    }
-
-    fun reorderLayers(layers: List<UiMarkupLayer>) {
-        _layers.update { layers }
-    }
 
     fun updateBackgroundColor(color: Color) {
         _backgroundBehavior.update {

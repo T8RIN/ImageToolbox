@@ -1507,4 +1507,5 @@
     <string name="beta">Beta</string>
     <string name="fast_settings_side">Fast Settings Side</string>
     <string name="fast_settings_side_sub">Add floating strip at chosen side while editing images, which will open fast settings if clicked</string>
+    <string name="clear_selection">Clear Selection</string>
 </resources>

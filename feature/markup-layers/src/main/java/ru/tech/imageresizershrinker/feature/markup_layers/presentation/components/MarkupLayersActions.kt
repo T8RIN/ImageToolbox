@@ -19,18 +19,26 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Redo
+import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
@@ -87,6 +95,14 @@ internal fun MarkupLayersActions(
         )
     }
 
+    val isPortrait by isPortraitOrientationAsState()
+    if (isPortrait) {
+        MarkupLayersUndoRedo(
+            component = component,
+            color = MaterialTheme.colorScheme.surface
+        )
+    }
+
     AddTextLayerDialog(
         visible = showTextEnteringDialog,
         onDismiss = { showTextEnteringDialog = false },
@@ -95,4 +111,36 @@ internal fun MarkupLayersActions(
             component.addLayer(it)
         }
     )
+}
+
+@Composable
+internal fun MarkupLayersUndoRedo(
+    component: MarkupLayersComponent,
+    color: Color
+) {
+    Row(
+        modifier = Modifier.container(
+            shape = CircleShape,
+            color = color
+        )
+    ) {
+        EnhancedIconButton(
+            onClick = component::undo,
+            enabled = component.lastLayers.isNotEmpty() || component.layers.isNotEmpty()
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.Undo,
+                contentDescription = "Undo"
+            )
+        }
+        EnhancedIconButton(
+            onClick = component::redo,
+            enabled = component.undoneLayers.isNotEmpty()
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.Redo,
+                contentDescription = "Redo"
+            )
+        }
+    }
 }

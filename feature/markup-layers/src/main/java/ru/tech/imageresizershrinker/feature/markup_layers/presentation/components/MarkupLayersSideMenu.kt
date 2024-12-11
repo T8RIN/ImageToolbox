@@ -51,32 +51,45 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.modalsheet.FullscreenPopup
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedDropdownMenu
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -90,6 +103,7 @@ internal fun MarkupLayersSideMenu(
     onRemoveLayer: (UiMarkupLayer) -> Unit,
     onReorderLayers: (List<UiMarkupLayer>) -> Unit,
     onActivateLayer: (UiMarkupLayer) -> Unit,
+    onCopyLayer: (UiMarkupLayer) -> Unit,
     layers: List<UiMarkupLayer>
 ) {
     FullscreenPopup {
@@ -163,17 +177,71 @@ internal fun MarkupLayersSideMenu(
                                     )
                                 }
                                 Spacer(Modifier.weight(1f))
-                                EnhancedIconButton(
-                                    onClick = {
-                                        activeLayer?.state?.isInEditMode = true
-                                        onDismiss()
-                                    },
-                                    enabled = activeLayer != null
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Build,
-                                        contentDescription = null
-                                    )
+                                Box {
+                                    var showContextOptions by rememberSaveable(activeLayer) {
+                                        mutableStateOf(false)
+                                    }
+                                    EnhancedIconButton(
+                                        onClick = {
+                                            showContextOptions = true
+                                        },
+                                        enabled = activeLayer != null
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Build,
+                                            contentDescription = null
+                                        )
+                                    }
+                                    EnhancedDropdownMenu(
+                                        expanded = showContextOptions,
+                                        onDismissRequest = {
+                                            showContextOptions = false
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.surface
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(horizontal = 8.dp),
+                                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                                        ) {
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                            ) {
+                                                ClickableTile(
+                                                    onClick = {
+                                                        activeLayer?.state?.isInEditMode = true
+                                                        showContextOptions = false
+                                                    },
+                                                    icon = Icons.Rounded.MiniEdit,
+                                                    text = stringResource(R.string.edit)
+                                                )
+                                                ClickableTile(
+                                                    onClick = {
+                                                        activeLayer?.let(onCopyLayer)
+                                                    },
+                                                    icon = Icons.Rounded.ContentCopy,
+                                                    text = stringResource(R.string.copy)
+                                                )
+                                            }
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                            ) {
+                                                ClickableTile(
+                                                    onClick = {
+                                                        activeLayer?.let(onRemoveLayer)
+                                                    },
+                                                    icon = Icons.Rounded.Delete,
+                                                    text = stringResource(R.string.delete)
+                                                )
+                                                ClickableTile(
+                                                    onClick = {
+                                                        activeLayer?.state?.isActive = false
+                                                    },
+                                                    icon = Icons.Rounded.Deselect,
+                                                    text = stringResource(R.string.clear_selection)
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             EnhancedSlider(
@@ -325,5 +393,40 @@ internal fun MarkupLayersSideMenu(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ClickableTile(
+    onClick: () -> Unit,
+    icon: ImageVector,
+    text: String
+) {
+    Column(
+        modifier = Modifier
+            .size(84.dp)
+            .container(
+                shape = RoundedCornerShape(4.dp),
+                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                resultPadding = 0.dp
+            )
+            .clickable(onClick = onClick)
+            .padding(6.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null
+        )
+        AutoSizeText(
+            text = text,
+            textAlign = TextAlign.Center,
+            style = LocalTextStyle.current.copy(
+                fontSize = 12.sp,
+                lineHeight = 13.sp
+            ),
+            maxLines = 2
+        )
     }
 }

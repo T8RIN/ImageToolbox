@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -35,6 +36,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -54,6 +56,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -95,6 +98,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersNoDataControls
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersSideMenu
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersTopAppBarActions
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.MarkupLayersUndoRedo
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
@@ -273,6 +277,13 @@ fun MarkupLayersContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                if (!isPortrait) {
+                    MarkupLayersUndoRedo(
+                        component = component,
+                        color = Color.Unspecified
+                    )
+                    Spacer(Modifier.height(4.dp))
+                }
                 val behavior = component.backgroundBehavior
                 if (behavior is BackgroundBehavior.Color) {
                     ColorRowSelector(
@@ -353,6 +364,7 @@ fun MarkupLayersContent(
         onRemoveLayer = component::removeLayer,
         onReorderLayers = component::reorderLayers,
         onActivateLayer = component::activateLayer,
+        onCopyLayer = component::copyLayer,
         layers = component.layers
     )
 

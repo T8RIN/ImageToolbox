@@ -20,7 +20,8 @@ class EditBoxState(
     offset: Offset = Offset.Zero,
     alpha: Float = 1f,
     isActive: Boolean = false,
-    canvasSize: IntegerSize = IntegerSize.Zero
+    canvasSize: IntegerSize = IntegerSize.Zero,
+    isVisible: Boolean = true
 ) {
     fun copy(
         scale: Float = this.scale,
@@ -28,14 +29,16 @@ class EditBoxState(
         offset: Offset = this.offset,
         alpha: Float = this.alpha,
         isActive: Boolean = this.isActive,
-        canvasSize: IntegerSize = this.canvasSize
+        canvasSize: IntegerSize = this.canvasSize,
+        isVisible: Boolean = this.isVisible
     ): EditBoxState = EditBoxState(
         scale = scale,
         rotation = rotation,
         offset = offset,
         alpha = alpha,
         isActive = isActive,
-        canvasSize = canvasSize
+        canvasSize = canvasSize,
+        isVisible = isVisible
     )
 
     var isActive by mutableStateOf(isActive)
@@ -44,7 +47,7 @@ class EditBoxState(
     var isInEditMode by mutableStateOf(false)
         internal set
 
-    private val _isVisible = mutableStateOf(true)
+    private val _isVisible = mutableStateOf(isVisible)
 
     var isVisible: Boolean
         get() = _isVisible.value
