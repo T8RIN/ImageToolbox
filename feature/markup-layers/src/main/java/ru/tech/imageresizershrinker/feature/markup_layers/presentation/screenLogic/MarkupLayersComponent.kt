@@ -18,20 +18,32 @@
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
 import android.net.Uri
 import androidx.compose.runtime.*
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -272,8 +284,42 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
+    private suspend fun Bitmap.overlay(overlay: Bitmap): Bitmap {
+        val image = this
+        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.safeConfig)
+        val canvas = Canvas(finalBitmap)
+        canvas.drawBitmap(image, Matrix(), null)
+        canvas.drawBitmap(imageScaler.scaleImage(overlay, width, height), 0f, 0f, null)
+        return finalBitmap
+    }
+
+    private val captureRequestChannel: Channel<Boolean> = Channel(Channel.BUFFERED)
+    val captureRequestFlow: Flow<Boolean> = captureRequestChannel.receiveAsFlow()
+
+    private val capturedImageChannel: Channel<Deferred<ImageBitmap>> = Channel(1)
+
+    fun sendCapturedImage(image: Deferred<ImageBitmap>) {
+        componentScope.launch {
+            capturedImageChannel.send(image)
+        }
+    }
+
     private suspend fun getDrawingBitmap(): Bitmap? = withContext(defaultDispatcher) {
-        null //TODO
+        coroutineScope {
+            deactivateAllLayers()
+            delay(500)
+        }
+        captureRequestChannel.send(true)
+
+        capturedImageChannel.receive().await().asAndroidBitmap().let { layers ->
+            layers.setHasAlpha(true)
+            val background = bitmap ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
+                ImageBitmap(width, height).asAndroidBitmap()
+                    .applyCanvas { drawColor(color) }
+            }
+
+            background?.overlay(layers) ?: layers
+        }
     }
 
     override fun resetState() {

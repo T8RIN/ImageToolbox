@@ -46,6 +46,7 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +54,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
@@ -68,8 +70,12 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
+import androidx.compose.ui.zIndex
 import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.shreyaspatil.capturable.capturable
+import dev.shreyaspatil.capturable.controller.rememberCaptureController
+import kotlinx.coroutines.flow.collectLatest
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
@@ -102,6 +108,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MarkupLayersContent(
     component: MarkupLayersComponent
@@ -231,44 +238,64 @@ fun MarkupLayersContent(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .padding(
-                            start = WindowInsets
-                                .displayCutout
-                                .asPaddingValues()
-                                .calculateStartPadding(direction)
-                        )
-                        .padding(16.dp)
-                        .aspectRatio(aspectRatio, isPortrait)
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(2.dp))
-                        .border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant(),
-                            shape = RoundedCornerShape(2.dp)
-                        )
-                        .background(MaterialTheme.colorScheme.surfaceContainerLow),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        bitmap = imageBitmap,
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier.matchParentSize()
-                    )
-                    component.layers.forEachIndexed { index, layer ->
-                        Layer(
-                            layer = layer,
-                            onActivate = {
-                                component.activateLayer(layer)
-                            },
-                            onUpdateLayer = {
-                                component.updateLayerAt(index, it)
+                Box {
+                    val captureController = rememberCaptureController()
+                    LaunchedEffect(captureController) {
+                        component.captureRequestFlow.collectLatest {
+                            if (it) {
+                                component.sendCapturedImage(captureController.captureAsync())
                             }
+                        }
+                    }
+                    Box(
+                        modifier = Modifier
+                            .padding(
+                                start = WindowInsets
+                                    .displayCutout
+                                    .asPaddingValues()
+                                    .calculateStartPadding(direction)
+                            )
+                            .padding(16.dp)
+                            .aspectRatio(aspectRatio, isPortrait)
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(2.dp))
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant(),
+                                shape = RoundedCornerShape(2.dp)
+                            )
+                            .background(MaterialTheme.colorScheme.surfaceContainerLow),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            bitmap = imageBitmap,
+                            contentDescription = null,
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier
+                                .zIndex(-1f)
+                                .matchParentSize()
                         )
+                        BoxWithConstraints(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .capturable(captureController),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            component.layers.forEachIndexed { index, layer ->
+                                Layer(
+                                    layer = layer,
+                                    onActivate = {
+                                        component.activateLayer(layer)
+                                    },
+                                    onUpdateLayer = {
+                                        component.updateLayerAt(index, it)
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
+
             }
         },
         controls = {

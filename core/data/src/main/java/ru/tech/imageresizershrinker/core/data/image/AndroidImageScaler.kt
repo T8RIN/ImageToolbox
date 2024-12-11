@@ -345,6 +345,8 @@ internal class AndroidImageScaler @Inject constructor(
     ): Bitmap = withContext(defaultDispatcher) {
         if (width == image.width && height == image.height) return@withContext image
 
+        val image = image.toSoftware()
+
         if (imageScaleMode is ImageScaleMode.Base) {
             return@withContext if (width < image.width && height < image.width) {
                 BitmapCompat.createScaledBitmap(image, width, height, null, true)
@@ -358,7 +360,7 @@ internal class AndroidImageScaler @Inject constructor(
         } ?: defaultImageScaleMode
 
         Aire.scale(
-            bitmap = image.toSoftware(),
+            bitmap = image,
             dstWidth = width,
             dstHeight = height,
             scaleMode = mode.toResizeFunction(),
