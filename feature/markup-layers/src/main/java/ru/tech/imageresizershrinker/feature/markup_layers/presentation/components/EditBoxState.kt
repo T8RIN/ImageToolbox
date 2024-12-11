@@ -44,6 +44,17 @@ class EditBoxState(
     var isInEditMode by mutableStateOf(false)
         internal set
 
+    private val _isVisible = mutableStateOf(true)
+
+    var isVisible: Boolean
+        get() = _isVisible.value
+        internal set(value) {
+            if (!value) {
+                isActive = false
+            }
+            _isVisible.value = value
+        }
+
     fun activate() {
         isActive = true
     }

@@ -27,6 +27,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 
 
 fun Modifier.transparencyChecker(
@@ -47,6 +48,9 @@ fun Modifier.transparencyChecker(
         val verticalSteps = (height / checkerHeightPx).toInt()
 
         onDrawBehind {
+            drawRect(
+                scheme.surfaceColorAtElevation(20.dp).blend(scheme.surface, 0.5f)
+            )
             for (y in 0..verticalSteps) {
                 for (x in 0..horizontalSteps) {
                     val isGrayTile = ((x + y) % 2 == 1)

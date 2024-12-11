@@ -200,7 +200,7 @@ data class SettingsState(
                 mainScreenTitle = "",
                 sliderType = SliderType.Fancy,
                 isCenterAlignDialogButtons = false,
-                fastSettingsSide = FastSettingsSide.CenterEnd
+                fastSettingsSide = FastSettingsSide.CenterStart
             )
         }
     }

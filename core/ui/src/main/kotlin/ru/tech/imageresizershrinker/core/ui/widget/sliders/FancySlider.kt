@@ -35,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -73,7 +74,8 @@ fun FancySlider(
     onValueChange: (Float) -> Unit,
     onValueChangeFinished: (() -> Unit)?,
     valueRange: ClosedFloatingPointRange<Float>,
-    steps: Int
+    steps: Int,
+    drawContainer: Boolean = true
 ) {
     val thumbColor by animateColorAsState(
         if (enabled) colors.thumbColor else colors.disabledThumbColor
@@ -129,27 +131,32 @@ fun FancySlider(
                     this.scaleY = scaleY
                     this.translationX = translateX
                 }
-                .container(
-                    shape = CircleShape,
-                    autoShadowElevation = animateDpAsState(
-                        if (settingsState.drawSliderShadows) {
-                            1.dp
-                        } else 0.dp
-                    ).value,
-                    resultPadding = 0.dp,
-                    borderColor = MaterialTheme.colorScheme
-                        .outlineVariant(
-                            luminance = 0.1f,
-                            onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
-                        )
-                        .copy(0.3f),
-                    color = SafeLocalContainerColor
-                        .copy(0.5f)
-                        .compositeOver(MaterialTheme.colorScheme.surface)
-                        .copy(colors.activeTrackColor.alpha),
-                    composeColorOnTopOfBackground = false
-                )
-                .padding(horizontal = 6.dp),
+                .then(
+                    if (drawContainer) {
+                        Modifier
+                            .container(
+                                shape = CircleShape,
+                                autoShadowElevation = animateDpAsState(
+                                    if (settingsState.drawSliderShadows) {
+                                        1.dp
+                                    } else 0.dp
+                                ).value,
+                                resultPadding = 0.dp,
+                                borderColor = MaterialTheme.colorScheme
+                                    .outlineVariant(
+                                        luminance = 0.1f,
+                                        onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
+                                    )
+                                    .copy(0.3f),
+                                color = SafeLocalContainerColor
+                                    .copy(0.5f)
+                                    .compositeOver(MaterialTheme.colorScheme.surface)
+                                    .copy(colors.activeTrackColor.alpha),
+                                composeColorOnTopOfBackground = false
+                            )
+                            .padding(horizontal = 6.dp)
+                    } else Modifier
+                ),
             colors = colors.toCustom(),
             value = animateFloatAsState(
                 targetValue = value,
@@ -173,6 +180,7 @@ fun FancySlider(
                     sliderState = sliderState,
                     colors = colors.toCustom(),
                     trackHeight = 38.dp,
+                    enabled = enabled,
                     modifier = Modifier.trackOverslide(value = sliderFraction) { overslide ->
                         transformOrigin = TransformOrigin(
                             pivotFractionX = when (isLtr) {
@@ -184,12 +192,12 @@ fun FancySlider(
 
                         when (sliderFraction) {
                             in 0f..(.5f) -> {
-                                scaleY = 1f + overslide * 2f
+                                scaleY = 1f + overslide / 2f
                                 scaleX = 1f - (overslide * .0025f)
                             }
 
                             else -> {
-                                scaleY = 1f - overslide * 2f
+                                scaleY = 1f - overslide / 2f
                                 scaleX = 1f + (overslide * .0025f)
                             }
                         }
@@ -202,20 +210,16 @@ fun FancySlider(
     }
 }
 
-@Composable
-internal fun SliderColors.toCustom(): CustomSliderColors = remember(this) {
-    derivedStateOf {
-        CustomSliderColors(
-            thumbColor = thumbColor,
-            activeTrackColor = activeTrackColor,
-            activeTickColor = activeTickColor,
-            inactiveTrackColor = inactiveTrackColor,
-            inactiveTickColor = inactiveTickColor,
-            disabledThumbColor = disabledThumbColor,
-            disabledActiveTrackColor = disabledActiveTrackColor,
-            disabledActiveTickColor = disabledActiveTickColor,
-            disabledInactiveTrackColor = disabledInactiveTrackColor,
-            disabledInactiveTickColor = disabledInactiveTickColor
-        )
-    }
-}.value
+@Stable
+internal fun SliderColors.toCustom(): CustomSliderColors = CustomSliderColors(
+    thumbColor = thumbColor,
+    activeTrackColor = activeTrackColor,
+    activeTickColor = activeTickColor,
+    inactiveTrackColor = inactiveTrackColor,
+    inactiveTickColor = inactiveTickColor,
+    disabledThumbColor = disabledThumbColor,
+    disabledActiveTrackColor = disabledActiveTrackColor,
+    disabledActiveTickColor = disabledActiveTickColor,
+    disabledInactiveTrackColor = disabledInactiveTrackColor,
+    disabledInactiveTickColor = disabledInactiveTickColor
+)

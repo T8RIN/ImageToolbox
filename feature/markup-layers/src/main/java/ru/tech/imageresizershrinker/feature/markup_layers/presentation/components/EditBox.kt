@@ -87,6 +87,8 @@ fun EditBox(
     shape: Shape = RoundedCornerShape(4.dp),
     content: @Composable BoxScope.() -> Unit
 ) {
+    if (!state.isVisible) return
+
     var contentSize by remember {
         mutableStateOf(IntSize.Zero)
     }

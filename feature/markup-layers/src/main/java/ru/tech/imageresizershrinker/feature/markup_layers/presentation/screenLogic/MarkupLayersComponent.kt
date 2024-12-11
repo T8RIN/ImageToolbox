@@ -282,6 +282,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         _layers.update { it - layer }
     }
 
+    fun reorderLayers(layers: List<UiMarkupLayer>) {
+        _layers.update { layers }
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(

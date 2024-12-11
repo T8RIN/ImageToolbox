@@ -49,7 +49,8 @@ fun EnhancedSlider(
     steps: Int = 0,
     enabled: Boolean = true,
     colors: SliderColors? = null,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    drawContainer: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
     val sliderType = settingsState.sliderType
@@ -61,7 +62,8 @@ fun EnhancedSlider(
                 inactiveTickColor = MaterialTheme.colorScheme.surface,
                 activeTrackColor = MaterialTheme.colorScheme.primaryContainer,
                 inactiveTrackColor = SwitchDefaults.colors().disabledCheckedTrackColor,
-                disabledThumbColor = SwitchDefaults.colors().disabledCheckedThumbColor,
+                disabledThumbColor = SliderDefaults.colors().disabledThumbColor,
+                disabledActiveTrackColor = SliderDefaults.colors().disabledActiveTrackColor,
                 thumbColor = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
@@ -104,7 +106,8 @@ fun EnhancedSlider(
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,
                 valueRange = valueRange,
-                steps = steps
+                steps = steps,
+                drawContainer = drawContainer
             )
         }
 
@@ -118,7 +121,8 @@ fun EnhancedSlider(
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,
                 valueRange = valueRange,
-                steps = steps
+                steps = steps,
+                drawContainer = drawContainer
             )
         }
 
@@ -132,7 +136,8 @@ fun EnhancedSlider(
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,
                 valueRange = valueRange,
-                steps = steps
+                steps = steps,
+                drawContainer = drawContainer
             )
         }
     }

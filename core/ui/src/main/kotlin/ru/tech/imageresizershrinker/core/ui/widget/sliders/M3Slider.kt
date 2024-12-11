@@ -48,53 +48,59 @@ fun M3Slider(
     onValueChange: (Float) -> Unit,
     onValueChangeFinished: (() -> Unit)?,
     valueRange: ClosedFloatingPointRange<Float>,
-    steps: Int
+    steps: Int,
+    drawContainer: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
     Slider(
         interactionSource = interactionSource,
         enabled = enabled,
         modifier = modifier
-            .padding(vertical = 2.dp)
-            .container(
-                shape = RoundedCornerShape(12.dp),
-                autoShadowElevation = animateDpAsState(
-                    if (settingsState.drawSliderShadows) {
-                        1.dp
-                    } else 0.dp
-                ).value,
-                resultPadding = 0.dp,
-                borderColor = MaterialTheme.colorScheme
-                    .outlineVariant(
-                        luminance = 0.1f,
-                        onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
-                    )
-                    .copy(0.3f),
-                color = SafeLocalContainerColor
-                    .copy(0.3f)
-                    .compositeOver(
-                        takeColorFromScheme {
-                            if (it) {
-                                tertiaryContainer
-                                    .blend(
-                                        secondaryContainer,
-                                        0.5f
-                                    )
-                                    .copy(0.1f)
-                            } else {
-                                secondaryContainer
-                                    .blend(
-                                        tertiaryContainer,
-                                        0.3f
-                                    )
-                                    .copy(0.2f)
-                            }
-                        }
-                    )
-                    .copy(colors.activeTrackColor.alpha),
-                composeColorOnTopOfBackground = false
-            )
-            .padding(horizontal = 12.dp, vertical = 6.dp),
+            .then(
+                if (drawContainer) {
+                    Modifier
+                        .padding(vertical = 2.dp)
+                        .container(
+                            shape = RoundedCornerShape(12.dp),
+                            autoShadowElevation = animateDpAsState(
+                                if (settingsState.drawSliderShadows) {
+                                    1.dp
+                                } else 0.dp
+                            ).value,
+                            resultPadding = 0.dp,
+                            borderColor = MaterialTheme.colorScheme
+                                .outlineVariant(
+                                    luminance = 0.1f,
+                                    onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
+                                )
+                                .copy(0.3f),
+                            color = SafeLocalContainerColor
+                                .copy(0.3f)
+                                .compositeOver(
+                                    takeColorFromScheme {
+                                        if (it) {
+                                            tertiaryContainer
+                                                .blend(
+                                                    secondaryContainer,
+                                                    0.5f
+                                                )
+                                                .copy(0.1f)
+                                        } else {
+                                            secondaryContainer
+                                                .blend(
+                                                    tertiaryContainer,
+                                                    0.3f
+                                                )
+                                                .copy(0.2f)
+                                        }
+                                    }
+                                )
+                                .copy(colors.activeTrackColor.alpha),
+                            composeColorOnTopOfBackground = false
+                        )
+                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                } else Modifier
+            ),
         value = animateFloatAsState(
             targetValue = value,
             animationSpec = tween(100)
