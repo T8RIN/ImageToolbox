@@ -144,9 +144,12 @@ fun EditBox(
                     }
                 }
             }
-            .transformable(
-                state = transformState,
-                enabled = state.isActive
+            .then(
+                if (state.isActive) {
+                    Modifier.transformable(
+                        state = transformState
+                    )
+                } else Modifier
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -159,10 +162,12 @@ fun EditBox(
             scale = state.scale,
             shape = shape
         )
-        Surface(
-            color = Color.Transparent,
-            modifier = Modifier.matchParentSize()
-        ) { }
+        if (state.isActive) {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier.matchParentSize()
+            ) { }
+        }
     }
 
     if (state.isActive) {
