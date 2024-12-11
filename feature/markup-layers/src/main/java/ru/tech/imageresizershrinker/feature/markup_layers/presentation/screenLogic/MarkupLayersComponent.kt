@@ -134,8 +134,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun addLayer(layer: UiMarkupLayer) {
-        _undoneLayers.update { emptyList() }
-        _lastLayers.value = layers
         _layers.update { it + layer }
     }
 
@@ -152,8 +150,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         val copied = layer.copy(
             isActive = false
         )
-        _undoneLayers.update { emptyList() }
-        _lastLayers.value = layers
         _layers.update {
             it.toMutableList().apply {
                 add(indexOf(layer), copied)
@@ -166,8 +162,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         index: Int,
         layer: UiMarkupLayer
     ) {
-        _undoneLayers.update { emptyList() }
-        _lastLayers.value = layers
         _layers.update {
             it.toMutableList().apply {
                 set(index, layer)
@@ -176,14 +170,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun removeLayer(layer: UiMarkupLayer) {
-        _undoneLayers.update { emptyList() }
-        _lastLayers.value = layers
         _layers.update { it - layer }
     }
 
     fun reorderLayers(layers: List<UiMarkupLayer>) {
-        _undoneLayers.update { emptyList() }
-        _lastLayers.value = layers
         _layers.update { layers }
     }
 
