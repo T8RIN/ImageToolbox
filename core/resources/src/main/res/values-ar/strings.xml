@@ -147,7 +147,7 @@
     <string name="photo_picker_sub">قد يعمل منتقي الصور الحديث من Android الذي يظهر في الجزء السفلي من الشاشة فقط على adnroid 12+ ولديه أيضًا مشكلات في تلقي بيانات EXIF الوصفية</string>
     <string name="gallery_picker_sub">منتقي صور المعرض البسيط ، لن يعمل إلا إذا كان لديك هذا التطبيق</string>
     <string name="edit">تعديل</string>
-    <string name="order_sub">يحدد ترتيب الخيارات على الشاشة الرئيسية</string>
+    <string name="order_sub">يحدد ترتيب الأدوات على الشاشة الرئيسية</string>
     <string name="filename_not_work_with_photopicker">لا تعمل إضافة اسم الملف الأصلي إذا تم تحديد مصدر صورة منتقي الصور</string>
     <string name="brightness">سطوع</string>
     <string name="contrast">مقابلة</string>
@@ -392,7 +392,7 @@
     <string name="disabled">عاجز</string>
     <string name="both">كلاهما</string>
     <string name="invert_colors_sub">يستبدل ألوان السمة بالألوان السلبية إذا تم تمكينها</string>
-    <string name="search_option_sub">تمكين القدرة على البحث من خلال جميع الخيارات المتاحة على الشاشة الرئيسية</string>
+    <string name="search_option_sub">تمكن القدرة على البحث خلال جميع الأدوات المتاحة على الشاشة الرئيسية</string>
     <string name="mask_preview_sub">سيتم عرض قناع الفلتر المرسوم ليظهر لك النتيجة التقريبية</string>
     <string name="inverse_fill_type_sub">إذا تم تمكينه، فسيتم تصفية كافة المناطق غير المقنعة بدلاً من السلوك الافتراضي</string>
     <string name="simple_variants">المتغيرات البسيطة</string>
@@ -915,4 +915,14 @@
     <string name="tag_artist">فنان</string>
     <string name="tag_flashpix_version">إصدار Flashpix</string>
     <string name="tag_exif_version">إصدار Exif</string>
+    <string name="draw_text_sub">ارسم النص علي المسار بالخط المُعطى واللون</string>
+    <string name="tag_resolution_unit">وحدة الدقة</string>
+    <string name="tag_white_point">نقطة بيضاء</string>
+    <string name="tag_gamma">جاما</string>
+    <string name="tag_user_comment">تعليق المستخدم</string>
+    <string name="tag_related_sound_file">ملف الصوت المرتبط</string>
+    <string name="tag_datetime_original">الوقت والتاريخ الأصليين</string>
+    <string name="font_size">حجم الخط</string>
+    <string name="watermark_size">حجم العلامة المائية</string>
+    <string name="repeat_text">تكرار النص</string>
 </resources>
