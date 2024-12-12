@@ -1489,4 +1489,5 @@
     <string name="beta">Beta</string>
     <string name="fast_settings_side">Snelle instellingen-strook</string>
     <string name="fast_settings_side_sub">Voeg een zwevende strook toe aan de gekozen kant tijdens het bewerken van afbeeldingen, die snelle instellingen opent als erop wordt geklikt</string>
+    <string name="clear_selection">Selectie wissen</string>
 </resources>
