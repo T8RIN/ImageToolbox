@@ -97,6 +97,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.Layer
@@ -274,6 +275,8 @@ fun MarkupLayersContent(
                             modifier = Modifier
                                 .zIndex(-1f)
                                 .matchParentSize()
+                                .clipToBounds()
+                                .transparencyChecker()
                         )
                         BoxWithConstraints(
                             modifier = Modifier

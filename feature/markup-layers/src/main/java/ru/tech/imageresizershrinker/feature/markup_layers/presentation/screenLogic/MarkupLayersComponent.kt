@@ -302,7 +302,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
         capturedImageChannel.receive().await().asAndroidBitmap().let { layers ->
             layers.setHasAlpha(true)
-            val background = bitmap ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
+            val background = imageGetter.getImage(data = _uri.value)
+                ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
                 ImageBitmap(width, height).asAndroidBitmap()
                     .applyCanvas { drawColor(color) }
             }
