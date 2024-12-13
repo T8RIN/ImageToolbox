@@ -1489,4 +1489,5 @@
     <string name="beta">Beta</string>
     <string name="fast_settings_side">快速设置边栏</string>
     <string name="fast_settings_side_sub">在编辑图片时，在所选的一侧添加浮动条，点击时将打开快速设置</string>
+    <string name="clear_selection">清除选择项</string>
 </resources>
