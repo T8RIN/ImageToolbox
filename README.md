@@ -386,6 +386,7 @@ or click one of the badges below.
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
 - AES-256 GCM No Padding files encryption and decryption
+- Adding Stickers and Text (Markup Layers Mode)
 - Extract Text From Images
     - 120+ languages
     - 3 Type of data: Fast, Standard, Best
