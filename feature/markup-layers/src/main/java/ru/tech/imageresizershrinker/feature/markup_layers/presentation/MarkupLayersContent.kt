@@ -248,6 +248,7 @@ fun MarkupLayersContent(
                             }
                         }
                     }
+
                     Box(
                         modifier = Modifier
                             .padding(
