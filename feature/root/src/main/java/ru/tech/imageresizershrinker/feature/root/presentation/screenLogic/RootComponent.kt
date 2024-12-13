@@ -152,7 +152,6 @@ class RootComponent @AssistedInject internal constructor(
 
     init {
         runBlocking {
-            settingsManager.registerAppOpen()
             _settingsState.value = settingsManager.getSettingsState()
             if (settingsState.clearCacheOnLaunch) fileController.clearCache()
         }

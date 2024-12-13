@@ -109,8 +109,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleDrawFabShadows()
 
-    suspend fun registerAppOpen()
-
     suspend fun toggleLockDrawOrientation()
 
     suspend fun setThemeStyle(value: Int)

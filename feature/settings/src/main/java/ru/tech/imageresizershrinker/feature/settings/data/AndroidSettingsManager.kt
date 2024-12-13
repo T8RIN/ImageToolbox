@@ -26,10 +26,12 @@ import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -149,6 +151,12 @@ internal class AndroidSettingsManager @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, SettingsManager {
+
+    init {
+        CoroutineScope(ioDispatcher).launch {
+            registerAppOpen()
+        }
+    }
 
     private val default = SettingsState.Default
     private var currentSettings: SettingsState = default
@@ -621,7 +629,7 @@ internal class AndroidSettingsManager @Inject constructor(
         }
     }
 
-    override suspend fun registerAppOpen() {
+    private suspend fun registerAppOpen() {
         dataStore.edit {
             val v = it[APP_OPEN_COUNT] ?: default.appOpenCount
             it[APP_OPEN_COUNT] = v + 1

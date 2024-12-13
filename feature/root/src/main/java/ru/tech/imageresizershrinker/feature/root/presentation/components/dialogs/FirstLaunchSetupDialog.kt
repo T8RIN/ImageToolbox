@@ -76,6 +76,7 @@ internal fun FirstLaunchSetupDialog(
         if (visible) {
             if (settingsState.showUpdateDialogOnStartup && BuildConfig.FLAVOR == "foss") {
                 toggleShowUpdateDialog()
+                toggleAllowBetas()
             }
             adjustPerformance(context.performanceClass)
         }

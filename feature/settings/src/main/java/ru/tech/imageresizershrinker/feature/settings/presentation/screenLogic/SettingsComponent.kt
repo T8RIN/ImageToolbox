@@ -79,7 +79,6 @@ class SettingsComponent @AssistedInject internal constructor(
         if (settingsState.clearCacheOnLaunch) clearCache()
 
         runBlocking {
-            settingsManager.registerAppOpen()
             _settingsState.value = settingsManager.getSettingsState()
         }
         settingsManager.getSettingsStateFlow().onEach {
