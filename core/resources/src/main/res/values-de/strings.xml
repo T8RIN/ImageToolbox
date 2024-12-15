@@ -1486,4 +1486,8 @@
     <string name="area">Bereich</string>
     <string name="area_sub">Resampling unter Verwendung des Pixelflächenverhältnisses. Diese Methode kann bei der Bilddezimierung bevorzugt werden, da sie moirefreie Ergebnisse liefert. Wenn das Bild jedoch gezoomt wird, ähnelt sie der „Nähesten“-Methode.</string>
     <string name="enable_tonemapping">Tonemapping einschalten</string>
+    <string name="fast_settings_side">Schnelleinstellungen Seite</string>
+    <string name="fast_settings_side_sub">Hinzufügen eines schwebenden Streifens an der gewählten Seite während der Bildbearbeitung, der die Schnelleinstellungen öffnet, wenn er angeklickt wird</string>
+    <string name="beta">Beta</string>
+    <string name="clear_selection">Auswahl löschen</string>
 </resources>
