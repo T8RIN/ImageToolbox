@@ -187,7 +187,8 @@ internal class ChildProvider @Inject constructor(
         Screen.DocumentScanner -> NavigationChild.DocumentScanner(
             documentScannerComponentFactory(
                 componentContext = componentContext,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 

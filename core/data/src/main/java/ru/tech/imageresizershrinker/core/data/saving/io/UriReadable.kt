@@ -17,34 +17,14 @@
 
 package ru.tech.imageresizershrinker.core.data.saving.io
 
+import android.content.Context
+import android.net.Uri
 import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
-import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
-import java.io.InputStream
-import java.io.OutputStream
 
-internal class StreamWriteable(
-    private val stream: OutputStream
-) : Writeable {
 
-    override fun copyFrom(readable: Readable) = writeBytes(readable.readBytes())
-
-    override fun writeBytes(byteArray: ByteArray) = stream.write(byteArray)
-
-    override fun close() {
-        stream.flush()
-        stream.close()
-    }
-
-}
-
-internal class StreamReadable(
-    private val stream: InputStream?
-) : Readable {
-
-    override fun readBytes(): ByteArray = stream?.readBytes() ?: ByteArray(0)
-
-    override fun copyTo(writeable: Writeable) = writeable.writeBytes(readBytes())
-
-    override fun close() = stream?.close() ?: Unit
-
-}
+internal class UriReadable(
+    private val uri: Uri,
+    private val context: Context
+) : Readable by StreamReadable(
+    stream = context.contentResolver.openInputStream(uri)
+)

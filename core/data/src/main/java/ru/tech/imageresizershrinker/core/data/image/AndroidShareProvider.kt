@@ -29,6 +29,7 @@ import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.saving.io.FileWriteable
+import ru.tech.imageresizershrinker.core.data.saving.io.UriReadable
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -114,7 +115,42 @@ internal class AndroidShareProvider @Inject constructor(
         uri: String,
         type: String?,
         onComplete: () -> Unit
-    ) = withContext(defaultDispatcher) {
+    ) {
+        withContext(defaultDispatcher) {
+            runCatching {
+                shareUriImpl(
+                    uri = uri,
+                    type = type
+                )
+                onComplete()
+            }.onFailure {
+                val uri = cacheData(
+                    writeData = {
+                        it.copyFrom(
+                            UriReadable(
+                                uri = uri.toUri(),
+                                context = context
+                            )
+                        )
+                    },
+                    filename = filenameCreator.get()
+                        .constructRandomFilename(
+                            extension = imageGetter.getExtension(uri) ?: ""
+                        )
+                )
+                shareUriImpl(
+                    uri = uri ?: return@onFailure,
+                    type = type
+                )
+                onComplete()
+            }
+        }
+    }
+
+    private fun shareUriImpl(
+        uri: String,
+        type: String?
+    ) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri.toUri())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -127,7 +163,6 @@ internal class AndroidShareProvider @Inject constructor(
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
-        onComplete()
     }
 
     override suspend fun shareUris(

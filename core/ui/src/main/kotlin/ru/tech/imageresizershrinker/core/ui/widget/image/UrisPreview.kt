@@ -75,7 +75,8 @@ fun UrisPreview(
             contentDescription = stringResource(R.string.add),
             modifier = Modifier.size(width / 3f)
         )
-    }
+    },
+    onClickUri: ((Uri) -> Unit)? = null
 ) {
     val context = LocalContext.current
 
@@ -88,7 +89,7 @@ fun UrisPreview(
             size.coerceAtLeast(2f).coerceAtMost(8f)
         }
 
-        val width = maxWidth / count - 4.dp * (count - 1)
+        val width = this.maxWidth / count - 4.dp * (count - 1)
 
         ContextualFlowRow(
             modifier = modifier,
@@ -120,6 +121,13 @@ fun UrisPreview(
                             }
                         },
                         modifier = Modifier
+                            .then(
+                                if (onClickUri != null) {
+                                    Modifier.clickable {
+                                        onClickUri(uri)
+                                    }
+                                } else Modifier
+                            )
                             .width(width)
                             .aspectRatio(1f)
                     )

@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.document_scanner.presentation
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -60,6 +61,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -75,6 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -188,6 +191,20 @@ fun DocumentScannerContent(
             }
         },
         controls = {
+            var selectedUriForPreview by remember {
+                mutableStateOf<Uri?>(null)
+            }
+            FullscreenPopup {
+                ImagePager(
+                    visible = selectedUriForPreview != null,
+                    selectedUri = selectedUriForPreview,
+                    uris = component.uris,
+                    onNavigate = component.onNavigate,
+                    onUriSelected = { selectedUriForPreview = it },
+                    onShare = component::shareUri,
+                    onDismiss = { selectedUriForPreview = null }
+                )
+            }
             Spacer(modifier = Modifier.height(24.dp))
             UrisPreview(
                 uris = component.uris,
@@ -206,6 +223,9 @@ fun DocumentScannerContent(
                         contentDescription = stringResource(R.string.add),
                         modifier = Modifier.size(width / 3f)
                     )
+                },
+                onClickUri = { uri ->
+                    selectedUriForPreview = uri
                 }
             )
             Spacer(modifier = Modifier.height(12.dp))

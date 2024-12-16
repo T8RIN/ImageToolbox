@@ -45,6 +45,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ScanResult
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.coroutineScope
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
 import java.text.SimpleDateFormat
@@ -55,6 +57,7 @@ import kotlin.random.Random
 class DocumentScannerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -270,11 +273,21 @@ class DocumentScannerComponent @AssistedInject internal constructor(
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
+    fun shareUri(uri: Uri) {
+        coroutineScope.launch {
+            shareProvider.shareUri(
+                uri = uri.toString(),
+                onComplete = {}
+            )
+        }
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
             onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): DocumentScannerComponent
     }
 
