@@ -150,7 +150,7 @@
     <string name="gallery_picker_sub">シンプルなギャラリー画像ピッカー。そのアプリを持っている場合にのみ機能します</string>
     <string name="edit">編集</string>
     <string name="order">注文</string>
-    <string name="order_sub">メイン画面のオプションの順序を決定</string>
+    <string name="order_sub">メイン画面のツールの順序を決定</string>
     <string name="highlights">ハイライト</string>
     <string name="shadows">影</string>
     <string name="sharpen">研ぐ</string>
@@ -866,4 +866,15 @@
     <string name="coordinates_rounding_tolerance">座標丸め許容値</string>
     <string name="path_scale">パススケール</string>
     <string name="reset_properties">プロパティをリセット</string>
+    <string name="try_again">もう一度やり直してください</string>
+    <string name="show_settings_in_landscape">横向きで設定を表示</string>
+    <string name="show_settings_in_landscape_sub">これを無効にした場合、ランドスケープモードでは、常に表示されるオプションではなく、上部のアプリバーのボタンで設定が開きます。</string>
+    <string name="fullscreen_settings">フルスクリーン設定</string>
+    <string name="fullscreen_settings_sub">これを有効にすると、設定ページは常にスライド可能な引き出しシートではなくフルスクリーンで開かれます。</string>
+    <string name="pick_multiple_media">複数のメディアを選択</string>
+    <string name="pick_single_media">単一のメディアを選択</string>
+    <string name="pick">選ぶ</string>
+    <string name="embedded_picker_sub">システム定義の画像ピッカーの代わりに、Image Toolbox 独自の画像ピッカーを使用します</string>
+    <string name="no_permissions">権限がありません</string>
+    <string name="request">リクエスト</string>
 </resources>
