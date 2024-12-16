@@ -108,11 +108,11 @@ fun Uri.getFilename(
     context: Context
 ): String? = DocumentFile.fromSingleUri(context, this)?.name
 
-@Suppress("DEPRECATION")
 fun String.decodeEscaped(): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         URLDecoder.decode(URLDecoder.decode(this, Charsets.UTF_8), Charsets.UTF_8)
     } else {
+        @Suppress("DEPRECATION")
         URLDecoder.decode(URLDecoder.decode(this))
     }
 }

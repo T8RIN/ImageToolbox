@@ -119,12 +119,12 @@ internal fun Context.clearCache(
 
 internal fun Context.cacheSize(): String = runCatching {
     val cache =
-        cacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
+        cacheDir?.walkTopDown()?.sumOf { if (it.isFile) it.length() else 0 } ?: 0
     val code =
-        codeCacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
+        codeCacheDir?.walkTopDown()?.sumOf { if (it.isFile) it.length() else 0 } ?: 0
     var size = cache + code
     externalCacheDirs?.forEach { file ->
-        size += file?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
+        size += file?.walkTopDown()?.sumOf { if (it.isFile) it.length() else 0 } ?: 0
     }
     readableByteCount(size)
 }.getOrNull() ?: "0 B"
@@ -141,15 +141,16 @@ private fun Context.verifyInstallerId(
     validInstallers: List<String>,
 ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
 
-private fun Context.getInstallerPackageName(packageName: String): String? {
-    kotlin.runCatching {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            return packageManager.getInstallSourceInfo(packageName).installingPackageName
+private fun Context.getInstallerPackageName(
+    packageName: String
+): String? = runCatching {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        packageManager.getInstallSourceInfo(packageName).installingPackageName
+    } else {
         @Suppress("DEPRECATION")
-        return packageManager.getInstallerPackageName(packageName)
+        packageManager.getInstallerPackageName(packageName)
     }
-    return null
-}
+}.getOrNull()
 
 val Context.density: Density
     get() = object : Density {

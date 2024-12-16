@@ -22,7 +22,9 @@ import ru.tech.imageresizershrinker.core.domain.json.JsonParser
 import java.lang.reflect.Type
 import javax.inject.Inject
 
-internal class MoshiParser @Inject constructor(private val moshi: Moshi) : JsonParser {
+internal class MoshiParser @Inject constructor(
+    private val moshi: Moshi
+) : JsonParser {
 
     override fun <T> toJson(
         obj: T,

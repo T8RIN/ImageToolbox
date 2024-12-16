@@ -26,7 +26,6 @@ import coil3.fetch.FetchResult
 import coil3.fetch.Fetcher
 import coil3.fetch.SourceFetchResult
 import coil3.request.Options
-import com.t8rin.logger.makeLog
 import okio.Buffer
 import java.util.regex.Pattern
 
@@ -38,7 +37,7 @@ internal class Base64Fetcher(
     override suspend fun fetch(): FetchResult? {
         val byteArray = runCatching {
             Base64.decode(base64, Base64.DEFAULT)
-        }.onFailure { it.makeLog("Base64Fetcher") }.getOrNull() ?: return null
+        }.getOrNull() ?: return null
 
         return SourceFetchResult(
             source = ImageSource(

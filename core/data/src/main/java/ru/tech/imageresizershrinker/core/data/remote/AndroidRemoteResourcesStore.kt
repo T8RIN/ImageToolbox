@@ -29,10 +29,8 @@ import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesStore
 import java.io.BufferedInputStream
-import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import javax.inject.Inject
@@ -53,19 +51,17 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
         if (shouldDownload) onDownloadRequest(name)
         else {
-            availableFiles?.let {
-                RemoteResources(
-                    name = name,
-                    list = availableFiles.mapNotNull {
-                        it.toUri().toString()
-                    }.map { uri ->
-                        RemoteResource(
-                            uri = uri,
-                            name = uri.takeLastWhile { it != '/' }.decodeEscaped()
-                        )
-                    }.sortedBy { it.name }
-                )
-            }
+            RemoteResources(
+                name = name,
+                list = availableFiles.mapNotNull {
+                    it.toUri().toString()
+                }.map { uri ->
+                    RemoteResource(
+                        uri = uri,
+                        name = uri.takeLastWhile { it != '/' }.decodeEscaped()
+                    )
+                }.sortedBy { it.name }
+            )
         }
     }
 
@@ -87,9 +83,8 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
             }
 
             val result = StringBuilder()
-            BufferedInputStream(connection.inputStream).use { stream ->
-                val reader = BufferedReader(InputStreamReader(stream))
 
+            connection.inputStream.bufferedReader().use { reader ->
                 var line: String?
                 while ((reader.readLine().also { line = it }) != null) {
                     result.append(line)
@@ -226,13 +221,11 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
     ): String = BaseUrl.replace("*", dirName)
 
 
-    private fun getSavingDir(dirName: String): File = File(rootDir, dirName).apply {
-        mkdirs()
-    }
+    private fun getSavingDir(
+        dirName: String
+    ): File = File(rootDir, dirName).apply(File::mkdirs)
 
-    private val rootDir = File(context.filesDir, "remoteResources").apply {
-        mkdirs()
-    }
+    private val rootDir = File(context.filesDir, "remoteResources").apply(File::mkdirs)
 
 }
 
