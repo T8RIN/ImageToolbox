@@ -225,6 +225,7 @@ fun ImagePreviewContent(
                                 )
                             }
                         }
+
                         AnimatedVisibility(
                             modifier = Modifier
                                 .padding(8.dp)
