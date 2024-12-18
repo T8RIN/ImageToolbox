@@ -33,10 +33,12 @@ import coil3.request.transformations
 import coil3.size.Size
 import coil3.toBitmap
 import com.awxkee.jxlcoder.coil.enableJxlAnimation
+import com.github.awxkee.avifcoil.decoder.animation.enableAvifAnimation
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
@@ -70,22 +72,16 @@ internal class AndroidImageGetter @Inject constructor(
             .launchIn(CoroutineScope(defaultDispatcher))
     }
 
-    @Suppress("FunctionName")
-    private fun DefaultImageRequest(
-        model: Any?
-    ): ImageRequest.Builder = ImageRequest
-        .Builder(context)
-        .data(model)
-        .repeatCount(0)
-        .enableJxlAnimation(false)
-
     override suspend fun getImage(
         uri: String,
-        originalSize: Boolean
+        originalSize: Boolean,
+        onFailure: (Throwable) -> Unit
     ): ImageData<Bitmap, ExifInterface>? = withContext(defaultDispatcher) {
-        getImage(
+        getImageImpl(
             data = uri,
-            originalSize = originalSize
+            size = null,
+            addSizeToRequest = originalSize,
+            onFailure = onFailure
         )?.let { bitmap ->
             val newUri = uri.toUri().tryGetLocation(context)
 
@@ -109,108 +105,71 @@ internal class AndroidImageGetter @Inject constructor(
     override suspend fun getImage(
         data: Any,
         originalSize: Boolean
-    ): Bitmap? = withContext(defaultDispatcher) {
-        runCatching {
-            imageLoader.execute(
-                DefaultImageRequest(data)
-                    .apply {
-                        if (originalSize) size(Size.ORIGINAL)
-                    }
-                    .build()
-            ).image?.toBitmap()
-        }.getOrNull()
-    }
+    ): Bitmap? = getImageImpl(
+        data = data,
+        size = null,
+        addSizeToRequest = originalSize
+    )
 
     override suspend fun getImage(
         data: Any,
         size: IntegerSize?
-    ): Bitmap? = withContext(defaultDispatcher) {
-        runCatching {
-            imageLoader.execute(
-                DefaultImageRequest(data)
-                    .apply {
-                        size(
-                            size?.let {
-                                Size(size.width, size.height)
-                            } ?: Size.ORIGINAL
-                        )
-                    }
-                    .build()
-            ).image?.toBitmap()
-        }.getOrNull()
-    }
+    ): Bitmap? = getImageImpl(
+        data = data,
+        size = size
+    )
 
     override suspend fun getImage(
         data: Any,
         size: Int?
-    ): Bitmap? = withContext(defaultDispatcher) {
-        runCatching {
-            imageLoader.execute(
-                DefaultImageRequest(data)
-                    .apply {
-                        size?.let {
-                            size(it)
-                        } ?: size(Size.ORIGINAL)
-                    }
-                    .build()
-            ).image?.toBitmap()
-        }.getOrNull()
-    }
+    ): Bitmap? = getImage(
+        data = data,
+        size = size?.let {
+            IntegerSize(
+                width = it,
+                height = it
+            )
+        }
+    )
 
     override suspend fun getImageWithTransformations(
         uri: String,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
     ): ImageData<Bitmap, ExifInterface>? = withContext(defaultDispatcher) {
-        val request = DefaultImageRequest(uri)
-            .transformations(
-                transformations.map { it.toCoil() }
+        getImageImpl(
+            data = uri,
+            transformations = transformations,
+            size = null,
+            addSizeToRequest = originalSize
+        )?.let { bitmap ->
+            val newUri = uri.toUri().tryGetLocation(context)
+            val fd = context.contentResolver.openFileDescriptor(newUri, "r")
+            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+            fd?.close()
+            ImageData(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = ImageFormat[getExtension(uri)],
+                    originalUri = uri,
+                    resizeType = settingsState.defaultResizeType
+                ),
+                metadata = exif
             )
-            .apply {
-                if (originalSize) size(Size.ORIGINAL)
-            }
-            .build()
-
-        runCatching {
-            imageLoader.execute(request).image?.toBitmap()?.let { bitmap ->
-                val newUri = uri.toUri().tryGetLocation(context)
-                val fd = context.contentResolver.openFileDescriptor(newUri, "r")
-                val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-                fd?.close()
-                ImageData(
-                    image = bitmap,
-                    imageInfo = ImageInfo(
-                        width = bitmap.width,
-                        height = bitmap.height,
-                        imageFormat = ImageFormat[getExtension(uri)],
-                        originalUri = uri,
-                        resizeType = settingsState.defaultResizeType
-                    ),
-                    metadata = exif
-                )
-            }
-        }.getOrNull()
+        }
     }
 
     override suspend fun getImageWithTransformations(
         data: Any,
         transformations: List<Transformation<Bitmap>>,
         size: IntegerSize?
-    ): Bitmap? = withContext(defaultDispatcher) {
-        val request = DefaultImageRequest(data)
-            .transformations(
-                transformations.map { it.toCoil() }
-            )
-            .apply {
-                if (size == null) size(Size.ORIGINAL)
-                else size(size.width, size.height)
-            }
-            .build()
-
-        runCatching {
-            imageLoader.execute(request).image?.toBitmap()
-        }.getOrNull()
-    }
+    ): Bitmap? = getImageImpl(
+        data = data,
+        transformations = transformations,
+        size = size
+    )
 
     override fun getImageAsync(
         uri: String,
@@ -218,34 +177,13 @@ internal class AndroidImageGetter @Inject constructor(
         onGetImage: (ImageData<Bitmap, ExifInterface>) -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
-        val bmp = runCatching {
-            imageLoader.enqueue(
-                DefaultImageRequest(uri)
-                    .apply {
-                        if (originalSize) size(Size.ORIGINAL)
-                    }
-                    .target { drawable ->
-                        drawable.toBitmap().let { bitmap ->
-                            val newUri = uri.toUri().tryGetLocation(context)
-                            val fd = context.contentResolver.openFileDescriptor(newUri, "r")
-                            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-                            fd?.close()
-                            ImageData(
-                                image = bitmap,
-                                imageInfo = ImageInfo(
-                                    width = bitmap.width,
-                                    height = bitmap.height,
-                                    imageFormat = ImageFormat[getExtension(uri)],
-                                    originalUri = uri,
-                                    resizeType = settingsState.defaultResizeType
-                                ),
-                                metadata = exif
-                            )
-                        }.let(onGetImage)
-                    }.build()
-            )
+        CoroutineScope(imageLoader.defaults.decoderCoroutineContext).launch {
+            getImage(
+                uri = uri,
+                originalSize = originalSize,
+                onFailure = onFailure
+            )?.let(onGetImage)
         }
-        bmp.exceptionOrNull()?.let(onFailure)
     }
 
     override fun getExtension(uri: String): String? {
@@ -260,6 +198,38 @@ internal class AndroidImageGetter @Inject constructor(
         } else {
             MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
         }
+    }
+
+    private suspend fun getImageImpl(
+        data: Any,
+        size: IntegerSize?,
+        transformations: List<Transformation<Bitmap>> = emptyList(),
+        onFailure: (Throwable) -> Unit = {},
+        addSizeToRequest: Boolean = true
+    ): Bitmap? = withContext(defaultDispatcher) {
+        val request = ImageRequest
+            .Builder(context)
+            .data(data)
+            .repeatCount(0)
+            .enableAvifAnimation(false)
+            .enableJxlAnimation(false)
+            .transformations(
+                transformations.map(Transformation<Bitmap>::toCoil)
+            )
+            .apply {
+                if (addSizeToRequest) {
+                    size(
+                        size?.let {
+                            Size(size.width, size.height)
+                        } ?: Size.ORIGINAL
+                    )
+                }
+            }
+            .build()
+
+        runCatching {
+            imageLoader.execute(request).image?.toBitmap()
+        }.onFailure(onFailure).getOrNull()
     }
 
     private fun Uri.tryGetLocation(context: Context): Uri {
