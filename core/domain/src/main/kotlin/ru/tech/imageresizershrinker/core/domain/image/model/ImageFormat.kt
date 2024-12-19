@@ -299,6 +299,7 @@ sealed class ImageFormat(
             typeString.contains("heic") -> Heic.Lossless
             typeString.contains("qoi") -> Qoi
             typeString.contains("ico") -> Ico
+            typeString.contains("svg") -> Png.Lossless
             else -> Default
         }
 

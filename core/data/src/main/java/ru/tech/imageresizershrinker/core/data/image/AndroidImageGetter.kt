@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.coil.UpscaleSvgDecoder
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -225,6 +226,7 @@ internal class AndroidImageGetter @Inject constructor(
                     )
                 }
             }
+            .decoderFactory(UpscaleSvgDecoder.Factory())
             .build()
 
         runCatching {
