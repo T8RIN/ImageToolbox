@@ -41,7 +41,7 @@ decompose = "3.2.2"
 
 kotlin = "2.0.21"
 agp = "8.7.3"
-hilt = "2.53.1"
+hilt = "2.54"
 gms = "4.4.2"
 
 ktor = "3.0.3"
