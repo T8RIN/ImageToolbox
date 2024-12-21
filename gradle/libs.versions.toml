@@ -8,7 +8,7 @@ versionCode = "162"
 
 jvmTarget = "17"
 
-imageToolboxLibs = "3.2.5"
+imageToolboxLibs = "3.2.6"
 trickle = "1.2.2"
 
 avifCoder = "2.0.10"
@@ -39,7 +39,7 @@ detekt = "1.23.7"
 detektCompose = "0.4.22"
 decompose = "3.2.2"
 
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 agp = "8.7.3"
 hilt = "2.54"
 gms = "4.4.2"
@@ -58,7 +58,7 @@ reviewKtx = "2.0.2"
 splashScreen = "1.2.0-alpha02"
 
 espresso = "3.6.1"
-ksp = "2.0.21-1.0.28"
+ksp = "2.1.0-1.0.29"
 
 androidx-test-ext-junit = "1.2.1"
 documentfile = "1.0.1"
