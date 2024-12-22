@@ -72,7 +72,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.helperGrid
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHelperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -572,7 +572,7 @@ fun BitmapDrawer(
                     )
                     .clip(RoundedCornerShape(2.dp))
                     .transparencyChecker()
-                    .helperGrid(helperGridParams)
+                    .drawHelperGrid(helperGridParams)
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.outlineVariant(),

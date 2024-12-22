@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.toColor
 @Stable
 @Immutable
 data class HelperGridParams(
-    val color: Int = Color.Black.toArgb(),
+    val color: Int = Color.Black.copy(0.5f).toArgb(),
     val cellWidth: Float = 20f,
     val cellHeight: Float = 20f,
     val linesWidth: Float = 0f,
@@ -64,7 +64,7 @@ data class HelperGridParams(
 
 }
 
-fun Modifier.helperGrid(
+fun Modifier.drawHelperGrid(
     params: HelperGridParams,
 ) = drawWithCache {
     with(params) {
