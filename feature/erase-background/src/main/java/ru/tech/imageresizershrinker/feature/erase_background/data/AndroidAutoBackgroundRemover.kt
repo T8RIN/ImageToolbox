@@ -17,9 +17,9 @@
 
 package ru.tech.imageresizershrinker.feature.erase_background.data
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import kotlinx.coroutines.CoroutineScope
@@ -79,37 +79,58 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
         }.await()
     }
 
-
     override fun removeBackgroundFromImage(
         image: Bitmap,
         onSuccess: (Bitmap) -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
         runCatching {
-            val onFinish: (Result<Bitmap>) -> Unit = {
-                it.onSuccess(onSuccess).onFailure(onFailure)
-            }
-            val scope = CoroutineScope(defaultDispatcher)
-
-            val subject = @RequiresApi(Build.VERSION_CODES.N) {
-                MlKitSubjectBackgroundRemover.removeBackground(
-                    bitmap = image,
-                    onFinish = onFinish
-                )
-            }
-            val selfie = {
-                MlKitBackgroundRemover.removeBackground(
-                    bitmap = image,
-                    scope = scope,
-                    onFinish = onFinish
-                )
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                runCatching(subject).getOrNull() ?: selfie()
-            } else selfie()
-
+            autoRemove(
+                type = ApiType.Best,
+                image = image,
+                onFinish = {
+                    it.onSuccess(onSuccess).onFailure(onFailure)
+                }
+            )
         }.onFailure(onFailure)
+    }
+
+    private fun autoRemove(
+        type: ApiType,
+        image: Bitmap,
+        onFinish: (Result<Bitmap>) -> Unit
+    ) {
+        val old = {
+            MlKitBackgroundRemover.removeBackground(
+                bitmap = image,
+                scope = CoroutineScope(defaultDispatcher),
+                onFinish = onFinish
+            )
+        }
+        val new = {
+            @SuppressLint("NewApi")
+            MlKitSubjectBackgroundRemover.removeBackground(
+                bitmap = image,
+                onFinish = {
+                    if (it.isFailure) {
+                        old()
+                    } else onFinish(it)
+                }
+            )
+        }
+
+        when (type) {
+            ApiType.Old -> old()
+            ApiType.New -> new()
+        }
+    }
+
+    private enum class ApiType {
+        Old, New;
+
+        companion object {
+            val Best: ApiType get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) New else Old
+        }
     }
 
 }
