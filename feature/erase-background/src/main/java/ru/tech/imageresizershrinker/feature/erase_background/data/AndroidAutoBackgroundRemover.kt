@@ -79,6 +79,7 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
         }.await()
     }
 
+
     override fun removeBackgroundFromImage(
         image: Bitmap,
         onSuccess: (Bitmap) -> Unit,
