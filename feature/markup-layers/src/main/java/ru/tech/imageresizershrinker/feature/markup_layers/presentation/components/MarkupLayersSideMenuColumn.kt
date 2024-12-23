@@ -185,7 +185,7 @@ internal fun MarkupLayersSideMenuColumn(
                             modifier = Modifier.matchParentSize(),
                             alpha = borderAlpha,
                             scale = 1f,
-                            shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp)
+                            shape = RoundedCornerShape(4.dp)
                         )
                     }
                     Spacer(Modifier.width(8.dp))

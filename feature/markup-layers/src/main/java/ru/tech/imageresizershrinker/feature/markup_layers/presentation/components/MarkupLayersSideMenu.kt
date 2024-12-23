@@ -48,9 +48,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,6 +65,8 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 internal fun MarkupLayersSideMenu(
     visible: Boolean,
     onDismiss: () -> Unit,
+    isContextOptionsVisible: Boolean,
+    onContextOptionsVisibleChange: (Boolean) -> Unit,
     onRemoveLayer: (UiMarkupLayer) -> Unit,
     onReorderLayers: (List<UiMarkupLayer>) -> Unit,
     onActivateLayer: (UiMarkupLayer) -> Unit,
@@ -145,12 +145,9 @@ internal fun MarkupLayersSideMenu(
                                 }
                                 Spacer(Modifier.weight(1f))
                                 Box {
-                                    var showContextOptions by rememberSaveable(activeLayer) {
-                                        mutableStateOf(false)
-                                    }
                                     EnhancedIconButton(
                                         onClick = {
-                                            showContextOptions = true
+                                            onContextOptionsVisibleChange(true)
                                         },
                                         enabled = activeLayer != null
                                     ) {
@@ -160,8 +157,8 @@ internal fun MarkupLayersSideMenu(
                                         )
                                     }
                                     MarkupLayersContextActions(
-                                        visible = showContextOptions,
-                                        onDismiss = { showContextOptions = false },
+                                        visible = isContextOptionsVisible && activeLayer != null,
+                                        onDismiss = { onContextOptionsVisibleChange(false) },
                                         onCopyLayer = {
                                             activeLayer?.let(onCopyLayer)
                                         },

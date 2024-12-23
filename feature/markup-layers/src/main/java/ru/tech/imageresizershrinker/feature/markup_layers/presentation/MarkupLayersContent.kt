@@ -176,6 +176,10 @@ fun MarkupLayersContent(
         mutableStateOf(false)
     }
 
+    var isContextOptionsVisible by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     val focus = LocalFocusManager.current
     AdaptiveBottomScaffoldLayoutScreen(
         autoClearFocus = false,
@@ -212,7 +216,11 @@ fun MarkupLayersContent(
             MarkupLayersActions(
                 component = component,
                 showLayersSelection = showLayersSelection,
-                onToggleLayersSection = { showLayersSelection = !showLayersSelection }
+                onToggleLayersSection = { showLayersSelection = !showLayersSelection },
+                onToggleLayersSectionQuick = {
+                    showLayersSelection = true
+                    isContextOptionsVisible = true
+                }
             )
         },
         topAppBarPersistentActions = { scaffoldState ->
@@ -293,6 +301,10 @@ fun MarkupLayersContent(
                                     },
                                     onUpdateLayer = {
                                         component.updateLayerAt(index, it)
+                                    },
+                                    onShowContextOptions = {
+                                        showLayersSelection = true
+                                        isContextOptionsVisible = true
                                     }
                                 )
                             }
@@ -392,6 +404,8 @@ fun MarkupLayersContent(
     MarkupLayersSideMenu(
         visible = showLayersSelection,
         onDismiss = { showLayersSelection = false },
+        isContextOptionsVisible = isContextOptionsVisible,
+        onContextOptionsVisibleChange = { isContextOptionsVisible = it },
         onRemoveLayer = component::removeLayer,
         onReorderLayers = component::reorderLayers,
         onActivateLayer = component::activateLayer,

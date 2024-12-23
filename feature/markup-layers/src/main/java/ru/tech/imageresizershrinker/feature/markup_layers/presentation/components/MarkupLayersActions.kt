@@ -47,7 +47,8 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLog
 internal fun MarkupLayersActions(
     component: MarkupLayersComponent,
     showLayersSelection: Boolean,
-    onToggleLayersSection: () -> Unit
+    onToggleLayersSection: () -> Unit,
+    onToggleLayersSectionQuick: () -> Unit
 ) {
     val layerImagePicker = rememberImagePicker { uri: Uri ->
         component.deactivateAllLayers()
@@ -67,6 +68,7 @@ internal fun MarkupLayersActions(
                 if (showLayersSelection) tertiary
                 else Color.Transparent
             },
+            onLongClick = onToggleLayersSectionQuick,
             onClick = onToggleLayersSection,
             enabled = component.layers.isNotEmpty()
         ) {

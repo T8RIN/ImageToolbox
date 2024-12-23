@@ -57,6 +57,7 @@ fun BoxWithConstraintsScope.EditBox(
     state: EditBoxState,
     onTap: () -> Unit,
     modifier: Modifier = Modifier,
+    onLongTap: (() -> Unit)? = null,
     shape: Shape = RoundedCornerShape(4.dp),
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -71,6 +72,7 @@ fun BoxWithConstraintsScope.EditBox(
     EditBox(
         modifier = modifier,
         onTap = onTap,
+        onLongTap = onLongTap,
         state = state,
         parentSize = parentSize,
         shape = shape,
@@ -84,6 +86,7 @@ fun EditBox(
     onTap: () -> Unit,
     parentSize: IntegerSize,
     modifier: Modifier = Modifier,
+    onLongTap: (() -> Unit)? = null,
     shape: Shape = RoundedCornerShape(4.dp),
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -114,6 +117,14 @@ fun EditBox(
     val tapScale = remember { Animatable(1f) }
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
+    val animateTap = {
+        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+        scope.launch {
+            tapScale.animateTo(0.98f)
+            tapScale.animateTo(1.02f)
+            tapScale.animateTo(1f)
+        }
+    }
 
     val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
     Box(
@@ -131,17 +142,17 @@ fun EditBox(
             .scale(tapScale.value)
             .clip(shape)
             .background(MaterialTheme.colorScheme.primary.copy(0.2f * borderAlpha))
-            .pointerInput(onTap) {
-                detectTapGestures {
-                    onTap()
-                    if (state.isActive) {
-                        scope.launch {
-                            haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                            tapScale.animateTo(0.95f)
-                            tapScale.animateTo(1.02f)
-                            tapScale.animateTo(1f)
+            .pointerInput(onTap, animateTap) {
+                detectTapGestures(
+                    onLongPress = onLongTap?.let {
+                        {
+                            it()
+                            animateTap()
                         }
                     }
+                ) {
+                    onTap()
+                    if (state.isActive) animateTap()
                 }
             }
             .then(

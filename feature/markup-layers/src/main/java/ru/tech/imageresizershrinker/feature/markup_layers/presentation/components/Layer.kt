@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.component
 internal fun BoxWithConstraintsScope.Layer(
     layer: UiMarkupLayer,
     onActivate: () -> Unit,
+    onShowContextOptions: () -> Unit,
     onUpdateLayer: (UiMarkupLayer) -> Unit
 ) {
     val type = layer.type
@@ -39,6 +40,12 @@ internal fun BoxWithConstraintsScope.Layer(
             } else {
                 onActivate()
             }
+        },
+        onLongTap = {
+            if (!layer.state.isActive) {
+                onActivate()
+            }
+            onShowContextOptions()
         },
         content = {
             LayerContent(
