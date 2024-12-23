@@ -26,7 +26,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -71,6 +71,7 @@ fun ExpandableItem(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     canExpand: Boolean = true,
     onClick: () -> Unit = {},
+    onLongClick: (() -> Unit)? = null,
     expansionIconContainerColor: Color = Color.Transparent
 ) {
     val haptics = LocalHapticFeedback.current
@@ -86,14 +87,22 @@ fun ExpandableItem(
                 shape = shape
             )
     ) {
-        var expanded by rememberSaveable { mutableStateOf(initialState) }
+        var expanded by rememberSaveable(initialState) { mutableStateOf(initialState) }
         val rotation by animateFloatAsState(if (expanded) 180f else 0f)
         Row(
             modifier = Modifier
                 .clip(shape)
-                .clickable(
+                .combinedClickable(
                     interactionSource = interactionSource,
-                    indication = LocalIndication.current
+                    indication = LocalIndication.current,
+                    onLongClick = if (onLongClick != null) {
+                        {
+                            haptics.performHapticFeedback(
+                                HapticFeedbackType.LongPress
+                            )
+                            onLongClick()
+                        }
+                    } else null
                 ) {
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress

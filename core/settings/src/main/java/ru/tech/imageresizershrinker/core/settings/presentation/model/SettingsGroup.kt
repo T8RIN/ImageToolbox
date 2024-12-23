@@ -48,12 +48,14 @@ import ru.tech.imageresizershrinker.core.resources.icons.Shadow
 import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 
 sealed class SettingsGroup(
+    val id: Int,
     val titleId: Int,
     val icon: ImageVector,
     val settingsList: List<Setting>,
     val initialState: Boolean,
 ) {
     data object ContactMe : SettingsGroup(
+        id = 0,
         icon = Icons.Rounded.PersonSearch,
         titleId = R.string.contact_me,
         settingsList = listOf(
@@ -64,6 +66,7 @@ sealed class SettingsGroup(
     )
 
     data object PrimaryCustomization : SettingsGroup(
+        id = 1,
         icon = Icons.Rounded.Palette,
         titleId = R.string.customization,
         settingsList = listOf(
@@ -77,6 +80,7 @@ sealed class SettingsGroup(
     )
 
     data object SecondaryCustomization : SettingsGroup(
+        id = 2,
         icon = Icons.TwoTone.Palette,
         titleId = R.string.secondary_customization,
         settingsList = listOf(
@@ -88,6 +92,7 @@ sealed class SettingsGroup(
     )
 
     data object Layout : SettingsGroup(
+        id = 3,
         icon = Icons.Rounded.ViewCarousel,
         titleId = R.string.layout,
         settingsList = listOf(
@@ -102,6 +107,7 @@ sealed class SettingsGroup(
     )
 
     data object NightMode : SettingsGroup(
+        id = 4,
         icon = Icons.Rounded.ShieldMoon,
         titleId = R.string.night_mode,
         settingsList = listOf(
@@ -111,6 +117,7 @@ sealed class SettingsGroup(
     )
 
     data object Shadows : SettingsGroup(
+        id = 5,
         icon = Icons.Filled.Shadow,
         titleId = R.string.shadows,
         settingsList = listOf(
@@ -125,6 +132,7 @@ sealed class SettingsGroup(
     )
 
     data object Font : SettingsGroup(
+        id = 6,
         icon = Icons.Rounded.SortByAlpha,
         titleId = R.string.text,
         settingsList = listOf(
@@ -136,6 +144,7 @@ sealed class SettingsGroup(
     )
 
     data object ToolsArrangement : SettingsGroup(
+        id = 7,
         icon = Icons.Rounded.Stacks,
         titleId = R.string.tools_arrangement,
         settingsList = listOf(
@@ -147,6 +156,7 @@ sealed class SettingsGroup(
     )
 
     data object Presets : SettingsGroup(
+        id = 8,
         icon = Icons.Rounded.LabelPercent,
         titleId = R.string.presets,
         settingsList = listOf(
@@ -157,6 +167,7 @@ sealed class SettingsGroup(
     )
 
     data object DefaultValues : SettingsGroup(
+        id = 9,
         icon = Icons.Outlined.Architecture,
         titleId = R.string.default_values,
         settingsList = listOf(
@@ -167,6 +178,7 @@ sealed class SettingsGroup(
     )
 
     data object Draw : SettingsGroup(
+        id = 10,
         icon = Icons.Rounded.Draw,
         titleId = R.string.draw,
         settingsList = listOf(
@@ -180,6 +192,7 @@ sealed class SettingsGroup(
     )
 
     data object Exif : SettingsGroup(
+        id = 11,
         icon = Icons.Rounded.Exif,
         titleId = R.string.exif,
         settingsList = listOf(
@@ -189,6 +202,7 @@ sealed class SettingsGroup(
     )
 
     data object Folder : SettingsGroup(
+        id = 12,
         icon = Icons.Rounded.FolderOpened,
         titleId = R.string.folder,
         settingsList = listOf(
@@ -199,6 +213,7 @@ sealed class SettingsGroup(
     )
 
     data object Filename : SettingsGroup(
+        id = 13,
         icon = Icons.Rounded.Description,
         titleId = R.string.filename,
         settingsList = listOf(
@@ -216,6 +231,7 @@ sealed class SettingsGroup(
     )
 
     data object Cache : SettingsGroup(
+        id = 14,
         icon = Icons.Rounded.Mop,
         titleId = R.string.cache,
         settingsList = listOf(
@@ -226,6 +242,7 @@ sealed class SettingsGroup(
     )
 
     data object ImageSource : SettingsGroup(
+        id = 15,
         icon = Icons.Rounded.ImageSearch,
         titleId = R.string.image_source,
         settingsList = listOf(
@@ -235,6 +252,7 @@ sealed class SettingsGroup(
     )
 
     data object BackupRestore : SettingsGroup(
+        id = 16,
         icon = Icons.Rounded.SettingsBackupRestore,
         titleId = R.string.backup_and_restore,
         settingsList = listOf(
@@ -246,6 +264,7 @@ sealed class SettingsGroup(
     )
 
     data object Firebase : SettingsGroup(
+        id = 17,
         icon = Icons.Rounded.Firebase,
         titleId = R.string.firebase,
         settingsList = listOf(
@@ -256,6 +275,7 @@ sealed class SettingsGroup(
     )
 
     data object Updates : SettingsGroup(
+        id = 17,
         icon = Icons.Rounded.SystemSecurityUpdate,
         titleId = R.string.updates,
         settingsList = listOf(
@@ -267,6 +287,7 @@ sealed class SettingsGroup(
     )
 
     data object AboutApp : SettingsGroup(
+        id = 18,
         icon = Icons.Rounded.Info,
         titleId = R.string.about_app,
         settingsList = listOf(
@@ -282,6 +303,7 @@ sealed class SettingsGroup(
     )
 
     data object Clipboard : SettingsGroup(
+        id = 19,
         icon = Icons.Rounded.ClipboardFile,
         titleId = R.string.clipboard,
         settingsList = listOf(
@@ -293,6 +315,7 @@ sealed class SettingsGroup(
     )
 
     data object Haptics : SettingsGroup(
+        id = 20,
         icon = Icons.Rounded.Vibration,
         titleId = R.string.vibration,
         settingsList = listOf(
@@ -302,6 +325,7 @@ sealed class SettingsGroup(
     )
 
     data object Screen : SettingsGroup(
+        id = 21,
         icon = Icons.Rounded.PhoneAndroid,
         titleId = R.string.screen,
         settingsList = listOf(
@@ -314,6 +338,7 @@ sealed class SettingsGroup(
     )
 
     data object Emoji : SettingsGroup(
+        id = 22,
         icon = Icons.Rounded.Face6,
         titleId = R.string.emoji,
         settingsList = listOf(
@@ -325,6 +350,7 @@ sealed class SettingsGroup(
     )
 
     data object Confetti : SettingsGroup(
+        id = 23,
         icon = Icons.Rounded.Celebration,
         titleId = R.string.confetti,
         settingsList = listOf(
@@ -337,6 +363,7 @@ sealed class SettingsGroup(
     )
 
     data object Behavior : SettingsGroup(
+        id = 24,
         icon = Icons.Rounded.Explore,
         titleId = R.string.behavior,
         settingsList = listOf(

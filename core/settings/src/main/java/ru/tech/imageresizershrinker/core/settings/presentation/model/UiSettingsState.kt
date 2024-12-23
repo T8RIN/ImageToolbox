@@ -140,6 +140,7 @@ data class UiSettingsState(
     val sliderType: SliderType,
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
+    val settingGroupsInitialVisibility: Map<Int, Boolean>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -357,7 +358,8 @@ fun SettingsState.toUiState(
                 mainScreenTitle = mainScreenTitle,
                 sliderType = sliderType,
                 isCenterAlignDialogButtons = isCenterAlignDialogButtons,
-                fastSettingsSide = fastSettingsSide
+                fastSettingsSide = fastSettingsSide,
+                settingGroupsInitialVisibility = settingGroupsInitialVisibility
             )
         }
     }.value

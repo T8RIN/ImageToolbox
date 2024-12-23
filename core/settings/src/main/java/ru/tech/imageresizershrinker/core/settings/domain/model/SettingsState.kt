@@ -110,7 +110,8 @@ data class SettingsState(
     val mainScreenTitle: String,
     val sliderType: SliderType,
     val isCenterAlignDialogButtons: Boolean,
-    val fastSettingsSide: FastSettingsSide
+    val fastSettingsSide: FastSettingsSide,
+    val settingGroupsInitialVisibility: Map<Int, Boolean>
 ) {
 
     companion object {
@@ -200,7 +201,8 @@ data class SettingsState(
                 mainScreenTitle = "",
                 sliderType = SliderType.Fancy,
                 isCenterAlignDialogButtons = false,
-                fastSettingsSide = FastSettingsSide.CenterStart
+                fastSettingsSide = FastSettingsSide.CenterStart,
+                settingGroupsInitialVisibility = emptyMap()
             )
         }
     }

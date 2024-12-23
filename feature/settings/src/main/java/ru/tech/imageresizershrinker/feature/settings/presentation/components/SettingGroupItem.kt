@@ -24,19 +24,30 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.t8rin.logger.makeLog
+import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun SettingGroupItem(
+    groupKey: Int,
     icon: ImageVector,
     text: String,
     initialState: Boolean = false,
@@ -45,6 +56,16 @@ fun SettingGroupItem(
         .padding(2.dp),
     content: @Composable ColumnScope.(Boolean) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val toastHostState = LocalToastHostState.current
+    val context = LocalContext.current
+
+    val settingsState = LocalSettingsState.current
+
+    val initialState =
+        settingsState.settingGroupsInitialVisibility[groupKey].makeLog("COCK") ?: initialState
+
+    val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
     val interactionSource = remember {
         MutableInteractionSource()
     }
@@ -67,6 +88,26 @@ fun SettingGroupItem(
             surfaceContainer.blend(
                 surfaceContainerLowest, 0.4f
             )
+        },
+        onLongClick = {
+            scope.launch {
+                simpleSettingsInteractor.toggleSettingsGroupVisibility(
+                    key = groupKey,
+                    value = !initialState
+                )
+
+                toastHostState.showToast(
+                    message = context.getString(
+                        if (initialState) {
+                            R.string.settings_group_visibility_hidden
+                        } else {
+                            R.string.settings_group_visibility_visible
+                        },
+                        text
+                    ),
+                    icon = Icons.Outlined.Settings
+                )
+            }
         },
         shape = RoundedCornerShape(cornerSize),
         expandableContent = content,

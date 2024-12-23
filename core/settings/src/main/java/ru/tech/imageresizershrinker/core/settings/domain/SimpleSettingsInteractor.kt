@@ -33,4 +33,9 @@ interface SimpleSettingsInteractor {
 
     fun isInstalledFromPlayStore(): Boolean
 
+    suspend fun toggleSettingsGroupVisibility(
+        key: Int,
+        value: Boolean
+    )
+
 }

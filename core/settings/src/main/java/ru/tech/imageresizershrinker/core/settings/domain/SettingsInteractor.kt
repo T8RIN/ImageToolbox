@@ -234,5 +234,13 @@ fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor {
 
         override fun isInstalledFromPlayStore(): Boolean = instance.isInstalledFromPlayStore()
 
+        override suspend fun toggleSettingsGroupVisibility(
+            key: Int,
+            value: Boolean
+        ) = instance.toggleSettingsGroupVisibility(
+            key = key,
+            value = value
+        )
+
     }
 }

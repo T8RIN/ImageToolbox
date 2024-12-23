@@ -124,6 +124,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SCREEN_SEA
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SECURE_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SELECTED_FONT_INDEX
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SETTINGS_GROUP_VISIBILITY
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_SETTINGS_IN_LANDSCAPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SKIP_IMAGE_PICKING
@@ -312,7 +313,8 @@ internal class AndroidSettingsManager @Inject constructor(
                 ?: default.isCenterAlignDialogButtons,
             fastSettingsSide = prefs[FAST_SETTINGS_SIDE]?.let {
                 FastSettingsSide.fromOrdinal(it)
-            } ?: default.fastSettingsSide
+            } ?: default.fastSettingsSide,
+            settingGroupsInitialVisibility = prefs[SETTINGS_GROUP_VISIBILITY].toSettingGroupsInitialVisibility()
         )
     }.onEach { currentSettings = it }
 
@@ -1102,6 +1104,21 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override fun isInstalledFromPlayStore(): Boolean = context.isInstalledFromPlayStore()
 
+    override suspend fun toggleSettingsGroupVisibility(
+        key: Int,
+        value: Boolean
+    ) {
+        dataStore.edit {
+            it[SETTINGS_GROUP_VISIBILITY] =
+                currentSettings.settingGroupsInitialVisibility.toMutableMap().run {
+                    this[key] = value
+                    map {
+                        "${it.key}:${it.value}"
+                    }.toSet()
+                }
+        }
+    }
+
     override suspend fun setFastSettingsSide(side: FastSettingsSide) {
         dataStore.edit {
             it[FAST_SETTINGS_SIDE] = side.ordinal
@@ -1127,5 +1144,10 @@ internal class AndroidSettingsManager @Inject constructor(
         val value = this[key] ?: defaultValue
         this[key] = !value
     }
+
+    private fun Set<String>?.toSettingGroupsInitialVisibility(): Map<Int, Boolean> =
+        this?.map { key ->
+            key.split(":").let { it[0].toInt() to it[1].toBoolean() }
+        }?.toMap() ?: default.settingGroupsInitialVisibility
 
 }

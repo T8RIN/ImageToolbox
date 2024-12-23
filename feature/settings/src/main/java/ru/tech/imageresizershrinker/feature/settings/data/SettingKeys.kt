@@ -22,6 +22,7 @@ import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 
 internal object SettingKeys {
     val SAVE_FOLDER_URI = stringPreferencesKey("saveFolder")
@@ -111,4 +112,5 @@ internal object SettingKeys {
     val SLIDER_TYPE = intPreferencesKey("SLIDER_TYPE")
     val CENTER_ALIGN_DIALOG_BUTTONS = booleanPreferencesKey("CENTER_ALIGN_DIALOG_BUTTONS")
     val FAST_SETTINGS_SIDE = intPreferencesKey("FAST_SETTINGS_SIDE")
+    val SETTINGS_GROUP_VISIBILITY = stringSetPreferencesKey("SETTINGS_GROUP_VISIBILITY")
 }

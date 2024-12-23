@@ -116,6 +116,7 @@ fun SettingsContent(
 
     val isUpdateAvailable by component.isUpdateAvailable.subscribeAsState()
 
+    val settingsState = LocalSettingsState.current
     val layoutDirection = LocalLayoutDirection.current
     val initialSettingGroups = remember {
         SettingsGroup.entries.filter {
@@ -154,7 +155,6 @@ fun SettingsContent(
         )
 
     val focus = LocalFocusManager.current
-    val settingsState = LocalSettingsState.current
 
     DisposableEffect(Unit) {
         onDispose {
@@ -370,6 +370,7 @@ fun SettingsContent(
                                         }
                                     } else {
                                         SettingGroupItem(
+                                            groupKey = group.id,
                                             icon = group.icon,
                                             text = stringResource(group.titleId),
                                             initialState = group.initialState
