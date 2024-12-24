@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.base64_tools.presentation.components
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,13 +28,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.CopyAll
+import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,6 +55,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Base64
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
@@ -82,10 +85,55 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
         )
     }
 
+    val importTile: @Composable RowScope.(shape: Shape) -> Unit = { shape ->
+        val pickLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri?.let {
+                component.setBase64FromUri(
+                    uri = uri,
+                    onFailure = {
+                        essentials.showToast(
+                            message = context.getString(R.string.not_a_valid_base_64),
+                            icon = Icons.Rounded.Base64
+                        )
+                    }
+                )
+            }
+        }
+
+        Tile(
+            onClick = {
+                pickLauncher.launch(arrayOf("text/plain"))
+            },
+            shape = shape,
+            icon = Icons.Rounded.FileOpen,
+            textRes = R.string.import_base_64
+        )
+    }
+
     AnimatedContent(component.uri == null) { isNoUri ->
         if (isNoUri) {
-            Row {
-                pasteTile(CircleShape)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                pasteTile(
+                    RoundedCornerShape(
+                        topStart = 16.dp,
+                        topEnd = 4.dp,
+                        bottomStart = 16.dp,
+                        bottomEnd = 4.dp
+                    )
+                )
+                importTile(
+                    RoundedCornerShape(
+                        topStart = 4.dp,
+                        topEnd = 16.dp,
+                        bottomStart = 4.dp,
+                        bottomEnd = 16.dp
+                    )
+                )
             }
         } else {
             Column(
@@ -96,7 +144,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                 )
             ) {
                 Text(
-                    text = stringResource(R.string.options),
+                    text = stringResource(R.string.actions),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(8.dp)
@@ -143,13 +191,20 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                         )
                     }
                     Row(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        importTile(ContainerShapeDefaults.centerShape)
+                    }
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Tile(
-                            onClick = {
+                        val shareText = {
+                            component.shareText(essentials::showConfetti)
+                        }
 
-                            },
+                        Tile(
+                            onClick = shareText,
                             shape = RoundedCornerShape(
                                 topStart = 4.dp,
                                 topEnd = 4.dp,
@@ -160,10 +215,22 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                             textRes = R.string.share_base_64
                         )
 
-                        Tile(
-                            onClick = {
+                        val saveLauncher = rememberLauncherForActivityResult(
+                            ActivityResultContracts.CreateDocument("text/plain")
+                        ) { uri ->
+                            uri?.let {
+                                component.saveContentToTxt(
+                                    uri = uri,
+                                    onResult = essentials::parseFileSaveResult
+                                )
+                            }
+                        }
+                        val saveText: () -> Unit = {
+                            saveLauncher.launch(component.generateTextFilename())
+                        }
 
-                            },
+                        Tile(
+                            onClick = saveText,
                             shape = RoundedCornerShape(
                                 topStart = 4.dp,
                                 topEnd = 4.dp,

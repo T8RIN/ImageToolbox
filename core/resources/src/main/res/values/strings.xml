@@ -1513,7 +1513,7 @@
     <string name="base_64_tools">Base64 Tools</string>
     <string name="base_64_tools_sub">Decode Base64 string to image, or encode image to Base64 format</string>
     <string name="base_64">Base64</string>
-    <string name="not_a_valid_base_64">Pasted string is not a valid Base64 string</string>
+    <string name="not_a_valid_base_64">Provided value is not a valid Base64 string</string>
     <string name="copy_not_a_valid_base_64">Cannot copy empty or invalid Base64 string</string>
     <string name="paste_base_64">Paste Base64</string>
     <string name="copy_base_64">Copy Base64</string>
@@ -1521,4 +1521,6 @@
     <string name="save_base_64">Save Base64</string>
     <string name="share_base_64">Share Base64</string>
     <string name="options">Options</string>
+    <string name="actions">Actions</string>
+    <string name="import_base_64">Import Base64</string>
 </resources>
