@@ -55,6 +55,7 @@ import kotlinx.serialization.encoding.Encoder
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.ApngBox
+import ru.tech.imageresizershrinker.core.resources.icons.Base64
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.Draw
 import ru.tech.imageresizershrinker.core.resources.icons.Encrypted
@@ -133,6 +134,7 @@ sealed class Screen(
             is CollageMaker -> "Collage_Maker"
             is LibrariesInfo -> "Libraries_Info"
             is MarkupLayers -> "Markup_Layers"
+            is Base64Conversion -> "Base64_Conversion"
         }
 
     val icon: ImageVector?
@@ -177,6 +179,7 @@ sealed class Screen(
             NoiseGeneration -> Icons.Outlined.Grain
             is CollageMaker -> Icons.Outlined.AutoAwesomeMosaic
             is MarkupLayers -> Icons.Outlined.Stack
+            is Base64Conversion -> Icons.Outlined.Base64
         }
 
     @Serializable
@@ -804,6 +807,15 @@ sealed class Screen(
         subtitle = R.string.markup_layers_sub
     )
 
+    @Serializable
+    data class Base64Conversion(
+        val uri: KUri? = null
+    ) : Screen(
+        id = 35,
+        title = R.string.base_64_conversion,
+        subtitle = R.string.base_64_conversion_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -854,6 +866,7 @@ sealed class Screen(
                     DocumentScanner,
                     ScanQrCode(),
                     ColorTools,
+                    Base64Conversion(),
                     GifTools(),
                     JxlTools(),
                     ApngTools(),
@@ -872,7 +885,7 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 55
+        const val FEATURES_COUNT = 56
     }
 }
 

@@ -15,19 +15,20 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.utils
+package ru.tech.imageresizershrinker.feature.base64_conversion.domain
 
-import java.util.regex.Pattern
+interface Base64Converter {
 
-inline fun <reified T> T?.notNullAnd(
-    predicate: (T) -> Boolean
-): Boolean = if (this != null) predicate(this)
-else false
+    /**
+     * @param base64 - string to decode to uri
+     * @return uri
+     **/
+    suspend fun decode(base64: String): String?
 
-fun isBase64(data: String) = data.trim { it.isWhitespace() }
-    .isNotEmpty()
-    .and(BASE64_PATTERN.matcher(data).matches() || data.startsWith("data:image"))
+    /**
+     * @param uri - uri to decode
+     * @return base64
+     **/
+    suspend fun encode(uri: String): String
 
-private val BASE64_PATTERN = Pattern.compile(
-    "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"
-)
+}

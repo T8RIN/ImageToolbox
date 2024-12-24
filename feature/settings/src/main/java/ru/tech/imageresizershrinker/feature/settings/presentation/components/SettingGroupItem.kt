@@ -34,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.t8rin.logger.makeLog
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -63,7 +62,7 @@ fun SettingGroupItem(
     val settingsState = LocalSettingsState.current
 
     val initialState =
-        settingsState.settingGroupsInitialVisibility[groupKey].makeLog("COCK") ?: initialState
+        settingsState.settingGroupsInitialVisibility[groupKey] ?: initialState
 
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
     val interactionSource = remember {

@@ -17,12 +17,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:markup-layers")
-
-
-include(":feature:libraries-info")
-
-
 pluginManagement {
     repositories {
         includeBuild("build-logic")
@@ -108,6 +102,9 @@ include(":feature:color-tools")
 include(":feature:webp-tools")
 include(":feature:noise-generation")
 include(":feature:colllage-maker")
+include(":feature:libraries-info")
+include(":feature:markup-layers")
+include(":feature:base64-conversion")
 
 include(":feature:root")
 

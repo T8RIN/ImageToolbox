@@ -64,4 +64,5 @@ dependencies {
     implementation(projects.feature.colllageMaker)
     implementation(projects.feature.librariesInfo)
     implementation(projects.feature.markupLayers)
+    implementation(projects.feature.base64Conversion)
 }

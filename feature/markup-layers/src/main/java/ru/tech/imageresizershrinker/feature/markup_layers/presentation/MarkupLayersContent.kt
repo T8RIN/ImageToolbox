@@ -85,7 +85,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -114,7 +113,7 @@ import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLog
 fun MarkupLayersContent(
     component: MarkupLayersComponent
 ) {
-    LocalComponentActivity.current
+    AutoContentBasedColors(component.bitmap)
 
     val themeState = LocalDynamicThemeState.current
 

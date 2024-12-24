@@ -22,6 +22,7 @@ import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.Coll
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import ru.tech.imageresizershrinker.feature.base64_conversion.presentation.components.Base64ConversionComponent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
 import ru.tech.imageresizershrinker.feature.compare.presentation.screenLogic.CompareComponent
 import ru.tech.imageresizershrinker.feature.crop.presentation.screenLogic.CropComponent
@@ -48,6 +49,7 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.P
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.*
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
@@ -100,27 +102,28 @@ internal class ChildProvider @Inject constructor(
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
     private val mainComponentFactory: MainComponent.Factory,
-    private val markupLayersComponentFactory: MarkupLayersComponent.Factory
+    private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
+    private val base64ConversionComponentFactory: Base64ConversionComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
         componentContext: ComponentContext
     ): NavigationChild = when (config) {
-        Screen.ColorTools -> NavigationChild.ColorTools(
+        Screen.ColorTools -> ColorTools(
             colorToolsComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
             )
         )
 
-        Screen.EasterEgg -> NavigationChild.EasterEgg(
+        Screen.EasterEgg -> EasterEgg(
             easterEggComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
             )
         )
 
-        Screen.Main -> NavigationChild.Main(
+        Screen.Main -> Main(
             mainComponentFactory(
                 componentContext = componentContext,
                 onTryGetUpdate = ::tryGetUpdate,
@@ -130,7 +133,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.ApngTools -> NavigationChild.ApngTools(
+        is Screen.ApngTools -> ApngTools(
             apngToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
@@ -139,7 +142,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Cipher -> NavigationChild.Cipher(
+        is Screen.Cipher -> Cipher(
             cipherComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -147,7 +150,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.CollageMaker -> NavigationChild.CollageMaker(
+        is Screen.CollageMaker -> CollageMaker(
             collageMakerComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -156,7 +159,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Compare -> NavigationChild.Compare(
+        is Screen.Compare -> Compare(
             compareComponentFactory(
                 componentContext = componentContext,
                 initialComparableUris = config.uris
@@ -166,7 +169,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Crop -> NavigationChild.Crop(
+        is Screen.Crop -> Crop(
             cropComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -175,7 +178,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.DeleteExif -> NavigationChild.DeleteExif(
+        is Screen.DeleteExif -> DeleteExif(
             deleteExifComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -184,7 +187,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        Screen.DocumentScanner -> NavigationChild.DocumentScanner(
+        Screen.DocumentScanner -> DocumentScanner(
             documentScannerComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
@@ -192,7 +195,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Draw -> NavigationChild.Draw(
+        is Screen.Draw -> Draw(
             drawComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -201,7 +204,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.EraseBackground -> NavigationChild.EraseBackground(
+        is Screen.EraseBackground -> EraseBackground(
             eraseBackgroundComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -210,7 +213,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Filter -> NavigationChild.Filter(
+        is Screen.Filter -> Filter(
             filtersComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
@@ -219,7 +222,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.FormatConversion -> NavigationChild.FormatConversion(
+        is Screen.FormatConversion -> FormatConversion(
             formatConversionComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -228,7 +231,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.GeneratePalette -> NavigationChild.GeneratePalette(
+        is Screen.GeneratePalette -> GeneratePalette(
             generatePaletteComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -236,7 +239,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.GifTools -> NavigationChild.GifTools(
+        is Screen.GifTools -> GifTools(
             gifToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
@@ -244,7 +247,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.GradientMaker -> NavigationChild.GradientMaker(
+        is Screen.GradientMaker -> GradientMaker(
             gradientMakerComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -253,7 +256,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.ImagePreview -> NavigationChild.ImagePreview(
+        is Screen.ImagePreview -> ImagePreview(
             imagePreviewComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -262,7 +265,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.ImageSplitting -> NavigationChild.ImageSplitting(
+        is Screen.ImageSplitting -> ImageSplitting(
             imageSplittingComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uri,
@@ -271,7 +274,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.ImageStacking -> NavigationChild.ImageStacking(
+        is Screen.ImageStacking -> ImageStacking(
             imageStackingComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -280,7 +283,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.ImageStitching -> NavigationChild.ImageStitching(
+        is Screen.ImageStitching -> ImageStitching(
             imageStitchingComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -289,7 +292,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.JxlTools -> NavigationChild.JxlTools(
+        is Screen.JxlTools -> JxlTools(
             jxlToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
@@ -297,7 +300,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.LimitResize -> NavigationChild.LimitResize(
+        is Screen.LimitResize -> LimitResize(
             limitResizeComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -306,7 +309,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.LoadNetImage -> NavigationChild.LoadNetImage(
+        is Screen.LoadNetImage -> LoadNetImage(
             loadNetImageComponentFactory(
                 componentContext = componentContext,
                 initialUrl = config.url,
@@ -316,7 +319,7 @@ internal class ChildProvider @Inject constructor(
         )
 
 
-        Screen.NoiseGeneration -> NavigationChild.NoiseGeneration(
+        Screen.NoiseGeneration -> NoiseGeneration(
             noiseGenerationComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
@@ -324,7 +327,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.PdfTools -> NavigationChild.PdfTools(
+        is Screen.PdfTools -> PdfTools(
             pdfToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
@@ -332,7 +335,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.PickColorFromImage -> NavigationChild.PickColorFromImage(
+        is Screen.PickColorFromImage -> PickColorFromImage(
             pickColorFromImageComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -340,7 +343,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.RecognizeText -> NavigationChild.RecognizeText(
+        is Screen.RecognizeText -> RecognizeText(
             recognizeTextComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -348,7 +351,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.ResizeAndConvert -> NavigationChild.ResizeAndConvert(
+        is Screen.ResizeAndConvert -> ResizeAndConvert(
             resizeAndConvertComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -357,7 +360,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.ScanQrCode -> NavigationChild.ScanQrCode(
+        is Screen.ScanQrCode -> ScanQrCode(
             scanQrCodeComponentFactory(
                 componentContext = componentContext,
                 initialQrCodeContent = config.qrCodeContent,
@@ -365,7 +368,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        Screen.Settings -> NavigationChild.Settings(
+        Screen.Settings -> Settings(
             settingsComponentFactory(
                 componentContext = componentContext,
                 onTryGetUpdate = ::tryGetUpdate,
@@ -375,7 +378,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.SingleEdit -> NavigationChild.SingleEdit(
+        is Screen.SingleEdit -> SingleEdit(
             singleEditComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
@@ -384,7 +387,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.SvgMaker -> NavigationChild.SvgMaker(
+        is Screen.SvgMaker -> SvgMaker(
             svgMakerComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -392,7 +395,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Watermarking -> NavigationChild.Watermarking(
+        is Screen.Watermarking -> Watermarking(
             watermarkingComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -401,7 +404,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.WebpTools -> NavigationChild.WebpTools(
+        is Screen.WebpTools -> WebpTools(
             webpToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
@@ -410,7 +413,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.WeightResize -> NavigationChild.WeightResize(
+        is Screen.WeightResize -> WeightResize(
             weightResizeComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -419,7 +422,7 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Zip -> NavigationChild.Zip(
+        is Screen.Zip -> Zip(
             zipComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
@@ -427,15 +430,24 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        Screen.LibrariesInfo -> NavigationChild.LibrariesInfo(
+        Screen.LibrariesInfo -> LibrariesInfo(
             librariesInfoComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
             )
         )
 
-        is Screen.MarkupLayers -> NavigationChild.MarkupLayers(
+        is Screen.MarkupLayers -> MarkupLayers(
             markupLayersComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.Base64Conversion -> Base64Conversion(
+            base64ConversionComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
                 onGoBack = ::navigateBack,

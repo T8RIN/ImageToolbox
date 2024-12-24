@@ -1489,7 +1489,7 @@
     <string name="material_you_slider_sub">Modern Material You slider, futuristic, fresh, acessible</string>
     <string name="apply">Apply</string>
     <string name="center_align_dialog_buttons">Center Dialog Buttons</string>
-    <string name="center_align_dialog_buttons_sub">Buttons of dialogs will be postioned at center instead of left side if possible</string>
+    <string name="center_align_dialog_buttons_sub">Buttons of dialogs will be positioned at center instead of left side if possible</string>
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="open_source_licenses_sub">View licenses of open source libraries used in this app</string>
     <string name="area">Area</string>
@@ -1510,4 +1510,15 @@
     <string name="clear_selection">Clear Selection</string>
     <string name="settings_group_visibility_hidden">Setting group \"%s\" will be collapsed by default</string>
     <string name="settings_group_visibility_visible">Setting group \"%s\" will be expanded by default</string>
+    <string name="base_64_conversion">Base64 conversion</string>
+    <string name="base_64_conversion_sub">Decode base64 string to image, or encode image to base64 format</string>
+    <string name="base_64">Base64</string>
+    <string name="not_a_valid_base_64">Pasted string is not a valid Base64 string</string>
+    <string name="copy_not_a_valid_base_64">Cannot copy empty or invalid Base64 string</string>
+    <string name="paste_base_64">Paste Base64</string>
+    <string name="copy_base_64">Copy Base64</string>
+    <string name="base_64_tips">Load image to copy or save Base64 string, if you have any, you can paste it above to obtain image</string>
+    <string name="save_base_64">Save Base64</string>
+    <string name="share_base_64">Share Base64</string>
+    <string name="options">Options</string>
 </resources>

@@ -15,19 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.utils
+package ru.tech.imageresizershrinker.feature.base64_conversion.di
 
-import java.util.regex.Pattern
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.feature.base64_conversion.data.AndroidBase64Converter
+import ru.tech.imageresizershrinker.feature.base64_conversion.domain.Base64Converter
+import javax.inject.Singleton
 
-inline fun <reified T> T?.notNullAnd(
-    predicate: (T) -> Boolean
-): Boolean = if (this != null) predicate(this)
-else false
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface Base64ConversionModule {
 
-fun isBase64(data: String) = data.trim { it.isWhitespace() }
-    .isNotEmpty()
-    .and(BASE64_PATTERN.matcher(data).matches() || data.startsWith("data:image"))
+    @Binds
+    @Singleton
+    fun provideConverter(
+        impl: AndroidBase64Converter
+    ): Base64Converter
 
-private val BASE64_PATTERN = Pattern.compile(
-    "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"
-)
+}

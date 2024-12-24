@@ -15,19 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.utils
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.feature)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
+}
 
-import java.util.regex.Pattern
-
-inline fun <reified T> T?.notNullAnd(
-    predicate: (T) -> Boolean
-): Boolean = if (this != null) predicate(this)
-else false
-
-fun isBase64(data: String) = data.trim { it.isWhitespace() }
-    .isNotEmpty()
-    .and(BASE64_PATTERN.matcher(data).matches() || data.startsWith("data:image"))
-
-private val BASE64_PATTERN = Pattern.compile(
-    "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"
-)
+android.namespace = "ru.tech.imageresizershrinker.feature.base64_conversion"

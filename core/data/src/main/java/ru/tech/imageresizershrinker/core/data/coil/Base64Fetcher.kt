@@ -27,7 +27,7 @@ import coil3.fetch.Fetcher
 import coil3.fetch.SourceFetchResult
 import coil3.request.Options
 import okio.Buffer
-import java.util.regex.Pattern
+import ru.tech.imageresizershrinker.core.domain.utils.isBase64
 
 internal class Base64Fetcher(
     private val options: Options,
@@ -56,20 +56,12 @@ internal class Base64Fetcher(
             imageLoader: ImageLoader,
         ): Fetcher? {
             val stripped = data.toString().substringAfter(",")
-            return if (data.toString().startsWith("data:image") || isBase64(stripped)) {
+            return if (isBase64(stripped)) {
                 Base64Fetcher(
                     options = options,
                     base64 = stripped
                 )
             } else null
-        }
-
-        companion object {
-            private fun isBase64(data: String) = BASE64_PATTERN.matcher(data).matches()
-
-            private val BASE64_PATTERN = Pattern.compile(
-                "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
-            )
         }
     }
 }
