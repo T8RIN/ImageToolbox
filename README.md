@@ -623,6 +623,7 @@ or click one of the badges below.
     - Camera Like RGB
 - Image source selection
 - Additional Features
+    - Base64 Decode/Encode
     - Rotating
     - Flipping
     - Perlin Noise Generation
