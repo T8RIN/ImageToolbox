@@ -1647,4 +1647,8 @@
     <string name="fallback_option"></string>
     <string name="exif" translatable="false"></string>
     <string name="select_gif_image_to_start"></string>
+    <string name="deutaromaly"></string>
+    <string name="deutaronotopia"></string>
+    <string name="tritonomaly"></string>
+    <string name="protonomaly"></string>
 </resources>
