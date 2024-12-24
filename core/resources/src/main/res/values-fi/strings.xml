@@ -1647,4 +1647,8 @@
     <string name="tag_jpeg_interchange_format_length"></string>
     <string name="tag_flash"></string>
     <string name="cache_size"></string>
+    <string name="tritonomaly"></string>
+    <string name="protonomaly"></string>
+    <string name="deutaromaly"></string>
+    <string name="deutaronotopia"></string>
 </resources>
