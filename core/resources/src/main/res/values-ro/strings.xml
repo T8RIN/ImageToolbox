@@ -55,17 +55,17 @@
     <string name="pick_two_images">Alege două imagini pentru a începe</string>
     <string name="pick_images">Alege imagini</string>
     <string name="settings">Setări</string>
-    <string name="night_mode">Mod de noapte</string>
+    <string name="night_mode">Modul de noapte</string>
     <string name="dark">Întunecat</string>
     <string name="light">Luminos</string>
     <string name="dynamic_colors">Culori dinamice</string>
     <string name="customization">Personalizare</string>
     <string name="allow_image_monet">Permite monetarea imaginii</string>
     <string name="language">Limbă</string>
-    <string name="image_too_large_preview">Imaginea este prea mare pentru a fi previzualizată, dar salvarea va fi încercat oricum</string>
+    <string name="image_too_large_preview">Imaginea este prea mare pentru previzualizare, dar salvarea va fi încercată oricum</string>
     <string name="loading">Se încarcă…</string>
     <string name="smth_went_wrong">Ceva nu a mers bine: %1$s</string>
-    <string name="pick_image">Alege imaginea pentru a începe</string>
+    <string name="pick_image">Alegeți imaginea pentru a începe</string>
     <string name="width">Lățime %1$s</string>
     <string name="pick_image_alt">Alege imaginea</string>
     <string name="app_closing_sub">Ești sigur să închizi aplicația\?</string>
@@ -97,10 +97,10 @@
     <string name="no_updates">Nu s-au găsit actualizări</string>
     <string name="issue_tracker">Detector de probleme</string>
     <string name="issue_tracker_sub">Trimiteți rapoarte de bug-uri și solicitări de funcții aici</string>
-    <string name="help_translate">Ajută la traducere</string>
+    <string name="help_translate">Ajutați la traducere</string>
     <string name="search_here">Căutați aici</string>
     <string name="help_translate_sub">Corectarea greșelilor de traducere sau localizarea proiectului în alte limbi</string>
-    <string name="nothing_found_by_search">Nimic găsit prin interogarea dvs.</string>
+    <string name="nothing_found_by_search">Interogarea dvs. nu a găsit nimic</string>
     <string name="dynamic_colors_sub">Dacă este activată, atunci culorile aplicației vor fi adoptate pentru a tapeta culorile</string>
     <string name="failed_to_save">Nu a reușit să salveze imagini %d</string>
     <string name="surface">Suprafață</string>
@@ -123,13 +123,13 @@
     <string name="zoom">Zoom imagine</string>
     <string name="prefix">Prefix</string>
     <string name="filename">Numele fișierului</string>
-    <string name="share">Share</string>
+    <string name="share">Partajare</string>
     <string name="flexible_description">Redimensionează imaginile la imagini cu o latură lungă dată de parametrul Lățime sau Înălțime, toate calculele de dimensiune vor fi făcute după salvare - păstrează raportul de aspect</string>
     <string name="hue">Nuanţă</string>
     <string name="saturation">Saturare</string>
     <string name="exposure">Expunere</string>
-    <string name="white_balance">echilibru alb</string>
-    <string name="temperature">Temperatura</string>
+    <string name="white_balance">Balans de alb</string>
+    <string name="temperature">Temperatură</string>
     <string name="highlights">Repere</string>
     <string name="shadows">Umbre</string>
     <string name="haze">Ceață</string>
@@ -140,11 +140,11 @@
     <string name="spacing">Spațiere</string>
     <string name="sobel_edge">Marginea Sobel</string>
     <string name="blur">Estompa</string>
-    <string name="start">start</string>
+    <string name="start">Început</string>
     <string name="replace_sequence_number">Înlocuiți numărul de ordine</string>
     <string name="image_link">Link imagine</string>
-    <string name="fill">Completati</string>
-    <string name="fit">Potrivi</string>
+    <string name="fill">Umplere</string>
+    <string name="fit">Potrivire</string>
     <string name="opacity">Opacitate</string>
     <string name="scale">Scară</string>
     <string name="radius">Rază</string>
@@ -158,7 +158,7 @@
     <string name="lookup">Priveşte în sus</string>
     <string name="emoji">Emoji</string>
     <string name="emoji_sub">Selectați ce emoji va fi afișat pe ecranul principal</string>
-    <string name="stack_blur">Stiva estompare</string>
+    <string name="stack_blur">Estompare stivă</string>
     <string name="blur_center_y">Încețoșează centrul y</string>
     <string name="zoom_blur">Încețoșare zoom</string>
     <string name="add_file_size">Adăugați dimensiunea fișierului</string>
@@ -167,7 +167,7 @@
     <string name="image_preview_sub">Previzualizează orice tip de imagini: GIF, SVG și așa mai departe</string>
     <string name="photo_picker_sub">Selector de fotografii modern Android, care apare în partea de jos a ecranului, poate funcționa numai pe Android 12+. Are probleme cu primirea metadatelor EXIF</string>
     <string name="file_explorer_picker_sub">Folosește intenția GetContent pentru a alege o imagine. Funcționează peste tot, dar are și probleme cu primirea imaginilor selectate pe unele dispozitive. Nu este vina mea</string>
-    <string name="order_sub">Determină ordinea opțiunilor de pe ecranul principal</string>
+    <string name="order_sub">Determină ordinea instrumentelor pe ecranul principal</string>
     <string name="sequence_num">sequenceNum</string>
     <string name="original_filename">originalFilename</string>
     <string name="add_original_filename">Adăugați numele fișierului original</string>
@@ -193,10 +193,10 @@
     <string name="highlights_shadows">Lumini și umbre</string>
     <string name="effect">Efect</string>
     <string name="distance">Distanţă</string>
-    <string name="sharpen">Ascuţi</string>
+    <string name="sharpen">Ascuțire</string>
     <string name="sepia">Sepia</string>
     <string name="negative">Negativ</string>
-    <string name="solarize">Solarizați</string>
+    <string name="solarize">Solarizare</string>
     <string name="vibrance">Vibranță</string>
     <string name="halftone">Semitonuri</string>
     <string name="cga_colorspace">Spațiu de culoare GCA</string>
@@ -206,7 +206,7 @@
     <string name="emboss">Grava</string>
     <string name="laplacian">Laplacian</string>
     <string name="vignette">Vinietă</string>
-    <string name="end">Sfârşit</string>
+    <string name="end">Sfârșit</string>
     <string name="kuwahara">Netezire Kuwahara</string>
     <string name="distortion">Deformare</string>
     <string name="angle">Unghi</string>
@@ -238,9 +238,9 @@
     <string name="gallery_picker">Galerie</string>
     <string name="file_explorer_picker">Explorator de fișiere</string>
     <string name="gallery_picker_sub">Selector simplu de imagini din galerie. Va funcționa numai aplicația care permite selectorul de imagini</string>
-    <string name="options_arrangement">Aranjament de optiuni</string>
-    <string name="edit">Editați | ×</string>
-    <string name="order">Ordin</string>
+    <string name="options_arrangement">Aranjament de opțiuni</string>
+    <string name="edit">Editare</string>
+    <string name="order">Ordine</string>
     <string name="content_scale">Scara de conținut</string>
     <string name="emojis_count">Numărul de emoji</string>
     <string name="file_proceed">Fișier procesat</string>
@@ -269,7 +269,7 @@
     <string name="auto_cache_clearing_sub">Dacă este activată, memoria cache a aplicației va fi șters la pornirea aplicației</string>
     <string name="skip">Ocolire</string>
     <string name="cache_size">Mărimea cache-ului</string>
-    <string name="create">Crea</string>
+    <string name="create">Creare</string>
     <string name="encrypt">Criptează</string>
     <string name="decrypt">Decriptează</string>
     <string name="pick_file_to_start">Alegeți fișierul pentru a începe</string>
@@ -329,7 +329,7 @@
     <string name="settings_restored">Setările restaurate cu succes</string>
     <string name="contact_me">Contactați-mă</string>
     <string name="restore_sub">Restaurați setările aplicației din fișierul generat anterior</string>
-    <string name="presets_sub" formatted="false">Dacă ați selectat presetarea 125, imaginea va fi salvată la 125% din dimensiunea imaginii originale la o calitate de 100%, iar dacă alegeți presetarea 50, atunci imaginea va fi salvată la o dimensiune de 50% și o calitate de 50%.</string>
+    <string name="presets_sub" formatted="false">Dacă ați selectat presetarea 125, imaginea va fi salvată cu o dimensiune de 125% din imaginea originală. Dacă ați selectat preselecția 50, atunci imaginea va fi salvată cu dimensiunea de 50%</string>
     <string name="restore_background">Restaurați fundalul</string>
     <string name="corrupted_file_or_not_a_backup">Fișier coruptat sau nu este un backup</string>
     <string name="reset_settings_sub">Acest lucru vă va readuce setările la valorile implicite, observați că acest lucru nu poate fi anulat fără fișierul de backup din opțiunea de mai sus.</string>
@@ -345,7 +345,7 @@
     <string name="pipette">Pipetă</string>
     <string name="draw_mode">Mod de desen</string>
     <string name="create_issue">Creați o problemă</string>
-    <string name="something_went_wrong_emphasis">Ooops… Ceva a mers prost, scrie-mi folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
+    <string name="something_went_wrong_emphasis">Oops… Ceva a mers prost, scrie-mi folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
     <string name="resize_and_convert_sub">Modificați dimensiunea imaginilor date sau convertiți-le în alte formate, de asemenea, acolo puteți edita metadatele EXIF dacă alegeți o singură imagine</string>
     <string name="presets_sub_bytes">Preset aici determină % din fișierul de ieșire, de exemplu, dacă selectați preset 50 pe o imagine de 5mb, atunci veți obține o imagine de 2,5mb după salvare.</string>
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>
@@ -418,7 +418,7 @@
     <string name="scale_small_images_to_large">Scalați imaginile mici la mari</string>
     <string name="invert_colors_sub">Va înlocui tema culorii cu cele negative dacă este activat</string>
     <string name="search_option">Căutați</string>
-    <string name="search_option_sub">Oferă abilitarea de-a căuta prin toate opțiunile disponibile pe ecranul principal</string>
+    <string name="search_option_sub">Permite posibilitatea de a căuta prin toate instrumentele disponibile pe ecranul principal</string>
     <string name="invert_colors">Inversați culorile</string>
     <string name="pdf_tools">Instrumente PDF</string>
     <string name="mask_filter">Filtru mască</string>
@@ -783,7 +783,7 @@
     <string name="exit">Ieșire</string>
     <string name="preview_closing">Dacă părăsiți previzualizarea acum, va trebui să adăugați din nou imaginile</string>
     <string name="image_format">Format imagine</string>
-    <string name="material_you_sub">Creează paleta \"Material You\" din imagine</string>
+    <string name="material_you_sub">Creați paleta Material You din imagine</string>
     <string name="dark_colors">Culori Închise</string>
     <string name="dark_colors_sub">Utilizează schema de culori modul de noapte în loc de varianta de lumină</string>
     <string name="copy_as_compose_code">Copiați ca cod\" Jetpack Compose\"</string>
@@ -804,4 +804,23 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">Creați fișier Zip din fișiere sau imagini date</string>
     <string name="drag_handle_width">Trageți Lățimea mânerului</string>
+    <string name="confetti_type">Tip confetti</string>
+    <string name="festive">Festiv</string>
+    <string name="explode">Explozie</string>
+    <string name="rain">Ploaie</string>
+    <string name="corners">Colțuri</string>
+    <string name="jxl_tools">Instrumente JXL</string>
+    <string name="jxl_tools_sub">Efectuați transcodarea JXL ~ JPEG fără pierderi de calitate sau convertiți GIF/APNG în animație JXL</string>
+    <string name="jxl_type_to_jpeg">JXL în JPEG</string>
+    <string name="jxl_type_to_jpeg_sub">Efectuați transcodarea fără pierderi de la JXL la JPEG</string>
+    <string name="jpeg_type_to_jxl_sub">Efectuați transcodarea fără pierderi de la JPEG la JXL</string>
+    <string name="jpeg_type_to_jxl">JPEG în JXL</string>
+    <string name="document_scanner_sub">Scanați documente și creați PDF-uri sau imagini separate din acestea</string>
+    <string name="speed_sub">Controlează viteza de decodare a imaginii rezultate, aceasta ar trebui să ajute la deschiderea mai rapidă a imaginii rezultate, valoarea de %1$d înseamnă cea mai lentă decodare, în timp ce %2$d - cea mai rapidă, această setare poate crește dimensiunea imaginii de ieșire</string>
+    <string name="svg_warning">Nu se recomandă utilizarea acestui instrument pentru urmărirea imaginilor mari fără reducerea scalei, deoarece poate provoca blocarea și creșterea timpului de procesare</string>
+    <string name="create_shortcut">Creare scurtătură</string>
+    <string name="create_shortcut_title">Alegeți instrumentul pentru fixare</string>
+    <string name="create_shortcut_subtitle">Instrumentul va fi adăugat la ecranul de pornire al lansatorului dvs. ca scurtătură, utilizați-l în combinație cu setarea \"Săriți peste selectarea fișierelor\" pentru a obține comportamentul necesar</string>
+    <string name="create_new">Creare nou</string>
+    <string name="create_template">Creare șablon</string>
 </resources>
