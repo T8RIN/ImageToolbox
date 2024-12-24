@@ -355,7 +355,7 @@
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Draw mode</string>
     <string name="create_issue">Create Issue</string>
-    <string name="something_went_wrong_emphasis">Oops… Something went wrong. You can write to me using options below and i\'ll try to find solution</string>
+    <string name="something_went_wrong_emphasis">Oops… Something went wrong. You can write to me using options below and I\'ll try to find solution</string>
     <string name="resize_and_convert">Resize and Convert</string>
     <string name="resize_and_convert_sub">Change size of given images or convert them to other formats. EXIF metadata can also be edited here if picking a single image.</string>
     <string name="max_colors_count">Max color count</string>
@@ -734,9 +734,9 @@
     <string name="color_matrix_3x3">Color Matrix 3x3</string>
     <string name="simple_effects">Simple Effects</string>
     <string name="polaroid">Polaroid</string>
-    <string name="tritonomaly">Tritonomaly</string>
-    <string name="deutaromaly">Deutaromaly</string>
-    <string name="protonomaly">Protonomaly</string>
+    <string name="tritonomaly">Tritanomaly</string>
+    <string name="deutaromaly">Deuteranomaly</string>
+    <string name="protonomaly">Protanomaly</string>
     <string name="vintage">Vintage</string>
     <string name="browni">Browni</string>
     <string name="coda_chrome">Coda Chrome</string>
@@ -744,7 +744,7 @@
     <string name="warm">Warm</string>
     <string name="cool">Cool</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
+    <string name="deutaronotopia">Deuteranopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Achromatomaly</string>
     <string name="achromatopsia">Achromatopsia</string>
