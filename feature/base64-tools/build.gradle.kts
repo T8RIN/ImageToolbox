@@ -15,24 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.base64_conversion.di
-
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.base64_conversion.data.AndroidBase64Converter
-import ru.tech.imageresizershrinker.feature.base64_conversion.domain.Base64Converter
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface Base64ConversionModule {
-
-    @Binds
-    @Singleton
-    fun provideConverter(
-        impl: AndroidBase64Converter
-    ): Base64Converter
-
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.feature)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
 }
+
+android.namespace = "ru.tech.imageresizershrinker.feature.base64_tools"

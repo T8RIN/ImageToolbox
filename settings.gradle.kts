@@ -104,7 +104,7 @@ include(":feature:noise-generation")
 include(":feature:colllage-maker")
 include(":feature:libraries-info")
 include(":feature:markup-layers")
-include(":feature:base64-conversion")
+include(":feature:base64-tools")
 
 include(":feature:root")
 

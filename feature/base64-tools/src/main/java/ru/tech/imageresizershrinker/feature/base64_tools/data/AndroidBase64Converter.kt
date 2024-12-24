@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.base64_conversion.data
+package ru.tech.imageresizershrinker.feature.base64_tools.data
 
 import android.graphics.Bitmap
 import android.util.Base64
@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.feature.base64_conversion.domain.Base64Converter
+import ru.tech.imageresizershrinker.feature.base64_tools.domain.Base64Converter
 import javax.inject.Inject
 
 internal class AndroidBase64Converter @Inject constructor(

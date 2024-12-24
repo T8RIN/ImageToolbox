@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.base64_conversion.presentation.components
+package ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -43,10 +43,10 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import ru.tech.imageresizershrinker.feature.base64_conversion.domain.Base64Converter
+import ru.tech.imageresizershrinker.feature.base64_tools.domain.Base64Converter
 import kotlin.toString
 
-class Base64ConversionComponent @AssistedInject internal constructor(
+class Base64ToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
@@ -219,7 +219,7 @@ class Base64ConversionComponent @AssistedInject internal constructor(
             initialUri: Uri?,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
-        ): Base64ConversionComponent
+        ): Base64ToolsComponent
     }
 
 }

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.base64_conversion.domain
+package ru.tech.imageresizershrinker.feature.base64_tools.domain
 
 interface Base64Converter {
 

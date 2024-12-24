@@ -24,8 +24,8 @@ import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
-import ru.tech.imageresizershrinker.feature.base64_conversion.presentation.Base64ConversionContent
-import ru.tech.imageresizershrinker.feature.base64_conversion.presentation.components.Base64ConversionComponent
+import ru.tech.imageresizershrinker.feature.base64_tools.presentation.Base64ToolsContent
+import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
@@ -301,9 +301,9 @@ internal sealed class NavigationChild {
         override fun Content() = MarkupLayersContent(component)
     }
 
-    class Base64Conversion(val component: Base64ConversionComponent) : NavigationChild() {
+    class Base64Tools(val component: Base64ToolsComponent) : NavigationChild() {
         @Composable
-        override fun Content() = Base64ConversionContent(component)
+        override fun Content() = Base64ToolsContent(component)
     }
 
 }

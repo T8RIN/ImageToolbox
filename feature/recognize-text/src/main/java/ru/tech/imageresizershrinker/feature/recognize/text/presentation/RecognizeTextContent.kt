@@ -311,7 +311,9 @@ fun RecognizeTextContent(
                 modifier = Modifier
                     .container()
                     .padding(4.dp)
-                    .animateContentSize(),
+                    .animateContentSize(
+                        alignment = Alignment.Center
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Picture(

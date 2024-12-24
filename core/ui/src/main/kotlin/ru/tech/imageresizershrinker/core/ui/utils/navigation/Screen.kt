@@ -134,7 +134,7 @@ sealed class Screen(
             is CollageMaker -> "Collage_Maker"
             is LibrariesInfo -> "Libraries_Info"
             is MarkupLayers -> "Markup_Layers"
-            is Base64Conversion -> "Base64_Conversion"
+            is Base64Tools -> "Base64_Tools"
         }
 
     val icon: ImageVector?
@@ -179,7 +179,7 @@ sealed class Screen(
             NoiseGeneration -> Icons.Outlined.Grain
             is CollageMaker -> Icons.Outlined.AutoAwesomeMosaic
             is MarkupLayers -> Icons.Outlined.Stack
-            is Base64Conversion -> Icons.Outlined.Base64
+            is Base64Tools -> Icons.Outlined.Base64
         }
 
     @Serializable
@@ -808,12 +808,12 @@ sealed class Screen(
     )
 
     @Serializable
-    data class Base64Conversion(
+    data class Base64Tools(
         val uri: KUri? = null
     ) : Screen(
         id = 35,
-        title = R.string.base_64_conversion,
-        subtitle = R.string.base_64_conversion_sub
+        title = R.string.base_64_tools,
+        subtitle = R.string.base_64_tools_sub
     )
 
     companion object {
@@ -866,7 +866,7 @@ sealed class Screen(
                     DocumentScanner,
                     ScanQrCode(),
                     ColorTools,
-                    Base64Conversion(),
+                    Base64Tools(),
                     GifTools(),
                     JxlTools(),
                     ApngTools(),
