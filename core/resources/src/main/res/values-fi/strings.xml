@@ -1646,4 +1646,9 @@
     <string name="fast_settings_side_sub"></string>
     <string name="clear_selection"></string>
     <string name="layers_on_image_sub"></string>
+    <string name="protonomaly"></string>
+    <string name="tritonomaly"></string>
+    <string name="something_went_wrong_emphasis"></string>
+    <string name="deutaromaly"></string>
+    <string name="deutaronotopia"></string>
 </resources>
