@@ -506,7 +506,7 @@
     <string name="auto_pin_sub">Adiciona automaticamente a imagem salva à área de transferência, se ativado</string>
     <string name="vibration">Vibração</string>
     <string name="vibration_strength">Força de vibração</string>
-    <string name="overwrite_file_requirements">Para substituir arquivos, você precisa usar a fonte de imagem "Explorer", tente repickar imagens, alteramos a fonte da imagem para a necessária</string>
+    <string name="overwrite_file_requirements">Para substituir arquivos, você precisa usar a fonte de imagem Explorer, tente repickar imagens, alteramos a fonte da imagem para a necessária</string>
     <string name="overwrite_files">Substituir arquivos</string>
     <string name="overwrite_files_sub">O arquivo original será substituído por um novo ao invés de salvar na pasta selecionada, esta opção precisa que a fonte da imagem seja \"Explorer\" ou GetContent, ao alternar esta opção, ela será definida automaticamente</string>
     <string name="empty">Vazio</string>
