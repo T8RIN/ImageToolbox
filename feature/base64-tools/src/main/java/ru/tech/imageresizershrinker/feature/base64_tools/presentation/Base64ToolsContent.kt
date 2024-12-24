@@ -180,7 +180,7 @@ fun Base64ToolsContent(
             }
         },
         controls = {
-            Spacer(Modifier.height(8.dp))
+            if (isPortrait) Spacer(Modifier.height(8.dp))
             Base64ToolsTiles(component)
             Spacer(Modifier.height(16.dp))
             if (component.uri != null) {
