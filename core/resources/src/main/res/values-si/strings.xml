@@ -1644,4 +1644,9 @@
     <string name="fab_alignment"></string>
     <string name="presets_sub_bytes"></string>
     <string name="tg_chat_sub"></string>
+    <string name="deutaromaly"></string>
+    <string name="deutaronotopia"></string>
+    <string name="tritonomaly"></string>
+    <string name="something_went_wrong_emphasis"></string>
+    <string name="protonomaly"></string>
 </resources>
