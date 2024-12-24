@@ -112,10 +112,11 @@ internal fun List<Uri>.screenList(
                 Screen.Filter(
                     type = Screen.Filter.Type.Masking(uris.firstOrNull())
                 ),
+                Screen.MarkupLayers(uris.firstOrNull()),
+                Screen.Watermarking(uris),
                 Screen.ImageStitching(uris),
                 Screen.ImageStacking(uris),
                 Screen.ImageSplitting(uris.firstOrNull()),
-                Screen.Watermarking(uris),
                 Screen.GradientMaker(uris),
                 Screen.PdfTools(
                     Screen.PdfTools.Type.ImagesToPdf(uris)
@@ -123,6 +124,7 @@ internal fun List<Uri>.screenList(
                 Screen.GifTools(
                     Screen.GifTools.Type.ImageToGif(uris)
                 ),
+                Screen.Base64Tools(uris.firstOrNull()),
                 Screen.Cipher(uris.firstOrNull()),
                 Screen.ImagePreview(uris),
                 Screen.PickColorFromImage(uris.firstOrNull()),
