@@ -582,7 +582,7 @@
     <string name="segmentation_mode_sparse_text">松散文本</string>
     <string name="segmentation_mode_sparse_text_osd">检测松散文本及其方向</string>
     <string name="segmentation_mode_auto_osd">自动检测文本及其方向</string>
-    <string name="delete_language_sub">要删除“%1$s”语言所有识别类型的 OCR 训练数据，还是只删除选中的（%2$s）？</string>
+    <string name="delete_language_sub">您要删除所有识别类型的语言 1$s OCR 训练数据，还是只删除选定类型 (%2$s) 的数据？</string>
     <string name="gradient_maker">渐变制作器</string>
     <string name="gradient_maker_sub">创建指定输出尺寸的渐变效果，并自定义颜色和外观类型</string>
     <string name="gradient_type_linear">线性</string>
