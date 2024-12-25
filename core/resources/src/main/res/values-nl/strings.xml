@@ -384,7 +384,7 @@
     <string name="auto_erase_background">Achtergrond automatisch wissen</string>
     <string name="restore_image">Afbeelding herstellen</string>
     <string name="erase_mode">Wismodus</string>
-    <string name="something_went_wrong_emphasis">Oeps... Er is iets misgegaan. Je kunt mij schrijven via de onderstaande opties en ik zal proberen een oplossing te vinden</string>
+    <string name="something_went_wrong_emphasis">Oeps... Er is iets misgegaan. Je kunt me schrijven met behulp van de onderstaande opties en ik zal proberen een oplossing te vinden</string>
     <string name="resize_and_convert">Formaat wijzigen en converteren</string>
     <string name="resize_and_convert_sub">Wijzig de grootte van bepaalde afbeeldingen of converteer ze naar andere formaten. EXIF-metagegevens kunnen hier ook worden bewerkt als u een enkele afbeelding kiest.</string>
     <string name="max_colors_count">Maximaal aantal kleuren</string>
@@ -737,9 +737,9 @@
     <string name="color_matrix_3x3">Kleurenmatrix 3x3</string>
     <string name="simple_effects">Eenvoudige effecten</string>
     <string name="polaroid">Polaroid</string>
-    <string name="tritonomaly">Tritonomalie</string>
-    <string name="deutaromaly">Deutaromalie</string>
-    <string name="protonomaly">Protonomalie</string>
+    <string name="tritonomaly">Tritanomalie</string>
+    <string name="deutaromaly">Deuteranomalie</string>
+    <string name="protonomaly">Protanomalie</string>
     <string name="vintage">Vintage</string>
     <string name="browni">Browni</string>
     <string name="coda_chrome">Coda Chroom</string>
@@ -747,7 +747,7 @@
     <string name="warm">Warm</string>
     <string name="cool">Koel</string>
     <string name="tritanopia">Tritanopie</string>
-    <string name="deutaronotopia">Deutaronotopie</string>
+    <string name="deutaronotopia">Deuteranopie</string>
     <string name="protanopia">Protanopie</string>
     <string name="achromatomaly">Achromatomalie</string>
     <string name="achromatopsia">Achromatopsie</string>
@@ -1476,7 +1476,7 @@
     <string name="center_align_dialog_buttons_sub">Knoppen van dialogen worden indien mogelijk in het midden geplaatst in plaats van aan de linkerkant</string>
     <string name="area">Oppervlakte</string>
     <string name="enable_tonemapping">Tonemapping inschakelen</string>
-    <string name="area_sub">Opnieuw bemonsteren op basis van pixelgebiedrelatie. Deze methode geniet de voorkeur beelddecimering, omdat het resultaten levert zonder moiré. Maar wanneer het beeld is ingezoomd, is het vergelijkbaar met de \"Dichtstbijzijnde\" -methode.</string>
+    <string name="area_sub">Opnieuw bemonsteren op basis van pixelgebiedrelatie. Deze methode geniet de voorkeur beelddecimering, omdat het resultaten levert zonder moiré. Maar wanneer het beeld is ingezoomd, is het vergelijkbaar met de dichtstbijzijnde-methode.</string>
     <string name="markup_layers_sub">Lagen-modus met mogelijkheid om afbeeldingen, tekst en meer vrij te plaatsen</string>
     <string name="edit_layer">Laag bewerken</string>
     <string name="layers_on_background">Lagen in achtergrond</string>
@@ -1490,4 +1490,19 @@
     <string name="fast_settings_side">Snelle instellingen-strook</string>
     <string name="fast_settings_side_sub">Voeg een zwevende strook toe aan de gekozen kant tijdens het bewerken van afbeeldingen, die snelle instellingen opent als erop wordt geklikt</string>
     <string name="clear_selection">Selectie wissen</string>
+    <string name="settings_group_visibility_visible">Instellingen groep %s worden standaard uitgevouwen</string>
+    <string name="base_64">Base64</string>
+    <string name="not_a_valid_base_64">De opgegeven waarde is geen geldige Base64-tekenreeks</string>
+    <string name="paste_base_64">Base64 plakken</string>
+    <string name="copy_base_64">Base64 kopiëren</string>
+    <string name="base_64_tips">Laad de afbeelding om de Base64-tekenreeks te kopiëren of op te slaan, als je die hebt, kun je deze hierboven plakken om de afbeelding te verkrijgen</string>
+    <string name="options">Opties</string>
+    <string name="actions">Acties</string>
+    <string name="import_base_64">Base64 importeren</string>
+    <string name="share_base_64">Base64 delen</string>
+    <string name="base_64_tools_sub">Base64-tekenreeks decoderen naar afbeelding of afbeelding coderen naar Base64-indeling</string>
+    <string name="settings_group_visibility_hidden">Instellingen groep %s worden standaard samengevouwen</string>
+    <string name="base_64_tools">Base64 Hulpmiddelen</string>
+    <string name="save_base_64">Base64 opslaan</string>
+    <string name="copy_not_a_valid_base_64">Kan geen lege of ongeldige Base64-tekenreeks kopiëren</string>
 </resources>
