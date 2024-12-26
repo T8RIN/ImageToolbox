@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 
 @Composable
 fun TelegramGroupDialog(
@@ -63,6 +65,18 @@ fun TelegramGroupDialog(
             }
         },
         dismissButton = {
+            EnhancedIconButton(
+                onClick = {
+                    onRedirected()
+                },
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                contentColor = MaterialTheme.colorScheme.onErrorContainer
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Cancel,
+                    contentDescription = null
+                )
+            }
             EnhancedButton(
                 onClick = {
                     onRedirected()

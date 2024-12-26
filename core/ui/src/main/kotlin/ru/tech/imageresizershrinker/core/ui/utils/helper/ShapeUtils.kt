@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-fun String?.toPath(
+private fun String?.toPath(
     size: Size?,
     pathDestination: Path? = null
 ): Path? {

@@ -36,23 +36,30 @@ fun ImageToolboxTheme(
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    MaterialTheme(
-        motionScheme = CustomMotionScheme
-    ) {
-        DynamicTheme(
-            typography = Typography(settingsState.font),
-            state = rememberDynamicThemeState(rememberAppColorTuple()),
-            colorBlindType = settingsState.colorBlindType,
-            defaultColorTuple = settingsState.appColorTuple,
-            dynamicColor = settingsState.isDynamicColors,
-            amoledMode = settingsState.isAmoledMode,
-            isDarkTheme = settingsState.isNightMode,
-            contrastLevel = settingsState.themeContrastLevel,
-            style = settingsState.themeStyle,
-            isInvertColors = settingsState.isInvertThemeColors,
-            content = content
-        )
-    }
+    DynamicTheme(
+        typography = Typography(settingsState.font),
+        state = rememberDynamicThemeState(rememberAppColorTuple()),
+        colorBlindType = settingsState.colorBlindType,
+        defaultColorTuple = settingsState.appColorTuple,
+        dynamicColor = settingsState.isDynamicColors,
+        amoledMode = settingsState.isAmoledMode,
+        isDarkTheme = settingsState.isNightMode,
+        contrastLevel = settingsState.themeContrastLevel,
+        style = settingsState.themeStyle,
+        isInvertColors = settingsState.isInvertThemeColors,
+        content = {
+            MaterialTheme(
+                motionScheme = CustomMotionScheme,
+                colorScheme = MaterialTheme.colorScheme.copy(
+                    errorContainer = MaterialTheme.colorScheme.errorContainer.blend(
+                        MaterialTheme.colorScheme.primary,
+                        0.15f
+                    )
+                ),
+                content = content
+            )
+        }
+    )
 }
 
 @Composable
