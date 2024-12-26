@@ -57,7 +57,7 @@ internal class Base64Fetcher(
             imageLoader: ImageLoader,
         ): Fetcher? {
             val stripped = data.toString().trimToBase64()
-            return if (isBase64(stripped)) {
+            return if (stripped.isBase64()) {
                 Base64Fetcher(
                     options = options,
                     base64 = stripped

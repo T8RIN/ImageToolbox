@@ -76,7 +76,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
         Tile(
             onClick = {
                 val text = clipboardManager.getText()?.text?.trimToBase64() ?: ""
-                if (isBase64(text)) {
+                if (text.isBase64()) {
                     component.setBase64(text)
                 } else {
                     essentials.showToast(
@@ -176,7 +176,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                             val text = buildAnnotatedString {
                                 append(component.base64String)
                             }
-                            if (isBase64(component.base64String)) {
+                            if (component.base64String.isBase64()) {
                                 clipboardManager.setText(text)
                                 essentials.showToast(
                                     message = context.getString(R.string.copied),

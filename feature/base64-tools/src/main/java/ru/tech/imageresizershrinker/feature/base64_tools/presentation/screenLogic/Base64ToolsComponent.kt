@@ -261,7 +261,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
     ) {
         componentScope.launch {
             val text = fileController.readBytes(uri.toString()).decodeToString().trimToBase64()
-            if (isBase64(text)) {
+            if (text.isBase64()) {
                 setBase64(text)
             } else {
                 onFailure()

@@ -24,9 +24,7 @@ inline fun <reified T> T?.notNullAnd(
 ): Boolean = if (this != null) predicate(this)
 else false
 
-fun isBase64(data: String) = data
-    .isNotEmpty()
-    .and(BASE64_PATTERN.matcher(data).matches())
+fun String.isBase64() = isNotEmpty() && BASE64_PATTERN.matcher(this).matches()
 
 fun String.trimToBase64() = filter { !it.isWhitespace() }.substringAfter(",")
 
