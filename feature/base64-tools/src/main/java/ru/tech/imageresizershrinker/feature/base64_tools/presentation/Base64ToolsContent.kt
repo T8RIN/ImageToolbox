@@ -182,7 +182,7 @@ fun Base64ToolsContent(
         controls = {
             if (isPortrait) Spacer(Modifier.height(8.dp))
             Base64ToolsTiles(component)
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(8.dp))
             if (component.uri != null) {
                 if (component.imageFormat.canChangeCompressionValue) {
                     Spacer(Modifier.height(8.dp))

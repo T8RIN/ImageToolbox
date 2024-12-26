@@ -1523,4 +1523,5 @@
     <string name="options">Options</string>
     <string name="actions">Actions</string>
     <string name="import_base_64">Import Base64</string>
+    <string name="base_64_actions">Base64 Actions</string>
 </resources>
