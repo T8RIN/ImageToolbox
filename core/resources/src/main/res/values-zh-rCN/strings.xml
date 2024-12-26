@@ -342,7 +342,7 @@
     <string name="pipette">吸管</string>
     <string name="draw_mode">绘画模式</string>
     <string name="create_issue">创建问题</string>
-    <string name="something_went_wrong_emphasis">哎呀，软件出错了。您可以使用下面的选项给我写信，我会试着找到解决方法</string>
+    <string name="something_went_wrong_emphasis">哎呀……软件出错了。你可以使用下面的选项给我留言，我会尽力找到解决办法。</string>
     <string name="resize_and_convert">调整大小和转换</string>
     <string name="resize_and_convert_sub">更改给定图片的大小或将其转换为其他格式。如果选择单个图片，还可以编辑 EXIF 元数据</string>
     <string name="alphabet_and_numbers">你好，世界！字体示例Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
@@ -504,7 +504,7 @@
     <string name="auto_pin_sub">如果启用，自动将保存的图片添加至剪贴板</string>
     <string name="no_such_directory">未找到 \"%1$s\"目录，我们已将其切换至默认目录，请重新保存文件</string>
     <string name="clipboard">剪切板</string>
-    <string name="overwrite_files_sub">原始文件将被替换为新文件，而不是保存在所选文件夹中，此选项需要图片源为 \"资源管理器 \"或 GetContent，切换为此选项时，它将自动设置</string>
+    <string name="overwrite_files_sub">原始文件将被新文件替换，而不是保存在选定的文件夹中。此选项要求图像源为xplorer或GetContent。切换此选项时，它将自动设置。</string>
     <string name="vibration_strength">震动强度</string>
     <string name="overwrite_files">覆写文件</string>
     <string name="empty">空</string>
@@ -582,7 +582,7 @@
     <string name="segmentation_mode_sparse_text">松散文本</string>
     <string name="segmentation_mode_sparse_text_osd">检测松散文本及其方向</string>
     <string name="segmentation_mode_auto_osd">自动检测文本及其方向</string>
-    <string name="delete_language_sub">要删除“%1$s”语言所有识别类型的 OCR 训练数据，还是只删除选中的（%2$s）？</string>
+    <string name="delete_language_sub">您要删除所有识别类型的语言 1$s OCR 训练数据，还是只删除选定类型 (%2$s) 的数据？</string>
     <string name="gradient_maker">渐变制作器</string>
     <string name="gradient_maker_sub">创建指定输出尺寸的渐变效果，并自定义颜色和外观类型</string>
     <string name="gradient_type_linear">线性</string>
@@ -716,7 +716,7 @@
     <string name="color_matrix_3x3">颜色矩阵 3x3</string>
     <string name="simple_effects">简单效果</string>
     <string name="polaroid">Polaroid</string>
-    <string name="protonomaly">Protonomaly</string>
+    <string name="protonomaly">第一型色弱</string>
     <string name="browni">Browni</string>
     <string name="coda_chrome">Coda Chrome</string>
     <string name="night_vision">夜视</string>
@@ -727,11 +727,11 @@
     <string name="unsharp">非锐化</string>
     <string name="pastel">粉彩</string>
     <string name="color_matrix_4x4">颜色矩阵 4x4</string>
-    <string name="tritonomaly">三维空间</string>
-    <string name="deutaromaly">Deutaromaly</string>
+    <string name="tritonomaly">第三型色弱</string>
+    <string name="deutaromaly">第二型色弱</string>
     <string name="vintage">复古</string>
     <string name="warm">温暖</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
+    <string name="deutaronotopia">绿色盲</string>
     <string name="achromatomaly">无色透明</string>
     <string name="grain">微粒</string>
     <string name="fantasy_landscape">奇幻风景</string>
@@ -1428,7 +1428,7 @@
     <string name="zigzag_ratio">之字形比率</string>
     <string name="create_shortcut">创建快捷方式</string>
     <string name="create_shortcut_title">选择要固定的工具</string>
-    <string name="create_shortcut_subtitle">该工具将作为快捷方式添加到启动器的主屏幕上，结合 “跳过文件拾取 ”设置使用，即可实现所需的功能</string>
+    <string name="create_shortcut_subtitle">该工具将作为快捷方式添加到启动器的主屏幕上，结合 “跳过文件拾取”设置使用，即可实现所需的功能</string>
     <string name="dont_stack_frames">不要堆叠帧</string>
     <string name="dont_stack_frames_sub">处理预留帧，使其不会相互堆叠</string>
     <string name="crossfade">交叉渐变</string>
@@ -1476,7 +1476,7 @@
     <string name="center_align_dialog_buttons_sub">如果可能的话，对话框的按钮将被置于居中位置，而非左侧。</string>
     <string name="area">区域</string>
     <string name="enable_tonemapping">启用色调映射</string>
-    <string name="area_sub">利用像素面积关系进行重采样。 这可能是图像缩放的首选方法，因为它可以获得无摩尔纹的效果。 但在放大图像时，它与 \"近似像素 \"方法类似。</string>
+    <string name="area_sub">使用像素面积关系进行重采样。这可能是图像抽取的一种首选方法，因为它能产生无摩尔纹的结果。但当对图像进行放大时，它与最近邻法类似 。</string>
     <string name="enter_percent">输入 %</string>
     <string name="unknown_host">无法连接到此网站，请尝试使用VPN或检查URL是否正确</string>
     <string name="edit_layer">编辑图层</string>
@@ -1490,4 +1490,19 @@
     <string name="fast_settings_side">快速设置边栏</string>
     <string name="fast_settings_side_sub">在编辑图片时，在所选的一侧添加浮动条，点击时将打开快速设置</string>
     <string name="clear_selection">清除选择项</string>
+    <string name="settings_group_visibility_hidden">设置组将默认折叠</string>
+    <string name="settings_group_visibility_visible">设置组将默认展开</string>
+    <string name="base_64_tools">Base64 工具</string>
+    <string name="base_64_tools_sub">将Base64字符串解码为图像，或将图像编码为Base64格式</string>
+    <string name="base_64">Base64</string>
+    <string name="not_a_valid_base_64">提供的值不是有效的Base64字符串</string>
+    <string name="paste_base_64">粘贴Base64</string>
+    <string name="save_base_64">保存Base64</string>
+    <string name="options">选项</string>
+    <string name="import_base_64">导入Base64</string>
+    <string name="copy_not_a_valid_base_64">无法复制空的或无效的Base64字符串</string>
+    <string name="copy_base_64">复制Base64</string>
+    <string name="base_64_tips">加载图像以复制或保存Base64字符串。如果您已有Base64字符串，可以粘贴到上方以获取图像</string>
+    <string name="share_base_64">分享Base64</string>
+    <string name="actions">操作</string>
 </resources>
