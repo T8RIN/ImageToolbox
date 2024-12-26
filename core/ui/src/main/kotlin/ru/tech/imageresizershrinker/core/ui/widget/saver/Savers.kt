@@ -18,6 +18,8 @@
 package ru.tech.imageresizershrinker.core.ui.widget.saver
 
 import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
@@ -53,11 +55,21 @@ val PicturePickerModeSaver: Saver<PicturePickerMode, Int> = Saver(
         PicturePickerMode.entries[it]
     }
 )
+
 val PtSaver: Saver<Pt, Float> = Saver(
     save = {
         it.value
     },
     restore = {
         it.pt
+    }
+)
+
+val OffsetSaver: Saver<Offset, Any> = listSaver<Offset, Float>(
+    save = {
+        listOf(it.x, it.y)
+    },
+    restore = {
+        Offset(it[0], it[1])
     }
 )
