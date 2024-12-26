@@ -168,8 +168,8 @@ internal fun SettingsBackdropWrapper(
                         }
                         scope.launch {
                             scaffoldState.conceal()
+                            clean()
                         }
-                        clean()
                     } catch (_: CancellationException) {
                         clean()
                     }
