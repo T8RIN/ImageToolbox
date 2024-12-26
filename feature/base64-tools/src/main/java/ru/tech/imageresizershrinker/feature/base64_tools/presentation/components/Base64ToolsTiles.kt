@@ -51,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.utils.isBase64
+import ru.tech.imageresizershrinker.core.domain.utils.trimToBase64
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Base64
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -69,7 +70,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
     val pasteTile: @Composable RowScope.(shape: Shape) -> Unit = { shape ->
         Tile(
             onClick = {
-                val text = clipboardManager.getText()?.text?.substringAfter(",") ?: ""
+                val text = clipboardManager.getText()?.text?.trimToBase64() ?: ""
                 if (isBase64(text)) {
                     component.setBase64(text)
                 } else {

@@ -28,6 +28,7 @@ import coil3.fetch.SourceFetchResult
 import coil3.request.Options
 import okio.Buffer
 import ru.tech.imageresizershrinker.core.domain.utils.isBase64
+import ru.tech.imageresizershrinker.core.domain.utils.trimToBase64
 
 internal class Base64Fetcher(
     private val options: Options,
@@ -55,7 +56,7 @@ internal class Base64Fetcher(
             options: Options,
             imageLoader: ImageLoader,
         ): Fetcher? {
-            val stripped = data.toString().substringAfter(",")
+            val stripped = data.toString().trimToBase64()
             return if (isBase64(stripped)) {
                 Base64Fetcher(
                     options = options,

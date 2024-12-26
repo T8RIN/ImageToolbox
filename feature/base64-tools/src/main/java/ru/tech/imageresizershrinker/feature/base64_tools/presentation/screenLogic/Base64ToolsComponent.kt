@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.isBase64
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.trimToBase64
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -259,7 +260,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
         onFailure: () -> Unit
     ) {
         componentScope.launch {
-            val text = fileController.readBytes(uri.toString()).decodeToString()
+            val text = fileController.readBytes(uri.toString()).decodeToString().trimToBase64()
             if (isBase64(text)) {
                 setBase64(text)
             } else {

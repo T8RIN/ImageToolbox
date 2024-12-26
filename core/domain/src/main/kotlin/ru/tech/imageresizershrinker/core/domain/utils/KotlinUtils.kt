@@ -24,9 +24,11 @@ inline fun <reified T> T?.notNullAnd(
 ): Boolean = if (this != null) predicate(this)
 else false
 
-fun isBase64(data: String) = data.trim { it.isWhitespace() }
+fun isBase64(data: String) = data
     .isNotEmpty()
-    .and(BASE64_PATTERN.matcher(data).matches() || data.startsWith("data:image"))
+    .and(BASE64_PATTERN.matcher(data).matches())
+
+fun String.trimToBase64() = filter { !it.isWhitespace() }.substringAfter(",")
 
 private val BASE64_PATTERN = Pattern.compile(
     "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"
