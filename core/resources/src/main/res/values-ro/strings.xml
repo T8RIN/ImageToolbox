@@ -1595,4 +1595,11 @@
     <string name="crash_subtitle"></string>
     <string name="pick_files_to_checksum"></string>
     <string name="pixel_comparison_type"></string>
+    <string name="gaussian_blur"></string>
+    <string name="bilaterial_blur"></string>
+    <string name="mesh_gradients_sub"></string>
+    <string name="box_blur"></string>
+    <string name="fast_blur"></string>
+    <string name="stroke_pixelation"></string>
+    <string name="tile_mode"></string>
 </resources>
