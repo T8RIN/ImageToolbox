@@ -26,8 +26,8 @@
     <string name="clear_exif_sub">Toate datele EXIF al imaginii vor fi șterse. Această acțiune nu poate fi anulată!</string>
     <string name="presets">Presetări</string>
     <string name="crop">Decupează</string>
-    <string name="image_not_saved">Se salvează</string>
-    <string name="image_not_saved_sub">Toate modificările nesalvate vor fi pierdute, dacă ieși acum</string>
+    <string name="image_not_saved">Salvare</string>
+    <string name="image_not_saved_sub">Toate modificările nesalvate vor fi pierdute, dacă ieșiți acum</string>
     <string name="check_source_code_sub">Obține cele mai recente actualizări, discută probleme și multe altele</string>
     <string name="single_edit">Redimensionare unică</string>
     <string name="single_edit_sub">Schimbă specificațiile unei singure imagini date</string>
@@ -287,7 +287,7 @@
     <string name="paint_alpha">Vopsea alfa</string>
     <string name="draw_on_image">Desenează pe imagine</string>
     <string name="cipher">Cifru</string>
-    <string name="cipher_sub">Criptați și decriptați orice fișier (nu doar imaginea) pe baza algoritmului cripto AES</string>
+    <string name="cipher_sub">Criptați și decriptați orice fișier (nu numai imaginea) pe baza algoritmului de criptare AES</string>
     <string name="encryption">Criptare</string>
     <string name="key">Cheie</string>
     <string name="store_file_desc">Stocați acest fișier pe dispozitiv sau utilizați acțiunea de partajare pentru a-l pune oriunde doriți</string>
@@ -345,9 +345,9 @@
     <string name="pipette">Pipetă</string>
     <string name="draw_mode">Mod de desen</string>
     <string name="create_issue">Creați o problemă</string>
-    <string name="something_went_wrong_emphasis">Oops… Ceva a mers prost, scrie-mi folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
+    <string name="something_went_wrong_emphasis">Oops... Ceva nu a mers bine. Îmi puteți scrie folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
     <string name="resize_and_convert_sub">Modificați dimensiunea imaginilor date sau convertiți-le în alte formate, de asemenea, acolo puteți edita metadatele EXIF dacă alegeți o singură imagine</string>
-    <string name="presets_sub_bytes">Preset aici determină % din fișierul de ieșire, de exemplu, dacă selectați preset 50 pe o imagine de 5mb, atunci veți obține o imagine de 2,5mb după salvare.</string>
+    <string name="presets_sub_bytes">Pre-setarea aici determină % din fișierul de ieșire, de exemplu, dacă selectați pre-setarea 50 pe o imagine de 5 mb, atunci veți obține o imagine de 2,5 mb după salvare</string>
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>
     <string name="analytics_sub">Permite colectarea de statistici anonime privind utilizarea aplicației</string>
     <string name="jxl_sub">Formatul JXL nu este suportat oficial de Android, astfel încât ceva ar putea să nu funcționeze, de asemenea, salvarea va funcționa numai dacă alegeți directorul de ieșire personalizat, aceasta este o versiune experimentală, bug-urile de aici nu vor fi fixate decât dacă Google va adăuga suport pentru JXL, această versiune poate, de asemenea, să vizualizeze astfel de imagini</string>
@@ -545,9 +545,9 @@
     <string name="color_matrix_3x3">Color Matrix 3x3</string>
     <string name="simple_effects">Efecte simple</string>
     <string name="polaroid">polaroid</string>
-    <string name="tritonomaly">Tritonomie</string>
-    <string name="deutaromaly">Deutaromalie</string>
-    <string name="protonomaly">Protonomie</string>
+    <string name="tritonomaly">Tritanomalie</string>
+    <string name="deutaromaly">Deuteranomalie</string>
+    <string name="protonomaly">Protanomalie</string>
     <string name="vintage">Epocă</string>
     <string name="browni">Browni</string>
     <string name="coda_chrome">Coda Chrome</string>
@@ -555,7 +555,7 @@
     <string name="warm">Cald</string>
     <string name="cool">Misto</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
+    <string name="deutaronotopia">Deuteranopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Acromatomalie</string>
     <string name="achromatopsia">Acromatopsie</string>
@@ -823,4 +823,5 @@
     <string name="create_shortcut_subtitle">Instrumentul va fi adăugat la ecranul de pornire al lansatorului dvs. ca scurtătură, utilizați-l în combinație cu setarea \"Săriți peste selectarea fișierelor\" pentru a obține comportamentul necesar</string>
     <string name="create_new">Creare nou</string>
     <string name="create_template">Creare șablon</string>
+    <string name="select_jxl_image_to_start">Alegeți imaginea JXL pentru a începe</string>
 </resources>
