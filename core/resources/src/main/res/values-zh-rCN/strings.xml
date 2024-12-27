@@ -582,7 +582,7 @@
     <string name="segmentation_mode_sparse_text">松散文本</string>
     <string name="segmentation_mode_sparse_text_osd">检测松散文本及其方向</string>
     <string name="segmentation_mode_auto_osd">自动检测文本及其方向</string>
-    <string name="delete_language_sub">您要删除所有识别类型的语言 1$s OCR 训练数据，还是只删除选定类型 (%2$s) 的数据？</string>
+    <string name="delete_language_sub">您要删除所有识别类型的语言 \"%1$s\" OCR 训练数据，还是只删除选定类型 (%2$s) 的数据？</string>
     <string name="gradient_maker">渐变制作器</string>
     <string name="gradient_maker_sub">创建指定输出尺寸的渐变效果，并自定义颜色和外观类型</string>
     <string name="gradient_type_linear">线性</string>
@@ -1490,8 +1490,8 @@
     <string name="fast_settings_side">快速设置边栏</string>
     <string name="fast_settings_side_sub">在编辑图片时，在所选的一侧添加浮动条，点击时将打开快速设置</string>
     <string name="clear_selection">清除选择项</string>
-    <string name="settings_group_visibility_hidden">设置组将默认折叠</string>
-    <string name="settings_group_visibility_visible">设置组将默认展开</string>
+    <string name="settings_group_visibility_hidden">设置组 \"%s\" 将默认折叠</string>
+    <string name="settings_group_visibility_visible">设置组 \"%s\" 将默认展开</string>
     <string name="base_64_tools">Base64 工具</string>
     <string name="base_64_tools_sub">将Base64字符串解码为图像，或将图像编码为Base64格式</string>
     <string name="base_64">Base64</string>
@@ -1505,4 +1505,5 @@
     <string name="base_64_tips">加载图像以复制或保存Base64字符串。如果您已有Base64字符串，可以粘贴到上方以获取图像</string>
     <string name="share_base_64">分享Base64</string>
     <string name="actions">操作</string>
+    <string name="base_64_actions">Base64 操作</string>
 </resources>
