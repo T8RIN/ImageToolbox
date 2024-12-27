@@ -504,7 +504,7 @@
     <string name="auto_pin_sub">如果启用，自动将保存的图片添加至剪贴板</string>
     <string name="no_such_directory">未找到 \"%1$s\"目录，我们已将其切换至默认目录，请重新保存文件</string>
     <string name="clipboard">剪切板</string>
-    <string name="overwrite_files_sub">原始文件将被新文件替换，而不是保存在选定的文件夹中。此选项要求图像源为xplorer或GetContent。切换此选项时，它将自动设置。</string>
+    <string name="overwrite_files_sub">原始文件将被新文件替换，而不是保存在选定的文件夹中。此选项要求图像源为资源管理器或GetContent。切换此选项时，它将自动设置。</string>
     <string name="vibration_strength">震动强度</string>
     <string name="overwrite_files">覆写文件</string>
     <string name="empty">空</string>
