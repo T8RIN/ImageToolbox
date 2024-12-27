@@ -8,7 +8,7 @@
     <string name="explicit">Explicit</string>
     <string name="flexible">Flexibil</string>
     <string name="app_closing">Închidere aplicație</string>
-    <string name="stay">Rămâi</string>
+    <string name="stay">Rămânere</string>
     <string name="close">Închide</string>
     <string name="reset_image">Resetează imaginea</string>
     <string name="reset_image_sub">Imaginele modificate vor fi readuse la valorile inițiale</string>
@@ -31,7 +31,7 @@
     <string name="check_source_code_sub">Obține cele mai recente actualizări, discută probleme și multe altele</string>
     <string name="single_edit">Redimensionare unică</string>
     <string name="single_edit_sub">Schimbă specificațiile unei singure imagini date</string>
-    <string name="pick_color">Alege culoarea</string>
+    <string name="pick_color">Alegeți culoarea</string>
     <string name="image">Imagine</string>
     <string name="color_copied">Culoare copiată</string>
     <string name="crop_sub">Decupează imaginea la orice limită</string>
@@ -52,8 +52,8 @@
     <string name="max_bytes">Dimensiune maximă în KB</string>
     <string name="compare">Compară</string>
     <string name="compare_sub">Compară două imagini date</string>
-    <string name="pick_two_images">Alege două imagini pentru a începe</string>
-    <string name="pick_images">Alege imagini</string>
+    <string name="pick_two_images">Alegeți două imagini pentru a începe</string>
+    <string name="pick_images">Alegeți imagini</string>
     <string name="settings">Setări</string>
     <string name="night_mode">Modul de noapte</string>
     <string name="dark">Întunecat</string>
@@ -67,13 +67,13 @@
     <string name="smth_went_wrong">Ceva nu a mers bine: %1$s</string>
     <string name="pick_image">Alegeți imaginea pentru a începe</string>
     <string name="width">Lățime %1$s</string>
-    <string name="pick_image_alt">Alege imaginea</string>
+    <string name="pick_image_alt">Alegeți imaginea</string>
     <string name="app_closing_sub">Ești sigur să închizi aplicația\?</string>
     <string name="something_went_wrong">Ceva nu a mers bine</string>
     <string name="cancel">Anulează</string>
     <string name="save">Salvează</string>
     <string name="check_source_code">Codul sursă</string>
-    <string name="pick_color_sub">Alege culoarea de la o imagine, copiază sau partajează</string>
+    <string name="pick_color_sub">Alegeți culoarea din imagine, copiați sau partajați</string>
     <string name="color">Culoare</string>
     <string name="palette">Paletă</string>
     <string name="unspecified">Nespecificat</string>
@@ -124,7 +124,7 @@
     <string name="prefix">Prefix</string>
     <string name="filename">Numele fișierului</string>
     <string name="share">Partajare</string>
-    <string name="flexible_description">Redimensionează imaginile la imagini cu o latură lungă dată de parametrul Lățime sau Înălțime, toate calculele de dimensiune vor fi făcute după salvare - păstrează raportul de aspect</string>
+    <string name="flexible_description">Redimensionează imaginile în imagini cu o latură lungă dată de parametrul Lățime sau Înălțime, toate calculele de dimensiune vor fi efectuate după salvare - păstrează raportul de aspect</string>
     <string name="hue">Nuanţă</string>
     <string name="saturation">Saturare</string>
     <string name="exposure">Expunere</string>
@@ -150,7 +150,7 @@
     <string name="radius">Rază</string>
     <string name="bulge">Bulge</string>
     <string name="limits_resize">Limitele redimensionează</string>
-    <string name="limits_resize_sub">Redimensionați imaginile selectate pentru a respecta limitele date de lățime și înălțime cu salvarea raportului de aspect</string>
+    <string name="limits_resize_sub">Redimensionarea imaginilor selectate pentru a respecta limitele de lățime și înălțime date, păstrând în același timp raportul de aspect</string>
     <string name="sketch">Schiță</string>
     <string name="threshold">Prag</string>
     <string name="non_maximum_suppression">Suprimare non maximă</string>
@@ -166,7 +166,7 @@
     <string name="image_preview">Previzualizare imagine</string>
     <string name="image_preview_sub">Previzualizează orice tip de imagini: GIF, SVG și așa mai departe</string>
     <string name="photo_picker_sub">Selector de fotografii modern Android, care apare în partea de jos a ecranului, poate funcționa numai pe Android 12+. Are probleme cu primirea metadatelor EXIF</string>
-    <string name="file_explorer_picker_sub">Folosește intenția GetContent pentru a alege o imagine. Funcționează peste tot, dar are și probleme cu primirea imaginilor selectate pe unele dispozitive. Nu este vina mea</string>
+    <string name="file_explorer_picker_sub">Utilizați intenția GetContent pentru a alege imaginea. Funcționează peste tot, dar se știe că are probleme cu primirea imaginilor selectate pe unele dispozitive. Nu este vina mea.</string>
     <string name="order_sub">Determină ordinea instrumentelor pe ecranul principal</string>
     <string name="sequence_num">sequenceNum</string>
     <string name="original_filename">originalFilename</string>
@@ -237,7 +237,7 @@
     <string name="photo_picker">Selector de fotografii</string>
     <string name="gallery_picker">Galerie</string>
     <string name="file_explorer_picker">Explorator de fișiere</string>
-    <string name="gallery_picker_sub">Selector simplu de imagini din galerie. Va funcționa numai aplicația care permite selectorul de imagini</string>
+    <string name="gallery_picker_sub">Selector simplu de imagini pentru galerie. Acesta va funcționa numai dacă aveți o aplicație care oferă selectare media</string>
     <string name="options_arrangement">Aranjament de opțiuni</string>
     <string name="edit">Editare</string>
     <string name="order">Ordine</string>
@@ -265,7 +265,7 @@
     <string name="fallback_option">Opțiune de rezervă</string>
     <string name="copy">Copie</string>
     <string name="activate_files">Ați dezactivat aplicația Fișiere, activați-o pentru a utiliza această funcție</string>
-    <string name="warning_bytes">Salvarea în modul %1$s poate fi instabilă, deoarece este format fără pierderi (loseless)</string>
+    <string name="warning_bytes">Salvarea în modul %1$s poate fi instabilă, deoarece este un format fără pierderi</string>
     <string name="auto_cache_clearing_sub">Dacă este activată, memoria cache a aplicației va fi șters la pornirea aplicației</string>
     <string name="skip">Ocolire</string>
     <string name="cache_size">Mărimea cache-ului</string>
@@ -350,14 +350,14 @@
     <string name="presets_sub_bytes">Pre-setarea aici determină % din fișierul de ieșire, de exemplu, dacă selectați pre-setarea 50 pe o imagine de 5 mb, atunci veți obține o imagine de 2,5 mb după salvare</string>
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>
     <string name="analytics_sub">Permite colectarea de statistici anonime privind utilizarea aplicației</string>
-    <string name="jxl_sub">Formatul JXL nu este suportat oficial de Android, astfel încât ceva ar putea să nu funcționeze, de asemenea, salvarea va funcționa numai dacă alegeți directorul de ieșire personalizat, aceasta este o versiune experimentală, bug-urile de aici nu vor fi fixate decât dacă Google va adăuga suport pentru JXL, această versiune poate, de asemenea, să vizualizeze astfel de imagini</string>
-    <string name="image_exif_warning">În prezent, formatul %1$s de pe android permite doar citirea exif și nu modificarea/salvarea acestuia, ceea ce înseamnă că imaginea de ieșire nu va avea deloc metadate.</string>
+    <string name="jxl_sub">Formatul JXL nu este acceptat oficial de Android, așa că este posibil ca ceva să nu funcționeze. Salvarea va funcționa numai dacă alegeți directorul de ieșire personalizat. Aceasta este o versiune experimentală, erorile de aici nu vor fi rezolvate până când Google nu adaugă suport JXL. Această versiune poate vizualiza imagini JXL</string>
+    <string name="image_exif_warning">În prezent, formatul %1$s permite doar citirea metadatelor EXIF pe Android. Imaginea de ieșire nu va avea metadate deloc, atunci când este salvată.</string>
     <string name="effort">Efort</string>
     <string name="updates">Actualizări</string>
     <string name="wait">Așteptați</string>
     <string name="effort_sub">O valoare de %1$d înseamnă că se comprimă rapid, ceea ce duce la o dimensiune relativ mare a fișierului. %2$d înseamnă că trebuie să se petreacă mai mult timp comprimând, rezultând un fișier mai mic.</string>
     <string name="allow_betas">Permiteți beta</string>
-    <string name="saving_almost_complete">Salvarea este aproape finalizată, dacă o anulați acum, va trebui să începeți din nou salvarea.</string>
+    <string name="saving_almost_complete">Salvarea este aproape finalizată. Anularea acum va necesita salvarea din nou.</string>
     <string name="allow_betas_sub">Verificarea pentru actualizări va include și versiuni beta al aplicației dacă este activată</string>
     <string name="brush_softness">Moliciunea periei</string>
     <string name="draw_arrows">Desenați Săgeți</string>
@@ -431,7 +431,7 @@
     <string name="add_mask">Adaugă mască</string>
     <string name="pdf_tools_sub">Operează cu fișiere PDF: Previzualizați, Convertiți într-un lot de imagini sau creați unul din pozele date</string>
     <string name="mask_indexed">Masca %d</string>
-    <string name="pdf_to_images_sub">Convertiți PDF în Imagini din formatul de ieșire dată</string>
+    <string name="pdf_to_images_sub">Convertiți PDF în imagini în formatul de ieșire dat</string>
     <string name="enhanced_glitch">Glitch îmbunătățit</string>
     <string name="channel_shift_x">Schimbarea canalului X</string>
     <string name="channel_shift_y">Schimbarea canalului Y</string>
@@ -496,7 +496,7 @@
     <string name="lanczos_sub">Metodă de reeșantionare care menține interpolarea de înaltă calitate prin aplicarea unei funcții sinc ponderate la valorile pixelilor</string>
     <string name="mitchell_sub">Metodă de reeșantionare care utilizează un filtru de convoluție cu parametri ajustabili pentru a obține un echilibru între claritate și anti-aliasing în imaginea scalată</string>
     <string name="spline_sub">Utilizează funcții polinomiale definite în bucăți pentru a interpola fără probleme și a aproxima o curbă sau o suprafață, o reprezentare flexibilă și continuă a formei</string>
-    <string name="only_clip_sub">Salvarea în stocare nu va fi efectuată, iar imaginea va fi încercată să fie introdusă numai în clipboard</string>
+    <string name="only_clip_sub">Salvarea în spațiul de stocare nu va fi efectuată, iar imaginea va fi încercată să fie pusă doar în clipboard</string>
     <string name="allow_multiple_languages">Permite mai multe limbi</string>
     <string name="segmentation_mode_osd_only">Orientare &amp; Numai pentru detectarea scriptului</string>
     <string name="segmentation_mode_auto_osd">Orientare automată &amp; Detectare script</string>
@@ -611,7 +611,7 @@
     <string name="center_position">Centru</string>
     <string name="end_position">Sfârşit</string>
     <string name="gradient_maker">Creator de gradient</string>
-    <string name="gradient_maker_sub">Creați un gradient de dimensiunea de ieșire dată cu culori personalizate și tip de aspect</string>
+    <string name="gradient_maker_sub">Creați un gradient de o dimensiune de ieșire dată, cu culori personalizate și tip de aspect</string>
     <string name="speed">Viteză</string>
     <string name="dehaze">Dehaze</string>
     <string name="omega">Omega</string>
@@ -824,4 +824,20 @@
     <string name="create_new">Creare nou</string>
     <string name="create_template">Creare șablon</string>
     <string name="select_jxl_image_to_start">Alegeți imaginea JXL pentru a începe</string>
+    <string name="pick_filter_info">Alegeți filtrul de mai jos pentru a-l utiliza ca pensulă în desenul dvs.</string>
+    <string name="pick_single_media">Alegeți un singur mediu</string>
+    <string name="pick_multiple_media">Alegeți mai multe medii</string>
+    <string name="pick">Alegere</string>
+    <string name="markup_layers">Straturi de marcare</string>
+    <string name="markup_layers_sub">Modul straturi cu posibilitatea de a plasa liber imagini, text și multe altele</string>
+    <string name="layers_on_image">Straturi pe imagine</string>
+    <string name="layers_on_image_sub">Utilizați imaginea ca fundal și adăugați diferite straturi deasupra acesteia</string>
+    <string name="layers_on_background">Straturi pe fundal</string>
+    <string name="layers_on_background_sub">La fel ca prima opțiune, dar cu culoare în loc de imagine</string>
+    <string name="embedded_picker">Selector încorporat</string>
+    <string name="embedded_picker_sub">Folosește propriul selector de imagini Image Toolbox în locul celor predefinite de sistem</string>
+    <string name="pick_up_to_ten_images">Alegeți până la 10 imagini</string>
+    <string name="skip_file_picking">Săriți peste selectarea fișierelor</string>
+    <string name="skip_file_picking_sub">Selectorul de fișiere va fi afișat imediat dacă acest lucru este posibil pe ecranul ales</string>
+    <string name="select_webp_image_to_start">Alegeți imaginea WEBP pentru a începe</string>
 </resources>
