@@ -112,7 +112,7 @@ fun ColorTuplePreview(
                 if (selected) {
                     Box(
                         modifier = Modifier
-                            .size(maxWidth * (5 / 9f))
+                            .size(this.maxWidth * (5 / 9f))
                             .background(
                                 color = animateColorAsState(
                                     colorTuple.primary.inverse(

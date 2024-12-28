@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +28,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BorderColor
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +44,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.toggle
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
+import ru.tech.imageresizershrinker.core.ui.theme.inverseByLuma
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
@@ -53,11 +57,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomS
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.DomainTextDecoration
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
+import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType.Text.Outline
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.icon
 
@@ -224,9 +230,86 @@ internal fun EditLayerSheet(
                         title = stringResource(R.string.text_color),
                         titleFontWeight = FontWeight.Medium,
                         modifier = Modifier.container(
-                            shape = ContainerShapeDefaults.bottomShape,
+                            shape = ContainerShapeDefaults.centerShape,
                             color = MaterialTheme.colorScheme.surface
                         )
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.add_outline),
+                        subtitle = stringResource(R.string.add_outline_sub),
+                        shape = ContainerShapeDefaults.bottomShape,
+                        color = MaterialTheme.colorScheme.surface,
+                        applyHorizontalPadding = false,
+                        resultModifier = Modifier.padding(16.dp),
+                        checked = type.outline != null,
+                        onClick = {
+                            onUpdateLayer(
+                                layer.copy(
+                                    type.copy(
+                                        outline = if (it) {
+                                            Outline(
+                                                color = type.color.toColor()
+                                                    .inverseByLuma()
+                                                    .toArgb(),
+                                                width = 4f
+                                            )
+                                        } else null
+                                    )
+                                )
+                            )
+                        },
+                        additionalContent = {
+                            AnimatedVisibility(type.outline != null) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                    modifier = Modifier.padding(top = 16.dp)
+                                ) {
+                                    ColorRowSelector(
+                                        value = type.outline?.color?.toColor() ?: Color.Transparent,
+                                        onValueChange = {
+                                            onUpdateLayer(
+                                                layer.copy(
+                                                    type.copy(
+                                                        outline = type.outline?.copy(
+                                                            color = it.toArgb()
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        },
+                                        title = stringResource(R.string.outline_color),
+                                        titleFontWeight = FontWeight.Medium,
+                                        modifier = Modifier.container(
+                                            shape = ContainerShapeDefaults.topShape,
+                                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                                        ),
+                                        icon = Icons.Outlined.BorderColor
+                                    )
+                                    EnhancedSliderItem(
+                                        value = type.size,
+                                        title = stringResource(R.string.outline_size),
+                                        internalStateTransformation = {
+                                            it.roundToTwoDigits()
+                                        },
+                                        onValueChange = {
+                                            onUpdateLayer(
+                                                layer.copy(
+                                                    type.copy(
+                                                        outline = type.outline?.copy(
+                                                            width = it
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        },
+                                        valueRange = 0.01f..10f,
+                                        shape = ContainerShapeDefaults.bottomShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                                    )
+                                }
+                            }
+                        }
                     )
                 }
             }

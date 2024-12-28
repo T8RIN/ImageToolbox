@@ -68,13 +68,18 @@ typealias DomainTextDecoration = LayerType.Text.Decoration
 sealed interface LayerType {
     data class Text(
         val color: Int,
-        val style: Int,
         val size: Float,
         val font: Int,
         val backgroundColor: Int,
         val text: String,
-        val decorations: List<Decoration>
+        val decorations: List<Decoration>,
+        val outline: Outline?
     ) : LayerType {
+
+        data class Outline(
+            val color: Int,
+            val width: Float
+        )
 
         enum class Decoration {
             Bold, Italic, Underline, LineThrough
@@ -84,12 +89,12 @@ sealed interface LayerType {
             val Default by lazy {
                 Text(
                     color = -16777216,
-                    style = 0,
                     size = 0.2f,
                     font = 0,
                     backgroundColor = 0,
                     text = "Text",
-                    decorations = listOf()
+                    decorations = listOf(),
+                    outline = null,
                 )
             }
         }

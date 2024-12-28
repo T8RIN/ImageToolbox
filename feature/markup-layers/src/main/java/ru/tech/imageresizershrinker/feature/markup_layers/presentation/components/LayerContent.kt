@@ -20,14 +20,15 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +41,8 @@ import coil3.request.ImageRequest
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.text.OutlineParams
+import ru.tech.imageresizershrinker.core.ui.widget.text.OutlinedText
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.DomainTextDecoration
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 
@@ -73,11 +76,6 @@ internal fun LayerContent(
                         fontFamily = UiFontFamily.entries.firstOrNull {
                             (it.fontRes ?: 0) == type.font
                         }?.fontFamily,
-                        drawStyle = when (type.style) {
-                            0 -> Fill
-                            1 -> Stroke()
-                            else -> null
-                        },
                         textDecoration = TextDecoration.combine(
                             type.decorations.mapNotNull {
                                 when (it) {
@@ -100,9 +98,25 @@ internal fun LayerContent(
                     )
                 }
             }
-            Text(
+            val outlineParams by remember(style, type) {
+                derivedStateOf {
+                    type.outline?.let {
+                        OutlineParams(
+                            color = Color(it.color),
+                            stroke = Stroke(
+                                width = it.width,
+                                cap = StrokeCap.Round,
+                                join = StrokeJoin.Round
+                            )
+                        )
+                    }
+                }
+            }
+
+            OutlinedText(
                 text = type.text,
                 style = mergedStyle,
+                outlineParams = outlineParams,
                 modifier = Modifier
                     .background(
                         color = type.backgroundColor.toColor(),

@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -85,6 +86,11 @@ fun Color.inverse(
     fraction: (Boolean) -> Float = { 0.5f },
     darkMode: Boolean = LocalSettingsState.current.isNightMode,
 ): Color = if (darkMode) blend(Color.White, fraction(true))
+else blend(Color.Black, fraction(false))
+
+fun Color.inverseByLuma(
+    fraction: (Boolean) -> Float = { 0.5f },
+): Color = if (luminance() < 0.3f) blend(Color.White, fraction(true))
 else blend(Color.Black, fraction(false))
 
 @Composable
