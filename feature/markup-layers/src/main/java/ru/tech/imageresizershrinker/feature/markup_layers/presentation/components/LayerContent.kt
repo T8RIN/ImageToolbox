@@ -31,12 +31,16 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.feature.markup_layers.domain.DomainTextDecoration
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 
 @Composable
@@ -73,6 +77,25 @@ internal fun LayerContent(
                             0 -> Fill
                             1 -> Stroke()
                             else -> null
+                        },
+                        textDecoration = TextDecoration.combine(
+                            type.decorations.mapNotNull {
+                                when (it) {
+                                    DomainTextDecoration.LineThrough -> TextDecoration.LineThrough
+                                    DomainTextDecoration.Underline -> TextDecoration.Underline
+                                    else -> null
+                                }
+                            }
+                        ),
+                        fontWeight = if (type.decorations.any { it == DomainTextDecoration.Bold }) {
+                            FontWeight.Bold
+                        } else {
+                            style.fontWeight
+                        },
+                        fontStyle = if (type.decorations.any { it == DomainTextDecoration.Italic }) {
+                            FontStyle.Italic
+                        } else {
+                            FontStyle.Normal
                         }
                     )
                 }

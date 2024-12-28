@@ -46,4 +46,9 @@ object ListUtils {
         for (element in this) if (types.all { !it.isInstance(element) }) destination.add(element)
         return destination
     }
+
+    fun <T> List<T>.toggle(item: T): List<T> = run {
+        if (item in this) this - item
+        else this + item
+    }
 }

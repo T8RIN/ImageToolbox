@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.FormatColorFill
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,14 +38,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.toggle
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontResSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -50,8 +56,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.markup_layers.domain.DomainTextDecoration
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.icon
 
 @Composable
 internal fun EditLayerSheet(
@@ -64,10 +72,43 @@ internal fun EditLayerSheet(
         visible = visible,
         onDismiss = onDismiss,
         title = {
-            TitleItem(
-                icon = Icons.Rounded.MiniEditLarge,
-                text = stringResource(R.string.edit_layer)
-            )
+            when (val type = layer.type) {
+                is LayerType.Image -> {
+                    TitleItem(
+                        icon = Icons.Rounded.MiniEditLarge,
+                        text = stringResource(R.string.edit_layer)
+                    )
+                }
+
+                is LayerType.Text -> {
+                    Row {
+                        DomainTextDecoration.entries.forEach { decoration ->
+                            EnhancedIconButton(
+                                onClick = {
+                                    onUpdateLayer(
+                                        layer.copy(
+                                            type.copy(
+                                                decorations = type.decorations.toggle(decoration)
+                                            )
+                                        )
+                                    )
+                                },
+                                containerColor = takeColorFromScheme {
+                                    if (decoration in type.decorations) secondaryContainer else surface
+                                },
+                                contentColor = takeColorFromScheme {
+                                    if (decoration in type.decorations) onSecondaryContainer else onSurface
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = decoration.icon,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         },
         confirmButton = {
             EnhancedButton(
@@ -161,6 +202,7 @@ internal fun EditLayerSheet(
                             )
                         },
                         title = stringResource(R.string.background_color),
+                        icon = Icons.Rounded.FormatColorFill,
                         titleFontWeight = FontWeight.Medium,
                         modifier = Modifier.container(
                             shape = ContainerShapeDefaults.centerShape,

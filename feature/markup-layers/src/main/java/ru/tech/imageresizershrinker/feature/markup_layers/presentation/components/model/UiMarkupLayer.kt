@@ -17,7 +17,14 @@
 
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.FormatBold
+import androidx.compose.material.icons.rounded.FormatItalic
+import androidx.compose.material.icons.rounded.FormatStrikethrough
+import androidx.compose.material.icons.rounded.FormatUnderlined
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.vector.ImageVector
+import ru.tech.imageresizershrinker.feature.markup_layers.domain.DomainTextDecoration
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerPosition
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.MarkupLayer
@@ -58,3 +65,11 @@ fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
         canvasSize = position.currentCanvasSize
     )
 )
+
+val DomainTextDecoration.icon: ImageVector
+    get() = when (this) {
+        LayerType.Text.Decoration.Bold -> Icons.Rounded.FormatBold
+        LayerType.Text.Decoration.Italic -> Icons.Rounded.FormatItalic
+        LayerType.Text.Decoration.Underline -> Icons.Rounded.FormatUnderlined
+        LayerType.Text.Decoration.LineThrough -> Icons.Rounded.FormatStrikethrough
+    }

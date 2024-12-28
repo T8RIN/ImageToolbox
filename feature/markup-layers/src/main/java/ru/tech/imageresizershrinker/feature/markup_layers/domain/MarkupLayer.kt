@@ -63,6 +63,8 @@ data class LayerPosition(
     }
 }
 
+typealias DomainTextDecoration = LayerType.Text.Decoration
+
 sealed interface LayerType {
     data class Text(
         val color: Int,
@@ -71,7 +73,13 @@ sealed interface LayerType {
         val font: Int,
         val backgroundColor: Int,
         val text: String,
+        val decorations: List<Decoration>
     ) : LayerType {
+
+        enum class Decoration {
+            Bold, Italic, Underline, LineThrough
+        }
+
         companion object {
             val Default by lazy {
                 Text(
@@ -80,7 +88,8 @@ sealed interface LayerType {
                     size = 0.2f,
                     font = 0,
                     backgroundColor = 0,
-                    text = "Text"
+                    text = "Text",
+                    decorations = listOf()
                 )
             }
         }
