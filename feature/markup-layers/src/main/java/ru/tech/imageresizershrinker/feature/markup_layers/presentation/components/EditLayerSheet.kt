@@ -287,7 +287,7 @@ internal fun EditLayerSheet(
                                         icon = Icons.Outlined.BorderColor
                                     )
                                     EnhancedSliderItem(
-                                        value = type.size,
+                                        value = type.outline?.width ?: 0.2f,
                                         title = stringResource(R.string.outline_size),
                                         internalStateTransformation = {
                                             it.roundToTwoDigits()
