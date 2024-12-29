@@ -1506,4 +1506,8 @@
     <string name="save_base_64">Base64 opslaan</string>
     <string name="copy_not_a_valid_base_64">Kan geen lege of ongeldige Base64-tekenreeks kopiëren</string>
     <string name="base_64_actions">Base64-actions</string>
+    <string name="outline_color">Contourkleur</string>
+    <string name="outline_size">Contourdikte</string>
+    <string name="add_outline">Contour toevoegen</string>
+    <string name="add_outline_sub">Contour rondom tekst toevoegen met opgegeven kleur en breedte</string>
 </resources>
