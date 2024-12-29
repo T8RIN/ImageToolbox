@@ -344,7 +344,7 @@
     <string name="restore_image">Bild wiederherstellen</string>
     <string name="create_issue">Fehlermeldung anlegen</string>
     <string name="resize_and_convert_sub">Ändere die Größe bestimmter Bilder oder konvertiere sie in andere Formate, außerdem kannst Du bei Auswahl eines einzelnen Bildes EXIF-Metadaten bearbeiten</string>
-    <string name="something_went_wrong_emphasis">Ups… Irgendetwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
+    <string name="something_went_wrong_emphasis">­Ups… Irgendetwas ist schiefgelaufen. Du kannst mir mittels der nachfolgenden Optionen schreiben und ich werde versuchen, eine Lösung zu finden</string>
     <string name="resize_and_convert">Größenänderung und Konvertierung</string>
     <string name="max_colors_count">Höchstzahl an Farben</string>
     <string name="crashlytics_sub">Erlaubt der App, Absturzberichte manuell zu erfassen</string>
@@ -596,12 +596,12 @@
     <string name="speed">Geschwindigkeit</string>
     <string name="simple_effects">Einfache Effekte</string>
     <string name="polaroid">Polaroid</string>
-    <string name="tritonomaly">Tritonomalie</string>
-    <string name="deutaromaly">Deutaromali</string>
+    <string name="tritonomaly">Tritanomalie</string>
+    <string name="deutaromaly">Deuteranomalie</string>
     <string name="browni">Browni</string>
     <string name="cool">Cool</string>
     <string name="tritanopia">Tritanopie</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
+    <string name="deutaronotopia">Deuteranopie</string>
     <string name="protanopia">Protanopie</string>
     <string name="achromatomaly">Achromatomalie</string>
     <string name="achromatopsia">Achromatopsie</string>
@@ -669,7 +669,7 @@
     <string name="rate_app">Bewertungs App</string>
     <string name="color_matrix_4x4">Farbmatrix 4x4</string>
     <string name="color_matrix_3x3">Farbmatrix 3x3</string>
-    <string name="protonomaly">Protonomalie</string>
+    <string name="protonomaly">Protanomalie</string>
     <string name="vintage">Jahrgang</string>
     <string name="coda_chrome">Coda Chrome</string>
     <string name="night_vision">Nachtsicht</string>
@@ -1470,7 +1470,7 @@
     <string name="fancy">Schick</string>
     <string name="material_2_sub">Auf Material 2 basierender Schieberegler, nicht modern, einfach und geradlinig</string>
     <string name="apply">Anwenden</string>
-    <string name="center_align_dialog_buttons_sub">Schaltflächen der Dialoge werden nach Möglichkeit in der Mitte statt links positioniert</string>
+    <string name="center_align_dialog_buttons_sub">Schaltflächen der Dialoge werden nach Möglichkeit in der Mitte anstatt links positioniert</string>
     <string name="markup_layers">Markup-Ebenen</string>
     <string name="markup_layers_sub">Ebenenmodus mit der Möglichkeit, Bilder, Text und mehr frei zu platzieren</string>
     <string name="layers_on_image_sub">Bild als Hintergrund verwenden und verschiedene Ebenen darüber legen</string>
@@ -1490,4 +1490,24 @@
     <string name="fast_settings_side_sub">Hinzufügen eines schwebenden Streifens an der gewählten Seite während der Bildbearbeitung, der die Schnelleinstellungen öffnet, wenn er angeklickt wird</string>
     <string name="beta">Beta</string>
     <string name="clear_selection">Auswahl löschen</string>
+    <string name="base_64_tools">Base64 Werkzeuge</string>
+    <string name="base_64_tools_sub">Base64-String in Bild dekodieren, oder Bild in Base64-Format kodieren</string>
+    <string name="base_64">Base64</string>
+    <string name="not_a_valid_base_64">Bereitgestellter Wert ist keine gültige Base64-Zeichenkette</string>
+    <string name="copy_not_a_valid_base_64">Leere oder ungültige Base64-Zeichenfolge kann nicht kopiert werden</string>
+    <string name="paste_base_64">Base64 einfügen</string>
+    <string name="copy_base_64">Base64 kopieren</string>
+    <string name="save_base_64">Base64 speichern</string>
+    <string name="share_base_64">Base64 teilen</string>
+    <string name="options">Optionen</string>
+    <string name="actions">Aktionen</string>
+    <string name="import_base_64">Base64 importieren</string>
+    <string name="settings_group_visibility_hidden">Einstellungsgruppe \"%s\" wird standardmäßig eingeklappt</string>
+    <string name="settings_group_visibility_visible">Einstellungsgruppe \"%s\" wird standardmäßig erweitert</string>
+    <string name="base_64_tips">Bild laden, um Base64-Zeichenfolge zu kopieren oder zu speichern. Wenn du die Zeichenfolge selbst hast, kannst du sie oben einfügen, um das Bild zu erhalten</string>
+    <string name="base_64_actions">Base64 Aktionen</string>
+    <string name="add_outline_sub">Hinzufügen eines Umrisses um den Text mit bestimmter Farbe und Breite</string>
+    <string name="outline_color">Umrissfarbe</string>
+    <string name="add_outline">Umriss hinzufügen</string>
+    <string name="outline_size">Umrissgröße</string>
 </resources>
