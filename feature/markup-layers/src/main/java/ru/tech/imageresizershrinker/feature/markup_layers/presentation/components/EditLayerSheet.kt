@@ -34,6 +34,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -235,6 +240,26 @@ internal fun EditLayerSheet(
                         )
                     )
                     Spacer(modifier = Modifier.height(4.dp))
+                    var haveOutline by remember {
+                        mutableStateOf(type.outline != null)
+                    }
+                    LaunchedEffect(haveOutline) {
+                        onUpdateLayer(
+                            layer.copy(
+                                type.copy(
+                                    outline = if (haveOutline) {
+                                        type.outline ?: Outline(
+                                            color = type.color.toColor()
+                                                .inverseByLuma()
+                                                .toArgb(),
+                                            width = 4f
+                                        )
+                                    } else null
+                                )
+                            )
+                        )
+                    }
+
                     PreferenceRowSwitch(
                         title = stringResource(R.string.add_outline),
                         subtitle = stringResource(R.string.add_outline_sub),
@@ -242,22 +267,9 @@ internal fun EditLayerSheet(
                         color = MaterialTheme.colorScheme.surface,
                         applyHorizontalPadding = false,
                         resultModifier = Modifier.padding(16.dp),
-                        checked = type.outline != null,
+                        checked = haveOutline,
                         onClick = {
-                            onUpdateLayer(
-                                layer.copy(
-                                    type.copy(
-                                        outline = if (it) {
-                                            Outline(
-                                                color = type.color.toColor()
-                                                    .inverseByLuma()
-                                                    .toArgb(),
-                                                width = 4f
-                                            )
-                                        } else null
-                                    )
-                                )
-                            )
+                            haveOutline = it
                         },
                         additionalContent = {
                             AnimatedVisibility(type.outline != null) {

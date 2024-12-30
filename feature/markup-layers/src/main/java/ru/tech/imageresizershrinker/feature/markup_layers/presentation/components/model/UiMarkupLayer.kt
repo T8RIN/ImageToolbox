@@ -34,7 +34,7 @@ data class UiMarkupLayer(
     val type: LayerType,
     val state: EditBoxState = EditBoxState(isActive = true)
 ) {
-    fun copy(isActive: Boolean = state.isActive) = UiMarkupLayer(
+    fun copy(isActive: Boolean) = UiMarkupLayer(
         type = type,
         state = state.copy(isActive = isActive)
     )

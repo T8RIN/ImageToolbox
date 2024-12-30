@@ -27,7 +27,6 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMo
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
@@ -214,33 +213,5 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setFastSettingsSide(side: FastSettingsSide)
 }
 
-fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor {
-    val instance = this@toSimpleSettingsInteractor
-
-    return object : SimpleSettingsInteractor {
-        override suspend fun toggleMagnifierEnabled() = instance.toggleMagnifierEnabled()
-
-        override suspend fun setOneTimeSaveLocations(
-            value: List<OneTimeSaveLocation>
-        ) = instance.setOneTimeSaveLocations(value)
-
-        override suspend fun toggleFavoriteColor(
-            color: ColorModel,
-            forceExclude: Boolean
-        ) = instance.toggleFavoriteColor(
-            color = color,
-            forceExclude = forceExclude
-        )
-
-        override fun isInstalledFromPlayStore(): Boolean = instance.isInstalledFromPlayStore()
-
-        override suspend fun toggleSettingsGroupVisibility(
-            key: Int,
-            value: Boolean
-        ) = instance.toggleSettingsGroupVisibility(
-            key = key,
-            value = value
-        )
-
-    }
-}
+fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =
+    object : SimpleSettingsInteractor by this {}
