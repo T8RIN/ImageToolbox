@@ -113,4 +113,5 @@ internal object SettingKeys {
     val CENTER_ALIGN_DIALOG_BUTTONS = booleanPreferencesKey("CENTER_ALIGN_DIALOG_BUTTONS")
     val FAST_SETTINGS_SIDE = intPreferencesKey("FAST_SETTINGS_SIDE")
     val SETTINGS_GROUP_VISIBILITY = stringSetPreferencesKey("SETTINGS_GROUP_VISIBILITY")
+    val CHECKSUM_TYPE_FOR_FILENAME = stringPreferencesKey("CHECKSUM_TYPE_FOR_FILENAME")
 }

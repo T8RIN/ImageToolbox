@@ -43,7 +43,7 @@ fun AddTimestampToFilenameSettingItem(
         onClick = {
             onClick()
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.checksumTypeForFilename == null,
         title = stringResource(R.string.add_timestamp),
         subtitle = stringResource(R.string.add_timestamp_sub),
         checked = settingsState.addTimestampToFilename,

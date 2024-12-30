@@ -472,4 +472,9 @@ sealed class Setting(
         title = R.string.fast_settings_side,
         subtitle = R.string.fast_settings_side_sub
     )
+
+    data object ChecksumAsFilename : Setting(
+        title = R.string.checksum_as_filename,
+        subtitle = R.string.checksum_as_filename_sub
+    )
 }

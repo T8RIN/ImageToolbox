@@ -24,6 +24,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import ru.tech.imageresizershrinker.core.data.utils.computeFromByteArray
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
@@ -63,6 +64,13 @@ internal class AndroidFilenameCreator @Inject constructor(
         forceNotAddSizeInFilename: Boolean
     ): String {
         val extension = saveTarget.extension
+
+        val checksumType = settingsState.checksumTypeForFilename
+        if (checksumType != null && saveTarget.data.isNotEmpty()) {
+            val name = checksumType.computeFromByteArray(saveTarget.data)
+
+            if (name.isNotEmpty()) return "$name.$extension"
+        }
 
         if (settingsState.randomizeFilename) return "${randomStringGenerator.generate(32)}.$extension"
 

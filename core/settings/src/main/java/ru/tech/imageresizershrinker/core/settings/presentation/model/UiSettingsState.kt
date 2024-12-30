@@ -42,6 +42,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.resources.R
@@ -140,7 +141,8 @@ data class UiSettingsState(
     val sliderType: SliderType,
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
-    val settingGroupsInitialVisibility: Map<Int, Boolean>
+    val settingGroupsInitialVisibility: Map<Int, Boolean>,
+    val checksumTypeForFilename: ChecksumType?
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -359,7 +361,8 @@ fun SettingsState.toUiState(
                 sliderType = sliderType,
                 isCenterAlignDialogButtons = isCenterAlignDialogButtons,
                 fastSettingsSide = fastSettingsSide,
-                settingGroupsInitialVisibility = settingGroupsInitialVisibility
+                settingGroupsInitialVisibility = settingGroupsInitialVisibility,
+                checksumTypeForFilename = checksumTypeForFilename
             )
         }
     }.value

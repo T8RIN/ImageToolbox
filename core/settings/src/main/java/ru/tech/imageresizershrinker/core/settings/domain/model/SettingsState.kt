@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset.Percentage
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
@@ -111,7 +112,8 @@ data class SettingsState(
     val sliderType: SliderType,
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
-    val settingGroupsInitialVisibility: Map<Int, Boolean>
+    val settingGroupsInitialVisibility: Map<Int, Boolean>,
+    val checksumTypeForFilename: ChecksumType?
 ) {
 
     companion object {
@@ -202,7 +204,8 @@ data class SettingsState(
                 sliderType = SliderType.Fancy,
                 isCenterAlignDialogButtons = false,
                 fastSettingsSide = FastSettingsSide.CenterStart,
-                settingGroupsInitialVisibility = emptyMap()
+                settingGroupsInitialVisibility = emptyMap(),
+                checksumTypeForFilename = null
             )
         }
     }

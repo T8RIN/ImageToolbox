@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.settings.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
@@ -211,6 +212,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleIsCenterAlignDialogButtons()
 
     suspend fun setFastSettingsSide(side: FastSettingsSide)
+
+    suspend fun setChecksumTypeForFilename(type: ChecksumType?)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

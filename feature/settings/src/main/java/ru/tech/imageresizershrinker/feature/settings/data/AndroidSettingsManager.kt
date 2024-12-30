@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
@@ -68,6 +69,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.AUTO_CACHE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CAN_ENTER_PRESETS_BY_TEXT_FIELD
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CENTER_ALIGN_DIALOG_BUTTONS
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CHECKSUM_TYPE_FOR_FILENAME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COLOR_BLIND_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_ENABLED
@@ -314,7 +316,8 @@ internal class AndroidSettingsManager @Inject constructor(
             fastSettingsSide = prefs[FAST_SETTINGS_SIDE]?.let {
                 FastSettingsSide.fromOrdinal(it)
             } ?: default.fastSettingsSide,
-            settingGroupsInitialVisibility = prefs[SETTINGS_GROUP_VISIBILITY].toSettingGroupsInitialVisibility()
+            settingGroupsInitialVisibility = prefs[SETTINGS_GROUP_VISIBILITY].toSettingGroupsInitialVisibility(),
+            checksumTypeForFilename = ChecksumType.fromString(prefs[CHECKSUM_TYPE_FOR_FILENAME])
         )
     }.onEach { currentSettings = it }
 
@@ -1122,6 +1125,12 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setFastSettingsSide(side: FastSettingsSide) {
         dataStore.edit {
             it[FAST_SETTINGS_SIDE] = side.ordinal
+        }
+    }
+
+    override suspend fun setChecksumTypeForFilename(type: ChecksumType?) {
+        dataStore.edit {
+            it[CHECKSUM_TYPE_FOR_FILENAME] = type?.digest ?: ""
         }
     }
 

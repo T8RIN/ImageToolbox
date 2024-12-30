@@ -43,7 +43,7 @@ fun ReplaceSequenceNumberSettingItem(
         onClick = {
             onClick()
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.checksumTypeForFilename == null,
         title = stringResource(R.string.replace_sequence_number),
         subtitle = stringResource(R.string.replace_sequence_number_sub),
         checked = settingsState.addSequenceNumber,

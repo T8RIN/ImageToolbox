@@ -43,7 +43,7 @@ fun OverwriteFilesSettingItem(
         onClick = {
             onClick()
         },
-        enabled = !settingsState.randomizeFilename,
+        enabled = !settingsState.randomizeFilename && settingsState.checksumTypeForFilename == null,
         title = stringResource(R.string.overwrite_files),
         subtitle = stringResource(R.string.overwrite_files_sub),
         checked = settingsState.overwriteFiles,

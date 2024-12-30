@@ -63,7 +63,7 @@ fun FilenamePrefixSettingItem(
         onClick = {
             showChangeFilenameDialog = true
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.checksumTypeForFilename == null,
         title = stringResource(R.string.prefix),
         subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
             ?: stringResource(R.string.empty)),

@@ -514,6 +514,10 @@ internal fun SettingItem(
             Setting.FastSettingsSide -> {
                 FastSettingsSideSettingItem(onValueChange = component::setFastSettingsSide)
             }
+
+            Setting.ChecksumAsFilename -> {
+                ChecksumAsFilenameSettingItem(onValueChange = component::setChecksumTypeForFilename)
+            }
         }
     }
 }

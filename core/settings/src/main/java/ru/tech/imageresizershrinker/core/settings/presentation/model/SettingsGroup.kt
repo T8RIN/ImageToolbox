@@ -225,6 +225,7 @@ sealed class SettingsGroup(
             Setting.AddTimestampToFilename,
             Setting.UseFormattedFilenameTimestamp,
             Setting.OverwriteFiles,
+            Setting.ChecksumAsFilename,
             Setting.RandomizeFilename
         ),
         initialState = false

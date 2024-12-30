@@ -1529,4 +1529,6 @@
     <string name="outline_color">Outline Color</string>
     <string name="outline_size">Outline Size</string>
     <string name="rotation">Rotation</string>
+    <string name="checksum_as_filename">Checksum As Filename</string>
+    <string name="checksum_as_filename_sub">Output images will have name corresponding to their data checksum</string>
 </resources>

@@ -40,7 +40,7 @@ fun RandomizeFilenameSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        enabled = !settingsState.overwriteFiles,
+        enabled = !settingsState.overwriteFiles && settingsState.checksumTypeForFilename == null,
         onClick = {
             onClick()
         },
