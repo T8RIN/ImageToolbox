@@ -631,6 +631,7 @@ or click one of the badges below.
     - Saving to any specific folder
     - Long press on save to choose one time output folder
     - Randomizing output filename
+    - Using image cheksum as filename
     - Embedded media picker
 
 **And More!**
