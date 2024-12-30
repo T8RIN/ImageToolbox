@@ -41,6 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
+import ru.tech.imageresizershrinker.core.domain.model.Outline
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.toggle
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
@@ -63,7 +64,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.DomainTextDecoration
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
-import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType.Text.Outline
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.icon
 

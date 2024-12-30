@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.markup_layers.domain
 
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Outline
 
 data class MarkupLayer(
     val type: LayerType,
@@ -75,11 +76,6 @@ sealed interface LayerType {
         val decorations: List<Decoration>,
         val outline: Outline?
     ) : LayerType {
-
-        data class Outline(
-            val color: Int,
-            val width: Float
-        )
 
         enum class Decoration {
             Bold, Italic, Underline, LineThrough
