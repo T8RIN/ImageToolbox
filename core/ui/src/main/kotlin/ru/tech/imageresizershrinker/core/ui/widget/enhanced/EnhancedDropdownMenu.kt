@@ -45,6 +45,7 @@ fun EnhancedDropdownMenu(
     offset: DpOffset = DpOffset(0.dp, 0.dp),
     scrollState: ScrollState = rememberScrollState(),
     properties: PopupProperties = PopupProperties(focusable = true),
+    enableAutoShadows: Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val settings = LocalSettingsState.current
@@ -62,7 +63,7 @@ fun EnhancedDropdownMenu(
             content = content,
             containerColor = containerColor,
             tonalElevation = 0.dp,
-            shadowElevation = if (settings.drawContainerShadows) 1.dp else 0.dp,
+            shadowElevation = if (settings.drawContainerShadows && enableAutoShadows) 1.dp else 0.dp,
             border = if (settings.borderWidth > 0.dp) {
                 BorderStroke(
                     width = settings.borderWidth,

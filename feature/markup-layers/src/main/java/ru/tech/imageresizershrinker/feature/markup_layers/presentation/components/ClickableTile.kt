@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,20 +41,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 internal fun ClickableTile(
     onClick: () -> Unit,
     icon: ImageVector,
-    text: String
+    text: String,
+    modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = Modifier
-            .size(84.dp)
-            .container(
-                shape = RoundedCornerShape(4.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                resultPadding = 0.dp
-            )
-            .clickable(onClick = onClick)
-            .padding(6.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    ClickableTile(
+        onClick = onClick,
+        modifier = modifier
     ) {
         Icon(
             imageVector = icon,
@@ -69,4 +62,33 @@ internal fun ClickableTile(
             maxLines = 2
         )
     }
+}
+
+
+@Composable
+internal fun ClickableTile(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .then(
+                if (modifier == Modifier) {
+                    Modifier.size(84.dp)
+                } else {
+                    modifier
+                }
+            )
+            .container(
+                shape = RoundedCornerShape(4.dp),
+                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                resultPadding = 0.dp
+            )
+            .clickable(onClick = onClick)
+            .padding(6.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        content = content
+    )
 }

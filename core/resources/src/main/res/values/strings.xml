@@ -1528,4 +1528,5 @@
     <string name="add_outline_sub">Add outline around text with specified color and width</string>
     <string name="outline_color">Outline Color</string>
     <string name="outline_size">Outline Size</string>
+    <string name="rotation">Rotation</string>
 </resources>

@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.FullscreenPopup
+import ru.tech.imageresizershrinker.core.domain.utils.roundTo
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -170,6 +171,10 @@ internal fun MarkupLayersSideMenu(
                                         },
                                         onActivateLayer = {
                                             activeLayer?.state?.isActive = false
+                                        },
+                                        rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
+                                        onRotationDegreesChange = {
+                                            activeLayer?.state?.rotation = it.roundTo(1)
                                         }
                                     )
                                 }
