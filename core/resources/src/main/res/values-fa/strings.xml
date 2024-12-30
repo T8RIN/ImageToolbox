@@ -988,4 +988,5 @@
     <string name="create_shortcut">ایجاد میانبر</string>
     <string name="main_screen_title">عنوان صفحه اصلی</string>
     <string name="compact_selectors">انتخابگرهای فشرده</string>
+    <string name="tag_subject_location">محل موضوع</string>
 </resources>
