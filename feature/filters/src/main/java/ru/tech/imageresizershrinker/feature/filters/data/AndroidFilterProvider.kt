@@ -320,7 +320,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.RGB -> RGBFilter(context, value)
                 is Filter.Saturation -> SaturationFilter(value)
                 is Filter.Sepia -> SepiaFilter(value)
-                is Filter.Sharpen -> SharpenFilter(value)
+                is Filter.Sharpen -> SharpenFilter(context, value)
                 is Filter.Sketch -> SketchFilter(value)
                 is Filter.SmoothToon -> SmoothToonFilter(context, value)
                 is Filter.SobelEdgeDetection -> SobelEdgeDetectionFilter(context, value)

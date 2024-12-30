@@ -40,7 +40,7 @@ internal class NeonFilter(
         get() = (value).hashCode().toString()
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
-        SharpenFilter(value.second),
+        SharpenFilter(context, value.second),
         SobelEdgeDetectionFilter(context, value.first),
         RGBFilter(context, value.third.wrap())
     )
