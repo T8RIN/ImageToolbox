@@ -1506,4 +1506,8 @@
     <string name="share_base_64">分享Base64</string>
     <string name="actions">操作</string>
     <string name="base_64_actions">Base64 操作</string>
+    <string name="add_outline">添加大纲</string>
+    <string name="add_outline_sub">在特殊颜色和边框文字添加大纲</string>
+    <string name="outline_color">大纲颜色</string>
+    <string name="outline_size">大纲字体</string>
 </resources>
