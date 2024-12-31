@@ -18,34 +18,27 @@
 package ru.tech.imageresizershrinker.core.data.utils
 
 import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
-import java.io.File
+import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
 import java.io.InputStream
 import java.security.MessageDigest
 
 private const val STREAM_BUFFER_LENGTH = 1024
 
-internal fun ChecksumType.computeFromFile(
-    filePath: String
-): String = computeFromFile(File(filePath))
-
-internal fun ChecksumType.computeFromFile(
-    file: File
-): String = file.inputStream().use {
-    computeFromInputStream(it)
-}
+internal fun ChecksumType.computeFromReadable(
+    readable: Readable
+): String = computeFromByteArray(readable.readBytes())
 
 internal fun ChecksumType.computeFromByteArray(
     byteArray: ByteArray
-): String = byteArray.inputStream().use {
-    computeFromInputStream(it)
-}
+): String = computeFromInputStream(byteArray.inputStream())
 
 internal fun ChecksumType.computeFromInputStream(
     inputStream: InputStream
-): String {
-    val byteArray = updateDigest(inputStream).digest()
+): String = inputStream.buffered().use {
+    val byteArray = updateDigest(it).digest()
     val hexCode = encodeHex(byteArray, true)
-    return String(hexCode)
+
+    return@use String(hexCode)
 }
 
 /**

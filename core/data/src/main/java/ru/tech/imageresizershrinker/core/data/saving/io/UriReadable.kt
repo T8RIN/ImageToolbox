@@ -28,3 +28,9 @@ internal class UriReadable(
 ) : Readable by StreamReadable(
     stream = context.contentResolver.openInputStream(uri)
 )
+
+internal class ByteArrayReadable(
+    private val byteArray: ByteArray
+) : Readable by StreamReadable(
+    stream = byteArray.inputStream()
+)
