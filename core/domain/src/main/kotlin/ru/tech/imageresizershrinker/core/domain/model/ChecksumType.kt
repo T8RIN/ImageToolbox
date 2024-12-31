@@ -30,13 +30,6 @@ class ChecksumType private constructor(
         val SHA_256 = ChecksumType("SHA-256")
         val SHA_384 = ChecksumType("SHA-384")
         val SHA_512 = ChecksumType("SHA-512")
-//        Not supported by Android
-//        val SHA_512_224 = ChecksumType("SHA-512/224")
-//        val SHA_512_256 = ChecksumType("SHA-512/256")
-//        val SHA3_224 = ChecksumType("SHA3-224")
-//        val SHA3_256 = ChecksumType("SHA3-256")
-//        val SHA3_384 = ChecksumType("SHA3-384")
-//        val SHA3_512 = ChecksumType("SHA3-512")
 
         val entries: List<ChecksumType> by lazy {
             listOf(
@@ -47,12 +40,6 @@ class ChecksumType private constructor(
                 SHA_256,
                 SHA_384,
                 SHA_512,
-//                SHA_512_224,
-//                SHA_512_256,
-//                SHA3_224,
-//                SHA3_256,
-//                SHA3_384,
-//                SHA3_512,
             )
         }
 
