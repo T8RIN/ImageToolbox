@@ -1647,4 +1647,8 @@
     <string name="dot_dashed_sub"></string>
     <string name="tag_gps_status"></string>
     <string name="threshold_one"></string>
+    <string name="gaussian_blur"></string>
+    <string name="bilaterial_blur"></string>
+    <string name="fast_blur"></string>
+    <string name="box_blur"></string>
 </resources>
