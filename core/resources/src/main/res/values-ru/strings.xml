@@ -1511,4 +1511,6 @@
     <string name="rotation">Вращение</string>
     <string name="checksum_as_filename">Контрольная сумма как имя файла</string>
     <string name="checksum_as_filename_sub">Выходные изображения будут иметь имя, соответствующее их контрольной сумме</string>
+    <string name="center_align_dialog_buttons">Центрирование диалоговых кнопок</string>
+    <string name="apply">Применить</string>
 </resources>
