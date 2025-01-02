@@ -23,7 +23,6 @@ class ChecksumType private constructor(
     override fun toString(): String = "ChecksumType($digest)"
 
     companion object {
-        val MD2 = ChecksumType("MD2")
         val MD5 = ChecksumType("MD5")
         val SHA_1 = ChecksumType("SHA-1")
         val SHA_224 = ChecksumType("SHA-224")
@@ -33,7 +32,6 @@ class ChecksumType private constructor(
 
         val entries: List<ChecksumType> by lazy {
             listOf(
-                MD2,
                 MD5,
                 SHA_1,
                 SHA_224,
