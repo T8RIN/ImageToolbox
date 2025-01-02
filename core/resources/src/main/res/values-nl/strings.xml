@@ -1510,4 +1510,7 @@
     <string name="outline_size">Contourdikte</string>
     <string name="add_outline">Contour toevoegen</string>
     <string name="add_outline_sub">Contour rondom tekst toevoegen met opgegeven kleur en breedte</string>
+    <string name="rotation">Rotatie</string>
+    <string name="checksum_as_filename_sub">Uitvoerafbeeldingen krijgen naam in overeenkomst met het controlegetal van de gegevens</string>
+    <string name="checksum_as_filename">Controlegtal als bestandsnaam</string>
 </resources>
