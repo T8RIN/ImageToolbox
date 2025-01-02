@@ -18,6 +18,9 @@
 package ru.tech.imageresizershrinker.core.domain.model
 
 @ConsistentCopyVisibility
+/**
+ * [ChecksumType] multiplatform domain wrapper for java MessageDigest, in order to add custom digests, you need to call [registerSecurityMessageDigests] when process created
+ **/
 data class ChecksumType private constructor(
     val digest: String,
     val name: String = digest
