@@ -1531,4 +1531,6 @@
     <string name="rotation">Rotation</string>
     <string name="checksum_as_filename">Checksum As Filename</string>
     <string name="checksum_as_filename_sub">Output images will have name corresponding to their data checksum</string>
+    <string name="free_software_partner">Free Software (Partner)</string>
+    <string name="free_software_partner_sub">More useful software in the partner channel of Android applications</string>
 </resources>

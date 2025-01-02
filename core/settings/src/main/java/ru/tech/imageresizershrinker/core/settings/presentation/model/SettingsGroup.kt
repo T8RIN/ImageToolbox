@@ -296,6 +296,7 @@ sealed class SettingsGroup(
             Setting.OpenSourceLicenses,
             Setting.HelpTranslate,
             Setting.IssueTracker,
+            Setting.FreeSoftwarePartner,
             Setting.TelegramChannel,
             Setting.TelegramGroup,
             Setting.SourceCode

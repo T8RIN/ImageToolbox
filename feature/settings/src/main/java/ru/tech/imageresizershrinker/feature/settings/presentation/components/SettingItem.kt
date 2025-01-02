@@ -319,6 +319,10 @@ internal fun SettingItem(
                 TelegramChannelSettingItem()
             }
 
+            Setting.FreeSoftwarePartner -> {
+                FreeSoftwarePartnerSettingItem()
+            }
+
             Setting.CheckUpdatesButton -> {
                 CheckUpdatesButtonSettingItem(
                     onClick = component::tryGetUpdate

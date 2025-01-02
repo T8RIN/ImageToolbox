@@ -1513,4 +1513,6 @@
     <string name="checksum_as_filename_sub">Выходные изображения будут иметь имя, соответствующее их контрольной сумме</string>
     <string name="center_align_dialog_buttons">Центрирование диалоговых кнопок</string>
     <string name="apply">Применить</string>
+    <string name="free_software_partner">Бесплатное ПО (Партнер)</string>
+    <string name="free_software_partner_sub">Больше полезного ПО в партнерском канале приложений Android</string>
 </resources>

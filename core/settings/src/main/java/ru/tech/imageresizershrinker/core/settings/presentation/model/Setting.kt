@@ -428,6 +428,11 @@ sealed class Setting(
         subtitle = R.string.ci_channel_sub
     )
 
+    data object FreeSoftwarePartner : Setting(
+        title = R.string.free_software_partner,
+        subtitle = R.string.free_software_partner_sub
+    )
+
     data object DefaultResizeType : Setting(
         title = R.string.resize_type,
         subtitle = null

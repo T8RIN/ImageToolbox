@@ -26,6 +26,7 @@ const val APP_RELEASES = "https://github.com/T8RIN/ImageToolbox/releases"
 const val AUTHOR_TG = "http://t.me/T8RIN"
 const val TELEGRAM_GROUP_LINK = "https://t.me/t8rin_imagetoolbox"
 const val TELEGRAM_CHANNEL_LINK = "https://t.me/t8rin_imagetoolbox_ci"
+const val PARTNER_FREE_SOFTWARE = "https://t.me/FreeApkexe"
 
 const val BitcoinWallet = "17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq"
 const val USDTWallet = "TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7"
