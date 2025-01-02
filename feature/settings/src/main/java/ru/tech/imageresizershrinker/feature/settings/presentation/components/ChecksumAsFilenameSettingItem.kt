@@ -86,7 +86,6 @@ fun ChecksumAsFilenameSettingItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 val state = rememberScrollState()
-
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier
