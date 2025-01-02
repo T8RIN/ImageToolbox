@@ -17,11 +17,11 @@
 
 package ru.tech.imageresizershrinker.core.domain.model
 
-class ChecksumType private constructor(
-    val digest: String
+@ConsistentCopyVisibility
+data class ChecksumType private constructor(
+    val digest: String,
+    val name: String = digest
 ) {
-    override fun toString(): String = "ChecksumType($digest)"
-
     companion object {
         val MD5 = ChecksumType("MD5")
         val SHA_1 = ChecksumType("SHA-1")
@@ -30,7 +30,29 @@ class ChecksumType private constructor(
         val SHA_384 = ChecksumType("SHA-384")
         val SHA_512 = ChecksumType("SHA-512")
 
+        private var securityMessageDigests: List<String>? = null
+
+        fun registerSecurityMessageDigests(digests: List<String>) {
+            if (!securityMessageDigests.isNullOrEmpty()) {
+                throw IllegalArgumentException("SecurityMessageDigests already registered")
+            }
+            securityMessageDigests = digests.distinctBy { it.replace("OID.", "") }
+        }
+
         val entries: List<ChecksumType> by lazy {
+            val available = securityMessageDigests?.mapNotNull { messageDigest ->
+                if (messageDigest.isEmpty()) null
+                else {
+                    val digest = messageDigest.replace("OID.", "")
+                    KnownOIDs.findMatch(digest)?.let { oid ->
+                        ChecksumType(
+                            digest = messageDigest,
+                            name = oid.stdName
+                        )
+                    } ?: ChecksumType(digest = messageDigest)
+                }
+            }?.sortedBy { it.digest } ?: emptyList()
+
             listOf(
                 MD5,
                 SHA_1,
@@ -38,7 +60,9 @@ class ChecksumType private constructor(
                 SHA_256,
                 SHA_384,
                 SHA_512,
-            )
+            ).let {
+                it + available
+            }.distinctBy { it.name.replace("-", "") }
         }
 
         fun fromString(

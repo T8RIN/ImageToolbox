@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridS
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -41,6 +43,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,10 +53,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -66,6 +72,7 @@ fun <T : Any> DataSelector(
     itemContentText: @Composable (T) -> String,
     spanCount: Int = 3,
     modifier: Modifier = Modifier,
+    badgeContent: (@Composable RowScope.() -> Unit)? = null,
     shape: Shape = RoundedCornerShape(20.dp),
     color: Color = MaterialTheme.colorScheme.surface,
     selectedItemColor: Color = MaterialTheme.colorScheme.tertiary
@@ -79,13 +86,39 @@ fun <T : Any> DataSelector(
         var expanded by rememberSaveable { mutableStateOf(false) }
         Row {
             val rotation by animateFloatAsState(if (expanded) 180f else 0f)
-            TitleItem(
-                text = title,
-                icon = titleIcon,
-                modifier = Modifier
-                    .padding(top = 12.dp, start = 12.dp, bottom = 8.dp)
-                    .weight(1f)
-            )
+            Row(
+                modifier = Modifier.weight(1f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TitleItem(
+                    text = title,
+                    icon = titleIcon,
+                    modifier = Modifier
+                        .padding(top = 12.dp, start = 12.dp, bottom = 8.dp)
+                        .weight(1f, false)
+                )
+                badgeContent?.let {
+                    val scope = rememberCoroutineScope()
+                    val confettiHostState = LocalConfettiHostState.current
+                    val showConfetti: () -> Unit = {
+                        scope.launch {
+                            confettiHostState.showConfetti()
+                        }
+                    }
+                    Badge(
+                        content = badgeContent,
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.onTertiary,
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp)
+                            .padding(bottom = 12.dp)
+                            .scaleOnTap {
+                                showConfetti()
+                            }
+                    )
+                }
+            }
+
             EnhancedIconButton(
                 containerColor = Color.Transparent,
                 onClick = { expanded = !expanded }

@@ -50,3 +50,6 @@
 -dontwarn org.openjsse.net.ssl.OpenJSSE
 
 -keep class org.beyka.tiffbitmapfactory.**{ *; }
+
+-keep class org.bouncycastle.jcajce.provider.** { *; }
+-keep class org.bouncycastle.jce.provider.** { *; }

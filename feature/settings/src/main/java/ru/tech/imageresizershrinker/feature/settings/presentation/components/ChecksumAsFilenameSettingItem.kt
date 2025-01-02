@@ -18,21 +18,14 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,9 +37,8 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -85,39 +77,23 @@ fun ChecksumAsFilenameSettingItem(
                 visible = checkedState,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                val state = rememberScrollState()
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                DataSelector(
                     modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fadingEdges(state)
-                        .horizontalScroll(state)
-                ) {
-                    ChecksumType.entries.forEach { type ->
-                        val selected by remember(type, settingsState.checksumTypeForFilename) {
-                            derivedStateOf {
-                                settingsState.checksumTypeForFilename == type
-                            }
-                        }
-
-                        EnhancedChip(
-                            selected = selected,
-                            onClick = {
-                                onValueChange(type)
-                            },
-                            selectedColor = MaterialTheme.colorScheme.tertiary,
-                            contentPadding = PaddingValues(
-                                horizontal = 12.dp,
-                                vertical = 8.dp
-                            ),
-                            modifier = Modifier.height(36.dp)
-                        ) {
-                            Text(
-                                text = type.digest
-                            )
-                        }
+                        .padding(top = 16.dp),
+                    value = settingsState.checksumTypeForFilename ?: ChecksumType.entries.first(),
+                    onValueChange = onValueChange,
+                    entries = ChecksumType.entries,
+                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                    shape = shape,
+                    title = stringResource(R.string.algorithms),
+                    titleIcon = null,
+                    badgeContent = {
+                        Text(ChecksumType.entries.size.toString())
+                    },
+                    itemContentText = {
+                        it.name
                     }
-                }
+                )
             }
         }
     )

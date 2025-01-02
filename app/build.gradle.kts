@@ -86,11 +86,12 @@ android {
             pickFirsts.add("lib/*/libcoder.so")
         }
         resources {
-            excludes += "META-INF/"
-            excludes += "kotlin/"
-            excludes += "org/"
-            excludes += ".properties"
-            excludes += ".bin"
+            excludes += "META-INF/*"
+            excludes += "kotlin/*"
+            excludes += "org/*"
+            excludes += "*.properties"
+            excludes += "*.bin"
+            excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
         }
     }
 
@@ -104,6 +105,8 @@ dependencies {
     implementation(projects.feature.root)
     implementation(projects.feature.mediaPicker)
     implementation(projects.feature.quickTiles)
+    implementation(libs.bouncycastle.pkix)
+    implementation(libs.bouncycastle.provider)
 }
 
 
