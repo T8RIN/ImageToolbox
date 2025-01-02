@@ -24,7 +24,7 @@ package ru.tech.imageresizershrinker.core.domain.model
  * is determined by existing usage and may be in lowercase/uppercase in
  * order to match existing output.
  */
-enum class KnownOIDs {
+enum class ChecksumTypeMapping {
     // X.500 Attributes 2.5.4.*
     CommonName("2.5.4.3"),
     Surname("2.5.4.4"),
@@ -292,24 +292,24 @@ enum class KnownOIDs {
     // X9.62 1.2.840.10045.*
     EC("1.2.840.10045.2.1"),
 
-    //c2pnb163v1("1.2.840.10045.3.0.1", "X9.62 c2pnb163v1"),
-    //c2pnb163v2("1.2.840.10045.3.0.2", "X9.62 c2pnb163v2"),
-    //c2pnb163v3("1.2.840.10045.3.0.3", "X9.62 c2pnb163v3"),
-    //c2pnb176w1("1.2.840.10045.3.0.4", "X9.62 c2pnb176w1"),
+    c2pnb163v1("1.2.840.10045.3.0.1", "X9.62 c2pnb163v1"),
+    c2pnb163v2("1.2.840.10045.3.0.2", "X9.62 c2pnb163v2"),
+    c2pnb163v3("1.2.840.10045.3.0.3", "X9.62 c2pnb163v3"),
+    c2pnb176w1("1.2.840.10045.3.0.4", "X9.62 c2pnb176w1"),
     c2tnb191v1("1.2.840.10045.3.0.5", "X9.62 c2tnb191v1"),
     c2tnb191v2("1.2.840.10045.3.0.6", "X9.62 c2tnb191v2"),
     c2tnb191v3("1.2.840.10045.3.0.7", "X9.62 c2tnb191v3"),
 
-    //c2pnb208w1("1.2.840.10045.3.0.10", "X9.62 c2pnb208w1"),
+    c2pnb208w1("1.2.840.10045.3.0.10", "X9.62 c2pnb208w1"),
     c2tnb239v1("1.2.840.10045.3.0.11", "X9.62 c2tnb239v1"),
     c2tnb239v2("1.2.840.10045.3.0.12", "X9.62 c2tnb239v2"),
     c2tnb239v3("1.2.840.10045.3.0.13", "X9.62 c2tnb239v3"),
 
-    //c2pnb272w1("1.2.840.10045.3.0.16", "X9.62 c2pnb272w1"),
-    //c2pnb304w1("1.2.840.10045.3.0.17", "X9.62 c2pnb304w1"),
+    c2pnb272w1("1.2.840.10045.3.0.16", "X9.62 c2pnb272w1"),
+    c2pnb304w1("1.2.840.10045.3.0.17", "X9.62 c2pnb304w1"),
     c2tnb359v1("1.2.840.10045.3.0.18", "X9.62 c2tnb359v1"),
 
-    //c2pnb368w1("1.2.840.10045.3.0.19", "X9.62 c2pnb368w1"),
+    c2pnb368w1("1.2.840.10045.3.0.19", "X9.62 c2pnb368w1"),
     c2tnb431r1("1.2.840.10045.3.0.20", "X9.62 c2tnb431r1"),
 
     secp192r1(
@@ -426,31 +426,31 @@ enum class KnownOIDs {
 
     Blowfish("1.3.6.1.4.1.3029.1.1.2");
 
-    val stdName: String
+    val algorithm: String
     val oid: String
     val aliases: Array<String>
 
     constructor(oid: String) {
         this.oid = oid
-        this.stdName = name // defaults to enum name
-        this.aliases = arrayOf()
+        this.algorithm = name // defaults to enum name
+        this.aliases = arrayOf(oid, name)
     }
 
     constructor(
         oid: String,
-        stdName: String,
+        algorithm: String,
         vararg aliases: String
     ) {
         this.oid = oid
-        this.stdName = stdName
+        this.algorithm = algorithm
         this.aliases = aliases.toList().toTypedArray()
     }
 
     companion object {
         fun findMatch(
-            s: String
-        ): KnownOIDs? = KnownOIDs.entries.find {
-            it.oid == s || it.stdName == s || it.aliases.contains(s)
+            oidOrName: String
+        ): ChecksumTypeMapping? = ChecksumTypeMapping.entries.find {
+            it.oid == oidOrName || it.algorithm == oidOrName || it.aliases.contains(oidOrName)
         }
     }
 }

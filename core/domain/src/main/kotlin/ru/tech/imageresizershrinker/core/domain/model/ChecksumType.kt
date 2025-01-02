@@ -44,10 +44,10 @@ data class ChecksumType private constructor(
                 if (messageDigest.isEmpty()) null
                 else {
                     val digest = messageDigest.replace("OID.", "")
-                    KnownOIDs.findMatch(digest)?.let { oid ->
+                    ChecksumTypeMapping.findMatch(digest)?.let { mapping ->
                         ChecksumType(
                             digest = messageDigest,
-                            name = oid.stdName
+                            name = mapping.algorithm
                         )
                     } ?: ChecksumType(digest = messageDigest)
                 }
