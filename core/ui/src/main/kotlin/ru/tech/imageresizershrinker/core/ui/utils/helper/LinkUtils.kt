@@ -30,6 +30,7 @@ object LinkUtils {
     }
 }
 
+@ConsistentCopyVisibility
 data class LinkPreview internal constructor(
     val title: String?,
     val description: String?,
