@@ -278,7 +278,7 @@
     <string name="background_color">Culoare de fundal</string>
     <string name="compatibility_sub">Vă rugăm să rețineți că nu este garantată compatibilitatea cu alte programe sau servicii de criptare a fișierelor. Un tratament al cheii sau o configurație de cifrare ușor diferită poate cauza incompatibilitate.</string>
     <string name="file_size">Mărime fișier</string>
-    <string name="draw">A desena</string>
+    <string name="draw">Desenare</string>
     <string name="paint_color">Culoarea vopselei</string>
     <string name="paint_alpha">Vopsea alfa</string>
     <string name="draw_on_image">Desenează pe imagine</string>
@@ -356,7 +356,7 @@
     <string name="saving_almost_complete">Salvarea este aproape finalizată. Anularea acum va necesita salvarea din nou.</string>
     <string name="allow_betas_sub">Verificarea pentru actualizări va include și versiuni beta al aplicației dacă este activată</string>
     <string name="brush_softness">Moliciunea periei</string>
-    <string name="draw_arrows">Desenați Săgeți</string>
+    <string name="draw_arrows">Desenați săgeți</string>
     <string name="draw_arrows_sub">Dacă este activată, traiectoria de desen va fi reprezentată ca o săgeată orientată.</string>
     <string name="crop_description">Imaginile vor fi decupate central la dimensiunea introdusă. Pânza va fi extinsă cu culoarea de fundal dată dacă imaginea este mai mică decât dimensiunile introduse.</string>
     <string name="donation">Donație</string>
@@ -603,7 +603,7 @@
     <string name="all">Toate</string>
     <string name="full_filter">Filtru complet</string>
     <string name="full_filter_sub">Aplicați orice lanțuri de filtre la imaginile date sau la o singură imagine</string>
-    <string name="start_position">start</string>
+    <string name="start_position">Început</string>
     <string name="center_position">Centru</string>
     <string name="end_position">Sfârşit</string>
     <string name="gradient_maker">Creator de gradient</string>
