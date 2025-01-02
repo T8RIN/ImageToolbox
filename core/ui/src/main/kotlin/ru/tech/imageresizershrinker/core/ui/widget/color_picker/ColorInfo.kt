@@ -280,24 +280,27 @@ fun ColorInfo(
                                 value = value.removePrefix("#"),
                                 visualTransformation = HexVisualTransformation(true),
                                 onValueChange = {
-                                    if (it.length <= 8) {
+                                    val hex = it.replace("#", "")
+
+                                    if (hex.length <= 8) {
                                         var validHex = true
 
-                                        for (index in it.indices) {
+                                        for (index in hex.indices) {
                                             validHex =
-                                                hexRegexSingleChar.matches(it[index].toString())
+                                                hexRegexSingleChar.matches(hex[index].toString())
                                             if (!validHex) break
                                         }
 
                                         if (validHex) {
-                                            value = "#${it.uppercase()}"
+                                            value = "#${hex.uppercase()}"
                                         }
                                     }
                                 },
                                 placeholder = {
                                     Text(
                                         text = "#AARRGGBB",
-                                        style = style
+                                        style = style,
+                                        modifier = Modifier.fillMaxWidth()
                                     )
                                 }
                             )

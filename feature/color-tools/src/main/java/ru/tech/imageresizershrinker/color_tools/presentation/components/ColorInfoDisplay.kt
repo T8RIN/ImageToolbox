@@ -71,6 +71,8 @@ fun ColorInfoDisplay(
                 onCopy = onCopy,
                 visualTransformation = HexVisualTransformation(false),
                 onValueChange = { newHex ->
+                    val newHex = newHex.replace("#", "")
+
                     if (newHex.length <= 8) {
                         var validHex = true
 

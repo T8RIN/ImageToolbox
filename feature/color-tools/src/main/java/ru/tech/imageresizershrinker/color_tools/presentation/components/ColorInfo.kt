@@ -127,7 +127,7 @@ internal fun ColorInfo(
                             .size(28.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+                                shape = RoundedCornerShape(8.dp)
                             )
                             .padding(2.dp)
                     )
@@ -140,7 +140,7 @@ internal fun ColorInfo(
                             .padding(4.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+                                shape = RoundedCornerShape(8.dp)
                             )
                             .padding(horizontal = 4.dp),
                         fontSize = 12.sp
@@ -158,7 +158,7 @@ internal fun ColorInfo(
                             .padding(4.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+                                shape = RoundedCornerShape(8.dp)
                             )
                             .padding(horizontal = 4.dp),
                         fontSize = 12.sp
