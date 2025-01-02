@@ -200,9 +200,6 @@
     <string name="vibrance">Vibranță</string>
     <string name="halftone">Semitonuri</string>
     <string name="cga_colorspace">Spațiul de culori CGA</string>
-    <string name="gaussian_blur"></string>
-    <string name="box_blur"></string>
-    <string name="bilaterial_blur"></string>
     <string name="emboss">Grava</string>
     <string name="laplacian">Laplacian</string>
     <string name="vignette">Vinietă</string>
@@ -226,7 +223,6 @@
     <string name="first_color">Prima culoare</string>
     <string name="second_color">A doua culoare</string>
     <string name="reorder">Reordonați</string>
-    <string name="fast_blur"></string>
     <string name="blur_size">Dimensiune estompare</string>
     <string name="blur_center_x">Încețoșează centrul x</string>
     <string name="color_balance">Echilibrul culorilor</string>
