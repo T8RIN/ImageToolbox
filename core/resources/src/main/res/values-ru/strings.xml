@@ -1521,4 +1521,12 @@
     <string name="calculate">Рассчитать</string>
     <string name="algorithms">Алгоритм</string>
     <string name="text_hash">Текстовый хэш</string>
+    <string name="enter_text_to_checksum">Введите текст для расчета его контрольной суммы на основе выбранного алгоритма</string>
+    <string name="checksum_to_compare">Контрольная сумма для сравнения</string>
+    <string name="source_checksum">Исходная контрольная сумма</string>
+    <string name="difference">Различие</string>
+    <string name="match_sub">Контрольные суммы равны, это может быть безопасно</string>
+    <string name="pick_file_to_checksum">Выберите файл для расчета его контрольной суммы на основе выбранного алгоритма</string>
+    <string name="match">Совпадение!</string>
+    <string name="difference_sub">Контрольные суммы не равны, файл может быть небезопасен!</string>
 </resources>
