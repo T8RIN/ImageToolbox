@@ -1513,4 +1513,6 @@
     <string name="rotation">旋转</string>
     <string name="checksum_as_filename">校验和作为文件名</string>
     <string name="checksum_as_filename_sub">输出图片将采用与其数据校验和相对应的名称</string>
+    <string name="calculate">计算</string>
+    <string name="checksum">校验</string>
 </resources>
