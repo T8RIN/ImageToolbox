@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -290,5 +291,9 @@ fun RoundedTextFieldColors(
             unfocusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
             focusedLabelColor = if (isError) error else focusedIndicatorColor,
             unfocusedLabelColor = if (isError) error else unfocusedIndicatorColor,
+            selectionColors = TextSelectionColors(
+                handleColor = focusedIndicatorColor.copy(1f),
+                backgroundColor = focusedIndicatorColor.copy(0.4f)
+            )
         )
     }
