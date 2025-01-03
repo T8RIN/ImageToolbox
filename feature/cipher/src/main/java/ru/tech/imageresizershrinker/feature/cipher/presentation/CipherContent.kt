@@ -125,7 +125,7 @@ fun CipherContent(
 
     var key by rememberSaveable { mutableStateOf("") }
 
-    val canGoBack = component.uri != null && (key.isNotEmpty() || component.byteArray != null)
+    val canGoBack = component.uri == null || (key.isEmpty() && component.byteArray == null)
 
     val onBack = {
         if (!canGoBack) showExitDialog = true

@@ -116,6 +116,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
                 targetChecksum = targetChecksum
             )
         }
+
         componentScope.launch {
             _compareWithUriPage.update {
                 it.copy(
@@ -139,11 +140,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
         _checksumType.update { type }
         calculateFromUriPage.uri?.let(::setUri)
         calculateFromTextPage.text.let(::setText)
-        compareWithUriPage.uri?.let {
-            setDataForComparison(
-                uri = it
-            )
-        }
+        compareWithUriPage.uri?.let(::setDataForComparison)
     }
 
     @AssistedFactory
