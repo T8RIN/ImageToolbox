@@ -29,6 +29,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -71,6 +73,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -269,11 +272,14 @@ fun ChecksumToolsContent(
                     it.name
                 }
             )
+            val direction = LocalLayoutDirection.current
             HorizontalPager(
                 state = pagerState,
-                beyondViewportPageCount = 2,
+                beyondViewportPageCount = 3,
                 contentPadding = insets + PaddingValues(20.dp),
-                pageSpacing = 20.dp,
+                pageSpacing = 20.dp + insets.calculateStartPadding(direction) + insets.calculateEndPadding(
+                    direction
+                ),
                 verticalAlignment = Alignment.Top
             ) { page ->
                 Column(
