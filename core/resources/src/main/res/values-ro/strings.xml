@@ -30,7 +30,7 @@
     <string name="image_not_saved_sub">Toate modificările nesalvate vor fi pierdute, dacă ieșiți acum</string>
     <string name="check_source_code_sub">Obține cele mai recente actualizări, discută probleme și multe altele</string>
     <string name="single_edit">Editare unică</string>
-    <string name="single_edit_sub">Schimbă specificațiile unei singure imagini date</string>
+    <string name="single_edit_sub">Modificați specificațiile unei singure imagini date</string>
     <string name="pick_color">Alegeți culoarea</string>
     <string name="image">Imagine</string>
     <string name="color_copied">Culoare copiată</string>
@@ -856,4 +856,7 @@
     <string name="scanned_qr_code_isnt_filter_template">Codul QR scanat nu este un model de filtru valid</string>
     <string name="template">Șablon</string>
     <string name="delete_template_warn">Sunteți pe cale să ștergeți filtrul șablon selectat. Această operațiune nu poate fi anulată</string>
+    <string name="compression_type">Tip compresie</string>
+    <string name="tag_color_space">Spațiul de culoare</string>
+    <string name="scale_color_space">Scala spațiului de culoare</string>
 </resources>
