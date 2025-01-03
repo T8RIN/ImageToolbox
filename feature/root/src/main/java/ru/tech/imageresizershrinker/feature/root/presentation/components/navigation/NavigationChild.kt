@@ -26,6 +26,8 @@ import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsCon
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.Base64ToolsContent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
+import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.ChecksumToolsContent
+import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.CipherContent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareContent
@@ -304,6 +306,11 @@ internal sealed class NavigationChild {
     class Base64Tools(val component: Base64ToolsComponent) : NavigationChild() {
         @Composable
         override fun Content() = Base64ToolsContent(component)
+    }
+
+    class ChecksumTools(val component: ChecksumToolsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ChecksumToolsContent(component)
     }
 
 }

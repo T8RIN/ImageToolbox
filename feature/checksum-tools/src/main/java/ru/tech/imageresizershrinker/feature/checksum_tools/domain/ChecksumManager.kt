@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.saving.io
+package ru.tech.imageresizershrinker.feature.checksum_tools.domain
 
-import android.content.Context
-import android.net.Uri
-import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
+import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 
+interface ChecksumManager {
 
-class UriReadable(
-    private val uri: Uri,
-    private val context: Context
-) : Readable by StreamReadable(
-    stream = context.contentResolver.openInputStream(uri)
-)
+    suspend fun calculateChecksum(
+        type: ChecksumType,
+        source: ChecksumSource
+    ): String
 
-class ByteArrayReadable(
-    private val byteArray: ByteArray
-) : Readable by StreamReadable(
-    stream = byteArray.inputStream()
-)
+    suspend fun compareChecksum(
+        checksum: String,
+        type: ChecksumType,
+        source: ChecksumSource
+    ): Boolean
+
+}

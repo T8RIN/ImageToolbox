@@ -24,7 +24,7 @@ import java.security.MessageDigest
 
 private const val STREAM_BUFFER_LENGTH = 1024
 
-internal fun ChecksumType.computeFromReadable(
+fun ChecksumType.computeFromReadable(
     readable: Readable
 ): String = computeFromByteArray(readable.readBytes())
 

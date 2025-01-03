@@ -39,6 +39,7 @@ import androidx.compose.material.icons.outlined.Grain
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
+import androidx.compose.material.icons.outlined.Tag
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Gif
@@ -135,6 +136,7 @@ sealed class Screen(
             is LibrariesInfo -> "Libraries_Info"
             is MarkupLayers -> "Markup_Layers"
             is Base64Tools -> "Base64_Tools"
+            is ChecksumTools -> "Checksum_Tools"
         }
 
     val icon: ImageVector?
@@ -180,6 +182,7 @@ sealed class Screen(
             is CollageMaker -> Icons.Outlined.AutoAwesomeMosaic
             is MarkupLayers -> Icons.Outlined.Stack
             is Base64Tools -> Icons.Outlined.Base64
+            is ChecksumTools -> Icons.Outlined.Tag
         }
 
     @Serializable
@@ -816,6 +819,15 @@ sealed class Screen(
         subtitle = R.string.base_64_tools_sub
     )
 
+    @Serializable
+    data class ChecksumTools(
+        val uri: KUri? = null,
+    ) : Screen(
+        id = 36,
+        title = R.string.checksum_tools,
+        subtitle = R.string.checksum_tools_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -866,13 +878,14 @@ sealed class Screen(
                     DocumentScanner,
                     ScanQrCode(),
                     ColorTools,
-                    Base64Tools(),
                     GifTools(),
-                    JxlTools(),
-                    ApngTools(),
                     Cipher(),
+                    Base64Tools(),
+                    ChecksumTools(),
                     NoiseGeneration,
                     Zip(),
+                    JxlTools(),
+                    ApngTools(),
                     WebpTools()
                 ) to Triple(
                     R.string.tools,

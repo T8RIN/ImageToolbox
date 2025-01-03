@@ -23,6 +23,7 @@ import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorTo
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
+import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
 import ru.tech.imageresizershrinker.feature.compare.presentation.screenLogic.CompareComponent
 import ru.tech.imageresizershrinker.feature.crop.presentation.screenLogic.CropComponent
@@ -103,7 +104,8 @@ internal class ChildProvider @Inject constructor(
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
     private val mainComponentFactory: MainComponent.Factory,
     private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
-    private val base64ToolsComponentFactory: Base64ToolsComponent.Factory
+    private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
+    private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -452,6 +454,14 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.ChecksumTools -> ChecksumTools(
+            checksumToolsComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
+                onGoBack = ::navigateBack
             )
         )
     }

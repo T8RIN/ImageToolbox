@@ -105,6 +105,7 @@ include(":feature:colllage-maker")
 include(":feature:libraries-info")
 include(":feature:markup-layers")
 include(":feature:base64-tools")
+include(":feature:checksum-tools")
 
 include(":feature:root")
 

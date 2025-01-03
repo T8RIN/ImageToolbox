@@ -54,6 +54,7 @@ internal fun List<Uri>.screenList(
         derivedStateOf {
             listOf(
                 Screen.Cipher(uris.firstOrNull()),
+                Screen.ChecksumTools(uris.firstOrNull()),
                 Screen.Zip(uris)
             )
         }
@@ -73,6 +74,7 @@ internal fun List<Uri>.screenList(
                     Screen.GifTools.Type.GifToWebp(uris)
                 ),
                 Screen.Cipher(uris.firstOrNull()),
+                Screen.ChecksumTools(uris.firstOrNull()),
                 Screen.Zip(uris)
             )
         }
@@ -91,6 +93,7 @@ internal fun List<Uri>.screenList(
                     )
                 ),
                 Screen.Cipher(uris.firstOrNull()),
+                Screen.ChecksumTools(uris.firstOrNull()),
                 Screen.Zip(uris)
             )
         }
@@ -126,6 +129,7 @@ internal fun List<Uri>.screenList(
                 ),
                 Screen.Base64Tools(uris.firstOrNull()),
                 Screen.Cipher(uris.firstOrNull()),
+                Screen.ChecksumTools(uris.firstOrNull()),
                 Screen.ImagePreview(uris),
                 Screen.PickColorFromImage(uris.firstOrNull()),
                 Screen.GeneratePalette(uris.firstOrNull()),

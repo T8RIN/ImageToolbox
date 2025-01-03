@@ -65,4 +65,5 @@ dependencies {
     implementation(projects.feature.librariesInfo)
     implementation(projects.feature.markupLayers)
     implementation(projects.feature.base64Tools)
+    implementation(projects.feature.checksumTools)
 }

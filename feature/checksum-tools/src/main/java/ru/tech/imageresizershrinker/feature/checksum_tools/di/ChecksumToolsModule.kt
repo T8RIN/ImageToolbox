@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.saving.io
+package ru.tech.imageresizershrinker.feature.checksum_tools.di
 
-import android.content.Context
-import android.net.Uri
-import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.feature.checksum_tools.data.AndroidChecksumManager
+import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumManager
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface ChecksumToolsModule {
 
-class UriReadable(
-    private val uri: Uri,
-    private val context: Context
-) : Readable by StreamReadable(
-    stream = context.contentResolver.openInputStream(uri)
-)
+    @Binds
+    @Singleton
+    fun checksumManager(
+        impl: AndroidChecksumManager
+    ): ChecksumManager
 
-class ByteArrayReadable(
-    private val byteArray: ByteArray
-) : Readable by StreamReadable(
-    stream = byteArray.inputStream()
-)
+}
