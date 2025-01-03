@@ -43,7 +43,7 @@ abstract class BaseComponent(
 
     inline fun debounce(
         time: Long = 150,
-        crossinline block: () -> Unit
+        crossinline block: suspend () -> Unit
     ) {
         componentScope.launch {
             delay(time)

@@ -216,6 +216,53 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
         }.onFailure(onFailure).getOrNull()
     }
 
+    override suspend fun getResourceLinks(
+        name: String
+    ): RemoteResources? = withContext(defaultDispatcher) {
+        runCatching {
+            val connection = URL(getResourcesLink(name)).openConnection() as HttpURLConnection
+
+            connection.apply {
+                doOutput = false
+                requestMethod = "GET"
+                setRequestProperty("Accept-Charset", Charsets.UTF_8.toString())
+                connectTimeout = 15000
+                connect()
+            }
+
+            val result = StringBuilder()
+
+            connection.inputStream.bufferedReader().use { reader ->
+                var line: String?
+                while ((reader.readLine().also { line = it }) != null) {
+                    result.append(line)
+                }
+            }
+
+            var items = JSONArray(result.toString())
+
+            val resources = mutableSetOf<RemoteResource>()
+
+            for (i in 0..<items.length()) {
+                val item = items.getJSONObject(i)
+                val fileName = item.get("name") as String
+                val url = item.get("download_url") as String
+
+                resources.add(
+                    RemoteResource(
+                        uri = url,
+                        name = fileName.decodeEscaped()
+                    )
+                )
+            }
+
+            RemoteResources(
+                name = name,
+                list = resources.toList()
+            )
+        }.getOrNull()
+    }
+
     private fun getResourcesLink(
         dirName: String
     ): String = BaseUrl.replace("*", dirName)

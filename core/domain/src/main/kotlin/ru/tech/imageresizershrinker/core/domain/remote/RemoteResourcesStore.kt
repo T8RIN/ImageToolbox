@@ -69,4 +69,8 @@ interface RemoteResourcesStore {
         downloadOnlyNewData: Boolean = false
     ): RemoteResources?
 
+    suspend fun getResourceLinks(
+        name: String
+    ): RemoteResources?
+
 }
