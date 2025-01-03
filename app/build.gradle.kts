@@ -25,6 +25,8 @@ plugins {
 android {
     var isFoss = false
 
+    var supportedAbi = arrayOf("armeabi-v7a", "arm64-v8a", "x86_64")
+
     namespace = "ru.tech.imageresizershrinker"
 
     defaultConfig {
@@ -33,6 +35,12 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         versionCode = libs.versions.versionCode.get().toIntOrNull()
         versionName = System.getenv("VERSION_NAME") ?: libs.versions.versionName.get()
+
+        ndk {
+            abiFilters.clear()
+            //noinspection ChromeOsAbiSupport
+            abiFilters += supportedAbi.toSet()
+        }
 
         setProperty("archivesBaseName", "image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
     }
@@ -77,7 +85,8 @@ android {
         abi {
             isEnable = true
             reset()
-            include("armeabi-v7a", "arm64-v8a", "x86_64")
+            //noinspection ChromeOsAbiSupport
+            include(*supportedAbi)
             isUniversalApk = true
         }
     }
