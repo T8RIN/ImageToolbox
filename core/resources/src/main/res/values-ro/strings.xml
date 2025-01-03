@@ -407,7 +407,6 @@
     <string name="lock_draw_orientation_sub">Dacă este activat în modul desen, ecranul nu se va roti</string>
     <string name="palette_style">Stilul paletului</string>
     <string name="vibrant">Vibrant</string>
-    <string name="stroke_pixelation"></string>
     <string name="regular">Regular</string>
     <string name="enhanced_circle_pixelation">Pixelare circular îmbunătățită</string>
     <string name="attention">Atenție</string>
@@ -620,7 +619,6 @@
     <string name="gradient_type">Tipul gradientului</string>
     <string name="center_x">Centrul X</string>
     <string name="center_y">Centrul Y</string>
-    <string name="tile_mode"></string>
     <string name="tile_mode_repeated">Repetat</string>
     <string name="tile_mode_mirror">Oglindă</string>
     <string name="tile_mode_clamp">Clemă</string>
