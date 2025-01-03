@@ -1515,4 +1515,10 @@
     <string name="apply">Применить</string>
     <string name="free_software_partner">Бесплатное ПО (Партнер)</string>
     <string name="free_software_partner_sub">Больше полезного ПО в партнерском канале приложений Android</string>
+    <string name="checksum">Контрольная сумма</string>
+    <string name="checksum_tools">Инструменты контрольной суммы</string>
+    <string name="checksum_tools_sub">Сравнивайте контрольные суммы, вычисляйте хеши, создавайте шестнадцатеричные строки из файлов, используя различные алгоритмы хеширования</string>
+    <string name="calculate">Рассчитать</string>
+    <string name="algorithms">Алгоритм</string>
+    <string name="text_hash">Текстовый хэш</string>
 </resources>
