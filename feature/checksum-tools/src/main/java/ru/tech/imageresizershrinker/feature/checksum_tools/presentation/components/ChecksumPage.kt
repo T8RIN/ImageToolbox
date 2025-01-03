@@ -26,6 +26,7 @@ sealed interface ChecksumPage {
         val checksum: String
     ) : ChecksumPage {
         companion object {
+            const val INDEX = 0
             val Empty: CalculateFromUri by lazy {
                 CalculateFromUri(
                     uri = null,
@@ -40,6 +41,7 @@ sealed interface ChecksumPage {
         val checksum: String
     ) : ChecksumPage {
         companion object {
+            const val INDEX = 1
             val Empty: CalculateFromText by lazy {
                 CalculateFromText(
                     text = "",
@@ -56,6 +58,7 @@ sealed interface ChecksumPage {
         val isCorrect: Boolean
     ) : ChecksumPage {
         companion object {
+            const val INDEX = 2
             val Empty: CompareWithUri by lazy {
                 CompareWithUri(
                     uri = null,

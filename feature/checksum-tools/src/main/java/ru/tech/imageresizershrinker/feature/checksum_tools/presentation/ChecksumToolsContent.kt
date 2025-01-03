@@ -48,6 +48,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.CompareArrows
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material.icons.rounded.Calculate
 import androidx.compose.material.icons.rounded.Tag
@@ -72,9 +73,11 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -100,6 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.components.ChecksumPage
 import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 
 @Composable
@@ -281,7 +285,7 @@ fun ChecksumToolsContent(
                     direction
                 ),
                 verticalAlignment = Alignment.Top
-            ) { page ->
+            ) { pageIndex ->
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -295,16 +299,25 @@ fun ChecksumToolsContent(
                             0.5f
                         )
                     )
-                    when (page) {
-                        0 -> {
-                            val calculateFromUriPage = component.calculateFromUriPage
+                    val clipboardManager = LocalClipboardManager.current
+                    val onCopyText: (String) -> Unit = { text ->
+                        clipboardManager.setText(
+                            buildAnnotatedString {
+                                append(text)
+                            }
+                        )
+                    }
+
+                    when (pageIndex) {
+                        ChecksumPage.CalculateFromUri.INDEX -> {
+                            val page = component.calculateFromUriPage
 
                             FileSelector(
-                                value = calculateFromUriPage.uri?.toString(),
+                                value = page.uri?.toString(),
                                 onValueChange = component::setUri,
                                 subtitle = null
                             )
-                            AnimatedContent(calculateFromUriPage.checksum) { checksum ->
+                            AnimatedContent(page.checksum) { checksum ->
                                 if (checksum.isNotEmpty()) {
                                     RoundedTextField(
                                         modifier = Modifier
@@ -318,6 +331,21 @@ fun ChecksumToolsContent(
                                         keyboardOptions = KeyboardOptions(
                                             keyboardType = KeyboardType.Text
                                         ),
+                                        endIcon = {
+                                            AnimatedVisibility(checksum.isNotBlank()) {
+                                                EnhancedIconButton(
+                                                    onClick = {
+                                                        onCopyText(checksum)
+                                                    },
+                                                    modifier = Modifier.padding(end = 4.dp)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Outlined.ContentCopy,
+                                                        contentDescription = stringResource(R.string.copy)
+                                                    )
+                                                }
+                                            }
+                                        },
                                         onValueChange = {},
                                         singleLine = false,
                                         readOnly = true,
@@ -334,11 +362,11 @@ fun ChecksumToolsContent(
                             }
                         }
 
-                        1 -> {
-                            val calculateFromTextPage = component.calculateFromTextPage
+                        ChecksumPage.CalculateFromText.INDEX -> {
+                            val page = component.calculateFromTextPage
 
                             var text by remember {
-                                mutableStateOf(calculateFromTextPage.text)
+                                mutableStateOf(page.text)
                             }
 
                             RoundedTextField(
@@ -390,10 +418,25 @@ fun ChecksumToolsContent(
                                 onValueChange = {},
                                 singleLine = false,
                                 readOnly = true,
-                                value = calculateFromTextPage.checksum,
+                                endIcon = {
+                                    AnimatedVisibility(page.checksum.isNotBlank()) {
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                onCopyText(page.checksum)
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.ContentCopy,
+                                                contentDescription = stringResource(R.string.copy)
+                                            )
+                                        }
+                                    }
+                                },
+                                value = page.checksum,
                                 label = stringResource(R.string.checksum)
                             )
-                            BoxAnimatedVisibility(calculateFromTextPage.checksum.isEmpty()) {
+                            BoxAnimatedVisibility(page.checksum.isEmpty()) {
                                 InfoContainer(
                                     text = stringResource(R.string.enter_text_to_checksum),
                                     modifier = Modifier.padding(8.dp),
@@ -401,15 +444,15 @@ fun ChecksumToolsContent(
                             }
                         }
 
-                        2 -> {
-                            val compareWithUriPage = component.compareWithUriPage
+                        ChecksumPage.CompareWithUri.INDEX -> {
+                            val page = component.compareWithUriPage
 
                             FileSelector(
-                                value = compareWithUriPage.uri?.toString(),
+                                value = page.uri?.toString(),
                                 onValueChange = component::setDataForComparison,
                                 subtitle = null
                             )
-                            AnimatedContent(compareWithUriPage.checksum) { checksum ->
+                            AnimatedContent(page.checksum) { checksum ->
                                 if (checksum.isNotEmpty()) {
                                     RoundedTextField(
                                         modifier = Modifier
@@ -427,6 +470,21 @@ fun ChecksumToolsContent(
                                         singleLine = false,
                                         readOnly = true,
                                         value = checksum,
+                                        endIcon = {
+                                            AnimatedVisibility(checksum.isNotBlank()) {
+                                                EnhancedIconButton(
+                                                    onClick = {
+                                                        onCopyText(checksum)
+                                                    },
+                                                    modifier = Modifier.padding(end = 4.dp)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Outlined.ContentCopy,
+                                                        contentDescription = stringResource(R.string.copy)
+                                                    )
+                                                }
+                                            }
+                                        },
                                         colors = checksumOutputColors,
                                         label = stringResource(R.string.source_checksum)
                                     )
@@ -450,7 +508,7 @@ fun ChecksumToolsContent(
                                     component.setDataForComparison(targetChecksum = it)
                                 },
                                 endIcon = {
-                                    AnimatedVisibility(compareWithUriPage.targetChecksum.isNotBlank()) {
+                                    AnimatedVisibility(page.targetChecksum.isNotBlank()) {
                                         EnhancedIconButton(
                                             onClick = {
                                                 component.setDataForComparison(targetChecksum = "")
@@ -465,33 +523,33 @@ fun ChecksumToolsContent(
                                     }
                                 },
                                 singleLine = false,
-                                value = compareWithUriPage.targetChecksum,
+                                value = page.targetChecksum,
                                 label = stringResource(R.string.checksum_to_compare)
                             )
                             AnimatedVisibility(
-                                compareWithUriPage.targetChecksum.isNotEmpty() && !compareWithUriPage.uri?.toString()
+                                page.targetChecksum.isNotEmpty() && !page.uri?.toString()
                                     .isNullOrEmpty()
                             ) {
                                 val contentColor by animateColorAsState(
                                     when {
-                                        compareWithUriPage.isCorrect -> Green
+                                        page.isCorrect -> Green
                                         else -> Red
                                     }
                                 )
                                 val containerColor = contentColor.copy(0.3f)
 
                                 PreferenceRow(
-                                    title = if (compareWithUriPage.isCorrect) {
+                                    title = if (page.isCorrect) {
                                         stringResource(R.string.match)
                                     } else {
                                         stringResource(R.string.difference)
                                     },
-                                    subtitle = if (compareWithUriPage.isCorrect) {
+                                    subtitle = if (page.isCorrect) {
                                         stringResource(R.string.match_sub)
                                     } else {
                                         stringResource(R.string.difference_sub)
                                     },
-                                    startIcon = if (compareWithUriPage.isCorrect) {
+                                    startIcon = if (page.isCorrect) {
                                         Icons.Outlined.CheckCircle
                                     } else {
                                         Icons.Outlined.WarningAmber
@@ -506,8 +564,6 @@ fun ChecksumToolsContent(
                 }
             }
         },
-        buttons = {
-
-        }
+        buttons = {}
     )
 }

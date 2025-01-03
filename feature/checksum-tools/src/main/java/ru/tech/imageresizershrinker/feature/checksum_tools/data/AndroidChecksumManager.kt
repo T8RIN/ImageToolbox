@@ -42,7 +42,9 @@ internal class AndroidChecksumManager @Inject constructor(
         type: ChecksumType,
         source: ChecksumSource
     ): String = withContext(defaultDispatcher) {
-        type.computeFromReadable(source.toReadable())
+        runCatching {
+            type.computeFromReadable(source.toReadable())
+        }.getOrDefault("")
     }
 
     override suspend fun compareChecksum(
