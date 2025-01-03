@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenLogic
 
 import android.net.Uri
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
@@ -25,8 +26,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumManager
+import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumSource
+import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.components.ChecksumPage
 
 class ChecksumToolsComponent @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
@@ -36,8 +41,17 @@ class ChecksumToolsComponent @AssistedInject constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    private val _uri = mutableStateOf<Uri?>(null)
-    val uri by _uri
+    private val _checksumType: MutableState<ChecksumType> =
+        mutableStateOf(ChecksumType.entries.first())
+    val checksumType: ChecksumType by _checksumType
+
+    private val _calculateFromUriPage: MutableState<ChecksumPage.CalculateFromUri> = mutableStateOf(
+        ChecksumPage.CalculateFromUri(
+            uri = null,
+            checksum = ""
+        )
+    )
+    val calculateFromUriPage: ChecksumPage.CalculateFromUri by _calculateFromUriPage
 
     init {
         debounce {
@@ -46,7 +60,17 @@ class ChecksumToolsComponent @AssistedInject constructor(
     }
 
     fun setUri(uri: Uri) {
-        _uri.value = uri
+        componentScope.launch {
+            _calculateFromUriPage.update {
+                it.copy(
+                    uri = uri,
+                    checksum = checksumManager.calculateChecksum(
+                        type = checksumType,
+                        source = ChecksumSource.Uri(uri.toString())
+                    )
+                )
+            }
+        }
     }
 
     @AssistedFactory

@@ -102,7 +102,9 @@ fun AdaptiveLayoutScreen(
     showImagePreviewAsStickyHeader: Boolean = true,
     autoClearFocus: Boolean = true,
     placeImagePreview: Boolean = true,
+    addHorizontalCutoutPaddingIfNoPreview: Boolean = true,
     showActionsInTopAppBar: Boolean = true,
+    underTopAppBarContent: (@Composable ColumnScope.() -> Unit)? = null,
     insetsForNoData: WindowInsets = WindowInsets.navigationBars.union(
         WindowInsets.displayCutout.only(
             WindowInsetsSides.Horizontal
@@ -148,6 +150,7 @@ fun AdaptiveLayoutScreen(
                     type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
                     title = title,
+                    drawHorizontalStroke = underTopAppBarContent == null,
                     navigationIcon = {
                         EnhancedIconButton(
                             onClick = onGoBack
@@ -163,6 +166,7 @@ fun AdaptiveLayoutScreen(
                         topAppBarPersistentActions()
                     }
                 )
+                underTopAppBarContent?.invoke(this)
                 val screenWidthDp = LocalConfiguration.current.screenWidthDp
                 AnimatedContent(
                     targetState = canShowScreenData,
@@ -208,7 +212,8 @@ fun AdaptiveLayoutScreen(
                             imageState = imageState,
                             expanded = forceImagePreviewToMax
                         )
-                        val cutout = if (!placeImagePreview) {
+                        val cutout =
+                            if (!placeImagePreview && addHorizontalCutoutPaddingIfNoPreview) {
                             WindowInsets
                                 .displayCutout
                                 .asPaddingValues()

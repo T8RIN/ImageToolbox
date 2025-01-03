@@ -1536,4 +1536,7 @@
     <string name="algorithms">Algorithm</string>
     <string name="checksum_tools">Checksum Tools</string>
     <string name="checksum_tools_sub">Compare checksums, calculate hashes, create hex strings from files using different hashing algorithms</string>
+    <string name="calculate">Calculate</string>
+    <string name="text_hash">Text Hash</string>
+    <string name="checksum">Checksum</string>
 </resources>

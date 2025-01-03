@@ -42,13 +42,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 @Composable
 fun EnhancedTopAppBar(
     title: @Composable () -> Unit,
-    modifier: Modifier = Modifier.drawHorizontalStroke(),
+    modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = EnhancedTopAppBarDefaults.windowInsets,
     colors: TopAppBarColors = EnhancedTopAppBarDefaults.colors(),
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    type: EnhancedTopAppBarType = EnhancedTopAppBarType.Normal
+    type: EnhancedTopAppBarType = EnhancedTopAppBarType.Normal,
+    drawHorizontalStroke: Boolean = true
 ) {
     AnimatedContent(
         targetState = type,
@@ -58,7 +59,9 @@ fun EnhancedTopAppBar(
             EnhancedTopAppBarType.Center -> {
                 CenterAlignedTopAppBar(
                     title = title,
-                    modifier = modifier,
+                    modifier = modifier.drawHorizontalStroke(
+                        enabled = drawHorizontalStroke
+                    ),
                     navigationIcon = navigationIcon,
                     actions = actions,
                     windowInsets = windowInsets,
@@ -70,7 +73,9 @@ fun EnhancedTopAppBar(
             EnhancedTopAppBarType.Normal -> {
                 TopAppBar(
                     title = title,
-                    modifier = modifier,
+                    modifier = modifier.drawHorizontalStroke(
+                        enabled = drawHorizontalStroke
+                    ),
                     navigationIcon = navigationIcon,
                     actions = actions,
                     windowInsets = windowInsets,
@@ -82,7 +87,9 @@ fun EnhancedTopAppBar(
             EnhancedTopAppBarType.Medium -> {
                 MediumTopAppBar(
                     title = title,
-                    modifier = modifier,
+                    modifier = modifier.drawHorizontalStroke(
+                        enabled = drawHorizontalStroke
+                    ),
                     navigationIcon = navigationIcon,
                     actions = actions,
                     windowInsets = windowInsets,
@@ -94,7 +101,9 @@ fun EnhancedTopAppBar(
             EnhancedTopAppBarType.Large -> {
                 LargeTopAppBar(
                     title = title,
-                    modifier = modifier,
+                    modifier = modifier.drawHorizontalStroke(
+                        enabled = drawHorizontalStroke
+                    ),
                     navigationIcon = navigationIcon,
                     actions = actions,
                     windowInsets = windowInsets,
