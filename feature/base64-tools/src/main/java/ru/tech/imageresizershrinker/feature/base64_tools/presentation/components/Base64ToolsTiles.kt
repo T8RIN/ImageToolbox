@@ -23,10 +23,13 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -63,7 +66,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentia
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 
 @Composable
@@ -123,7 +125,9 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
     AnimatedContent(component.uri == null) { isNoUri ->
         if (isNoUri) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Max),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 pasteTile(
@@ -273,14 +277,15 @@ private fun RowScope.Tile(
         Row(
             modifier = Modifier
                 .weight(1f)
-                .height(56.dp)
+                .heightIn(min = 56.dp)
+                .fillMaxHeight()
                 .container(
                     color = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
                     shape = shape,
                     resultPadding = 0.dp
                 )
                 .hapticsClickable(onClick = onClick)
-                .padding(8.dp),
+                .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
@@ -292,7 +297,7 @@ private fun RowScope.Tile(
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSecondaryContainer
             )
-            AutoSizeText(
+            Text(
                 text = stringResource(id = textRes),
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 textAlign = TextAlign.Center
