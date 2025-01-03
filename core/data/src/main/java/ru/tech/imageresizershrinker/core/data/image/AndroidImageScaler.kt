@@ -24,7 +24,6 @@ import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.ResizeFunction
-import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -465,7 +464,7 @@ internal class AndroidImageScaler @Inject constructor(
         }
 
         val scaleByHeight = suspend {
-            val aspectRatio = image.aspectRatio.makeLog()
+            val aspectRatio = image.aspectRatio
             createScaledBitmap(
                 image = image,
                 width = (height * aspectRatio).toInt(),

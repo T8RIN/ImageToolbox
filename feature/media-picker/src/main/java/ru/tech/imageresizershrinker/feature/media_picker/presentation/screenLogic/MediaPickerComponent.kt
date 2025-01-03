@@ -24,7 +24,6 @@ import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
-import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -111,7 +110,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull() ?: emptyList()
-                    val error = if (result.isFailure) result.exceptionOrNull().makeLog()?.message
+                    val error = if (result.isFailure) result.exceptionOrNull()?.message
                         ?: "An error occurred" else ""
                     if (data.isEmpty()) {
                         return@collectLatest _albumsState.emit(
@@ -148,7 +147,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                             result.getOrNull()
                         }?.distinctBy { it.id } ?: emptyList()
 
-                    val error = if (result.isFailure) result.exceptionOrNull().makeLog()?.message
+                    val error = if (result.isFailure) result.exceptionOrNull()?.message
                         ?: "An error occurred" else ""
                     if (data.isEmpty()) {
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))

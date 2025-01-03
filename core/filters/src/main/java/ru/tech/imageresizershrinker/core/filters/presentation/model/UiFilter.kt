@@ -22,8 +22,6 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.t8rin.logger.makeLog
-import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import kotlin.reflect.full.primaryConstructor
@@ -357,25 +355,25 @@ infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam
     valueRange = valueRange
 )
 
-private suspend fun reflectionTest() = coroutineScope {
-    val filters = UiFilter.groupedEntries.flatten()
-    val failedCopy = mutableListOf<Pair<String, String?>>()
-    val failedToUi = mutableListOf<Pair<String, String?>>()
-    filters.forEach { filter ->
-        runCatching {
-            filter.copy(filter.value)
-        }.onFailure {
-            failedCopy.add(filter::class.simpleName.toString() to it.message)
-        }
-        runCatching {
-            filter.toUiFilter()
-        }.onFailure {
-            failedToUi.add(filter::class.simpleName.toString() to it.message)
-        }
-    }
-    "------------------".makeLog()
-    failedCopy.makeLog()
-    " ".makeLog()
-    failedToUi.makeLog()
-    "------------------".makeLog()
-}
+//private suspend fun reflectionTest() = coroutineScope {
+//    val filters = UiFilter.groupedEntries.flatten()
+//    val failedCopy = mutableListOf<Pair<String, String?>>()
+//    val failedToUi = mutableListOf<Pair<String, String?>>()
+//    filters.forEach { filter ->
+//        runCatching {
+//            filter.copy(filter.value)
+//        }.onFailure {
+//            failedCopy.add(filter::class.simpleName.toString() to it.message)
+//        }
+//        runCatching {
+//            filter.toUiFilter()
+//        }.onFailure {
+//            failedToUi.add(filter::class.simpleName.toString() to it.message)
+//        }
+//    }
+//    "------------------".makeLog()
+//    failedCopy.makeLog()
+//    " ".makeLog()
+//    failedToUi.makeLog()
+//    "------------------".makeLog()
+//}

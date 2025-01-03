@@ -32,7 +32,6 @@ import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
-import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.resources.R
@@ -257,7 +256,6 @@ object ImageUtils {
     }
 
     fun String.restrict(with: Int): String {
-        with.makeLog()
         if (isEmpty()) return this
 
         return if ((this.toIntOrNull() ?: 0) >= with) with.toString()
