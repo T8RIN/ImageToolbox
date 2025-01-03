@@ -1539,4 +1539,12 @@
     <string name="calculate">Calculate</string>
     <string name="text_hash">Text Hash</string>
     <string name="checksum">Checksum</string>
+    <string name="pick_file_to_checksum">Pick file to calculate it\'s checksum based on selected algorithm</string>
+    <string name="enter_text_to_checksum">Enter text to calculate it\'s checksum based on selected algorithm</string>
+    <string name="source_checksum">Source Checksum</string>
+    <string name="checksum_to_compare">Checksum To Compare</string>
+    <string name="match">Match!</string>
+    <string name="difference">Difference</string>
+    <string name="match_sub">Checksums are equal, it can be safe</string>
+    <string name="difference_sub">Checksums are not equal, file can be unsafe!</string>
 </resources>

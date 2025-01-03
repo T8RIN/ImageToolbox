@@ -45,13 +45,18 @@ class ChecksumToolsComponent @AssistedInject constructor(
         mutableStateOf(ChecksumType.entries.first())
     val checksumType: ChecksumType by _checksumType
 
-    private val _calculateFromUriPage: MutableState<ChecksumPage.CalculateFromUri> = mutableStateOf(
-        ChecksumPage.CalculateFromUri(
-            uri = null,
-            checksum = ""
-        )
-    )
+    private val _calculateFromUriPage: MutableState<ChecksumPage.CalculateFromUri> =
+        mutableStateOf(ChecksumPage.CalculateFromUri.Empty)
     val calculateFromUriPage: ChecksumPage.CalculateFromUri by _calculateFromUriPage
+
+    private val _calculateFromTextPage: MutableState<ChecksumPage.CalculateFromText> =
+        mutableStateOf(ChecksumPage.CalculateFromText.Empty)
+    val calculateFromTextPage: ChecksumPage.CalculateFromText by _calculateFromTextPage
+
+    private val _compareWithUriPage: MutableState<ChecksumPage.CompareWithUri> =
+        mutableStateOf(ChecksumPage.CompareWithUri.Empty)
+    val compareWithUriPage: ChecksumPage.CompareWithUri by _compareWithUriPage
+
 
     init {
         debounce {
@@ -60,6 +65,12 @@ class ChecksumToolsComponent @AssistedInject constructor(
     }
 
     fun setUri(uri: Uri) {
+        _calculateFromUriPage.update {
+            it.copy(
+                uri = uri
+            )
+        }
+
         componentScope.launch {
             _calculateFromUriPage.update {
                 it.copy(
@@ -70,6 +81,68 @@ class ChecksumToolsComponent @AssistedInject constructor(
                     )
                 )
             }
+        }
+    }
+
+    fun setText(text: String) {
+        _calculateFromTextPage.update {
+            it.copy(
+                text = text
+            )
+        }
+
+        componentScope.launch {
+            _calculateFromTextPage.update {
+                it.copy(
+                    text = text,
+                    checksum = if (text.isNotEmpty()) {
+                        checksumManager.calculateChecksum(
+                            type = checksumType,
+                            source = ChecksumSource.Text(text)
+                        )
+                    } else ""
+                )
+            }
+        }
+    }
+
+    fun setDataForComparison(
+        uri: Uri? = compareWithUriPage.uri,
+        targetChecksum: String = compareWithUriPage.targetChecksum
+    ) {
+        _compareWithUriPage.update {
+            it.copy(
+                uri = uri,
+                targetChecksum = targetChecksum
+            )
+        }
+        componentScope.launch {
+            _compareWithUriPage.update {
+                it.copy(
+                    uri = uri,
+                    targetChecksum = targetChecksum,
+                    checksum = checksumManager.calculateChecksum(
+                        type = checksumType,
+                        source = ChecksumSource.Uri(uri.toString())
+                    ),
+                    isCorrect = checksumManager.compareChecksum(
+                        checksum = targetChecksum,
+                        type = checksumType,
+                        source = ChecksumSource.Uri(uri.toString())
+                    )
+                )
+            }
+        }
+    }
+
+    fun updateChecksumType(type: ChecksumType) {
+        _checksumType.update { type }
+        calculateFromUriPage.uri?.let(::setUri)
+        calculateFromTextPage.text.let(::setText)
+        compareWithUriPage.uri?.let {
+            setDataForComparison(
+                uri = it
+            )
         }
     }
 

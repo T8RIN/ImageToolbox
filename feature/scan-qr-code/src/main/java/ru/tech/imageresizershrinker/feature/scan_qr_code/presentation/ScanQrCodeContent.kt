@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
@@ -30,14 +31,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DeleteOutline
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -56,10 +55,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -83,6 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -91,6 +88,7 @@ import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
+@SuppressLint("StringFormatInvalid")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ScanQrCodeContent(
@@ -259,35 +257,10 @@ fun ScanQrCodeContent(
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .container(
-                        color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
-                        resultPadding = 0.dp,
-                        shape = RoundedCornerShape(16.dp)
-                    )
-            ) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.scan_qr_code_to_replace_content),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.SemiBold,
-                        lineHeight = 14.sp,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                    )
-                }
-            }
+            InfoContainer(
+                text = stringResource(R.string.scan_qr_code_to_replace_content),
+                modifier = Modifier.padding(8.dp)
+            )
             Spacer(modifier = Modifier.height(8.dp))
             AnimatedVisibility(visible = qrContent.isNotEmpty()) {
                 Column {

@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.checksum_tools.presentation
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -43,7 +44,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.CompareArrows
+import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material.icons.rounded.Calculate
+import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
@@ -55,6 +60,9 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -69,17 +77,25 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.Green
+import ru.tech.imageresizershrinker.core.ui.theme.Red
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FileSelector
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 
@@ -231,19 +247,48 @@ fun ChecksumToolsContent(
         },
         contentPadding = 0.dp,
         controls = {
+            val insets = WindowInsets.navigationBars.union(
+                WindowInsets.displayCutout
+            ).only(
+                WindowInsetsSides.Horizontal
+            ).asPaddingValues()
+
+            DataSelector(
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .padding(horizontal = 20.dp)
+                    .padding(insets),
+                value = component.checksumType,
+                color = Color.Unspecified,
+                selectedItemColor = MaterialTheme.colorScheme.secondary,
+                onValueChange = component::updateChecksumType,
+                entries = ChecksumType.entries,
+                title = stringResource(R.string.algorithms),
+                titleIcon = Icons.Rounded.Tag,
+                itemContentText = {
+                    it.name
+                }
+            )
             HorizontalPager(
                 state = pagerState,
                 beyondViewportPageCount = 2,
-                contentPadding = WindowInsets.navigationBars.union(
-                    WindowInsets.displayCutout.only(
-                        WindowInsetsSides.Horizontal
-                    )
-                ).asPaddingValues() + PaddingValues(20.dp)
+                contentPadding = insets + PaddingValues(20.dp),
+                pageSpacing = 20.dp,
+                verticalAlignment = Alignment.Top
             ) { page ->
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    val checksumOutputColors = RoundedTextFieldColors(
+                        isError = false,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
+                        focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(
+                            0.5f
+                        )
+                    )
                     when (page) {
                         0 -> {
                             val calculateFromUriPage = component.calculateFromUriPage
@@ -259,28 +304,197 @@ fun ChecksumToolsContent(
                                         modifier = Modifier
                                             .container(
                                                 shape = MaterialTheme.shapes.large,
-                                                resultPadding = 8.dp
+                                                resultPadding = 8.dp,
+                                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                                    0.2f
+                                                )
                                             ),
                                         keyboardOptions = KeyboardOptions(
                                             keyboardType = KeyboardType.Text
                                         ),
                                         onValueChange = {},
+                                        singleLine = false,
                                         readOnly = true,
                                         value = checksum,
+                                        colors = checksumOutputColors,
                                         label = stringResource(R.string.checksum)
                                     )
                                 } else {
-
+                                    InfoContainer(
+                                        text = stringResource(R.string.pick_file_to_checksum),
+                                        modifier = Modifier.padding(8.dp),
+                                    )
                                 }
                             }
                         }
 
                         1 -> {
+                            val calculateFromTextPage = component.calculateFromTextPage
 
+                            var text by remember {
+                                mutableStateOf(calculateFromTextPage.text)
+                            }
+
+                            RoundedTextField(
+                                modifier = Modifier
+                                    .container(
+                                        shape = MaterialTheme.shapes.large,
+                                        resultPadding = 8.dp
+                                    ),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
+                                onValueChange = {
+                                    text = it
+                                    component.setText(it)
+                                },
+                                endIcon = {
+                                    AnimatedVisibility(text.isNotBlank()) {
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                text = ""
+                                                component.setText("")
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Cancel,
+                                                contentDescription = stringResource(R.string.cancel)
+                                            )
+                                        }
+                                    }
+                                },
+                                singleLine = false,
+                                value = text,
+                                label = stringResource(R.string.text)
+                            )
+                            RoundedTextField(
+                                modifier = Modifier
+                                    .container(
+                                        shape = MaterialTheme.shapes.large,
+                                        resultPadding = 8.dp,
+                                        color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                            0.2f
+                                        )
+                                    ),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
+                                colors = checksumOutputColors,
+                                onValueChange = {},
+                                singleLine = false,
+                                readOnly = true,
+                                value = calculateFromTextPage.checksum,
+                                label = stringResource(R.string.checksum)
+                            )
+                            BoxAnimatedVisibility(calculateFromTextPage.checksum.isEmpty()) {
+                                InfoContainer(
+                                    text = stringResource(R.string.enter_text_to_checksum),
+                                    modifier = Modifier.padding(8.dp),
+                                )
+                            }
                         }
 
                         2 -> {
+                            val compareWithUriPage = component.compareWithUriPage
 
+                            FileSelector(
+                                value = compareWithUriPage.uri?.toString(),
+                                onValueChange = component::setDataForComparison,
+                                subtitle = null
+                            )
+                            AnimatedContent(compareWithUriPage.checksum) { checksum ->
+                                if (checksum.isNotEmpty()) {
+                                    RoundedTextField(
+                                        modifier = Modifier
+                                            .container(
+                                                shape = MaterialTheme.shapes.large,
+                                                resultPadding = 8.dp,
+                                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                                    0.2f
+                                                )
+                                            ),
+                                        keyboardOptions = KeyboardOptions(
+                                            keyboardType = KeyboardType.Text
+                                        ),
+                                        onValueChange = {},
+                                        singleLine = false,
+                                        readOnly = true,
+                                        value = checksum,
+                                        colors = checksumOutputColors,
+                                        label = stringResource(R.string.source_checksum)
+                                    )
+                                } else {
+                                    InfoContainer(
+                                        text = stringResource(R.string.pick_file_to_checksum),
+                                        modifier = Modifier.padding(8.dp),
+                                    )
+                                }
+                            }
+                            RoundedTextField(
+                                modifier = Modifier
+                                    .container(
+                                        shape = MaterialTheme.shapes.large,
+                                        resultPadding = 8.dp
+                                    ),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
+                                onValueChange = {
+                                    component.setDataForComparison(targetChecksum = it)
+                                },
+                                endIcon = {
+                                    AnimatedVisibility(compareWithUriPage.targetChecksum.isNotBlank()) {
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                component.setDataForComparison(targetChecksum = "")
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Cancel,
+                                                contentDescription = stringResource(R.string.cancel)
+                                            )
+                                        }
+                                    }
+                                },
+                                singleLine = false,
+                                value = compareWithUriPage.targetChecksum,
+                                label = stringResource(R.string.checksum_to_compare)
+                            )
+                            AnimatedVisibility(
+                                compareWithUriPage.targetChecksum.isNotEmpty() && !compareWithUriPage.uri?.toString()
+                                    .isNullOrEmpty()
+                            ) {
+                                val contentColor by animateColorAsState(
+                                    when {
+                                        compareWithUriPage.isCorrect -> Green
+                                        else -> Red
+                                    }
+                                )
+                                val containerColor = contentColor.copy(0.3f)
+
+                                PreferenceRow(
+                                    title = if (compareWithUriPage.isCorrect) {
+                                        stringResource(R.string.match)
+                                    } else {
+                                        stringResource(R.string.difference)
+                                    },
+                                    subtitle = if (compareWithUriPage.isCorrect) {
+                                        stringResource(R.string.match_sub)
+                                    } else {
+                                        stringResource(R.string.difference_sub)
+                                    },
+                                    startIcon = if (compareWithUriPage.isCorrect) {
+                                        Icons.Outlined.CheckCircle
+                                    } else {
+                                        Icons.Outlined.WarningAmber
+                                    },
+                                    contentColor = contentColor,
+                                    color = containerColor,
+                                    onClick = null
+                                )
+                            }
                         }
                     }
                 }

@@ -32,9 +32,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -56,11 +54,9 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import androidx.compose.ui.unit.sp
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
@@ -80,6 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -309,32 +306,10 @@ fun DocumentScannerContent(
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .container(
-                        color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
-                        resultPadding = 0.dp,
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = stringResource(R.string.options_below_is_for_images),
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.SemiBold,
-                    lineHeight = 14.sp,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                )
-            }
+            InfoContainer(
+                modifier = Modifier.padding(8.dp),
+                text = stringResource(R.string.options_below_is_for_images)
+            )
             if (component.imageFormat.canChangeCompressionValue) {
                 Spacer(Modifier.height(8.dp))
             }

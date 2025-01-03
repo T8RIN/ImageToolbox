@@ -84,20 +84,24 @@ internal fun BoxScope.SettingsOpenButton(
         }
     }.value
 
-    val shape = if (startPadding == 0.dp && endPadding == 0.dp) {
-        if (fastSettingsSide == FastSettingsSide.CenterStart) {
+    val shape = if (fastSettingsSide == FastSettingsSide.CenterStart) {
+        if (startPadding == 0.dp) {
             RoundedCornerShape(
                 topEnd = 8.dp,
                 bottomEnd = 8.dp
             )
         } else {
+            RoundedCornerShape(8.dp)
+        }
+    } else {
+        if (endPadding == 0.dp) {
             RoundedCornerShape(
                 topStart = 8.dp,
                 bottomStart = 8.dp
             )
+        } else {
+            RoundedCornerShape(8.dp)
         }
-    } else {
-        RoundedCornerShape(8.dp)
     }
 
     Surface(
@@ -154,7 +158,7 @@ internal fun BoxScope.SettingsOpenButton(
                         shape = shape,
                         resultPadding = 0.dp,
                         color = takeColorFromScheme {
-                            tertiary.blend(primary, 0.8f)
+                            tertiary.blend(primary, 0.65f)
                         }
                     ),
                 contentAlignment = Alignment.Center

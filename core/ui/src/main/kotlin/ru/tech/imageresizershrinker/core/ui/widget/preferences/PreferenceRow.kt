@@ -237,7 +237,7 @@ fun PreferenceRow(
     startIcon: ImageVector?,
     endContent: (@Composable () -> Unit)? = null,
     additionalContent: (@Composable () -> Unit)? = null,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
 ) {
     PreferenceRow(
         modifier = modifier,
@@ -256,10 +256,12 @@ fun PreferenceRow(
                 IconShapeContainer(
                     enabled = drawStartIconContainer,
                     content = {
-                        Icon(
-                            imageVector = startIcon,
-                            contentDescription = null
-                        )
+                        AnimatedContent(startIcon) { startIcon ->
+                            Icon(
+                                imageVector = startIcon,
+                                contentDescription = null
+                            )
+                        }
                     },
                     modifier = Modifier.padding(end = 16.dp)
                 )

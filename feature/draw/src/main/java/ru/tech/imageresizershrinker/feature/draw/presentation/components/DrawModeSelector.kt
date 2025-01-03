@@ -25,7 +25,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,7 +37,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Healing
 import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.AutoFixNormal
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.TextFormat
@@ -88,6 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -392,31 +391,10 @@ fun DrawModeSelector(
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     } else {
-                        Row(
-                            modifier = Modifier
-                                .container(
-                                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                                    resultPadding = 0.dp,
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Info,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = stringResource(R.string.pick_filter_info),
-                                fontSize = 12.sp,
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.SemiBold,
-                                lineHeight = 14.sp,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                            )
-                        }
+                        InfoContainer(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                            text = stringResource(R.string.pick_filter_info)
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                         AddFilterButton(
                             onClick = {

@@ -122,7 +122,7 @@ inline val Green: Color
     @Composable get() = Color(0xFFBADB94).harmonizeWithPrimary(0.2f)
 
 inline val Red: Color
-    @Composable get() = Color(0xFFDB9494).harmonizeWithPrimary(0.2f)
+    @Composable get() = Color(0xFFE06565).harmonizeWithPrimary(0.2f)
 
 inline val Blue: Color
     @Composable get() = Color(0xFF0088CC).harmonizeWithPrimary(0.2f)

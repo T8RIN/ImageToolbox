@@ -65,7 +65,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.has
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
@@ -146,9 +145,7 @@ internal fun MediaPickerActivity.MediaPickerRootContent(
                 actions = {
                     TopAppBarEmoji()
                 },
-                modifier = if (component.albumsState.collectAsState().value.albums.size <= 1) {
-                    Modifier.drawHorizontalStroke()
-                } else Modifier
+                drawHorizontalStroke = component.albumsState.collectAsState().value.albums.size <= 1
             )
         }
     ) {

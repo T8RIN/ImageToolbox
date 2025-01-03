@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -96,8 +95,7 @@ fun RoundedTextField(
 ) {
     val labelImpl = @Composable {
         Text(
-            text = label,
-            modifier = if (singleLine) Modifier else Modifier.offset(y = 4.dp)
+            text = label
         )
     }
     val hintImpl = @Composable {

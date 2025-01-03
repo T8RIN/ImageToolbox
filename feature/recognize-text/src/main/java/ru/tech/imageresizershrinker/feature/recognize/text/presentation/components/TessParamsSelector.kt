@@ -20,15 +20,12 @@ package ru.tech.imageresizershrinker.feature.recognize.text.presentation.compone
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Icon
@@ -39,19 +36,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -167,31 +161,10 @@ fun TessParamsSelector(
                         shape = RoundedCornerShape(12.dp)
                     )
                     Spacer(Modifier.height(8.dp))
-                    Row(
-                        modifier = Modifier
-                            .container(
-                                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                                resultPadding = 0.dp,
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .padding(12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Info,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = stringResource(R.string.custom_params_info),
-                            fontSize = 12.sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.SemiBold,
-                            lineHeight = 14.sp,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                        )
-                    }
+                    InfoContainer(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        text = stringResource(R.string.custom_params_info)
+                    )
                 }
             }
         },

@@ -29,3 +29,49 @@ fun String.trimTrailingZero(): String {
         value
     }
 }
+
+/**
+ * Returns a minimal set of characters that have to be removed from (or added to) the respective
+ * strings to make the strings equal.
+ */
+fun String.differenceFrom(
+    other: String
+): Pair<String, String> = diffHelper(
+    a = this,
+    b = other,
+    lookup = HashMap()
+)
+
+/**
+ * Recursively compute a minimal set of characters while remembering already computed substrings.
+ * Runs in O(n^2).
+ */
+private fun diffHelper(
+    a: String,
+    b: String,
+    lookup: MutableMap<Long, Pair<String, String>>
+): Pair<String, String> {
+    val key = (a.length.toLong()) shl 32 or b.length.toLong()
+    if (!lookup.containsKey(key)) {
+        var value: Pair<String, String> = if (a.isEmpty() || b.isEmpty()) {
+            a to b
+        } else if (a[0] == b[0]) {
+            diffHelper(
+                a = a.substring(1),
+                b = b.substring(1),
+                lookup = lookup
+            )
+        } else {
+            val aa = diffHelper(a.substring(1), b, lookup)
+            val bb = diffHelper(a, b.substring(1), lookup)
+
+            if (aa.first.length + aa.second.length < bb.first.length + bb.second.length) {
+                (b[0].toString() + bb.second) to aa.second
+            } else {
+                bb.first to (b[0].toString() + bb.second)
+            }
+        }
+        lookup.put(key, value)
+    }
+    return lookup.getOrElse(key) { "" to "" }
+}

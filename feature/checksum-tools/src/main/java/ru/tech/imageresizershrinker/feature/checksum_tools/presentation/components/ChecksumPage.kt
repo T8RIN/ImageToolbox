@@ -24,17 +24,47 @@ sealed interface ChecksumPage {
     data class CalculateFromUri(
         val uri: Uri?,
         val checksum: String
-    ) : ChecksumPage
+    ) : ChecksumPage {
+        companion object {
+            val Empty: CalculateFromUri by lazy {
+                CalculateFromUri(
+                    uri = null,
+                    checksum = ""
+                )
+            }
+        }
+    }
 
     data class CalculateFromText(
         val text: String,
         val checksum: String
-    ) : ChecksumPage
+    ) : ChecksumPage {
+        companion object {
+            val Empty: CalculateFromText by lazy {
+                CalculateFromText(
+                    text = "",
+                    checksum = ""
+                )
+            }
+        }
+    }
 
     data class CompareWithUri(
         val uri: Uri?,
         val checksum: String,
+        val targetChecksum: String,
         val isCorrect: Boolean
-    ) : ChecksumPage
+    ) : ChecksumPage {
+        companion object {
+            val Empty: CompareWithUri by lazy {
+                CompareWithUri(
+                    uri = null,
+                    checksum = "",
+                    targetChecksum = "",
+                    isCorrect = false
+                )
+            }
+        }
+    }
 
 }

@@ -28,19 +28,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.material.icons.rounded.RoundedCorner
@@ -64,7 +60,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
@@ -105,6 +100,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -318,35 +314,15 @@ fun CollageMakerContent(
                     }
                 }
                 val density = LocalDensity.current
-                Row(
+                InfoContainer(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .container(
-                            color = MaterialTheme.colorScheme.surfaceContainerLow,
-                            resultPadding = 0.dp,
-                            shape = RoundedCornerShape(16.dp)
-                        )
                         .onGloballyPositioned {
                             bottomPadding = with(density) { it.size.height.toDp() + 20.dp }
-                        }
-                        .padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.collages_info),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.SemiBold,
-                        lineHeight = 14.sp,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                    )
-                }
+                        },
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                    text = stringResource(R.string.collages_info)
+                )
             }
         },
         controls = {
