@@ -39,11 +39,11 @@ import androidx.compose.material.icons.outlined.Grain
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
-import androidx.compose.material.icons.outlined.Tag
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Preview
+import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.KSerializer
@@ -182,7 +182,7 @@ sealed class Screen(
             is CollageMaker -> Icons.Outlined.AutoAwesomeMosaic
             is MarkupLayers -> Icons.Outlined.Stack
             is Base64Tools -> Icons.Outlined.Base64
-            is ChecksumTools -> Icons.Outlined.Tag
+            is ChecksumTools -> Icons.Rounded.Tag
         }
 
     @Serializable
