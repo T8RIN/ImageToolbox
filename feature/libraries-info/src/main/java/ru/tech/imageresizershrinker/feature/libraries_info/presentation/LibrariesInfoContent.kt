@@ -61,7 +61,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
@@ -79,6 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.HtmlText
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
 
 
@@ -99,7 +99,10 @@ fun LibrariesInfoContent(
         ) {
             EnhancedTopAppBar(
                 title = {
-                    Text(stringResource(R.string.open_source_licenses))
+                    Text(
+                        text = stringResource(id = R.string.open_source_licenses),
+                        modifier = Modifier.marquee()
+                    )
                 },
                 navigationIcon = {
                     EnhancedIconButton(
@@ -204,7 +207,7 @@ fun LibrariesInfoContent(
                                     title = {
                                         Text(
                                             text = library.name,
-                                            overflow = TextOverflow.Ellipsis
+                                            modifier = Modifier.marquee()
                                         )
                                     },
                                     navigationIcon = {

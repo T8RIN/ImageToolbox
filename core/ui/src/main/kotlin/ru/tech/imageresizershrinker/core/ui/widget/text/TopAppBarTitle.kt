@@ -63,7 +63,11 @@ fun <T : Any> TopAppBarTitle(
                 }
             } else {
                 AnimatedContent(originalSize) { originalSize ->
-                    val readableOriginal = readableByteCount(originalSize ?: 0)
+                    val readableOriginal = if ((originalSize ?: 0) > 0) {
+                        readableByteCount(originalSize ?: 0)
+                    } else {
+                        "? B"
+                    }
                     val readableCompressed = if (size > 0) {
                         readableByteCount(size)
                     } else {

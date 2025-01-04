@@ -1547,4 +1547,6 @@
     <string name="difference">Difference</string>
     <string name="match_sub">Checksums are equal, it can be safe</string>
     <string name="difference_sub">Checksums are not equal, file can be unsafe!</string>
+    <string name="mesh_gradients">Mesh Gradients</string>
+    <string name="mesh_gradients_sub">Look at online collection of Mesh Gradients</string>
 </resources>

@@ -45,6 +45,9 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
+import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
+import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesStore
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -69,6 +72,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>,
+    private val remoteResourcesStore: RemoteResourcesStore,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -105,8 +109,15 @@ class GradientMakerComponent @AssistedInject internal constructor(
     private val _selectedUri = mutableStateOf(Uri.EMPTY)
     val selectedUri: Uri by _selectedUri
 
-    private val _uris = mutableStateOf<List<Uri>>(emptyList())
+    private val _uris = mutableStateOf(emptyList<Uri>())
     val uris by _uris
+
+    private val _meshGradientUris = mutableStateOf(emptyList<Uri>())
+    val meshGradientUris by _meshGradientUris
+
+    private val _meshGradientDownloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
+        mutableStateOf(null)
+    val meshGradientDownloadProgress by _meshGradientDownloadProgress
 
     private val _imageAspectRatio: MutableState<Float> = mutableFloatStateOf(1f)
     val imageAspectRatio by _imageAspectRatio
@@ -119,6 +130,26 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     private val _gradientSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(1000, 1000))
     val gradientSize by _gradientSize
+
+    fun loadMeshGradientUris() {
+        componentScope.launch {
+            val resources = remoteResourcesStore
+                .getResources(
+                    name = RemoteResources.MESH_GRADIENTS,
+                    forceUpdate = true,
+                    onDownloadRequest = {
+                        remoteResourcesStore.downloadResources(
+                            name = RemoteResources.MESH_GRADIENTS,
+                            onProgress = { _meshGradientDownloadProgress.value = it },
+                            onFailure = {},
+                            downloadOnlyNewData = true
+                        )
+                    }
+                )
+
+            _meshGradientUris.value = resources?.list?.map { it.uri.toUri() } ?: emptyList()
+        }
+    }
 
     suspend fun createGradientBitmap(
         data: Any,
@@ -536,6 +567,20 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     fun getFormatForFilenameSelection(): ImageFormat? = if (uris.size < 2) imageFormat
     else null
+
+    fun shareImages(
+        uriList: List<Uri>,
+        onComplete: () -> Unit
+    ) = componentScope.launch(defaultDispatcher) {
+        shareProvider.shareImages(
+            uris = uriList.map { it.toString() },
+            imageLoader = {
+                imageGetter.getImage(it)?.run { image to imageInfo }
+            },
+            onProgressChange = {}
+        )
+        onComplete()
+    }
 
     @AssistedFactory
     fun interface Factory {
