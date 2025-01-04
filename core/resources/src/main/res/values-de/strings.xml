@@ -1510,4 +1510,19 @@
     <string name="outline_color">Umrissfarbe</string>
     <string name="add_outline">Umriss hinzufügen</string>
     <string name="outline_size">Umrissgröße</string>
+    <string name="checksum">Prüfsumme</string>
+    <string name="match">Übereinstimmung!</string>
+    <string name="match_sub">Prüfsummen sind gleich, es kann sicher sein</string>
+    <string name="checksum_as_filename_sub">Die Namen der ausgegebenen Bilder entsprechen den Prüfsummen der Daten</string>
+    <string name="checksum_tools_sub">Prüfsummen vergleichen, Hashwerte berechnen, Hex-Zeichenketten aus Dateien mit verschiedenen Hash-Algorithmen erstellen</string>
+    <string name="calculate">Berechnen</string>
+    <string name="checksum_to_compare">Prüfsumme zum Vergleichen</string>
+    <string name="difference">Unterschied</string>
+    <string name="difference_sub">Prüfsummen sind nicht gleich, Datei kann unsicher sein!</string>
+    <string name="algorithms">Algorithmus</string>
+    <string name="checksum_tools">Prüfsummen-Werkzeuge</string>
+    <string name="checksum_as_filename">Prüfsumme als Dateiname</string>
+    <string name="rotation">Drehung</string>
+    <string name="free_software_partner">Freie Software (Partner)</string>
+    <string name="free_software_partner_sub">Mehr nützliche Software im Partnerkanal der Android-Anwendungen</string>
 </resources>
