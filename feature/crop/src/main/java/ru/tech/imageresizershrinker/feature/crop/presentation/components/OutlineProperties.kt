@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.crop.presentation.components
 
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
@@ -49,7 +51,9 @@ import ru.tech.imageresizershrinker.core.ui.shapes.ShieldShape
 import ru.tech.imageresizershrinker.core.ui.shapes.ShurikenShape
 import ru.tech.imageresizershrinker.core.ui.shapes.SmallMaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.SquircleShape
+import ru.tech.imageresizershrinker.core.ui.shapes.toShape
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun outlineProperties(): List<CropOutlineProperty> = remember {
     listOf(
@@ -290,16 +294,62 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                 path = Paths.Star
             )
         ),
-        CropOutlineProperty(
-            outlineType = OutlineType.ImageMask,
-            cropOutline = ImageMaskOutline(
-                id = 10,
-                title = OutlineType.ImageMask.name,
-                image = ImageBitmap(
-                    width = 1,
-                    height = 1
+    ).toMutableList().apply {
+        val shapes = listOf(
+            MaterialShapes.Slanted,
+            MaterialShapes.Arch,
+            MaterialShapes.Fan,
+            MaterialShapes.Arrow,
+            MaterialShapes.SemiCircle,
+            MaterialShapes.Oval,
+            MaterialShapes.Triangle,
+            MaterialShapes.Diamond,
+            MaterialShapes.ClamShell,
+            MaterialShapes.Gem,
+            MaterialShapes.Sunny,
+            MaterialShapes.VerySunny,
+            MaterialShapes.Cookie6Sided,
+            MaterialShapes.Cookie9Sided,
+            MaterialShapes.Ghostish,
+            MaterialShapes.Clover4Leaf,
+            MaterialShapes.Clover8Leaf,
+            MaterialShapes.Burst,
+            MaterialShapes.SoftBurst,
+            MaterialShapes.Boom,
+            MaterialShapes.SoftBoom,
+            MaterialShapes.Flower,
+            MaterialShapes.Puffy,
+            MaterialShapes.PuffyDiamond,
+            MaterialShapes.PixelCircle,
+            MaterialShapes.PixelTriangle,
+            MaterialShapes.Bun,
+            MaterialShapes.Heart
+        ).mapIndexed { index, polygon ->
+            CropOutlineProperty(
+                outlineType = OutlineType.Custom,
+                cropOutline = object : CropShape {
+                    override val shape: Shape
+                        get() = polygon.toShape()
+                    override val id: Int
+                        get() = index + 500
+                    override val title: String
+                        get() = (index + 500).toString()
+                }
+            )
+        }
+        addAll(shapes)
+        add(
+            CropOutlineProperty(
+                outlineType = OutlineType.ImageMask,
+                cropOutline = ImageMaskOutline(
+                    id = 10,
+                    title = OutlineType.ImageMask.name,
+                    image = ImageBitmap(
+                        width = 1,
+                        height = 1
+                    )
                 )
             )
         )
-    )
+    }
 }
