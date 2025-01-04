@@ -580,7 +580,8 @@ or click one of the badges below.
         - Image Mask
         - <details>
           <summary>Additional Shapes</summary>
-
+          </br>
+        
           ![image](./fastlane/metadata/android/en-US/images/banner/banner_shapes.png)
 
           </details>
