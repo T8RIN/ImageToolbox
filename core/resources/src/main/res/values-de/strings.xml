@@ -1525,4 +1525,10 @@
     <string name="rotation">Drehung</string>
     <string name="free_software_partner">Freie Software (Partner)</string>
     <string name="free_software_partner_sub">Mehr nützliche Software im Partnerkanal der Android-Anwendungen</string>
+    <string name="text_hash">Text Hash</string>
+    <string name="source_checksum">Quelle Prüfsumme</string>
+    <string name="mesh_gradients">Meshverläufe</string>
+    <string name="enter_text_to_checksum">Gib den Text ein, um seine Prüfsumme des gewählten Algorithmus zu berechnen.</string>
+    <string name="pick_file_to_checksum">Wählen die Datei aus, um ihre Prüfsumme des gewählten Algorithmus zu berechnen</string>
+    <string name="mesh_gradients_sub">Online-Sammlung von Meshverläufen ansehen</string>
 </resources>
