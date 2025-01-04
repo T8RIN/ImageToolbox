@@ -1513,4 +1513,22 @@
     <string name="rotation">Rotatie</string>
     <string name="checksum_as_filename_sub">Uitvoerafbeeldingen krijgen naam in overeenkomst met het controlegetal van de gegevens</string>
     <string name="checksum_as_filename">Controlegtal als bestandsnaam</string>
+    <string name="match_sub">Controlegetallen zijn gelijk, het kan veilig zijn</string>
+    <string name="difference_sub">Controlegetallen zijn niet gelijk, bestand kan onveilig zijn!</string>
+    <string name="checksum_tools">Controlegetal-hulpmiddelen</string>
+    <string name="text_hash">Tekst-hash</string>
+    <string name="checksum">Controlegetal</string>
+    <string name="pick_file_to_checksum">Kies het bestand om de controlesom te berekenen op basis van het geselecteerde algoritme</string>
+    <string name="calculate">Berekenen</string>
+    <string name="free_software_partner_sub">Meer handige software in het partnerkanaal van Android-applicaties</string>
+    <string name="enter_text_to_checksum">Voer tekst in om de controlesom te berekenen op basis van het geselecteerde algoritme</string>
+    <string name="mesh_gradients">Maaswerk-verlopen</string>
+    <string name="algorithms">Algoritme</string>
+    <string name="mesh_gradients_sub">Bekijk de online collectie van maaswerk-verlopen</string>
+    <string name="checksum_tools_sub">Vergelijk controlegetallen, bereken hashes, maak hexadecimale tekenreeksen van bestanden met behulp van verschillende hashing-algoritmen</string>
+    <string name="difference">Verschil</string>
+    <string name="match">Overeenkomst!</string>
+    <string name="free_software_partner">Vrije software (Partner)</string>
+    <string name="source_checksum">Bron van controlegetal</string>
+    <string name="checksum_to_compare">Controlegetallen vergelijken</string>
 </resources>
