@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,6 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier) {
     val settingsState = LocalSettingsState.current
@@ -98,15 +100,13 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
                 shape = MaterialStarShape
             )
     ) {
-        EnhancedCircularProgressIndicator(
+        androidx.compose.material3.LoadingIndicator(
             modifier = Modifier
                 .rotate(-rotation)
                 .align(
                     Alignment.Center
                 )
-                .size(this.minHeight / 2),
-            trackColor = MaterialTheme.colorScheme.secondary.copy(0.3f),
-            color = MaterialTheme.colorScheme.onSecondaryContainer
+                .size(this.minHeight / 1.4f)
         )
     }
     KeepScreenOn()
@@ -137,6 +137,7 @@ fun BoxScope.LoadingIndicator(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BoxScope.LoadingIndicator(
     progress: Float,
