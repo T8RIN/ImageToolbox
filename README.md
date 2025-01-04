@@ -578,6 +578,14 @@ or click one of the badges below.
         - Enhanced Heart
         - Star
         - Image Mask
+        - <details>
+          <summary>Additional Shapes</summary>
+
+          ![image](./fastlane/metadata/android/en-US/images/banner/banner_shapes.png)
+
+          </details>
+
+         
 - Tracing raster images to SVG
 - Format Conversion
     - HEIF
