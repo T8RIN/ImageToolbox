@@ -21,7 +21,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.PreferencesMapCompat
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -34,6 +33,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.core.data.utils.obtainDatastoreData
+import ru.tech.imageresizershrinker.core.data.utils.resetDatastore
+import ru.tech.imageresizershrinker.core.data.utils.restoreDatastore
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
@@ -42,7 +44,6 @@ import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -141,9 +142,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FORMAT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
+import ru.tech.imageresizershrinker.feature.settings.domain.SettingsDatastoreName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -495,9 +494,8 @@ internal class AndroidSettingsManager @Inject constructor(
         }
     }
 
-    override suspend fun createBackupFile(): ByteArray {
-        return File(context.filesDir, "datastore/image_resizer.preferences_pb").readBytes()
-    }
+    override suspend fun createBackupFile(): ByteArray =
+        context.obtainDatastoreData(SettingsDatastoreName)
 
     @SuppressLint("RestrictedApi")
     override suspend fun restoreFromBackupFile(
@@ -505,40 +503,22 @@ internal class AndroidSettingsManager @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
     ) = withContext(defaultDispatcher) {
-        runCatching {
-            val uri = backupFileUri.toUri()
-            context.contentResolver.openInputStream(uri)?.use { input ->
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                byteArrayOutputStream.write(input.readBytes())
-                runCatching {
-                    PreferencesMapCompat.readFrom(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
-                }.onFailure {
-                    throw Throwable(context.getString(R.string.corrupted_file_or_not_a_backup))
-                }
-                File(
-                    context.filesDir,
-                    "datastore/image_resizer.preferences_pb"
-                ).outputStream().use {
-                    ByteArrayInputStream(byteArrayOutputStream.toByteArray()).copyTo(it)
-                }
+        context.restoreDatastore(
+            fileName = SettingsDatastoreName,
+            backupUri = backupFileUri.toUri(),
+            onFailure = onFailure,
+            onSuccess = {
+                onSuccess()
+                setSaveFolderUri(null)
             }
-        }.onFailure(onFailure).onSuccess {
-            onSuccess()
-            setSaveFolderUri(null)
-        }
+        )
         toggleClearCacheOnLaunch()
         toggleClearCacheOnLaunch()
     }
 
     override suspend fun resetSettings(): Unit = withContext(defaultDispatcher) {
-        File(
-            context.filesDir,
-            "datastore/image_resizer.preferences_pb"
-        ).apply {
-            delete()
-            createNewFile()
-            registerAppOpen()
-        }
+        context.resetDatastore(SettingsDatastoreName)
+        registerAppOpen()
     }
 
     override fun createBackupFilename(): String {

@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.feature.settings.data.AndroidSettingsManager
 import ru.tech.imageresizershrinker.feature.settings.data.BorderWidthMigration
+import ru.tech.imageresizershrinker.feature.settings.domain.SettingsDatastoreName
 import javax.inject.Singleton
 
 
@@ -65,7 +66,7 @@ internal interface SettingsModule {
         fun provideDataStore(
             @ApplicationContext context: Context
         ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
-            produceFile = { context.preferencesDataStoreFile("image_resizer") },
+            produceFile = { context.preferencesDataStoreFile(SettingsDatastoreName) },
             migrations = listOf(BorderWidthMigration())
         )
 
