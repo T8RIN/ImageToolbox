@@ -196,7 +196,10 @@ fun DocumentScannerContent(
                     visible = selectedUriForPreview != null,
                     selectedUri = selectedUriForPreview,
                     uris = component.uris,
-                    onNavigate = component.onNavigate,
+                    onNavigate = {
+                        selectedUriForPreview = null
+                        component.onNavigate(it)
+                    },
                     onUriSelected = { selectedUriForPreview = it },
                     onShare = component::shareUri,
                     onDismiss = { selectedUriForPreview = null }

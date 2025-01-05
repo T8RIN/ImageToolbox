@@ -174,7 +174,10 @@ fun ImagePreviewGrid(
             },
             onShare = onShareImage,
             onDismiss = { showImagePreviewDialog = false },
-            onNavigate = onNavigate
+            onNavigate = {
+                showImagePreviewDialog = false
+                onNavigate(it)
+            }
         )
     }
 
