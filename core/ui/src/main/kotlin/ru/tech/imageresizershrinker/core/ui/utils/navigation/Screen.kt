@@ -137,6 +137,7 @@ sealed class Screen(
             is MarkupLayers -> "Markup_Layers"
             is Base64Tools -> "Base64_Tools"
             is ChecksumTools -> "Checksum_Tools"
+            is MeshGradients -> "Mesh_Gradients"
         }
 
     val icon: ImageVector?
@@ -144,7 +145,8 @@ sealed class Screen(
             EasterEgg,
             Main,
             Settings,
-            LibrariesInfo -> null
+            LibrariesInfo,
+            MeshGradients -> null
 
             is SingleEdit -> Icons.Outlined.ImageEdit
             is ApngTools -> Icons.Rounded.ApngBox
@@ -826,6 +828,13 @@ sealed class Screen(
         id = 36,
         title = R.string.checksum_tools,
         subtitle = R.string.checksum_tools_sub
+    )
+
+    @Serializable
+    data object MeshGradients : Screen(
+        id = -5,
+        title = 0,
+        subtitle = 0
     )
 
     companion object {

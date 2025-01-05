@@ -72,6 +72,8 @@ import ru.tech.imageresizershrinker.feature.main.presentation.MainContent
 import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.MarkupLayersContent
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
+import ru.tech.imageresizershrinker.feature.mesh_gradients.presentation.MeshGradientsContent
+import ru.tech.imageresizershrinker.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsContent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageContent
@@ -311,6 +313,11 @@ internal sealed class NavigationChild {
     class ChecksumTools(val component: ChecksumToolsComponent) : NavigationChild() {
         @Composable
         override fun Content() = ChecksumToolsContent(component)
+    }
+
+    class MeshGradients(val component: MeshGradientsComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = MeshGradientsContent(component)
     }
 
 }

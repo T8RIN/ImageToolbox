@@ -66,4 +66,5 @@ dependencies {
     implementation(projects.feature.markupLayers)
     implementation(projects.feature.base64Tools)
     implementation(projects.feature.checksumTools)
+    implementation(projects.feature.meshGradients)
 }

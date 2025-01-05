@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.feature.limits_resize.presentation.screenLog
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 import ru.tech.imageresizershrinker.feature.main.presentation.screenLogic.MainComponent
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
+import ru.tech.imageresizershrinker.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
@@ -105,7 +106,8 @@ internal class ChildProvider @Inject constructor(
     private val mainComponentFactory: MainComponent.Factory,
     private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
     private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
-    private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory
+    private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory,
+    private val meshGradientsComponentFactory: MeshGradientsComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -462,6 +464,14 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 initialUri = config.uri,
                 onGoBack = ::navigateBack
+            )
+        )
+
+        is Screen.MeshGradients -> MeshGradients(
+            meshGradientsComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
     }

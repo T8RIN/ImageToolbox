@@ -65,7 +65,7 @@ fun ImageSelector(
     autoShadowElevation: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     shape: Shape = RoundedCornerShape(20.dp),
-    contentScale: ContentScale = ContentScale.Inside
+    contentScale: ContentScale = ContentScale.Crop
 ) {
     val imagePicker = rememberImagePicker(onSuccess = onValueChange)
 
@@ -148,7 +148,7 @@ fun FileSelector(
         autoShadowElevation = autoShadowElevation,
         startIcon = {
             Picture(
-                contentScale = ContentScale.Inside,
+                contentScale = ContentScale.Crop,
                 model = value,
                 shape = CloverShape,
                 modifier = Modifier.size(48.dp),

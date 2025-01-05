@@ -18,68 +18,41 @@
 package ru.tech.imageresizershrinker.feature.gradient_maker.presentation
 
 import android.net.Uri
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.t8rin.modalsheet.FullscreenPopup
-import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MeshDownload
 import ru.tech.imageresizershrinker.core.ui.theme.blend
@@ -87,7 +60,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -103,24 +75,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
-import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePreviewGrid
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
-import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.ColorStopSelection
@@ -206,8 +170,6 @@ fun GradientMakerContent(
 
     var showCompareSheet by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
-
-    var showMeshGradients by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
@@ -392,8 +354,7 @@ fun GradientMakerContent(
                     startIcon = Icons.Outlined.MeshDownload,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        showMeshGradients = true
-                        component.loadMeshGradientUris()
+                        component.onNavigate(Screen.MeshGradients)
                     }
                 )
             }
@@ -579,170 +540,4 @@ fun GradientMakerContent(
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
-
-    FullscreenPopup {
-        var predictiveBackProgress by remember {
-            mutableFloatStateOf(0f)
-        }
-        val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
-        val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
-
-        LaunchedEffect(predictiveBackProgress, showMeshGradients) {
-            if (!showMeshGradients && predictiveBackProgress != 0f) {
-                delay(600)
-                predictiveBackProgress = 0f
-            }
-        }
-
-        AnimatedContent(
-            targetState = showMeshGradients,
-            transitionSpec = {
-                fadeIn(tween(500)) togetherWith fadeOut(tween(500))
-            }
-        ) { visible ->
-            if (visible) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.scrim.copy(0.32f))
-                )
-                Surface(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .withLayoutCorners { corners ->
-                            graphicsLayer {
-                                scaleX = scale
-                                scaleY = scale
-                                shape = corners.toShape(animatedPredictiveBackProgress)
-                                clip = true
-                            }
-                        }
-                ) {
-                    val childScrollBehavior =
-                        TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .nestedScroll(childScrollBehavior.nestedScrollConnection)
-                    ) {
-                        EnhancedTopAppBar(
-                            title = {
-                                Text(
-                                    text = stringResource(R.string.mesh_gradients),
-                                    modifier = Modifier.marquee()
-                                )
-                            },
-                            navigationIcon = {
-                                EnhancedIconButton(
-                                    onClick = {
-                                        showMeshGradients = false
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                        contentDescription = null
-                                    )
-                                }
-                            },
-                            actions = {
-                                TopAppBarEmoji()
-                            },
-                            type = EnhancedTopAppBarType.Large,
-                            scrollBehavior = childScrollBehavior
-                        )
-                        Box(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            AnimatedContent(component.meshGradientUris) { uris ->
-                                if (uris.isNotEmpty()) {
-                                    ImagePreviewGrid(
-                                        data = uris,
-                                        onAddImages = null,
-                                        onShareImage = {
-                                            component.shareImages(
-                                                uriList = listOf(element = it),
-                                                onComplete = showConfetti
-                                            )
-                                        },
-                                        onRemove = null,
-                                        onNavigate = component.onNavigate,
-                                        imageFrames = null,
-                                        onFrameSelectionChange = {},
-                                        contentPadding = WindowInsets.navigationBars.union(
-                                            WindowInsets.displayCutout.only(
-                                                WindowInsetsSides.Horizontal
-                                            )
-                                        ).asPaddingValues() + PaddingValues(12.dp)
-                                    )
-                                } else {
-                                    val meshGradientDownloadProgress =
-                                        component.meshGradientDownloadProgress
-                                    Box(
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        val currentPercent =
-                                            meshGradientDownloadProgress?.currentPercent ?: 0f
-
-                                        if (currentPercent > 0f) {
-                                            LoadingIndicator(
-                                                progress = currentPercent / 100,
-                                                loaderSize = 72.dp
-                                            ) {
-                                                Column(
-                                                    verticalArrangement = Arrangement.Center,
-                                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .padding(8.dp)
-                                                ) {
-                                                    Text(
-                                                        text = meshGradientDownloadProgress?.run { "$itemsDownloaded/$itemsCount" }
-                                                            ?: "",
-                                                        maxLines = 1,
-                                                        fontWeight = FontWeight.Medium,
-                                                        textAlign = TextAlign.Center,
-                                                        fontSize = 12.sp,
-                                                        lineHeight = 12.sp
-                                                    )
-                                                    Spacer(Modifier.height(2.dp))
-                                                    Text(
-                                                        text = readableByteCount(
-                                                            meshGradientDownloadProgress?.currentTotalSize
-                                                                ?: 0
-                                                        ),
-                                                        maxLines = 1,
-                                                        textAlign = TextAlign.Center,
-                                                        fontSize = 10.sp,
-                                                        lineHeight = 10.sp
-                                                    )
-                                                }
-                                            }
-                                        } else {
-                                            LoadingIndicator()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                PredictiveBackHandler { progress ->
-                    try {
-                        progress.collect { event ->
-                            if (event.progress <= 0.05f) {
-                                predictiveBackProgress = 0f
-                            }
-                            predictiveBackProgress = event.progress
-                        }
-                        showMeshGradients = false
-                    } catch (_: Exception) {
-                        predictiveBackProgress = 0f
-                    }
-                }
-            } else {
-                Spacer(Modifier.fillMaxSize())
-            }
-        }
-    }
 }
