@@ -196,6 +196,9 @@ fun ImagePager(
             val imageErrorPages = remember {
                 mutableStateListOf<Int>()
             }
+            var hideControls by remember {
+                mutableStateOf(false)
+            }
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize(),
@@ -232,6 +235,9 @@ fun ImagePager(
                             .zoomable(
                                 zoomEnabled = !imageErrorPages.contains(page),
                                 zoomState = zoomState,
+                                onTap = {
+                                    hideControls = !hideControls
+                                },
                                 onDoubleTap = {
                                     zoomState.toggleScale(
                                         targetScale = 5f,
@@ -272,7 +278,7 @@ fun ImagePager(
                 }
             }
             AnimatedVisibility(
-                visible = draggableState.offset == 0f,
+                visible = draggableState.offset == 0f && !hideControls,
                 modifier = Modifier.fillMaxWidth(),
                 enter = fadeIn() + slideInVertically(),
                 exit = fadeOut() + slideOutVertically()
@@ -354,7 +360,7 @@ fun ImagePager(
             val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
 
             AnimatedVisibility(
-                visible = draggableState.offset == 0f && !selectedUriFilename.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist),
+                visible = draggableState.offset == 0f && !selectedUriFilename.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist) && !hideControls,
                 modifier = Modifier.fillMaxWidth(),
                 enter = fadeIn() + slideInVertically(),
                 exit = fadeOut() + slideOutVertically()
@@ -385,7 +391,7 @@ fun ImagePager(
             }
 
             AnimatedVisibility(
-                visible = draggableState.offset == 0f && showBottomHist,
+                visible = draggableState.offset == 0f && showBottomHist && !hideControls,
                 modifier = Modifier.align(Alignment.BottomEnd),
                 enter = fadeIn() + slideInVertically { it / 2 },
                 exit = fadeOut() + slideOutVertically { it / 2 }

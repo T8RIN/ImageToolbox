@@ -462,6 +462,9 @@ internal fun MediaPickerGrid(
                 val imageErrorPages = remember {
                     mutableStateListOf<Int>()
                 }
+                var hideControls by remember {
+                    mutableStateOf(false)
+                }
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize(),
@@ -499,6 +502,9 @@ internal fun MediaPickerGrid(
                                 .zoomable(
                                     zoomEnabled = !imageErrorPages.contains(page),
                                     zoomState = zoomState,
+                                    onTap = {
+                                        hideControls = !hideControls
+                                    },
                                     onDoubleTap = {
                                         zoomState.toggleScale(
                                             targetScale = 5f,
@@ -539,7 +545,7 @@ internal fun MediaPickerGrid(
                     }
                 }
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f,
+                    visible = draggableState.offset == 0f && !hideControls,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -603,7 +609,7 @@ internal fun MediaPickerGrid(
                 val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
 
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist),
+                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist) && !hideControls,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -634,7 +640,7 @@ internal fun MediaPickerGrid(
                 }
 
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && showBottomHist,
+                    visible = draggableState.offset == 0f && showBottomHist && !hideControls,
                     modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
                     exit = fadeOut() + slideOutVertically { it / 2 }

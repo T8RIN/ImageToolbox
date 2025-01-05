@@ -102,10 +102,10 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
     ) {
         androidx.compose.material3.LoadingIndicator(
             modifier = Modifier
-                .rotate(-rotation)
                 .align(
                     Alignment.Center
                 )
+                .rotate(-rotation)
                 .size(this.minHeight / 1.4f)
         )
     }
