@@ -56,14 +56,13 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
-import ru.tech.imageresizershrinker.feature.filters.di.FilterInteractorDataStore
 import java.io.File
 import javax.inject.Inject
 import kotlin.reflect.full.primaryConstructor
 
 internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     @ApplicationContext private val context: Context,
-    @FilterInteractorDataStore private val dataStore: DataStore<Preferences>,
+    private val dataStore: DataStore<Preferences>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
@@ -530,7 +529,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
                     if (includeValue && value != null) {
                         callBy(mapOf(parameters[0] to value))
                     } else callBy(emptyMap())
-                } catch (e: Throwable) {
+                } catch (_: Throwable) {
                     callBy(emptyMap())
                 }
             }

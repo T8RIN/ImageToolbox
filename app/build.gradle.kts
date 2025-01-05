@@ -95,11 +95,11 @@ android {
             pickFirsts.add("lib/*/libcoder.so")
         }
         resources {
-            excludes += "META-INF/*"
-            excludes += "kotlin/*"
-            excludes += "org/*"
-            excludes += "*.properties"
-            excludes += "*.bin"
+            excludes += "META-INF/"
+            excludes += "kotlin/"
+            excludes += "org/"
+            excludes += ".properties"
+            excludes += ".bin"
             excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
         }
     }
