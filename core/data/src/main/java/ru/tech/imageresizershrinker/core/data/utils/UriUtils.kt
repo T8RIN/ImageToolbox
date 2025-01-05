@@ -93,7 +93,7 @@ fun Context.getFileDescriptorFor(
     }.getOrNull()
 }
 
-internal fun Uri.tryGetLocation(context: Context): Uri {
+internal fun Uri.tryRequireOriginal(context: Context): Uri {
     val tempUri = this
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         runCatching {

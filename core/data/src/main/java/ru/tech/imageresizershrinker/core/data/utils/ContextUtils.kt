@@ -55,7 +55,7 @@ suspend fun Context.copyMetadata(
             ex.saveAttributes()
         }
     } else if (keepMetadata) {
-        val newUri = originalUri.tryGetLocation(this)
+        val newUri = originalUri.tryRequireOriginal(this)
         val exif = contentResolver
             .openFileDescriptor(newUri, "r")
             ?.use { ExifInterface(it.fileDescriptor) }

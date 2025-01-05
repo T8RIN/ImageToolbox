@@ -20,9 +20,6 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
@@ -43,6 +40,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.coil.UpscaleSvgDecoder
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
+import ru.tech.imageresizershrinker.core.data.utils.tryRequireOriginal
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
@@ -84,7 +82,7 @@ internal class AndroidImageGetter @Inject constructor(
             addSizeToRequest = originalSize,
             onFailure = onFailure
         )?.let { bitmap ->
-            val newUri = uri.toUri().tryGetLocation(context)
+            val newUri = uri.toUri().tryRequireOriginal(context)
 
             val fd = context.contentResolver.openFileDescriptor(newUri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
@@ -144,7 +142,7 @@ internal class AndroidImageGetter @Inject constructor(
             size = null,
             addSizeToRequest = originalSize
         )?.let { bitmap ->
-            val newUri = uri.toUri().tryGetLocation(context)
+            val newUri = uri.toUri().tryRequireOriginal(context)
             val fd = context.contentResolver.openFileDescriptor(newUri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             fd?.close()
@@ -232,17 +230,6 @@ internal class AndroidImageGetter @Inject constructor(
         runCatching {
             imageLoader.execute(request).image?.toBitmap()
         }.onFailure(onFailure).getOrNull()
-    }
-
-    private fun Uri.tryGetLocation(context: Context): Uri {
-        val tempUri = this
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            runCatching {
-                MediaStore.setRequireOriginal(this).also {
-                    context.contentResolver.openFileDescriptor(it, "r")?.close()
-                }
-            }.getOrNull() ?: tempUri
-        } else this
     }
 
 }
