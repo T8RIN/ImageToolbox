@@ -21,15 +21,15 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.AnchoredDraggableDefaults
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
@@ -136,14 +136,9 @@ fun ImagePager(
         }
 
         val draggableState = remember(anchors) {
-            @Suppress("DEPRECATION")
             AnchoredDraggableState(
                 initialValue = true,
-                anchors = anchors,
-                positionalThreshold = { distance: Float -> distance * 0.5f },
-                velocityThreshold = { with(density) { 100.dp.toPx() } },
-                snapAnimationSpec = spring(),
-                decayAnimationSpec = splineBasedDecay(density)
+                anchors = anchors
             )
         }
 
@@ -228,9 +223,13 @@ fun ImagePager(
                             }
                             .anchoredDraggable(
                                 state = draggableState,
-                                enabled = zoomState.scale < 1.01f,
+                                enabled = zoomState.scale < 1.01f && !pagerState.isScrollInProgress,
                                 orientation = Orientation.Vertical,
-                                reverseDirection = true
+                                reverseDirection = true,
+                                flingBehavior = AnchoredDraggableDefaults.flingBehavior(
+                                    animationSpec = tween(500),
+                                    state = draggableState
+                                )
                             )
                             .zoomable(
                                 zoomEnabled = !imageErrorPages.contains(page),
