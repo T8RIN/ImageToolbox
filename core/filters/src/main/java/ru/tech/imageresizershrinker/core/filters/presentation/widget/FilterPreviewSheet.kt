@@ -98,7 +98,7 @@ internal fun FilterPreviewSheet(
             EnhancedModalSheetDragHandle {
                 EnhancedTopAppBar(
                     type = EnhancedTopAppBarType.Center,
-                    modifier = Modifier,
+                    drawHorizontalStroke = false,
                     navigationIcon = {
                         EnhancedIconButton(
                             onClick = {

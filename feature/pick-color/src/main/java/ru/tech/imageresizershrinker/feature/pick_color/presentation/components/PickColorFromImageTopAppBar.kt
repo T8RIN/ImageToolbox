@@ -97,7 +97,7 @@ internal fun PickColorFromImageTopAppBar(
             EnhancedTopAppBar(
                 type = EnhancedTopAppBarType.Large,
                 scrollBehavior = scrollBehavior,
-                modifier = Modifier,
+                drawHorizontalStroke = false,
                 navigationIcon = {
                     EnhancedIconButton(
                         onClick = onGoBack

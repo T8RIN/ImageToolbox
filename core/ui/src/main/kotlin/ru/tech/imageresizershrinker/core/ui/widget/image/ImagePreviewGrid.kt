@@ -49,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil3.request.ImageRequest
 import coil3.toBitmap
-import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
@@ -164,22 +163,20 @@ fun ImagePreviewGrid(
         isContentAlignToCenter = false
     )
 
-    FullscreenPopup {
-        ImagePager(
-            visible = showImagePreviewDialog && !data.isNullOrEmpty(),
-            selectedUri = selectedUri?.toUri(),
-            uris = data,
-            onUriSelected = {
-                selectedUri = it?.toString()
-            },
-            onShare = onShareImage,
-            onDismiss = { showImagePreviewDialog = false },
-            onNavigate = {
-                showImagePreviewDialog = false
-                onNavigate(it)
-            }
-        )
-    }
+    ImagePager(
+        visible = showImagePreviewDialog && !data.isNullOrEmpty(),
+        selectedUri = selectedUri?.toUri(),
+        uris = data,
+        onUriSelected = {
+            selectedUri = it?.toString()
+        },
+        onShare = onShareImage,
+        onDismiss = { showImagePreviewDialog = false },
+        onNavigate = {
+            showImagePreviewDialog = false
+            onNavigate(it)
+        }
+    )
 
     val context = LocalContext.current
     val imageLoader = LocalImageLoader.current

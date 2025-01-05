@@ -17,9 +17,10 @@
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.components
 
 import android.net.Uri
-import androidx.activity.compose.BackHandler
+import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -96,6 +97,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -120,8 +122,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.animation.PageCloseTransition
-import ru.tech.imageresizershrinker.core.ui.utils.animation.PageOpenTransition
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -129,6 +129,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarTyp
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaItem
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaState
@@ -388,11 +390,26 @@ internal fun MediaPickerGrid(
     }
 
     FullscreenPopup {
+        val visible = imagePreviewUri != null
+
+        var predictiveBackProgress by remember {
+            mutableFloatStateOf(0f)
+        }
+        val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
+        val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
+
+        LaunchedEffect(predictiveBackProgress, visible) {
+            if (!visible && predictiveBackProgress != 0f) {
+                delay(600)
+                predictiveBackProgress = 0f
+            }
+        }
+
         AnimatedVisibility(
-            visible = imagePreviewUri != null,
+            visible = visible,
             modifier = Modifier.fillMaxSize(),
-            enter = PageOpenTransition,
-            exit = PageCloseTransition
+            enter = fadeIn(tween(500)),
+            exit = fadeOut(tween(500))
         ) {
             val density = LocalDensity.current
             val screenHeight =
@@ -443,6 +460,14 @@ internal fun MediaPickerGrid(
                     .background(
                         MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
                     )
+                    .withLayoutCorners { corners ->
+                        graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                            shape = corners.toShape(animatedPredictiveBackProgress)
+                            clip = true
+                        }
+                    }
             ) {
                 val moreThanOneUri = state.media.size > 1
                 val currentMedia = state.media.getOrNull(pagerState.currentPage)
@@ -458,7 +483,7 @@ internal fun MediaPickerGrid(
                 val imageErrorPages = remember {
                     mutableStateListOf<Int>()
                 }
-                var hideControls by remember {
+                var hideControls by remember(animatedPredictiveBackProgress) {
                     mutableStateOf(false)
                 }
                 HorizontalPager(
@@ -555,7 +580,7 @@ internal fun MediaPickerGrid(
                             containerColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f)
                         ),
                         type = EnhancedTopAppBarType.Center,
-                        modifier = Modifier,
+                        drawHorizontalStroke = false,
                         title = {
                             state.media.size.takeIf { it > 1 }?.let {
                                 Text(
@@ -676,9 +701,19 @@ internal fun MediaPickerGrid(
                 }
             }
 
-            if (imagePreviewUri != null) {
-                BackHandler {
-                    imagePreviewUri = null
+            if (visible) {
+                PredictiveBackHandler { progress ->
+                    try {
+                        progress.collect { event ->
+                            if (event.progress <= 0.05f) {
+                                predictiveBackProgress = 0f
+                            }
+                            predictiveBackProgress = event.progress
+                        }
+                        imagePreviewUri = null
+                    } catch (_: Exception) {
+                        predictiveBackProgress = 0f
+                    }
                 }
             }
         }

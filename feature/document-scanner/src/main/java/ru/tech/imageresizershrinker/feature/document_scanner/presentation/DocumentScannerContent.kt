@@ -57,7 +57,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -191,20 +190,18 @@ fun DocumentScannerContent(
             var selectedUriForPreview by remember {
                 mutableStateOf<Uri?>(null)
             }
-            FullscreenPopup {
-                ImagePager(
-                    visible = selectedUriForPreview != null,
-                    selectedUri = selectedUriForPreview,
-                    uris = component.uris,
-                    onNavigate = {
-                        selectedUriForPreview = null
-                        component.onNavigate(it)
-                    },
-                    onUriSelected = { selectedUriForPreview = it },
-                    onShare = component::shareUri,
-                    onDismiss = { selectedUriForPreview = null }
-                )
-            }
+            ImagePager(
+                visible = selectedUriForPreview != null,
+                selectedUri = selectedUriForPreview,
+                uris = component.uris,
+                onNavigate = {
+                    selectedUriForPreview = null
+                    component.onNavigate(it)
+                },
+                onUriSelected = { selectedUriForPreview = it },
+                onShare = component::shareUri,
+                onDismiss = { selectedUriForPreview = null }
+            )
             Spacer(modifier = Modifier.height(24.dp))
             UrisPreview(
                 uris = component.uris,
