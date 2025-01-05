@@ -31,7 +31,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -40,26 +42,29 @@ import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootCo
 
 @Composable
 internal fun AppExitDialog(component: RootComponent) {
-    val context = LocalComponentActivity.current
+    val currentScreen =
+        component.childStack.subscribeAsState().value.items.lastOrNull()?.configuration
 
-    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+    if (currentScreen == Screen.Main) {
+        val context = LocalComponentActivity.current
 
-    val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-    if (!tiramisu) {
-        BackHandler {
+        var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
+        val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        BackHandler(enabled = !tiramisu) {
             if (component.shouldShowDialog) showExitDialog = true
             else context.finishAffinity()
         }
-    }
 
-    AppExitDialog(
-        onDismiss = { showExitDialog = false },
-        visible = showExitDialog && !tiramisu
-    )
+        AppExitDialog(
+            onDismiss = { showExitDialog = false },
+            visible = showExitDialog && !tiramisu
+        )
+    }
 }
 
 @Composable
-internal fun AppExitDialog(
+private fun AppExitDialog(
     onDismiss: () -> Unit,
     visible: Boolean
 ) {
