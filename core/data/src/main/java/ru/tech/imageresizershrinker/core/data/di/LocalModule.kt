@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,39 +15,31 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.settings.di
+package ru.tech.imageresizershrinker.core.data.di
 
-import dagger.Binds
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
-import ru.tech.imageresizershrinker.feature.settings.data.AndroidSettingsManager
+import ru.tech.imageresizershrinker.core.domain.GlobalStorageName
 import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface SettingsModule {
+internal object LocalModule {
 
+    @Provides
     @Singleton
-    @Binds
-    fun provideSettingsManager(
-        repository: AndroidSettingsManager
-    ): SettingsManager
-
-    @Singleton
-    @Binds
-    fun provideSettingsProvider(
-        repository: SettingsManager
-    ): SettingsProvider
-
-    @Singleton
-    @Binds
-    fun provideSettingsInteractor(
-        repository: SettingsManager
-    ): SettingsInteractor
+    fun dataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        produceFile = { context.preferencesDataStoreFile(GlobalStorageName) }
+    )
 
 }

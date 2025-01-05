@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.data
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
@@ -33,9 +32,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.core.data.utils.obtainDatastoreData
-import ru.tech.imageresizershrinker.core.data.utils.resetDatastore
-import ru.tech.imageresizershrinker.core.data.utils.restoreDatastore
+import ru.tech.imageresizershrinker.core.domain.GlobalStorageName
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
@@ -142,7 +139,6 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FORMAT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
-import ru.tech.imageresizershrinker.feature.settings.domain.SettingsDatastoreName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -495,16 +491,15 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun createBackupFile(): ByteArray =
-        context.obtainDatastoreData(SettingsDatastoreName)
+        context.obtainDatastoreData(GlobalStorageName)
 
-    @SuppressLint("RestrictedApi")
     override suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
     ) = withContext(defaultDispatcher) {
         context.restoreDatastore(
-            fileName = SettingsDatastoreName,
+            fileName = GlobalStorageName,
             backupUri = backupFileUri.toUri(),
             onFailure = onFailure,
             onSuccess = {
@@ -517,7 +512,7 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun resetSettings(): Unit = withContext(defaultDispatcher) {
-        context.resetDatastore(SettingsDatastoreName)
+        context.resetDatastore(GlobalStorageName)
         registerAppOpen()
     }
 

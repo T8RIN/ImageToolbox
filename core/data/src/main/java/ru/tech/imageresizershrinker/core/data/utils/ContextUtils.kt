@@ -18,14 +18,12 @@
 package ru.tech.imageresizershrinker.core.data.utils
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.compose.ui.unit.Density
 import androidx.core.content.ContextCompat
-import androidx.datastore.preferences.PreferencesMapCompat
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -33,11 +31,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
-import ru.tech.imageresizershrinker.core.resources.R
-import java.io.ByteArrayInputStream
-import java.io.File
 import java.io.OutputStream
-import kotlin.io.copyTo
 import kotlin.io.use
 
 fun Context.isExternalStorageWritable(): Boolean {
@@ -79,70 +73,6 @@ suspend fun Context.copyMetadata(
             }
             ex.saveAttributes()
         }
-    }
-}
-
-@SuppressLint("RestrictedApi")
-suspend fun Context.restoreDatastore(
-    fileName: String,
-    backupUri: Uri,
-    onFailure: (Throwable) -> Unit,
-    onSuccess: suspend () -> Unit
-) = coroutineScope {
-    runCatching {
-        contentResolver.openInputStream(backupUri)?.use { input ->
-            val bytes = input.readBytes()
-            restoreDatastore(
-                fileName = fileName,
-                backupData = bytes,
-                onFailure = onFailure,
-                onSuccess = onSuccess
-            )
-        }
-    }.onFailure(onFailure).onSuccess {
-        onSuccess()
-    }
-}
-
-@SuppressLint("RestrictedApi")
-suspend fun Context.restoreDatastore(
-    fileName: String,
-    backupData: ByteArray,
-    onFailure: (Throwable) -> Unit,
-    onSuccess: suspend () -> Unit
-) = coroutineScope {
-    runCatching {
-        runCatching {
-            PreferencesMapCompat.readFrom(ByteArrayInputStream(backupData))
-        }.onFailure {
-            throw Throwable(getString(R.string.corrupted_file_or_not_a_backup))
-        }
-        File(
-            filesDir,
-            "datastore/${fileName}.preferences_pb"
-        ).outputStream().use {
-            ByteArrayInputStream(backupData).copyTo(it)
-        }
-    }.onFailure(onFailure).onSuccess {
-        onSuccess()
-    }
-}
-
-suspend fun Context.obtainDatastoreData(
-    fileName: String
-) = coroutineScope {
-    File(filesDir, "datastore/${fileName}.preferences_pb").readBytes()
-}
-
-suspend fun Context.resetDatastore(
-    fileName: String
-) = coroutineScope {
-    File(
-        filesDir,
-        "datastore/${fileName}.preferences_pb"
-    ).apply {
-        delete()
-        createNewFile()
     }
 }
 
