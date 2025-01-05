@@ -537,8 +537,7 @@ internal class AndroidSettingsManager @Inject constructor(
         ).apply {
             delete()
             createNewFile()
-            toggleAllowBetas()
-            toggleAllowBetas()
+            registerAppOpen()
         }
     }
 
