@@ -9,7 +9,7 @@
     <string name="flexible">Flexibil</string>
     <string name="app_closing">Închidere aplicație</string>
     <string name="stay">Rămânere</string>
-    <string name="close">Închide</string>
+    <string name="close">Închidere</string>
     <string name="reset_image">Resetare imagine</string>
     <string name="reset_image_sub">Imaginele modificate vor fi readuse la valorile inițiale</string>
     <string name="values_reset">Valori resetate corespunzător</string>
@@ -252,7 +252,7 @@
     <string name="auto_cache_clearing">Ștergerea automată a memoriei cache</string>
     <string name="tools">Instrumente</string>
     <string name="group_options_by_type">Grupați opțiunile după tip</string>
-    <string name="group_options_by_type_sub">Grupează opțiunile de pe ecranul principal de tipul lor în loc de aranjarea personalizată a listei</string>
+    <string name="group_options_by_type_sub">Grupează opțiunile de pe ecranul principal în funcție de tipul lor, în loc de un aranjament personalizat al listei</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Nu se poate modifica aranjamentul în timp ce gruparea opțiunilor este activată</string>
     <string name="edit_screenshot">Editați captura de ecran</string>
     <string name="secondary_customization">Personalizare secundară</string>
@@ -937,4 +937,10 @@
     <string name="tools_arrangement">Aranjamentul instrumentelor</string>
     <string name="group_tools_by_type_sub">Grupează instrumentele pe ecranul principal în funcție de tipul lor, în loc de un aranjament personalizat al listei</string>
     <string name="webp_tools_sub">Convertiți imaginile în imagini animate WEBP sau extrageți cadre din animațiile WEBP date</string>
+    <string name="settings_group_visibility_visible">Grupul de setări \"%s\" va fi extins în mod implicit</string>
+    <string name="group">Grup</string>
+    <string name="image_toolbox_in_telegram_sub">Alăturați-vă chat-ului nostru unde puteți discuta orice doriți și, de asemenea, uitați-vă la canalul CI unde postez versiuni beta și anunțuri</string>
+    <string name="settings_group_visibility_hidden">Grupul de setări \"%s\" va fi colapsat în mod implicit</string>
+    <string name="reset_properties">Resetați proprietățile</string>
+    <string name="group_tools_by_type">Instrumente de grup în funcție de tip</string>
 </resources>
