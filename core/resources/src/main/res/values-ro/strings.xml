@@ -322,7 +322,7 @@
     <string name="backup">Backup</string>
     <string name="max_colors_count">Număr maxim de culori</string>
     <string name="analytics">Analize</string>
-    <string name="settings_restored">Setările restaurate cu succes</string>
+    <string name="settings_restored">Setări restaurate cu succes</string>
     <string name="contact_me">Contactați-mă</string>
     <string name="restore_sub">Restaurați setările aplicației din fișierul generat anterior</string>
     <string name="presets_sub" formatted="false">Dacă ați selectat presetarea 125, imaginea va fi salvată cu o dimensiune de 125% din imaginea originală. Dacă ați selectat preselecția 50, atunci imaginea va fi salvată cu dimensiunea de 50%</string>
@@ -336,7 +336,7 @@
     <string name="delete_color_scheme_warn">Sunteți pe cale să ștergeți schema de culori selectată, această operațiune nu poate fi anulată.</string>
     <string name="font_scale">Scara fontului</string>
     <string name="defaultt">Implicit</string>
-    <string name="using_large_fonts_warn">Folosirea scărilor mari de fonturi poate cauza stricări al interfeței care nu vor fi reparate, folosiți-le doar dacă doriți.</string>
+    <string name="using_large_fonts_warn">Folosirea unor fonturi mari poate cauza erori și probleme ale interfeței utilizator, care nu vor putea fi remediate. Utilizați cu prudență.</string>
     <string name="blur_radius">Raza de estompare</string>
     <string name="pipette">Pipetă</string>
     <string name="draw_mode">Mod de desen</string>
@@ -611,7 +611,7 @@
     <string name="dehaze">Dehaze</string>
     <string name="omega">Omega</string>
     <string name="rate_app">Evaluați aplicația</string>
-    <string name="rate">Rată</string>
+    <string name="rate">Evaluați</string>
     <string name="rate_app_sub">Această aplicație este complet gratuită, dacă doriți să devină mai mare, vă rugăm să vedeți proiectul pe Github 😄</string>
     <string name="gradient_type_linear">Liniar</string>
     <string name="gradient_type_radial">Radial</string>
@@ -943,4 +943,6 @@
     <string name="settings_group_visibility_hidden">Grupul de setări \"%s\" va fi colapsat în mod implicit</string>
     <string name="reset_properties">Resetați proprietățile</string>
     <string name="group_tools_by_type">Instrumente de grup în funcție de tip</string>
+    <string name="generate_previews">Generați previzualizări</string>
+    <string name="generate_previews_sub">Activați generarea previzualizării, acest lucru poate ajuta la evitarea blocajelor pe unele dispozitive, de asemenea, acest lucru dezactivează unele funcționalități de editare în cadrul opțiunii de editare unică</string>
 </resources>
