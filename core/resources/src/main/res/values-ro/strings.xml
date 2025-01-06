@@ -945,4 +945,13 @@
     <string name="group_tools_by_type">Instrumente de grup în funcție de tip</string>
     <string name="generate_previews">Generați previzualizări</string>
     <string name="generate_previews_sub">Activați generarea previzualizării, acest lucru poate ajuta la evitarea blocajelor pe unele dispozitive, de asemenea, acest lucru dezactivează unele funcționalități de editare în cadrul opțiunii de editare unică</string>
+    <string name="lanczos2_sub">O metodă de reeșantionare care utilizează un filtru Lanczos cu 2 lobi pentru interpolare de înaltă calitate cu artefacte minime</string>
+    <string name="lanczos3_sub">O metodă de reeșantionare care utilizează un filtru Lanczos cu 3 lobi pentru o interpolare de înaltă calitate cu artefacte minime</string>
+    <string name="lanczos4_sub">O metodă de reeșantionare care utilizează un filtru Lanczos cu 4 lobi pentru o interpolare de înaltă calitate cu artefacte minime</string>
+    <string name="lanczos_bessel_sub">Metodă de reeșantionare care menține interpolarea de înaltă calitate prin aplicarea unei funcții Bessel (jinc) la valorile pixelilor</string>
+    <string name="ci_channel">Canal CI</string>
+    <string name="image_for_histogram">Această imagine va fi utilizată pentru a genera histograme RGB și de luminozitate</string>
+    <string name="constant_rate_factor">Factor de rată constantă (CRF)</string>
+    <string name="lanczos_6_sub">Un filtru de reeșantionare Lanczos cu un ordin mai mare de 6, care oferă o scalare mai clară și mai precisă a imaginii</string>
+    <string name="sphinx_sub">O metodă avansată de reeșantionare care oferă o interpolare de înaltă calitate cu artefacte minime</string>
 </resources>
