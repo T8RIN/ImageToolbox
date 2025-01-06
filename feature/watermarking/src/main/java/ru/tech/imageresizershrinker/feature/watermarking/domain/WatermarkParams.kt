@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.watermarking.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 
 data class WatermarkParams(
     val positionX: Float,
@@ -48,7 +49,7 @@ sealed interface WatermarkingType {
         val color: Int,
         val style: Int,
         val size: Float,
-        val font: Int,
+        val font: FontType?,
         val backgroundColor: Int,
         val text: String,
     ) : WatermarkingType {
@@ -58,7 +59,7 @@ sealed interface WatermarkingType {
                     color = -16777216,
                     style = 0,
                     size = 0.1f,
-                    font = 0,
+                    font = null,
                     backgroundColor = 0,
                     text = "Watermark"
                 )

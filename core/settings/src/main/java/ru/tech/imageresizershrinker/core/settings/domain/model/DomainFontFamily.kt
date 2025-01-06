@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("SpellCheckingInspection")
+
 package ru.tech.imageresizershrinker.core.settings.domain.model
 
 sealed class DomainFontFamily(val ordinal: Int) {
@@ -45,6 +47,11 @@ sealed class DomainFontFamily(val ordinal: Int) {
     data object LcdMoving : DomainFontFamily(25)
     data object Unisource : DomainFontFamily(26)
     data object System : DomainFontFamily(0)
+
+    class Custom(
+        val name: String?,
+        val filePath: String
+    ) : DomainFontFamily(-1)
 
     companion object {
         fun fromOrdinal(int: Int?): DomainFontFamily? = when (int) {
@@ -78,4 +85,9 @@ sealed class DomainFontFamily(val ordinal: Int) {
             else -> null
         }
     }
+}
+
+sealed interface FontType {
+    data class Resource(val resId: Int) : FontType
+    data class File(val path: String) : FontType
 }

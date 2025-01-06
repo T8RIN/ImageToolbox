@@ -74,11 +74,12 @@ import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.resources.icons.Highlighter
 import ru.tech.imageresizershrinker.core.resources.icons.NeonBrush
 import ru.tech.imageresizershrinker.core.resources.icons.Pen
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontResSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -206,12 +207,12 @@ fun DrawModeSelector(
                     }
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                FontResSelector(
-                    fontRes = (value as? DrawMode.Text)?.font ?: 0,
+                FontSelector(
+                    value = (value as? DrawMode.Text)?.font.toUiFont(),
                     onValueChange = {
                         onValueChange(
                             (value as? DrawMode.Text)?.copy(
-                                font = it.fontRes ?: 0
+                                font = it.type
                             ) ?: value
                         )
                     },

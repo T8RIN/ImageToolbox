@@ -20,7 +20,9 @@ package ru.tech.imageresizershrinker.feature.watermarking.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Build
+import androidx.core.content.res.ResourcesCompat
 import androidx.exifinterface.media.ExifInterface
 import com.watermark.androidwm.WatermarkBuilder
 import com.watermark.androidwm.bean.WatermarkImage
@@ -32,6 +34,7 @@ import ru.tech.imageresizershrinker.core.data.image.utils.toPorterDuffMode
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
@@ -66,7 +69,17 @@ internal class AndroidWatermarkApplier @Inject constructor(
                             )
                             .setBackgroundColor(type.backgroundColor)
                             .setTextColor(type.color)
-                            .setTextFont(type.font)
+                            .apply {
+                                when (type.font) {
+                                    is FontType.File -> Typeface.createFromFile(type.font.path)
+                                    is FontType.Resource -> ResourcesCompat.getFont(
+                                        context,
+                                        type.font.resId
+                                    )
+
+                                    null -> null
+                                }?.let(::setTextTypeface)
+                            }
                             .setTextStyle(
                                 Paint.Style.entries.first { it.ordinal == type.style }
                             )

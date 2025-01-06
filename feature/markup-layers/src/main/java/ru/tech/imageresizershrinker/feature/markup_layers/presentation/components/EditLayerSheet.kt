@@ -50,12 +50,13 @@ import ru.tech.imageresizershrinker.core.domain.model.Outline
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.toggle
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.theme.inverseByLuma
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontResSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -168,13 +169,13 @@ internal fun EditLayerSheet(
                         singleLine = false
                     )
                     Spacer(Modifier.height(8.dp))
-                    FontResSelector(
-                        fontRes = type.font,
+                    FontSelector(
+                        value = type.font.toUiFont(),
                         onValueChange = {
                             onUpdateLayer(
                                 layer.copy(
                                     type.copy(
-                                        font = it.fontRes ?: 0
+                                        font = it.type
                                     )
                                 )
                             )

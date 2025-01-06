@@ -68,118 +68,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
-fun FontResSelector(
-    fontRes: Int,
-    onValueChange: (UiFontFamily) -> Unit,
-    modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.font),
-    color: Color = MaterialTheme.colorScheme.surface,
-    shape: Shape = RoundedCornerShape(20.dp)
-) {
-    Column(
-        modifier = modifier.container(
-            shape = shape,
-            color = color
-        )
-    ) {
-        val fonts = remember {
-            UiFontFamily.entries
-        }
-        var expanded by rememberSaveable { mutableStateOf(false) }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            val scope = rememberCoroutineScope()
-            val confettiHostState = LocalConfettiHostState.current
-            val showConfetti: () -> Unit = {
-                scope.launch {
-                    confettiHostState.showConfetti()
-                }
-            }
-            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
-            TitleItem(
-                text = title,
-                icon = Icons.Outlined.TextFields,
-                modifier = Modifier.padding(top = 12.dp, start = 12.dp, bottom = 8.dp)
-            )
-            Badge(
-                content = {
-                    Text(fonts.size.toString())
-                },
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.onTertiary,
-                modifier = Modifier
-                    .padding(horizontal = 2.dp)
-                    .padding(bottom = 12.dp)
-                    .scaleOnTap {
-                        showConfetti()
-                    }
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                onClick = { expanded = !expanded }
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.KeyboardArrowDown,
-                    contentDescription = "Expand",
-                    modifier = Modifier.rotate(rotation)
-                )
-            }
-        }
-        val state = rememberLazyStaggeredGridState()
-        LazyHorizontalStaggeredGrid(
-            verticalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
-                alignment = Alignment.CenterVertically
-            ),
-            state = state,
-            horizontalItemSpacing = 8.dp,
-            rows = StaggeredGridCells.Adaptive(30.dp),
-            modifier = Modifier
-                .heightIn(max = animateDpAsState(if (expanded) 140.dp else 52.dp).value)
-                .fadingEdges(
-                    scrollableState = state,
-                    isVertical = false,
-                    spanCount = 3
-                ),
-            contentPadding = PaddingValues(8.dp)
-        ) {
-            items(fonts) {
-                val selected by remember(it, fontRes) {
-                    derivedStateOf {
-                        if (it == UiFontFamily.System) fontRes == 0
-                        else fontRes == it.fontRes
-                    }
-                }
-                MaterialTheme(
-                    typography = Typography(it)
-                ) {
-                    EnhancedChip(
-                        selected = selected,
-                        onClick = {
-                            onValueChange(it)
-                        },
-                        selectedColor = MaterialTheme.colorScheme.secondary,
-                        contentPadding = PaddingValues(
-                            horizontal = 12.dp,
-                            vertical = 8.dp
-                        ),
-                        modifier = Modifier.height(36.dp)
-                    ) {
-                        AutoSizeText(
-                            text = it.name
-                                ?: stringResource(id = R.string.system),
-                            maxLines = 1
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun FontSelector(
-    font: UiFontFamily,
+    value: UiFontFamily,
     onValueChange: (UiFontFamily) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.font),
@@ -254,9 +144,9 @@ fun FontSelector(
             contentPadding = PaddingValues(8.dp)
         ) {
             items(fonts) {
-                val selected by remember(it, font) {
+                val selected by remember(it, value) {
                     derivedStateOf {
-                        it == font
+                        it == value
                     }
                 }
                 MaterialTheme(

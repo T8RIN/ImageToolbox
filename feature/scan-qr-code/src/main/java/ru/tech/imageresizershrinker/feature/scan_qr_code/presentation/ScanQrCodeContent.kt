@@ -323,7 +323,7 @@ fun ScanQrCodeContent(
                     )
                     BoxAnimatedVisibility(visible = qrDescription.isNotEmpty()) {
                         FontSelector(
-                            font = qrDescriptionFont,
+                            value = qrDescriptionFont,
                             onValueChange = { qrDescriptionFont = it },
                             color = Color.Unspecified,
                             shape = ContainerShapeDefaults.bottomShape,

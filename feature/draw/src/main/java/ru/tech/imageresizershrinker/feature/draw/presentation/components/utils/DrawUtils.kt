@@ -23,6 +23,7 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.Typeface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -66,6 +67,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiNativeStackBlurFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.density
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
@@ -184,8 +186,14 @@ internal fun rememberPaint(
                 if (drawMode is DrawMode.Text && !isEraserOn) {
                     isAntiAlias = true
                     textSize = strokeWidth.toPx(canvasSize)
-                    if (drawMode.font != 0) {
-                        typeface = ResourcesCompat.getFont(context, drawMode.font)
+                    if (drawMode.font != null) {
+                        typeface = when (drawMode.font) {
+                            is FontType.File -> Typeface.createFromFile(drawMode.font.path)
+                            is FontType.Resource -> ResourcesCompat.getFont(
+                                context,
+                                drawMode.font.resId
+                            )
+                        }
                     }
                 }
             }

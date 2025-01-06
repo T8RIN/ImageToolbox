@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.markup_layers.domain
 
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Outline
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 
 data class MarkupLayer(
     val type: LayerType,
@@ -70,7 +71,7 @@ sealed interface LayerType {
     data class Text(
         val color: Int,
         val size: Float,
-        val font: Int,
+        val font: FontType?,
         val backgroundColor: Int,
         val text: String,
         val decorations: List<Decoration>,
@@ -86,7 +87,7 @@ sealed interface LayerType {
                 Text(
                     color = -16777216,
                     size = 0.2f,
-                    font = 0,
+                    font = null,
                     backgroundColor = 0,
                     text = "Text",
                     decorations = listOf(),

@@ -22,6 +22,7 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.Typeface
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -58,6 +59,7 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.createFilter
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedBitmapOnPath
@@ -273,8 +275,14 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             if (drawMode is DrawMode.Text && !isErasing) {
                                 isAntiAlias = true
                                 textSize = stroke
-                                if (drawMode.font != 0) {
-                                    typeface = ResourcesCompat.getFont(context, drawMode.font)
+                                if (drawMode.font != null) {
+                                    typeface = when (drawMode.font) {
+                                        is FontType.File -> Typeface.createFromFile(drawMode.font.path)
+                                        is FontType.Resource -> ResourcesCompat.getFont(
+                                            context,
+                                            drawMode.font.resId
+                                        )
+                                    }
                                 }
                             }
                         }

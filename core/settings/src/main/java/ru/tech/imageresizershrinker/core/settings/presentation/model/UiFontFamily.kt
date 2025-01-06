@@ -22,6 +22,7 @@ package ru.tech.imageresizershrinker.core.settings.presentation.model
 import android.os.Build
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.font.AndroidFont
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -29,11 +30,13 @@ import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
+import java.io.File
 
 sealed class UiFontFamily(
     val name: String?,
     private val variable: Boolean,
-    val fontRes: Int?
+    val type: FontType? = null
 ) {
     val isVariable: Boolean?
         get() = variable.takeIf {
@@ -41,14 +44,47 @@ sealed class UiFontFamily(
         }
 
     val fontFamily: FontFamily
-        get() = fontRes?.let {
-            fontFamilyResource(resId = fontRes)
+        get() = type?.let {
+            when (it) {
+                is FontType.File -> fontFamilyFromFile(file = File(it.path))
+                is FontType.Resource -> fontFamilyResource(resId = it.resId)
+            }
         } ?: FontFamily.Default
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is UiFontFamily) return false
+
+        if (name != other.name) return false
+        if (isVariable != other.isVariable) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    constructor(
+        name: String?,
+        variable: Boolean,
+        fontRes: Int
+    ) : this(
+        name = name,
+        variable = variable,
+        type = FontType.Resource(fontRes)
+    )
+
+    constructor(
+        name: String?,
+        variable: Boolean,
+        filePath: String
+    ) : this(
+        name = name,
+        variable = variable,
+        type = FontType.File(filePath)
+    )
 
     operator fun component1() = fontFamily
     operator fun component2() = name
     operator fun component3() = isVariable
-    operator fun component4() = fontRes
+    operator fun component4() = type
 
     data object Montserrat : UiFontFamily(
         fontRes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -67,7 +103,6 @@ sealed class UiFontFamily(
     )
 
     data object System : UiFontFamily(
-        fontRes = null,
         name = null,
         variable = true
     )
@@ -218,6 +253,15 @@ sealed class UiFontFamily(
         variable = false
     )
 
+    class Custom(
+        name: String?,
+        val filePath: String
+    ) : UiFontFamily(
+        name = name,
+        variable = false,
+        filePath = filePath
+    )
+
     fun asDomain(): DomainFontFamily {
         return when (this) {
             Caveat -> DomainFontFamily.Caveat
@@ -247,6 +291,7 @@ sealed class UiFontFamily(
             LcdMoving -> DomainFontFamily.LcdMoving
             LcdOctagon -> DomainFontFamily.LcdOctagon
             Unisource -> DomainFontFamily.Unisource
+            is Custom -> DomainFontFamily.Custom(name, filePath)
         }
     }
 
@@ -292,38 +337,56 @@ sealed class UiFontFamily(
             }
         )
     }
+
+    override fun hashCode(): Int {
+        var result = name?.hashCode() ?: 0
+        result = 31 * result + variable.hashCode()
+        result = 31 * result + (type?.hashCode() ?: 0)
+        result = 31 * result + (isVariable?.hashCode() ?: 0)
+        result = 31 * result + fontFamily.hashCode()
+        return result
+    }
 }
 
-fun DomainFontFamily.toUiFont(): UiFontFamily {
-    return when (this) {
-        DomainFontFamily.Caveat -> UiFontFamily.Caveat
-        DomainFontFamily.Comfortaa -> UiFontFamily.Comfortaa
-        DomainFontFamily.System -> UiFontFamily.System
-        DomainFontFamily.Handjet -> UiFontFamily.Handjet
-        DomainFontFamily.Jura -> UiFontFamily.Jura
-        DomainFontFamily.Montserrat -> UiFontFamily.Montserrat
-        DomainFontFamily.Podkova -> UiFontFamily.Podkova
-        DomainFontFamily.Tektur -> UiFontFamily.Tektur
-        DomainFontFamily.YsabeauSC -> UiFontFamily.YsabeauSC
-        DomainFontFamily.DejaVu -> UiFontFamily.DejaVu
-        DomainFontFamily.BadScript -> UiFontFamily.BadScript
-        DomainFontFamily.RuslanDisplay -> UiFontFamily.RuslanDisplay
-        DomainFontFamily.Catterdale -> UiFontFamily.Catterdale
-        DomainFontFamily.FRM32 -> UiFontFamily.FRM32
-        DomainFontFamily.TokeelyBrookings -> UiFontFamily.TokeelyBrookings
-        DomainFontFamily.Nunito -> UiFontFamily.Nunito
-        DomainFontFamily.Nothing -> UiFontFamily.Nothing
-        DomainFontFamily.WOPRTweaked -> UiFontFamily.WOPRTweaked
-        DomainFontFamily.AlegreyaSans -> UiFontFamily.AlegreyaSans
-        DomainFontFamily.MinecraftGnu -> UiFontFamily.MinecraftGnu
-        DomainFontFamily.GraniteFixed -> UiFontFamily.GraniteFixed
-        DomainFontFamily.NokiaPixel -> UiFontFamily.NokiaPixel
-        DomainFontFamily.Ztivalia -> UiFontFamily.Ztivalia
-        DomainFontFamily.Axotrel -> UiFontFamily.Axotrel
-        DomainFontFamily.LcdMoving -> UiFontFamily.LcdMoving
-        DomainFontFamily.LcdOctagon -> UiFontFamily.LcdOctagon
-        DomainFontFamily.Unisource -> UiFontFamily.Unisource
-    }
+fun FontType?.toUiFont(): UiFontFamily = when (this) {
+    is FontType.File -> UiFontFamily.Custom(
+        name = path.split(".").takeLast(2)[0],
+        filePath = path
+    )
+
+    is FontType.Resource -> UiFontFamily.entries.find { it.type == this } ?: UiFontFamily.System
+    null -> UiFontFamily.System
+}
+
+fun DomainFontFamily.toUiFont(): UiFontFamily = when (this) {
+    DomainFontFamily.Caveat -> UiFontFamily.Caveat
+    DomainFontFamily.Comfortaa -> UiFontFamily.Comfortaa
+    DomainFontFamily.System -> UiFontFamily.System
+    DomainFontFamily.Handjet -> UiFontFamily.Handjet
+    DomainFontFamily.Jura -> UiFontFamily.Jura
+    DomainFontFamily.Montserrat -> UiFontFamily.Montserrat
+    DomainFontFamily.Podkova -> UiFontFamily.Podkova
+    DomainFontFamily.Tektur -> UiFontFamily.Tektur
+    DomainFontFamily.YsabeauSC -> UiFontFamily.YsabeauSC
+    DomainFontFamily.DejaVu -> UiFontFamily.DejaVu
+    DomainFontFamily.BadScript -> UiFontFamily.BadScript
+    DomainFontFamily.RuslanDisplay -> UiFontFamily.RuslanDisplay
+    DomainFontFamily.Catterdale -> UiFontFamily.Catterdale
+    DomainFontFamily.FRM32 -> UiFontFamily.FRM32
+    DomainFontFamily.TokeelyBrookings -> UiFontFamily.TokeelyBrookings
+    DomainFontFamily.Nunito -> UiFontFamily.Nunito
+    DomainFontFamily.Nothing -> UiFontFamily.Nothing
+    DomainFontFamily.WOPRTweaked -> UiFontFamily.WOPRTweaked
+    DomainFontFamily.AlegreyaSans -> UiFontFamily.AlegreyaSans
+    DomainFontFamily.MinecraftGnu -> UiFontFamily.MinecraftGnu
+    DomainFontFamily.GraniteFixed -> UiFontFamily.GraniteFixed
+    DomainFontFamily.NokiaPixel -> UiFontFamily.NokiaPixel
+    DomainFontFamily.Ztivalia -> UiFontFamily.Ztivalia
+    DomainFontFamily.Axotrel -> UiFontFamily.Axotrel
+    DomainFontFamily.LcdMoving -> UiFontFamily.LcdMoving
+    DomainFontFamily.LcdOctagon -> UiFontFamily.LcdOctagon
+    DomainFontFamily.Unisource -> UiFontFamily.Unisource
+    is DomainFontFamily.Custom -> UiFontFamily.Custom(name, filePath)
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -362,6 +425,50 @@ private fun fontFamilyResource(resId: Int) = FontFamily(
     ),
     Font(
         resId = resId,
+        weight = FontWeight.Bold,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Bold,
+            style = FontStyle.Normal
+        )
+    )
+)
+
+@OptIn(ExperimentalTextApi::class)
+private fun fontFamilyFromFile(file: File) = FontFamily(
+    Font(
+        file = file,
+        weight = FontWeight.Light,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Light,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        file = file,
+        weight = FontWeight.Normal,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Normal,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        file = file,
+        weight = FontWeight.Medium,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Medium,
+            style = FontStyle.Normal
+        )
+    ) as AndroidFont,
+    Font(
+        file = file,
+        weight = FontWeight.SemiBold,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.SemiBold,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        file = file,
         weight = FontWeight.Bold,
         variationSettings = FontVariation.Settings(
             weight = FontWeight.Bold,

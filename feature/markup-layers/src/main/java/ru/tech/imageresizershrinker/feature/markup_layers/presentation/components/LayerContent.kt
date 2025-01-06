@@ -38,7 +38,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
-import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.text.OutlineParams
@@ -73,9 +73,7 @@ internal fun LayerContent(
                         color = type.color.toColor(),
                         fontSize = (textFullSize * type.size / 5).sp,
                         lineHeight = (textFullSize * type.size / 5).sp,
-                        fontFamily = UiFontFamily.entries.firstOrNull {
-                            (it.fontRes ?: 0) == type.font
-                        }?.fontFamily,
+                        fontFamily = type.font.toUiFont().fontFamily,
                         textDecoration = TextDecoration.combine(
                             type.decorations.mapNotNull {
                                 when (it) {

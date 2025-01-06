@@ -43,11 +43,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BlendingModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontResSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
@@ -167,13 +168,13 @@ fun WatermarkParamsSelectionGroup(
                         ?: return@AnimatedVisibility
 
                     Column {
-                        FontResSelector(
-                            fontRes = type.font,
+                        FontSelector(
+                            value = type.font.toUiFont(),
                             onValueChange = {
                                 onValueChange(
                                     value.copy(
                                         watermarkingType = type.copy(
-                                            font = it.fontRes ?: 0
+                                            font = it.type
                                         )
                                     )
                                 )
