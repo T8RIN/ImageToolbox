@@ -28,7 +28,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -41,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.text.isKeyboardVisibleAsState
 
 @Composable
 fun SearchBar(
@@ -52,13 +57,29 @@ fun SearchBar(
     val localFocusManager = LocalFocusManager.current
     val state = rememberScrollState()
 
+    val isKeyboardVisible by isKeyboardVisibleAsState()
+    var isKeyboardWasVisible by rememberSaveable {
+        mutableStateOf<Boolean?>(null)
+    }
+    LaunchedEffect(isKeyboardVisible) {
+        if (!isKeyboardVisible) {
+            delay(600)
+            if (isKeyboardWasVisible == true) {
+                isKeyboardWasVisible = false
+            }
+        } else {
+            isKeyboardWasVisible = true
+        }
+    }
+
     LaunchedEffect(windowInfo) {
         snapshotFlow {
             windowInfo.isWindowFocused
         }.collect { isWindowFocused ->
-            if (isWindowFocused) {
+            if (isWindowFocused && isKeyboardWasVisible != false) {
                 delay(500)
                 focusRequester.requestFocus()
+                isKeyboardWasVisible = true
             }
         }
     }

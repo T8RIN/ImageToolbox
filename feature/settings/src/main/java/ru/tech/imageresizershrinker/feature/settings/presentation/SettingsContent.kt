@@ -63,7 +63,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -80,7 +79,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
 import ru.tech.imageresizershrinker.core.settings.presentation.model.SettingsGroup
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
@@ -98,8 +96,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.SearchBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.text.isKeyboardVisibleAsState
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
-import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchSettingsDelegate
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchableSettingItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingGroupItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SettingItem
@@ -119,19 +117,11 @@ fun SettingsContent(
     val layoutDirection = LocalLayoutDirection.current
     val initialSettingGroups = SettingsGroup.entries
 
-    var searchKeyword by rememberSaveable {
-        mutableStateOf("")
-    }
+    val searchKeyword = component.searchKeyword
     var showSearch by rememberSaveable { mutableStateOf(false) }
 
-    var settings: List<Pair<SettingsGroup, Setting>>? by remember { mutableStateOf(null) }
-    var loading by remember { mutableStateOf(false) }
-    SearchSettingsDelegate(
-        searchKeyword = searchKeyword,
-        onLoadingChange = { loading = it },
-        onGetSettingsList = { settings = it },
-        initialSettingGroups = initialSettingGroups
-    )
+    val settings = component.filteredSettings
+    val loading = component.isFilteringSettings
 
     val padding = WindowInsets.navigationBars
         .asPaddingValues()
@@ -150,10 +140,13 @@ fun SettingsContent(
         )
 
     val focus = LocalFocusManager.current
+    val isKeyboardVisible by isKeyboardVisibleAsState()
 
     DisposableEffect(Unit) {
         onDispose {
-            focus.clearFocus()
+            if (!isKeyboardVisible) {
+                focus.clearFocus()
+            }
         }
     }
 
@@ -194,14 +187,12 @@ fun SettingsContent(
                         }
                     } else {
                         BackHandler {
-                            searchKeyword = ""
+                            component.updateSearchKeyword("")
                             showSearch = false
                         }
                         SearchBar(
                             searchString = searchKeyword,
-                            onValueChange = {
-                                searchKeyword = it
-                            }
+                            onValueChange = component::updateSearchKeyword
                         )
                     }
                 }
@@ -216,7 +207,7 @@ fun SettingsContent(
                             if (!showSearch) {
                                 showSearch = true
                             } else {
-                                searchKeyword = ""
+                                component.updateSearchKeyword("")
                             }
                         }
                     ) {
@@ -238,14 +229,14 @@ fun SettingsContent(
                 if (appBarNavigationIcon != null) {
                     appBarNavigationIcon(showSearch) {
                         showSearch = false
-                        searchKeyword = ""
+                        component.updateSearchKeyword("")
                     }
                 } else if (component.onGoBack != null || showSearch) {
                     EnhancedIconButton(
                         onClick = {
                             if (showSearch) {
                                 showSearch = false
-                                searchKeyword = ""
+                                component.updateSearchKeyword("")
                             } else {
                                 component.onGoBack?.invoke()
                             }

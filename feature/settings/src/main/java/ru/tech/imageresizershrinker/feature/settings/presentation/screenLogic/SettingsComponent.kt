@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
@@ -31,6 +32,7 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
@@ -42,8 +44,10 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
+import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -53,8 +57,12 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
+import ru.tech.imageresizershrinker.core.settings.presentation.model.SettingsGroup
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import java.util.Locale
 
 class SettingsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -65,11 +73,82 @@ class SettingsComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
+    private val resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
+
+    private val _searchKeyword = mutableStateOf("")
+    val searchKeyword by _searchKeyword
+
+    private val _filteredSettings: MutableState<List<Pair<SettingsGroup, Setting>>?> =
+        mutableStateOf(null)
+    val filteredSettings by _filteredSettings
+
+    private val _isFilteringSettings = mutableStateOf(false)
+    val isFilteringSettings by _isFilteringSettings
+
+    private var filterJob by smartJob()
+    private fun filterSettings() {
+        filterJob = componentScope.launch {
+            delay(150)
+            _isFilteringSettings.update { searchKeyword.isNotEmpty() }
+            _filteredSettings.update {
+                searchKeyword.takeIf { it.trim().isNotEmpty() }?.let {
+                    val newList = mutableListOf<Pair<Pair<SettingsGroup, Setting>, Int>>()
+                    SettingsGroup.entries.forEach { group ->
+                        group.settingsList.forEach { setting ->
+                            val keywords = mutableListOf<String>().apply {
+                                add(resourceManager.getString(group.titleId))
+                                add(resourceManager.getString(setting.title))
+                                add(
+                                    resourceManager.getStringLocalized(
+                                        group.titleId,
+                                        Locale.ENGLISH.language
+                                    )
+                                )
+                                add(
+                                    resourceManager.getStringLocalized(
+                                        setting.title,
+                                        Locale.ENGLISH.language
+                                    )
+                                )
+                                setting.subtitle?.let {
+                                    add(resourceManager.getString(it))
+                                    add(
+                                        resourceManager.getStringLocalized(
+                                            it,
+                                            Locale.ENGLISH.language
+                                        )
+                                    )
+                                }
+                            }
+
+                            val substringStart = keywords
+                                .joinToString()
+                                .indexOf(
+                                    string = searchKeyword,
+                                    ignoreCase = true
+                                ).takeIf { it != -1 }
+
+                            substringStart?.plus(searchKeyword.length)?.let { substringEnd ->
+                                newList.add(group to setting to (substringEnd - substringStart))
+                            }
+                        }
+                    }
+                    newList.sortedBy { it.second }.map { it.first }
+                }
+            }
+            _isFilteringSettings.update { false }
+        }
+    }
+
+    fun updateSearchKeyword(value: String) {
+        _searchKeyword.update { value }
+        filterSettings()
+    }
 
     fun tryGetUpdate(
         isNewRequest: Boolean = false,
