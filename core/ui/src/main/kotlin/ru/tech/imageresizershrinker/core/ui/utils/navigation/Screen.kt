@@ -36,6 +36,7 @@ import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Grain
+import androidx.compose.material.icons.outlined.ImageAspectRatio
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
@@ -90,7 +91,8 @@ sealed class Screen(
 
     val isBetaFeature: Boolean
         get() = when (this) {
-            is MarkupLayers -> true
+            is MarkupLayers,
+            is AiUpscale -> true
             else -> false
         }
 
@@ -138,6 +140,7 @@ sealed class Screen(
             is Base64Tools -> "Base64_Tools"
             is ChecksumTools -> "Checksum_Tools"
             is MeshGradients -> "Mesh_Gradients"
+            is AiUpscale -> "Ai_Upscale"
         }
 
     val icon: ImageVector?
@@ -185,6 +188,7 @@ sealed class Screen(
             is MarkupLayers -> Icons.Outlined.Stack
             is Base64Tools -> Icons.Outlined.Base64
             is ChecksumTools -> Icons.Rounded.Tag
+            is AiUpscale -> Icons.Outlined.ImageAspectRatio
         }
 
     @Serializable
@@ -837,12 +841,22 @@ sealed class Screen(
         subtitle = 0
     )
 
+    @Serializable
+    data class AiUpscale(
+        val uris: List<KUri>? = null
+    ) : Screen(
+        id = 37,
+        title = R.string.ai_upscale,
+        subtitle = R.string.ai_upscale_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
                 listOf(
                     SingleEdit(),
                     ResizeAndConvert(),
+                    AiUpscale(),
                     FormatConversion(),
                     Crop(),
                     WeightResize(),
@@ -907,7 +921,7 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 60
+        const val FEATURES_COUNT = 61
     }
 }
 

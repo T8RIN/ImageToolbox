@@ -25,14 +25,15 @@ data class RemoteResources(
     companion object {
         const val CUBE_LUT = "cubelut"
         const val MESH_GRADIENTS = "mesh_gradient"
+        const val ONNX_UPSCALE = "onnx/upscale"
 
         val CubeLutDefault = RemoteResources(
             name = CUBE_LUT,
             list = emptyList()
         )
 
-        val MeshGradientsDefault = RemoteResources(
-            name = MESH_GRADIENTS,
+        val OnnxUpscaleDefault = RemoteResources(
+            name = ONNX_UPSCALE,
             list = emptyList()
         )
     }

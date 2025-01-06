@@ -1549,4 +1549,6 @@
     <string name="difference_sub">Checksums are not equal, file can be unsafe!</string>
     <string name="mesh_gradients">Mesh Gradients</string>
     <string name="mesh_gradients_sub">Look at online collection of Mesh Gradients</string>
+    <string name="ai_upscale">Ai Upscale</string>
+    <string name="ai_upscale_sub">Choose ai model and perform offline upscale of images</string>
 </resources>

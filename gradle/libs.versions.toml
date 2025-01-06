@@ -77,8 +77,12 @@ moshi = "1.15.2"
 aboutlibraries = "11.3.0"
 junit = "4.13.2"
 bouncycastle = "1.79"
+onnx = "1.18.0"
+onnxExtensions = "0.13.0"
 
 [libraries]
+onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
+onnx-runtime-extensions = { module = "com.microsoft.onnxruntime:onnxruntime-extensions-android", version.ref = "onnxExtensions" }
 aboutlibraries-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutlibraries" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 trickle = { module = "com.github.t8rin:trickle", version.ref = "trickle" }

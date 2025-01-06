@@ -21,6 +21,7 @@ import com.arkivanov.decompose.ComponentContext
 import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.feature.ai_upscale.presentation.screenLogic.AiUpscaleComponent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
@@ -107,7 +108,8 @@ internal class ChildProvider @Inject constructor(
     private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
     private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
     private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory,
-    private val meshGradientsComponentFactory: MeshGradientsComponent.Factory
+    private val meshGradientsComponentFactory: MeshGradientsComponent.Factory,
+    private val aiUpscaleComponentFactory: AiUpscaleComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -472,6 +474,15 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.AiUpscale -> AiUpscale(
+            aiUpscaleComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+                initialUris = config.uris,
             )
         )
     }

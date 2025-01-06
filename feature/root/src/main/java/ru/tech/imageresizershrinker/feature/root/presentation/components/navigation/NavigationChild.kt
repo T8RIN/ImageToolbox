@@ -22,6 +22,8 @@ import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerCont
 import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
+import ru.tech.imageresizershrinker.feature.ai_upscale.presentation.AiUpscaleContent
+import ru.tech.imageresizershrinker.feature.ai_upscale.presentation.screenLogic.AiUpscaleComponent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.Base64ToolsContent
@@ -318,6 +320,11 @@ internal sealed class NavigationChild {
     class MeshGradients(val component: MeshGradientsComponent) : NavigationChild() {
         @Composable
         override fun Content() = MeshGradientsContent(component)
+    }
+
+    class AiUpscale(val component: AiUpscaleComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = AiUpscaleContent(component)
     }
 
 }
