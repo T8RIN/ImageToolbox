@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("KotlinConstantConditions")
+
 package ru.tech.imageresizershrinker.core.settings.presentation.model
 
 import androidx.compose.material.icons.Icons
@@ -35,6 +37,7 @@ import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.rounded.ViewCarousel
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ClipboardFile
 import ru.tech.imageresizershrinker.core.resources.icons.Draw
@@ -409,7 +412,9 @@ sealed class SettingsGroup(
                 Firebase,
                 Updates,
                 AboutApp
-            )
+            ).filter {
+                !(it is SettingsGroup.Firebase && BuildConfig.FLAVOR == "foss")
+            }
         }
     }
 }

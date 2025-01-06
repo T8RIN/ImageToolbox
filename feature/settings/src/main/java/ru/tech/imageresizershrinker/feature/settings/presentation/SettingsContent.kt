@@ -79,7 +79,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
 import ru.tech.imageresizershrinker.core.settings.presentation.model.SettingsGroup
@@ -118,13 +117,8 @@ fun SettingsContent(
 
     val settingsState = LocalSettingsState.current
     val layoutDirection = LocalLayoutDirection.current
-    val initialSettingGroups = remember {
-        SettingsGroup.entries.filter {
-            !(it is SettingsGroup.Firebase && BuildConfig.FLAVOR == "foss")
-        }
-    }
+    val initialSettingGroups = SettingsGroup.entries
 
-    //TODO: Somehow resets
     var searchKeyword by rememberSaveable {
         mutableStateOf("")
     }
@@ -160,8 +154,6 @@ fun SettingsContent(
     DisposableEffect(Unit) {
         onDispose {
             focus.clearFocus()
-            showSearch = false
-            searchKeyword = ""
         }
     }
 
