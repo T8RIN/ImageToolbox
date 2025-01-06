@@ -74,7 +74,7 @@ mlkitDocumentScanner = "16.0.0-beta1"
 zxingAndroidEmbedded = "4.3.0"
 capturable = "3.0.1"
 moshi = "1.15.2"
-aboutlibraries = "11.3.0"
+aboutlibraries = "11.4.0"
 junit = "4.13.2"
 bouncycastle = "1.79"
 
