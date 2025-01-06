@@ -1529,4 +1529,6 @@
     <string name="match_sub">校验和相等，可能是安全的</string>
     <string name="algorithms">算法</string>
     <string name="checksum_tools">校验和工具</string>
+    <string name="mesh_gradients">网格渐变</string>
+    <string name="mesh_gradients_sub">查看网格渐变在线收藏</string>
 </resources>
