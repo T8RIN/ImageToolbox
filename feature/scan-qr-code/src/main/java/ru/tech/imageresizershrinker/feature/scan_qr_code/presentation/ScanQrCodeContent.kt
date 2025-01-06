@@ -59,8 +59,7 @@ import androidx.compose.ui.unit.dp
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
@@ -137,14 +136,6 @@ fun ScanQrCodeContent(
         mutableIntStateOf(4)
     }
 
-    val settingsState = LocalSettingsState.current
-    var qrDescriptionFont by rememberSaveable(
-        inputs = arrayOf(settingsState.font),
-        stateSaver = UiFontFamily.Saver
-    ) {
-        mutableStateOf(settingsState.font)
-    }
-
     val captureController = rememberCaptureController()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?, bitmap: Bitmap) -> Unit =
@@ -157,6 +148,8 @@ fun ScanQrCodeContent(
         }
 
     val isLandscape by isLandscapeOrientationAsState()
+
+    val qrDescriptionFont = component.qrDescriptionFont.toUiFont()
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
@@ -324,7 +317,9 @@ fun ScanQrCodeContent(
                     BoxAnimatedVisibility(visible = qrDescription.isNotEmpty()) {
                         FontSelector(
                             value = qrDescriptionFont,
-                            onValueChange = { qrDescriptionFont = it },
+                            onValueChange = {
+                                component.setQrCodeDescriptionFont(it.asDomain())
+                            },
                             color = Color.Unspecified,
                             shape = ContainerShapeDefaults.bottomShape,
                             modifier = Modifier.padding(top = 4.dp)

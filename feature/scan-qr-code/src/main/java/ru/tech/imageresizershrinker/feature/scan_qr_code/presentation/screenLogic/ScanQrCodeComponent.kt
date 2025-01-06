@@ -30,6 +30,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -41,6 +43,9 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
+import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
@@ -52,6 +57,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
+    settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -60,6 +66,19 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
 
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
+    }
+
+    private var settingsState: SettingsState = SettingsState.Default
+
+    private val _qrDescriptionFont: MutableState<DomainFontFamily> =
+        mutableStateOf(settingsState.font)
+    val qrDescriptionFont by _qrDescriptionFont
+
+    init {
+        settingsProvider.getSettingsStateFlow().onEach {
+            settingsState = it
+            _qrDescriptionFont.update { settingsState.font }
+        }.launchIn(componentScope)
     }
 
     fun saveBitmap(
@@ -162,6 +181,10 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
+
+    fun setQrCodeDescriptionFont(family: DomainFontFamily) {
+        _qrDescriptionFont.update { family }
+    }
 
 
     @AssistedFactory

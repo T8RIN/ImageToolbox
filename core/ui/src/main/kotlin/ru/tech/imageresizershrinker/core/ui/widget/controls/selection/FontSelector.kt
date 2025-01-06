@@ -82,9 +82,8 @@ fun FontSelector(
             color = color
         )
     ) {
-        val fonts = remember {
-            UiFontFamily.entries
-        }
+        val fonts = UiFontFamily.entries
+
         var expanded by rememberSaveable { mutableStateOf(false) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             val scope = rememberCoroutineScope()

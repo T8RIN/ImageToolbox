@@ -51,38 +51,53 @@ sealed class DomainFontFamily(val ordinal: Int) {
     class Custom(
         val name: String?,
         val filePath: String
-    ) : DomainFontFamily(-1)
+    ) : DomainFontFamily(-1) {
+        override fun asString(): String = "$name:$filePath"
+    }
+
+    open fun asString(): String = ordinal.toString()
 
     companion object {
-        fun fromOrdinal(int: Int?): DomainFontFamily? = when (int) {
-            0 -> System
-            1 -> Montserrat
-            2 -> Caveat
-            3 -> Comfortaa
-            4 -> Handjet
-            5 -> YsabeauSC
-            6 -> Jura
-            7 -> Podkova
-            8 -> Tektur
-            9 -> DejaVu
-            10 -> BadScript
-            11 -> RuslanDisplay
-            12 -> Catterdale
-            13 -> FRM32
-            14 -> TokeelyBrookings
-            15 -> Nunito
-            16 -> Nothing
-            17 -> WOPRTweaked
-            18 -> AlegreyaSans
-            19 -> MinecraftGnu
-            20 -> GraniteFixed
-            21 -> NokiaPixel
-            22 -> Ztivalia
-            23 -> Axotrel
-            24 -> LcdOctagon
-            25 -> LcdMoving
-            26 -> Unisource
-            else -> null
+        fun fromString(string: String?): DomainFontFamily? {
+            val int = string?.toIntOrNull()
+
+            val family = when (int) {
+                0 -> System
+                1 -> Montserrat
+                2 -> Caveat
+                3 -> Comfortaa
+                4 -> Handjet
+                5 -> YsabeauSC
+                6 -> Jura
+                7 -> Podkova
+                8 -> Tektur
+                9 -> DejaVu
+                10 -> BadScript
+                11 -> RuslanDisplay
+                12 -> Catterdale
+                13 -> FRM32
+                14 -> TokeelyBrookings
+                15 -> Nunito
+                16 -> Nothing
+                17 -> WOPRTweaked
+                18 -> AlegreyaSans
+                19 -> MinecraftGnu
+                20 -> GraniteFixed
+                21 -> NokiaPixel
+                22 -> Ztivalia
+                23 -> Axotrel
+                24 -> LcdOctagon
+                25 -> LcdMoving
+                26 -> Unisource
+                else -> null
+            }
+
+            return family ?: string?.split(":")?.let {
+                Custom(
+                    name = it[0],
+                    filePath = it[1]
+                )
+            }
         }
     }
 }

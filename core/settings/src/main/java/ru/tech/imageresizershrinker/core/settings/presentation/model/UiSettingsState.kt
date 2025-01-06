@@ -142,7 +142,8 @@ data class UiSettingsState(
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
-    val checksumTypeForFilename: ChecksumType?
+    val checksumTypeForFilename: ChecksumType?,
+    val customFonts: List<UiFontFamily.Custom>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -274,6 +275,14 @@ fun SettingsState.toUiState(
         }
     }
 
+    val customFonts by remember(customFonts) {
+        derivedStateOf {
+            customFonts.map {
+                it.toUiFont() as UiFontFamily.Custom
+            }
+        }
+    }
+
     return remember(this) {
         derivedStateOf {
             UiSettingsState(
@@ -362,7 +371,8 @@ fun SettingsState.toUiState(
                 isCenterAlignDialogButtons = isCenterAlignDialogButtons,
                 fastSettingsSide = fastSettingsSide,
                 settingGroupsInitialVisibility = settingGroupsInitialVisibility,
-                checksumTypeForFilename = checksumTypeForFilename
+                checksumTypeForFilename = checksumTypeForFilename,
+                customFonts = customFonts
             )
         }
     }.value

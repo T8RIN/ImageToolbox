@@ -20,7 +20,8 @@
 package ru.tech.imageresizershrinker.core.settings.presentation.model
 
 import android.os.Build
-import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.AndroidFont
 import androidx.compose.ui.text.font.Font
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import java.io.File
 
 sealed class UiFontFamily(
@@ -296,8 +298,11 @@ sealed class UiFontFamily(
     }
 
     companion object {
-        val entries by lazy {
-            listOf(
+
+        val entries: List<UiFontFamily>
+            @Composable
+            @ReadOnlyComposable
+            get() = listOf(
                 Montserrat,
                 Caveat,
                 Comfortaa,
@@ -325,17 +330,10 @@ sealed class UiFontFamily(
                 LcdMoving,
                 Unisource,
                 System
+            ).plus(
+                LocalSettingsState.current.customFonts
             ).sortedBy { it.name }
-        }
 
-        val Saver: Saver<UiFontFamily, Int> = Saver(
-            save = {
-                it.asDomain().ordinal
-            },
-            restore = {
-                DomainFontFamily.fromOrdinal(it)?.toUiFont()
-            }
-        )
     }
 
     override fun hashCode(): Int {
@@ -348,6 +346,7 @@ sealed class UiFontFamily(
     }
 }
 
+@Composable
 fun FontType?.toUiFont(): UiFontFamily = when (this) {
     is FontType.File -> UiFontFamily.Custom(
         name = path.split(".").takeLast(2)[0],

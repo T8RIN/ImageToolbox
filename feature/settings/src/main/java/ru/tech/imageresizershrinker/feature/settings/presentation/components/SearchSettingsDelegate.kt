@@ -34,7 +34,7 @@ internal fun SearchSettingsDelegate(
     initialSettingGroups: List<SettingsGroup>
 ) {
     val context = LocalContext.current
-    LaunchedEffect(searchKeyword) {
+    LaunchedEffect(searchKeyword, initialSettingGroups) {
         delay(150)
         onLoadingChange(searchKeyword.isNotEmpty())
         onGetSettingsList(

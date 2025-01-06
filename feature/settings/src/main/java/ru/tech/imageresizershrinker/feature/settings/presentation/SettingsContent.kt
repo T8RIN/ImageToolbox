@@ -124,6 +124,7 @@ fun SettingsContent(
         }
     }
 
+    //TODO: Somehow resets
     var searchKeyword by rememberSaveable {
         mutableStateOf("")
     }

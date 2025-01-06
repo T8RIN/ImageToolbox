@@ -214,6 +214,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setFastSettingsSide(side: FastSettingsSide)
 
     suspend fun setChecksumTypeForFilename(type: ChecksumType?)
+
+    suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

@@ -67,13 +67,14 @@ internal fun LayerContent(
 
         is LayerType.Text -> {
             val style = LocalTextStyle.current
-            val mergedStyle by remember(style, type) {
+            val fontFamily = type.font.toUiFont().fontFamily
+            val mergedStyle by remember(style, type, fontFamily) {
                 derivedStateOf {
                     style.copy(
                         color = type.color.toColor(),
                         fontSize = (textFullSize * type.size / 5).sp,
                         lineHeight = (textFullSize * type.size / 5).sp,
-                        fontFamily = type.font.toUiFont().fontFamily,
+                        fontFamily = fontFamily,
                         textDecoration = TextDecoration.combine(
                             type.decorations.mapNotNull {
                                 when (it) {

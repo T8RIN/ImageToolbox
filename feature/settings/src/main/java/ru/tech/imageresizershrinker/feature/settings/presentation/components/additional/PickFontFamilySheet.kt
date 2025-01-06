@@ -48,6 +48,8 @@ fun PickFontFamilySheet(
             if (!it) onDismiss()
         },
         sheetContent = {
+            val entries = UiFontFamily.entries
+
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(250.dp),
                 contentPadding = PaddingValues(16.dp),
@@ -57,7 +59,7 @@ fun PickFontFamilySheet(
                     space = 8.dp
                 )
             ) {
-                items(UiFontFamily.entries) { font ->
+                items(entries) { font ->
                     FontSelectionItem(
                         font = font,
                         onClick = {

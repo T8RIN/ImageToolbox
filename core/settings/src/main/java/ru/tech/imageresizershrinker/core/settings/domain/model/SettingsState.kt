@@ -113,7 +113,8 @@ data class SettingsState(
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
-    val checksumTypeForFilename: ChecksumType?
+    val checksumTypeForFilename: ChecksumType?,
+    val customFonts: List<DomainFontFamily.Custom>
 ) {
 
     companion object {
@@ -205,7 +206,8 @@ data class SettingsState(
                 isCenterAlignDialogButtons = false,
                 fastSettingsSide = FastSettingsSide.CenterStart,
                 settingGroupsInitialVisibility = emptyMap(),
-                checksumTypeForFilename = null
+                checksumTypeForFilename = null,
+                customFonts = emptyList()
             )
         }
     }

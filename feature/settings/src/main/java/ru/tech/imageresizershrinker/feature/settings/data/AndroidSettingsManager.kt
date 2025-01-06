@@ -75,6 +75,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_H
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_HARMONIZER
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CUSTOM_FONTS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_COLOR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_LINE_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_PATH_MODE
@@ -123,7 +124,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SCREEN_ORD
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SCREEN_SEARCH_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SECURE_MODE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SELECTED_EMOJI_INDEX
-import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SELECTED_FONT_INDEX
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SELECTED_FONT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SETTINGS_GROUP_VISIBILITY
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_SETTINGS_IN_LANDSCAPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
@@ -191,7 +192,7 @@ internal class AndroidSettingsManager @Inject constructor(
             addOriginalFilename = prefs[ADD_ORIGINAL_NAME_TO_FILENAME]
                 ?: default.addOriginalFilename,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: default.randomizeFilename,
-            font = DomainFontFamily.fromOrdinal(prefs[SELECTED_FONT_INDEX]) ?: default.font,
+            font = DomainFontFamily.fromString(prefs[SELECTED_FONT]) ?: default.font,
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
@@ -312,7 +313,8 @@ internal class AndroidSettingsManager @Inject constructor(
                 FastSettingsSide.fromOrdinal(it)
             } ?: default.fastSettingsSide,
             settingGroupsInitialVisibility = prefs[SETTINGS_GROUP_VISIBILITY].toSettingGroupsInitialVisibility(),
-            checksumTypeForFilename = ChecksumType.fromString(prefs[CHECKSUM_TYPE_FOR_FILENAME])
+            checksumTypeForFilename = ChecksumType.fromString(prefs[CHECKSUM_TYPE_FOR_FILENAME]),
+            customFonts = prefs[CUSTOM_FONTS].toCustomFonts()
         )
     }.onEach { currentSettings = it }
 
@@ -526,7 +528,7 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setFont(font: DomainFontFamily) {
         dataStore.edit {
-            it[SELECTED_FONT_INDEX] = font.ordinal
+            it[SELECTED_FONT] = font.asString()
         }
     }
 
@@ -1108,6 +1110,12 @@ internal class AndroidSettingsManager @Inject constructor(
         }
     }
 
+    override suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>) {
+        dataStore.edit {
+            it[CUSTOM_FONTS] = fonts.map(DomainFontFamily::asString).toSet()
+        }
+    }
+
     private suspend fun setFavoriteScreens(data: List<Int>) {
         dataStore.edit { prefs ->
             prefs[FAVORITE_SCREENS] = data.joinToString("/") { it.toString() }
@@ -1132,5 +1140,13 @@ internal class AndroidSettingsManager @Inject constructor(
         this?.map { key ->
             key.split(":").let { it[0].toInt() to it[1].toBoolean() }
         }?.toMap() ?: default.settingGroupsInitialVisibility
+
+    private fun Set<String>?.toCustomFonts(): List<DomainFontFamily.Custom> = this?.map {
+        val split = it.split(":")
+        DomainFontFamily.Custom(
+            name = split[0],
+            filePath = split[1]
+        )
+    } ?: emptyList()
 
 }

@@ -47,7 +47,7 @@ internal object SettingKeys {
     val AUTO_CACHE_CLEAR = booleanPreferencesKey("auto_clear")
     val GROUP_OPTIONS_BY_TYPE = booleanPreferencesKey("group_options")
     val RANDOMIZE_FILENAME = booleanPreferencesKey("rand-filename")
-    val SELECTED_FONT_INDEX = intPreferencesKey("font")
+    val SELECTED_FONT = stringPreferencesKey("SELECTED_FONT")
     val FONT_SCALE = floatPreferencesKey("font_scale")
     val ALLOW_CRASHLYTICS = booleanPreferencesKey("allow_crashlytics")
     val ALLOW_ANALYTICS = booleanPreferencesKey("allow_analytics")
@@ -114,4 +114,5 @@ internal object SettingKeys {
     val FAST_SETTINGS_SIDE = intPreferencesKey("FAST_SETTINGS_SIDE")
     val SETTINGS_GROUP_VISIBILITY = stringSetPreferencesKey("SETTINGS_GROUP_VISIBILITY")
     val CHECKSUM_TYPE_FOR_FILENAME = stringPreferencesKey("CHECKSUM_TYPE_FOR_FILENAME")
+    val CUSTOM_FONTS = stringSetPreferencesKey("CUSTOM_FONTS")
 }
