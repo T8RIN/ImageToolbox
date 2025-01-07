@@ -91,7 +91,8 @@ class RootComponent @AssistedInject internal constructor(
         isUpdateAvailable = isUpdateAvailable,
         onGoBack = {
             _concealBackdropChannel.trySend(true)
-        }
+        },
+        initialSearchQuery = ""
     )
 
     val simpleSettingsInteractor: SimpleSettingsInteractor =

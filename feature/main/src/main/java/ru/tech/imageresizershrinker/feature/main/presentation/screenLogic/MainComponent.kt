@@ -46,7 +46,8 @@ class MainComponent @AssistedInject internal constructor(
         onTryGetUpdate = onTryGetUpdate,
         onNavigate = onNavigate,
         isUpdateAvailable = isUpdateAvailable,
-        onGoBack = null
+        onGoBack = null,
+        initialSearchQuery = ""
     )
 
     fun tryGetUpdate(

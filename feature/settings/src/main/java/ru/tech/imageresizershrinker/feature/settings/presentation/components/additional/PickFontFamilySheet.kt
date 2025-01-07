@@ -35,16 +35,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -54,7 +55,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastAny
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FileExport
@@ -69,6 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.FontSelectionItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
+import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
@@ -78,7 +79,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDef
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun PickFontFamilySheet(
     visible: Boolean,
@@ -94,7 +94,8 @@ internal fun PickFontFamilySheet(
             if (!it) onDismiss()
         },
         sheetContent = {
-            val entries = UiFontFamily.entries
+            val defaultEntries = UiFontFamily.defaultEntries
+            val customEntries = UiFontFamily.customEntries
 
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
@@ -144,11 +145,7 @@ internal fun PickFontFamilySheet(
                                     .fillMaxHeight(),
                                 color = MaterialTheme.colorScheme.primaryContainer
                             )
-                            val canExport by remember(entries) {
-                                derivedStateOf {
-                                    entries.fastAny { it is UiFontFamily.Custom }
-                                }
-                            }
+                            val canExport = customEntries.isNotEmpty()
 
                             PreferenceItem(
                                 title = stringResource(R.string.export_fonts),
@@ -182,75 +179,30 @@ internal fun PickFontFamilySheet(
                     )
                 }
 
-                items(entries) { font ->
-                    if (font is UiFontFamily.Custom) {
-                        val scope = rememberCoroutineScope()
-                        val state = rememberRevealState()
-                        val interactionSource = remember {
-                            MutableInteractionSource()
-                        }
-                        val isDragged by interactionSource.collectIsDraggedAsState()
-                        val shape = animateShape(
-                            if (isDragged) RoundedCornerShape(4.dp)
-                            else RoundedCornerShape(16.dp)
-                        )
-                        SwipeToReveal(
-                            state = state,
-                            modifier = Modifier.animateItem(),
-                            revealedContentEnd = {
-                                Box(
-                                    Modifier
-                                        .fillMaxSize()
-                                        .container(
-                                            color = MaterialTheme.colorScheme.errorContainer,
-                                            shape = shape,
-                                            autoShadowElevation = 0.dp,
-                                            resultPadding = 0.dp
-                                        )
-                                        .clickable {
-                                            scope.launch {
-                                                state.animateTo(RevealValue.Default)
-                                            }
-                                            onRemoveFont(font)
-                                        }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.DeleteOutline,
-                                        contentDescription = stringResource(R.string.delete),
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .padding(end = 8.dp)
-                                            .align(Alignment.CenterEnd),
-                                        tint = MaterialTheme.colorScheme.onErrorContainer
-                                    )
-                                }
-                            },
-                            directions = setOf(RevealDirection.EndToStart),
-                            swipeableContent = {
-                                FontSelectionItem(
-                                    font = font,
-                                    onClick = {
-                                        onFontSelected(font)
-                                    },
-                                    onLongClick = {
-                                        scope.launch {
-                                            state.animateTo(RevealValue.FullyRevealedStart)
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                    shape = shape
-                                )
-                            },
-                            interactionSource = interactionSource
-                        )
-                    } else {
-                        FontSelectionItem(
-                            font = font,
-                            onClick = {
-                                onFontSelected(font)
-                            }
-                        )
-                    }
+                items(defaultEntries) { font ->
+                    FontItem(
+                        font = font,
+                        onFontSelected = onFontSelected,
+                        onRemoveFont = onRemoveFont
+                    )
+                }
+                item {
+                    InfoContainer(
+                        text = stringResource(R.string.imported_fonts),
+                        icon = Icons.Outlined.Extension,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.6f),
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.4f)
+                    )
+                }
+                items(customEntries) { font ->
+                    FontItem(
+                        font = font,
+                        onFontSelected = onFontSelected,
+                        onRemoveFont = onRemoveFont
+                    )
                 }
             }
         },
@@ -273,6 +225,83 @@ internal fun PickFontFamilySheet(
             )
         }
     )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun LazyItemScope.FontItem(
+    font: UiFontFamily,
+    onFontSelected: (UiFontFamily) -> Unit,
+    onRemoveFont: (UiFontFamily.Custom) -> Unit
+) {
+    if (font is UiFontFamily.Custom) {
+        val scope = rememberCoroutineScope()
+        val state = rememberRevealState()
+        val interactionSource = remember {
+            MutableInteractionSource()
+        }
+        val isDragged by interactionSource.collectIsDraggedAsState()
+        val shape = animateShape(
+            if (isDragged) RoundedCornerShape(4.dp)
+            else RoundedCornerShape(16.dp)
+        )
+        SwipeToReveal(
+            state = state,
+            modifier = Modifier.animateItem(),
+            revealedContentEnd = {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .container(
+                            color = MaterialTheme.colorScheme.errorContainer,
+                            shape = shape,
+                            autoShadowElevation = 0.dp,
+                            resultPadding = 0.dp
+                        )
+                        .clickable {
+                            scope.launch {
+                                state.animateTo(RevealValue.Default)
+                            }
+                            onRemoveFont(font)
+                        }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.DeleteOutline,
+                        contentDescription = stringResource(R.string.delete),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .padding(end = 8.dp)
+                            .align(Alignment.CenterEnd),
+                        tint = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+            },
+            directions = setOf(RevealDirection.EndToStart),
+            swipeableContent = {
+                FontSelectionItem(
+                    font = font,
+                    onClick = {
+                        onFontSelected(font)
+                    },
+                    onLongClick = {
+                        scope.launch {
+                            state.animateTo(RevealValue.FullyRevealedStart)
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = shape
+                )
+            },
+            interactionSource = interactionSource
+        )
+    } else {
+        FontSelectionItem(
+            font = font,
+            onClick = {
+                onFontSelected(font)
+            }
+        )
+    }
 }
 
 private val TTF_MIME_TYPES = listOf(

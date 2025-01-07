@@ -1552,4 +1552,5 @@
     <string name="wrong_font">Only TTF fonts can be imported</string>
     <string name="import_font">Import Font (TTF/OTF)</string>
     <string name="export_fonts">Export Fonts</string>
+    <string name="imported_fonts">Imported Fonts</string>
 </resources>

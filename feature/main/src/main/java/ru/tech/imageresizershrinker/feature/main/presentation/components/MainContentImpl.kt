@@ -85,7 +85,7 @@ internal fun MainContentImpl(
                 sideSheetState = sideSheetState,
                 isSheetSlideable = isSheetSlideable,
                 onNavigateToSettings = {
-                    onNavigate(Screen.Settings)
+                    onNavigate(Screen.Settings())
                 }
             )
 

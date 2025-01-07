@@ -119,7 +119,7 @@ sealed class Screen(
             is RecognizeText -> "Recognize_Text"
             is ResizeAndConvert -> "Resize_And_Convert"
             is WeightResize -> "Resize_By_Bytes"
-            Settings -> "Settings"
+            is Settings -> "Settings"
             is SingleEdit -> "Single_Edit"
             is Watermarking -> "Watermarking"
             is Zip -> "Zip"
@@ -144,7 +144,7 @@ sealed class Screen(
         get() = when (this) {
             EasterEgg,
             Main,
-            Settings,
+            is Settings,
             LibrariesInfo,
             MeshGradients -> null
 
@@ -195,7 +195,9 @@ sealed class Screen(
     )
 
     @Serializable
-    data object Settings : Screen(
+    data class Settings(
+        val searchQuery: String = ""
+    ) : Screen(
         id = -3,
         title = 0,
         subtitle = 0

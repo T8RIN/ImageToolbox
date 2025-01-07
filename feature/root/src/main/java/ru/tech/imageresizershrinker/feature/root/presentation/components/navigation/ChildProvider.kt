@@ -372,13 +372,14 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        Screen.Settings -> Settings(
+        is Screen.Settings -> Settings(
             settingsComponentFactory(
                 componentContext = componentContext,
                 onTryGetUpdate = ::tryGetUpdate,
                 onNavigate = ::navigateToNew,
                 isUpdateAvailable = isUpdateAvailable,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                initialSearchQuery = config.searchQuery
             )
         )
 

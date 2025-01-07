@@ -33,9 +33,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -71,6 +70,7 @@ class SettingsComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     @Assisted val isUpdateAvailable: Value<Boolean>,
     @Assisted val onGoBack: (() -> Unit)?,
+    @Assisted initialSearchQuery: String,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
@@ -157,14 +157,18 @@ class SettingsComponent @AssistedInject internal constructor(
     ) = onTryGetUpdate(isNewRequest, onNoUpdates)
 
     init {
-        if (settingsState.clearCacheOnLaunch) clearCache()
-
-        runBlocking {
-            _settingsState.value = settingsManager.getSettingsState()
+        componentScope.launch {
+            _settingsState.value = settingsManager.getSettingsState().also {
+                if (it.clearCacheOnLaunch) clearCache()
+            }
+            settingsManager.getSettingsStateFlow().onEach {
+                _settingsState.value = it
+            }.collect()
         }
-        settingsManager.getSettingsStateFlow().onEach {
-            _settingsState.value = it
-        }.launchIn(componentScope)
+
+        debounce {
+            updateSearchKeyword(initialSearchQuery)
+        }
     }
 
     fun getReadableCacheSize(): String = fileController.getReadableCacheSize()
@@ -784,6 +788,7 @@ class SettingsComponent @AssistedInject internal constructor(
             onNavigate: (Screen) -> Unit,
             isUpdateAvailable: Value<Boolean>,
             onGoBack: (() -> Unit)?,
+            initialSearchQuery: String
         ): SettingsComponent
     }
 }

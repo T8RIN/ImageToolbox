@@ -305,44 +305,51 @@ sealed class UiFontFamily(
 
         val entries: List<UiFontFamily>
             @Composable
+            get() = defaultEntries + customEntries
+
+        val defaultEntries: List<UiFontFamily> by lazy {
+            listOf(
+                Montserrat,
+                Caveat,
+                Comfortaa,
+                Handjet,
+                Jura,
+                Podkova,
+                Tektur,
+                YsabeauSC,
+                DejaVu,
+                BadScript,
+                RuslanDisplay,
+                Catterdale,
+                FRM32,
+                TokeelyBrookings,
+                Nunito,
+                Nothing,
+                WOPRTweaked,
+                AlegreyaSans,
+                MinecraftGnu,
+                GraniteFixed,
+                NokiaPixel,
+                Ztivalia,
+                Axotrel,
+                LcdOctagon,
+                LcdMoving,
+                Unisource,
+                System
+            ).sortedBy { it.name }
+        }
+
+        val customEntries: List<Custom>
+            @Composable
             get() {
                 val customFonts = LocalSettingsState.current.customFonts
 
                 return remember(customFonts) {
                     derivedStateOf {
-                        listOf(
-                            Montserrat,
-                            Caveat,
-                            Comfortaa,
-                            Handjet,
-                            Jura,
-                            Podkova,
-                            Tektur,
-                            YsabeauSC,
-                            DejaVu,
-                            BadScript,
-                            RuslanDisplay,
-                            Catterdale,
-                            FRM32,
-                            TokeelyBrookings,
-                            Nunito,
-                            Nothing,
-                            WOPRTweaked,
-                            AlegreyaSans,
-                            MinecraftGnu,
-                            GraniteFixed,
-                            NokiaPixel,
-                            Ztivalia,
-                            Axotrel,
-                            LcdOctagon,
-                            LcdMoving,
-                            Unisource,
-                            System
-                        ).sortedBy { it.name }.plus(customFonts.sortedBy { it.name })
+                        customFonts.sortedBy { it.name }
                     }
                 }.value
             }
-
     }
 }
 

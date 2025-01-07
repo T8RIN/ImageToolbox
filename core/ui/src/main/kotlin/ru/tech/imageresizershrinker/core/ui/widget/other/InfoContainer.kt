@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,7 +46,8 @@ fun InfoContainer(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
     contentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f),
-    shape: Shape = RoundedCornerShape(16.dp)
+    shape: Shape = RoundedCornerShape(16.dp),
+    icon: ImageVector? = Icons.Outlined.Info
 ) {
     Row(
         modifier = modifier
@@ -54,14 +57,18 @@ fun InfoContainer(
                 shape = shape
             )
             .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        Icon(
-            imageVector = Icons.Outlined.Info,
-            contentDescription = null,
-            tint = contentColor
-        )
-        Spacer(modifier = Modifier.width(8.dp))
+        icon?.let {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = contentColor
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+
         Text(
             text = text,
             fontSize = 12.sp,

@@ -343,7 +343,7 @@ fun SettingsContent(
                                                             component.onNavigate(Screen.EasterEgg)
                                                         },
                                                         onNavigateToSettings = {
-                                                            component.onNavigate(Screen.Settings)
+                                                            component.onNavigate(Screen.Settings())
                                                         },
                                                         onNavigateToLibrariesInfo = {
                                                             component.onNavigate(Screen.LibrariesInfo)
@@ -371,7 +371,7 @@ fun SettingsContent(
                                                             component.onNavigate(Screen.EasterEgg)
                                                         },
                                                         onNavigateToSettings = {
-                                                            component.onNavigate(Screen.Settings)
+                                                            component.onNavigate(Screen.Settings())
                                                         },
                                                         onNavigateToLibrariesInfo = {
                                                             component.onNavigate(Screen.LibrariesInfo)
@@ -407,7 +407,7 @@ fun SettingsContent(
                                         component.onNavigate(Screen.EasterEgg)
                                     },
                                     onNavigateToSettings = {
-                                        component.onNavigate(Screen.Settings)
+                                        component.onNavigate(Screen.Settings())
                                     },
                                     onNavigateToLibrariesInfo = {
                                         component.onNavigate(Screen.LibrariesInfo)
