@@ -166,11 +166,14 @@ internal fun PickFontFamilySheet(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val pickFileLauncher = rememberFilePicker(onSuccess = onAddFont)
+                val pickFileLauncher = rememberFilePicker(
+                    mimeTypes = TTF_MIME_TYPES,
+                    onSuccess = onAddFont
+                )
 
                 EnhancedIconButton(
                     onClick = pickFileLauncher::pickFile,
-                    containerColor = MaterialTheme.colorScheme.secondary
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Add,
@@ -178,7 +181,8 @@ internal fun PickFontFamilySheet(
                     )
                 }
                 EnhancedButton(
-                    onClick = onDismiss
+                    onClick = onDismiss,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 ) {
                     AutoSizeText(stringResource(R.string.close))
                 }
@@ -192,3 +196,9 @@ internal fun PickFontFamilySheet(
         }
     )
 }
+
+private val TTF_MIME_TYPES = listOf(
+    "font/ttf",
+    "application/x-font-ttf",
+    "font/otf"
+)

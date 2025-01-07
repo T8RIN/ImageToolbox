@@ -73,8 +73,9 @@ fun FontSelectionItem(
                             .copy(alpha = 0.5f)
                         else Color.Transparent
                     ).value,
-                    shape = shape
+                    shape = RoundedCornerShape(16.dp)
                 ),
+            shape = shape,
             endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
         )
     }
