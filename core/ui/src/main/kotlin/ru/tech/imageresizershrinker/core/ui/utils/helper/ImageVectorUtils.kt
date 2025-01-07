@@ -921,6 +921,16 @@ internal class DrawCache {
     }
 }
 
+fun ImageVector.toPainter(
+    context: Context
+): Painter = createVectorPainterFromImageVector(
+    density = context.density,
+    imageVector = this,
+    root = GroupComponent().apply {
+        createGroupComponent(root)
+    }
+)
+
 fun ImageVector.toImageBitmap(
     context: Context,
     width: Int,

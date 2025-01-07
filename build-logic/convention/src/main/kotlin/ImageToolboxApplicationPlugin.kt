@@ -1,19 +1,6 @@
-import com.android.build.api.dsl.ApplicationExtension
-import com.t8rin.imagetoolbox.configureCompose
-import com.t8rin.imagetoolbox.configureDetekt
-import com.t8rin.imagetoolbox.configureKotlinAndroid
-import com.t8rin.imagetoolbox.libs
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +14,19 @@ import org.gradle.kotlin.dsl.getByType
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+import com.android.build.api.dsl.ApplicationExtension
+import com.t8rin.imagetoolbox.configureCompose
+import com.t8rin.imagetoolbox.configureDetekt
+import com.t8rin.imagetoolbox.configureKotlinAndroid
+import com.t8rin.imagetoolbox.libs
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 
 @Suppress("UNUSED")
 class ImageToolboxApplicationPlugin : Plugin<Project> {
