@@ -336,6 +336,11 @@ class SingleEditComponent @AssistedInject internal constructor(
             _bitmap.update {
                 imageScaler.scaleUntilCanShow(bitmap)
             }
+            _imageInfo.update {
+                it.copy(
+                    rotationDegrees = 0f
+                )
+            }
             if (!saveOriginalSize) {
                 _imageInfo.update {
                     it.copy(
