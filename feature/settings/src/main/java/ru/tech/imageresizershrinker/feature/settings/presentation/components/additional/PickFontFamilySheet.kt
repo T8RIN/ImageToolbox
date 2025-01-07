@@ -17,30 +17,61 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components.additional
 
+import android.net.Uri
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.FontDownload
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.FontSelectionItem
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
+import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
+import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PickFontFamilySheet(
+internal fun PickFontFamilySheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    onFontSelected: (UiFontFamily) -> Unit
+    onFontSelected: (UiFontFamily) -> Unit,
+    onAddFont: (Uri) -> Unit,
+    onRemoveFont: (UiFontFamily.Custom) -> Unit
 ) {
     EnhancedModalBottomSheet(
         visible = visible,
@@ -60,20 +91,97 @@ fun PickFontFamilySheet(
                 )
             ) {
                 items(entries) { font ->
-                    FontSelectionItem(
-                        font = font,
-                        onClick = {
-                            onFontSelected(font)
+                    if (font is UiFontFamily.Custom) {
+                        val scope = rememberCoroutineScope()
+                        val state = rememberRevealState()
+                        val interactionSource = remember {
+                            MutableInteractionSource()
                         }
-                    )
+                        val isDragged by interactionSource.collectIsDraggedAsState()
+                        val shape = animateShape(
+                            if (isDragged) RoundedCornerShape(4.dp)
+                            else RoundedCornerShape(16.dp)
+                        )
+                        SwipeToReveal(
+                            state = state,
+                            modifier = Modifier.animateItem(),
+                            revealedContentEnd = {
+                                Box(
+                                    Modifier
+                                        .fillMaxSize()
+                                        .container(
+                                            color = MaterialTheme.colorScheme.errorContainer,
+                                            shape = shape,
+                                            autoShadowElevation = 0.dp,
+                                            resultPadding = 0.dp
+                                        )
+                                        .clickable {
+                                            scope.launch {
+                                                state.animateTo(RevealValue.Default)
+                                            }
+                                            onRemoveFont(font)
+                                        }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.DeleteOutline,
+                                        contentDescription = stringResource(R.string.delete),
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                            .padding(end = 8.dp)
+                                            .align(Alignment.CenterEnd),
+                                        tint = MaterialTheme.colorScheme.onErrorContainer
+                                    )
+                                }
+                            },
+                            directions = setOf(RevealDirection.EndToStart),
+                            swipeableContent = {
+                                FontSelectionItem(
+                                    font = font,
+                                    onClick = {
+                                        onFontSelected(font)
+                                    },
+                                    onLongClick = {
+                                        scope.launch {
+                                            state.animateTo(RevealValue.FullyRevealedStart)
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = shape
+                                )
+                            },
+                            interactionSource = interactionSource
+                        )
+                    } else {
+                        FontSelectionItem(
+                            font = font,
+                            onClick = {
+                                onFontSelected(font)
+                            }
+                        )
+                    }
                 }
             }
         },
         confirmButton = {
-            EnhancedButton(
-                onClick = onDismiss
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                AutoSizeText(stringResource(R.string.close))
+                val pickFileLauncher = rememberFilePicker(onSuccess = onAddFont)
+
+                EnhancedIconButton(
+                    onClick = pickFileLauncher::pickFile,
+                    containerColor = MaterialTheme.colorScheme.secondary
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = null
+                    )
+                }
+                EnhancedButton(
+                    onClick = onDismiss
+                ) {
+                    AutoSizeText(stringResource(R.string.close))
+                }
             }
         },
         title = {

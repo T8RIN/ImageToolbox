@@ -216,6 +216,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setChecksumTypeForFilename(type: ChecksumType?)
 
     suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>)
+
+    suspend fun importCustomFont(uri: String): DomainFontFamily.Custom?
+
+    suspend fun removeCustomFont(font: DomainFontFamily.Custom)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

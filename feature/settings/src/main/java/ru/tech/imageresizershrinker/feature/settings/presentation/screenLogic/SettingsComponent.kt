@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
 import ru.tech.imageresizershrinker.core.settings.presentation.model.SettingsGroup
+import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -738,6 +739,28 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setChecksumTypeForFilename(type: ChecksumType?) {
         componentScope.launch {
             settingsManager.setChecksumTypeForFilename(type)
+        }
+    }
+
+    fun importCustomFont(
+        uri: Uri,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        componentScope.launch {
+            settingsManager.importCustomFont(uri.toString())?.let {
+                settingsManager.setFont(it)
+                onSuccess()
+            } ?: onFailure()
+        }
+    }
+
+    fun removeCustomFont(
+        font: UiFontFamily.Custom
+    ) {
+        componentScope.launch {
+            settingsManager.removeCustomFont(font.asDomain() as DomainFontFamily.Custom)
+            settingsManager.setFont(DomainFontFamily.System)
         }
     }
 

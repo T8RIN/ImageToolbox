@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.settings.data
 
 import android.content.Context
+import android.graphics.Typeface
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
@@ -31,6 +32,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okio.use
+import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.domain.GlobalStorageName
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -140,10 +143,12 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FORMAT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.random.Random
 
 internal class AndroidSettingsManager @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -1114,6 +1119,54 @@ internal class AndroidSettingsManager @Inject constructor(
         dataStore.edit {
             it[CUSTOM_FONTS] = fonts.map(DomainFontFamily::asString).toSet()
         }
+    }
+
+    override suspend fun importCustomFont(uri: String): DomainFontFamily.Custom? {
+        val font = context.contentResolver.openInputStream(uri.toUri())?.use {
+            it.buffered().readBytes()
+        } ?: ByteArray(0)
+        val filename = uri.toUri().getFilename(context) ?: "font${Random.nextInt()}.ttf"
+
+        val directory = File(context.filesDir, "customFonts").apply {
+            mkdir()
+        }
+        val file = File(directory, filename).apply {
+            if (exists()) {
+                val fontToRemove = DomainFontFamily.Custom(
+                    name = nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
+                    filePath = absolutePath
+                )
+                removeCustomFont(fontToRemove)
+            }
+            delete()
+            createNewFile()
+
+            outputStream().use {
+                writeBytes(font)
+            }
+        }
+
+        val typeface = runCatching {
+            Typeface.createFromFile(file)
+        }.getOrNull()
+
+        if (typeface == null) {
+            file.delete()
+            return null
+        }
+
+        return DomainFontFamily.Custom(
+            name = file.nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
+            filePath = file.absolutePath
+        ).also {
+            setCustomFonts(currentSettings.customFonts + it)
+        }
+    }
+
+    override suspend fun removeCustomFont(font: DomainFontFamily.Custom) {
+        File(font.filePath).delete()
+
+        setCustomFonts(currentSettings.customFonts - font)
     }
 
     private suspend fun setFavoriteScreens(data: List<Int>) {

@@ -21,9 +21,9 @@ package ru.tech.imageresizershrinker.core.settings.presentation.model
 
 import android.os.Build
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.font.AndroidFont
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -52,16 +52,6 @@ sealed class UiFontFamily(
                 is FontType.Resource -> fontFamilyResource(resId = it.resId)
             }
         } ?: FontFamily.Default
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is UiFontFamily) return false
-
-        if (name != other.name) return false
-        if (isVariable != other.isVariable) return false
-        if (type != other.type) return false
-
-        return true
-    }
 
     constructor(
         name: String?,
@@ -262,7 +252,21 @@ sealed class UiFontFamily(
         name = name,
         variable = false,
         filePath = filePath
-    )
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (other !is Custom) return false
+
+            return filePath == other.filePath
+        }
+
+        override fun hashCode(): Int {
+            return filePath.hashCode()
+        }
+
+        override fun toString(): String {
+            return "Custom(name = $name, filePath = $filePath)"
+        }
+    }
 
     fun asDomain(): DomainFontFamily {
         return when (this) {
@@ -301,60 +305,64 @@ sealed class UiFontFamily(
 
         val entries: List<UiFontFamily>
             @Composable
-            @ReadOnlyComposable
-            get() = listOf(
-                Montserrat,
-                Caveat,
-                Comfortaa,
-                Handjet,
-                Jura,
-                Podkova,
-                Tektur,
-                YsabeauSC,
-                DejaVu,
-                BadScript,
-                RuslanDisplay,
-                Catterdale,
-                FRM32,
-                TokeelyBrookings,
-                Nunito,
-                Nothing,
-                WOPRTweaked,
-                AlegreyaSans,
-                MinecraftGnu,
-                GraniteFixed,
-                NokiaPixel,
-                Ztivalia,
-                Axotrel,
-                LcdOctagon,
-                LcdMoving,
-                Unisource,
-                System
-            ).plus(
-                LocalSettingsState.current.customFonts
-            ).sortedBy { it.name }
+            get() {
+                val customFonts = LocalSettingsState.current.customFonts
 
-    }
+                return remember(customFonts) {
+                    derivedStateOf {
+                        listOf(
+                            Montserrat,
+                            Caveat,
+                            Comfortaa,
+                            Handjet,
+                            Jura,
+                            Podkova,
+                            Tektur,
+                            YsabeauSC,
+                            DejaVu,
+                            BadScript,
+                            RuslanDisplay,
+                            Catterdale,
+                            FRM32,
+                            TokeelyBrookings,
+                            Nunito,
+                            Nothing,
+                            WOPRTweaked,
+                            AlegreyaSans,
+                            MinecraftGnu,
+                            GraniteFixed,
+                            NokiaPixel,
+                            Ztivalia,
+                            Axotrel,
+                            LcdOctagon,
+                            LcdMoving,
+                            Unisource,
+                            System
+                        ).sortedBy { it.name }.plus(customFonts.sortedBy { it.name })
+                    }
+                }.value
+            }
 
-    override fun hashCode(): Int {
-        var result = name?.hashCode() ?: 0
-        result = 31 * result + variable.hashCode()
-        result = 31 * result + (type?.hashCode() ?: 0)
-        result = 31 * result + (isVariable?.hashCode() ?: 0)
-        result = 31 * result + fontFamily.hashCode()
-        return result
     }
 }
 
 @Composable
-fun FontType?.toUiFont(): UiFontFamily = when (this) {
-    is FontType.File -> UiFontFamily.Custom(
-        name = path.split(".").takeLast(2)[0],
-        filePath = path
-    )
+fun FontType?.toUiFont(): UiFontFamily {
+    val entries = UiFontFamily.entries
 
-    is FontType.Resource -> UiFontFamily.entries.find { it.type == this } ?: UiFontFamily.System
-    null -> UiFontFamily.System
+    return remember(entries, this) {
+        derivedStateOf {
+            when (this) {
+                is FontType.File -> UiFontFamily.Custom(
+                    name = File(path).nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
+                    filePath = path
+                )
+
+                is FontType.Resource -> entries.find { it.type == this } ?: UiFontFamily.System
+                null -> UiFontFamily.System
+            }
+        }
+    }.value
 }
 
 fun DomainFontFamily.toUiFont(): UiFontFamily = when (this) {
@@ -385,7 +393,10 @@ fun DomainFontFamily.toUiFont(): UiFontFamily = when (this) {
     DomainFontFamily.LcdMoving -> UiFontFamily.LcdMoving
     DomainFontFamily.LcdOctagon -> UiFontFamily.LcdOctagon
     DomainFontFamily.Unisource -> UiFontFamily.Unisource
-    is DomainFontFamily.Custom -> UiFontFamily.Custom(name, filePath)
+    is DomainFontFamily.Custom -> UiFontFamily.Custom(
+        name = name,
+        filePath = filePath
+    )
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -457,7 +468,7 @@ private fun fontFamilyFromFile(file: File) = FontFamily(
             weight = FontWeight.Medium,
             style = FontStyle.Normal
         )
-    ) as AndroidFont,
+    ),
     Font(
         file = file,
         weight = FontWeight.SemiBold,

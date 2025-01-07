@@ -53,6 +53,20 @@ sealed class DomainFontFamily(val ordinal: Int) {
         val filePath: String
     ) : DomainFontFamily(-1) {
         override fun asString(): String = "$name:$filePath"
+
+        override fun equals(other: Any?): Boolean {
+            if (other !is Custom) return false
+
+            return filePath == other.filePath
+        }
+
+        override fun hashCode(): Int {
+            return filePath.hashCode()
+        }
+
+        override fun toString(): String {
+            return "Custom(name = $name, filePath = $filePath)"
+        }
     }
 
     open fun asString(): String = ordinal.toString()

@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -123,7 +124,20 @@ internal fun SettingItem(
                     onValueChange = { font ->
                         component.setFont(font.asDomain())
                         context.recreate()
-                    }
+                    },
+                    onAddFont = {
+                        component.importCustomFont(
+                            uri = it,
+                            onSuccess = showConfetti,
+                            onFailure = {
+                                essentials.showToast(
+                                    message = context.getString(R.string.wrong_font),
+                                    icon = Icons.Rounded.TextFields
+                                )
+                            }
+                        )
+                    },
+                    onRemoveFont = component::removeCustomFont
                 )
             }
 

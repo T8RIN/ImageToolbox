@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
+import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -41,6 +42,8 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 @Composable
 fun ChangeFontSettingItem(
     onValueChange: (UiFontFamily) -> Unit,
+    onAddFont: (Uri) -> Unit,
+    onRemoveFont: (UiFontFamily.Custom) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -63,6 +66,8 @@ fun ChangeFontSettingItem(
         onDismiss = {
             showFontSheet = false
         },
-        onFontSelected = onValueChange
+        onFontSelected = onValueChange,
+        onAddFont = onAddFont,
+        onRemoveFont = onRemoveFont
     )
 }
