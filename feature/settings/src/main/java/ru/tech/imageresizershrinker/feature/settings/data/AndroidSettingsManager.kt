@@ -32,7 +32,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okio.use
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.domain.GlobalStorageName
@@ -143,11 +142,16 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FORMAT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 import javax.inject.Inject
+import kotlin.io.use
 import kotlin.random.Random
 
 internal class AndroidSettingsManager @Inject constructor(
@@ -1167,6 +1171,24 @@ internal class AndroidSettingsManager @Inject constructor(
         File(font.filePath).delete()
 
         setCustomFonts(currentSettings.customFonts - font)
+    }
+
+    override suspend fun createCustomFontsExport(): ByteArray = withContext(ioDispatcher) {
+        val out = ByteArrayOutputStream()
+
+        ZipOutputStream(out).use { zipOut ->
+            val dir = File(context.filesDir, "customFonts")
+            dir.listFiles()?.forEach { file ->
+                FileInputStream(file).use { fis ->
+                    val zipEntry = ZipEntry(file.name)
+                    zipOut.putNextEntry(zipEntry)
+                    fis.copyTo(zipOut)
+                    zipOut.closeEntry()
+                }
+            }
+        }
+
+        out.toByteArray()
     }
 
     private suspend fun setFavoriteScreens(data: List<Int>) {

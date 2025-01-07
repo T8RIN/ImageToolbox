@@ -49,7 +49,6 @@ import androidx.compose.material.icons.rounded.QrCode
 import androidx.compose.material.icons.rounded.QrCode2
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -68,11 +67,9 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
-import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.error
@@ -96,6 +93,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -176,7 +174,7 @@ internal fun FilterTemplateInfoSheet(
                             )
                             .padding(16.dp)
                     ) {
-                        val targetSize = min(min(maxWidth, maxHeight), 300.dp)
+                        val targetSize = min(min(this.maxWidth, maxHeight), 300.dp)
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -340,12 +338,7 @@ internal fun FilterTemplateInfoSheet(
                                     .let(onShareImage)
                             }
                         },
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
@@ -356,12 +349,7 @@ internal fun FilterTemplateInfoSheet(
                             showShareDialog = false
                             onShareFile(filterContent)
                         },
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
@@ -377,12 +365,7 @@ internal fun FilterTemplateInfoSheet(
                                     .let(onSaveImage)
                             }
                         },
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
@@ -392,12 +375,7 @@ internal fun FilterTemplateInfoSheet(
                         onClick = {
                             saveLauncher.launch(onRequestTemplateFilename())
                         },
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )
                 }
             }

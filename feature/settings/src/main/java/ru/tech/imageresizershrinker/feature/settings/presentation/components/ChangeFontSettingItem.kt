@@ -18,6 +18,8 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -35,15 +37,20 @@ import ru.tech.imageresizershrinker.core.resources.icons.FontFamily
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.PickFontFamilySheet
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun ChangeFontSettingItem(
     onValueChange: (UiFontFamily) -> Unit,
     onAddFont: (Uri) -> Unit,
     onRemoveFont: (UiFontFamily.Custom) -> Unit,
+    onExportFonts: (Uri) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -51,6 +58,15 @@ fun ChangeFontSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
     var showFontSheet by rememberSaveable { mutableStateOf(false) }
+
+    val essentials = rememberLocalEssentials()
+
+    val exportFontsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/zip"),
+        onResult = {
+            it?.let(onExportFonts)
+        }
+    )
 
     PreferenceItem(
         shape = shape,
@@ -68,6 +84,18 @@ fun ChangeFontSettingItem(
         },
         onFontSelected = onValueChange,
         onAddFont = onAddFont,
-        onRemoveFont = onRemoveFont
+        onRemoveFont = onRemoveFont,
+        onExportFonts = {
+            runCatching {
+                val timeStamp = SimpleDateFormat(
+                    "yyyy-MM-dd_HH-mm-ss",
+                    Locale.getDefault()
+                ).format(Date())
+
+                exportFontsLauncher.launch("FONTS_EXPORT_$timeStamp.zip")
+            }.onFailure {
+                essentials.showActivateFilesToast()
+            }
+        }
     )
 }

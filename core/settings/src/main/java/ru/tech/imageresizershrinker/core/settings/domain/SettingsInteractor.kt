@@ -220,6 +220,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun importCustomFont(uri: String): DomainFontFamily.Custom?
 
     suspend fun removeCustomFont(font: DomainFontFamily.Custom)
+
+    suspend fun createCustomFontsExport(): ByteArray
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

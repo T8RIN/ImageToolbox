@@ -27,6 +27,7 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,15 +36,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -51,6 +52,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +64,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
@@ -83,11 +87,7 @@ fun PreferenceItemOverload(
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
-    titleFontStyle: TextStyle = LocalTextStyle.current.copy(
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Medium,
-        lineHeight = 18.sp
-    ),
+    titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
     onDisabledClick: (() -> Unit)? = null,
     drawStartIconContainer: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -105,9 +105,20 @@ fun PreferenceItemOverload(
             ) else it
         }
     ) {
-        Card(
-            shape = shape,
+        var containerSize by remember {
+            mutableStateOf<Dp?>(null)
+        }
+        val density = LocalDensity.current
+
+        Column(
             modifier = modifier
+                .onSizeChanged {
+                    if (bottomContent == null) {
+                        containerSize = with(density) {
+                            it.height.toDp()
+                        }
+                    }
+                }
                 .container(
                     shape = shape,
                     resultPadding = 0.dp,
@@ -115,106 +126,110 @@ fun PreferenceItemOverload(
                     autoShadowElevation = autoShadowElevation
                 )
                 .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.Transparent,
-                contentColor = contentColor
-            )
+            verticalArrangement = Arrangement.Center
         ) {
-            Row(
-                modifier = Modifier
-                    .clip(shape)
-                    .then(
-                        onClick
-                            ?.let {
-                                if (enabled) {
-                                    Modifier.combinedClickable(
-                                        interactionSource = interactionSource,
-                                        indication = LocalIndication.current,
-                                        onClick = {
-                                            haptics.performHapticFeedback(
-                                                HapticFeedbackType.LongPress
-                                            )
-                                            onClick()
-                                        },
-                                        onLongClick = onLongClick?.let {
-                                            {
+            LocalContentColor.ProvidesValue(contentColor) {
+                Row(
+                    modifier = Modifier
+                        .then(
+                            if (containerSize != null) {
+                                Modifier.height(containerSize ?: 1.dp)
+                            } else Modifier
+                        )
+                        .clip(shape)
+                        .then(
+                            onClick
+                                ?.let {
+                                    if (enabled) {
+                                        Modifier.combinedClickable(
+                                            interactionSource = interactionSource,
+                                            indication = LocalIndication.current,
+                                            onClick = {
                                                 haptics.performHapticFeedback(
                                                     HapticFeedbackType.LongPress
                                                 )
-                                                onLongClick()
+                                                onClick()
+                                            },
+                                            onLongClick = onLongClick?.let {
+                                                {
+                                                    haptics.performHapticFeedback(
+                                                        HapticFeedbackType.LongPress
+                                                    )
+                                                    onLongClick()
+                                                }
                                             }
-                                        }
-                                    )
-                                } else {
-                                    if (onDisabledClick != null) {
-                                        Modifier.clickable {
-                                            haptics.performHapticFeedback(
-                                                HapticFeedbackType.LongPress
-                                            )
-                                            onDisabledClick()
-                                        }
-                                    } else Modifier
-                                }
-                            } ?: Modifier
-                    )
-                    .then(resultModifier),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                startIcon?.let {
-                    ProvideContainerDefaults {
-                        Row {
-                            IconShapeContainer(
-                                enabled = drawStartIconContainer,
-                                contentColor = if (overrideIconShapeContentColor) {
-                                    Color.Unspecified
-                                } else IconShapeDefaults.contentColor,
-                                content = {
-                                    startIcon()
-                                }
-                            )
-                            Spacer(modifier = Modifier.width(16.dp))
-                        }
-                    }
-                }
-                Column(
-                    Modifier
-                        .weight(1f)
-                        .padding(end = 16.dp)
-                ) {
-                    AnimatedContent(
-                        targetState = title,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { title ->
-                        Text(
-                            text = title,
-                            style = titleFontStyle,
-                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    } else {
+                                        if (onDisabledClick != null) {
+                                            Modifier.clickable {
+                                                haptics.performHapticFeedback(
+                                                    HapticFeedbackType.LongPress
+                                                )
+                                                onDisabledClick()
+                                            }
+                                        } else Modifier
+                                    }
+                                } ?: Modifier
                         )
-                    }
-                    AnimatedContent(
-                        targetState = subtitle,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { sub ->
-                        sub?.let {
-                            Column {
-                                Spacer(modifier = Modifier.height(2.dp))
-                                Text(
-                                    text = sub,
-                                    fontSize = 12.sp,
-                                    textAlign = TextAlign.Start,
-                                    fontWeight = FontWeight.Normal,
-                                    lineHeight = 14.sp,
-                                    color = LocalContentColor.current.copy(alpha = 0.5f)
+                        .then(resultModifier),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    startIcon?.let {
+                        ProvideContainerDefaults {
+                            Row {
+                                IconShapeContainer(
+                                    enabled = drawStartIconContainer,
+                                    contentColor = if (overrideIconShapeContentColor) {
+                                        Color.Unspecified
+                                    } else IconShapeDefaults.contentColor,
+                                    content = {
+                                        startIcon()
+                                    }
                                 )
+                                Spacer(modifier = Modifier.width(16.dp))
                             }
                         }
                     }
+                    Column(
+                        Modifier
+                            .weight(1f)
+                            .padding(end = 16.dp)
+                    ) {
+                        AnimatedContent(
+                            targetState = title,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { title ->
+                            Text(
+                                text = title,
+                                style = titleFontStyle,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                        AnimatedContent(
+                            targetState = subtitle,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { sub ->
+                            sub?.let {
+                                Column {
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Text(
+                                        text = sub,
+                                        fontSize = 12.sp,
+                                        textAlign = TextAlign.Start,
+                                        fontWeight = FontWeight.Normal,
+                                        lineHeight = 14.sp,
+                                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    ProvideContainerDefaults {
+                        endIcon?.invoke()
+                    }
                 }
-                ProvideContainerDefaults {
-                    endIcon?.invoke()
-                }
+                bottomContent?.invoke()
             }
-            bottomContent?.invoke()
         }
     }
 }

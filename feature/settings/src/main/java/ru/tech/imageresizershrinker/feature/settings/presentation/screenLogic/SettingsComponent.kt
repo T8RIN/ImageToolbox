@@ -329,6 +329,18 @@ class SettingsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun exportFonts(
+        uri: Uri,
+        onResult: (SaveResult) -> Unit,
+    ) {
+        componentScope.launch(ioDispatcher) {
+            fileController.writeBytes(
+                uri = uri.toString(),
+                block = { it.writeBytes(settingsManager.createCustomFontsExport()) }
+            ).also(onResult)
+        }
+    }
+
     fun restoreBackupFrom(
         uri: Uri,
         onSuccess: () -> Unit,

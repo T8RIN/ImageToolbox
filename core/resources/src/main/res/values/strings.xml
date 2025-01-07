@@ -1550,4 +1550,6 @@
     <string name="mesh_gradients">Mesh Gradients</string>
     <string name="mesh_gradients_sub">Look at online collection of Mesh Gradients</string>
     <string name="wrong_font">Only TTF fonts can be imported</string>
+    <string name="import_font">Import Font (TTF/OTF)</string>
+    <string name="export_fonts">Export Fonts</string>
 </resources>

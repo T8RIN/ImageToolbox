@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -68,11 +69,7 @@ fun PreferenceItem(
     contentColor: Color = contentColorFor(backgroundColor = color),
     overrideIconShapeContentColor: Boolean = false,
     drawStartIconContainer: Boolean = true,
-    titleFontStyle: TextStyle = LocalTextStyle.current.copy(
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Medium,
-        lineHeight = 18.sp
-    ),
+    titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
     startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultTransition,
     endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultTransition,
     onDisabledClick: (() -> Unit)? = null,
@@ -124,4 +121,32 @@ fun PreferenceItem(
         onDisabledClick = onDisabledClick,
         drawStartIconContainer = drawStartIconContainer
     )
+}
+
+
+object PreferenceItemDefaults {
+
+    val TitleFontStyle: TextStyle
+        @Composable
+        get() = LocalTextStyle.current.copy(
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            lineHeight = 18.sp
+        )
+
+    val TitleFontStyleCentered: TextStyle
+        @Composable
+        get() = TitleFontStyle.copy(
+            textAlign = TextAlign.Center
+        )
+
+    val TitleFontStyleSmall: TextStyle
+        @Composable
+        get() = LocalTextStyle.current.copy(
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            lineHeight = 16.sp,
+            textAlign = TextAlign.Start
+        )
+
 }

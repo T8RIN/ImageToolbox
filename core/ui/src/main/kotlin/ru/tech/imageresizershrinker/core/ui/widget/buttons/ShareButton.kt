@@ -28,7 +28,6 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,10 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -53,6 +49,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
 
 @Composable
 fun ShareButton(
@@ -123,12 +120,7 @@ fun ShareButton(
                         showSelectionDialog = false
                         onShare()
                     },
-                    titleFontStyle = LocalTextStyle.current.copy(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        lineHeight = 18.sp,
-                        textAlign = TextAlign.Center
-                    )
+                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                 )
                 if (onCopy != null) {
                     Spacer(Modifier.height(4.dp))
@@ -141,12 +133,7 @@ fun ShareButton(
                             showSelectionDialog = false
                             onCopy(clipboardManager)
                         },
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )
                 }
                 if (onEdit != null) {
@@ -159,12 +146,7 @@ fun ShareButton(
                             showSelectionDialog = false
                             onEdit()
                         },
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )
                 }
             }

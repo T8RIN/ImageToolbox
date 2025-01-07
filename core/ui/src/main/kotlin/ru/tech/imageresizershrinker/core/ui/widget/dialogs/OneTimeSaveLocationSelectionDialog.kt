@@ -46,7 +46,6 @@ import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,10 +62,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -86,6 +82,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -260,12 +257,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                 title = title,
                                 subtitle = subtitle,
                                 shape = shape,
-                                titleFontStyle = LocalTextStyle.current.copy(
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    lineHeight = 16.sp,
-                                    textAlign = TextAlign.Start
-                                ),
+                                titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                                 onClick = {
                                     if (item != null) {
                                         tempSelectedSaveFolderUri = item.uri
@@ -326,12 +318,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     title = stringResource(id = R.string.add_new_folder),
                     startIcon = Icons.Outlined.CreateNewFolder,
                     shape = ContainerShapeDefaults.bottomShape,
-                    titleFontStyle = LocalTextStyle.current.copy(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        lineHeight = 16.sp,
-                        textAlign = TextAlign.Start
-                    ),
+                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                     onClick = {
                         launcher.launch(currentFolderUri)
                     },
@@ -357,12 +344,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         subtitle = stringResource(id = R.string.custom_filename_sub),
                         startIcon = Icons.Outlined.DriveFileRenameOutline,
                         shape = ContainerShapeDefaults.defaultShape,
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 16.sp,
-                            textAlign = TextAlign.Start
-                        ),
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                         onClick = {
                             createLauncher.launch("$imageString.${formatForFilenameSelection.extension}")
                         },

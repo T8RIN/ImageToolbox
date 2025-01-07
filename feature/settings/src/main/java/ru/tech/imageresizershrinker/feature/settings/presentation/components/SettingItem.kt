@@ -137,7 +137,13 @@ internal fun SettingItem(
                             }
                         )
                     },
-                    onRemoveFont = component::removeCustomFont
+                    onRemoveFont = component::removeCustomFont,
+                    onExportFonts = { uri ->
+                        component.exportFonts(
+                            uri = uri,
+                            onResult = essentials::parseFileSaveResult
+                        )
+                    }
                 )
             }
 
