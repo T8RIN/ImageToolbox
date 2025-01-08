@@ -1531,4 +1531,8 @@
     <string name="crf_sub">Wartość %1$d oznacza wolną kompresję, co skutkuje stosunkowo małym rozmiarem pliku. %2$d oznacza szybszą kompresję, skutkującą dużym plikiem.</string>
     <string name="center_align_dialog_buttons_sub">Przyciski okien dialogowych będą umieszczane na środku zamiast po lewej stronie, jeśli to możliwe</string>
     <string name="area_sub">Ponowne próbkowanie przy użyciu relacji obszaru pikseli. Może to być preferowana metoda odszumiania obrazu, ponieważ daje wyniki wolne od efektu mory. Ale gdy obraz jest powiększony, jest podobny do metody „Najbliższy”.</string>
+    <string name="wrong_font">Można importować tylko czcionki TTF</string>
+    <string name="import_font">Import czcionki (TTF/OTF)</string>
+    <string name="export_fonts">Wyeksportuj czcionki</string>
+    <string name="imported_fonts">Zaimportowane czcionki</string>
 </resources>

@@ -1531,4 +1531,8 @@
     <string name="checksum_tools">校验和工具</string>
     <string name="mesh_gradients">网格渐变</string>
     <string name="mesh_gradients_sub">查看网格渐变在线收藏</string>
+    <string name="import_font">导入字体（TTF/OTF）</string>
+    <string name="imported_fonts">已导入的字体</string>
+    <string name="wrong_font">只有 TTF 字体可以被导入</string>
+    <string name="export_fonts">导出字体</string>
 </resources>

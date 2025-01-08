@@ -1531,4 +1531,8 @@
     <string name="free_software_partner">Vrije software (Partner)</string>
     <string name="source_checksum">Bron van controlegetal</string>
     <string name="checksum_to_compare">Controlegetallen vergelijken</string>
+    <string name="import_font">Lettertype importeren (TTF/OTF)</string>
+    <string name="imported_fonts">Geïmporteerde lettertypen</string>
+    <string name="wrong_font">Alleen TTF-lettertypen kunnen worden geïmporteerd</string>
+    <string name="export_fonts">Lettertypen exporteren</string>
 </resources>
