@@ -74,8 +74,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -129,7 +129,7 @@ internal fun PickFontFamilySheet(
                                 mimeTypes = TTF_MIME_TYPES,
                                 onSuccess = onAddFont
                             )
-                            PreferenceItem(
+                            PreferenceRow(
                                 title = stringResource(R.string.import_font),
                                 onClick = pickFileLauncher::pickFile,
                                 shape = RoundedCornerShape(
@@ -145,9 +145,10 @@ internal fun PickFontFamilySheet(
                                     .fillMaxHeight(),
                                 color = MaterialTheme.colorScheme.primaryContainer
                             )
+
                             val canExport = customEntries.isNotEmpty()
 
-                            PreferenceItem(
+                            PreferenceRow(
                                 title = stringResource(R.string.export_fonts),
                                 onClick = onExportFonts,
                                 shape = RoundedCornerShape(

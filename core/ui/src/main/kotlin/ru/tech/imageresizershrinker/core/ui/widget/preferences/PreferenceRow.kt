@@ -234,6 +234,7 @@ fun PreferenceRow(
     changeAlphaWhenDisabled: Boolean = true,
     contentColor: Color? = null,
     shape: Shape = RoundedCornerShape(16.dp),
+    titleFontStyle: TextStyle = LocalTextStyle.current.copy(lineHeight = 18.sp),
     startIcon: ImageVector?,
     endContent: (@Composable () -> Unit)? = null,
     additionalContent: (@Composable () -> Unit)? = null,
@@ -249,6 +250,7 @@ fun PreferenceRow(
         color = color,
         contentColor = contentColor,
         shape = shape,
+        titleFontStyle = titleFontStyle,
         onDisabledClick = onDisabledClick,
         drawStartIconContainer = false,
         startContent = startIcon?.let {

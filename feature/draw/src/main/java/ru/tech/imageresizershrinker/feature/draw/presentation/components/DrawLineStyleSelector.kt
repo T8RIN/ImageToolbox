@@ -292,7 +292,8 @@ fun DrawLineStyleSelector(
                             .height(240.dp)
                             .fadingEdges(
                                 scrollableState = state,
-                                spanCount = 4
+                                spanCount = 4,
+                                length = 32.dp
                             ),
                         verticalArrangement = Arrangement.spacedBy(
                             space = 6.dp,
