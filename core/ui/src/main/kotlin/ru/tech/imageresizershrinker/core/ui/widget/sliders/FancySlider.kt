@@ -62,6 +62,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerCol
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.trackOverslide
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSlider
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSliderColors
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSliderDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSliderState
 
 @Composable
 fun FancySlider(
@@ -86,7 +90,7 @@ fun FancySlider(
         spring(stiffness = 15_000f, dampingRatio = 0.2f),
         label = "animatedValue",
     )
-    val thumb: @Composable (SliderState) -> Unit = { sliderState ->
+    val thumb: @Composable (CustomSliderState) -> Unit = { sliderState ->
         val sliderFraction by remember {
             derivedStateOf {
                 (animatedValue - sliderState.valueRange.start) / (sliderState.valueRange.endInclusive - sliderState.valueRange.start)

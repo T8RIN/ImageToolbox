@@ -36,6 +36,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSlider
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSliderDefaults
 
 @Composable
 fun M2Slider(
