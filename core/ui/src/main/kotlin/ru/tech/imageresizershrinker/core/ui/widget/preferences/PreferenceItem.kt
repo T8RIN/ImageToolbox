@@ -140,6 +140,12 @@ object PreferenceItemDefaults {
             textAlign = TextAlign.Center
         )
 
+    val TitleFontStyleCenteredSmall: TextStyle
+        @Composable
+        get() = TitleFontStyleSmall.copy(
+            textAlign = TextAlign.Center
+        )
+
     val TitleFontStyleSmall: TextStyle
         @Composable
         get() = LocalTextStyle.current.copy(

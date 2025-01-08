@@ -23,13 +23,17 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.rounded.RadioButtonChecked
+import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -39,8 +43,12 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.SettingsTimelapse
 import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerColor
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -64,41 +72,76 @@ fun FastSettingsSideSettingItem(
         subtitle = stringResource(R.string.fast_settings_side_sub),
         checked = settingsState.fastSettingsSide != FastSettingsSide.None,
         startIcon = Icons.Outlined.SettingsTimelapse,
-        resultModifier = Modifier.padding(
-            top = 16.dp, end = 16.dp, start = 16.dp
-        ),
         additionalContent = {
             AnimatedVisibility(
                 visible = settingsState.fastSettingsSide != FastSettingsSide.None,
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                ProvideContainerDefaults(
+                    shape = null,
+                    color = LocalContainerColor.current
                 ) {
-                    ToggleGroupButton(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        itemCount = 2,
-                        itemContent = {
-                            Text(
-                                stringResource(
-                                    when (it) {
-                                        0 -> R.string.end_position
-                                        else -> R.string.start_position
-                                    }
-                                )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .height(IntrinsicSize.Max)
+                    ) {
+                        val entries = remember {
+                            listOf(FastSettingsSide.CenterStart, FastSettingsSide.CenterEnd)
+                        }
+
+                        entries.forEachIndexed { index, side ->
+                            val selected = settingsState.fastSettingsSide == side
+                            PreferenceRow(
+                                title = when (side) {
+                                    FastSettingsSide.CenterEnd -> stringResource(R.string.end)
+                                    FastSettingsSide.CenterStart -> stringResource(R.string.start)
+                                    FastSettingsSide.None -> ""
+                                },
+                                onClick = {
+                                    onValueChange(side)
+                                },
+                                shape = if (index == 0) {
+                                    RoundedCornerShape(
+                                        topStart = 16.dp,
+                                        bottomStart = 16.dp,
+                                        topEnd = 4.dp,
+                                        bottomEnd = 4.dp
+                                    )
+                                } else if (index == entries.lastIndex) {
+                                    RoundedCornerShape(
+                                        topEnd = 16.dp,
+                                        bottomEnd = 16.dp,
+                                        topStart = 4.dp,
+                                        bottomStart = 4.dp
+                                    )
+                                } else {
+                                    RoundedCornerShape(4.dp)
+                                },
+                                titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
+                                startIcon = if (selected) {
+                                    Icons.Rounded.RadioButtonChecked
+                                } else {
+                                    Icons.Rounded.RadioButtonUnchecked
+                                },
+                                drawStartIconContainer = false,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight(),
+                                color = takeColorFromScheme {
+                                    if (selected) tertiaryContainer.copy(0.5f)
+                                    else surfaceContainer
+                                },
+                                contentColor = takeColorFromScheme {
+                                    if (selected) onTertiaryContainer.copy(0.8f)
+                                    else onSurface
+                                },
                             )
-                        },
-                        onIndexChange = {
-                            onValueChange(
-                                FastSettingsSide.fromOrdinal(it + 1) ?: FastSettingsSide.CenterEnd
-                            )
-                        },
-                        selectedIndex = settingsState.fastSettingsSide.ordinal - 1,
-                        inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
-                    )
+                        }
+                    }
                 }
             }
         }
