@@ -711,6 +711,7 @@ or click one of the badges below.
     - Lcd Octagon
     - Lcd Moving
     - Unisource
+- Ability to import any font (OTF/TTF) to further use
 - In app font scale changing
 - Changing between options list and grouped view
 - Confetti Type selection
