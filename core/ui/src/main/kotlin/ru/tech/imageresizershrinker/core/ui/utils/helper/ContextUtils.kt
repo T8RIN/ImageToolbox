@@ -53,6 +53,7 @@ import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.core.ui.utils.helper.image_vector.toImageBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionStatus
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic
 
-
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
