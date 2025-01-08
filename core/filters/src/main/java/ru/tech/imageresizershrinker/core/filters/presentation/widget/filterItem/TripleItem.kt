@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
-fun TripleItem(
+internal fun TripleItem(
     value: Triple<*, *, *>,
     filter: UiFilter<Triple<*, *, *>>,
     onFilterChange: (value: Triple<*, *, *>) -> Unit,

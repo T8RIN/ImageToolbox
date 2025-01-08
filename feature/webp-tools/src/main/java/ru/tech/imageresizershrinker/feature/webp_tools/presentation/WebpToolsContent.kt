@@ -147,16 +147,9 @@ fun WebpToolsContent(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = when (component.type) {
-                    is Screen.WebpTools.Type.WebpToImage -> {
-                        stringResource(R.string.webp_type_to_image)
-                    }
-
-                    is Screen.WebpTools.Type.ImageToWebp -> {
-                        stringResource(R.string.webp_type_to_webp)
-                    }
-
+                title = when (val type = component.type) {
                     null -> stringResource(R.string.webp_tools)
+                    else -> stringResource(type.title)
                 },
                 input = component.type,
                 isLoading = component.isLoading,

@@ -238,24 +238,9 @@ fun JxlToolsContent(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = when (component.type) {
-                    is Screen.JxlTools.Type.JpegToJxl -> {
-                        stringResource(R.string.jpeg_type_to_jxl)
-                    }
-
-                    is Screen.JxlTools.Type.JxlToJpeg -> {
-                        stringResource(R.string.jxl_type_to_jpeg)
-                    }
-
-                    is Screen.JxlTools.Type.ImageToJxl -> {
-                        stringResource(R.string.jxl_type_to_jxl)
-                    }
-
-                    is Screen.JxlTools.Type.JxlToImage -> {
-                        stringResource(R.string.jxl_type_to_images)
-                    }
-
+                title = when (val type = component.type) {
                     null -> stringResource(R.string.jxl_tools)
+                    else -> stringResource(type.title)
                 },
                 input = component.type,
                 isLoading = component.isLoading,

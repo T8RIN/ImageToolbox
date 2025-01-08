@@ -17,22 +17,13 @@
 
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -44,7 +35,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -54,15 +44,10 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
@@ -73,28 +58,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import coil3.Image
-import coil3.asImage
 import coil3.memory.MemoryCache
-import coil3.request.ImageRequest
-import coil3.toBitmap
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -108,20 +83,16 @@ import my.nanihadesuka.compose.ScrollbarSettings
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.core.domain.model.flexibleResize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
-import kotlin.math.max
 import kotlin.math.sqrt
 
-enum class PdfViewerOrientation {
-    Vertical, Grid
-}
 
+@SuppressLint("ProduceStateDoesNotAssignValue")
 @Composable
 fun PdfViewer(
     uriState: Uri?,
@@ -462,175 +433,6 @@ fun PdfViewer(
     }
 }
 
-@Composable
-private fun PdfPage(
-    selected: Boolean,
-    selectionEnabled: Boolean,
-    contentScale: ContentScale = ContentScale.Crop,
-    modifier: Modifier,
-    index: Int,
-    renderWidth: Int,
-    renderHeight: Int,
-    zoom: Float = 1f,
-    mutex: Mutex,
-    renderer: PdfRenderer?,
-    cacheKey: MemoryCache.Key,
-) {
-    val context = LocalContext.current
-    val imageLoader = LocalImageLoader.current
-    val imageLoadingScope = rememberCoroutineScope()
-
-    val cacheValue: Image? = imageLoader.memoryCache?.get(cacheKey)?.image
-
-    var bitmap: Image? by remember { mutableStateOf(cacheValue) }
-    if (bitmap == null) {
-        DisposableEffect(cacheKey, index) {
-            val job = imageLoadingScope.launch(Dispatchers.IO) {
-                mutex.withLock {
-                    if (!coroutineContext.isActive) return@launch
-                    try {
-                        renderer?.let {
-                            it.openPage(index).use { page ->
-                                val size = IntegerSize(
-                                    width = page.width,
-                                    height = page.height
-                                ).flexibleResize(renderWidth, renderHeight)
-                                val destinationBitmap = Bitmap.createBitmap(
-                                    size.width,
-                                    size.height,
-                                    Bitmap.Config.ARGB_8888
-                                )
-                                page.render(
-                                    destinationBitmap,
-                                    null,
-                                    null,
-                                    PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
-                                )
-                                bitmap = destinationBitmap.asImage()
-                            }
-                        }
-                    } catch (_: Exception) {
-                        //Just catch and return in case the renderer is being closed
-                        return@launch
-                    }
-                }
-            }
-            onDispose {
-                job.cancel()
-            }
-        }
-    }
-
-    val request = remember(context, renderWidth, renderHeight, bitmap) {
-        ImageRequest.Builder(context)
-            .size(renderWidth, renderHeight)
-            .memoryCacheKey(cacheKey)
-            .data(bitmap?.toBitmap())
-            .build()
-    }
-
-    val transition = updateTransition(selected)
-    val padding by transition.animateDp { s ->
-        if (s) 10.dp else 0.dp
-    }
-    val corners by transition.animateDp { s ->
-        if (s) 16.dp else 0.dp
-    }
-    val bgColor = MaterialTheme.colorScheme.secondaryContainer
-
-    val density = LocalDensity.current
-    Box(
-        modifier
-            .clip(RoundedCornerShape(4.dp))
-            .background(bgColor)
-    ) {
-        Picture(
-            modifier = Modifier
-                .then(
-                    if (contentScale == ContentScale.Crop) Modifier.matchParentSize()
-                    else Modifier
-                )
-                .width(with(density) { renderWidth.toDp() * zoom })
-                .aspectRatio(renderWidth / renderHeight.toFloat())
-                .padding(padding)
-                .clip(RoundedCornerShape(corners))
-                .background(Color.White),
-            shape = RectangleShape,
-            contentScale = contentScale,
-            showTransparencyChecker = false,
-            model = request
-        )
-        AnimatedVisibility(
-            visible = selectionEnabled,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut()
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .clip(RoundedCornerShape(corners))
-                    .background(MaterialTheme.colorScheme.scrim.copy(0.32f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = (index + 1).toString(),
-                    color = Color.White,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-            AnimatedContent(
-                targetState = selected,
-                transitionSpec = {
-                    fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
-                }
-            ) { selected ->
-                if (selected) {
-                    Icon(
-                        imageVector = Icons.Filled.CheckCircle,
-                        tint = MaterialTheme.colorScheme.primary,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .border(2.dp, bgColor, CircleShape)
-                            .clip(CircleShape)
-                            .background(bgColor)
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Filled.RadioButtonUnchecked,
-                        tint = Color.White.copy(alpha = 0.7f),
-                        contentDescription = null,
-                        modifier = Modifier.padding(6.dp)
-                    )
-                }
-            }
-        }
-    }
-
-}
-
-private fun IntegerSize.flexibleResize(
-    w: Int,
-    h: Int
-): IntegerSize {
-    val max = max(w, h)
-    return runCatching {
-        if (width > w) {
-            val aspectRatio = width.toDouble() / height.toDouble()
-            val targetHeight = w / aspectRatio
-            return@runCatching IntegerSize(w, targetHeight.toInt())
-        }
-
-        if (height >= width) {
-            val aspectRatio = width.toDouble() / height.toDouble()
-            val targetWidth = (max * aspectRatio).toInt()
-            IntegerSize(targetWidth, max)
-        } else {
-            val aspectRatio = height.toDouble() / width.toDouble()
-            val targetHeight = (max * aspectRatio).toInt()
-            IntegerSize(max, targetHeight)
-        }
-    }.getOrNull() ?: this
+enum class PdfViewerOrientation {
+    Vertical, Grid
 }

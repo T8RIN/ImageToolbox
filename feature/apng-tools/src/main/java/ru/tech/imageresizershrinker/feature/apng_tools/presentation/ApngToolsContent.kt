@@ -194,20 +194,9 @@ fun ApngToolsContent(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = when (component.type) {
-                    is Screen.ApngTools.Type.ApngToImage -> {
-                        stringResource(R.string.apng_type_to_image)
-                    }
-
-                    is Screen.ApngTools.Type.ImageToApng -> {
-                        stringResource(R.string.apng_type_to_apng)
-                    }
-
-                    is Screen.ApngTools.Type.ApngToJxl -> {
-                        stringResource(R.string.apng_type_to_jxl)
-                    }
-
+                title = when (val type = component.type) {
                     null -> stringResource(R.string.apng_tools)
+                    else -> stringResource(type.title)
                 },
                 input = component.type,
                 isLoading = component.isLoading,

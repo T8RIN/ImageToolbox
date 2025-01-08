@@ -19,6 +19,8 @@
 
 package ru.tech.imageresizershrinker.core.domain.model
 
+import kotlin.math.max
+
 data class IntegerSize(
     val width: Int,
     val height: Int
@@ -67,3 +69,27 @@ data class IntegerSize(
 fun max(size: IntegerSize): Int = maxOf(size.width, size.height)
 
 infix fun Int.sizeTo(int: Int): IntegerSize = IntegerSize(this, int)
+
+fun IntegerSize.flexibleResize(
+    w: Int,
+    h: Int
+): IntegerSize {
+    val max = max(w, h)
+    return runCatching {
+        if (width > w) {
+            val aspectRatio = width.toDouble() / height.toDouble()
+            val targetHeight = w / aspectRatio
+            return@runCatching IntegerSize(w, targetHeight.toInt())
+        }
+
+        if (height >= width) {
+            val aspectRatio = width.toDouble() / height.toDouble()
+            val targetWidth = (max * aspectRatio).toInt()
+            IntegerSize(targetWidth, max)
+        } else {
+            val aspectRatio = height.toDouble() / width.toDouble()
+            val targetHeight = (max * aspectRatio).toInt()
+            IntegerSize(max, targetHeight)
+        }
+    }.getOrNull() ?: this
+}
