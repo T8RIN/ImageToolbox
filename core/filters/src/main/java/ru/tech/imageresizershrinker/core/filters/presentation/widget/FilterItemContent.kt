@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.filters.presentation.widget
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import ru.tech.imageresizershrinker.core.domain.utils.cast
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
@@ -184,5 +185,3 @@ internal fun <T> FilterItemContent(
         }
     }
 }
-
-private inline fun <reified T, reified R> T.cast(): R = this as R

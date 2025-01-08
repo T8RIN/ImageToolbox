@@ -31,3 +31,5 @@ fun String.trimToBase64() = filter { !it.isWhitespace() }.substringAfter(",")
 private val BASE64_PATTERN = Pattern.compile(
     "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"
 )
+
+inline fun <reified T, reified R> T.cast(): R = this as R
