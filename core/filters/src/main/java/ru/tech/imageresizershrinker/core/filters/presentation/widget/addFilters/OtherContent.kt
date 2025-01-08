@@ -101,7 +101,7 @@ internal fun OtherContent(
         if (tabs[page].first == Icons.Rounded.Speed) {
             item {
                 Row(
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .padding(bottom = 8.dp)
                         .height(intrinsicSize = IntrinsicSize.Max)
                 ) {
@@ -114,7 +114,7 @@ internal fun OtherContent(
                         subtitle = stringResource(R.string.filter_preview_image_sub),
                         contentScale = ContentScale.Companion.Crop,
                         color = Color.Companion.Unspecified,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight(),
                         shape = RoundedCornerShape(
@@ -125,7 +125,7 @@ internal fun OtherContent(
                         )
                     )
                     Column(
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .fillMaxHeight()
                             .padding(start = 4.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -156,7 +156,7 @@ internal fun OtherContent(
                                 }
                             )
                             Box(
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .weight(1f)
                                     .clip(shape)
                                     .clickable {
@@ -190,7 +190,7 @@ internal fun OtherContent(
                     title = stringResource(R.string.save_empty_lut),
                     subtitle = stringResource(R.string.save_empty_lut_sub),
                     shape = ContainerShapeDefaults.defaultShape,
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp),
                     endIcon = {
@@ -202,13 +202,13 @@ internal fun OtherContent(
                                 model = R.drawable.lookup,
                                 contentScale = ContentScale.Companion.Crop,
                                 contentDescription = null,
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .size(48.dp)
                                     .scale(1.1f)
                                     .clip(MaterialTheme.shapes.extraSmall),
                                 shape = MaterialTheme.shapes.extraSmall
                             )
-                            Spacer(modifier = Modifier.Companion.height(8.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
                             var showFolderSelection by rememberSaveable {
                                 mutableStateOf(false)
                             }
@@ -289,7 +289,7 @@ internal fun OtherContent(
                     component.toggleFavorite(filter)
                 },
                 isFavoritePage = false,
-                modifier = Modifier.Companion.animateItem(),
+                modifier = Modifier.animateItem(),
                 cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
                     component.cubeLutRemoteResources
                 } else null,

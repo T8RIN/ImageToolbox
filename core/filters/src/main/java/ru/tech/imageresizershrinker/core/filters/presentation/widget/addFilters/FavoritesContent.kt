@@ -76,18 +76,18 @@ internal fun FavoritesContent(
     ) { noFav ->
         if (noFav) {
             Column(
-                modifier = Modifier.Companion
+                modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f),
                 horizontalAlignment = Alignment.Companion.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Spacer(Modifier.Companion.weight(1f))
+                Spacer(Modifier.weight(1f))
                 Text(
                     text = stringResource(R.string.no_favorite_filters),
                     fontSize = 18.sp,
                     textAlign = TextAlign.Companion.Center,
-                    modifier = Modifier.Companion.padding(
+                    modifier = Modifier.padding(
                         start = 24.dp,
                         end = 24.dp,
                         top = 8.dp,
@@ -97,12 +97,12 @@ internal fun FavoritesContent(
                 Icon(
                     imageVector = Icons.Outlined.BookmarkOff,
                     contentDescription = null,
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .weight(2f)
                         .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
                         .fillMaxSize()
                 )
-                Spacer(Modifier.Companion.weight(1f))
+                Spacer(Modifier.weight(1f))
             }
         } else {
             val data = remember {
@@ -124,7 +124,7 @@ internal fun FavoritesContent(
             }
             LazyColumn(
                 state = listState,
-                modifier = Modifier.Companion.fillMaxHeight(),
+                modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.spacedBy(
                     space = 4.dp,
                     alignment = Alignment.Companion.CenterVertically
@@ -164,7 +164,7 @@ internal fun FavoritesContent(
                             onToggleFavorite = {
                                 component.toggleFavorite(filter)
                             },
-                            modifier = Modifier.Companion
+                            modifier = Modifier
                                 .longPressDraggableHandle {
                                     component.reorderFavoriteFilters(
                                         data.value

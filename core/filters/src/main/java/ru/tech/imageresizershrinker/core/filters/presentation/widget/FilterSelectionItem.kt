@@ -17,9 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -28,42 +26,22 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
-import androidx.compose.material.icons.outlined.TableChart
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Slideshow
-import androidx.compose.material.icons.rounded.TableChart
-import androidx.compose.material.icons.rounded.Update
-import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -76,18 +54,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.error
@@ -95,12 +68,9 @@ import coil3.request.transformations
 import coil3.toBitmap
 import coil3.transform.Transformation
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiCubeLutFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkRemove
@@ -109,23 +79,12 @@ import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 internal fun FilterSelectionItem(
@@ -160,6 +119,7 @@ internal fun FilterSelectionItem(
             .size(300, 300)
             .build()
     }
+
     var isBitmapDark by remember {
         mutableStateOf(true)
     }
@@ -191,479 +151,134 @@ internal fun FilterSelectionItem(
         mutableStateOf(false)
     }
 
-    Column {
-        PreferenceItemOverload(
-            title = stringResource(filter.title),
-            startIcon = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Image(
-                            painter = painter,
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(48.dp)
-                                .scale(1.2f)
-                                .clip(MaterialTheme.shapes.medium)
-                                .transparencyChecker()
-                                .shimmer(loading)
-                        )
-                        if (canOpenPreview) {
-                            Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        haptics.performHapticFeedback(
-                                            HapticFeedbackType.LongPress
-                                        )
-                                        onOpenPreview()
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Slideshow,
-                                    contentDescription = stringResource(R.string.image_preview),
-                                    tint = if (isBitmapDark) StrongBlack
-                                    else White,
-                                    modifier = Modifier.scale(1.2f)
-                                )
-                                Icon(
-                                    imageVector = Icons.Rounded.Slideshow,
-                                    contentDescription = stringResource(R.string.image_preview),
-                                    tint = if (isBitmapDark) White
-                                    else StrongBlack
-                                )
-                            }
-                        }
-                    }
-                    Spacer(Modifier.width(16.dp))
-                    Box(
+    PreferenceItemOverload(
+        title = stringResource(filter.title),
+        startIcon = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(contentAlignment = Alignment.Center) {
+                    Image(
+                        painter = painter,
+                        contentScale = ContentScale.Crop,
+                        contentDescription = null,
                         modifier = Modifier
-                            .height(36.dp)
-                            .width(1.dp)
-                            .background(MaterialTheme.colorScheme.outlineVariant())
+                            .size(48.dp)
+                            .scale(1.2f)
+                            .clip(MaterialTheme.shapes.medium)
+                            .transparencyChecker()
+                            .shimmer(loading)
                     )
-                }
-            },
-            endIcon = {
-                EnhancedIconButton(
-                    onClick = onToggleFavorite,
-                    modifier = Modifier.offset(8.dp)
-                ) {
-                    val inFavorite by remember(favoriteFilters, filter) {
-                        derivedStateOf {
-                            favoriteFilters.filterIsInstance(filter::class.java).isNotEmpty()
-                        }
-                    }
-                    AnimatedContent(
-                        targetState = inFavorite to isFavoritePage,
-                        transitionSpec = {
-                            (fadeIn() + scaleIn(initialScale = 0.85f))
-                                .togetherWith(fadeOut() + scaleOut(targetScale = 0.85f))
-                        }
-                    ) { (isInFavorite, isFavPage) ->
-                        val icon by remember(isInFavorite, isFavPage) {
-                            derivedStateOf {
-                                when {
-                                    isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
-                                    isInFavorite -> Icons.Rounded.Bookmark
-                                    else -> Icons.Rounded.BookmarkBorder
-                                }
-                            }
-                        }
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null
-                        )
-                    }
-                }
-            },
-            modifier = modifier.fillMaxWidth(),
-            shape = shape,
-            onLongClick = onLongClick,
-            onClick = { onClick(null) },
-            drawStartIconContainer = false,
-            bottomContent = {
-                cubeLutRemoteResources?.let { resources ->
-                    var showSelection by rememberSaveable {
-                        mutableStateOf(false)
-                    }
-                    Row(
-                        modifier = Modifier
-                            .padding(
-                                start = 8.dp,
-                                end = 8.dp,
-                                bottom = 8.dp
-                            )
-                            .container(
-                                color = MaterialTheme.colorScheme.surface,
-                                resultPadding = 0.dp,
-                                shape = shape
-                            )
-                            .clickable {
-                                haptics.performHapticFeedback(
-                                    HapticFeedbackType.LongPress
-                                )
-                                if (resources.list.isEmpty()) {
-                                    showDownloadDialog = true
-                                } else {
-                                    showSelection = true
-                                }
-                            }
-                            .padding(8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        TitleItem(
-                            text = stringResource(R.string.lut_library),
+                    if (canOpenPreview) {
+                        Box(
                             modifier = Modifier
-                                .padding(start = 8.dp)
-                                .weight(1f)
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        EnhancedIconButton(
-                            onClick = {
-                                showDownloadDialog = true
-                                forceUpdate = true
-                                downloadOnlyNewData = false
-                            },
-                            containerColor = if (resources.list.isEmpty()) {
-                                MaterialTheme.colorScheme.secondary
-                            } else Color.Transparent
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .clickable {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
+                                    onOpenPreview()
+                                },
+                            contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Download,
-                                contentDescription = null
+                                imageVector = Icons.Rounded.Slideshow,
+                                contentDescription = stringResource(R.string.image_preview),
+                                tint = if (isBitmapDark) StrongBlack
+                                else White,
+                                modifier = Modifier.scale(1.2f)
                             )
-                        }
-                        if (resources.list.isNotEmpty()) {
-                            EnhancedIconButton(
-                                onClick = {
-                                    showDownloadDialog = true
-                                    forceUpdate = true
-                                    downloadOnlyNewData = true
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Update,
-                                    contentDescription = null
-                                )
-                            }
-                            EnhancedIconButton(
-                                containerColor = MaterialTheme.colorScheme.secondary,
-                                onClick = {
-                                    showSelection = true
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Visibility,
-                                    contentDescription = "View"
-                                )
-                            }
-                        }
-                    }
-
-                    var isSearching by rememberSaveable {
-                        mutableStateOf(false)
-                    }
-                    var searchKeyword by rememberSaveable(isSearching) {
-                        mutableStateOf("")
-                    }
-                    EnhancedModalBottomSheet(
-                        visible = showSelection,
-                        onDismiss = { showSelection = it },
-                        confirmButton = {},
-                        enableBottomContentWeight = false,
-                        title = {
-                            AnimatedContent(
-                                targetState = isSearching
-                            ) { searching ->
-                                if (searching) {
-                                    BackHandler {
-                                        searchKeyword = ""
-                                        isSearching = false
-                                    }
-                                    ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
-                                        RoundedTextField(
-                                            maxLines = 1,
-                                            hint = { Text(stringResource(id = R.string.search_here)) },
-                                            keyboardOptions = KeyboardOptions.Default.copy(
-                                                imeAction = ImeAction.Search,
-                                                autoCorrectEnabled = null
-                                            ),
-                                            value = searchKeyword,
-                                            onValueChange = {
-                                                searchKeyword = it
-                                            },
-                                            startIcon = {
-                                                EnhancedIconButton(
-                                                    onClick = {
-                                                        searchKeyword = ""
-                                                        isSearching = false
-                                                    },
-                                                    modifier = Modifier.padding(start = 4.dp)
-                                                ) {
-                                                    Icon(
-                                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                                        contentDescription = stringResource(R.string.exit),
-                                                        tint = MaterialTheme.colorScheme.onSurface
-                                                    )
-                                                }
-                                            },
-                                            endIcon = {
-                                                AnimatedVisibility(
-                                                    visible = searchKeyword.isNotEmpty(),
-                                                    enter = fadeIn() + scaleIn(),
-                                                    exit = fadeOut() + scaleOut()
-                                                ) {
-                                                    EnhancedIconButton(
-                                                        onClick = {
-                                                            searchKeyword = ""
-                                                        },
-                                                        modifier = Modifier.padding(end = 4.dp)
-                                                    ) {
-                                                        Icon(
-                                                            imageVector = Icons.Rounded.Close,
-                                                            contentDescription = stringResource(R.string.close),
-                                                            tint = MaterialTheme.colorScheme.onSurface
-                                                        )
-                                                    }
-                                                }
-                                            },
-                                            shape = CircleShape
-                                        )
-                                    }
-                                } else {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        TitleItem(
-                                            text = stringResource(R.string.lut_library),
-                                            icon = Icons.Rounded.TableChart
-                                        )
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        EnhancedIconButton(
-                                            onClick = { isSearching = true },
-                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Search,
-                                                contentDescription = stringResource(R.string.search_here)
-                                            )
-                                        }
-                                        EnhancedButton(
-                                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                            onClick = { showSelection = false }
-                                        ) {
-                                            AutoSizeText(stringResource(R.string.close))
-                                        }
-                                        Spacer(Modifier.width(8.dp))
-                                    }
-                                }
-                            }
-                        }
-                    ) {
-                        val data by remember(resources.list, searchKeyword) {
-                            derivedStateOf {
-                                if (searchKeyword.isEmpty()) resources.list
-                                else resources.list.filter {
-                                    it.name.trim()
-                                        .contains(searchKeyword.trim(), true)
-                                }
-                            }
-                        }
-                        AnimatedContent(data.isNotEmpty()) { haveData ->
-                            if (haveData) {
-                                LazyColumn(
-                                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                                    contentPadding = PaddingValues(8.dp)
-                                ) {
-                                    data.forEachIndexed { index, (uri, name) ->
-                                        item {
-                                            PreferenceItemOverload(
-                                                title = remember(name) {
-                                                    name.removeSuffix(".cube")
-                                                        .removeSuffix("_LUT")
-                                                        .replace("_", " ")
-                                                },
-                                                drawStartIconContainer = false,
-                                                startIcon = {
-                                                    Row(
-                                                        verticalAlignment = Alignment.CenterVertically
-                                                    ) {
-                                                        Picture(
-                                                            model = remember(uri, previewModel) {
-                                                                ImageRequest.Builder(context)
-                                                                    .data(previewModel.data)
-                                                                    .error(R.drawable.filter_preview_source)
-                                                                    .transformations(
-                                                                        onRequestFilterMapping(
-                                                                            UiCubeLutFilter(
-                                                                                1f to FileModel(uri)
-                                                                            )
-                                                                        )
-                                                                    )
-                                                                    .diskCacheKey(uri + previewModel.data.hashCode())
-                                                                    .memoryCacheKey(uri + previewModel.data.hashCode())
-                                                                    .size(300, 300)
-                                                                    .build()
-                                                            },
-                                                            shape = MaterialTheme.shapes.medium,
-                                                            contentScale = ContentScale.Crop,
-                                                            modifier = Modifier
-                                                                .size(48.dp)
-                                                                .scale(1.2f)
-                                                        )
-                                                        Spacer(Modifier.width(16.dp))
-                                                        Box(
-                                                            modifier = Modifier
-                                                                .height(36.dp)
-                                                                .width(1.dp)
-                                                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                                        )
-                                                    }
-                                                },
-                                                onClick = {
-                                                    showSelection = false
-                                                    onClick(
-                                                        UiCubeLutFilter(1f to FileModel(uri))
-                                                    )
-                                                },
-                                                shape = ContainerShapeDefaults.shapeForIndex(
-                                                    index = index,
-                                                    size = data.size
-                                                ),
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .animateItem()
-                                            )
-                                        }
-                                    }
-                                }
-                            } else {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight(0.5f),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Spacer(Modifier.weight(1f))
-                                    Text(
-                                        text = stringResource(R.string.nothing_found_by_search),
-                                        fontSize = 18.sp,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.padding(
-                                            start = 24.dp,
-                                            end = 24.dp,
-                                            top = 8.dp,
-                                            bottom = 8.dp
-                                        )
-                                    )
-                                    Icon(
-                                        imageVector = Icons.Rounded.SearchOff,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .weight(2f)
-                                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                            .fillMaxSize()
-                                    )
-                                    Spacer(Modifier.weight(1f))
-                                }
-                            }
+                            Icon(
+                                imageVector = Icons.Rounded.Slideshow,
+                                contentDescription = stringResource(R.string.image_preview),
+                                tint = if (isBitmapDark) White
+                                else StrongBlack
+                            )
                         }
                     }
                 }
-            }
-        )
-    }
-
-    EnhancedAlertDialog(
-        visible = showDownloadDialog,
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.TableChart,
-                contentDescription = null
-            )
-        },
-        title = { Text(stringResource(id = R.string.cube_lut)) },
-        text = {
-            Text(
-                stringResource(
-                    if (downloadOnlyNewData) R.string.lut_library_update_sub
-                    else R.string.lut_library_sub
+                Spacer(Modifier.width(16.dp))
+                Box(
+                    modifier = Modifier
+                        .height(36.dp)
+                        .width(1.dp)
+                        .background(MaterialTheme.colorScheme.outlineVariant())
                 )
-            )
+            }
         },
-        onDismissRequest = {},
-        confirmButton = {
-            EnhancedButton(
-                onClick = {
-                    if (context.isNetworkAvailable()) {
-                        onCubeLutDownloadRequest(
-                            forceUpdate, downloadOnlyNewData
-                        )
-                        showDownloadDialog = false
-                    } else {
-                        scope.launch {
-                            toastHostState.showToast(
-                                message = context.getString(R.string.no_connection),
-                                icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
-                                duration = ToastDuration.Long
-                            )
-                        }
+        endIcon = {
+            EnhancedIconButton(
+                onClick = onToggleFavorite,
+                modifier = Modifier.offset(8.dp)
+            ) {
+                val inFavorite by remember(favoriteFilters, filter) {
+                    derivedStateOf {
+                        favoriteFilters.filterIsInstance(filter::class.java).isNotEmpty()
                     }
                 }
-            ) {
-                Text(stringResource(R.string.download))
+                AnimatedContent(
+                    targetState = inFavorite to isFavoritePage,
+                    transitionSpec = {
+                        (fadeIn() + scaleIn(initialScale = 0.85f))
+                            .togetherWith(fadeOut() + scaleOut(targetScale = 0.85f))
+                    }
+                ) { (isInFavorite, isFavPage) ->
+                    val icon by remember(isInFavorite, isFavPage) {
+                        derivedStateOf {
+                            when {
+                                isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
+                                isInFavorite -> Icons.Rounded.Bookmark
+                                else -> Icons.Rounded.BookmarkBorder
+                            }
+                        }
+                    }
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null
+                    )
+                }
             }
         },
-        dismissButton = {
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    showDownloadDialog = false
-                }
-            ) {
-                Text(stringResource(R.string.close))
-            }
+        modifier = modifier.fillMaxWidth(),
+        shape = shape,
+        onLongClick = onLongClick,
+        onClick = { onClick(null) },
+        drawStartIconContainer = false,
+        bottomContent = {
+            FilterSelectionCubeLutBottomContent(
+                cubeLutRemoteResources = cubeLutRemoteResources,
+                shape = shape,
+                onShowDownloadDialog = { forceUpdateP, downloadOnlyNewDataP ->
+                    showDownloadDialog = true
+                    forceUpdate = forceUpdateP
+                    downloadOnlyNewData = downloadOnlyNewDataP
+                },
+                previewModel = previewModel,
+                onRequestFilterMapping = onRequestFilterMapping,
+                onClick = onClick
+            )
         }
     )
 
-    BasicEnhancedAlertDialog(
-        onDismissRequest = {},
-        visible = cubeLutDownloadProgress != null,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        LoadingIndicator(
-            progress = (cubeLutDownloadProgress?.currentPercent ?: 0f) / 100,
-            loaderSize = 72.dp
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = cubeLutDownloadProgress?.run { "$itemsDownloaded/$itemsCount" }
-                        ?: "",
-                    maxLines = 1,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center,
-                    fontSize = 12.sp,
-                    lineHeight = 12.sp
+    CubeLutDownloadDialog(
+        visible = showDownloadDialog,
+        onDismiss = { showDownloadDialog = false },
+        onDownload = {
+            if (context.isNetworkAvailable()) {
+                onCubeLutDownloadRequest(
+                    forceUpdate, downloadOnlyNewData
                 )
-                Spacer(Modifier.height(2.dp))
-                Text(
-                    text = readableByteCount(cubeLutDownloadProgress?.currentTotalSize ?: 0),
-                    maxLines = 1,
-                    textAlign = TextAlign.Center,
-                    fontSize = 10.sp,
-                    lineHeight = 10.sp
-                )
+                showDownloadDialog = false
+            } else {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.no_connection),
+                        icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
+                        duration = ToastDuration.Long
+                    )
+                }
             }
-        }
-    }
+        },
+        downloadOnlyNewData = downloadOnlyNewData,
+        cubeLutDownloadProgress = cubeLutDownloadProgress
+    )
 }

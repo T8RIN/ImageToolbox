@@ -36,7 +36,7 @@ internal fun EdgeModeSelector(
 ) {
     Text(
         text = stringResource(title!!),
-        modifier = Modifier.Companion.padding(
+        modifier = Modifier.padding(
             top = 8.dp,
             start = 12.dp,
             end = 12.dp,
