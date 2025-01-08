@@ -56,7 +56,7 @@ internal fun ColorHistogram() {
         },
         expandableContent = {
             Column(
-                modifier = Modifier.Companion.padding(
+                modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 8.dp
@@ -76,7 +76,7 @@ internal fun ColorHistogram() {
                 ) {
                     ImageHistogram(
                         imageUri = imageUri,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .padding(top = 16.dp)
                             .fillMaxWidth()
                             .height(250.dp),
@@ -87,7 +87,7 @@ internal fun ColorHistogram() {
                     )
                     ImageHistogram(
                         imageUri = imageUri,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp),
                         initialType = HistogramType.Brightness,
@@ -97,7 +97,7 @@ internal fun ColorHistogram() {
                     )
                     ImageHistogram(
                         imageUri = imageUri,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp),
                         initialType = HistogramType.Camera,

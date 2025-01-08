@@ -112,10 +112,10 @@ internal fun LazyItemScope.DownloadedLanguageItem(
     )
     SwipeToReveal(
         state = state,
-        modifier = Modifier.Companion.animateItem(),
+        modifier = Modifier.animateItem(),
         revealedContentEnd = {
             Box(
-                Modifier.Companion
+                Modifier
                     .fillMaxSize()
                     .container(
                         color = MaterialTheme.colorScheme.errorContainer,
@@ -133,7 +133,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                 Icon(
                     imageVector = Icons.Rounded.DeleteOutline,
                     contentDescription = stringResource(R.string.delete),
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .padding(16.dp)
                         .padding(end = 8.dp)
                         .align(Alignment.Companion.CenterEnd),
@@ -145,7 +145,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
         swipeableContent = {
             val haptics = LocalHapticFeedback.current
             Row(
-                modifier = Modifier.Companion
+                modifier = Modifier
                     .fillMaxWidth()
                     .container(
                         shape = shape,
@@ -186,7 +186,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                             onCheckedChange = {
                                 onValueChange(selected, lang)
                             },
-                            modifier = Modifier.Companion.padding(end = 8.dp)
+                            modifier = Modifier.padding(end = 8.dp)
                         )
                     }
                 }
@@ -200,7 +200,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                         )
                     )
                     if (lang.name != lang.localizedName) {
-                        Spacer(modifier = Modifier.Companion.height(2.dp))
+                        Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = lang.localizedName,
                             fontSize = 12.sp,
@@ -210,16 +210,16 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.Companion.weight(1f))
+                Spacer(modifier = Modifier.weight(1f))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.Companion.container()
+                    modifier = Modifier.container()
                 ) {
                     RecognitionType.entries.forEach { type ->
                         Column(
                             horizontalAlignment = Alignment.Companion.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
-                            modifier = Modifier.Companion
+                            modifier = Modifier
                                 .clip(CircleShape)
                                 .clickable {
                                     haptics.performHapticFeedback(
@@ -267,14 +267,14 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                                 text = displayName,
                                 fontSize = 12.sp
                             )
-                            Spacer(modifier = Modifier.Companion.height(4.dp))
+                            Spacer(modifier = Modifier.height(4.dp))
                             Icon(
                                 imageVector = if (notDownloaded) {
                                     Icons.Rounded.Cancel
                                 } else Icons.Rounded.CheckCircle,
                                 contentDescription = null,
                                 tint = animateColorAsState(color).value,
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .size(28.dp)
                                     .border(
                                         width = settingsState.borderWidth,

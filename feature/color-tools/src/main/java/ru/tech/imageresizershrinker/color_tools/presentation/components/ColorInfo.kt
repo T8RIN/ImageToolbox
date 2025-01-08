@@ -83,7 +83,7 @@ internal fun ColorInfo(
         },
         expandableContent = {
             Column(
-                modifier = Modifier.Companion.padding(
+                modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 8.dp
@@ -98,7 +98,7 @@ internal fun ColorInfo(
                     darkMode = boxColor.luminance() < 0.3f
                 )
                 Box(
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .heightIn(min = 80.dp)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp))
@@ -121,7 +121,7 @@ internal fun ColorInfo(
                         imageVector = Icons.Rounded.ContentCopy,
                         contentDescription = stringResource(R.string.copy),
                         tint = contentColor,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .align(Alignment.Companion.TopEnd)
                             .padding(4.dp)
                             .size(28.dp)
@@ -135,7 +135,7 @@ internal fun ColorInfo(
                     Text(
                         text = selectedColor.toHex(),
                         color = contentColor,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .align(Alignment.Companion.BottomStart)
                             .padding(4.dp)
                             .background(
@@ -153,7 +153,7 @@ internal fun ColorInfo(
                             }
                         }.value,
                         color = contentColor,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .align(Alignment.Companion.BottomEnd)
                             .padding(4.dp)
                             .background(
@@ -164,7 +164,7 @@ internal fun ColorInfo(
                         fontSize = 12.sp
                     )
                 }
-                Spacer(modifier = Modifier.Companion.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 var wasNull by rememberSaveable {
                     mutableStateOf(false)
                 }

@@ -40,7 +40,7 @@ import java.util.Locale
 @Composable
 fun FreeSoftwarePartnerSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
-    modifier: Modifier = Modifier.Companion.padding(horizontal = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     if (BuildConfig.FLAVOR == "foss" || Locale.getDefault().language != "ru") return
 

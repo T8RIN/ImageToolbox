@@ -63,18 +63,18 @@ internal fun QrCodePreview(
     qrDescriptionFont: UiFontFamily
 ) {
     Box(
-        modifier = Modifier.Companion.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Companion.Center
     ) {
-        Column(Modifier.Companion.capturable(captureController)) {
+        Column(Modifier.capturable(captureController)) {
             if (qrImageUri != null) {
-                Spacer(modifier = Modifier.Companion.height(32.dp))
+                Spacer(modifier = Modifier.height(32.dp))
             }
             BoxWithConstraints(
-                modifier = Modifier.Companion
+                modifier = Modifier
                     .then(
                         if ((qrImageUri != null || qrDescription.isNotEmpty()) && qrContent.isNotEmpty()) {
-                            Modifier.Companion
+                            Modifier
                                 .background(
                                     color = takeColorFromScheme {
                                         if (isLandscape) {
@@ -84,7 +84,7 @@ internal fun QrCodePreview(
                                     shape = RoundedCornerShape(16.dp)
                                 )
                                 .padding(16.dp)
-                        } else Modifier.Companion
+                        } else Modifier
                     )
             ) {
                 val targetSize = min(min(this.maxWidth, this.maxHeight), 300.dp)
@@ -93,17 +93,17 @@ internal fun QrCodePreview(
                 ) {
                     QrCode(
                         content = qrContent,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .padding(
                                 top = if (qrImageUri != null) 36.dp else 0.dp,
                                 bottom = if (qrDescription.isNotEmpty()) 16.dp else 0.dp
                             )
                             .then(
                                 if (isLandscape) {
-                                    Modifier.Companion
+                                    Modifier
                                         .weight(1f, false)
                                         .aspectRatio(1f)
-                                } else Modifier.Companion
+                                } else Modifier
                             )
                             .size(targetSize),
                         shape = androidx.compose.foundation.shape.RoundedCornerShape(
@@ -119,7 +119,7 @@ internal fun QrCodePreview(
                                 text = qrDescription,
                                 style = MaterialTheme.typography.headlineSmall,
                                 textAlign = TextAlign.Companion.Center,
-                                modifier = Modifier.Companion.width(targetSize)
+                                modifier = Modifier.width(targetSize)
                             )
                         }
                     }
@@ -127,7 +127,7 @@ internal fun QrCodePreview(
 
                 if (qrImageUri != null && qrContent.isNotEmpty()) {
                     Picture(
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .align(Alignment.Companion.TopCenter)
                             .offset(y = (-48).dp)
                             .size(64.dp),

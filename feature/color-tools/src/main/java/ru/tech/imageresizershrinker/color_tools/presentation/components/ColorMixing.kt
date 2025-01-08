@@ -109,7 +109,7 @@ internal fun ColorMixing(
         },
         expandableContent = {
             Column(
-                modifier = Modifier.Companion.padding(
+                modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 8.dp
@@ -118,7 +118,7 @@ internal fun ColorMixing(
                 ColorRowSelector(
                     value = colorToMix,
                     onValueChange = { colorToMix = it },
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .fillMaxWidth()
                         .container(
                             color = MaterialTheme.colorScheme.surface,
@@ -126,7 +126,7 @@ internal fun ColorMixing(
                         ),
                     title = stringResource(R.string.color_to_mix)
                 )
-                Spacer(modifier = Modifier.Companion.height(4.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 EnhancedSliderItem(
                     value = mixingVariation,
                     title = stringResource(R.string.variation),
@@ -138,9 +138,9 @@ internal fun ColorMixing(
                     color = MaterialTheme.colorScheme.surface,
                     steps = 12
                 )
-                Spacer(modifier = Modifier.Companion.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Column(
-                    modifier = Modifier.Companion.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     horizontalAlignment = Alignment.Companion.CenterHorizontally
                 ) {
@@ -154,7 +154,7 @@ internal fun ColorMixing(
                             darkMode = boxColor.luminance() < 0.3f
                         )
                         Box(
-                            modifier = Modifier.Companion
+                            modifier = Modifier
                                 .heightIn(min = 100.dp)
                                 .fillMaxWidth()
                                 .clip(
@@ -182,7 +182,7 @@ internal fun ColorMixing(
                                 imageVector = Icons.Rounded.ContentCopy,
                                 contentDescription = stringResource(R.string.copy),
                                 tint = contentColor,
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .align(Alignment.Companion.TopEnd)
                                     .padding(4.dp)
                                     .size(28.dp)
@@ -196,7 +196,7 @@ internal fun ColorMixing(
                             Text(
                                 text = color.toHex(),
                                 color = contentColor,
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .align(Alignment.Companion.BottomStart)
                                     .padding(4.dp)
                                     .background(
@@ -216,7 +216,7 @@ internal fun ColorMixing(
                                     }
                                 }.value,
                                 color = contentColor,
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .align(Alignment.Companion.BottomEnd)
                                     .padding(4.dp)
                                     .background(

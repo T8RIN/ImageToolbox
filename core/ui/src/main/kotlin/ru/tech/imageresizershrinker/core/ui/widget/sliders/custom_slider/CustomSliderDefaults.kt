@@ -140,7 +140,7 @@ object CustomSliderDefaults {
     @Composable
     fun Thumb(
         interactionSource: MutableInteractionSource,
-        modifier: Modifier = Modifier.Companion,
+        modifier: Modifier = Modifier,
         colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
         thumbSize: DpSize = ThumbSize
@@ -197,7 +197,7 @@ object CustomSliderDefaults {
     @ExperimentalMaterial3Api
     fun Track(
         sliderState: CustomSliderState,
-        modifier: Modifier = Modifier.Companion,
+        modifier: Modifier = Modifier,
         colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
         trackHeight: Dp = 32.dp
@@ -239,7 +239,7 @@ object CustomSliderDefaults {
     @Composable
     fun Track(
         rangeSliderState: CustomRangeSliderState,
-        modifier: Modifier = Modifier.Companion,
+        modifier: Modifier = Modifier,
         colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
         trackHeight: Dp = 32.dp

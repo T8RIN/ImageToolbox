@@ -43,7 +43,7 @@ internal fun LoadNetImageUrlTextField(
     val essentials = rememberLocalEssentials()
 
     RoundedTextField(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .container(shape = RoundedCornerShape(24.dp))
             .padding(8.dp),
         value = component.targetUrl,
@@ -68,7 +68,7 @@ internal fun LoadNetImageUrlTextField(
                     onClick = {
                         component.updateTargetUrl("")
                     },
-                    modifier = Modifier.Companion.padding(end = 4.dp)
+                    modifier = Modifier.padding(end = 4.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Cancel,

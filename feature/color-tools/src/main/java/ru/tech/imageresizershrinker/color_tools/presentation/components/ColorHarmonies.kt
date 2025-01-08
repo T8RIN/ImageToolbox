@@ -95,7 +95,7 @@ internal fun ColorHarmonies(
         },
         expandableContent = {
             Column(
-                modifier = Modifier.Companion.padding(
+                modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 8.dp
@@ -103,14 +103,14 @@ internal fun ColorHarmonies(
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.Companion.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     HarmonyType.entries.forEach {
                         EnhancedChip(
                             selected = it == selectedHarmony,
                             onClick = { selectedHarmony = it },
                             selectedColor = MaterialTheme.colorScheme.secondaryContainer,
-                            modifier = Modifier.Companion.weight(1f)
+                            modifier = Modifier.weight(1f)
                         ) {
                             Icon(
                                 imageVector = it.icon(),
@@ -119,7 +119,7 @@ internal fun ColorHarmonies(
                         }
                     }
                 }
-                Spacer(Modifier.Companion.height(8.dp))
+                Spacer(Modifier.height(8.dp))
                 AnimatedContent(
                     targetState = selectedHarmony,
                     transitionSpec = {
@@ -128,7 +128,7 @@ internal fun ColorHarmonies(
                 ) {
                     Text(it.title())
                 }
-                Spacer(Modifier.Companion.height(8.dp))
+                Spacer(Modifier.height(8.dp))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -142,7 +142,7 @@ internal fun ColorHarmonies(
                             darkMode = boxColor.luminance() < 0.3f
                         )
                         Box(
-                            modifier = Modifier.Companion
+                            modifier = Modifier
                                 .heightIn(min = 120.dp)
                                 .weight(1f)
                                 .clip(RoundedCornerShape(8.dp))
@@ -165,7 +165,7 @@ internal fun ColorHarmonies(
                                 imageVector = Icons.Rounded.ContentCopy,
                                 contentDescription = stringResource(R.string.copy),
                                 tint = contentColor,
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .align(Alignment.Companion.TopEnd)
                                     .padding(4.dp)
                                     .size(28.dp)
@@ -181,7 +181,7 @@ internal fun ColorHarmonies(
                             Text(
                                 text = color.toHex(),
                                 color = contentColor,
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .align(Alignment.Companion.BottomStart)
                                     .padding(4.dp)
                                     .background(

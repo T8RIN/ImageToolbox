@@ -115,7 +115,7 @@ internal fun ColorShading(
         },
         expandableContent = {
             Column(
-                modifier = Modifier.Companion.padding(
+                modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 8.dp
@@ -131,7 +131,7 @@ internal fun ColorShading(
                     color = MaterialTheme.colorScheme.surface,
                     steps = 12
                 )
-                Spacer(modifier = Modifier.Companion.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -141,7 +141,7 @@ internal fun ColorShading(
                         shades to R.string.shades
                     ).forEach { (data, title) ->
                         Column(
-                            modifier = Modifier.Companion.weight(1f),
+                            modifier = Modifier.weight(1f),
                             verticalArrangement = Arrangement.spacedBy(4.dp),
                             horizontalAlignment = Alignment.Companion.CenterHorizontally
                         ) {
@@ -156,7 +156,7 @@ internal fun ColorShading(
                                     darkMode = boxColor.luminance() < 0.3f
                                 )
                                 Box(
-                                    modifier = Modifier.Companion
+                                    modifier = Modifier
                                         .heightIn(min = 100.dp)
                                         .fillMaxWidth()
                                         .clip(
@@ -184,7 +184,7 @@ internal fun ColorShading(
                                         imageVector = Icons.Rounded.ContentCopy,
                                         contentDescription = stringResource(R.string.copy),
                                         tint = contentColor,
-                                        modifier = Modifier.Companion
+                                        modifier = Modifier
                                             .align(Alignment.Companion.TopEnd)
                                             .padding(4.dp)
                                             .size(28.dp)
@@ -198,7 +198,7 @@ internal fun ColorShading(
                                     Text(
                                         text = color.toHex(),
                                         color = contentColor,
-                                        modifier = Modifier.Companion
+                                        modifier = Modifier
                                             .align(Alignment.Companion.BottomStart)
                                             .padding(4.dp)
                                             .background(
