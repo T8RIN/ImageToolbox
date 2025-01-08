@@ -279,7 +279,7 @@ sealed class SettingsGroup(
     )
 
     data object Updates : SettingsGroup(
-        id = 17,
+        id = 18,
         icon = Icons.Rounded.SystemSecurityUpdate,
         titleId = R.string.updates,
         settingsList = listOf(
@@ -291,7 +291,7 @@ sealed class SettingsGroup(
     )
 
     data object AboutApp : SettingsGroup(
-        id = 18,
+        id = 19,
         icon = Icons.Rounded.Info,
         titleId = R.string.about_app,
         settingsList = listOf(
@@ -308,7 +308,7 @@ sealed class SettingsGroup(
     )
 
     data object Clipboard : SettingsGroup(
-        id = 19,
+        id = 20,
         icon = Icons.Rounded.ClipboardFile,
         titleId = R.string.clipboard,
         settingsList = listOf(
@@ -320,7 +320,7 @@ sealed class SettingsGroup(
     )
 
     data object Haptics : SettingsGroup(
-        id = 20,
+        id = 21,
         icon = Icons.Rounded.Vibration,
         titleId = R.string.vibration,
         settingsList = listOf(
@@ -330,7 +330,7 @@ sealed class SettingsGroup(
     )
 
     data object Screen : SettingsGroup(
-        id = 21,
+        id = 22,
         icon = Icons.Rounded.PhoneAndroid,
         titleId = R.string.screen,
         settingsList = listOf(
@@ -343,7 +343,7 @@ sealed class SettingsGroup(
     )
 
     data object Emoji : SettingsGroup(
-        id = 22,
+        id = 23,
         icon = Icons.Rounded.Face6,
         titleId = R.string.emoji,
         settingsList = listOf(
@@ -355,7 +355,7 @@ sealed class SettingsGroup(
     )
 
     data object Confetti : SettingsGroup(
-        id = 23,
+        id = 24,
         icon = Icons.Rounded.Celebration,
         titleId = R.string.confetti,
         settingsList = listOf(
@@ -368,7 +368,7 @@ sealed class SettingsGroup(
     )
 
     data object Behavior : SettingsGroup(
-        id = 24,
+        id = 25,
         icon = Icons.Rounded.Explore,
         titleId = R.string.behavior,
         settingsList = listOf(
