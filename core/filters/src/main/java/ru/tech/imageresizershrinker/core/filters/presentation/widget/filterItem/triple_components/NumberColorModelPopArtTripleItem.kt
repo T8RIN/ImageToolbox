@@ -57,7 +57,7 @@ internal fun NumberColorModelPopArtTripleItem(
     var blendMode1 by remember(value) { mutableStateOf(value.third) }
 
     EnhancedSliderItem(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .padding(
                 top = 8.dp,
                 start = 8.dp,
@@ -85,7 +85,7 @@ internal fun NumberColorModelPopArtTripleItem(
         behaveAsContainer = false
     )
     Box(
-        modifier = Modifier.Companion.padding(
+        modifier = Modifier.padding(
             start = 16.dp,
             top = 16.dp,
             end = 16.dp
@@ -113,7 +113,7 @@ internal fun NumberColorModelPopArtTripleItem(
             )
             Text(
                 text = stringResource(filter.paramsInfo[2].title!!),
-                modifier = Modifier.Companion.padding(
+                modifier = Modifier.padding(
                     top = 8.dp,
                     start = 12.dp,
                     end = 12.dp,

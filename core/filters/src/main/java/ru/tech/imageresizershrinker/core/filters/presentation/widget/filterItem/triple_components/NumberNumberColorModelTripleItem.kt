@@ -77,7 +77,7 @@ internal fun NumberNumberColorModelTripleItem(
     }
 
     Column(
-        modifier = Modifier.Companion.padding(
+        modifier = Modifier.padding(
             top = 8.dp,
             start = 8.dp,
             end = 8.dp
@@ -112,6 +112,6 @@ internal fun NumberNumberColorModelTripleItem(
         defaultColors = ColorSelectionRowDefaults.colorList,
         titleFontWeight = FontWeight.Companion.Normal,
         contentHorizontalPadding = 16.dp,
-        modifier = Modifier.Companion.padding(start = 4.dp)
+        modifier = Modifier.padding(start = 4.dp)
     )
 }

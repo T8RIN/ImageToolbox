@@ -53,7 +53,7 @@ internal fun NumberColorModelColorModelTripleItem(
     var color2 by remember(value) { mutableStateOf(value.third.toColor()) }
 
     EnhancedSliderItem(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .padding(
                 top = 8.dp,
                 start = 8.dp,
@@ -81,7 +81,7 @@ internal fun NumberColorModelColorModelTripleItem(
         behaveAsContainer = false
     )
     Box(
-        modifier = Modifier.Companion.padding(
+        modifier = Modifier.padding(
             start = 16.dp,
             top = 16.dp,
             end = 16.dp
@@ -107,7 +107,7 @@ internal fun NumberColorModelColorModelTripleItem(
                 titleFontWeight = FontWeight.Companion.Normal,
                 contentHorizontalPadding = 0.dp
             )
-            Spacer(Modifier.Companion.height(8.dp))
+            Spacer(Modifier.height(8.dp))
             ColorRowSelector(
                 title = stringResource(filter.paramsInfo[2].title!!),
                 value = color1,

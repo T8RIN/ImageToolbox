@@ -58,7 +58,7 @@ internal fun NumberTransferFuncBlurEdgeModeTripleItem(
     }
 
     EnhancedSliderItem(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .padding(
                 top = 8.dp,
                 start = 8.dp,

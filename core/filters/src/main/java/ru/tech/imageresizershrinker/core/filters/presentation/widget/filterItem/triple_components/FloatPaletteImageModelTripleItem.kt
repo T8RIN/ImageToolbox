@@ -58,7 +58,7 @@ internal fun FloatPaletteImageModelTripleItem(
     var uri1 by remember(value) { mutableStateOf(value.third.data) }
 
     EnhancedSliderItem(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .padding(
                 top = 8.dp,
                 start = 8.dp,
@@ -85,9 +85,9 @@ internal fun FloatPaletteImageModelTripleItem(
         valueRange = filter.paramsInfo[0].valueRange,
         behaveAsContainer = false
     )
-    Spacer(Modifier.Companion.height(8.dp))
+    Spacer(Modifier.height(8.dp))
     Column(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .padding(horizontal = 16.dp)
             .container(
                 shape = ContainerShapeDefaults.topShape,
@@ -96,7 +96,7 @@ internal fun FloatPaletteImageModelTripleItem(
     ) {
         Text(
             text = stringResource(filter.paramsInfo[1].title!!),
-            modifier = Modifier.Companion.padding(
+            modifier = Modifier.padding(
                 top = 8.dp,
                 start = 12.dp,
                 end = 12.dp,
@@ -123,9 +123,9 @@ internal fun FloatPaletteImageModelTripleItem(
             }
         )
     }
-    Spacer(Modifier.Companion.height(4.dp))
+    Spacer(Modifier.height(4.dp))
     ImageSelector(
-        modifier = Modifier.Companion.padding(
+        modifier = Modifier.padding(
             horizontal = 16.dp
         ),
         value = uri1,
@@ -145,5 +145,5 @@ internal fun FloatPaletteImageModelTripleItem(
         subtitle = null,
         shape = ContainerShapeDefaults.bottomShape
     )
-    Spacer(Modifier.Companion.height(16.dp))
+    Spacer(Modifier.height(16.dp))
 }

@@ -73,7 +73,7 @@ internal fun NumberNumberBlurEdgeModeTripleItem(
     }
 
     Column(
-        modifier = Modifier.Companion.padding(8.dp)
+        modifier = Modifier.padding(8.dp)
     ) {
         paramsInfo.forEach { (state, info) ->
             val (title, valueRange, roundTo) = info

@@ -47,7 +47,7 @@ internal fun ColorModelTripleItem(
     previewOnly: Boolean
 ) {
     Box(
-        modifier = Modifier.Companion.padding(
+        modifier = Modifier.padding(
             start = 16.dp,
             top = 16.dp,
             end = 16.dp
@@ -77,7 +77,7 @@ internal fun ColorModelTripleItem(
                 titleFontWeight = FontWeight.Companion.Normal,
                 contentHorizontalPadding = 0.dp
             )
-            Spacer(Modifier.Companion.height(8.dp))
+            Spacer(Modifier.height(8.dp))
             ColorRowSelector(
                 title = stringResource(R.string.second_color),
                 value = color2,
@@ -97,7 +97,7 @@ internal fun ColorModelTripleItem(
                 titleFontWeight = FontWeight.Companion.Normal,
                 contentHorizontalPadding = 0.dp
             )
-            Spacer(Modifier.Companion.height(8.dp))
+            Spacer(Modifier.height(8.dp))
             ColorRowSelector(
                 title = stringResource(R.string.third_color),
                 value = color3,
