@@ -22,7 +22,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
@@ -128,7 +128,7 @@ fun PickImageFromUrisSheet(
                                         .clip(RoundedCornerShape(pictureShape))
                                         .padding(padding)
                                         .clip(RoundedCornerShape(pictureShape))
-                                        .clickable {
+                                        .hapticsClickable {
                                             onUriPicked(uri)
                                             onDismiss()
                                         }

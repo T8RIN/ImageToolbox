@@ -22,7 +22,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,7 +52,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -92,7 +91,7 @@ import java.util.Locale
 fun ZipContent(
     component: ZipComponent
 ) {
-    val haptics = LocalHapticFeedback.current
+    LocalHapticFeedback.current
 
     val settingsState = LocalSettingsState.current
 
@@ -163,12 +162,7 @@ fun ZipContent(
                             resultPadding = 0.dp,
                             color = MaterialTheme.colorScheme.secondaryContainer
                         )
-                        .clickable {
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
-                            filePicker.pickFile()
-                        }
+                        .hapticsClickable(onClick = filePicker::pickFile)
                         .padding(12.dp),
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )

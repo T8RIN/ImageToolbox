@@ -26,7 +26,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -63,7 +62,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -94,6 +92,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -112,7 +111,7 @@ import kotlin.random.Random
 fun CipherContent(
     component: CipherComponent
 ) {
-    val haptics = LocalHapticFeedback.current
+    LocalHapticFeedback.current
 
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
@@ -249,12 +248,7 @@ fun CipherContent(
                             resultPadding = 0.dp,
                             color = MaterialTheme.colorScheme.secondaryContainer
                         )
-                        .clickable {
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
-                            filePicker.pickFile()
-                        }
+                        .hapticsClickable(onClick = filePicker::pickFile)
                         .padding(12.dp),
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )

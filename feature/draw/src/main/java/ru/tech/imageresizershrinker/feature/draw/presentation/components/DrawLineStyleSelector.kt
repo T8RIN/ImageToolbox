@@ -23,7 +23,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -83,6 +82,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -331,7 +331,7 @@ fun DrawLineStyleSelector(
                                         borderColor = borderColor,
                                         resultPadding = 0.dp
                                     )
-                                    .clickable {
+                                    .hapticsClickable {
                                         onValueChange(
                                             DrawLineStyle.Stamped(
                                                 shape = iconShape.shape,

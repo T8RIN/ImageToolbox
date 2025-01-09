@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,6 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelection
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -259,7 +259,7 @@ fun ConfettiHarmonizerSettingItem(
                                         )
                                         .transparencyChecker()
                                         .background(color, CircleShape)
-                                        .clickable {
+                                        .hapticsClickable {
                                             tempColor = color.toArgb()
                                         },
                                     contentAlignment = Alignment.Center

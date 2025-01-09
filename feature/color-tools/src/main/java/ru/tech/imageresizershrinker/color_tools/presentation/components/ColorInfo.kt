@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.color_tools.presentation.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -59,6 +58,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -104,7 +104,7 @@ internal fun ColorInfo(
                         .clip(RoundedCornerShape(16.dp))
                         .transparencyChecker()
                         .background(boxColor)
-                        .clickable {
+                        .hapticsClickable {
                             context.copyToClipboard(
                                 label = context.getString(R.string.color),
                                 value = getFormattedColor(selectedColor)

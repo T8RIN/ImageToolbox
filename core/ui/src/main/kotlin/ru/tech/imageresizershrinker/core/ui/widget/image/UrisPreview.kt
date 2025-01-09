@@ -21,7 +21,6 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -58,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
@@ -123,7 +123,7 @@ fun UrisPreview(
                         modifier = Modifier
                             .then(
                                 if (onClickUri != null) {
-                                    Modifier.clickable {
+                                    Modifier.hapticsClickable {
                                         onClickUri(uri)
                                     }
                                 } else Modifier
@@ -157,7 +157,7 @@ fun UrisPreview(
                                             animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value
                                         )
                                     )
-                                    .clickable(
+                                    .hapticsClickable(
                                         enabled = uris.size > 1
                                     ) {
                                         onRemoveUri(uri)
@@ -205,9 +205,7 @@ fun UrisPreview(
                             .aspectRatio(1f)
                             .then(
                                 if (onAddUris != null) {
-                                    Modifier.clickable {
-                                        onAddUris()
-                                    }
+                                    Modifier.hapticsClickable(onClick = onAddUris)
                                 } else Modifier
                             ),
                         contentAlignment = Alignment.Center,

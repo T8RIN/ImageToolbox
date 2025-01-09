@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components.ad
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -56,6 +55,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.containerFabBorder
 
@@ -143,7 +143,7 @@ fun FabPreview(
                             shape = RoundedCornerShape(7.dp),
                         )
                         .clip(RoundedCornerShape(7.dp))
-                        .clickable { },
+                        .hapticsClickable { },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(

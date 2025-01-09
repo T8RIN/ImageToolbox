@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.crop.presentation.components
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -66,6 +65,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import kotlin.math.roundToInt
@@ -147,7 +147,7 @@ fun CropMaskSelection(
                             )
                             else MaterialTheme.colorScheme.outlineVariant()
                         )
-                        .clickable {
+                        .hapticsClickable {
                             if (item.cropOutline is ImageMaskOutline) {
                                 maskLauncher.pickImage()
                             } else {

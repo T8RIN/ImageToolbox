@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
@@ -162,7 +162,7 @@ fun IconShapeSettingItem(
                             borderColor = borderColor,
                             resultPadding = 0.dp
                         )
-                        .clickable {
+                        .hapticsClickable {
                             onValueChange(index)
                         },
                     contentAlignment = Alignment.Center
@@ -198,7 +198,7 @@ fun IconShapeSettingItem(
                             borderColor = borderColor,
                             resultPadding = 0.dp
                         )
-                        .clickable {
+                        .hapticsClickable {
                             onValueChange(-1)
                         },
                     contentAlignment = Alignment.Center

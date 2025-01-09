@@ -22,7 +22,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -75,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetD
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
@@ -242,7 +242,7 @@ fun EmojiSelectionSheet(
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
                                         resultPadding = 0.dp
                                     )
-                                    .clickable {
+                                    .hapticsClickable {
                                         expandedCategories = if (expanded) {
                                             expandedCategories.replace(title, "")
                                         } else expandedCategories + title
@@ -300,7 +300,7 @@ fun EmojiSelectionSheet(
                                                 borderColor = borderColor,
                                                 resultPadding = 0.dp
                                             )
-                                            .clickable {
+                                            .hapticsClickable {
                                                 onEmojiPicked(index)
                                             },
                                         contentAlignment = Alignment.Center

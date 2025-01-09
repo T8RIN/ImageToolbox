@@ -21,7 +21,6 @@ package ru.tech.imageresizershrinker.feature.easter_egg.presentation
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -77,6 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -228,7 +228,7 @@ fun EasterEggContent(
                     modifier = Modifier
                         .clip(MaterialStarShape)
                         .background(MaterialTheme.colorScheme.tertiaryContainer)
-                        .clickable {
+                        .hapticsClickable {
                             speed = if (speed == 0.2f) {
                                 Random.nextFloat()
                             } else 0.2f

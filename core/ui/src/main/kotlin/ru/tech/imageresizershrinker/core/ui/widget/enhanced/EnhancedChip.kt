@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
@@ -36,14 +35,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -60,7 +58,6 @@ fun EnhancedChip(
     defaultMinSize: Dp = 36.dp,
     label: @Composable () -> Unit
 ) {
-    val haptics = LocalHapticFeedback.current
     val color by animateColorAsState(
         if (selected) selectedColor
         else unselectedColor
@@ -94,11 +91,8 @@ fun EnhancedChip(
                 )
                 .then(
                     onClick?.let {
-                        Modifier.clickable {
+                        Modifier.hapticsClickable {
                             focus.clearFocus()
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
                             onClick()
                         }
                     } ?: Modifier

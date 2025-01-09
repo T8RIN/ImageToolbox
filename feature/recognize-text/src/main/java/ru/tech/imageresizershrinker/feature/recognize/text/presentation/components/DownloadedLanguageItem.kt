@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.recognize.text.presentation.compone
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
@@ -72,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedCheckbox
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
@@ -123,7 +123,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                         autoShadowElevation = 0.dp,
                         resultPadding = 0.dp
                     )
-                    .clickable {
+                    .hapticsClickable {
                         scope.launch {
                             state.animateTo(RevealValue.Default)
                         }
@@ -221,10 +221,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .clickable {
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
-                                    )
+                                .hapticsClickable {
                                     onValueChangeForced(value, type)
                                 }
                         ) {

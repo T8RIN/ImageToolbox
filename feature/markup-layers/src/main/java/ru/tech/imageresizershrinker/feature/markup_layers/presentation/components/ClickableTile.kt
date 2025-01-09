@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -34,6 +33,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
@@ -85,7 +85,7 @@ internal fun ClickableTile(
                 color = MaterialTheme.colorScheme.surfaceContainerLow,
                 resultPadding = 0.dp
             )
-            .clickable(onClick = onClick)
+            .hapticsClickable(onClick = onClick)
             .padding(6.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

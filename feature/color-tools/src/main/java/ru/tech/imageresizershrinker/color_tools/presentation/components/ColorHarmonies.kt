@@ -23,7 +23,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,6 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -148,7 +148,7 @@ internal fun ColorHarmonies(
                                 .clip(RoundedCornerShape(8.dp))
                                 .transparencyChecker()
                                 .background(boxColor)
-                                .clickable {
+                                .hapticsClickable {
                                     context.copyToClipboard(
                                         label = context.getString(R.string.color),
                                         value = getFormattedColor(color)

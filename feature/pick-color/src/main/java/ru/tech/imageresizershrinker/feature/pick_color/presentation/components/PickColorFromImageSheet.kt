@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -66,6 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -160,7 +160,7 @@ fun PickColorFromImageSheet(
                                         shape = RoundedCornerShape(11.dp)
                                     )
                                     .clip(RoundedCornerShape(12.dp))
-                                    .clickable {
+                                    .hapticsClickable {
                                         context.copyToClipboard(
                                             context.getString(R.string.color),
                                             color.toHex()
@@ -193,7 +193,7 @@ fun PickColorFromImageSheet(
                             Text(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(8.dp))
-                                    .clickable {
+                                    .hapticsClickable {
                                         context.copyToClipboard(
                                             context.getString(R.string.color),
                                             color.toHex()

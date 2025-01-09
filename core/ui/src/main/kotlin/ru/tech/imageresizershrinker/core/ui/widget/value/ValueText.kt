@@ -22,7 +22,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalContentColor
@@ -33,12 +32,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
@@ -57,7 +55,6 @@ fun ValueText(
         0.25f
     )
 ) {
-    val haptics = LocalHapticFeedback.current
     val text by remember(customText, value, valueSuffix) {
         derivedStateOf {
             customText ?: "${value.toString().trimTrailingZero()}$valueSuffix"
@@ -79,12 +76,7 @@ fun ValueText(
             color = LocalContentColor.current.copy(0.5f),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .clickable(enabled = enabled) {
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
-                    onClick()
-                }
+                .hapticsClickable(enabled = enabled, onClick = onClick)
                 .padding(horizontal = 16.dp, vertical = 6.dp),
             lineHeight = 18.sp
         )

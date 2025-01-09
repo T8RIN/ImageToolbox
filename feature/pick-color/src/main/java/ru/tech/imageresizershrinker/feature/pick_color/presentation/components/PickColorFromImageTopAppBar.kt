@@ -26,7 +26,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -67,6 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentia
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -168,7 +168,7 @@ internal fun PickColorFromImageTopAppBar(
                                             modifier = Modifier
                                                 .padding(horizontal = 8.dp)
                                                 .clip(RoundedCornerShape(8.dp))
-                                                .clickable {
+                                                .hapticsClickable {
                                                     context.copyToClipboard(
                                                         context.getString(R.string.color),
                                                         color.toHex()
@@ -225,7 +225,7 @@ internal fun PickColorFromImageTopAppBar(
                                                     shape = RoundedCornerShape(11.dp)
                                                 )
                                                 .clip(RoundedCornerShape(12.dp))
-                                                .clickable {
+                                                .hapticsClickable {
                                                     context.copyToClipboard(
                                                         context.getString(R.string.color),
                                                         color.toHex()
@@ -263,7 +263,7 @@ internal fun PickColorFromImageTopAppBar(
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp)
                                             .clip(RoundedCornerShape(8.dp))
-                                            .clickable {
+                                            .hapticsClickable {
                                                 context.copyToClipboard(
                                                     context.getString(R.string.color),
                                                     color.toHex()
@@ -312,7 +312,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 shape = RoundedCornerShape(11.dp)
                                             )
                                             .clip(RoundedCornerShape(12.dp))
-                                            .clickable {
+                                            .hapticsClickable {
                                                 context.copyToClipboard(
                                                     context.getString(R.string.color),
                                                     color.toHex()

@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.document_scanner.presentation
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -49,10 +48,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -71,6 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
@@ -86,8 +84,6 @@ import ru.tech.imageresizershrinker.feature.document_scanner.presentation.screen
 fun DocumentScannerContent(
     component: DocumentScannerComponent
 ) {
-    val haptics = LocalHapticFeedback.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -165,10 +161,7 @@ fun DocumentScannerContent(
                             resultPadding = 0.dp,
                             color = MaterialTheme.colorScheme.secondaryContainer
                         )
-                        .clickable {
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
+                        .hapticsClickable {
                             runCatching {
                                 documentScanner.scan()
                             }.onFailure {

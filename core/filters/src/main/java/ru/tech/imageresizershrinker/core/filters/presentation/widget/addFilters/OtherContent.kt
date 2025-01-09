@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters
 
 import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -68,6 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -159,7 +159,7 @@ internal fun OtherContent(
                                 modifier = Modifier
                                     .weight(1f)
                                     .clip(shape)
-                                    .clickable {
+                                    .hapticsClickable {
                                         component.setFilterPreviewModel(
                                             index.toString()
                                         )

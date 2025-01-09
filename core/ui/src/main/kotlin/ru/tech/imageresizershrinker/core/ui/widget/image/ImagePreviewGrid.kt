@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import android.net.Uri
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -54,6 +53,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 
@@ -148,7 +148,7 @@ fun ImagePreviewGrid(
                             resultPadding = 0.dp,
                             color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f)
                         )
-                        .clickable(onClick = imagePicker::pickImage),
+                        .hapticsClickable(onClick = imagePicker::pickImage),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(

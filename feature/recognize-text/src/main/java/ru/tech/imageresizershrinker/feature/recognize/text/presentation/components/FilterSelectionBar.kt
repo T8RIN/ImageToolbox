@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,13 +35,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
@@ -54,7 +53,7 @@ fun FilterSelectionBar(
     onSharpnessClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val haptics = LocalHapticFeedback.current
+    LocalHapticFeedback.current
     val (hasContrast, hasSharpness, hasThreshold) = remember(addedFilters) {
         derivedStateOf {
             Triple(
@@ -108,12 +107,7 @@ fun FilterSelectionBar(
                         ),
                         resultPadding = 0.dp
                     )
-                    .clickable {
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
-                        onContrastClick()
-                    }
+                    .hapticsClickable(onClick = onContrastClick)
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -132,12 +126,7 @@ fun FilterSelectionBar(
                         shape = RoundedCornerShape(4.dp),
                         resultPadding = 0.dp
                     )
-                    .clickable {
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
-                        onSharpnessClick()
-                    }
+                    .hapticsClickable(onClick = onSharpnessClick)
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -161,12 +150,7 @@ fun FilterSelectionBar(
                         ),
                         resultPadding = 0.dp
                     )
-                    .clickable {
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
-                        onThresholdClick()
-                    }
+                    .hapticsClickable(onClick = onThresholdClick)
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {

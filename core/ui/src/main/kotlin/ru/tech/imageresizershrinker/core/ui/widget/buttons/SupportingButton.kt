@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -33,10 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 
 @Composable
 fun SupportingButton(
@@ -46,7 +44,6 @@ fun SupportingButton(
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     contentColor: Color = MaterialTheme.colorScheme.contentColorFor(containerColor)
 ) {
-    val haptics = LocalHapticFeedback.current
     Icon(
         imageVector = icon,
         contentDescription = icon.name,
@@ -57,12 +54,7 @@ fun SupportingButton(
                 shape = CircleShape
             )
             .clip(CircleShape)
-            .clickable {
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.TextHandleMove
-                )
-                onClick()
-            }
+            .hapticsClickable(onClick = onClick)
             .padding(1.dp)
             .size(
                 with(LocalDensity.current) {

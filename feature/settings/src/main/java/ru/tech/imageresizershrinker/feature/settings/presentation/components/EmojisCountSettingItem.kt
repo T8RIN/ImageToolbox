@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -35,6 +34,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Robot
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
@@ -54,7 +54,7 @@ fun EmojisCountSettingItem(
             if (settingsState.selectedEmoji == null) {
                 Modifier
                     .clip(RoundedCornerShape(4.dp))
-                    .clickable {
+                    .hapticsClickable {
                         scope.launch {
                             toastHost.showToast(
                                 message = context.getString(R.string.random_emojis_error),

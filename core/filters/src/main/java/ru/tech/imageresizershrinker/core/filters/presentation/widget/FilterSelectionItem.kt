@@ -25,7 +25,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -55,10 +54,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
@@ -80,6 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -104,8 +102,6 @@ internal fun FilterSelectionItem(
     onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> },
     previewModel: ImageModel = remember { R.drawable.filter_preview_source.toImageModel() }
 ) {
-    val haptics = LocalHapticFeedback.current
-
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -172,12 +168,7 @@ internal fun FilterSelectionItem(
                             modifier = Modifier
                                 .size(36.dp)
                                 .clip(CircleShape)
-                                .clickable {
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
-                                    )
-                                    onOpenPreview()
-                                },
+                                .hapticsClickable(onClick = onOpenPreview),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(

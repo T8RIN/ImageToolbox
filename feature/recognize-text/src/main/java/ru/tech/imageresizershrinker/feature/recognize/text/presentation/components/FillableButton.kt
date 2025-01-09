@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -29,9 +28,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -40,7 +39,7 @@ internal fun FillableButton(
     onClick: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
-    val haptics = LocalHapticFeedback.current
+    LocalHapticFeedback.current
     Row(
         modifier = modifier
             .container(
@@ -48,12 +47,7 @@ internal fun FillableButton(
                 shape = ButtonDefaults.shape,
                 resultPadding = 0.dp
             )
-            .clickable {
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
-                onClick()
-            }
+            .hapticsClickable(onClick = onClick)
             .padding(ButtonDefaults.ContentPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center

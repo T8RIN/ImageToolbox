@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.generate_palette.presentation.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
@@ -62,7 +62,7 @@ fun MaterialYouPaletteItem(
                     color = containerColor,
                     resultPadding = 0.dp
                 )
-                .clickable {
+                .hapticsClickable {
                     onCopy(containerColor)
                 }
                 .padding(12.dp)

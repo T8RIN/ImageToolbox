@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,13 +31,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -47,7 +45,6 @@ fun ImageNotPickedWidget(
     onPickImage: () -> Unit,
     text: String = stringResource(R.string.pick_image),
 ) {
-    val haptics = LocalHapticFeedback.current
     Column(
         modifier = modifier.container(),
         verticalArrangement = Arrangement.Center,
@@ -64,18 +61,13 @@ fun ImageNotPickedWidget(
                     resultPadding = 0.dp,
                     color = MaterialTheme.colorScheme.secondaryContainer
                 )
-                .clickable {
-                    onPickImage()
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
-                }
+                .hapticsClickable(onClick = onPickImage)
                 .padding(12.dp),
             tint = MaterialTheme.colorScheme.onSecondaryContainer
         )
         Text(
-            text,
-            Modifier.padding(16.dp),
+            text = text,
+            modifier = Modifier.padding(16.dp),
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

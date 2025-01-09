@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -92,6 +91,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.palette_selection.PaletteStyleSelection
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
@@ -459,7 +459,7 @@ fun AvailableColorTuplesSheet(
                                         borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
                                         resultPadding = 0.dp
                                     )
-                                    .clickable { onOpenColorPicker() }
+                                    .hapticsClickable(onClick = onOpenColorPicker)
                                     .padding(3.dp)
                                     .clip(CircleShape),
                                 backgroundColor = Color.Transparent

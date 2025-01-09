@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -50,6 +49,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
@@ -120,7 +120,7 @@ internal fun MarkupLayersSideMenuColumn(
                         },
                         contentDescription = null,
                         modifier = Modifier
-                            .clickable(
+                            .hapticsClickable(
                                 indication = null,
                                 interactionSource = null
                             ) {
@@ -133,7 +133,7 @@ internal fun MarkupLayersSideMenuColumn(
                             .size(boxSize)
                             .clip(RoundedCornerShape(4.dp))
                             .transparencyChecker()
-                            .clickable {
+                            .hapticsClickable {
                                 onActivateLayer(layer)
                             }
                     ) {

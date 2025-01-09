@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -74,6 +73,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -171,7 +171,7 @@ fun AspectRatioSelector(
                                 )
                                 else MaterialTheme.colorScheme.outlineVariant()
                             )
-                            .clickable {
+                            .hapticsClickable {
                                 onAspectRatioChange(
                                     aspectRatios[index],
                                     cropAspectRatio.aspectRatio
@@ -198,7 +198,7 @@ fun AspectRatioSelector(
                                     else outlineVariant()
                                 }
                             )
-                            .clickable {
+                            .hapticsClickable {
                                 if (!item::class.isInstance(selectedAspectRatio)) {
                                     onAspectRatioChange(
                                         aspectRatios[index],
