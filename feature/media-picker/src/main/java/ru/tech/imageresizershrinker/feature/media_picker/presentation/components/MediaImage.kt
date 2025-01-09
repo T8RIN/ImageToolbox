@@ -28,7 +28,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,6 +60,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
 import ru.tech.imageresizershrinker.core.ui.theme.Red
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 
@@ -103,7 +103,7 @@ fun MediaImage(
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .then(
                 if (canClick) {
-                    Modifier.combinedClickable(
+                    Modifier.hapticsCombinedClickable(
                         onClick = {
                             onItemClick(media)
                         },

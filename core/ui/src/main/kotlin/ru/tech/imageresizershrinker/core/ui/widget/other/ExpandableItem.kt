@@ -26,7 +26,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,11 +51,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -74,7 +73,7 @@ fun ExpandableItem(
     onLongClick: (() -> Unit)? = null,
     expansionIconContainerColor: Color = Color.Transparent
 ) {
-    val haptics = LocalHapticFeedback.current
+    LocalHapticFeedback.current
     Column(
         Modifier
             .animateContentSize(
@@ -92,21 +91,11 @@ fun ExpandableItem(
         Row(
             modifier = Modifier
                 .clip(shape)
-                .combinedClickable(
+                .hapticsCombinedClickable(
                     interactionSource = interactionSource,
                     indication = LocalIndication.current,
-                    onLongClick = if (onLongClick != null) {
-                        {
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
-                            onLongClick()
-                        }
-                    } else null
+                    onLongClick = onLongClick
                 ) {
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
                     if (canExpand) {
                         expanded = !expanded
                     }

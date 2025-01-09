@@ -21,7 +21,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -80,7 +79,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -167,7 +167,7 @@ fun ColorSelectionRow(
                     )
                     .transparencyChecker()
                     .background(background, shape)
-                    .combinedClickable(
+                    .hapticsCombinedClickable(
                         onLongClick = {
                             context.pasteColorFromClipboard(
                                 onPastedColor = {
@@ -183,10 +183,11 @@ fun ColorSelectionRow(
                                     }
                                 }
                             )
+                        },
+                        onClick = {
+                            showColorPicker = true
                         }
-                    ) {
-                        showColorPicker = true
-                    },
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

@@ -34,7 +34,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -52,7 +51,7 @@ fun ModelTypeSelector(
     value: SegmentationMode,
     onValueChange: (SegmentationMode) -> Unit
 ) {
-    val haptics = LocalHapticFeedback.current
+    LocalHapticFeedback.current
 
     var showSelectionSheet by remember {
         mutableStateOf(false)
@@ -100,9 +99,6 @@ fun ModelTypeSelector(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = mode.title),
                     onClick = {
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
                         onValueChange(mode)
                     },
                     color = animateColorAsState(

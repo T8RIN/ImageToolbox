@@ -34,7 +34,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSim
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberEditPresetsController
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.rememberCustomHapticFeedback
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.rememberEnhancedHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
@@ -49,7 +49,7 @@ fun ImageToolboxCompositionLocals(
     val editPresetsController = rememberEditPresetsController()
     val confettiHostState = rememberConfettiHostState()
     val context = LocalContext.current
-    val customHapticFeedback = rememberCustomHapticFeedback(settingsState.hapticsStrength)
+    val customHapticFeedback = rememberEnhancedHapticFeedback(settingsState.hapticsStrength)
 
     val values = remember(
         toastHostState,

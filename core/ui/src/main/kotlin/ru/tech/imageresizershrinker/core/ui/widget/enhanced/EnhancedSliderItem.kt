@@ -26,7 +26,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,7 +58,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -224,7 +222,7 @@ fun EnhancedSliderItem(
                                             },
                                             state = tooltipState,
                                             content = {
-                                                val haptics = LocalHapticFeedback.current
+                                                LocalHapticFeedback.current
                                                 IconShapeContainer(
                                                     enabled = true,
                                                     content = {
@@ -242,17 +240,11 @@ fun EnhancedSliderItem(
                                                             LocalSettingsState.current.iconShape?.shape
                                                                 ?: CircleShape
                                                         )
-                                                        .combinedClickable(
+                                                        .hapticsCombinedClickable(
                                                             onLongClick = {
-                                                                haptics.performHapticFeedback(
-                                                                    HapticFeedbackType.TextHandleMove
-                                                                )
                                                                 scope.launch { tooltipState.show() }
                                                             },
                                                             onClick = {
-                                                                haptics.performHapticFeedback(
-                                                                    HapticFeedbackType.TextHandleMove
-                                                                )
                                                                 scope.launch { tooltipState.show() }
                                                             }
                                                         )

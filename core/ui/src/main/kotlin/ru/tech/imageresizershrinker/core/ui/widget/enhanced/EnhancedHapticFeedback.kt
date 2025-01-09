@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 
 @file:Suppress("DEPRECATION")
 
-package ru.tech.imageresizershrinker.core.ui.widget.haptics
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -28,6 +28,7 @@ import android.view.accessibility.AccessibilityManager
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -64,7 +65,7 @@ private fun Context.isTouchExplorationEnabled(): Boolean {
     return accessibilityManager?.isTouchExplorationEnabled == true
 }
 
-internal data class CustomHapticFeedback(
+internal data class EnhancedHapticFeedback(
     val hapticsStrength: Int,
     val view: View
 ) : HapticFeedback {
@@ -120,13 +121,13 @@ internal data object EmptyHaptics : HapticFeedback {
 }
 
 @Composable
-fun rememberCustomHapticFeedback(hapticsStrength: Int): HapticFeedback {
+fun rememberEnhancedHapticFeedback(hapticsStrength: Int): HapticFeedback {
     val view = LocalView.current
 
     val haptics by remember(hapticsStrength) {
         derivedStateOf {
             if (hapticsStrength == 0) EmptyHaptics
-            else CustomHapticFeedback(
+            else EnhancedHapticFeedback(
                 hapticsStrength = hapticsStrength,
                 view = view
             )
@@ -171,6 +172,69 @@ fun Modifier.hapticsClickable(
         enabled = enabled,
         onClickLabel = onClickLabel,
         role = role,
+        onClick = onClick
+    )
+}
+
+fun Modifier.hapticsCombinedClickable(
+    interactionSource: MutableInteractionSource?,
+    indication: Indication?,
+    enabled: Boolean = true,
+    onClickLabel: String? = null,
+    role: Role? = null,
+    onLongClickLabel: String? = null,
+    onLongClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
+    onClick: () -> Unit
+) = this.composed {
+    val haptics = LocalHapticFeedback.current
+
+    Modifier.combinedClickable(
+        interactionSource = interactionSource,
+        indication = indication,
+        enabled = enabled,
+        onClickLabel = onClickLabel,
+        role = role,
+        onLongClickLabel = onLongClickLabel,
+        onLongClick = if (onLongClick != null) {
+            {
+                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                onLongClick()
+            }
+        } else null,
+        onDoubleClick = if (onDoubleClick != null) {
+            {
+                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                onDoubleClick()
+            }
+        } else null,
+        hapticFeedbackEnabled = false,
+        onClick = {
+            haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+            onClick()
+        }
+    )
+}
+
+fun Modifier.hapticsCombinedClickable(
+    enabled: Boolean = true,
+    onClickLabel: String? = null,
+    role: Role? = null,
+    onLongClickLabel: String? = null,
+    onLongClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
+    onClick: () -> Unit
+) = this.composed {
+    hapticsCombinedClickable(
+        interactionSource = null,
+        indication = LocalIndication.current,
+        enabled = enabled,
+        onClickLabel = onClickLabel,
+        role = role,
+        onLongClickLabel = onLongClickLabel,
+        onLongClick = onLongClick,
+        onDoubleClick = onDoubleClick,
         onClick = onClick
     )
 }

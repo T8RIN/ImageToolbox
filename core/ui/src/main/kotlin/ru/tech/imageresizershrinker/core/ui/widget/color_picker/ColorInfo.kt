@@ -76,7 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColor
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -332,12 +332,4 @@ private fun getFormattedColor(color: Int): String {
     } else {
         colorToHexAlpha(Color(color))
     }.uppercase()
-}
-
-private operator fun String.times(i: Int): String {
-    var s = ""
-    repeat(i) {
-        s += this
-    }
-    return s
 }

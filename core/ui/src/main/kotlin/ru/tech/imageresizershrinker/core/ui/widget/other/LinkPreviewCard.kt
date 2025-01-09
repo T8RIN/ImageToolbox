@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.other
 import android.content.ClipData
 import android.content.Intent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -63,6 +62,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LinkPreview
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
@@ -86,7 +86,7 @@ fun LinkPreviewCard(
                 color = MaterialTheme.colorScheme.surface,
                 resultPadding = 0.dp
             )
-            .combinedClickable(
+            .hapticsCombinedClickable(
                 onClick = {
                     linkPreview.link?.let {
                         context.startActivity(

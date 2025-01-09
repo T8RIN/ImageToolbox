@@ -21,7 +21,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
@@ -52,6 +51,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -90,9 +90,7 @@ fun ColorTuplePreview(
                 borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
                 resultPadding = 0.dp
             )
-            .combinedClickable(
-                onClick = onClick
-            )
+            .hapticsClickable(onClick = onClick)
             .padding(3.dp)
             .clip(CircleShape),
         backgroundColor = Color.Transparent

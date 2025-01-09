@@ -22,7 +22,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -38,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -72,16 +72,16 @@ fun MediaStickyHeader(
             style = if (showAsBig) bigTextStyle else smallTextStyle,
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.then(
-                if (!showAsBig) Modifier.combinedClickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onLongClick = {
-                        onChecked?.invoke()
-                    },
-                    onClick = {
-                        if (isCheckVisible.value) onChecked?.invoke()
-                    }
-                ) else Modifier
+                if (!showAsBig) {
+                    Modifier.hapticsCombinedClickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onLongClick = onChecked,
+                        onClick = {
+                            if (isCheckVisible.value) onChecked?.invoke()
+                        }
+                    )
+                } else Modifier
             )
         )
         if (!showAsBig && onChecked != null) {

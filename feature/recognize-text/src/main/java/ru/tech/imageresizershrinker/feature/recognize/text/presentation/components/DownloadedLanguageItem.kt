@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.recognize.text.presentation.compone
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -54,7 +53,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -71,7 +69,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedCheckbox
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
@@ -143,7 +142,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
         },
         directions = setOf(RevealDirection.EndToStart),
         swipeableContent = {
-            val haptics = LocalHapticFeedback.current
+            LocalHapticFeedback.current
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -159,21 +158,16 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                         ).value,
                         resultPadding = 0.dp
                     )
-                    .combinedClickable(
+                    .hapticsCombinedClickable(
                         onLongClick = {
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
                             scope.launch {
                                 state.animateTo(RevealValue.FullyRevealedStart)
                             }
+                        },
+                        onClick = {
+                            onValueChange(selected, lang)
                         }
-                    ) {
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
-                        onValueChange(selected, lang)
-                    }
+                    )
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

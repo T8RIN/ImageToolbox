@@ -57,7 +57,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -73,7 +72,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.haptics.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -252,7 +251,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         },
                         directions = setOf(RevealDirection.EndToStart),
                         swipeableContent = {
-                            val haptics = LocalHapticFeedback.current
+                            LocalHapticFeedback.current
                             PreferenceItem(
                                 title = title,
                                 subtitle = subtitle,
@@ -266,9 +265,6 @@ fun OneTimeSaveLocationSelectionDialog(
                                 },
                                 onLongClick = if (item != null) {
                                     {
-                                        haptics.performHapticFeedback(
-                                            HapticFeedbackType.LongPress
-                                        )
                                         scope.launch {
                                             state.animateTo(RevealValue.FullyRevealedStart)
                                         }

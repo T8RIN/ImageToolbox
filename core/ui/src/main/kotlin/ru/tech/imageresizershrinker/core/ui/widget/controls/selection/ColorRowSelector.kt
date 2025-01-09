@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -60,6 +58,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -142,7 +141,7 @@ fun ColorRowSelector(
                                 },
                                 state = tooltipState,
                                 content = {
-                                    val haptics = LocalHapticFeedback.current
+                                    LocalHapticFeedback.current
                                     IconShapeContainer(
                                         enabled = true,
                                         content = {
@@ -159,17 +158,11 @@ fun ColorRowSelector(
                                                 LocalSettingsState.current.iconShape?.shape
                                                     ?: CircleShape
                                             )
-                                            .combinedClickable(
+                                            .hapticsCombinedClickable(
                                                 onLongClick = {
-                                                    haptics.performHapticFeedback(
-                                                        HapticFeedbackType.TextHandleMove
-                                                    )
                                                     scope.launch { tooltipState.show() }
                                                 },
                                                 onClick = {
-                                                    haptics.performHapticFeedback(
-                                                        HapticFeedbackType.TextHandleMove
-                                                    )
                                                     scope.launch { tooltipState.show() }
                                                 }
                                             )
