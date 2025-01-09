@@ -267,19 +267,19 @@ sealed class ImageFormat(
         canChangeCompressionValue = false
     )
 
+    sealed class CompressionType(
+        open val compressionRange: IntRange = 0..100
+    ) {
+        data class Quality(
+            override val compressionRange: IntRange = 0..100
+        ) : CompressionType(compressionRange)
+
+        data class Effort(
+            override val compressionRange: IntRange = 0..100
+        ) : CompressionType(compressionRange)
+    }
+
     companion object {
-        sealed class CompressionType(
-            open val compressionRange: IntRange = 0..100
-        ) {
-            data class Quality(
-                override val compressionRange: IntRange = 0..100
-            ) : CompressionType(compressionRange)
-
-            data class Effort(
-                override val compressionRange: IntRange = 0..100
-            ) : CompressionType(compressionRange)
-        }
-
         val Default: ImageFormat by lazy { Jpg }
 
         operator fun get(typeString: String?): ImageFormat = when {

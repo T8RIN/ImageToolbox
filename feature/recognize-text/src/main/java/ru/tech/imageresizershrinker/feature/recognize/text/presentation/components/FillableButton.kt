@@ -50,12 +50,12 @@ internal fun FillableButton(
             )
             .clickable {
                 haptics.performHapticFeedback(
-                    HapticFeedbackType.Companion.LongPress
+                    HapticFeedbackType.LongPress
                 )
                 onClick()
             }
             .padding(ButtonDefaults.ContentPadding),
-        verticalAlignment = Alignment.Companion.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         CompositionLocalProvider(

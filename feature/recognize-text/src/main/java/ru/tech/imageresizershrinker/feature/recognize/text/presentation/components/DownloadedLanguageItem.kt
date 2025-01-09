@@ -136,7 +136,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                     modifier = Modifier
                         .padding(16.dp)
                         .padding(end = 8.dp)
-                        .align(Alignment.Companion.CenterEnd),
+                        .align(Alignment.CenterEnd),
                     tint = MaterialTheme.colorScheme.onErrorContainer
                 )
             }
@@ -162,7 +162,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                     .combinedClickable(
                         onLongClick = {
                             haptics.performHapticFeedback(
-                                HapticFeedbackType.Companion.LongPress
+                                HapticFeedbackType.LongPress
                             )
                             scope.launch {
                                 state.animateTo(RevealValue.FullyRevealedStart)
@@ -170,16 +170,16 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                         }
                     ) {
                         haptics.performHapticFeedback(
-                            HapticFeedbackType.Companion.LongPress
+                            HapticFeedbackType.LongPress
                         )
                         onValueChange(selected, lang)
                     }
                     .padding(16.dp),
-                verticalAlignment = Alignment.Companion.CenterVertically
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 AnimatedVisibility(visible = value.size > 1) {
                     LocalMinimumInteractiveComponentSize.ProvidesValue(
-                        Dp.Companion.Unspecified
+                        Dp.Unspecified
                     ) {
                         EnhancedCheckbox(
                             checked = selected,
@@ -195,7 +195,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                         text = lang.name,
                         style = LocalTextStyle.current.copy(
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Companion.Medium,
+                            fontWeight = FontWeight.Medium,
                             lineHeight = 18.sp
                         )
                     )
@@ -204,7 +204,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                         Text(
                             text = lang.localizedName,
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.Companion.Normal,
+                            fontWeight = FontWeight.Normal,
                             lineHeight = 14.sp,
                             color = LocalContentColor.current.copy(alpha = 0.5f)
                         )
@@ -217,13 +217,13 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                 ) {
                     RecognitionType.entries.forEach { type ->
                         Column(
-                            horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                            horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier
                                 .clip(CircleShape)
                                 .clickable {
                                     haptics.performHapticFeedback(
-                                        HapticFeedbackType.Companion.LongPress
+                                        HapticFeedbackType.LongPress
                                     )
                                     onValueChangeForced(value, type)
                                 }

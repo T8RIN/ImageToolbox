@@ -88,7 +88,7 @@ internal fun ColorMixing(
     var colorToMix by rememberSaveable(
         stateSaver = ColorSaver
     ) {
-        mutableStateOf(appColorTuple.tertiary ?: Color.Companion.Yellow)
+        mutableStateOf(appColorTuple.tertiary ?: Color.Yellow)
     }
     val mixedColors by remember(selectedColor, mixingVariation, colorToMix) {
         derivedStateOf {
@@ -142,7 +142,7 @@ internal fun ColorMixing(
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalAlignment = Alignment.Companion.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     mixedColors.forEachIndexed { index, color ->
                         val boxColor by animateColorAsState(color)
@@ -183,7 +183,7 @@ internal fun ColorMixing(
                                 contentDescription = stringResource(R.string.copy),
                                 tint = contentColor,
                                 modifier = Modifier
-                                    .align(Alignment.Companion.TopEnd)
+                                    .align(Alignment.TopEnd)
                                     .padding(4.dp)
                                     .size(28.dp)
                                     .background(
@@ -197,7 +197,7 @@ internal fun ColorMixing(
                                 text = color.toHex(),
                                 color = contentColor,
                                 modifier = Modifier
-                                    .align(Alignment.Companion.BottomStart)
+                                    .align(Alignment.BottomStart)
                                     .padding(4.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
@@ -217,7 +217,7 @@ internal fun ColorMixing(
                                 }.value,
                                 color = contentColor,
                                 modifier = Modifier
-                                    .align(Alignment.Companion.BottomEnd)
+                                    .align(Alignment.BottomEnd)
                                     .padding(4.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),

@@ -81,7 +81,7 @@ internal fun ColorShading(
     val shades by remember(selectedColor, shadingVariation) {
         derivedStateOf {
             selectedColor.mixWith(
-                color = Color.Companion.Black,
+                color = Color.Black,
                 variations = shadingVariation,
                 maxPercent = 0.9f
             )
@@ -99,7 +99,7 @@ internal fun ColorShading(
     val tints by remember(selectedColor, shadingVariation) {
         derivedStateOf {
             selectedColor.mixWith(
-                color = Color.Companion.White,
+                color = Color.White,
                 variations = shadingVariation,
                 maxPercent = 0.8f
             )
@@ -143,7 +143,7 @@ internal fun ColorShading(
                         Column(
                             modifier = Modifier.weight(1f),
                             verticalArrangement = Arrangement.spacedBy(4.dp),
-                            horizontalAlignment = Alignment.Companion.CenterHorizontally
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(text = stringResource(title))
                             data.forEachIndexed { index, color ->
@@ -185,7 +185,7 @@ internal fun ColorShading(
                                         contentDescription = stringResource(R.string.copy),
                                         tint = contentColor,
                                         modifier = Modifier
-                                            .align(Alignment.Companion.TopEnd)
+                                            .align(Alignment.TopEnd)
                                             .padding(4.dp)
                                             .size(28.dp)
                                             .background(
@@ -199,7 +199,7 @@ internal fun ColorShading(
                                         text = color.toHex(),
                                         color = contentColor,
                                         modifier = Modifier
-                                            .align(Alignment.Companion.BottomStart)
+                                            .align(Alignment.BottomStart)
                                             .padding(4.dp)
                                             .background(
                                                 color = boxColor.copy(alpha = 1f),

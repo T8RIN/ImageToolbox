@@ -18,56 +18,18 @@
 package ru.tech.imageresizershrinker.feature.jxl_tools.presentation
 
 import android.net.Uri
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.SelectAll
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
-import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isJxl
@@ -76,26 +38,15 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
-import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
-import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
-import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.AnimatedJxlParamsSelector
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.JxlToolsBitmapPreview
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.JxlToolsButtons
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.JxlToolsControls
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.JxlToolsNoDataControls
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.components.JxlToolsTopAppBarActions
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.screenLogic.JxlToolsComponent
 
 @Composable
@@ -226,14 +177,6 @@ fun JxlToolsContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val uris = when (val type = component.type) {
-        is Screen.JxlTools.Type.JpegToJxl -> type.jpegImageUris
-        is Screen.JxlTools.Type.JxlToJpeg -> type.jxlImageUris
-        is Screen.JxlTools.Type.ImageToJxl -> type.imageUris
-        is Screen.JxlTools.Type.JxlToImage -> listOfNotNull(type.jxlUri)
-        null -> null
-    } ?: emptyList()
-
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
@@ -249,71 +192,7 @@ fun JxlToolsContent(
         },
         onGoBack = onBack,
         topAppBarPersistentActions = {
-            val isJxlToImage = component.type is Screen.JxlTools.Type.JxlToImage
-            if (component.type == null) TopAppBarEmoji()
-            else if (!isJxlToImage) {
-                ShareButton(
-                    enabled = !component.isLoading && component.type != null,
-                    onShare = {
-                        component.performSharing(
-                            onFailure = onFailure,
-                            onComplete = showConfetti
-                        )
-                    }
-                )
-            }
-            val pagesSize by remember(component.imageFrames, component.convertedImageUris) {
-                derivedStateOf {
-                    component.imageFrames.getFramePositions(component.convertedImageUris.size).size
-                }
-            }
-            AnimatedVisibility(
-                visible = isJxlToImage && pagesSize != component.convertedImageUris.size,
-                enter = fadeIn() + scaleIn() + expandHorizontally(),
-                exit = fadeOut() + scaleOut() + shrinkHorizontally()
-            ) {
-                EnhancedIconButton(
-                    onClick = component::selectAllConvertedImages
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.SelectAll,
-                        contentDescription = "Select All"
-                    )
-                }
-            }
-            AnimatedVisibility(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .container(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                        resultPadding = 0.dp
-                    ),
-                visible = isJxlToImage && pagesSize != 0
-            ) {
-                Row(
-                    modifier = Modifier.padding(start = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    pagesSize.takeIf { it != 0 }?.let {
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            text = it.toString(),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                    EnhancedIconButton(
-                        onClick = component::clearConvertedImagesSelection
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Close,
-                            contentDescription = stringResource(R.string.close)
-                        )
-                    }
-                }
-            }
+            JxlToolsTopAppBarActions(component = component)
         },
         actions = {
             if (component.type is Screen.JxlTools.Type.JxlToImage) {
@@ -329,263 +208,36 @@ fun JxlToolsContent(
             }
         },
         imagePreview = {
-            AnimatedContent(
-                targetState = component.isLoading to component.type
-            ) { (loading, type) ->
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = if (loading) {
-                        Modifier.padding(32.dp)
-                    } else Modifier
-                ) {
-                    if (loading || type == null) {
-                        LoadingIndicator()
-                    } else {
-                        when (type) {
-                            is Screen.JxlTools.Type.JxlToImage -> {
-                                ImagesPreviewWithSelection(
-                                    imageUris = component.convertedImageUris,
-                                    imageFrames = component.imageFrames,
-                                    onFrameSelectionChange = component::updateJxlFrames,
-                                    isPortrait = isPortrait,
-                                    isLoadingImages = component.isLoadingJxlImages
-                                )
-                            }
-
-                            is Screen.JxlTools.Type.ImageToJxl -> {
-                                ImageReorderCarousel(
-                                    images = uris,
-                                    modifier = Modifier
-                                        .padding(top = if (isPortrait) 24.dp else 0.dp)
-                                        .container(
-                                            shape = RoundedCornerShape(size = 24.dp),
-                                            color = if (isPortrait) {
-                                                Color.Unspecified
-                                            } else MaterialTheme.colorScheme.surface
-                                        ),
-                                    onReorder = {
-                                        component.setType(
-                                            Screen.JxlTools.Type.ImageToJxl(it)
-                                        )
-                                    },
-                                    onNeedToAddImage = addImages,
-                                    onNeedToRemoveImageAt = {
-                                        component.setType(
-                                            Screen.JxlTools.Type.ImageToJxl(
-                                                (component.type as Screen.JxlTools.Type.ImageToJxl)
-                                                    .imageUris?.toMutableList()
-                                                    ?.apply {
-                                                        removeAt(it)
-                                                    }
-                                            )
-                                        )
-                                    }
-                                )
-                                Spacer(modifier = Modifier.height(12.dp))
-                            }
-
-                            else -> Unit
-                        }
-                    }
-                }
-            }
+            JxlToolsBitmapPreview(
+                component = component,
+                onAddImages = addImages
+            )
         },
         placeImagePreview = component.type is Screen.JxlTools.Type.JxlToImage
                 || component.type is Screen.JxlTools.Type.ImageToJxl,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
-            when (component.type) {
-                is Screen.JxlTools.Type.JxlToImage -> {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    ImageFormatSelector(
-                        value = component.imageFormat,
-                        onValueChange = component::setImageFormat
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    QualitySelector(
-                        imageFormat = component.imageFormat,
-                        enabled = true,
-                        quality = component.params.quality,
-                        onQualityChange = {
-                            component.updateParams(
-                                component.params.copy(
-                                    quality = it
-                                )
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-
-                is Screen.JxlTools.Type.JpegToJxl,
-                is Screen.JxlTools.Type.JxlToJpeg -> {
-                    UrisPreview(
-                        modifier = Modifier
-                            .padding(
-                                vertical = if (isPortrait) 24.dp else 8.dp
-                            ),
-                        uris = uris,
-                        isPortrait = true,
-                        onRemoveUri = component::removeUri,
-                        onAddUris = addImages
-                    )
-                }
-
-                is Screen.JxlTools.Type.ImageToJxl -> {
-                    AnimatedJxlParamsSelector(
-                        value = component.params,
-                        onValueChange = component::updateParams
-                    )
-                }
-
-                else -> Unit
-            }
+            JxlToolsControls(
+                component = component,
+                onAddImages = addImages
+            )
         },
         contentPadding = animateDpAsState(
             if (component.type == null) 12.dp
             else 20.dp
         ).value,
         buttons = { actions ->
-            val save: (oneTimeSaveLocationUri: String?) -> Unit = {
-                component.save(
-                    oneTimeSaveLocationUri = it,
-                    onResult = essentials::parseSaveResults
-                )
-            }
-            var showFolderSelectionDialog by rememberSaveable {
-                mutableStateOf(false)
-            }
-            var showOneTimeImagePickingDialog by rememberSaveable {
-                mutableStateOf(false)
-            }
-            BottomButtonsBlock(
-                targetState = (component.type == null) to isPortrait,
-                onSecondaryButtonClick = ::pickImage,
-                isPrimaryButtonVisible = component.canSave,
-                onPrimaryButtonClick = {
-                    save(null)
-                },
-                onPrimaryButtonLongClick = {
-                    showFolderSelectionDialog = true
-                },
-                actions = {
-                    if (component.type is Screen.JxlTools.Type.JxlToImage) {
-                        actions()
-                    } else {
-                        EnhancedChip(
-                            selected = true,
-                            onClick = null,
-                            selectedColor = MaterialTheme.colorScheme.secondaryContainer,
-                            modifier = Modifier.padding(8.dp)
-                        ) {
-                            Text(uris.size.toString())
-                        }
-                    }
-                },
-                showNullDataButtonAsContainer = true,
-                onSecondaryButtonLongClick = if (component.type is Screen.JxlTools.Type.ImageToJxl || component.type == null) {
-                    {
-                        showOneTimeImagePickingDialog = true
-                    }
-                } else null
-            )
-            OneTimeSaveLocationSelectionDialog(
-                visible = showFolderSelectionDialog,
-                onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = save
-            )
-            OneTimeImagePickingDialog(
-                onDismiss = { showOneTimeImagePickingDialog = false },
-                picker = Picker.Multiple,
-                imagePicker = imagePicker,
-                visible = showOneTimeImagePickingDialog
+            JxlToolsButtons(
+                component = component,
+                actions = actions,
+                onPickImage = ::pickImage,
+                imagePicker = imagePicker
             )
         },
         insetsForNoData = WindowInsets(0),
         noDataControls = {
-            val types = remember {
-                Screen.JxlTools.Type.entries
-            }
-            val preference1 = @Composable {
-                PreferenceItem(
-                    title = stringResource(types[0].title),
-                    subtitle = stringResource(types[0].subtitle),
-                    startIcon = types[0].icon,
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickImage(types[0])
-                    }
-                )
-            }
-            val preference2 = @Composable {
-                PreferenceItem(
-                    title = stringResource(types[1].title),
-                    subtitle = stringResource(types[1].subtitle),
-                    startIcon = types[1].icon,
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickImage(types[1])
-                    }
-                )
-            }
-            val preference3 = @Composable {
-                PreferenceItem(
-                    title = stringResource(types[2].title),
-                    subtitle = stringResource(types[2].subtitle),
-                    startIcon = types[2].icon,
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickImage(types[2])
-                    }
-                )
-            }
-            val preference4 = @Composable {
-                PreferenceItem(
-                    title = stringResource(types[3].title),
-                    subtitle = stringResource(types[3].subtitle),
-                    startIcon = types[3].icon,
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        pickImage(types[3])
-                    }
-                )
-            }
-            if (isPortrait) {
-                Column {
-                    preference1()
-                    Spacer(modifier = Modifier.height(8.dp))
-                    preference2()
-                    Spacer(modifier = Modifier.height(8.dp))
-                    preference3()
-                    Spacer(modifier = Modifier.height(8.dp))
-                    preference4()
-                }
-            } else {
-                val direction = LocalLayoutDirection.current
-                val cutout = WindowInsets.displayCutout.asPaddingValues().let {
-                    PaddingValues(
-                        start = it.calculateStartPadding(direction),
-                        end = it.calculateEndPadding(direction)
-                    )
-                }
-
-                Row(
-                    modifier = Modifier.padding(cutout)
-                ) {
-                    preference1.withModifier(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    preference2.withModifier(modifier = Modifier.weight(1f))
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier.padding(cutout)
-                ) {
-                    preference3.withModifier(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    preference4.withModifier(modifier = Modifier.weight(1f))
-                }
-            }
+            JxlToolsNoDataControls(::pickImage)
         },
         isPortrait = isPortrait,
         canShowScreenData = component.type != null

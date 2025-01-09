@@ -64,7 +64,7 @@ internal fun QrCodePreview(
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Companion.Center
+        contentAlignment = Alignment.Center
     ) {
         Column(Modifier.capturable(captureController)) {
             if (qrImageUri != null) {
@@ -89,7 +89,7 @@ internal fun QrCodePreview(
             ) {
                 val targetSize = min(min(this.maxWidth, this.maxHeight), 300.dp)
                 Column(
-                    horizontalAlignment = Alignment.Companion.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     QrCode(
                         content = qrContent,
@@ -118,7 +118,7 @@ internal fun QrCodePreview(
                             Text(
                                 text = qrDescription,
                                 style = MaterialTheme.typography.headlineSmall,
-                                textAlign = TextAlign.Companion.Center,
+                                textAlign = TextAlign.Center,
                                 modifier = Modifier.width(targetSize)
                             )
                         }
@@ -128,11 +128,11 @@ internal fun QrCodePreview(
                 if (qrImageUri != null && qrContent.isNotEmpty()) {
                     Picture(
                         modifier = Modifier
-                            .align(Alignment.Companion.TopCenter)
+                            .align(Alignment.TopCenter)
                             .offset(y = (-48).dp)
                             .size(64.dp),
                         model = qrImageUri,
-                        contentScale = ContentScale.Companion.Crop,
+                        contentScale = ContentScale.Crop,
                         contentDescription = null,
                         shape = MaterialTheme.shapes.medium
                     )

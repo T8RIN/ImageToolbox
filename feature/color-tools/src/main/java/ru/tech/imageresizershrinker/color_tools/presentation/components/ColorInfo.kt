@@ -122,7 +122,7 @@ internal fun ColorInfo(
                         contentDescription = stringResource(R.string.copy),
                         tint = contentColor,
                         modifier = Modifier
-                            .align(Alignment.Companion.TopEnd)
+                            .align(Alignment.TopEnd)
                             .padding(4.dp)
                             .size(28.dp)
                             .background(
@@ -136,7 +136,7 @@ internal fun ColorInfo(
                         text = selectedColor.toHex(),
                         color = contentColor,
                         modifier = Modifier
-                            .align(Alignment.Companion.BottomStart)
+                            .align(Alignment.BottomStart)
                             .padding(4.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
@@ -154,7 +154,7 @@ internal fun ColorInfo(
                         }.value,
                         color = contentColor,
                         modifier = Modifier
-                            .align(Alignment.Companion.BottomEnd)
+                            .align(Alignment.BottomEnd)
                             .padding(4.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
@@ -196,7 +196,7 @@ internal fun ColorInfo(
                             delay(100)
                             if (wasNull) {
                                 val temp = selectedColor
-                                onColorChange(Color.Companion.White)
+                                onColorChange(Color.White)
                                 delay(100)
                                 onColorChange(temp)
                             }

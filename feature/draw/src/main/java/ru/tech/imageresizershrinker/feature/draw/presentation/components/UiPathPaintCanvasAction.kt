@@ -119,7 +119,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 val imagePaint = remember { Paint() }
                 drawImage(
                     image = shaderSource!!,
-                    topLeftOffset = Offset.Companion.Zero,
+                    topLeftOffset = Offset.Zero,
                     paint = imagePaint
                 )
             }
@@ -129,19 +129,19 @@ internal fun Canvas.UiPathPaintCanvasAction(
             val stroke = strokeWidth.toPx(canvasSize)
             val paint = Paint().apply {
                 if (isFilled) {
-                    style = PaintingStyle.Companion.Fill
+                    style = PaintingStyle.Fill
                 } else {
-                    style = PaintingStyle.Companion.Stroke
+                    style = PaintingStyle.Stroke
                     this.strokeWidth = stroke
                     if (isSharpEdge) {
-                        strokeCap = StrokeCap.Companion.Square
+                        strokeCap = StrokeCap.Square
                     } else {
-                        strokeCap = StrokeCap.Companion.Round
-                        strokeJoin = StrokeJoin.Companion.Round
+                        strokeCap = StrokeCap.Round
+                        strokeJoin = StrokeJoin.Round
                     }
                 }
 
-                color = Color.Companion.White
+                color = Color.White
             }
 
             var shaderSource by remember(backgroundColor) {
@@ -159,7 +159,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                                         canvasSize.height,
                                         Bitmap.Config.ARGB_8888
                                     ).applyCanvas {
-                                        drawColor(Color.Companion.Black.toArgb())
+                                        drawColor(Color.Black.toArgb())
                                         drawPath(
                                             path,
                                             paint.asFrameworkPaint()
@@ -173,7 +173,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                     )?.asImageBitmap()?.clipBitmap(
                         path = path.asComposePath(),
                         paint = paint.apply {
-                            blendMode = BlendMode.Companion.Clear
+                            blendMode = BlendMode.Clear
                         }
                     )?.also {
                         it.prepareToDraw()
@@ -189,7 +189,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 val imagePaint = remember { Paint() }
                 drawImage(
                     image = shaderSource!!,
-                    topLeftOffset = Offset.Companion.Zero,
+                    topLeftOffset = Offset.Zero,
                     paint = imagePaint
                 )
             }

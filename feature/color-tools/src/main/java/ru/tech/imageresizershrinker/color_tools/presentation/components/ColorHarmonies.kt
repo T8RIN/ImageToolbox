@@ -166,7 +166,7 @@ internal fun ColorHarmonies(
                                 contentDescription = stringResource(R.string.copy),
                                 tint = contentColor,
                                 modifier = Modifier
-                                    .align(Alignment.Companion.TopEnd)
+                                    .align(Alignment.TopEnd)
                                     .padding(4.dp)
                                     .size(28.dp)
                                     .background(
@@ -182,7 +182,7 @@ internal fun ColorHarmonies(
                                 text = color.toHex(),
                                 color = contentColor,
                                 modifier = Modifier
-                                    .align(Alignment.Companion.BottomStart)
+                                    .align(Alignment.BottomStart)
                                     .padding(4.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),

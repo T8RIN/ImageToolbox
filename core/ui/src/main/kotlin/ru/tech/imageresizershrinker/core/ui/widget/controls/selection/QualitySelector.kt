@@ -116,14 +116,14 @@ fun QualitySelector(
                         }
                     }
 
-                    val isQuality = type is ImageFormat.Companion.CompressionType.Quality
-                    val isEffort = type is ImageFormat.Companion.CompressionType.Effort
+                    val isQuality = type is ImageFormat.CompressionType.Quality
+                    val isEffort = type is ImageFormat.CompressionType.Effort
 
                     val compressingLiteral = if (isQuality) "%" else ""
 
                     EnhancedSliderItem(
                         value = when (type) {
-                            is ImageFormat.Companion.CompressionType.Effort -> {
+                            is ImageFormat.CompressionType.Effort -> {
                                 when (quality) {
                                     is Quality.Base -> quality.qualityValue
                                     is Quality.Jxl -> quality.effort
@@ -134,7 +134,7 @@ fun QualitySelector(
                                 }
                             }
 
-                            is ImageFormat.Companion.CompressionType.Quality -> quality.qualityValue
+                            is ImageFormat.CompressionType.Quality -> quality.qualityValue
                         },
                         title = if (isQuality) {
                             stringResource(R.string.quality)
@@ -147,7 +147,7 @@ fun QualitySelector(
                         },
                         onValueChange = {
                             when (type) {
-                                is ImageFormat.Companion.CompressionType.Effort -> {
+                                is ImageFormat.CompressionType.Effort -> {
                                     onQualityChange(
                                         when (quality) {
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
@@ -160,7 +160,7 @@ fun QualitySelector(
                                     )
                                 }
 
-                                is ImageFormat.Companion.CompressionType.Quality -> {
+                                is ImageFormat.CompressionType.Quality -> {
                                     onQualityChange(
                                         when (quality) {
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())

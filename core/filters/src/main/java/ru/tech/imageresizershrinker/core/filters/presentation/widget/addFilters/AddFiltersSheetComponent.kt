@@ -88,7 +88,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     val previewBitmap by _previewBitmap
 
     private val _cubeLutRemoteResources: MutableState<RemoteResources> =
-        mutableStateOf(RemoteResources.Companion.CubeLutDefault)
+        mutableStateOf(RemoteResources.CubeLutDefault)
     val cubeLutRemoteResources by _cubeLutRemoteResources
 
     private val _cubeLutDownloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
@@ -122,7 +122,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     ) {
         componentScope.launch {
             remoteResourcesStore.getResources(
-                name = RemoteResources.Companion.CUBE_LUT,
+                name = RemoteResources.CUBE_LUT,
                 forceUpdate = forceUpdate,
                 onDownloadRequest = { name ->
                     if (startDownloadIfNeeded) {
