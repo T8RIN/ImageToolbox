@@ -57,10 +57,10 @@
     <string name="cancel">Abbrechen</string>
     <string name="presets">Voreinstellungen</string>
     <string name="image_not_saved">Speichern</string>
-    <string name="clear">Löschen</string>
+    <string name="clear">Leeren</string>
     <string name="clear_exif_sub">Alle EXIF-Daten des Bildes werden gelöscht. Dies kann nicht rückgängig gemacht werden!</string>
     <string name="save">Speichern</string>
-    <string name="clear_exif">EXIF löschen</string>
+    <string name="clear_exif">EXIF leeren</string>
     <string name="single_edit">Einzelnes Bild</string>
     <string name="image_not_saved_sub">Alle ungespeicherten Änderungen gehen verloren, wenn Du den Dialog jetzt schließt</string>
     <string name="pick_color">Farbe auswählen</string>
@@ -283,7 +283,7 @@
     <string name="cache">Cache</string>
     <string name="cache_size">Cache-Größe</string>
     <string name="auto_cache_clearing_sub">Wenn aktiviert, wird der App-Cache beim Start der App geleert</string>
-    <string name="auto_cache_clearing">Autom. Cache-Leerung</string>
+    <string name="auto_cache_clearing">Automatische Cache-Leerung</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Die Anordnung kann nicht geändert werden, wenn die Optionen gruppiert sind</string>
     <string name="edit_screenshot">Screenshot bearbeiten</string>
     <string name="screenshot">Screenshot</string>
@@ -1531,4 +1531,8 @@
     <string name="enter_text_to_checksum">Gib den Text ein, um seine Prüfsumme des gewählten Algorithmus zu berechnen.</string>
     <string name="pick_file_to_checksum">Wählen die Datei aus, um ihre Prüfsumme des gewählten Algorithmus zu berechnen</string>
     <string name="mesh_gradients_sub">Online-Sammlung von Meshverläufen ansehen</string>
+    <string name="imported_fonts">Importierte Schriftarten</string>
+    <string name="export_fonts">Schriftarten exportieren</string>
+    <string name="wrong_font">Es können nur TTF-Schriften importiert werden</string>
+    <string name="import_font">Schriftart importieren (TTF/OTF)</string>
 </resources>
