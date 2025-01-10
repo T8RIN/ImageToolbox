@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +38,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.github.keelar.exprk.Expressions
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -247,6 +250,25 @@ internal fun ResizeImageFieldImpl(
             ) {
                 Text(stringResource(R.string.close))
             }
+        },
+        text = {
+            OutlinedTextField(
+                shape = RoundedCornerShape(16.dp),
+                value = calculatorExpression,
+                textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
+                maxLines = 1,
+                placeholder = {
+                    Text(
+                        text = "(5+5)*10",
+                        style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.outline
+                    )
+                },
+                onValueChange = { expr ->
+                    calculatorExpression = expr.replace(",", ".").filter { !it.isWhitespace() }
+                }
+            )
         }
     )
 }
