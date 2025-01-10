@@ -51,7 +51,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -73,7 +72,6 @@ fun ExpandableItem(
     onLongClick: (() -> Unit)? = null,
     expansionIconContainerColor: Color = Color.Transparent
 ) {
-    LocalHapticFeedback.current
     Column(
         Modifier
             .animateContentSize(

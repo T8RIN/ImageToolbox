@@ -35,7 +35,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -53,7 +52,6 @@ fun FilterSelectionBar(
     onSharpnessClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LocalHapticFeedback.current
     val (hasContrast, hasSharpness, hasThreshold) = remember(addedFilters) {
         derivedStateOf {
             Triple(

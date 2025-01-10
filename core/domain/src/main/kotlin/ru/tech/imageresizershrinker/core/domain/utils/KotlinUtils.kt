@@ -17,19 +17,23 @@
 
 package ru.tech.imageresizershrinker.core.domain.utils
 
-import java.util.regex.Pattern
 
 inline fun <reified T> T?.notNullAnd(
     predicate: (T) -> Boolean
 ): Boolean = if (this != null) predicate(this)
 else false
 
-fun String.isBase64() = isNotEmpty() && BASE64_PATTERN.matcher(this).matches()
+fun String.isBase64() = isNotEmpty() && BASE64_PATTERN.matches(this)
 
 fun String.trimToBase64() = filter { !it.isWhitespace() }.substringAfter(",")
 
-private val BASE64_PATTERN = Pattern.compile(
+private val BASE64_PATTERN = Regex(
     "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"
 )
 
 inline fun <reified T, reified R> T.cast(): R = this as R
+
+@Suppress("NOTHING_TO_INLINE")
+inline operator fun CharSequence.times(
+    count: Int
+): CharSequence = repeat(count.coerceAtLeast(0))

@@ -45,7 +45,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -84,7 +83,6 @@ fun PreferenceRow(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     drawContainer: Boolean = true,
 ) {
-    LocalHapticFeedback.current
     val internalColor = contentColor
         ?: contentColorFor(backgroundColor = color)
     CompositionLocalProvider(

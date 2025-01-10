@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -39,7 +38,6 @@ internal fun FillableButton(
     onClick: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
-    LocalHapticFeedback.current
     Row(
         modifier = modifier
             .container(

@@ -50,6 +50,7 @@ fun ImageToolboxCompositionLocals(
     val confettiHostState = rememberConfettiHostState()
     val context = LocalContext.current
     val customHapticFeedback = rememberEnhancedHapticFeedback(settingsState.hapticsStrength)
+    val paddingManager = rememberKeyboardPaddingManager()
 
     val values = remember(
         toastHostState,
@@ -58,7 +59,8 @@ fun ImageToolboxCompositionLocals(
         editPresetsController,
         confettiHostState,
         content,
-        customHapticFeedback
+        customHapticFeedback,
+        paddingManager
     ) {
         derivedStateOf {
             listOfNotNull(
@@ -68,7 +70,8 @@ fun ImageToolboxCompositionLocals(
                 LocalEditPresetsController provides editPresetsController,
                 LocalConfettiHostState provides confettiHostState,
                 LocalImageLoader provides context.imageLoader,
-                LocalHapticFeedback provides customHapticFeedback
+                LocalHapticFeedback provides customHapticFeedback,
+                LocalKeyboardPaddingManager provides paddingManager
             ).toTypedArray()
         }
     }

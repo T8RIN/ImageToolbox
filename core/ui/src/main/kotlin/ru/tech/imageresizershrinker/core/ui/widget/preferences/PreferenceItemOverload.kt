@@ -47,7 +47,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -87,7 +86,6 @@ fun PreferenceItemOverload(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     bottomContent: (@Composable () -> Unit)? = null
 ) {
-    LocalHapticFeedback.current
     CompositionLocalProvider(
         LocalSettingsState provides LocalSettingsState.current.let {
             if (!enabled) it.copy(
