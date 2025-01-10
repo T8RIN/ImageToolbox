@@ -33,11 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.ime as imeImpl
 import androidx.compose.foundation.layout.imePadding as imePaddingImpl
 
-val LocalKeyboardPaddingManager =
-    compositionLocalOf<KeyboardPaddingManager> { error("LocalPaddingManager not present") }
+val LocalCustomKeyboardManager =
+    compositionLocalOf<CustomKeyboardManager> { error("LocalPaddingManager not present") }
 
-
-interface KeyboardPaddingManager {
+interface CustomKeyboardManager {
     val keyboardHeight: Dp
 
     fun updateHeight(keyboardHeight: Dp)
@@ -46,14 +45,14 @@ interface KeyboardPaddingManager {
 }
 
 @Composable
-fun rememberKeyboardPaddingManager(): KeyboardPaddingManager =
-    remember { KeyboardPaddingManagerImpl() }
+fun rememberCustomKeyboardManager(): CustomKeyboardManager =
+    remember { CustomKeyboardManagerImpl() }
 
 @Composable
 fun PropagateCustomKeyboardPadding(
     keyboardHeight: Dp
 ) {
-    val paddingManager = LocalKeyboardPaddingManager.current
+    val paddingManager = LocalCustomKeyboardManager.current
 
     DisposableEffect(keyboardHeight, paddingManager) {
         paddingManager.updateHeight(keyboardHeight)
@@ -62,7 +61,7 @@ fun PropagateCustomKeyboardPadding(
     }
 }
 
-private class KeyboardPaddingManagerImpl : KeyboardPaddingManager {
+private class CustomKeyboardManagerImpl : CustomKeyboardManager {
     private val _keyboardHeight = mutableStateOf(0.dp)
 
     override val keyboardHeight: Dp by _keyboardHeight
@@ -76,7 +75,7 @@ private class KeyboardPaddingManagerImpl : KeyboardPaddingManager {
 }
 
 fun Modifier.imePadding(): Modifier = this.composed {
-    val keyboardPaddingManager = LocalKeyboardPaddingManager.current
+    val keyboardPaddingManager = LocalCustomKeyboardManager.current
 
     if (keyboardPaddingManager.keyboardHeight > 0.dp) {
         Modifier.padding(bottom = keyboardPaddingManager.keyboardHeight)
@@ -87,7 +86,7 @@ fun Modifier.imePadding(): Modifier = this.composed {
 
 val WindowInsets.Companion.ime: WindowInsets
     @Composable @NonRestartableComposable get() {
-        val keyboardPaddingManager = LocalKeyboardPaddingManager.current
+        val keyboardPaddingManager = LocalCustomKeyboardManager.current
 
         return if (keyboardPaddingManager.keyboardHeight > 0.dp) {
             WindowInsets(bottom = keyboardPaddingManager.keyboardHeight)

@@ -17,21 +17,28 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,9 +63,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -82,6 +91,12 @@ fun ResizeImageField(
     onHeightChange: (Int) -> Unit,
     showWarning: Boolean = false
 ) {
+    val interactionSource1 = remember { MutableInteractionSource() }
+    val interactionSource2 = remember { MutableInteractionSource() }
+
+    val isWidthFocused by interactionSource1.collectIsFocusedAsState()
+    val isHeightFocused by interactionSource2.collectIsFocusedAsState()
+
     Column(
         modifier = Modifier
             .container(shape = RoundedCornerShape(24.dp))
@@ -121,7 +136,8 @@ fun ResizeImageField(
                         )
                     )
                 },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                interactionSource = interactionSource1
             )
             Spacer(modifier = Modifier.width(4.dp))
             RoundedTextField(
@@ -157,7 +173,8 @@ fun ResizeImageField(
                         )
                     )
                 },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                interactionSource = interactionSource2
             )
         }
         IcoSizeWarning(
@@ -168,12 +185,46 @@ fun ResizeImageField(
         OOMWarning(visible = showWarning)
     }
 
-    CalculatorKeyboard()
+    var text by remember(isWidthFocused, isHeightFocused) {
+        val size = if (isWidthFocused) {
+            imageInfo.width
+        } else if (isHeightFocused) {
+            imageInfo.height
+        } else {
+            0
+        }
+
+        mutableStateOf(
+            size.takeIf { it != 0 }
+                .let { it ?: "" }
+                .toString()
+        )
+    }
+
+    val focus = LocalFocusManager.current
+    val isKeyboardVisible = isWidthFocused || isHeightFocused
+
+    CalculatorKeyboard(
+        visible = false,
+        onKey = {
+            when (it) {
+                Key.Backspace -> text = text.dropLast(1)
+                Key.Done -> focus.clearFocus()
+                is Key.Symbol -> text += it.char
+            }
+        }
+    )
+
+    BackHandler(
+        enabled = isKeyboardVisible,
+        onBack = focus::clearFocus
+    )
 }
 
 @Composable
-internal fun CalculatorKeyboard(
-
+private fun CalculatorKeyboard(
+    visible: Boolean,
+    onKey: (Key) -> Unit
 ) {
     var keyboardHeight by remember {
         mutableStateOf(0.dp)
@@ -188,113 +239,154 @@ internal fun CalculatorKeyboard(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ) {
-            var text by remember {
-                mutableStateOf("")
-            }
+            AnimatedVisibility(
+                visible = visible,
+                enter = slideInVertically { it },
+                exit = slideOutVertically { it },
+            ) {
+                Surface {
+                    val height = minOf(this@BoxWithConstraints.maxHeight / 2, 300.dp)
 
-            val onKey: (Key) -> Unit = {
-                when (it) {
-                    Key.Backspace -> text = text.dropLast(1)
-                    Key.Done -> Unit
-                    is Key.Symbol -> text += it.char
-                }
-            }
-
-            Surface {
-                val height = minOf(this.maxHeight / 2, 300.dp)
-
-                LaunchedEffect(height) {
-                    keyboardHeight = height
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(height)
-                        .background(
-                            MaterialTheme.colorScheme.surfaceContainer
-                        )
-                        .navigationBarsPadding()
-                        .padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '1',
-                            onKey = onKey
-                        )
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '2',
-                            onKey = onKey
-                        )
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '3',
-                            onKey = onKey
-                        )
+                    LaunchedEffect(height) {
+                        keyboardHeight = height
                     }
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(height)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceContainer
+                            )
+                            .navigationBarsPadding()
+                            .padding(8.dp)
                     ) {
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '4',
-                            onKey = onKey
-                        )
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '5',
-                            onKey = onKey
-                        )
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '6',
-                            onKey = onKey
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '7',
-                            onKey = onKey
-                        )
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '8',
-                            onKey = onKey
-                        )
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '9',
-                            onKey = onKey
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        BackspaceKey(
-                            modifier = Modifier.weight(1f),
-                            onKey = onKey
-                        )
-                        SymbolKey(
-                            modifier = Modifier.weight(1f),
-                            letter = '0',
-                            onKey = onKey
-                        )
-                        DoneKey(
-                            modifier = Modifier.weight(1f),
-                            onKey = onKey
-                        )
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.weight(3.5f),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    SymbolKey(
+                                        modifier = Modifier.weight(0.5f),
+                                        letter = '+',
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '1',
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '2',
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '3',
+                                        onKey = onKey
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    SymbolKey(
+                                        modifier = Modifier.weight(0.5f),
+                                        letter = '-',
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '4',
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '5',
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '6',
+                                        onKey = onKey
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier.weight(1f),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    SymbolKey(
+                                        modifier = Modifier.weight(0.5f),
+                                        letter = '*',
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '7',
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '8',
+                                        onKey = onKey
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '9',
+                                        onKey = onKey
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier.weight(1f),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    SymbolKey(
+                                        modifier = Modifier.weight(0.5f),
+                                        letter = '/',
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        onKey = onKey
+                                    )
+                                    Spacer(
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                    SymbolKey(
+                                        modifier = Modifier.weight(1f),
+                                        letter = '0',
+                                        onKey = onKey
+                                    )
+                                    Spacer(
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
+                            }
+                            Column(
+                                modifier = Modifier.weight(0.5f),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                BackspaceKey(
+                                    modifier = Modifier.weight(1f),
+                                    onKey = onKey
+                                )
+                                DoneKey(
+                                    modifier = Modifier.weight(1f),
+                                    onKey = onKey
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -312,6 +404,7 @@ private sealed interface Key {
 private fun SymbolKey(
     modifier: Modifier,
     letter: Char,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest,
     onKey: (Key.Symbol) -> Unit
 ) {
     Key(
@@ -319,12 +412,16 @@ private fun SymbolKey(
         onClick = {
             onKey(Key.Symbol(letter))
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+        containerColor = containerColor,
         content = {
             AutoSizeText(
                 text = letter.toString(),
                 style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                modifier = if (letter == '*') {
+                    Modifier.offset(y = 4.dp)
+                } else Modifier
             )
         }
     )
@@ -340,6 +437,7 @@ private fun DoneKey(
         onClick = {
             onKey(Key.Done)
         },
+        contentPadding = PaddingValues(),
         containerColor = MaterialTheme.colorScheme.primary,
         content = {
             Icon(
@@ -360,6 +458,7 @@ private fun BackspaceKey(
         onClick = {
             onKey(Key.Backspace)
         },
+        contentPadding = PaddingValues(),
         containerColor = MaterialTheme.colorScheme.secondaryContainer,
         content = {
             Icon(
@@ -375,6 +474,7 @@ private fun Key(
     modifier: Modifier,
     onClick: () -> Unit,
     containerColor: Color,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -382,7 +482,7 @@ private fun Key(
 
     Row(
         modifier = modifier
-            .fillMaxHeight()
+            .fillMaxSize()
             .container(
                 color = containerColor,
                 shape = animateShape(
@@ -396,7 +496,7 @@ private fun Key(
                 indication = LocalIndication.current,
                 onClick = onClick
             )
-            .padding(ButtonDefaults.ContentPadding),
+            .padding(contentPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {

@@ -48,23 +48,27 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.InterceptPlatformTextInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalCustomKeyboardManager
 
 @Composable
 fun RoundedTextField(
@@ -138,6 +142,7 @@ fun RoundedTextField(
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RoundedTextField(
     modifier: Modifier = Modifier,
@@ -227,27 +232,40 @@ fun RoundedTextField(
             .animateContentSize()
             .clip(shape)
     ) {
-        TextField(
-            modifier = mergedModifier,
-            value = value,
-            onValueChange = { onValueChange(it.formatText()) },
-            textStyle = textStyle,
-            colors = colors,
-            shape = shape,
-            singleLine = singleLine,
-            readOnly = readOnly,
-            keyboardOptions = keyboardOptions,
-            visualTransformation = visualTransformation,
-            trailingIcon = endIcon,
-            leadingIcon = startIcon,
-            label = label,
-            placeholder = hint,
-            keyboardActions = keyboardActions,
-            enabled = enabled,
-            maxLines = maxLines,
-            interactionSource = interactionSource,
-            minLines = minLines,
-        )
+        val field = @Composable {
+            TextField(
+                modifier = mergedModifier,
+                value = value,
+                onValueChange = { onValueChange(it.formatText()) },
+                textStyle = textStyle,
+                colors = colors,
+                shape = shape,
+                singleLine = singleLine,
+                readOnly = readOnly,
+                keyboardOptions = keyboardOptions,
+                visualTransformation = visualTransformation,
+                trailingIcon = endIcon,
+                leadingIcon = startIcon,
+                label = label,
+                placeholder = hint,
+                keyboardActions = keyboardActions,
+                enabled = enabled,
+                maxLines = maxLines,
+                interactionSource = interactionSource,
+                minLines = minLines,
+            )
+        }
+        if (LocalCustomKeyboardManager.current.keyboardHeight > 0.dp) {
+            InterceptPlatformTextInput(
+                interceptor = { _, _ ->
+                    awaitCancellation()
+                },
+                content = field
+            )
+        } else {
+            field()
+        }
+
         if (isError && !loading && supportingText != null && supportingTextVisible) {
             Spacer(Modifier.height(6.dp))
             ProvideTextStyle(
