@@ -98,4 +98,5 @@ dependencies {
     implementation(libs.jsoup)
 
     api(libs.capturable)
+    api(libs.evaluator)
 }
