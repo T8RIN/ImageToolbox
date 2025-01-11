@@ -17,10 +17,10 @@
 
 package ru.tech.imageresizershrinker.core.data.utils
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.ExecutorService
+import kotlin.coroutines.CoroutineContext
 
 inline fun executorDispatcher(
     executor: () -> ExecutorService
-): CoroutineDispatcher = executor().asCoroutineDispatcher()
+): CoroutineContext = executor().asCoroutineDispatcher()

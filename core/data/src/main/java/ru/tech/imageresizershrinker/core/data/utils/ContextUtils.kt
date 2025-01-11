@@ -25,10 +25,7 @@ import android.os.Build
 import androidx.compose.ui.unit.Density
 import androidx.core.content.ContextCompat
 import androidx.exifinterface.media.ExifInterface
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import java.io.OutputStream
@@ -98,22 +95,14 @@ fun Context.openWriteableStream(
     }
 }
 
-internal fun Context.clearCache(
-    dispatcher: CoroutineDispatcher,
-    onComplete: (cache: String) -> Unit = {}
-) {
-    CoroutineScope(dispatcher).launch {
-        coroutineScope {
-            runCatching {
-                cacheDir?.deleteRecursively()
-                codeCacheDir?.deleteRecursively()
-                externalCacheDir?.deleteRecursively()
-                externalCacheDirs?.forEach {
-                    it.deleteRecursively()
-                }
-            }
+internal suspend fun Context.clearCache() = coroutineScope {
+    runCatching {
+        cacheDir?.deleteRecursively()
+        codeCacheDir?.deleteRecursively()
+        externalCacheDir?.deleteRecursively()
+        externalCacheDirs?.forEach {
+            it.deleteRecursively()
         }
-        onComplete(cacheSize())
     }
 }
 

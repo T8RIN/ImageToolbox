@@ -30,6 +30,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
 import ru.tech.imageresizershrinker.core.data.saving.io.StreamWriteable
@@ -303,10 +304,12 @@ internal class AndroidFileController @Inject constructor(
 
     override fun clearCache(
         onComplete: (String) -> Unit,
-    ) = context.clearCache(
-        dispatcher = ioDispatcher,
-        onComplete = onComplete
-    )
+    ) {
+        CoroutineScope(ioDispatcher).launch {
+            context.clearCache()
+            onComplete(getReadableCacheSize())
+        }
+    }
 
     override fun getReadableCacheSize(): String = context.cacheSize()
 

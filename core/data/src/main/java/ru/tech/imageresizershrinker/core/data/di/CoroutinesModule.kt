@@ -21,7 +21,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import ru.tech.imageresizershrinker.core.data.utils.executorDispatcher
 import ru.tech.imageresizershrinker.core.di.DecodingDispatcher
@@ -31,6 +30,7 @@ import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.di.UiDispatcher
 import java.util.concurrent.Executors
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 
 
 @Module
@@ -40,14 +40,14 @@ internal object CoroutinesModule {
     @DefaultDispatcher
     @Singleton
     @Provides
-    fun defaultDispatcher(): CoroutineDispatcher = executorDispatcher {
+    fun defaultDispatcher(): CoroutineContext = executorDispatcher {
         Executors.newCachedThreadPool()
     }
 
     @DecodingDispatcher
     @Singleton
     @Provides
-    fun decodingDispatcher(): CoroutineDispatcher = executorDispatcher {
+    fun decodingDispatcher(): CoroutineContext = executorDispatcher {
         Executors.newFixedThreadPool(
             2 * Runtime.getRuntime().availableProcessors() + 1
         )
@@ -56,18 +56,18 @@ internal object CoroutinesModule {
     @EncodingDispatcher
     @Singleton
     @Provides
-    fun encodingDispatcher(): CoroutineDispatcher = executorDispatcher {
+    fun encodingDispatcher(): CoroutineContext = executorDispatcher {
         Executors.newSingleThreadExecutor()
     }
 
     @IoDispatcher
     @Singleton
     @Provides
-    fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+    fun ioDispatcher(): CoroutineContext = Dispatchers.IO
 
     @UiDispatcher
     @Singleton
     @Provides
-    fun uiDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
+    fun uiDispatcher(): CoroutineContext = Dispatchers.Main.immediate
 
 }

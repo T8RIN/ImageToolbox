@@ -17,12 +17,12 @@
 
 package ru.tech.imageresizershrinker.core.domain.dispatchers
 
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlin.coroutines.CoroutineContext
 
 interface DispatchersHolder {
-    val uiDispatcher: CoroutineDispatcher
-    val ioDispatcher: CoroutineDispatcher
-    val encodingDispatcher: CoroutineDispatcher
-    val decodingDispatcher: CoroutineDispatcher
-    val defaultDispatcher: CoroutineDispatcher
+    val uiDispatcher: CoroutineContext
+    val ioDispatcher: CoroutineContext
+    val encodingDispatcher: CoroutineContext
+    val decodingDispatcher: CoroutineContext
+    val defaultDispatcher: CoroutineContext
 }

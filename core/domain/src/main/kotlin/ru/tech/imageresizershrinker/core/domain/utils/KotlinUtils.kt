@@ -14,6 +14,7 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+@file:Suppress("NOTHING_TO_INLINE")
 
 package ru.tech.imageresizershrinker.core.domain.utils
 
@@ -33,7 +34,7 @@ private val BASE64_PATTERN = Regex(
 
 inline fun <reified T, reified R> T.cast(): R = this as R
 
-@Suppress("NOTHING_TO_INLINE")
+
 inline operator fun CharSequence.times(
     count: Int
 ): CharSequence = repeat(count.coerceAtLeast(0))

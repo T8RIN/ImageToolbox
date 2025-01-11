@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.data.dispatchers
 
-import kotlinx.coroutines.CoroutineDispatcher
 import ru.tech.imageresizershrinker.core.di.DecodingDispatcher
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.di.EncodingDispatcher
@@ -25,11 +24,12 @@ import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.di.UiDispatcher
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 internal data class AndroidDispatchersHolder @Inject constructor(
-    @UiDispatcher override val uiDispatcher: CoroutineDispatcher,
-    @IoDispatcher override val ioDispatcher: CoroutineDispatcher,
-    @EncodingDispatcher override val encodingDispatcher: CoroutineDispatcher,
-    @DecodingDispatcher override val decodingDispatcher: CoroutineDispatcher,
-    @DefaultDispatcher override val defaultDispatcher: CoroutineDispatcher
+    @UiDispatcher override val uiDispatcher: CoroutineContext,
+    @IoDispatcher override val ioDispatcher: CoroutineContext,
+    @EncodingDispatcher override val encodingDispatcher: CoroutineContext,
+    @DecodingDispatcher override val decodingDispatcher: CoroutineContext,
+    @DefaultDispatcher override val defaultDispatcher: CoroutineContext
 ) : DispatchersHolder
