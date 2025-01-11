@@ -1553,4 +1553,6 @@
     <string name="import_font">Import Font (TTF/OTF)</string>
     <string name="export_fonts">Export Fonts</string>
     <string name="imported_fonts">Imported Fonts</string>
+    <string name="error_while_saving">Error while saving attempt, try to change output folder</string>
+    <string name="filename_is_not_set">Filename is not set</string>
 </resources>

@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.onEach
 import ru.tech.imageresizershrinker.core.data.utils.computeFromByteArray
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -43,8 +44,11 @@ internal class AndroidFilenameCreator @Inject constructor(
     private val randomStringGenerator: RandomStringGenerator,
     @ApplicationContext private val context: Context,
     settingsManager: SettingsManager,
-    dispatchersHolder: DispatchersHolder
-) : FilenameCreator, DispatchersHolder by dispatchersHolder {
+    dispatchersHolder: DispatchersHolder,
+    resourceManager: ResourceManager,
+) : FilenameCreator,
+    DispatchersHolder by dispatchersHolder,
+    ResourceManager by resourceManager {
 
     private var _settingsState: SettingsState = SettingsState.Default
 
@@ -75,8 +79,8 @@ internal class AndroidFilenameCreator @Inject constructor(
         if (settingsState.randomizeFilename) return "${randomStringGenerator.generate(32)}.$extension"
 
         val wh =
-            "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)
-                .split(" ")[0] else saveTarget.imageInfo.width) + ")x(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(
+            "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) getString(R.string.width)
+                .split(" ")[0] else saveTarget.imageInfo.width) + ")x(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) getString(
                 R.string.height
             ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
 
@@ -93,7 +97,7 @@ internal class AndroidFilenameCreator @Inject constructor(
                     ?.dropLastWhile { it != '.' }
                     ?.removeSuffix(".") ?: ""
             } else {
-                context.getString(R.string.original_filename)
+                getString(R.string.original_filename)
             }
         }
         if (settingsState.addSizeInFilename && !forceNotAddSizeInFilename) prefix += wh

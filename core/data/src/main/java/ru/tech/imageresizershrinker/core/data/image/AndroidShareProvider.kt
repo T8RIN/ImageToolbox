@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.io.use
@@ -48,8 +49,11 @@ internal class AndroidShareProvider @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val filenameCreator: Lazy<FilenameCreator>,
+    resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
-) : DispatchersHolder by dispatchersHolder, ShareProvider<Bitmap> {
+) : DispatchersHolder by dispatchersHolder,
+    ResourceManager by resourceManager,
+    ShareProvider<Bitmap> {
 
     override suspend fun shareImages(
         uris: List<String>,
@@ -160,7 +164,7 @@ internal class AndroidShareProvider @Inject constructor(
                     imageGetter.getExtension(uri)
                 ) ?: "*/*"
         }
-        val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
     }
@@ -183,7 +187,7 @@ internal class AndroidShareProvider @Inject constructor(
                     imageGetter.getExtension(uris.first().toString())
                 ) ?: "*/*"
         }
-        val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
     }
@@ -224,16 +228,19 @@ internal class AndroidShareProvider @Inject constructor(
                 writeData(it)
             }
 
-            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
-                .also { uri ->
-                    runCatching {
-                        context.grantUriPermission(
-                            context.packageName,
-                            uri,
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        )
-                    }
+            FileProvider.getUriForFile(
+                context,
+                getString(R.string.file_provider),
+                file
+            ).also { uri ->
+                runCatching {
+                    context.grantUriPermission(
+                        context.packageName,
+                        uri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
                 }
+            }
         }.getOrNull()?.toString()
     }
 
@@ -267,7 +274,7 @@ internal class AndroidShareProvider @Inject constructor(
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, value)
         }
-        val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
 

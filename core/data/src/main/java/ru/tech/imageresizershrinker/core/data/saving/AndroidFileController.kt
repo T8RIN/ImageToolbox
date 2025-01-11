@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.data.utils.toUiPath
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.json.JsonParser
+import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
@@ -70,7 +71,10 @@ internal class AndroidFileController @Inject constructor(
     private val filenameCreator: FilenameCreator,
     private val jsonParser: JsonParser,
     dispatchersHolder: DispatchersHolder,
-) : DispatchersHolder by dispatchersHolder, FileController {
+    resourceManager: ResourceManager,
+) : DispatchersHolder by dispatchersHolder,
+    ResourceManager by resourceManager,
+    FileController {
 
     private var _settingsState: SettingsState = SettingsState.Default
 
@@ -124,7 +128,7 @@ internal class AndroidFileController @Inject constructor(
 
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
                 return@withContext SaveResult.Success(
-                    message = context.getString(R.string.copied),
+                    message = getString(R.string.copied),
                     savingPath = savingPath
                 )
             }
@@ -140,7 +144,7 @@ internal class AndroidFileController @Inject constructor(
                     settingsManager.setImagePickerMode(3)
                     return@withContext SaveResult.Error.Exception(
                         Exception(
-                            context.getString(
+                            getString(
                                 R.string.overwrite_file_requirements
                             )
                         )
@@ -157,7 +161,7 @@ internal class AndroidFileController @Inject constructor(
                     }
 
                     return@withContext SaveResult.Success(
-                        message = context.getString(
+                        message = getString(
                             R.string.saved_to_original,
                             originalUri.getFilename(context).toString()
                         ),
@@ -192,7 +196,7 @@ internal class AndroidFileController @Inject constructor(
                         }
                         return@withContext SaveResult.Error.Exception(
                             Exception(
-                                context.getString(
+                                getString(
                                     R.string.no_such_directory,
                                     treeUri.toUri().toUiPath(context, treeUri)
                                 )
@@ -220,10 +224,10 @@ internal class AndroidFileController @Inject constructor(
                     context = context,
                     treeUri = treeUri?.toUri(),
                     saveTarget = newSaveTarget
-                )
+                ) ?: throw IllegalArgumentException(getString(R.string.error_while_saving))
 
-                savingFolder.outputStream?.use {
-                    it.write(data)
+                savingFolder.use {
+                    it.writeBytes(data)
                 }
 
                 context.copyMetadata(
@@ -233,7 +237,8 @@ internal class AndroidFileController @Inject constructor(
                     originalUri = saveTarget.originalUri.toUri()
                 )
 
-                val filename = newSaveTarget.filename ?: ""
+                val filename = newSaveTarget.filename
+                    ?: throw IllegalArgumentException(getString(R.string.filename_is_not_set))
 
                 oneTimeSaveLocationUri?.let {
                     if (documentFile?.isDirectory == true) {
@@ -268,15 +273,15 @@ internal class AndroidFileController @Inject constructor(
                         val isFile =
                             (documentFile?.isDirectory != true && oneTimeSaveLocationUri != null)
                         if (isFile) {
-                            context.getString(R.string.saved_to_custom)
+                            getString(R.string.saved_to_custom)
                         } else if (filename.isNotEmpty()) {
-                            context.getString(
+                            getString(
                                 R.string.saved_to,
                                 savingPath,
                                 filename
                             )
                         } else {
-                            context.getString(
+                            getString(
                                 R.string.saved_to_without_filename,
                                 savingPath
                             )
@@ -291,7 +296,7 @@ internal class AndroidFileController @Inject constructor(
 
         SaveResult.Error.Exception(
             SaveException(
-                message = context.getString(R.string.something_went_wrong)
+                message = getString(R.string.something_went_wrong)
             )
         )
     }

@@ -26,21 +26,24 @@ import android.provider.MediaStore
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.coroutineScope
+import ru.tech.imageresizershrinker.core.data.saving.io.StreamWriteable
+import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-internal data class SavingFolder(
-    val outputStream: OutputStream? = null,
-    val fileUri: Uri? = null
-) {
+@ConsistentCopyVisibility
+internal data class SavingFolder private constructor(
+    val outputStream: OutputStream,
+    val fileUri: Uri
+) : Writeable by StreamWriteable(outputStream) {
     companion object {
         suspend fun getInstance(
             context: Context,
             treeUri: Uri?,
             saveTarget: SaveTarget
-        ): SavingFolder = coroutineScope {
+        ): SavingFolder? = coroutineScope {
             if (treeUri == null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val type = saveTarget.mimeType
@@ -59,14 +62,11 @@ internal data class SavingFolder(
                     val imageUri = context.contentResolver.insert(
                         MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY),
                         contentValues
-                    )
+                    ) ?: return@coroutineScope null
 
                     SavingFolder(
-                        outputStream = imageUri?.let {
-                            context.contentResolver.openOutputStream(
-                                it
-                            )
-                        },
+                        outputStream = context.contentResolver.openOutputStream(imageUri)
+                            ?: return@coroutineScope null,
                         fileUri = imageUri
                     )
                 } else {
@@ -76,16 +76,18 @@ internal data class SavingFolder(
                         ), "ResizedImages"
                     )
                     if (!imagesDir.exists()) imagesDir.mkdir()
+
+                    val filename = saveTarget.filename ?: return@coroutineScope null
+
                     SavingFolder(
-                        outputStream = saveTarget.filename?.let {
-                            FileOutputStream(File(imagesDir, it))
-                        },
-                        fileUri = saveTarget.filename?.let { File(imagesDir, it).toUri() }
+                        outputStream = FileOutputStream(File(imagesDir, filename)),
+                        fileUri = File(imagesDir, filename).toUri()
                     )
                 }
             } else if (DocumentFile.isDocumentUri(context, treeUri)) {
                 SavingFolder(
-                    outputStream = context.contentResolver.openOutputStream(treeUri),
+                    outputStream = context.contentResolver.openOutputStream(treeUri)
+                        ?: return@coroutineScope null,
                     fileUri = treeUri
                 )
             } else {
@@ -95,12 +97,16 @@ internal data class SavingFolder(
                     throw NoSuchFileException(File(treeUri.toString()))
                 }
 
-                val file =
-                    documentFile.createFile(saveTarget.mimeType, saveTarget.filename!!)
+                val filename = saveTarget.filename ?: return@coroutineScope null
 
-                val imageUri = file!!.uri
+                val file =
+                    documentFile.createFile(saveTarget.mimeType, filename)
+
+                val imageUri = file?.uri ?: return@coroutineScope null
+
                 SavingFolder(
-                    outputStream = context.contentResolver.openOutputStream(imageUri),
+                    outputStream = context.contentResolver.openOutputStream(imageUri)
+                        ?: return@coroutineScope null,
                     fileUri = imageUri
                 )
             }
