@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,8 +36,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,18 +47,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.github.keelar.exprk.Expressions
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.CalculatorDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -207,68 +200,10 @@ internal fun ResizeImageFieldImpl(
         interactionSource = interactionSource
     )
 
-    var calculatorExpression by rememberSaveable(value) {
-        mutableStateOf(value)
-    }
-    val essentials = rememberLocalEssentials()
-    EnhancedAlertDialog(
+    CalculatorDialog(
         visible = showCalculator,
-        onDismissRequest = { showCalculator = false },
-        confirmButton = {
-            EnhancedButton(
-                onClick = {
-                    runCatching {
-                        Expressions().eval(calculatorExpression)
-                    }.onFailure {
-                        essentials.showFailureToast(it)
-                    }.onSuccess {
-                        onValueChange(it.toInt().toString())
-                        showCalculator = false
-                    }
-                }
-            ) {
-                Text(stringResource(R.string.apply))
-            }
-        },
-        title = {
-            Text(
-                text = stringResource(R.string.calculate)
-            )
-        },
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Calculate,
-                contentDescription = null
-            )
-        },
-        dismissButton = {
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    showCalculator = false
-                }
-            ) {
-                Text(stringResource(R.string.close))
-            }
-        },
-        text = {
-            OutlinedTextField(
-                shape = RoundedCornerShape(16.dp),
-                value = calculatorExpression,
-                textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
-                maxLines = 1,
-                placeholder = {
-                    Text(
-                        text = "(5+5)*10",
-                        style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                },
-                onValueChange = { expr ->
-                    calculatorExpression = expr.replace(",", ".").filter { !it.isWhitespace() }
-                }
-            )
-        }
+        onDismiss = { showCalculator = false },
+        initialValue = value.toBigDecimalOrNull(),
+        onValueChange = { onValueChange(it.toInt().toString()) }
     )
 }
