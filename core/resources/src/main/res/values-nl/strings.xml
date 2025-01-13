@@ -1535,4 +1535,6 @@
     <string name="imported_fonts">Geïmporteerde lettertypen</string>
     <string name="wrong_font">Alleen TTF-lettertypen kunnen worden geïmporteerd</string>
     <string name="export_fonts">Lettertypen exporteren</string>
+    <string name="filename_is_not_set">Geen bestandsnaam</string>
+    <string name="error_while_saving">Fout tijdens poging tot opslaan, probeer de uitvoermap te wijzigen</string>
 </resources>

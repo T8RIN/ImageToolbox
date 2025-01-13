@@ -1535,4 +1535,6 @@
     <string name="import_font">Import czcionki (TTF/OTF)</string>
     <string name="export_fonts">Wyeksportuj czcionki</string>
     <string name="imported_fonts">Zaimportowane czcionki</string>
+    <string name="filename_is_not_set">Nazwa pliku nie została ustawiona</string>
+    <string name="error_while_saving">Błąd podczas próby zapisu, spróbuj zmienić folder wyjściowy</string>
 </resources>
