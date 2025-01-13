@@ -1535,4 +1535,6 @@
     <string name="imported_fonts">已导入的字体</string>
     <string name="wrong_font">只有 TTF 字体可以被导入</string>
     <string name="export_fonts">导出字体</string>
+    <string name="filename_is_not_set">未设置文件名</string>
+    <string name="error_while_saving">尝试保存时出错，请尝试更改输出文件夹</string>
 </resources>
