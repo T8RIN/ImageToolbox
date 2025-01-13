@@ -19,6 +19,8 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import kotlin.math.cos
+import kotlin.math.sin
 
 @Stable
 @Immutable
@@ -37,12 +39,35 @@ data class Line(
             endY = 1f
         )
 
-        val CenterHorizontal = Line(
-            startX = 0f,
-            startY = 0.5f,
-            endX = 1f,
-            endY = 0.5f
-        )
+        val CenterHorizontal = Rotated(90f)
+
+        @Suppress("FunctionName")
+        fun Rotated(angle: Float): Line = CenterVertical.rotate(angle)
+    }
+
+    fun rotate(angle: Float): Line {
+        val centerX = (startX + endX) / 2
+        val centerY = (startY + endY) / 2
+
+        val radians = Math.toRadians(angle.toDouble()).toFloat()
+        val cosA = cos(radians)
+        val sinA = sin(radians)
+
+        fun rotatePoint(
+            x: Float,
+            y: Float
+        ): Pair<Float, Float> {
+            val dx = x - centerX
+            val dy = y - centerY
+            val newX = centerX + dx * cosA - dy * sinA
+            val newY = centerY + dx * sinA + dy * cosA
+            return newX to newY
+        }
+
+        val (newStartX, newStartY) = rotatePoint(startX, startY)
+        val (newEndX, newEndY) = rotatePoint(endX, endY)
+
+        return copy(startX = newStartX, startY = newStartY, endX = newEndX, endY = newEndY)
     }
 
 }

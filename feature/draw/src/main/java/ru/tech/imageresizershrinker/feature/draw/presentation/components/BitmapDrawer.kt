@@ -485,7 +485,13 @@ fun BitmapDrawer(
             }
 
             if (drawMode is DrawMode.PathEffect && !isEraserOn) {
-                var shaderBitmap by remember {
+                var shaderBitmap by remember(
+                    outputImage,
+                    paths,
+                    backgroundColor,
+                    drawMode,
+                    canvasSize
+                ) {
                     mutableStateOf<ImageBitmap?>(null)
                 }
 
@@ -497,16 +503,18 @@ fun BitmapDrawer(
                     canvasSize
                 ) {
                     scope.launch {
-                        shaderBitmap = onRequestFiltering(
-                            outputImage.asAndroidBitmap(),
-                            transformationsForMode(
-                                drawMode = drawMode,
-                                canvasSize = canvasSize
-                            )
-                        )?.createScaledBitmap(
-                            width = imageWidth,
-                            height = imageHeight
-                        )?.asImageBitmap()
+                        if (shaderBitmap == null) {
+                            shaderBitmap = onRequestFiltering(
+                                outputImage.asAndroidBitmap(),
+                                transformationsForMode(
+                                    drawMode = drawMode,
+                                    canvasSize = canvasSize
+                                )
+                            )?.createScaledBitmap(
+                                width = imageWidth,
+                                height = imageHeight
+                            )?.asImageBitmap()
+                        }
                     }
                 }
 
