@@ -59,6 +59,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import coil3.request.ImageRequest
 import coil3.toBitmap
+import kotlinx.collections.immutable.ImmutableList
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
@@ -71,6 +72,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.density
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.Line
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -78,6 +80,77 @@ import kotlin.math.roundToInt
 import android.graphics.Path as NativePath
 
 internal fun Path.copy(): Path = NativePath(this.asAndroidPath()).asComposePath()
+
+internal fun NativePath.mirror(
+    x: Float,
+    y: Float,
+    x1: Float,
+    y1: Float
+): NativePath {
+    val dx = x1 - x
+    val dy = y1 - y
+    val lengthSq = dx * dx + dy * dy
+
+    val matrix = Matrix().apply {
+        setValues(
+            floatArrayOf(
+                (dx * dx - dy * dy) / lengthSq,
+                (2 * dx * dy) / lengthSq,
+                (2 * x * dy * dy - 2 * y * dx * dy) / lengthSq,
+                (2 * dx * dy) / lengthSq,
+                (dy * dy - dx * dx) / lengthSq,
+                (2 * y * dx * dx - 2 * x * dx * dy) / lengthSq,
+                0f,
+                0f,
+                1f
+            )
+        )
+    }
+
+    val mirroredPath = NativePath()
+    this.transform(matrix, mirroredPath)
+    return mirroredPath
+}
+
+internal fun Path.mirrorIfNeeded(
+    canvasSize: IntegerSize,
+    mirroringLines: ImmutableList<Line>
+): Path = asAndroidPath().mirrorIfNeeded(
+    canvasSize = canvasSize,
+    mirroringLines = mirroringLines
+).asComposePath()
+
+internal fun NativePath.mirrorIfNeeded(
+    canvasSize: IntegerSize,
+    mirroringLines: ImmutableList<Line>
+): NativePath = if (mirroringLines.isNotEmpty()) {
+    NativePath(this).apply {
+        mirroringLines.forEach { mirroringLine ->
+            addPath(
+                mirror(
+                    x = mirroringLine.startX * canvasSize.width,
+                    y = mirroringLine.startY * canvasSize.height,
+                    x1 = mirroringLine.endX * canvasSize.width,
+                    y1 = mirroringLine.endY * canvasSize.height
+                )
+            )
+        }
+    }
+} else {
+    this
+}
+
+internal fun Path.mirror(
+    x: Float,
+    y: Float,
+    x1: Float,
+    y1: Float
+): Path = asAndroidPath().mirror(
+    x = x,
+    y = y,
+    x1 = x1,
+    y1 = y1
+).asComposePath()
 
 internal fun ImageBitmap.clipBitmap(
     path: Path,
