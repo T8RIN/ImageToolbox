@@ -643,6 +643,7 @@ or click one of the badges below.
     - Using image cheksum as filename
     - Checksum Tools with ability to calculate and compare hashes
     - 64 different hashing algorithms
+    - 261 encryption/decryption methods
     - Embedded media picker
 
 **And More!**
