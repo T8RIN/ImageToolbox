@@ -38,7 +38,6 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.NativeCanvas
-import androidx.compose.ui.graphics.NativePaint
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
@@ -59,7 +58,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import coil3.request.ImageRequest
 import coil3.toBitmap
-import kotlinx.collections.immutable.ImmutableList
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
@@ -77,6 +75,8 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
+import android.graphics.Paint as NativePaint
 import android.graphics.Path as NativePath
 
 internal fun Path.copy(): Path = NativePath(this.asAndroidPath()).asComposePath()
@@ -114,7 +114,7 @@ internal fun NativePath.mirror(
 
 internal fun Path.mirrorIfNeeded(
     canvasSize: IntegerSize,
-    mirroringLines: ImmutableList<Line>
+    mirroringLines: List<Line>
 ): Path = asAndroidPath().mirrorIfNeeded(
     canvasSize = canvasSize,
     mirroringLines = mirroringLines
@@ -122,7 +122,7 @@ internal fun Path.mirrorIfNeeded(
 
 internal fun NativePath.mirrorIfNeeded(
     canvasSize: IntegerSize,
-    mirroringLines: ImmutableList<Line>
+    mirroringLines: List<Line>
 ): NativePath = if (mirroringLines.isNotEmpty()) {
     NativePath(this).apply {
         mirroringLines.forEach { mirroringLine ->
@@ -151,6 +151,48 @@ internal fun Path.mirror(
     x1 = x1,
     y1 = y1
 ).asComposePath()
+
+
+fun Canvas.drawInfiniteLine(
+    line: Line,
+    paint: NativePaint = NativePaint().apply {
+        color = Color.Red.toArgb()
+        style = NativePaint.Style.STROKE
+        strokeWidth = 5f
+    }
+) {
+    val width = width.toFloat()
+    val height = height.toFloat()
+
+    val startX = line.startX * width
+    val startY = line.startY * height
+    val endX = line.endX * width
+    val endY = line.endY * height
+
+    val dx = endX - startX
+    val dy = endY - startY
+
+    if (dx == 0f) {
+        drawLine(startX, 0f, startX, height, paint)
+        return
+    }
+
+    if (dy == 0f) {
+        drawLine(0f, startY, width, startY, paint)
+        return
+    }
+
+    val directionX = dx / sqrt(dx * dx + dy * dy)
+    val directionY = dy / sqrt(dx * dx + dy * dy)
+
+    val scale = maxOf(width, height) * 2
+    val extendedStartX = startX - directionX * scale
+    val extendedStartY = startY - directionY * scale
+    val extendedEndX = endX + directionX * scale
+    val extendedEndY = endY + directionY * scale
+
+    drawLine(extendedStartX, extendedStartY, extendedEndX, extendedEndY, paint)
+}
 
 internal fun ImageBitmap.clipBitmap(
     path: Path,

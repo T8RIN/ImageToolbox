@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -39,10 +40,28 @@ data class Line(
             endY = 1f
         )
 
-        val CenterHorizontal = Rotated(90f)
+        val CenterHorizontal = Line(
+            startX = 0f,
+            startY = 0.5f,
+            endX = 1f,
+            endY = 0.5f
+        )
 
         @Suppress("FunctionName")
-        fun Rotated(angle: Float): Line = CenterVertical.rotate(angle)
+        fun Rotated(angle: Float): Line = if (abs(angle) % 180 != 0f) {
+            CenterVertical.rotate(angle)
+        } else {
+            CenterVertical
+        }
+
+        @Suppress("FunctionName")
+        fun Bundle(size: Int): List<Line> = if (size > 0) {
+            List(size) {
+                Rotated(it * (360f / size))
+            }
+        } else {
+            listOf()
+        }
     }
 
     fun rotate(angle: Float): Line {

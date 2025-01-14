@@ -60,8 +60,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
@@ -83,6 +81,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.copy
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawInfiniteLine
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.mirrorIfNeeded
@@ -116,7 +115,7 @@ fun BitmapDrawer(
     drawColor: Color,
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
-    mirroringLines: ImmutableList<Line> = persistentListOf()
+    mirroringLines: List<Line> = remember { emptyList() }
 ) {
     val scope = rememberCoroutineScope()
 
@@ -479,6 +478,10 @@ fun BitmapDrawer(
                             )
                         } else {
                             drawPath(androidPath, drawPaint)
+                        }
+
+                        mirroringLines.forEach {
+                            drawInfiniteLine(it)
                         }
                     }
                 }
