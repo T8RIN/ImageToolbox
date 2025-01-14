@@ -8,8 +8,8 @@
     <string name="explicit">Explicit</string>
     <string name="flexible">Flexibil</string>
     <string name="app_closing">Închidere aplicație</string>
-    <string name="stay">Rămânere</string>
-    <string name="close">Închidere</string>
+    <string name="stay">Rămâneți</string>
+    <string name="close">Închideți</string>
     <string name="reset_image">Resetare imagine</string>
     <string name="reset_image_sub">Imaginele modificate vor fi readuse la valorile inițiale</string>
     <string name="values_reset">Valori resetate corespunzător</string>
@@ -954,4 +954,12 @@
     <string name="constant_rate_factor">Factor de rată constantă (CRF)</string>
     <string name="lanczos_6_sub">Un filtru de reeșantionare Lanczos cu un ordin mai mare de 6, care oferă o scalare mai clară și mai precisă a imaginii</string>
     <string name="sphinx_sub">O metodă avansată de reeșantionare care oferă o interpolare de înaltă calitate cu artefacte minime</string>
+    <string name="coordinates_rounding_tolerance">Coordonate toleranță de rotunjire</string>
+    <string name="use_sampled_palette">Utilizați paleta eșantionată</string>
+    <string name="use_sampled_palette_sub">Paleta de cuantizare va fi eșantionată dacă această opțiune este activată</string>
+    <string name="downscale_image">Redimensionare imagine</string>
+    <string name="min_color_ratio">Raport minim de culoare</string>
+    <string name="path_scale">Scara căii</string>
+    <string name="detailed">Detaliat</string>
+    <string name="downscale_image_sub">Imaginea va fi redusă la dimensiuni mai mici înainte de procesare, ceea ce ajută instrumentul să lucreze mai rapid și mai sigur</string>
 </resources>
