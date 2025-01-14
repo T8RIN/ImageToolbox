@@ -29,6 +29,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.model.CipherType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
@@ -52,6 +53,9 @@ class CipherComponent @AssistedInject internal constructor(
             initialUri?.let(::setUri)
         }
     }
+
+    private val _cipherType: MutableState<CipherType> = mutableStateOf(CipherType.entries.first())
+    val cipherType: CipherType by _cipherType
 
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
@@ -88,9 +92,21 @@ class CipherComponent @AssistedInject internal constructor(
             val file = onFileRequest(_uri.value!!)
             runCatching {
                 if (isEncrypt) {
-                    _byteArray.value = file?.let { cryptographyManager.encrypt(it, key) }
+                    _byteArray.value = file?.let {
+                        cryptographyManager.encrypt(
+                            data = it,
+                            key = key,
+                            type = cipherType
+                        )
+                    }
                 } else {
-                    _byteArray.value = file?.let { cryptographyManager.decrypt(it, key) }
+                    _byteArray.value = file?.let {
+                        cryptographyManager.decrypt(
+                            data = it,
+                            key = key,
+                            type = cipherType
+                        )
+                    }
                 }
             }.exceptionOrNull().let {
                 onComplete(
@@ -101,6 +117,11 @@ class CipherComponent @AssistedInject internal constructor(
             }
             _isSaving.value = false
         }
+    }
+
+    fun updateCipherType(type: CipherType) {
+        _cipherType.update { type }
+        resetCalculatedData()
     }
 
     fun setIsEncrypt(isEncrypt: Boolean) {

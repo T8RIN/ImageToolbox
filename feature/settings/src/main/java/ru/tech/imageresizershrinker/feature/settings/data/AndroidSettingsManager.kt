@@ -38,8 +38,8 @@ import ru.tech.imageresizershrinker.core.domain.GlobalStorageName
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
@@ -620,7 +620,7 @@ internal class AndroidSettingsManager @Inject constructor(
         it[FAST_SETTINGS_SIDE] = side.ordinal
     }
 
-    override suspend fun setChecksumTypeForFilename(type: ChecksumType?) = edit {
+    override suspend fun setChecksumTypeForFilename(type: HashingType?) = edit {
         it[CHECKSUM_TYPE_FOR_FILENAME] = type?.digest ?: ""
     }
 

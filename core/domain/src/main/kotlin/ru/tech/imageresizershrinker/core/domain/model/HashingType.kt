@@ -19,19 +19,19 @@ package ru.tech.imageresizershrinker.core.domain.model
 
 @ConsistentCopyVisibility
 /**
- * [ChecksumType] multiplatform domain wrapper for java MessageDigest, in order to add custom digests, you need to call [registerSecurityMessageDigests] when process created
+ * [HashingType] multiplatform domain wrapper for java MessageDigest, in order to add custom digests, you need to call [registerSecurityMessageDigests] when process created
  **/
-data class ChecksumType private constructor(
+data class HashingType private constructor(
     val digest: String,
     val name: String = digest
 ) {
     companion object {
-        val MD5 = ChecksumType("MD5")
-        val SHA_1 = ChecksumType("SHA-1")
-        val SHA_224 = ChecksumType("SHA-224")
-        val SHA_256 = ChecksumType("SHA-256")
-        val SHA_384 = ChecksumType("SHA-384")
-        val SHA_512 = ChecksumType("SHA-512")
+        val MD5 = HashingType("MD5")
+        val SHA_1 = HashingType("SHA-1")
+        val SHA_224 = HashingType("SHA-224")
+        val SHA_256 = HashingType("SHA-256")
+        val SHA_384 = HashingType("SHA-384")
+        val SHA_512 = HashingType("SHA-512")
 
         private var securityMessageDigests: List<String>? = null
 
@@ -39,20 +39,20 @@ data class ChecksumType private constructor(
             if (!securityMessageDigests.isNullOrEmpty()) {
                 throw IllegalArgumentException("SecurityMessageDigests already registered")
             }
-            securityMessageDigests = digests.distinctBy { it.replace("OID.", "") }
+            securityMessageDigests = digests.distinctBy { it.replace("OID.", "").uppercase() }
         }
 
-        val entries: List<ChecksumType> by lazy {
+        val entries: List<HashingType> by lazy {
             val available = securityMessageDigests?.mapNotNull { messageDigest ->
                 if (messageDigest.isEmpty()) null
                 else {
                     val digest = messageDigest.replace("OID.", "")
-                    ChecksumTypeMapping.findMatch(digest)?.let { mapping ->
-                        ChecksumType(
+                    SecureAlgorithmsMapping.findMatch(digest)?.let { mapping ->
+                        HashingType(
                             digest = messageDigest,
                             name = mapping.algorithm
                         )
-                    } ?: ChecksumType(digest = messageDigest)
+                    } ?: HashingType(digest = messageDigest)
                 }
             }?.sortedBy { it.digest } ?: emptyList()
 
@@ -70,7 +70,7 @@ data class ChecksumType private constructor(
 
         fun fromString(
             digest: String?
-        ): ChecksumType? = digest?.let {
+        ): HashingType? = digest?.let {
             entries.find {
                 it.digest == digest
             }

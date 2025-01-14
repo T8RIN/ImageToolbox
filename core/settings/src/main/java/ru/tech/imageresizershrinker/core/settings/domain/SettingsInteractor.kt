@@ -19,8 +19,8 @@ package ru.tech.imageresizershrinker.core.settings.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
@@ -213,7 +213,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setFastSettingsSide(side: FastSettingsSide)
 
-    suspend fun setChecksumTypeForFilename(type: ChecksumType?)
+    suspend fun setChecksumTypeForFilename(type: HashingType?)
 
     suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>)
 

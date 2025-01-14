@@ -21,8 +21,8 @@ import androidx.datastore.preferences.core.Preferences
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -186,7 +186,7 @@ internal fun Preferences.toSettingsState(
     settingGroupsInitialVisibility = this[SETTINGS_GROUP_VISIBILITY].toSettingGroupsInitialVisibility(
         default
     ),
-    checksumTypeForFilename = ChecksumType.fromString(this[CHECKSUM_TYPE_FOR_FILENAME]),
+    hashingTypeForFilename = HashingType.fromString(this[CHECKSUM_TYPE_FOR_FILENAME]),
     customFonts = this[CUSTOM_FONTS].toCustomFonts()
 )
 

@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.data.saving.io.ByteArrayReadable
 import ru.tech.imageresizershrinker.core.data.saving.io.UriReadable
 import ru.tech.imageresizershrinker.core.data.utils.computeFromReadable
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumManager
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumSource
@@ -39,7 +39,7 @@ internal class AndroidChecksumManager @Inject constructor(
 ) : ChecksumManager, DispatchersHolder by dispatchersHolder {
 
     override suspend fun calculateChecksum(
-        type: ChecksumType,
+        type: HashingType,
         source: ChecksumSource
     ): String = withContext(defaultDispatcher) {
         runCatching {
@@ -49,7 +49,7 @@ internal class AndroidChecksumManager @Inject constructor(
 
     override suspend fun compareChecksum(
         checksum: String,
-        type: ChecksumType,
+        type: HashingType,
         source: ChecksumSource
     ): Boolean = coroutineScope {
         calculateChecksum(type, source) == checksum

@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
@@ -43,18 +43,18 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun ChecksumAsFilenameSettingItem(
-    onValueChange: (ChecksumType?) -> Unit,
+    onValueChange: (HashingType?) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     var checkedState by remember {
-        mutableStateOf(settingsState.checksumTypeForFilename != null)
+        mutableStateOf(settingsState.hashingTypeForFilename != null)
     }
     LaunchedEffect(checkedState) {
         onValueChange(
             if (checkedState) {
-                settingsState.checksumTypeForFilename ?: ChecksumType.entries.first()
+                settingsState.hashingTypeForFilename ?: HashingType.entries.first()
             } else {
                 null
             }
@@ -80,15 +80,15 @@ fun ChecksumAsFilenameSettingItem(
                 DataSelector(
                     modifier = Modifier
                         .padding(top = 16.dp),
-                    value = settingsState.checksumTypeForFilename ?: ChecksumType.entries.first(),
+                    value = settingsState.hashingTypeForFilename ?: HashingType.entries.first(),
                     onValueChange = onValueChange,
-                    entries = ChecksumType.entries,
+                    entries = HashingType.entries,
                     color = MaterialTheme.colorScheme.surfaceContainerLowest,
                     shape = shape,
                     title = stringResource(R.string.algorithms),
                     titleIcon = null,
                     badgeContent = {
-                        Text(ChecksumType.entries.size.toString())
+                        Text(HashingType.entries.size.toString())
                     },
                     itemContentText = {
                         it.name

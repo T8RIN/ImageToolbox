@@ -40,7 +40,7 @@ fun AddFileSizeSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.checksumTypeForFilename == null,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.hashingTypeForFilename == null,
         startIcon = Icons.Outlined.ScaleUnbalanced,
         onClick = {
             onClick()

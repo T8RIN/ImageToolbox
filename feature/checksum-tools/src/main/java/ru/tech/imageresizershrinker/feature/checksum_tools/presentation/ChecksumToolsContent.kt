@@ -81,7 +81,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.Red
@@ -135,7 +135,7 @@ fun ChecksumToolsContent(
                 Badge(
                     content = {
                         Text(
-                            text = ChecksumType.entries.size.toString()
+                            text = HashingType.entries.size.toString()
                         )
                     },
                     containerColor = MaterialTheme.colorScheme.tertiary,
@@ -265,11 +265,11 @@ fun ChecksumToolsContent(
                     .padding(top = 20.dp)
                     .padding(horizontal = 20.dp)
                     .padding(insets),
-                value = component.checksumType,
+                value = component.hashingType,
                 color = Color.Unspecified,
                 selectedItemColor = MaterialTheme.colorScheme.secondary,
                 onValueChange = component::updateChecksumType,
-                entries = ChecksumType.entries,
+                entries = HashingType.entries,
                 title = stringResource(R.string.algorithms),
                 titleIcon = Icons.Rounded.Tag,
                 itemContentText = {

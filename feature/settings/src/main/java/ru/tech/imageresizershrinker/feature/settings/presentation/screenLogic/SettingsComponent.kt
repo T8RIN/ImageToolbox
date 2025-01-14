@@ -40,8 +40,8 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -752,7 +752,7 @@ class SettingsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun setChecksumTypeForFilename(type: ChecksumType?) {
+    fun setChecksumTypeForFilename(type: HashingType?) {
         componentScope.launch {
             settingsManager.setChecksumTypeForFilename(type)
         }

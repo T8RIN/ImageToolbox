@@ -24,7 +24,7 @@ package ru.tech.imageresizershrinker.core.domain.model
  * is determined by existing usage and may be in lowercase/uppercase in
  * order to match existing output.
  */
-enum class ChecksumTypeMapping {
+enum class SecureAlgorithmsMapping {
     // X.500 Attributes 2.5.4.*
     CommonName("2.5.4.3"),
     Surname("2.5.4.4"),
@@ -424,7 +424,44 @@ enum class ChecksumTypeMapping {
     JAVASOFT_JCEKeyProtector("1.3.6.1.4.1.42.2.19.1"),
     MICROSOFT_ExportApproved("1.3.6.1.4.1.311.10.3.3"),
 
-    Blowfish("1.3.6.1.4.1.3029.1.1.2");
+    Blowfish("1.3.6.1.4.1.3029.1.1.2"),
+
+    asn1_module("1.2.410.200046.1.1.1", "ASN1-module"),
+    aria256_ecb("1.2.410.200046.1.1.11", "ARIA256/ECB"),
+    aria256_cbc("1.2.410.200046.1.1.12", "ARIA256/CBC"),
+    aria256_cfb("1.2.410.200046.1.1.13", "ARIA256/CFB"),
+    aria256_ofb("1.2.410.200046.1.1.14", "ARIA256/OFB"),
+    aria128_cbc("1.2.410.200046.1.1.2", "ARIA128/CBC"),
+    aria128_cfb("1.2.410.200046.1.1.3", "ARIA128/CFB"),
+    aria128_ofb("1.2.410.200046.1.1.4", "ARIA128/OFB"),
+    aria192_ecb("1.2.410.200046.1.1.6", "ARIA192/ECB"),
+    aria192_cbc("1.2.410.200046.1.1.7", "ARIA192/CBC"),
+    aria192_cfb("1.2.410.200046.1.1.8", "ARIA192/CFB"),
+    aria192_ofb("1.2.410.200046.1.1.9", "ARIA192/OFB"),
+    GOST_R28147_89("1.2.643.2.2.13.0", "GOST-R28147-89"),
+    CryptoPro("1.2.643.2.2.13.1", "CryptoPro"),
+    GOST_28147_89("1.2.643.2.2.21", "GOST-28147-89"),
+    dstu7624_ecb_128("1.2.804.2.1.1.1.1.1.3.1.1", "DSTU7624/ECB-128"),
+    dstu7624_ecb_256("1.2.804.2.1.1.1.1.1.3.1.2", "DSTU7624/ECB-256"),
+    dstu7624_ecb_512("1.2.804.2.1.1.1.1.1.3.1.3", "DSTU7624/ECB-512"),
+    dstu7624_ctr_128("1.2.804.2.1.1.1.1.1.3.2.1", "DSTU7624/CTR-128"),
+    dstu7624_ctr_256("1.2.804.2.1.1.1.1.1.3.2.2", "DSTU7624/CTR-256"),
+    dstu7624_ctr_512("1.2.804.2.1.1.1.1.1.3.2.3", "DSTU7624/CTR-512"),
+    dstu7624_cfb_128("1.2.804.2.1.1.1.1.1.3.3.1", "DSTU7624/CFB-128"),
+    dstu7624_cfb_256("1.2.804.2.1.1.1.1.1.3.3.2", "DSTU7624/CFB-256"),
+    dstu7624_cfb_512("1.2.804.2.1.1.1.1.1.3.3.3", "DSTU7624/CFB-512"),
+    dstu7624_cbc_128("1.2.804.2.1.1.1.1.1.3.5.1", "DSTU7624/CBC-128"),
+    dstu7624_cbc_256("1.2.804.2.1.1.1.1.1.3.5.2", "DSTU7624/CBC-256"),
+    dstu7624_cbc_512("1.2.804.2.1.1.1.1.1.3.5.3", "DSTU7624/CBC-512"),
+    dstu7624_ofb_128("1.2.804.2.1.1.1.1.1.3.6.1", "DSTU7624/OFB-128"),
+    dstu7624_ofb_256("1.2.804.2.1.1.1.1.1.3.6.2", "DSTU7624/OFB-256"),
+    dstu7624_ofb_512("1.2.804.2.1.1.1.1.1.3.6.3", "DSTU7624/OFB-512"),
+    dstu7624_ccm_128("1.2.804.2.1.1.1.1.1.3.8.1", "DSTU7624/CCM-128"),
+    dstu7624_ccm_256("1.2.804.2.1.1.1.1.1.3.8.2", "DSTU7624/CCM-256"),
+    dstu7624_ccm_512("1.2.804.2.1.1.1.1.1.3.8.3", "DSTU7624/CCM-512"),
+    CMS3DESwrap("1.2.840.113549.1.9.16.3.6", "CMS3DESwrap"),
+    des_CBC("1.3.14.3.2.7", "DES/CBC"),
+    Joint_RSA("2.5.8.1.1", "Joint-RSA");
 
     val algorithm: String
     val oid: String
@@ -449,7 +486,7 @@ enum class ChecksumTypeMapping {
     companion object {
         fun findMatch(
             oidOrName: String
-        ): ChecksumTypeMapping? = ChecksumTypeMapping.entries.find {
+        ): SecureAlgorithmsMapping? = SecureAlgorithmsMapping.entries.find {
             it.oid == oidOrName || it.algorithm == oidOrName || it.aliases.contains(oidOrName)
         }
     }

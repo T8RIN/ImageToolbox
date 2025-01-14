@@ -52,7 +52,7 @@ fun UseFormattedFilenameTimestampSettingItem(
         onClick = {
             onClick()
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.addTimestampToFilename && settingsState.checksumTypeForFilename == null,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.addTimestampToFilename && settingsState.hashingTypeForFilename == null,
         onDisabledClick = {
             scope.launch {
                 toastHostState.showToast(

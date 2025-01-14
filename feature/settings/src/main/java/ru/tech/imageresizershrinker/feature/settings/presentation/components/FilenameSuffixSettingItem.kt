@@ -63,7 +63,7 @@ fun FilenameSuffixSettingItem(
         onClick = {
             showChangeFilenameDialog = true
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.checksumTypeForFilename == null,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.hashingTypeForFilename == null,
         title = stringResource(R.string.suffix),
         subtitle = (settingsState.filenameSuffix.takeIf { it.isNotEmpty() }
             ?: stringResource(R.string.empty)),

@@ -21,21 +21,14 @@ import android.app.Application
 import com.arkivanov.decompose.DecomposeExperimentFlags
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import dagger.hilt.android.HiltAndroidApp
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
-import java.security.Security
+import ru.tech.imageresizershrinker.app.presentation.components.utils.registerSecurityProviders
 
 
 @HiltAndroidApp
 class ImageToolboxApplication : Application() {
 
     init {
-        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
-        Security.addProvider(BouncyCastleProvider())
-        ChecksumType.registerSecurityMessageDigests(
-            Security.getAlgorithms("MessageDigest")
-                .filterNotNull()
-        )
+        registerSecurityProviders()
     }
 
     @OptIn(ExperimentalDecomposeApi::class)

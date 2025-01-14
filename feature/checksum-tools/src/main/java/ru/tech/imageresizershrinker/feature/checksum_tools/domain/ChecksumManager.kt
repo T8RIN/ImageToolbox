@@ -17,18 +17,18 @@
 
 package ru.tech.imageresizershrinker.feature.checksum_tools.domain
 
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 
 interface ChecksumManager {
 
     suspend fun calculateChecksum(
-        type: ChecksumType,
+        type: HashingType,
         source: ChecksumSource
     ): String
 
     suspend fun compareChecksum(
         checksum: String,
-        type: ChecksumType,
+        type: HashingType,
         source: ChecksumSource
     ): Boolean
 

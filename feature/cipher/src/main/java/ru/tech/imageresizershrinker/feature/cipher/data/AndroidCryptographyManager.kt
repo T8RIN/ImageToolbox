@@ -19,6 +19,8 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.data
 
+import ru.tech.imageresizershrinker.core.domain.model.CipherType
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -29,11 +31,13 @@ import javax.inject.Inject
 
 internal class AndroidCryptographyManager @Inject constructor() : CryptographyManager {
 
-    private val HASHING_ALGORITHM = "SHA-256"
-    private val ENCRYPTION_STANDARD = "AES/GCM/NoPadding"
+    private val HASHING_ALGORITHM = HashingType.SHA_256.digest
     private val CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
-    private fun createKey(password: String): SecretKeySpec {
+    private fun createKey(
+        password: String,
+        type: CipherType
+    ): SecretKeySpec {
         val pwBytes = password.toByteArray(charset("UTF-8"))
 
         // Create secret Key factory based on the specified algorithm
@@ -42,7 +46,7 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
         // digest the pwBytes to be a new key
         md.update(pwBytes, 0, pwBytes.size)
         val key = md.digest()
-        return SecretKeySpec(key, ENCRYPTION_STANDARD)
+        return SecretKeySpec(key, type.cipher)
     }
 
     override fun generateRandomString(length: Int): String {
@@ -56,30 +60,55 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
 
     override suspend fun decrypt(
         data: ByteArray,
-        key: String
+        key: String,
+        type: CipherType
     ): ByteArray {
-        val keySpec = createKey(key)
-        val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
-        cipher.init(
-            Cipher.DECRYPT_MODE,
-            keySpec,
-            IvParameterSpec(keySpec.encoded, 0, cipher.blockSize)
+        val keySpec = createKey(
+            password = key,
+            type = type
         )
+        val cipher = type.toCipher()
+        try {
+            cipher.init(
+                Cipher.DECRYPT_MODE,
+                keySpec,
+                IvParameterSpec(keySpec.encoded, 0, cipher.blockSize)
+            )
+        } catch (_: Exception) {
+            cipher.init(
+                Cipher.DECRYPT_MODE,
+                keySpec
+            )
+        }
         return cipher.doFinal(data)
     }
 
     override suspend fun encrypt(
         data: ByteArray,
-        key: String
+        key: String,
+        type: CipherType
     ): ByteArray {
-        val keySpec = createKey(key)
-        val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
-        cipher.init(
-            Cipher.ENCRYPT_MODE,
-            keySpec,
-            IvParameterSpec(keySpec.encoded, 0, cipher.blockSize)
+        val keySpec = createKey(
+            password = key,
+            type = type
         )
+
+        val cipher = type.toCipher()
+        try {
+            cipher.init(
+                Cipher.ENCRYPT_MODE,
+                keySpec,
+                IvParameterSpec(keySpec.encoded, 0, cipher.blockSize)
+            )
+        } catch (_: Exception) {
+            cipher.init(
+                Cipher.ENCRYPT_MODE,
+                keySpec
+            )
+        }
         return cipher.doFinal(data)
     }
+
+    private fun CipherType.toCipher(): Cipher = Cipher.getInstance(cipher)
 
 }

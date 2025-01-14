@@ -17,22 +17,22 @@
 
 package ru.tech.imageresizershrinker.core.data.utils
 
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
 import java.io.InputStream
 import java.security.MessageDigest
 
 private const val STREAM_BUFFER_LENGTH = 1024
 
-fun ChecksumType.computeFromReadable(
+fun HashingType.computeFromReadable(
     readable: Readable
 ): String = computeFromByteArray(readable.readBytes())
 
-internal fun ChecksumType.computeFromByteArray(
+internal fun HashingType.computeFromByteArray(
     byteArray: ByteArray
 ): String = computeFromInputStream(byteArray.inputStream())
 
-internal fun ChecksumType.computeFromInputStream(
+internal fun HashingType.computeFromInputStream(
     inputStream: InputStream
 ): String = inputStream.buffered().use {
     val byteArray = updateDigest(it).digest()
@@ -92,11 +92,11 @@ internal fun encodeHex(
 /**
  * Reads through an InputStream and updates the digest for the data
  *
- * @param ChecksumType The ChecksumType to use (e.g. MD5)
+ * @param HashingType The ChecksumType to use (e.g. MD5)
  * @param data Data to digest
  * @return the digest
  */
-private fun ChecksumType.updateDigest(
+private fun HashingType.updateDigest(
     data: InputStream
 ): MessageDigest {
     val digest = toDigest()
@@ -123,4 +123,4 @@ private val DIGITS_UPPER =
     charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
 
 
-private fun ChecksumType.toDigest(): MessageDigest = MessageDigest.getInstance(digest)
+private fun HashingType.toDigest(): MessageDigest = MessageDigest.getInstance(digest)

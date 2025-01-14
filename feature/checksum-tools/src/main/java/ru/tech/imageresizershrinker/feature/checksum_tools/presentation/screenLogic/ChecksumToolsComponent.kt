@@ -26,7 +26,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumManager
@@ -41,9 +41,9 @@ class ChecksumToolsComponent @AssistedInject constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    private val _checksumType: MutableState<ChecksumType> =
-        mutableStateOf(ChecksumType.entries.first())
-    val checksumType: ChecksumType by _checksumType
+    private val _hashingType: MutableState<HashingType> =
+        mutableStateOf(HashingType.entries.first())
+    val hashingType: HashingType by _hashingType
 
     private val _calculateFromUriPage: MutableState<ChecksumPage.CalculateFromUri> =
         mutableStateOf(ChecksumPage.CalculateFromUri.Empty)
@@ -76,7 +76,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
                 it.copy(
                     uri = uri,
                     checksum = checksumManager.calculateChecksum(
-                        type = checksumType,
+                        type = hashingType,
                         source = ChecksumSource.Uri(uri.toString())
                     )
                 )
@@ -97,7 +97,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
                     text = text,
                     checksum = if (text.isNotEmpty()) {
                         checksumManager.calculateChecksum(
-                            type = checksumType,
+                            type = hashingType,
                             source = ChecksumSource.Text(text)
                         )
                     } else ""
@@ -123,12 +123,12 @@ class ChecksumToolsComponent @AssistedInject constructor(
                     uri = uri,
                     targetChecksum = targetChecksum,
                     checksum = checksumManager.calculateChecksum(
-                        type = checksumType,
+                        type = hashingType,
                         source = ChecksumSource.Uri(uri.toString())
                     ),
                     isCorrect = checksumManager.compareChecksum(
                         checksum = targetChecksum,
-                        type = checksumType,
+                        type = hashingType,
                         source = ChecksumSource.Uri(uri.toString())
                     )
                 )
@@ -136,8 +136,8 @@ class ChecksumToolsComponent @AssistedInject constructor(
         }
     }
 
-    fun updateChecksumType(type: ChecksumType) {
-        _checksumType.update { type }
+    fun updateChecksumType(type: HashingType) {
+        _hashingType.update { type }
         calculateFromUriPage.uri?.let(::setUri)
         calculateFromTextPage.text.let(::setText)
         compareWithUriPage.uri?.let(::setDataForComparison)

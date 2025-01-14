@@ -75,7 +75,8 @@ fun <T : Any> DataSelector(
     badgeContent: (@Composable RowScope.() -> Unit)? = null,
     shape: Shape = RoundedCornerShape(20.dp),
     color: Color = MaterialTheme.colorScheme.surface,
-    selectedItemColor: Color = MaterialTheme.colorScheme.tertiary
+    selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
+    initialExpanded: Boolean = false
 ) {
     Column(
         modifier = modifier.container(
@@ -83,7 +84,7 @@ fun <T : Any> DataSelector(
             color = color
         )
     ) {
-        var expanded by rememberSaveable { mutableStateOf(false) }
+        var expanded by rememberSaveable(initialExpanded) { mutableStateOf(initialExpanded) }
         Row {
             val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             Row(

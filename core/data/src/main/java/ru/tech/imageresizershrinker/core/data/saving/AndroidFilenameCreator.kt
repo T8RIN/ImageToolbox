@@ -69,7 +69,7 @@ internal class AndroidFilenameCreator @Inject constructor(
     ): String {
         val extension = saveTarget.extension
 
-        val checksumType = settingsState.checksumTypeForFilename
+        val checksumType = settingsState.hashingTypeForFilename
         if (checksumType != null && saveTarget.data.isNotEmpty()) {
             val name = checksumType.computeFromByteArray(saveTarget.data)
 

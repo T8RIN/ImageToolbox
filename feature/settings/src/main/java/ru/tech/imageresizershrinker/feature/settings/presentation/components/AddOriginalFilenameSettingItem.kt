@@ -48,7 +48,7 @@ fun AddOriginalFilenameSettingItem(
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         shape = shape,
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.picturePickerMode != PicturePickerMode.PhotoPicker && settingsState.checksumTypeForFilename == null,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.picturePickerMode != PicturePickerMode.PhotoPicker && settingsState.hashingTypeForFilename == null,
         modifier = modifier,
         startIcon = Icons.Outlined.Difference,
         onClick = {

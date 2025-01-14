@@ -265,7 +265,7 @@
     <string name="draw_on_background_sub">Pick background color and draw on top of it</string>
     <string name="background_color">Background color</string>
     <string name="cipher">Cipher</string>
-    <string name="cipher_sub">Encrypt and Decrypt any file (not only the image) based on AES crypto algorithm</string>
+    <string name="cipher_sub">Encrypt and Decrypt any file (not only the image) based on various available crypto algorithms</string>
     <string name="pick_file">Pick file</string>
     <string name="encrypt">Encrypt</string>
     <string name="decrypt">Decrypt</string>
@@ -279,7 +279,7 @@
     <string name="implementation">Implementation</string>
     <string name="compatibility">Compatibility</string>
     <string name="features_sub">Password-based encryption of files. Proceeded files can be stored in the selected directory or shared. Decrypted files can also be opened directly.</string>
-    <string name="implementation_sub">AES-256, GCM mode, no padding, 12 bytes random IVs. Keys are used as SHA-3 hashes (256 bits).</string>
+    <string name="implementation_sub">AES-256, GCM mode, no padding, 12 bytes random IVs. (By default, but you can select needed algorithm) Keys are used as SHA-3 hashes (256 bits).</string>
     <string name="file_size">File size</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
 \nPlease note: memory is not storage.</string>

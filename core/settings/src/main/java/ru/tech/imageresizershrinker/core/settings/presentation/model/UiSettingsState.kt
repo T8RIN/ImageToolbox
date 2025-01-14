@@ -42,8 +42,8 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.model.ChecksumType
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
@@ -142,7 +142,7 @@ data class UiSettingsState(
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
-    val checksumTypeForFilename: ChecksumType?,
+    val hashingTypeForFilename: HashingType?,
     val customFonts: List<UiFontFamily.Custom>
 )
 
@@ -371,7 +371,7 @@ fun SettingsState.toUiState(
                 isCenterAlignDialogButtons = isCenterAlignDialogButtons,
                 fastSettingsSide = fastSettingsSide,
                 settingGroupsInitialVisibility = settingGroupsInitialVisibility,
-                checksumTypeForFilename = checksumTypeForFilename,
+                hashingTypeForFilename = hashingTypeForFilename,
                 customFonts = customFonts
             )
         }
