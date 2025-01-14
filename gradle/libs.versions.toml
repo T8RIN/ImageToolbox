@@ -76,7 +76,7 @@ capturable = "3.0.1"
 moshi = "1.15.2"
 aboutlibraries = "11.4.0"
 junit = "4.13.2"
-bouncycastle = "1.79"
+bouncycastle = "1.80"
 evaluator = "1.0.0"
 
 [libraries]
