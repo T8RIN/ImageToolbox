@@ -55,6 +55,8 @@ fun ProcessImagesPreferenceSheet(
     onDismiss: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+
     EnhancedModalBottomSheet(
         title = {
             TitleItem(
@@ -72,7 +74,6 @@ fun ProcessImagesPreferenceSheet(
         },
         sheetContent = {
             val urisCorrespondingScreens by uris.screenList(extraImageType)
-            val scope = rememberCoroutineScope()
 
             Box(Modifier.fillMaxWidth()) {
                 LazyVerticalStaggeredGrid(
