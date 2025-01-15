@@ -44,6 +44,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.FileOpen
+import androidx.compose.material.icons.rounded.Pages
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -64,12 +65,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -84,13 +87,17 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySel
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PageInputField
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImagesPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToolsContentImpl
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.formatPageOutput
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -282,9 +289,9 @@ fun PdfToolsContent(
                     )
                 }
                 if (pdfType !is Screen.PdfTools.Type.Preview) {
-                    val visible by remember(component.pdfToImageState?.pages, pdfType) {
+                    val visible by remember(component.pdfToImageState?.selectedPages, pdfType) {
                         derivedStateOf {
-                            (component.pdfToImageState?.pages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
+                            (component.pdfToImageState?.selectedPages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
                         }
                     }
                     if (visible) {
@@ -381,6 +388,74 @@ fun PdfToolsContent(
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        val context = LocalContext.current
+                        var showSelector by rememberSaveable {
+                            mutableStateOf(false)
+                        }
+                        PreferenceItem(
+                            title = stringResource(R.string.pages_selection),
+                            subtitle = remember(component.pdfToImageState) {
+                                derivedStateOf {
+                                    component.pdfToImageState?.takeIf { it.selectedPages.isNotEmpty() }
+                                        ?.let {
+                                            if (it.selectedPages.size == it.pagesCount) {
+                                                context.getString(R.string.all)
+                                            } else {
+                                                formatPageOutput(it.selectedPages)
+                                            }
+                                        } ?: context.getString(R.string.none)
+                                }
+                            }.value,
+                            onClick = {
+                                showSelector = true
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            startIcon = Icons.Rounded.Pages,
+                            endIcon = Icons.Rounded.MiniEdit
+                        )
+                        var pages by rememberSaveable(showSelector) {
+                            mutableStateOf(component.pdfToImageState?.selectedPages ?: emptyList())
+                        }
+                        EnhancedAlertDialog(
+                            visible = showSelector,
+                            onDismissRequest = { showSelector = false },
+                            title = {
+                                Text(stringResource(R.string.pages_selection))
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Rounded.Pages,
+                                    contentDescription = null
+                                )
+                            },
+                            text = {
+                                PageInputField(
+                                    selectedPages = pages,
+                                    onPagesChanged = { pages = it }
+                                )
+                            },
+                            dismissButton = {
+                                EnhancedButton(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    onClick = {
+                                        showSelector = false
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.close))
+                                }
+                            },
+                            confirmButton = {
+                                EnhancedButton(
+                                    onClick = {
+                                        component.updatePdfToImageSelection(pages)
+                                        showSelector = false
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.apply))
+                                }
+                            }
+                        )
+                        Spacer(Modifier.height(8.dp))
                         PresetSelector(
                             value = component.presetSelected,
                             includeTelegramOption = false,
@@ -392,9 +467,7 @@ fun PdfToolsContent(
                             showWarning = component.showOOMWarning
                         )
                         if (component.imageInfo.imageFormat.canChangeCompressionValue) {
-                            Spacer(
-                                Modifier.height(8.dp)
-                            )
+                            Spacer(Modifier.height(8.dp))
                         }
                         QualitySelector(
                             imageFormat = component.imageInfo.imageFormat,
@@ -402,9 +475,7 @@ fun PdfToolsContent(
                             quality = component.imageInfo.quality,
                             onQualityChange = component::setQuality
                         )
-                        Spacer(
-                            Modifier.height(8.dp)
-                        )
+                        Spacer(Modifier.height(8.dp))
                         ImageFormatSelector(
                             value = component.imageInfo.imageFormat,
                             onValueChange = component::updateImageFormat

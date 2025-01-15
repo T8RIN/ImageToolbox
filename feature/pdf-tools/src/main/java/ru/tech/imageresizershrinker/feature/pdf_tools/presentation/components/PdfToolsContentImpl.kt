@@ -148,17 +148,17 @@ internal fun PdfToolsContentImpl(
                 if (component.pdfType == null) {
                     TopAppBarEmoji()
                 } else {
-                    val pagesSize = component.pdfToImageState?.pages?.size
+                    val selectedPagesSize = component.pdfToImageState?.selectedPages?.size
                     val visible by remember(
-                        component.pdfToImageState?.pages,
+                        component.pdfToImageState?.selectedPages,
                         component.pdfType
                     ) {
                         derivedStateOf {
-                            (pagesSize != 0 && component.pdfType is Screen.PdfTools.Type.PdfToImages)
+                            (selectedPagesSize != 0 && component.pdfType is Screen.PdfTools.Type.PdfToImages)
                         }
                     }
                     AnimatedVisibility(
-                        visible = component.pdfType is Screen.PdfTools.Type.PdfToImages,
+                        visible = component.pdfType is Screen.PdfTools.Type.PdfToImages && selectedPagesSize != component.pdfToImageState?.pagesCount,
                         enter = fadeIn() + scaleIn() + expandHorizontally(),
                         exit = fadeOut() + scaleOut() + shrinkHorizontally()
                     ) {
@@ -189,10 +189,10 @@ internal fun PdfToolsContentImpl(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            pagesSize?.takeIf { it != 0 }?.let {
+                            selectedPagesSize?.takeIf { it != 0 }?.let {
                                 Spacer(Modifier.width(8.dp))
                                 Text(
-                                    text = pagesSize.toString(),
+                                    text = selectedPagesSize.toString(),
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Medium
                                 )
@@ -361,7 +361,7 @@ internal fun PdfToolsContentImpl(
                                                 enableSelection = true,
                                                 selectAllToggle = selectAllToggle,
                                                 deselectAllToggle = deselectAllToggle,
-                                                selectedPages = component.pdfToImageState?.pages
+                                                selectedPages = component.pdfToImageState?.selectedPages
                                                     ?: emptyList(),
                                                 updateSelectedPages = component::updatePdfToImageSelection,
                                                 spacing = 4.dp

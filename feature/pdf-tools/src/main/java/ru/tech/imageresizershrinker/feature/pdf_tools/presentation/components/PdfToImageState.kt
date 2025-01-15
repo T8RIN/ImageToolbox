@@ -21,5 +21,6 @@ import android.net.Uri
 
 data class PdfToImageState(
     val uri: Uri,
-    val pages: List<Int>
+    val pagesCount: Int,
+    val selectedPages: List<Int>
 )

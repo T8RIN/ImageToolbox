@@ -161,7 +161,12 @@ fun PdfViewer(
                 }
                 val pageCount by remember(renderer) { derivedStateOf { renderer?.pageCount ?: 0 } }
 
-                val selectedItems = remember(uri) {
+                val key by remember(uri, selectedPages) {
+                    derivedStateOf {
+                        uri to selectedPages
+                    }
+                }
+                val selectedItems = remember(key) {
                     mutableStateOf(selectedPages.toSet())
                 }
                 LaunchedEffect(selectedItems.value) {
@@ -311,7 +316,7 @@ fun PdfViewer(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .dragHandler(
-                                    key = uri,
+                                    key = key,
                                     lazyGridState = state,
                                     isVertical = true,
                                     haptics = LocalHapticFeedback.current,
@@ -365,7 +370,7 @@ fun PdfViewer(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .dragHandler(
-                                    key = uri,
+                                    key = key,
                                     lazyGridState = state,
                                     isVertical = false,
                                     haptics = LocalHapticFeedback.current,
@@ -374,12 +379,12 @@ fun PdfViewer(
                                     autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
                                 ),
                             verticalArrangement = Arrangement.spacedBy(
-                                spacing,
-                                Alignment.CenterVertically
+                                space = spacing,
+                                alignment = Alignment.CenterVertically
                             ),
                             horizontalArrangement = Arrangement.spacedBy(
-                                spacing,
-                                Alignment.CenterHorizontally
+                                space = spacing,
+                                alignment = Alignment.CenterHorizontally
                             ),
                             contentPadding = PaddingValues(12.dp),
                         ) {

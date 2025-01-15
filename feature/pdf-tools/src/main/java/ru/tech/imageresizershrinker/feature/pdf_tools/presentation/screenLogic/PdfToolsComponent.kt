@@ -177,7 +177,11 @@ class PdfToolsComponent @AssistedInject internal constructor(
             newUri?.let {
                 val pages = pdfManager.getPdfPages(newUri.toString())
                 _pdfToImageState.update {
-                    PdfToImageState(newUri, pages)
+                    PdfToImageState(
+                        uri = newUri,
+                        pagesCount = pages.size,
+                        selectedPages = pages
+                    )
                 }
                 checkForOOM()
             }
@@ -215,7 +219,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         val results = mutableListOf<SaveResult>()
         savingJob = pdfManager.convertPdfToImages(
             pdfUri = _pdfToImageState.value?.uri.toString(),
-            pages = _pdfToImageState.value?.pages,
+            pages = _pdfToImageState.value?.selectedPages,
             preset = presetSelected,
             onProgressChange = { _, bitmap ->
                 imageInfo.let {
@@ -316,7 +320,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     val uris: MutableList<String?> = mutableListOf()
                     savingJob = pdfManager.convertPdfToImages(
                         pdfUri = _pdfToImageState.value?.uri.toString(),
-                        pages = _pdfToImageState.value?.pages,
+                        pages = _pdfToImageState.value?.selectedPages,
                         onProgressChange = { _, bitmap ->
                             imageInfo.copy(
                                 originalUri = _pdfToImageState.value?.uri?.toString()
@@ -396,9 +400,9 @@ class PdfToolsComponent @AssistedInject internal constructor(
         val preset = _presetSelected.value
         presetSelectionJob = componentScope.launch {
             runCatching {
-                _pdfToImageState.value?.let { (uri, pages) ->
+                _pdfToImageState.value?.let { (uri, _, selectedPages) ->
                     val pagesSize = pdfManager.getPdfPageSizes(uri.toString())
-                        .filterIndexed { index, _ -> index in pages }
+                        .filterIndexed { index, _ -> index in selectedPages }
                     _showOOMWarning.update {
                         pagesSize.maxOf { size ->
                             size.width * (preset.value / 100f) * size.height * (preset.value / 100f) * 4
@@ -427,8 +431,8 @@ class PdfToolsComponent @AssistedInject internal constructor(
     }
 
     fun updatePdfToImageSelection(ints: List<Int>) {
-        _pdfToImageState.update {
-            it?.copy(pages = ints)
+        _pdfToImageState.update { state ->
+            state?.copy(selectedPages = ints.filter { it < state.pagesCount }.sorted())
         }
         checkForOOM()
     }
