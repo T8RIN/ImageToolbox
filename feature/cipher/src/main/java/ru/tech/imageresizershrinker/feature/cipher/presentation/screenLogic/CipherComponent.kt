@@ -47,14 +47,19 @@ class CipherComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
+    private val _cipherType: MutableState<CipherType> = mutableStateOf(CipherType.entries.first())
+    val cipherType: CipherType by _cipherType
+
     init {
         debounce {
             initialUri?.let(::setUri)
+            fileController.restoreObject(
+                key = "cipher_type",
+                kClass = CipherType::class
+            )?.let(::updateCipherType)
         }
     }
 
-    private val _cipherType: MutableState<CipherType> = mutableStateOf(CipherType.entries.first())
-    val cipherType: CipherType by _cipherType
 
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
@@ -114,6 +119,12 @@ class CipherComponent @AssistedInject internal constructor(
 
     fun updateCipherType(type: CipherType) {
         _cipherType.update { type }
+        componentScope.launch {
+            fileController.saveObject(
+                key = "cipher_type",
+                value = type
+            )
+        }
         resetCalculatedData()
     }
 
