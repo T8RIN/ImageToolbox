@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 
 /**
-Modifier which helps you to implement google photos selection grid,
+[Modifier] which helps you to implement google photos selection grid,
 to make it work pass [key] and list item key which is should be "[key]-position"
  **/
 fun Modifier.dragHandler(
