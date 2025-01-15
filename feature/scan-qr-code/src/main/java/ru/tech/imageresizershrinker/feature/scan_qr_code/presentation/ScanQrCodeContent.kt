@@ -218,8 +218,16 @@ fun ScanQrCodeContent(
             )
             RoundedTextField(
                 modifier = Modifier
-                    .container(shape = RoundedCornerShape(24.dp))
-                    .padding(8.dp),
+                    .container(
+                        shape = MaterialTheme.shapes.large,
+                        resultPadding = 0.dp
+                    )
+                    .padding(
+                        top = 8.dp,
+                        start = 8.dp,
+                        end = 8.dp,
+                        bottom = 6.dp
+                    ),
                 value = qrContent,
                 onValueChange = component::updateQrContent,
                 maxSymbols = 2500,
@@ -295,9 +303,9 @@ fun ScanQrCodeContent(
                                 shape = animateShape(
                                     if (qrDescription.isNotEmpty()) ContainerShapeDefaults.topShape
                                     else ContainerShapeDefaults.defaultShape
-                                )
-                            )
-                            .padding(8.dp),
+                                ),
+                                resultPadding = 8.dp
+                            ),
                         value = qrDescription,
                         onValueChange = {
                             qrDescription = it

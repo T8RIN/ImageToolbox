@@ -94,10 +94,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomS
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PageInputField
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PagesSelectionParser
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImagesPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToolsContentImpl
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
-import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.formatPageOutput
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -401,7 +401,7 @@ fun PdfToolsContent(
                                             if (it.selectedPages.size == it.pagesCount) {
                                                 context.getString(R.string.all)
                                             } else {
-                                                formatPageOutput(it.selectedPages)
+                                                PagesSelectionParser.formatPageOutput(it.selectedPages)
                                             }
                                         } ?: context.getString(R.string.none)
                                 }

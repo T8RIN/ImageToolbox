@@ -190,9 +190,9 @@ fun DrawModeSelector(
                         .padding(horizontal = 8.dp)
                         .container(
                             shape = ContainerShapeDefaults.topShape,
-                            color = MaterialTheme.colorScheme.surface
-                        )
-                        .padding(8.dp),
+                            color = MaterialTheme.colorScheme.surface,
+                            resultPadding = 8.dp
+                        ),
                     value = (value as? DrawMode.Text)?.text ?: "",
                     singleLine = false,
                     onValueChange = {

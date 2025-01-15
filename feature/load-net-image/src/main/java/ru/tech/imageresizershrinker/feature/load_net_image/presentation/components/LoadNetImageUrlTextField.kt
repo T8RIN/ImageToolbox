@@ -19,11 +19,11 @@ package ru.tech.imageresizershrinker.feature.load_net_image.presentation.compone
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.rounded.WifiTetheringError
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,8 +44,10 @@ internal fun LoadNetImageUrlTextField(
 
     RoundedTextField(
         modifier = Modifier
-            .container(shape = RoundedCornerShape(24.dp))
-            .padding(8.dp),
+            .container(
+                shape = MaterialTheme.shapes.large,
+                resultPadding = 8.dp
+            ),
         value = component.targetUrl,
         onValueChange = {
             component.updateTargetUrl(

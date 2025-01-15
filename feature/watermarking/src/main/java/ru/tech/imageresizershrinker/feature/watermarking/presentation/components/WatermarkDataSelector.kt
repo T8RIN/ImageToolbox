@@ -23,8 +23,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -54,9 +53,9 @@ fun WatermarkDataSelector(
         RoundedTextField(
             modifier = modifier
                 .container(
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .padding(8.dp),
+                    shape = MaterialTheme.shapes.large,
+                    resultPadding = 8.dp
+                ),
             value = type.text,
             singleLine = false,
             onValueChange = {

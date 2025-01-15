@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
@@ -347,8 +346,10 @@ fun CipherContent(
                 Spacer(Modifier.height(16.dp))
                 RoundedTextField(
                     modifier = Modifier
-                        .container(shape = RoundedCornerShape(24.dp))
-                        .padding(8.dp),
+                        .container(
+                            shape = MaterialTheme.shapes.large,
+                            resultPadding = 8.dp
+                        ),
                     value = key,
                     startIcon = {
                         EnhancedIconButton(
@@ -450,8 +451,10 @@ fun CipherContent(
                         RoundedTextField(
                             modifier = Modifier
                                 .padding(top = 8.dp)
-                                .container(shape = RoundedCornerShape(24.dp))
-                                .padding(8.dp),
+                                .container(
+                                    shape = MaterialTheme.shapes.large,
+                                    resultPadding = 8.dp
+                                ),
                             value = name,
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                             singleLine = false,
