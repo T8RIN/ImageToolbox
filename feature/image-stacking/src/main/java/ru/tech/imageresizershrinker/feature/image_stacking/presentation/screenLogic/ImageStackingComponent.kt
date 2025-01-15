@@ -283,13 +283,15 @@ class ImageStackingComponent @AssistedInject internal constructor(
     }
 
     fun reorderUris(uris: List<Uri>) {
-        _stackImages.update { stack ->
-            val stackOrder = uris.map { it.toString() }
-            val data = stack.associateBy { it.uri }
-            val leftStack = stack.filter { it.uri !in stackOrder }
-            (leftStack + stackOrder.mapNotNull { data[it] }).distinct()
+        if (stackImages.map { it.uri } != uris) {
+            _stackImages.update { stack ->
+                val stackOrder = uris.map { it.toString() }
+                val data = stack.associateBy { it.uri }
+                val leftStack = stack.filter { it.uri !in stackOrder }
+                (leftStack + stackOrder.mapNotNull { data[it] }).distinct()
+            }
+            calculatePreview()
         }
-        calculatePreview()
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat

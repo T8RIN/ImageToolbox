@@ -19,12 +19,14 @@ package ru.tech.imageresizershrinker.core.data.image.utils
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.RectF
 import ru.tech.imageresizershrinker.core.domain.model.Position
 
 fun Canvas.drawBitmap(
     bitmap: Bitmap,
-    position: Position
+    position: Position,
+    paint: Paint? = null
 ) {
     val left = when (position) {
         Position.TopLeft, Position.CenterLeft, Position.BottomLeft -> 0f
@@ -47,6 +49,6 @@ fun Canvas.drawBitmap(
             bitmap.width + left,
             bitmap.height + top
         ),
-        null
+        paint
     )
 }

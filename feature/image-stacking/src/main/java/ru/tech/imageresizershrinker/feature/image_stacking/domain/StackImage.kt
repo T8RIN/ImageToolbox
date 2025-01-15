@@ -18,15 +18,24 @@
 package ru.tech.imageresizershrinker.feature.image_stacking.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
+import ru.tech.imageresizershrinker.core.domain.model.Position
 
 data class StackImage(
     val uri: String,
     val alpha: Float,
-    val blendingMode: BlendingMode
-)
+    val blendingMode: BlendingMode,
+    val position: Position,
+    val scale: Scale
+) {
+    enum class Scale {
+        None, Fill, Fit
+    }
+}
 
 fun String.toStackImage() = StackImage(
     uri = this,
     alpha = 1f,
-    blendingMode = BlendingMode.SrcOver
+    blendingMode = BlendingMode.SrcOver,
+    position = Position.TopLeft,
+    scale = StackImage.Scale.Fit
 )

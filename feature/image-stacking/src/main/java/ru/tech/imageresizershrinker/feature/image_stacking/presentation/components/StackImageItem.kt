@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
@@ -54,6 +55,8 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.BlendingModeSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PositionSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -177,6 +180,39 @@ fun StackImageItem(
                             onStackImageChange(
                                 stackImage.copy(blendingMode = it)
                             )
+                        },
+                        color = Color.Unspecified,
+                        shape = ContainerShapeDefaults.centerShape
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PositionSelector(
+                        value = stackImage.position,
+                        onValueChange = {
+                            onStackImageChange(
+                                stackImage.copy(position = it)
+                            )
+                        },
+                        color = Color.Unspecified,
+                        shape = ContainerShapeDefaults.centerShape
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    DataSelector(
+                        value = stackImage.scale,
+                        onValueChange = {
+                            onStackImageChange(
+                                stackImage.copy(scale = it)
+                            )
+                        },
+                        entries = StackImage.Scale.entries,
+                        spanCount = 1,
+                        title = stringResource(R.string.scale),
+                        titleIcon = Icons.Outlined.PhotoSizeSelectLarge,
+                        itemContentText = {
+                            when (it) {
+                                StackImage.Scale.None -> stringResource(R.string.none)
+                                StackImage.Scale.Fill -> stringResource(R.string.fill)
+                                StackImage.Scale.Fit -> stringResource(R.string.fit)
+                            }
                         },
                         color = Color.Unspecified,
                         shape = ContainerShapeDefaults.bottomShape

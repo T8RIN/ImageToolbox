@@ -48,7 +48,7 @@ data class Line(
         )
 
         @Suppress("FunctionName")
-        fun Rotated(angle: Float): Line = if (abs(angle) % 180 != 0f) {
+        fun Rotated(angle: Float): Line = if (abs(angle) % 360 != 0f) {
             CenterVertical.rotate(angle)
         } else {
             CenterVertical

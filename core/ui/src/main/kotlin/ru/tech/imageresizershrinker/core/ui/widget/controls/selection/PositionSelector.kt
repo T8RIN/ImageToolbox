@@ -53,7 +53,7 @@ fun PositionSelector(
     )
 }
 
-val Position.translatedName: String
+private val Position.translatedName: String
     @Composable
     get() = when (this) {
         Position.Center -> stringResource(id = R.string.center)
