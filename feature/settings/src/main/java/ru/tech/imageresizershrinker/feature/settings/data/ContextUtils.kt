@@ -17,11 +17,12 @@
 
 package ru.tech.imageresizershrinker.feature.settings.data
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import androidx.datastore.preferences.PreferencesMapCompat
+import androidx.datastore.preferences.core.PreferencesSerializer
 import kotlinx.coroutines.coroutineScope
+import okio.buffer
+import okio.source
 import ru.tech.imageresizershrinker.core.resources.R
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -47,7 +48,6 @@ internal suspend fun Context.restoreDatastore(
     }
 }
 
-@SuppressLint("RestrictedApi")
 internal suspend fun Context.restoreDatastore(
     fileName: String,
     backupData: ByteArray,
@@ -55,11 +55,13 @@ internal suspend fun Context.restoreDatastore(
     onSuccess: suspend () -> Unit
 ) = coroutineScope {
     runCatching {
-        runCatching {
-            PreferencesMapCompat.readFrom(ByteArrayInputStream(backupData))
-        }.onFailure {
-            throw Throwable(getString(R.string.corrupted_file_or_not_a_backup))
+        try {
+            PreferencesSerializer.readFrom(ByteArrayInputStream(backupData).source().buffer())
+        } catch (_: Throwable) {
+            onFailure(Throwable(getString(R.string.corrupted_file_or_not_a_backup)))
+            return@coroutineScope
         }
+
         File(
             filesDir,
             "datastore/${fileName}.preferences_pb"
