@@ -106,7 +106,7 @@ internal fun QrCodePreview(
                                 } else Modifier
                             )
                             .size(targetSize),
-                        shape = androidx.compose.foundation.shape.RoundedCornerShape(
+                        shape = RoundedCornerShape(
                             animateIntAsState(qrCornersSize).value.dp
                         )
                     )

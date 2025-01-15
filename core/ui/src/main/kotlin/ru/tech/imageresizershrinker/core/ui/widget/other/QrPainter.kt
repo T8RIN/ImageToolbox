@@ -152,7 +152,7 @@ private suspend fun generateQrBitmap(
         }
 
         Bitmap.createBitmap(colors, matrixWidth, matrixHeight, Bitmap.Config.ARGB_8888)
-    } catch (ex: WriterException) {
+    } catch (_: WriterException) {
         null
     }
 }
@@ -181,7 +181,7 @@ fun QrCode(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        val size = min(maxWidth, maxHeight)
+        val size = min(this.maxWidth, maxHeight)
         val backgroundColor = if (LocalSettingsState.current.isNightMode) {
             MaterialTheme.colorScheme.onSurface
         } else MaterialTheme.colorScheme.surfaceContainerHigh
