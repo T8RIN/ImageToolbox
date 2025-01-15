@@ -28,28 +28,84 @@ data class CipherType private constructor(
     companion object {
         val AES_NO_PADDING = CipherType("AES/GCM/NoPadding")
 
-        private var securityCiphers: List<String>? = null
+        val BROKEN by lazy {
+            listOf(
+                "IES",
+                "SM2",
+                "ML-KEM",
+                "1.2.840.113533.7.66.10",
+                "CAST5",
+                "ElGAMAL",
+                "KW",
+                "RC2WRAP",
+                "1.2.840.113549.1.1.7",
+                "RSA",
+                "OID.2.5.8.1.1",
+                "RC5-64",
+                "NTRU",
+                "1.2.804.2",
+                "GRAINV1",
+                "1.3.14.3.2.7",
+                "DSTU7624",
+                "1.2.840.113549.1.1.1",
+                "ETSIKEMWITHSHA256",
+                "2.5.8.1.1",
+                "GOST3412-2015",
+                "SEEDWRAP",
+                "2.16.840.1.101.3.4.1",
+                "WRAP",
+                "ARIACCM",
+                "AES_128/ECB/NOPADDING",
+                "AES_128/ECB/PKCS5PADDING",
+                "DESEDE/ECB/NOPADDING",
+                "1.2.392.200011.61.1.1.3",
+                "AES/CBC/NOPADDING",
+                "AES/ECB/NOPADDING",
+                "AES/GCM-SIV/NOPADDING",
+                "AES_128/CBC/NOPADDING",
+                "AES_128/GCM-SIV/NOPADDING",
+                "AES_128/GCM/NOPADDING",
+                "AES_256/CBC/NOPADDING",
+                "AES_256/ECB/NOPADDING",
+                "AES_256/GCM-SIV/NOPADDING",
+                "AES_256/GCM/NOPADDING",
+                "1.2.840.113549.1.9.16.3.6",
+                "DESEDE/CBC/NOPADDING",
+                "CHACHA20-POLY1305",
+                "CHACHA20/POLY1305"
+            )
+        }
 
-        fun registerSecurityCiphers(ciphers: List<String>) {
+        private var securityCiphers: List<CipherType>? = null
+
+        fun registerSecurityCiphers(ciphers: List<CipherType>) {
             if (!securityCiphers.isNullOrEmpty()) {
                 throw IllegalArgumentException("SecurityCiphers already registered")
             }
-            securityCiphers = ciphers.distinctBy { it.replace("OID.", "").uppercase() }
+            securityCiphers = ciphers.distinctBy { it.cipher.replace("OID.", "").uppercase() }
         }
 
         val entries: List<CipherType> by lazy {
             val available = securityCiphers?.mapNotNull { cipher ->
-                if (cipher.isEmpty()) null
+                val oid = cipher.cipher
+
+                fun checkForBadOid(
+                    oid: String
+                ) = oid.isEmpty() || oid.contains("BROKEN", true) || oid.contains("OLD", true)
+
+                if (checkForBadOid(oid)) null
                 else {
-                    val strippedCipher = cipher.replace("OID.", "")
+                    val strippedCipher = oid.replace("OID.", "")
                     SecureAlgorithmsMapping.findMatch(strippedCipher)?.let { mapping ->
+                        if (checkForBadOid(oid + mapping.algorithm)) return@mapNotNull null
+
                         CipherType(
-                            cipher = cipher,
+                            cipher = oid,
                             name = mapping.algorithm
                         )
-                    } ?: CipherType(cipher = cipher)
+                    } ?: cipher
                 }
-            }?.sortedBy { it.cipher } ?: emptyList()
+            }?.sortedBy { it.name } ?: emptyList()
 
             listOf(
                 AES_NO_PADDING
@@ -65,5 +121,13 @@ data class CipherType private constructor(
                 it.cipher == cipher
             }
         }
+
+        fun getInstance(
+            cipher: String,
+            name: String = cipher
+        ): CipherType = CipherType(
+            cipher = cipher,
+            name = name
+        )
     }
 }

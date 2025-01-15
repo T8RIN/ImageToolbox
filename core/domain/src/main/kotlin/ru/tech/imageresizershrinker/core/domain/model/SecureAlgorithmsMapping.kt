@@ -438,8 +438,8 @@ enum class SecureAlgorithmsMapping {
     aria192_cbc("1.2.410.200046.1.1.7", "ARIA192/CBC"),
     aria192_cfb("1.2.410.200046.1.1.8", "ARIA192/CFB"),
     aria192_ofb("1.2.410.200046.1.1.9", "ARIA192/OFB"),
-    GOST_R28147_89("1.2.643.2.2.13.0", "GOST-R28147-89"),
-    CryptoPro("1.2.643.2.2.13.1", "CryptoPro"),
+    BROKEN_GOST_R28147_89("1.2.643.2.2.13.0"),
+    BROKEN_CryptoPro("1.2.643.2.2.13.1"),
     GOST_28147_89("1.2.643.2.2.21", "GOST-28147-89"),
     dstu7624_ecb_128("1.2.804.2.1.1.1.1.1.3.1.1", "DSTU7624/ECB-128"),
     dstu7624_ecb_256("1.2.804.2.1.1.1.1.1.3.1.2", "DSTU7624/ECB-256"),
@@ -461,7 +461,13 @@ enum class SecureAlgorithmsMapping {
     dstu7624_ccm_512("1.2.804.2.1.1.1.1.1.3.8.3", "DSTU7624/CCM-512"),
     CMS3DESwrap("1.2.840.113549.1.9.16.3.6", "CMS3DESwrap"),
     des_CBC("1.3.14.3.2.7", "DES/CBC"),
-    Joint_RSA("2.5.8.1.1", "Joint-RSA");
+    Joint_RSA("2.5.8.1.1", "Joint-RSA"),
+    camellia128_wrap("1.2.392.200011.61.1.1.3.2", "camellia128/wrap"),
+    camellia192_wrap("1.2.392.200011.61.1.1.3.3", "camellia192/wrap"),
+    camellia256_wrap("1.2.392.200011.61.1.1.3.4", "camellia256/wrap"),
+    id_aes192_CCM("2.16.840.1.101.3.4.1.27", "AES192/CCM"),
+    aes256_CCM("2.16.840.1.101.3.4.1.47", "AES256/CCM"),
+    aes128_CCM("2.16.840.1.101.3.4.1.7", "AES128/CCM");
 
     val algorithm: String
     val oid: String

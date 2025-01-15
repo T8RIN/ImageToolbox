@@ -36,7 +36,6 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
-import java.security.InvalidKeyException
 
 class CipherComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -108,13 +107,7 @@ class CipherComponent @AssistedInject internal constructor(
                         )
                     }
                 }
-            }.exceptionOrNull().let {
-                onComplete(
-                    if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
-                        InvalidKeyException()
-                    } else it
-                )
-            }
+            }.exceptionOrNull().let(onComplete)
             _isSaving.value = false
         }
     }

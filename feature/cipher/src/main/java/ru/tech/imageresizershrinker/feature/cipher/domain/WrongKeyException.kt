@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.app.presentation.components
+package ru.tech.imageresizershrinker.feature.cipher.domain
 
-import android.app.Application
-import com.arkivanov.decompose.DecomposeExperimentFlags
-import com.arkivanov.decompose.ExperimentalDecomposeApi
-import dagger.hilt.android.HiltAndroidApp
-import ru.tech.imageresizershrinker.app.presentation.components.utils.registerSecurityProviders
-
-
-@OptIn(ExperimentalDecomposeApi::class)
-@HiltAndroidApp
-class ImageToolboxApplication : Application() {
-
-    init {
-        registerSecurityProviders()
-        DecomposeExperimentFlags.duplicateConfigurationsEnabled = true
-    }
-
-}
+internal class WrongKeyException : Throwable()

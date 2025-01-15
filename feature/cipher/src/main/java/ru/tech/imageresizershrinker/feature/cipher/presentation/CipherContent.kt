@@ -105,9 +105,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.feature.cipher.domain.WrongKeyException
 import ru.tech.imageresizershrinker.feature.cipher.presentation.components.CipherTipSheet
 import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
-import java.security.InvalidKeyException
 import kotlin.random.Random
 
 
@@ -219,7 +219,7 @@ fun CipherContent(
                                 ?.use { it.readBytes() }
                         }
                     ) {
-                        if (it is InvalidKeyException) {
+                        if (it is WrongKeyException) {
                             essentials.showToast(
                                 message = context.getString(R.string.invalid_password_or_not_encrypted),
                                 icon = Icons.Rounded.ErrorOutline

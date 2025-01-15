@@ -40,14 +40,29 @@ internal fun registerSecurityProviders() {
         val finder = DefaultAlgorithmNameFinder()
 
         CipherType.registerSecurityCiphers(
-            Security.getAlgorithms("Cipher").filterNotNull().map { cipher ->
+            Security.getAlgorithms("Cipher").filterNotNull().mapNotNull { cipher ->
+                if (CipherType.BROKEN.any { cipher.contains(it, true) }) return@mapNotNull null
+
                 val oid = cipher.removePrefix("OID.")
                 if (oid.all { it.isDigit() || it.isWhitespace() || it == '.' }) {
-                    finder.getAlgorithmName(
-                        ASN1ObjectIdentifier(oid)
+                    CipherType.getInstance(
+                        cipher = cipher,
+                        name = finder.getAlgorithmName(
+                            ASN1ObjectIdentifier(oid)
+                        )
                     )
                 } else {
-                    oid
+                    CipherType.getInstance(
+                        cipher = cipher
+                    )
+                }.also {
+                    val extraExclude = it.cipher == "DES"
+                            || it.name == "DES/CBC"
+                            || it.name == "THREEFISH-512"
+                            || it.name == "THREEFISH-1024"
+                            || it.name == "CCM"
+
+                    if (extraExclude) return@mapNotNull null
                 }
             }
         )
