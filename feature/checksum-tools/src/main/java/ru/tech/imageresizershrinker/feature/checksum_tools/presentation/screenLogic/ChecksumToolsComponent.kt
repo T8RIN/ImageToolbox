@@ -27,6 +27,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumManager
@@ -38,6 +39,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
     @Assisted initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
     private val checksumManager: ChecksumManager,
+    private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -61,6 +63,10 @@ class ChecksumToolsComponent @AssistedInject constructor(
     init {
         debounce {
             initialUri?.let(::setUri)
+            fileController.restoreObject(
+                key = "checksum_type",
+                kClass = HashingType::class
+            )?.let(::updateChecksumType)
         }
     }
 
@@ -141,6 +147,12 @@ class ChecksumToolsComponent @AssistedInject constructor(
         calculateFromUriPage.uri?.let(::setUri)
         calculateFromTextPage.text.let(::setText)
         compareWithUriPage.uri?.let(::setDataForComparison)
+        componentScope.launch {
+            fileController.saveObject(
+                key = "checksum_type",
+                value = type
+            )
+        }
     }
 
     @AssistedFactory
