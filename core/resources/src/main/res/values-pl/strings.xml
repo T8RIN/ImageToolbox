@@ -279,9 +279,9 @@
     <string name="compatibility">Zgodność</string>
     <string name="compatibility_sub">Należy pamiętać, że zgodność z innym oprogramowaniem lub usługami do szyfrowania plików nie jest gwarantowana. Przyczyną niezgodności może być nieco inna obróbka klucza lub konfiguracja szyfru.</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Nie można zmienić układu, gdy włączone jest grupowanie opcji</string>
-    <string name="implementation_sub">AES-256, tryb GCM, bez wypełnienia, 12-bajtowe losowe IV. Klucze są używane jako skróty SHA-3 (256 bitów).</string>
+    <string name="implementation_sub">AES-256, tryb GCM, brak wypełnienia, 12 bajtów losowych IV (domyślnie, ale można wybrać odpowiedni algorytm). Klucze są używane jako skróty SHA-3 (256 bitów).</string>
     <string name="cipher">Szyfr</string>
-    <string name="cipher_sub">Szyfruj i odszyfruj dowolny plik (nie tylko obraz) na podstawie algorytmu kryptograficznego AES</string>
+    <string name="cipher_sub">Szyfrowanie i deszyfrowanie dowolnego pliku (nie tylko obrazu) w oparciu o różne dostępne algorytmy kryptograficzne.</string>
     <string name="pick_file">Wybierz plik</string>
     <string name="encrypt">Szyfruj</string>
     <string name="store_file_desc">Zapisz ten plik na swoim urządzeniu lub użyj okna udostępniania, aby umieścić go w dowolnym miejscu</string>

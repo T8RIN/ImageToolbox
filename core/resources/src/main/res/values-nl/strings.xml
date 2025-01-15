@@ -303,7 +303,7 @@
     <string name="draw_on_background_sub">Kies de achtergrondkleur en teken er bovenop</string>
     <string name="background_color">Achtergrond kleur</string>
     <string name="cipher">Versleuteling</string>
-    <string name="cipher_sub">Versleutel en decodeer elk bestand (niet alleen de afbeelding) op basis van het AES-crypto-algoritme</string>
+    <string name="cipher_sub">Versleutel en decodeer elk bestand (niet alleen de afbeelding) op basis van beschikbare versleutelingsalgoritmes</string>
     <string name="pick_file">Kies bestand</string>
     <string name="encrypt">Versleutelen</string>
     <string name="decrypt">Ontsleutelen</string>
@@ -317,7 +317,7 @@
     <string name="implementation">Implementatie</string>
     <string name="compatibility">Compatibiliteit</string>
     <string name="features_sub">Wachtwoordgebaseerde versleuteling van bestanden. Vervolgbestanden kunnen in de geselecteerde map worden opgeslagen of gedeeld. Gedecodeerde bestanden kunnen ook direct worden geopend.</string>
-    <string name="implementation_sub">AES-256, GCM-modus, geen opvulling, 12 bytes willekeurige IV\'s. Sleutels worden gebruikt als SHA-3-hashes (256 bits).</string>
+    <string name="implementation_sub">AES-256, GCM-modus, geen opvulling, 12 bytes willekeurige IV\'s. Sleutels worden gebruikt als (256 bits) SHA-3-hashes. (Standaard, maar het is mogelijk om het benodigde algoritme selecteren).</string>
     <string name="file_size">Bestandsgrootte</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
 \nPlease note: memory is not storage.</string>

@@ -263,7 +263,7 @@
     <string name="features">功能</string>
     <string name="implementation">执行</string>
     <string name="compatibility">兼容性</string>
-    <string name="implementation_sub">AES-256，GCM模式，无填充，12字节随机IVs。密钥将用作SHA-3哈希值（256位）。</string>
+    <string name="implementation_sub">AES-256，GCM模式，无填充，12字节随机初始向量（IV）。（默认如此，但你可以选择所需的算法）密钥采用SHA-3哈希值（256位）。</string>
     <string name="file_size">文件大小</string>
     <string name="compatibility_sub">请注意，我们不保证与其他文件加密软件或服务的兼容性，密钥处理或密码配置稍有不同可能会不兼容。</string>
     <string name="cipher">加密</string>
@@ -281,7 +281,7 @@
     <string name="group_options_by_type_sub">对主屏幕上的选项按选项类型分组，代替按自定义列表排列</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">启用功能分组时无法更改排列</string>
     <string name="create">创作</string>
-    <string name="cipher_sub">基于 AES 加密算法对任何文件（不限于图片）进行加密和解密</string>
+    <string name="cipher_sub">基于各种可用的加密算法对任何文件（不限于图片）进行加密和解密</string>
     <string name="store_file_desc">将此文件存储在您的设备上，或使用共享操作将其传送至任何位置</string>
     <string name="file_size_sub">最大文件大小受 Android 系统和可用内存的限制，这取决于您的设备。
 \n请注意：内存 (RAM) 不是存储 (ROM)。</string>
