@@ -24,6 +24,10 @@ import java.security.MessageDigest
 
 private const val STREAM_BUFFER_LENGTH = 1024
 
+fun HashingType.computeBytesFromReadable(
+    readable: Readable
+): ByteArray = computeBytesFromByteArray(readable.readBytes())
+
 fun HashingType.computeFromReadable(
     readable: Readable
 ): String = computeFromByteArray(readable.readBytes())
@@ -39,6 +43,16 @@ internal fun HashingType.computeFromInputStream(
     val hexCode = encodeHex(byteArray, true)
 
     return@use String(hexCode)
+}
+
+internal fun HashingType.computeBytesFromByteArray(
+    byteArray: ByteArray
+): ByteArray = computeBytesFromInputStream(byteArray.inputStream())
+
+internal fun HashingType.computeBytesFromInputStream(
+    inputStream: InputStream
+): ByteArray = inputStream.buffered().use {
+    return@use updateDigest(it).digest()
 }
 
 /**

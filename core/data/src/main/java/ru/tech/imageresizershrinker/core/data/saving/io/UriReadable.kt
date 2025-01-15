@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.data.saving.io
 
 import android.content.Context
 import android.net.Uri
+import io.ktor.utils.io.charsets.Charset
 import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
 
 
@@ -33,4 +34,11 @@ class ByteArrayReadable(
     private val byteArray: ByteArray
 ) : Readable by StreamReadable(
     stream = byteArray.inputStream()
+)
+
+class StringReadable(
+    private val string: String,
+    private val charset: Charset = Charsets.UTF_8
+) : Readable by ByteArrayReadable(
+    byteArray = string.toByteArray(charset)
 )

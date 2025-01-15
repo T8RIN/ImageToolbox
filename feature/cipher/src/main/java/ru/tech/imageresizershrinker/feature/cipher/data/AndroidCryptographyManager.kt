@@ -19,12 +19,13 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.data
 
+import ru.tech.imageresizershrinker.core.data.saving.io.StringReadable
+import ru.tech.imageresizershrinker.core.data.utils.computeBytesFromReadable
 import ru.tech.imageresizershrinker.core.domain.model.CipherType
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import ru.tech.imageresizershrinker.feature.cipher.domain.WrongKeyException
 import java.security.Key
-import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
@@ -42,14 +43,8 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
         password: String,
         type: CipherType
     ): Key {
-        val pwBytes = password.toByteArray(charset("UTF-8"))
+        val key = hashingType(type.name).computeBytesFromReadable(StringReadable(password))
 
-        // Create secret Key factory based on the specified algorithm
-        val md = MessageDigest.getInstance(hashingType(type.name))
-
-        // digest the pwBytes to be a new key
-        md.update(pwBytes, 0, pwBytes.size)
-        val key = md.digest()
         return if ("PBE" in type.name) {
             val keySpec = PBEKeySpec(password.toCharArray())
             val factory = SecretKeyFactory.getInstance(type.cipher)
@@ -226,9 +221,9 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
         "AES_128/GCM/NOPADDING"
     )
 
-    private fun hashingType(name: String): String = when {
-        MD5List.any { name.contains(it, true) } -> HashingType.MD5.digest
+    private fun hashingType(name: String): HashingType = when {
+        MD5List.any { name.contains(it, true) } -> HashingType.MD5
 
-        else -> HashingType.SHA_256.digest
+        else -> HashingType.SHA_256
     }
 }
