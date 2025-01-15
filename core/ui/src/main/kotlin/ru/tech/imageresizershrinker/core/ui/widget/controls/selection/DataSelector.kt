@@ -39,6 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
@@ -132,6 +134,15 @@ fun <T : Any> DataSelector(
             }
         }
         val state = rememberLazyStaggeredGridState()
+
+        LaunchedEffect(value, entries) {
+            delay(300)
+            val targetIndex = entries.indexOf(value).takeIf { it >= 0 } ?: 0
+            if (state.layoutInfo.visibleItemsInfo.all { it.index != targetIndex }) {
+                state.scrollToItem(targetIndex)
+            }
+        }
+
         LazyHorizontalStaggeredGrid(
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp,
