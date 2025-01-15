@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
@@ -193,7 +194,10 @@ internal fun SettingsBackdropWrapper(
         backLayerBackgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
         frontLayerScrimColor = Color.Transparent,
-        frontLayerShape = shape,
+        frontLayerShape = animateShape(
+            if (scaffoldState.isRevealed) shape
+            else RoundedCornerShape(0.dp)
+        ),
         gesturesEnabled = scaffoldState.isRevealed
     )
 }

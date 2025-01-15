@@ -323,74 +323,73 @@ fun CipherContent(
                         )
                     }
                 }
-                component.uri?.let { uri ->
-                    PreferenceItem(
-                        modifier = Modifier.padding(top = 16.dp),
-                        title = context.getFilename(uri)
-                            ?: stringResource(R.string.something_went_wrong),
-                        onClick = null,
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            lineHeight = 16.sp,
-                            fontSize = 15.sp
-                        ),
-                        subtitle = component.uri?.let {
-                            stringResource(
-                                id = R.string.size,
-                                readableByteCount(
-                                    it.fileSize(context) ?: 0L
-                                )
+                Spacer(Modifier.height(16.dp))
+                PreferenceItem(
+                    modifier = Modifier,
+                    title = component.uri?.let {
+                        context.getFilename(it)
+                    } ?: stringResource(R.string.something_went_wrong),
+                    onClick = null,
+                    titleFontStyle = LocalTextStyle.current.copy(
+                        lineHeight = 16.sp,
+                        fontSize = 15.sp
+                    ),
+                    subtitle = component.uri?.let {
+                        stringResource(
+                            id = R.string.size,
+                            readableByteCount(
+                                it.fileSize(context) ?: 0L
                             )
-                        },
-                        startIcon = Icons.AutoMirrored.Rounded.InsertDriveFile
-                    )
-
-                    RoundedTextField(
-                        modifier = Modifier
-                            .padding(top = 16.dp)
-                            .container(shape = RoundedCornerShape(24.dp))
-                            .padding(8.dp),
-                        value = key,
-                        startIcon = {
-                            EnhancedIconButton(
-                                onClick = {
-                                    key = component.generateRandomPassword()
-                                    component.resetCalculatedData()
-                                },
-                                modifier = Modifier.padding(start = 4.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Shuffle,
-                                    contentDescription = stringResource(R.string.shuffle),
-                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            }
-                        },
-                        endIcon = {
-                            EnhancedIconButton(
-                                onClick = {
-                                    key = ""
-                                    component.resetCalculatedData()
-                                },
-                                modifier = Modifier.padding(end = 4.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Cancel,
-                                    contentDescription = stringResource(R.string.cancel),
-                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            }
-                        },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        singleLine = false,
-                        onValueChange = {
-                            key = it
-                            component.resetCalculatedData()
-                        },
-                        label = {
-                            Text(stringResource(R.string.key))
+                        )
+                    },
+                    startIcon = Icons.AutoMirrored.Rounded.InsertDriveFile
+                )
+                Spacer(Modifier.height(16.dp))
+                RoundedTextField(
+                    modifier = Modifier
+                        .container(shape = RoundedCornerShape(24.dp))
+                        .padding(8.dp),
+                    value = key,
+                    startIcon = {
+                        EnhancedIconButton(
+                            onClick = {
+                                key = component.generateRandomPassword()
+                                component.resetCalculatedData()
+                            },
+                            modifier = Modifier.padding(start = 4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Shuffle,
+                                contentDescription = stringResource(R.string.shuffle),
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
                         }
-                    )
-                }
+                    },
+                    endIcon = {
+                        EnhancedIconButton(
+                            onClick = {
+                                key = ""
+                                component.resetCalculatedData()
+                            },
+                            modifier = Modifier.padding(end = 4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Cancel,
+                                contentDescription = stringResource(R.string.cancel),
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    singleLine = false,
+                    onValueChange = {
+                        key = it
+                        component.resetCalculatedData()
+                    },
+                    label = {
+                        Text(stringResource(R.string.key))
+                    }
+                )
                 AnimatedVisibility(visible = component.byteArray != null) {
                     Column(
                         modifier = Modifier
@@ -532,7 +531,7 @@ fun CipherContent(
                         }
                     }
                 }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(24.dp))
                 DataSelector(
                     modifier = Modifier,
                     value = component.cipherType,

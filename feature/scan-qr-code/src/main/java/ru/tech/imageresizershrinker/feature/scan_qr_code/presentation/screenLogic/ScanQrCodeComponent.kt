@@ -51,7 +51,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 class ScanQrCodeComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted val initialQrCodeContent: String?,
+    @Assisted initialQrCodeContent: String?,
     @Assisted val onGoBack: () -> Unit,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -60,6 +60,9 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    private val _qrContent: MutableState<String> = mutableStateOf(initialQrCodeContent ?: "")
+    val qrContent by _qrContent
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -79,6 +82,10 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
             settingsState = it
             _qrDescriptionFont.update { settingsState.font }
         }.launchIn(componentScope)
+    }
+
+    fun updateQrContent(content: String) {
+        _qrContent.update { content }
     }
 
     fun saveBitmap(
@@ -166,17 +173,17 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         }
     }
 
-    suspend fun addTemplateFilterFromString(
-        string: String,
-        onSuccess: (filterName: String, filtersCount: Int) -> Unit,
-        onFailure: suspend () -> Unit
+    fun processFilterTemplateFromQrContent(
+        onSuccess: (filterName: String, filtersCount: Int) -> Unit
     ) {
-        if (favoriteFiltersInteractor.isValidTemplateFilter(string)) {
-            favoriteFiltersInteractor.addTemplateFilterFromString(
-                string = string,
-                onSuccess = onSuccess,
-                onFailure = onFailure
-            )
+        componentScope.launch {
+            if (favoriteFiltersInteractor.isValidTemplateFilter(qrContent)) {
+                favoriteFiltersInteractor.addTemplateFilterFromString(
+                    string = qrContent,
+                    onSuccess = onSuccess,
+                    onFailure = {}
+                )
+            }
         }
     }
 

@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.text
 import android.annotation.SuppressLint
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -58,6 +59,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.cancel
@@ -92,7 +94,8 @@ fun RoundedTextField(
     enabled: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    minLines: Int = 1
+    minLines: Int = 1,
+    maxSymbols: Int = Int.MAX_VALUE
 ) {
     val labelImpl = @Composable {
         Text(
@@ -134,7 +137,8 @@ fun RoundedTextField(
         enabled = enabled,
         maxLines = maxLines,
         interactionSource = interactionSource,
-        minLines = minLines
+        minLines = minLines,
+        maxSymbols = maxSymbols
     )
 }
 
@@ -164,7 +168,8 @@ fun RoundedTextField(
     enabled: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    minLines: Int = 1
+    minLines: Int = 1,
+    maxSymbols: Int = Int.MAX_VALUE
 ) {
     val focus = LocalFocusManager.current
     val focused = interactionSource.collectIsFocusedAsState().value
@@ -196,7 +201,10 @@ fun RoundedTextField(
     val mergedModifier = Modifier
         .fillMaxWidth()
         .border(
-            width = 2.dp,
+            width = animateDpAsState(
+                if (borderColor.value == unfocusedColor) 1.dp
+                else 2.dp
+            ).value,
             color = borderColor.value,
             shape = shape
         )
@@ -223,14 +231,13 @@ fun RoundedTextField(
     }
 
     Column(
-        modifier = modifier
-            .animateContentSize()
-            .clip(shape)
+        modifier = modifier.animateContentSize()
     ) {
+        val showError = isError && !loading && supportingText != null && supportingTextVisible
         TextField(
-            modifier = mergedModifier,
+            modifier = mergedModifier.clip(shape),
             value = value,
-            onValueChange = { onValueChange(it.formatText()) },
+            onValueChange = { onValueChange(it.take(maxSymbols).formatText()) },
             textStyle = textStyle,
             colors = colors,
             shape = shape,
@@ -248,18 +255,35 @@ fun RoundedTextField(
             interactionSource = interactionSource,
             minLines = minLines,
         )
-        if (isError && !loading && supportingText != null && supportingTextVisible) {
+        if (showError || maxSymbols != Int.MAX_VALUE) {
             Spacer(Modifier.height(6.dp))
-            ProvideTextStyle(
-                LocalTextStyle.current.copy(
-                    color = MaterialTheme.colorScheme.error,
-                    fontSize = 12.sp
-                )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
             ) {
-                Row {
-                    Spacer(modifier = Modifier.width(15.dp))
-                    supportingTextImpl()
-                    Spacer(modifier = Modifier.width(15.dp))
+                if (showError) {
+                    ProvideTextStyle(
+                        LocalTextStyle.current.copy(
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 12.sp
+                        )
+                    ) {
+                        Row {
+                            supportingTextImpl()
+                            Spacer(modifier = Modifier.width(16.dp))
+                        }
+                    }
+                }
+                if (maxSymbols != Int.MAX_VALUE) {
+                    Text(
+                        text = "${value.length} / $maxSymbols",
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.End,
+                        fontSize = 12.sp,
+                        lineHeight = 12.sp,
+                        color = borderColor.value
+                    )
                 }
             }
         }

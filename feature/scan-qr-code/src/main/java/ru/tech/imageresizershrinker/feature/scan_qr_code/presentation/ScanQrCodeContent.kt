@@ -99,17 +99,12 @@ fun ScanQrCodeContent(
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    var qrContent by rememberSaveable(component.initialQrCodeContent) {
-        mutableStateOf(component.initialQrCodeContent ?: "")
-    }
+    val scanner = rememberQrCodeScanner(component::updateQrContent)
 
-    val scanner = rememberQrCodeScanner {
-        qrContent = it
-    }
+    val qrContent = component.qrContent
 
     LaunchedEffect(qrContent) {
-        component.addTemplateFilterFromString(
-            string = qrContent,
+        component.processFilterTemplateFromQrContent(
             onSuccess = { filterName, filtersCount ->
                 essentials.showToast(
                     message = context.getString(
@@ -119,8 +114,7 @@ fun ScanQrCodeContent(
                     ),
                     icon = Icons.Outlined.AutoFixHigh
                 )
-            },
-            onFailure = {}
+            }
         )
     }
 
@@ -227,9 +221,8 @@ fun ScanQrCodeContent(
                     .container(shape = RoundedCornerShape(24.dp))
                     .padding(8.dp),
                 value = qrContent,
-                onValueChange = {
-                    qrContent = it
-                },
+                onValueChange = component::updateQrContent,
+                maxSymbols = 2500,
                 singleLine = false,
                 label = {
                     Text(stringResource(id = R.string.code_content))
@@ -238,7 +231,7 @@ fun ScanQrCodeContent(
                 endIcon = {
                     AnimatedVisibility(qrContent.isNotBlank()) {
                         EnhancedIconButton(
-                            onClick = { qrContent = "" },
+                            onClick = { component.updateQrContent("") },
                             modifier = Modifier.padding(end = 4.dp)
                         ) {
                             Icon(
