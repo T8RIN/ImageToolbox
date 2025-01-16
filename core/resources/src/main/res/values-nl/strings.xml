@@ -1537,4 +1537,7 @@
     <string name="export_fonts">Lettertypen exporteren</string>
     <string name="filename_is_not_set">Geen bestandsnaam</string>
     <string name="error_while_saving">Fout tijdens poging tot opslaan, probeer de uitvoermap te wijzigen</string>
+    <string name="custom_pages">Aangepaste pagina\'s</string>
+    <string name="pages_selection">Selectie van pagina\'s</string>
+    <string name="none">Geen</string>
 </resources>
