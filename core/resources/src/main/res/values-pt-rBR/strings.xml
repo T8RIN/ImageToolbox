@@ -255,7 +255,7 @@
     <string name="draw_on_background_sub">Escolha a cor de fundo e desenhe sobre ela</string>
     <string name="background_color">Cor de fundo</string>
     <string name="cipher">Criptografia</string>
-    <string name="cipher_sub">Criptografe e descriptografe qualquer arquivo (não apenas a imagem) com base no algoritmo de criptografia AES</string>
+    <string name="cipher_sub">Criptografe e descriptografe qualquer arquivo (não apenas a imagem) com base em vários algoritmos de criptografia</string>
     <string name="pick_file">Escolher arquivo</string>
     <string name="encrypt">Criptografar</string>
     <string name="decrypt">Descriptografar</string>
@@ -269,7 +269,7 @@
     <string name="implementation">Implementação</string>
     <string name="compatibility">Compatibilidade</string>
     <string name="features_sub">Criptografia de arquivos baseada em senha. Os arquivos processados podem ser armazenados no diretório selecionado ou compartilhados. Os arquivos descriptografados também podem ser abertos diretamente.</string>
-    <string name="implementation_sub">AES-256, modo GCM, sem preenchimento, IVs aleatórios de 12 bytes. As chaves são usadas como hashes SHA-3 (256 bits).</string>
+    <string name="implementation_sub">AES-256, modo GCM, sem preenchimento, IVs aleatórios de 12 bytes (por padrão, mas você pode selecionar o algoritmo necessário). As chaves são usadas como hashes SHA-3 (256 bits).</string>
     <string name="file_size">Tamanho do arquivo</string>
     <string name="file_size_sub">O tamanho máximo do arquivo é restrito pelo sistema operacional Android e pela memória disponível, que depende do dispositivo.
 \nObserve: memória não é armazenamento.</string>
@@ -1536,4 +1536,7 @@
     <string name="checksum_as_filename">Checksum como nome de arquivo</string>
     <string name="checksum_as_filename_sub">As imagens de saída terão o nome correspondente à soma de verificação de seus dados</string>
     <string name="center_align_dialog_buttons_sub">Os botões das caixas de diálogo serão posicionados no centro em vez de no lado esquerdo, se possível</string>
+    <string name="none">Nenhum</string>
+    <string name="custom_pages">Páginas Personalizadas</string>
+    <string name="pages_selection">Seleção de Páginas</string>
 </resources>

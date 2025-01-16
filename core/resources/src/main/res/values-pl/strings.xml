@@ -1537,4 +1537,7 @@
     <string name="imported_fonts">Zaimportowane czcionki</string>
     <string name="filename_is_not_set">Nazwa pliku nie została ustawiona</string>
     <string name="error_while_saving">Błąd podczas próby zapisu, spróbuj zmienić folder wyjściowy</string>
+    <string name="none">Brak</string>
+    <string name="custom_pages">Własne strony</string>
+    <string name="pages_selection">Wybór stron</string>
 </resources>
