@@ -1539,4 +1539,6 @@
     <string name="none">Nenhum</string>
     <string name="custom_pages">Páginas Personalizadas</string>
     <string name="pages_selection">Seleção de Páginas</string>
+    <string name="tool_exit_confirmation">Confirmação ao Sair da Ferramenta</string>
+    <string name="tool_exit_confirmation_sub">Se você tiver alterações não salvas ao usar determinadas ferramentas e tentar fechá-las, será exibida uma caixa de diálogo de confirmação</string>
 </resources>
