@@ -26,7 +26,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -44,6 +43,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 
 @Composable
@@ -83,7 +83,7 @@ fun rememberFullHeight(): Dp {
             ) {
                 TopAppBar(
                     title = { Text(" ") },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(Color.Transparent)
+                    colors = EnhancedTopAppBarDefaults.colors(Color.Transparent)
                 )
                 Spacer(
                     Modifier
