@@ -118,7 +118,7 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
                     )
                 }
             }
-        } catch (_: Exception) {
+        } catch (_: Throwable) {
             runCatching {
                 init(
                     mode,
@@ -148,7 +148,7 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
     private fun Cipher.doOrThrow(data: ByteArray): ByteArray {
         return try {
             doFinal(data)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             throw if (e.message?.contains("mac") == true && e.message?.contains("failed") == true) {
                 WrongKeyException()
             } else e

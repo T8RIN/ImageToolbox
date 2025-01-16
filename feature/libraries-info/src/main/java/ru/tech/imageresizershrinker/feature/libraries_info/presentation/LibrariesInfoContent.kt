@@ -262,7 +262,7 @@ fun LibrariesInfoContent(
                                     predictiveBackProgress = event.progress
                                 }
                                 component.selectLibrary(null)
-                            } catch (_: Exception) {
+                            } catch (_: Throwable) {
                                 predictiveBackProgress = 0f
                             }
                         }

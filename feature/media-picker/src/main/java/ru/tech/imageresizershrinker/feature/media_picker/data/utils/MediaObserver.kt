@@ -80,7 +80,7 @@ suspend fun ContentResolver.getMedia(
             while (cursor.moveToNext()) {
                 try {
                     media.add(cursor.getMediaFromCursor())
-                } catch (e: Exception) {
+                } catch (e: Throwable) {
                     e.printStackTrace()
                 }
             }
@@ -91,7 +91,6 @@ suspend fun ContentResolver.getMedia(
 }
 
 
-@Throws(Exception::class)
 fun Cursor.getMediaFromCursor(): Media {
     val id: Long =
         getLong(getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
@@ -115,25 +114,25 @@ fun Cursor.getMediaFromCursor(): Media {
                 MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
             )
         )
-    } catch (_: Exception) {
+    } catch (_: Throwable) {
         Build.MODEL
     }
     val takenTimestamp: Long? = try {
         getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_TAKEN))
-    } catch (_: Exception) {
+    } catch (_: Throwable) {
         null
     }
     val modifiedTimestamp: Long =
         getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED))
     val duration: String? = try {
         getString(getColumnIndexOrThrow(MediaStore.MediaColumns.DURATION))
-    } catch (_: Exception) {
+    } catch (_: Throwable) {
         null
     }
 
     val expiryTimestamp: Long? = try {
         getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_EXPIRES))
-    } catch (_: Exception) {
+    } catch (_: Throwable) {
         null
     }
 

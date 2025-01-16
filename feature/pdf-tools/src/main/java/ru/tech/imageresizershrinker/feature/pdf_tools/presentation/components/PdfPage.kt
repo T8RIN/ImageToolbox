@@ -123,7 +123,7 @@ internal fun PdfPage(
                                 bitmap = destinationBitmap.asImage()
                             }
                         }
-                    } catch (_: Exception) {
+                    } catch (_: Throwable) {
                         //Just catch and return in case the renderer is being closed
                         return@launch
                     }

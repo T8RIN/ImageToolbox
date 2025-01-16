@@ -19,23 +19,15 @@ package ru.tech.imageresizershrinker.feature.media_picker.data.utils
 
 import android.content.ContentResolver
 import android.content.ContentUris
-import android.content.Context
-import android.media.MediaMetadataRetriever
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
 import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.EXTENDED_DATE_FORMAT
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaOrder
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
-import java.io.File
-import kotlin.random.Random
 
 @RequiresApi(26)
 sealed class Query(
@@ -234,7 +226,7 @@ suspend fun ContentResolver.getAlbums(
                                 MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
                             )
                         )
-                    } catch (_: Exception) {
+                    } catch (_: Throwable) {
                         Build.MODEL
                     }
                     val thumbnailPath =
@@ -284,57 +276,4 @@ suspend fun ContentResolver.getAlbums(
             println("Album parsing took: ${System.currentTimeMillis() - timeStart}ms")
         }
     }
-}
-
-fun mediaFromUri(
-    context: Context,
-    uri: Uri
-): Media? {
-    if (uri.path == null) return null
-    val extension = uri.toString().substringAfterLast(".")
-    var mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension).toString()
-    var duration: String? = null
-    try {
-        val retriever = MediaMetadataRetriever().apply {
-            setDataSource(context, uri)
-        }
-        val hasVideo =
-            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO)
-        val isVideo = "yes" == hasVideo
-        if (isVideo) {
-            duration =
-                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        }
-        if (mimeType.isEmpty()) {
-            mimeType = if (isVideo) "video/*" else "image/*"
-        }
-    } catch (_: Exception) {
-    }
-    var timestamp = 0L
-    uri.path?.let { File(it) }?.let {
-        timestamp = try {
-            it.lastModified()
-        } catch (_: Exception) {
-            0L
-        }
-    }
-    var formattedDate = ""
-    if (timestamp != 0L) {
-        formattedDate = timestamp.getDate(EXTENDED_DATE_FORMAT)
-    }
-    return Media(
-        id = Random(System.currentTimeMillis()).nextLong(-1000, 25600000),
-        label = uri.toString().substringAfterLast("/"),
-        uri = uri.toString(),
-        path = uri.path.toString(),
-        relativePath = uri.path.toString().substringBeforeLast("/"),
-        albumID = -99L,
-        albumLabel = "",
-        timestamp = timestamp,
-        fullDate = formattedDate,
-        mimeType = mimeType,
-        duration = duration,
-        favorite = 0,
-        trashed = 0
-    )
 }

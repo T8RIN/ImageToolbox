@@ -65,7 +65,6 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -102,6 +101,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
@@ -304,7 +304,7 @@ internal fun MediaImagePager(
                     exit = fadeOut() + slideOutVertically()
                 ) {
                     EnhancedTopAppBar(
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        colors = EnhancedTopAppBarDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f)
                         ),
                         type = EnhancedTopAppBarType.Center,
@@ -437,7 +437,7 @@ internal fun MediaImagePager(
                             predictiveBackProgress = event.progress
                         }
                         onDismiss()
-                    } catch (_: Exception) {
+                    } catch (_: Throwable) {
                         predictiveBackProgress = 0f
                     }
                 }

@@ -231,7 +231,7 @@ fun BasicEnhancedAlertDialog(
                         onDismissRequest()
                         delay(400)
                         scale = 1f
-                    } catch (_: Exception) {
+                    } catch (_: Throwable) {
                         scale = 1f
                     }
                 }

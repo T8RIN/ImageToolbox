@@ -65,7 +65,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -105,6 +104,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilenam
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
@@ -309,7 +309,7 @@ fun ImagePager(
                     exit = fadeOut() + slideOutVertically()
                 ) {
                     EnhancedTopAppBar(
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        colors = EnhancedTopAppBarDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f)
                         ),
                         type = EnhancedTopAppBarType.Center,
@@ -472,7 +472,7 @@ fun ImagePager(
                         }
                         onDismiss()
                         onUriSelected(null)
-                    } catch (_: Exception) {
+                    } catch (_: Throwable) {
                         predictiveBackProgress = 0f
                     }
                 }

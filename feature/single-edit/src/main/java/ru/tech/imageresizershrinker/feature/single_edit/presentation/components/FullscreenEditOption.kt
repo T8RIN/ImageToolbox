@@ -331,7 +331,7 @@ fun FullscreenEditOption(
                             predictiveBackProgress = event.progress
                         }
                         internalOnDismiss()
-                    } catch (_: Exception) {
+                    } catch (_: Throwable) {
                         predictiveBackProgress = 0f
                     }
                 }
