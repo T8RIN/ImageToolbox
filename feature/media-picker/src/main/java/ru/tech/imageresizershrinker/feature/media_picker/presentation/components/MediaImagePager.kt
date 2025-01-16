@@ -83,7 +83,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -99,6 +98,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
@@ -141,7 +141,7 @@ internal fun MediaImagePager(
         ) {
             val density = LocalDensity.current
             val screenHeight =
-                LocalConfiguration.current.screenHeightDp.dp + WindowInsets.Companion.systemBars.asPaddingValues()
+                LocalScreenSize.current.height + WindowInsets.Companion.systemBars.asPaddingValues()
                     .let { it.calculateTopPadding() + it.calculateBottomPadding() }
             val anchors = with(density) {
                 DraggableAnchors {

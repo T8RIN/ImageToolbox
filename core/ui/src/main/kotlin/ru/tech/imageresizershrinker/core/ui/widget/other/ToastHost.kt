@@ -69,7 +69,6 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.AccessibilityManager
 import androidx.compose.ui.platform.LocalAccessibilityManager
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -83,6 +82,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.harmonizeWithPrimary
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import kotlin.coroutines.resume
 
@@ -130,8 +130,8 @@ fun Toast(
     containerColor: Color = ToastDefaults.color,
     contentColor: Color = ToastDefaults.contentColor,
 ) {
-    val configuration = LocalConfiguration.current
-    val sizeMin = configuration.screenWidthDp.coerceAtMost(configuration.screenHeightDp).dp
+    val screenSize = LocalScreenSize.current
+    val sizeMin = screenSize.width.coerceAtMost(screenSize.height)
 
     Card(
         colors = CardDefaults.cardColors(

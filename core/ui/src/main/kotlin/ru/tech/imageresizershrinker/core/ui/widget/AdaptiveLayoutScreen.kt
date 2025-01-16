@@ -62,7 +62,6 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -74,6 +73,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -167,13 +167,13 @@ fun AdaptiveLayoutScreen(
                     }
                 )
                 underTopAppBarContent?.invoke(this)
-                val screenWidthDp = LocalConfiguration.current.screenWidthDp
+                val screenWidthPx = LocalScreenSize.current.widthPx
                 AnimatedContent(
                     targetState = canShowScreenData,
                     transitionSpec = {
                         fancySlideTransition(
                             isForward = targetState,
-                            screenWidthDp = screenWidthDp
+                            screenWidthPx = screenWidthPx
                         )
                     },
                     modifier = Modifier.fillMaxSize()

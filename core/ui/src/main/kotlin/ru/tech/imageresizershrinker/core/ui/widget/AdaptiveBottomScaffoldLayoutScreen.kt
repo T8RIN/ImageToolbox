@@ -57,7 +57,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -65,6 +64,7 @@ import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -93,7 +93,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     autoClearFocus: Boolean = true,
     enableNoDataScroll: Boolean = true
 ) {
-    val screenWidthDp = LocalConfiguration.current.screenWidthDp
+    val screenWidthPx = LocalScreenSize.current.widthPx
 
     val settingsState = LocalSettingsState.current
 
@@ -162,7 +162,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                     transitionSpec = {
                         fancySlideTransition(
                             isForward = targetState,
-                            screenWidthDp = screenWidthDp
+                            screenWidthPx = screenWidthPx
                         )
                     }
                 ) { canShowScreenData ->
@@ -253,13 +253,13 @@ fun AdaptiveBottomScaffoldLayoutScreen(
             transitionSpec = {
                 fancySlideTransition(
                     isForward = targetState,
-                    screenWidthDp = screenWidthDp
+                    screenWidthPx = screenWidthPx
                 )
             },
             modifier = Modifier.fillMaxSize()
         ) { useScaffold ->
             if (useScaffold) {
-                val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+                val screenHeight = LocalScreenSize.current.height
                 BottomSheetScaffold(
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState,

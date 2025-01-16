@@ -50,8 +50,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,6 +58,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
 import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -76,7 +75,6 @@ internal fun MarkupLayersNoDataControls(
     component: MarkupLayersComponent,
     onPickImage: () -> Unit
 ) {
-    val configuration = LocalConfiguration.current
     var showBackgroundDrawingSetup by rememberSaveable { mutableStateOf(false) }
 
     val cutout = WindowInsets.displayCutout.asPaddingValues()
@@ -122,9 +120,9 @@ internal fun MarkupLayersNoDataControls(
         }
     }
 
-    val density = LocalDensity.current
-    val screenWidth = with(density) { configuration.screenWidthDp.dp.roundToPx() }
-    val screenHeight = with(density) { configuration.screenHeightDp.dp.roundToPx() }
+    val screenSize = LocalScreenSize.current
+    val screenWidth = screenSize.widthPx
+    val screenHeight = screenSize.heightPx
 
     var width by remember(
         showBackgroundDrawingSetup,

@@ -64,7 +64,6 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -85,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -152,7 +152,7 @@ fun MarkupLayersContent(
         )
     }
 
-    val configuration = LocalConfiguration.current
+    val screenSize = LocalScreenSize.current
     val isPortrait by isPortraitOrientationAsState()
 
     val bitmap =
@@ -163,8 +163,8 @@ fun MarkupLayersContent(
             }
         } ?: remember {
             ImageBitmap(
-                configuration.screenWidthDp,
-                configuration.screenHeightDp
+                screenSize.widthPx,
+                screenSize.heightPx
             ).asAndroidBitmap()
         }
 

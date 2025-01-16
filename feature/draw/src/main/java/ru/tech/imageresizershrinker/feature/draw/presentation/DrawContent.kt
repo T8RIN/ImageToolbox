@@ -49,7 +49,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -65,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -135,7 +135,7 @@ fun DrawContent(
         )
     }
 
-    val configuration = LocalConfiguration.current
+    val screenSize = LocalScreenSize.current
     val isPortrait by isPortraitOrientationAsState()
 
     var panEnabled by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
@@ -188,8 +188,8 @@ fun DrawContent(
         remember { ImageBitmap(width, height).asAndroidBitmap() }
     } ?: remember {
         ImageBitmap(
-            configuration.screenWidthDp,
-            configuration.screenHeightDp
+            screenSize.widthPx,
+            screenSize.heightPx
         ).asAndroidBitmap()
     }
 

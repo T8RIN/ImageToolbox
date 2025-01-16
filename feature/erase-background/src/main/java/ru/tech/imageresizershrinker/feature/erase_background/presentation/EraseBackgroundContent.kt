@@ -60,7 +60,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -76,6 +75,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -172,7 +172,7 @@ fun EraseBackgroundContent(
         mutableFloatStateOf(0.2f)
     }
 
-    val configuration = LocalConfiguration.current
+    val screenSize = LocalScreenSize.current
     val isPortrait by isPortraitOrientationAsState()
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
@@ -301,8 +301,8 @@ fun EraseBackgroundContent(
                             Bitmap.Config.ARGB_8888,
                             true
                         )?.asImageBitmap() ?: ImageBitmap(
-                            configuration.screenWidthDp,
-                            configuration.screenHeightDp
+                            screenSize.widthPx,
+                            screenSize.heightPx
                         )
                     }
                 }.value,

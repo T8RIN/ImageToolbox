@@ -42,7 +42,6 @@ import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceAtLeast
@@ -51,8 +50,8 @@ import androidx.compose.ui.unit.min
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
-import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
 internal fun MainDrawerContent(
@@ -69,18 +68,18 @@ internal fun MainDrawerContent(
         }
     }
 
-    val configuration = LocalConfiguration.current
-    val widthState by remember(sheetExpanded) {
+    val screenSize = LocalScreenSize.current
+    val widthState by remember(sheetExpanded, screenSize) {
         derivedStateOf {
             if (isSheetSlideable) {
                 min(
-                    configuration.screenWidthDp.dp * 0.85f,
+                    screenSize.width * 0.85f,
                     DrawerDefaults.MaximumDrawerWidth
                 )
             } else {
-                if (sheetExpanded) configuration.screenWidthDp.dp * 0.55f
+                if (sheetExpanded) screenSize.width * 0.55f
                 else min(
-                    configuration.screenWidthDp.dp * 0.4f,
+                    screenSize.width * 0.4f,
                     DrawerDefaults.MaximumDrawerWidth
                 )
             }.coerceAtLeast(1.dp)
@@ -121,7 +120,7 @@ internal fun MainDrawerContent(
                     predictiveBackProgress = event.progress
                 }
                 sideSheetState.close()
-            } catch (e: CancellationException) {
+            } catch (_: Throwable) {
                 clean()
             }
         }

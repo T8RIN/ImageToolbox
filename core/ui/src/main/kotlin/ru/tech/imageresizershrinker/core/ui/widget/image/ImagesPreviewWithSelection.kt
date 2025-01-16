@@ -69,7 +69,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -85,6 +84,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.advancedShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
@@ -152,7 +152,7 @@ fun ImagesPreviewWithSelection(
         }
     }
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val screenWidth = LocalScreenSize.current.width
     val modifier = modifier ?: if (isPortrait) {
         Modifier.height(
             (130.dp * imageUris.size).coerceAtMost(420.dp)
