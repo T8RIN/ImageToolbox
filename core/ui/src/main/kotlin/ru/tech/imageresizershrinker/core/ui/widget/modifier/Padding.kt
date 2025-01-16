@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.displayCutoutPadding
@@ -25,8 +24,8 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 
 fun Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(enabled: Boolean = true) = this.composed {
     if (WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() == 0.dp && enabled) {
@@ -37,7 +36,7 @@ fun Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(enabled: Boolean = true) = this.co
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = this.composed {
-    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE && enabled) {
+    if (isLandscapeOrientationAsState().value && enabled) {
         Modifier
             .navigationBarsPadding()
             .displayCutoutPadding()

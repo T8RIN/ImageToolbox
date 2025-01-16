@@ -34,6 +34,9 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
 
 val LocalScreenSize = compositionLocalOf<ScreenSize> { error("ScreenSize not present") }
@@ -89,3 +92,7 @@ fun rememberScreenSize(): ScreenSize {
         }
     }.value
 }
+
+@Composable
+fun rememberCurrentLifecycleEvent(): Lifecycle.Event =
+    LocalLifecycleOwner.current.lifecycle.observeAsState().value

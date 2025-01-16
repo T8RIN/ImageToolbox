@@ -32,8 +32,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -41,6 +39,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.needToShow
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 
@@ -51,11 +50,12 @@ internal fun PermissionDialog() {
 
     var showDialog by remember { mutableStateOf(false) }
 
+    val currentLifecycleEvent = rememberCurrentLifecycleEvent()
     LaunchedEffect(
         showDialog,
         context,
         settingsState,
-        LocalLifecycleOwner.current.lifecycle.observeAsState().value
+        currentLifecycleEvent
     ) {
         showDialog = context.needToShowStoragePermissionRequest() == true
         while (showDialog) {

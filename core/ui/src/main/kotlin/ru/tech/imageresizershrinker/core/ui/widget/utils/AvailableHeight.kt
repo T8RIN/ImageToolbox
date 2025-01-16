@@ -35,14 +35,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 
@@ -69,10 +68,9 @@ fun rememberAvailableHeight(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberFullHeight(): Dp {
-    var fullHeight by remember(
-        LocalConfiguration.current,
-        LocalLifecycleOwner.current.lifecycle.observeAsState().value
-    ) { mutableStateOf(0.dp) }
+    val screenSize = LocalScreenSize.current
+    val currentLifecycleEvent = rememberCurrentLifecycleEvent()
+    var fullHeight by remember(screenSize, currentLifecycleEvent) { mutableStateOf(0.dp) }
 
     val density = LocalDensity.current
 

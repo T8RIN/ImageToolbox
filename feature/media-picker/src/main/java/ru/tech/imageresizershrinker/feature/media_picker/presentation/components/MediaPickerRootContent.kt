@@ -57,11 +57,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.t8rin.dynamic.theme.observeAsState
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -101,11 +100,8 @@ internal fun MediaPickerActivity.MediaPickerRootContent(
         }
     }
 
-    val lifecycleEvent by LocalLifecycleOwner.current.lifecycle.observeAsState()
-    LaunchedEffect(
-        lifecycleEvent,
-        invalidator
-    ) {
+    val lifecycleEvent = rememberCurrentLifecycleEvent()
+    LaunchedEffect(lifecycleEvent, invalidator) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
             isPermissionAllowed = hasPermissionAllowed(permission)

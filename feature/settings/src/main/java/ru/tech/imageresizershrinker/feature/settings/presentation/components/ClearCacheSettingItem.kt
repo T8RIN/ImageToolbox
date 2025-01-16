@@ -31,9 +31,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.t8rin.dynamic.theme.observeAsState
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -45,10 +44,8 @@ fun ClearCacheSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val context = LocalContext.current
-    var cache by remember(
-        context,
-        LocalLifecycleOwner.current.lifecycle.observeAsState().value
-    ) { mutableStateOf(value) }
+    val currentLifecycleEvent = rememberCurrentLifecycleEvent()
+    var cache by remember(context, currentLifecycleEvent) { mutableStateOf(value) }
 
     PreferenceItem(
         shape = shape,
