@@ -113,15 +113,8 @@ fun PdfToolsContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val onBack = {
-        if (component.pdfType is Screen.PdfTools.Type.Preview) component.onGoBack()
-        else {
-            if (component.haveChanges) showExitDialog = true
-            else if (component.pdfType != null) {
-                component.clearType()
-            } else {
-                component.onGoBack()
-            }
-        }
+        if (component.haveChanges) showExitDialog = true
+        else component.onGoBack()
     }
 
     val savePdfLauncher = rememberLauncherForActivityResult(
@@ -500,20 +493,14 @@ fun PdfToolsContent(
         )
     }
 
-    ExitWithoutSavingDialog(
-        onExit = {
-            if (component.pdfType != null) {
-                component.clearType()
-            } else {
-                component.onGoBack()
-            }
-        },
-        onDismiss = { showExitDialog = false },
-        visible = showExitDialog
+    BackHandler(
+        enabled = component.haveChanges,
+        onBack = onBack
     )
 
-    BackHandler(
-        enabled = (component.pdfType !is Screen.PdfTools.Type.Preview && component.pdfType != null) || component.haveChanges,
-        onBack = onBack
+    ExitWithoutSavingDialog(
+        onExit = component::clearAll,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
     )
 }

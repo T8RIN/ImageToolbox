@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.utils
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -52,16 +53,14 @@ abstract class BaseComponent(
     }
 
     protected open val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    open val isImageLoading: Boolean
-        get() = _isImageLoading.value
+    open val isImageLoading: Boolean by _isImageLoading
 
     private var imageCalculationJob: Job? by smartJob {
         _isImageLoading.update { false }
     }
 
     protected open val _haveChanges: MutableState<Boolean> = mutableStateOf(false)
-    open val haveChanges: Boolean
-        get() = _haveChanges.value
+    open val haveChanges: Boolean by _haveChanges
 
     protected fun registerSave() {
         _haveChanges.update { false }

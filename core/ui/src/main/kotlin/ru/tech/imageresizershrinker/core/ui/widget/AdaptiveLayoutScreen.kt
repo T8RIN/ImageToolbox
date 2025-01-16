@@ -300,7 +300,10 @@ fun AdaptiveLayoutScreen(
                 }
             }
 
-            BackHandler(!shouldDisableBackHandler) { onGoBack() }
+            BackHandler(
+                enabled = !shouldDisableBackHandler,
+                onBack = onGoBack
+            )
         }
     }
 }

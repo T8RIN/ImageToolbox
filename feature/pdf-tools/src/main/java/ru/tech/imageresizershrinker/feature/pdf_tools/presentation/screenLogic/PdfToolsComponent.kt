@@ -129,9 +129,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _isSaving.value = false
     }
 
-    override val haveChanges: Boolean
-        get() = super.haveChanges || _byteArray.value != null
-
     fun setType(type: Screen.PdfTools.Type) {
         when (type) {
             is Screen.PdfTools.Type.ImagesToPdf -> setImagesToPdf(type.imageUris)
@@ -192,7 +189,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         resetCalculatedData()
     }
 
-    fun clearType() {
+    fun clearAll() {
         _pdfType.update { null }
         _pdfPreviewUri.update { null }
         _imagesToPdfState.update { null }
@@ -222,30 +219,28 @@ class PdfToolsComponent @AssistedInject internal constructor(
             pages = _pdfToImageState.value?.selectedPages,
             preset = presetSelected,
             onProgressChange = { _, bitmap ->
-                imageInfo.let {
-                    imageTransformer.applyPresetBy(
-                        image = bitmap,
-                        preset = _presetSelected.value,
-                        currentInfo = it
+                val imageInfo = imageTransformer.applyPresetBy(
+                    image = bitmap,
+                    preset = _presetSelected.value,
+                    currentInfo = imageInfo
+                )
+
+                results.add(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget(
+                            imageInfo = imageInfo,
+                            metadata = null,
+                            originalUri = _pdfToImageState.value?.uri.toString(),
+                            sequenceNumber = _done.value + 1,
+                            data = imageCompressor.compressAndTransform(
+                                image = bitmap,
+                                imageInfo = imageInfo
+                            )
+                        ),
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     )
-                }.apply {
-                    results.add(
-                        fileController.save(
-                            saveTarget = ImageSaveTarget(
-                                imageInfo = this,
-                                metadata = null,
-                                originalUri = _pdfToImageState.value?.uri.toString(),
-                                sequenceNumber = _done.value + 1,
-                                data = imageCompressor.compressAndTransform(
-                                    image = bitmap,
-                                    imageInfo = this
-                                )
-                            ),
-                            keepOriginalMetadata = false,
-                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
-                        )
-                    )
-                }
+                )
                 _done.value += 1
             },
             onGetPagesCount = { size ->
@@ -273,6 +268,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                 scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
                 preset = _presetSelected.value
             )
+            registerChanges()
             onComplete()
             _isSaving.value = false
         }
@@ -432,9 +428,9 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun updatePdfToImageSelection(ints: List<Int>) {
         _pdfToImageState.update { state ->
+            if (state != null) checkForOOM()
             state?.copy(selectedPages = ints.filter { it < state.pagesCount }.sorted())
         }
-        checkForOOM()
     }
 
     fun updateImageFormat(imageFormat: ImageFormat) {
