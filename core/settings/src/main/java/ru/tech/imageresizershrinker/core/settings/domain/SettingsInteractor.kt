@@ -222,6 +222,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun removeCustomFont(font: DomainFontFamily.Custom)
 
     suspend fun createCustomFontsExport(): ByteArray
+
+    suspend fun toggleEnableToolExitConfirmation()
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

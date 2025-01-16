@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.image_preview.presentation
 
 import android.net.Uri
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -84,6 +83,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.listFilesInDirectory
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -400,7 +400,10 @@ fun ImagePreviewContent(
                 onNavigate = component.onNavigate
             )
 
-            BackHandler(enabled = !component.uris.isNullOrEmpty(), onBack = onBack)
+            ExitBackHandler(
+                enabled = !component.uris.isNullOrEmpty(),
+                onBack = onBack
+            )
         }
     }
 

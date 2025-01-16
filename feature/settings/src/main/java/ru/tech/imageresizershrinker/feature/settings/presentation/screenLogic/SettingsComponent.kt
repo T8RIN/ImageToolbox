@@ -780,6 +780,12 @@ class SettingsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun toggleEnableToolExitConfirmation() {
+        componentScope.launch {
+            settingsManager.toggleEnableToolExitConfirmation()
+        }
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(

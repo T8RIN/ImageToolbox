@@ -143,7 +143,8 @@ data class UiSettingsState(
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
     val hashingTypeForFilename: HashingType?,
-    val customFonts: List<UiFontFamily.Custom>
+    val customFonts: List<UiFontFamily.Custom>,
+    val enableToolExitConfirmation: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -372,7 +373,8 @@ fun SettingsState.toUiState(
                 fastSettingsSide = fastSettingsSide,
                 settingGroupsInitialVisibility = settingGroupsInitialVisibility,
                 hashingTypeForFilename = hashingTypeForFilename,
-                customFonts = customFonts
+                customFonts = customFonts,
+                enableToolExitConfirmation = enableToolExitConfirmation
             )
         }
     }.value

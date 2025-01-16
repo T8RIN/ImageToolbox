@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation
 
 import android.net.Uri
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -84,6 +83,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLa
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PresetSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -493,7 +493,7 @@ fun PdfToolsContent(
         )
     }
 
-    BackHandler(
+    ExitBackHandler(
         enabled = component.haveChanges,
         onBack = onBack
     )

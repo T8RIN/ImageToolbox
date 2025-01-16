@@ -542,6 +542,10 @@ internal fun SettingItem(
             Setting.ChecksumAsFilename -> {
                 ChecksumAsFilenameSettingItem(onValueChange = component::setChecksumTypeForFilename)
             }
+
+            Setting.EnableToolExitConfirmation -> {
+                EnableToolExitConfirmationSettingItem(onClick = component::toggleEnableToolExitConfirmation)
+            }
         }
     }
 }

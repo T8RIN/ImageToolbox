@@ -482,4 +482,9 @@ sealed class Setting(
         title = R.string.checksum_as_filename,
         subtitle = R.string.checksum_as_filename_sub
     )
+
+    data object EnableToolExitConfirmation : Setting(
+        title = R.string.tool_exit_confirmation,
+        subtitle = R.string.tool_exit_confirmation_sub
+    )
 }

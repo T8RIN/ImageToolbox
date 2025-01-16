@@ -187,7 +187,9 @@ internal fun Preferences.toSettingsState(
         default
     ),
     hashingTypeForFilename = HashingType.fromString(this[CHECKSUM_TYPE_FOR_FILENAME]),
-    customFonts = this[CUSTOM_FONTS].toCustomFonts()
+    customFonts = this[CUSTOM_FONTS].toCustomFonts(),
+    enableToolExitConfirmation = this[ENABLE_TOOL_EXIT_CONFIRMATION]
+        ?: default.enableToolExitConfirmation
 )
 
 private fun Set<String>?.toSettingGroupsInitialVisibility(

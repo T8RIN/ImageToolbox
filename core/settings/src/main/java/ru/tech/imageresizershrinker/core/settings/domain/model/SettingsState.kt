@@ -114,7 +114,8 @@ data class SettingsState(
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
     val hashingTypeForFilename: HashingType?,
-    val customFonts: List<DomainFontFamily.Custom>
+    val customFonts: List<DomainFontFamily.Custom>,
+    val enableToolExitConfirmation: Boolean
 ) {
 
     companion object {
@@ -207,7 +208,8 @@ data class SettingsState(
                 fastSettingsSide = FastSettingsSide.CenterStart,
                 settingGroupsInitialVisibility = emptyMap(),
                 hashingTypeForFilename = null,
-                customFonts = emptyList()
+                customFonts = emptyList(),
+                enableToolExitConfirmation = true
             )
         }
     }

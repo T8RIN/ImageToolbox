@@ -698,6 +698,11 @@ internal class AndroidSettingsManager @Inject constructor(
         out.toByteArray()
     }
 
+    override suspend fun toggleEnableToolExitConfirmation() = toggle(
+        key = ENABLE_TOOL_EXIT_CONFIRMATION,
+        defaultValue = default.enableToolExitConfirmation
+    )
+
     private fun MutablePreferences.toggle(
         key: Preferences.Key<Boolean>,
         defaultValue: Boolean,

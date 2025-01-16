@@ -1558,4 +1558,6 @@
     <string name="none">None</string>
     <string name="custom_pages">Custom Pages</string>
     <string name="pages_selection">Pages Selection</string>
+    <string name="tool_exit_confirmation">Tool Exit Confirmation</string>
+    <string name="tool_exit_confirmation_sub">If you have unsaved changes while using particular tools and try to close it, then confirm dialog will be shown</string>
 </resources>

@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.crop.presentation
 
 
 import android.net.Uri
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -384,10 +383,5 @@ fun CropContent(
         visible = component.isSaving || component.isImageLoading,
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
-    )
-
-    BackHandler(
-        enabled = component.bitmap != null,
-        onBack = onBack
     )
 }
