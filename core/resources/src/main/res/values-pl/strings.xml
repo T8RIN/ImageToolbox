@@ -1540,4 +1540,6 @@
     <string name="none">Brak</string>
     <string name="custom_pages">Własne strony</string>
     <string name="pages_selection">Wybór stron</string>
+    <string name="tool_exit_confirmation">Potwierdzenie wychodzenia z narzędzi</string>
+    <string name="tool_exit_confirmation_sub">Jeśli masz niezapisane zmiany podczas korzystania z określonych narzędzi i spróbujesz je zamknąć, zostanie wyświetlone okno dialogowe potwierdzenia</string>
 </resources>
