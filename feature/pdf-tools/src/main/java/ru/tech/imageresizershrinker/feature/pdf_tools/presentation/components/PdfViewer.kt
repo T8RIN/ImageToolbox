@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
@@ -46,7 +45,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -62,15 +60,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import coil3.memory.MemoryCache
-import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -84,7 +79,7 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.flexibleResize
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
@@ -298,18 +293,8 @@ fun PdfViewer(
                             }
                         }
                     }
-                    val configuration = LocalConfiguration.current
-                    val sizeClass = LocalWindowSizeClass.current.widthSizeClass
-                    val landscape by remember(
-                        LocalLifecycleOwner.current.lifecycle.observeAsState().value,
-                        sizeClass,
-                        configuration
-                    ) {
-                        derivedStateOf {
-                            !(configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact)
-                        }
-                    }
-                    if (landscape) {
+                    val isLandscape by isLandscapeOrientationAsState()
+                    if (isLandscape) {
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(120.dp),
                             state = state,

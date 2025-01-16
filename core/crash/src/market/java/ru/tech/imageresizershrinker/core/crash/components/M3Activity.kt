@@ -100,6 +100,8 @@ abstract class M3Activity : AppCompatActivity() {
         )
 
         handleSystemBarsBehavior()
+
+        handleSecureMode()
     }
 
     private fun updateFirebaseParams() {
@@ -119,6 +121,12 @@ abstract class M3Activity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) handleSystemBarsBehavior()
+        handleSecureMode()
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        handleSecureMode()
     }
 
     private fun handleSystemBarsBehavior() {
@@ -159,7 +167,9 @@ abstract class M3Activity : AppCompatActivity() {
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             } else WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
         }
+    }
 
+    private fun handleSecureMode() {
         if (settingsState.isSecureMode) {
             window?.setFlags(
                 WindowManager.LayoutParams.FLAG_SECURE,
