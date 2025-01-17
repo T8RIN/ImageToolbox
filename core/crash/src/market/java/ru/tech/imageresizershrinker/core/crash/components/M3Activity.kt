@@ -69,15 +69,9 @@ abstract class M3Activity : AppCompatActivity() {
                     settingsProvider.getSettingsState()
                 }
             }
-            lifecycleScope.launch {
-                settingsProvider
-                    .getSettingsStateFlow()
-                    .collect { state ->
-                        _settingsState.update { state }
-                        handleSystemBarsBehavior()
-                        updateFirebaseParams()
-                    }
-            }
+            handleSystemBarsBehavior()
+            handleSecureMode()
+            updateFirebaseParams()
         }
         val newOverride = Configuration(newBase.resources?.configuration)
         settingsState.fontScale?.let { newOverride.fontScale = it }
@@ -90,14 +84,25 @@ abstract class M3Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        adjustFontSize(settingsState.fontScale)
-
-        updateFirebaseParams()
-
         GlobalExceptionHandler.initialize(
             applicationContext = applicationContext,
             activityToBeLaunched = CrashActivity::class.java,
         )
+
+        lifecycleScope.launch {
+            settingsProvider
+                .getSettingsStateFlow()
+                .collect { state ->
+                    _settingsState.update { state }
+                    handleSystemBarsBehavior()
+                    handleSecureMode()
+                    updateFirebaseParams()
+                }
+        }
+
+        adjustFontSize(settingsState.fontScale)
+
+        updateFirebaseParams()
 
         handleSystemBarsBehavior()
 
