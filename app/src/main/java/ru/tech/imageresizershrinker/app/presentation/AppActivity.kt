@@ -19,6 +19,8 @@ package ru.tech.imageresizershrinker.app.presentation
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import com.arkivanov.decompose.retainedComponent
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
@@ -66,5 +68,14 @@ class AppActivity : M3Activity() {
             onWantGithubReview = component::onWantGithubReview,
             isOpenEditInsteadOfPreview = component.settingsState.openEditInsteadOfPreview
         )
+    }
+
+    override fun dispatchDraw(canvas: android.graphics.Canvas) {
+        val viewGroup = window.decorView as? ViewGroup
+        if (viewGroup != null) {
+            super.dispatchDraw(canvas)
+        } else {
+            // Handle the case where viewGroup is null
+        }
     }
 }
