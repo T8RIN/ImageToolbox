@@ -52,8 +52,8 @@ fun ImageToolboxTheme(
                 motionScheme = CustomMotionScheme,
                 colorScheme = MaterialTheme.colorScheme.copy(
                     errorContainer = MaterialTheme.colorScheme.errorContainer.blend(
-                        MaterialTheme.colorScheme.primary,
-                        0.15f
+                        color = MaterialTheme.colorScheme.primary,
+                        fraction = 0.15f
                     )
                 ),
                 content = content

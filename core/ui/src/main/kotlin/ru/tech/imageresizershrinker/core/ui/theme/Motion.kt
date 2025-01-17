@@ -24,20 +24,21 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MotionScheme
+import ru.tech.imageresizershrinker.core.domain.utils.cast
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 internal val CustomMotionScheme: MotionScheme = object : MotionScheme {
-    val SpringDefaultSpatialDamping = 0.9f
-    val SpringDefaultSpatialStiffness = 700.0f
+    val SpringDefaultSpatialDamping = 0.8f
+    val SpringDefaultSpatialStiffness = 380.0f
     val SpringDefaultEffectsDamping = 1.0f
     val SpringDefaultEffectsStiffness = 1600.0f
-    val SpringFastSpatialDamping = 0.9f
-    val SpringFastSpatialStiffness = 1400.0f
+    val SpringFastSpatialDamping = 0.6f
+    val SpringFastSpatialStiffness = 800.0f
     val SpringFastEffectsDamping = 1.0f
     val SpringFastEffectsStiffness = 3800.0f
-    val SpringSlowSpatialDamping = 0.9f
-    val SpringSlowSpatialStiffness = 300.0f
+    val SpringSlowSpatialDamping = 0.8f
+    val SpringSlowSpatialStiffness = 200.0f
     val SpringSlowEffectsDamping = 1.0f
     val SpringSlowEffectsStiffness = 800.0f
 
@@ -77,27 +78,15 @@ internal val CustomMotionScheme: MotionScheme = object : MotionScheme {
             easing = FancyTransitionEasing
         )
 
-    override fun <T> defaultSpatialSpec(): FiniteAnimationSpec<T> {
-        return defaultSpatialSpec as FiniteAnimationSpec<T>
-    }
+    override fun <T> defaultSpatialSpec(): FiniteAnimationSpec<T> = defaultSpatialSpec.cast()
 
-    override fun <T> fastSpatialSpec(): FiniteAnimationSpec<T> {
-        return fastSpatialSpec as FiniteAnimationSpec<T>
-    }
+    override fun <T> fastSpatialSpec(): FiniteAnimationSpec<T> = fastSpatialSpec.cast()
 
-    override fun <T> slowSpatialSpec(): FiniteAnimationSpec<T> {
-        return slowSpatialSpec as FiniteAnimationSpec<T>
-    }
+    override fun <T> slowSpatialSpec(): FiniteAnimationSpec<T> = slowSpatialSpec.cast()
 
-    override fun <T> defaultEffectsSpec(): FiniteAnimationSpec<T> {
-        return defaultEffectsSpec as FiniteAnimationSpec<T>
-    }
+    override fun <T> defaultEffectsSpec(): FiniteAnimationSpec<T> = defaultEffectsSpec.cast()
 
-    override fun <T> fastEffectsSpec(): FiniteAnimationSpec<T> {
-        return fastEffectsSpec as FiniteAnimationSpec<T>
-    }
+    override fun <T> fastEffectsSpec(): FiniteAnimationSpec<T> = fastEffectsSpec.cast()
 
-    override fun <T> slowEffectsSpec(): FiniteAnimationSpec<T> {
-        return slowEffectsSpec as FiniteAnimationSpec<T>
-    }
+    override fun <T> slowEffectsSpec(): FiniteAnimationSpec<T> = slowEffectsSpec.cast()
 }

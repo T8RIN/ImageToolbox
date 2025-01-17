@@ -49,7 +49,7 @@ fun CalculatorDialog(
     onValueChange: (BigDecimal) -> Unit
 ) {
     var calculatorExpression by rememberSaveable(initialValue, visible) {
-        mutableStateOf(initialValue?.toString()?.replace(",", ".") ?: "")
+        mutableStateOf(initialValue?.toString() ?: "")
     }
     val essentials = rememberLocalEssentials()
     EnhancedAlertDialog(
@@ -105,7 +105,7 @@ fun CalculatorDialog(
                     )
                 },
                 onValueChange = { expr ->
-                    calculatorExpression = expr.replace(",", ".").filter { !it.isWhitespace() }
+                    calculatorExpression = expr.filter { !it.isWhitespace() }
                 }
             )
         }
