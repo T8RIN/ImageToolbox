@@ -1537,4 +1537,9 @@
     <string name="export_fonts">导出字体</string>
     <string name="filename_is_not_set">未设置文件名</string>
     <string name="error_while_saving">尝试保存时出错，请尝试更改输出文件夹</string>
+    <string name="none">无</string>
+    <string name="custom_pages">自定义页面</string>
+    <string name="tool_exit_confirmation">工具退出确认</string>
+    <string name="tool_exit_confirmation_sub">如果在使用特定工具时存在未保存的更改，而您尝试关闭该工具，系统将弹出确认对话框</string>
+    <string name="pages_selection">页面选择</string>
 </resources>
