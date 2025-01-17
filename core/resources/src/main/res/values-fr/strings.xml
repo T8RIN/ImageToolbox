@@ -263,12 +263,12 @@
     <string name="features">Fonctionnalités</string>
     <string name="implementation">Exécution</string>
     <string name="compatibility">Compatibilité</string>
-    <string name="implementation_sub">AES-256, mode GCM, pas de rembourrage, IV aléatoires de 12 octets. Les clés sont utilisées comme hachages SHA-3 (256 bits).</string>
+    <string name="implementation_sub">AES-256, mode GCM, pas de rembourrage, IV aléatoires de 12 octets. (Par défaut, mais vous pouvez sélectionner l\'algorithme nécessaire) Les clés sont utilisées comme hachages SHA-3 (256 bits).</string>
     <string name="file_size">Taille du fichier</string>
     <string name="pick_file">Choisir un dossier</string>
     <string name="cipher">Chiffrement</string>
     <string name="store_file_desc">Stockez ce fichier sur votre appareil ou utilisez l’action partage pour le mettre où vous voulez</string>
-    <string name="cipher_sub">Chiffrer et déchiffrer tout fichier (pas seulement l’image) basé sur AES crypto algorithm</string>
+    <string name="cipher_sub">Chiffrer et déchiffrer n\'importe quel fichier (pas seulement l\'image) en fonction de divers algorithmes de chiffrement disponibles</string>
     <string name="features_sub">Chiffrement par mot de passe des fichiers. Les fichiers traités peuvent être stockés dans le répertoire sélectionné ou partagés. Les fichiers déchiffrés peuvent également être ouverts directement.</string>
     <string name="compatibility_sub">Veuillez noter que la compatibilité avec d’autres logiciels ou services de chiffrement de fichiers n’est pas garantie. Un traitement de clé ou une configuration de chiffrement légèrement différente peuvent causer une incompatibilité.</string>
     <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépendent de votre appareil.
@@ -595,7 +595,7 @@
     <string name="amplitude_x">AmplitudeX</string>
     <string name="color_matrix_3x3">Matrice de couleurs 3x3</string>
     <string name="polaroid">Polaroïd</string>
-    <string name="tritonomaly">Tritonomalie</string>
+    <string name="tritonomaly">Tritanomalie</string>
     <string name="coda_chrome">Code Chrome</string>
     <string name="night_vision">Vision nocturne</string>
     <string name="warm">Chaud</string>
@@ -650,12 +650,12 @@
     <string name="rate_app_sub">Cette application est entièrement gratuite, si vous souhaitez qu\'elle devienne plus grande, veuillez mettre le projet en vedette sur Github 😄</string>
     <string name="color_matrix_4x4">Matrice de couleurs 4x4</string>
     <string name="simple_effects">Effets simples</string>
-    <string name="deutaromaly">Deutaromalie</string>
-    <string name="protonomaly">Protonomalie</string>
+    <string name="deutaromaly">Deuteranomalie</string>
+    <string name="protonomaly">Protanomalie</string>
     <string name="vintage">Ancien</string>
     <string name="browni">Browni</string>
     <string name="tritanopia">Tritanopie</string>
-    <string name="deutaronotopia">Deutaronotopie</string>
+    <string name="deutaronotopia">Deuteranotopie</string>
     <string name="protanopia">Protanopie</string>
     <string name="gradient_type_linear">Linéaire</string>
     <string name="gradient_type_radial">Radial</string>
@@ -975,7 +975,7 @@
     <string name="cupertino_switch_sub">Utilise iOS comme un commutateur basé sur le système de conception de Cupertino</string>
     <string name="legacy">Légende</string>
     <string name="engine_mode">Mode moteur</string>
-    <string name="legacy_and_lstm"><![CDATA[Légende & LSTM]]></string>
+    <string name="legacy_and_lstm">Légende &amp; LSTM</string>
     <string name="lanczos_bessel">Lanczos Bessel</string>
     <string name="path_omit">Chemin d\'accès Omit</string>
     <string name="tag_focal_length_in_35mm_film">Longueur focale en équivalent 35 mm</string>
@@ -1005,4 +1005,5 @@
     <string name="tag_image_unique_id">Identifiant unique d\'image</string>
     <string name="tag_camera_owner_name">Nom du propriétaire de caméra</string>
     <string name="tag_lens_specification">Spécification de lentils</string>
+    <string name="tag_body_serial_number">Numéro de Série du Corps</string>
 </resources>

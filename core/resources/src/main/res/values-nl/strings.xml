@@ -1540,4 +1540,6 @@
     <string name="custom_pages">Aangepaste pagina\'s</string>
     <string name="pages_selection">Selectie van pagina\'s</string>
     <string name="none">Geen</string>
+    <string name="tool_exit_confirmation">Bevestiging bij het afsluiten van tools</string>
+    <string name="tool_exit_confirmation_sub">Als je niet-opgeslagen wijzigingen hebt tijdens het gebruik van bepaalde tools en deze probeert te sluiten, wordt het bevestigingsdialoogvenster weergegeven</string>
 </resources>
