@@ -24,18 +24,18 @@ import java.util.Locale
 
 fun readableByteCount(bytes: Long): String {
     var tempBytes = bytes
-    if (-1000 < tempBytes && tempBytes < 1000) {
+    if (-1024 < tempBytes && tempBytes < 1024) {
         return "$tempBytes B"
     }
     val ci: CharacterIterator = StringCharacterIterator("kMGTPE")
     while (tempBytes <= -999950 || tempBytes >= 999950) {
-        tempBytes /= 1000
+        tempBytes /= 1024
         ci.next()
     }
     return java.lang.String.format(
         Locale.getDefault(),
         "%.1f %cB",
-        tempBytes / 1000.0,
+        tempBytes / 1024.0,
         ci.current()
     ).replace(",0", "")
 }

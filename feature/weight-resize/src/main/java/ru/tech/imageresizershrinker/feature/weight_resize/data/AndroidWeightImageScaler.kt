@@ -27,9 +27,9 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScaler
 import javax.inject.Inject
-import kotlin.math.abs
 import kotlin.math.roundToInt
 
 internal class AndroidWeightImageScaler @Inject constructor(
@@ -47,21 +47,22 @@ internal class AndroidWeightImageScaler @Inject constructor(
         maxBytes: Long
     ): Pair<ByteArray, ImageInfo>? = withContext(defaultDispatcher) {
         runCatching {
-            val targetSize = maxBytes - 2048
-            var initialSize: Long
-            if (
-                imageCompressor.calculateImageSize(
-                    image = image,
-                    imageInfo = ImageInfo(
-                        width = image.width,
-                        height = image.height,
-                        imageFormat = imageFormat
-                    )
-                ).also { initialSize = it } > targetSize
-            ) {
+            val initialSize = imageCompressor.calculateImageSize(
+                image = image,
+                imageInfo = ImageInfo(
+                    width = image.width,
+                    height = image.height,
+                    imageFormat = imageFormat
+                )
+            )
+            val normalization = 2048 * (initialSize / (5 * 1024 * 1024)).coerceAtLeast(1)
+
+            val targetSize = maxBytes - normalization
+
+            if (initialSize > targetSize) {
                 var outArray = ByteArray(initialSize.toInt())
                 var compressQuality = 100
-                var newSize = image.width to image.height
+                var newSize = image.size()
 
                 if (imageFormat.canChangeCompressionValue) {
                     while (outArray.size > targetSize) {
@@ -69,8 +70,8 @@ internal class AndroidWeightImageScaler @Inject constructor(
                         outArray = imageCompressor.compressAndTransform(
                             image = image,
                             imageInfo = ImageInfo(
-                                width = newSize.first,
-                                height = newSize.second,
+                                width = newSize.width,
+                                height = newSize.height,
                                 quality = Quality.Base(compressQuality),
                                 imageFormat = imageFormat
                             )
@@ -83,44 +84,35 @@ internal class AndroidWeightImageScaler @Inject constructor(
                     compressQuality = 15
                 }
 
-                while (abs(outArray.size - targetSize) > 2048) {
+                while (outArray.size > targetSize) {
                     ensureActive()
-                    val temp = if (outArray.size > targetSize) {
-                        scaleImage(
-                            image = image,
-                            width = (newSize.first * 0.9f).roundToInt(),
-                            height = (newSize.second * 0.9f).roundToInt(),
-                            imageScaleMode = imageScaleMode
-                        )
-                    } else {
-                        scaleImage(
-                            image = image,
-                            width = (newSize.first * 1.01f).roundToInt(),
-                            height = (newSize.second * 1.01f).roundToInt(),
-                            imageScaleMode = imageScaleMode
-                        )
-                    }
-                    newSize = temp.width to temp.height
+
+                    newSize = scaleImage(
+                        image = image,
+                        width = (newSize.width * 0.93f).roundToInt(),
+                        height = (newSize.height * 0.93f).roundToInt(),
+                        imageScaleMode = imageScaleMode
+                    ).size()
 
                     outArray = imageCompressor.compressAndTransform(
                         image = image,
                         imageInfo = ImageInfo(
                             quality = Quality.Base(compressQuality),
                             imageFormat = imageFormat,
-                            width = newSize.first,
-                            height = newSize.second
+                            width = newSize.width,
+                            height = newSize.height
                         )
                     )
                 }
 
                 outArray to ImageInfo(
-                    width = newSize.first,
-                    height = newSize.second,
+                    width = newSize.width,
+                    height = newSize.height,
                     imageFormat = imageFormat
                 )
             } else null
         }.getOrNull()
     }
 
-
+    private fun Bitmap.size(): IntegerSize = IntegerSize(width, height)
 }
