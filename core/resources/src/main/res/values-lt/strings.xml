@@ -1,2 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="single_edit">Vienas redagavimas</string>
+    <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
+    <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>
+    <string name="size">%1$s dydis</string>
+    <string name="loading">Įkeliama…</string>
+    <string name="image_too_large_preview">Vaizdas per didelis, kad būtų galima peržiūrėti, bet vis tiek bus bandoma išsaugoti.</string>
+    <string name="pick_image">Pasirinkite vaizdą, kad pradėtumėte</string>
+    <string name="width">%1$s plotis</string>
+    <string name="height">%1$s aukštis</string>
+    <string name="quality">Kokybė</string>
+    <string name="extension">Plėtinys</string>
+    <string name="single_edit_sub">Pakeiskite vieno pateikto vaizdo specifikacijas</string>
+    <string name="update">Atnaujinti</string>
+    <string name="check_updates">Tikrinti, ar yra naujinimų</string>
+    <string name="tool_exit_confirmation_sub">Jei naudodami tam tikrus įrankius turite neišsaugotų pakeitimų ir bandote juos užverti, bus rodomas patvirtinimo dialogas.</string>
+    <string name="tool_exit_confirmation">Įrankio išėjimo patvirtinimas</string>
+    <string name="pages_selection">Puslapių pasirinkimas</string>
+    <string name="custom_pages">Pasirinktiniai puslapiai</string>
+    <string name="check_source_code_sub">Gaukite naujausius naujinimus, aptarkite problemas ir daugiau.</string>
+    <string name="no_updates">Naujinimų nerasta</string>
+</resources>
