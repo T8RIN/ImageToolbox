@@ -11,7 +11,7 @@
     <string name="height">%1$s aukštis</string>
     <string name="quality">Kokybė</string>
     <string name="extension">Plėtinys</string>
-    <string name="single_edit_sub">Pakeiskite vieno pateikto vaizdo specifikacijas</string>
+    <string name="single_edit_sub">Pakeiskite vieno pateikto vaizdo specifikacijas.</string>
     <string name="update">Atnaujinti</string>
     <string name="check_updates">Tikrinti naujinimus</string>
     <string name="tool_exit_confirmation_sub">Jei naudodami tam tikrus įrankius turite neišsaugotų pakeitimų ir bandote juos užverti, bus rodomas patvirtinimo dialogas.</string>
@@ -29,4 +29,13 @@
     <string name="allow_betas_sub">Jei įjungta, į naujinimų tikrinimą bus įtrauktos beta programėlės versijos.</string>
     <string name="foss_update_checker_warning">Šis naujinimų tikrintuvas prisijungs prie „GitHub“, kad patikrintų, ar yra naujas naujinimas.</string>
     <string name="nothing_found_by_search">Nieko nerasta pagal jūsų užklausą</string>
+    <string name="by_bytes_resize_sub">Pakeiskite vaizdo dydį pagal nurodytą dydį vienetu KB.</string>
+    <string name="resize_type">Keisti dydžio tipą</string>
+    <string name="by_bytes_resize">Keisti dydį pagal svorį</string>
+    <string name="max_bytes">Didžiausias dydis vienetu KB</string>
+    <string name="donation_sub">Ši programa yra visiškai nemokama, bet jei norite palaikyti projekto kūrimą, galite spustelėti čia.</string>
+    <string name="contact_me">Susisiekite su manimi</string>
+    <string name="donation">Aukojimas</string>
+    <string name="search_option">Paieška</string>
+    <string name="search_option_sub">Suteikia galimybę ieškoti visų pagrindiniame ekrane esančių įrankių.</string>
 </resources>
