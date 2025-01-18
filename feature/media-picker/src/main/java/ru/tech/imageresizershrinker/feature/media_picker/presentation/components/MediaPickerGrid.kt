@@ -47,7 +47,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -55,7 +54,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.utils.safeCast
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toPx
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaItem
@@ -142,16 +143,20 @@ internal fun MediaPickerGrid(
                 isVertical = true,
                 haptics = LocalHapticFeedback.current,
                 selectedItems = privateSelection,
-                onSelectionChange = {
-                    val data = state.mappedMedia.mapIndexedNotNull { index, mediaItem ->
-                        if (index in it && mediaItem is MediaItem.MediaViewItem) mediaItem.media
-                        else null
+                onSelectionChange = { indices ->
+                    val order: MutableList<Any> = indices.toMutableList()
+                    state.mappedMedia.forEachIndexed { index, mediaItem ->
+                        if (index in indices && mediaItem is MediaItem.MediaViewItem) {
+                            order.indexOf(index).takeIf { it >= 0 }?.let {
+                                order[it] = mediaItem.media
+                            }
+                        }
                     }
                     selectedMedia.clear()
-                    selectedMedia.addAll(data)
+                    selectedMedia.addAll(order.mapNotNull { it.safeCast() })
                 },
                 autoScrollSpeed = autoScrollSpeed,
-                autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() },
+                autoScrollThreshold = 40.dp.toPx(),
                 onLongTap = {
                     if (selectedMedia.isEmpty()) {
                         imagePreviewUri =
@@ -234,6 +239,12 @@ internal fun MediaPickerGrid(
                 }
 
                 is MediaItem.MediaViewItem -> {
+                    val selectionIndex by remember(selectedMedia, item.media) {
+                        derivedStateOf {
+                            selectedMedia.indexOf(item.media)
+                        }
+                    }
+
                     MediaImage(
                         media = item.media,
                         canClick = !isSelectionOfAll || !allowMultiple,
@@ -246,18 +257,8 @@ internal fun MediaPickerGrid(
                         onItemLongClick = {
                             imagePreviewUri = it.uri
                         },
-                        selectionIndex = remember(selectedMedia, item.media) {
-                            derivedStateOf {
-                                if (selectedMedia.size > 1) {
-                                    selectedMedia.indexOf(item.media)
-                                } else -1
-                            }
-                        }.value,
-                        isSelected = remember(item, selectedMedia) {
-                            derivedStateOf {
-                                selectedMedia.contains(item.media)
-                            }
-                        }.value
+                        selectionIndex = if (selectedMedia.size > 1) selectionIndex else -1,
+                        isSelected = selectionIndex >= 0
                     )
                 }
             }

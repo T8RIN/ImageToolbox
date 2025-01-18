@@ -34,6 +34,8 @@ private val BASE64_PATTERN = Regex(
 
 inline fun <reified T, reified R> T.cast(): R = this as R
 
+inline fun <reified T, reified R> T.safeCast(): R? = this as? R
+
 
 inline operator fun CharSequence.times(
     count: Int
