@@ -310,7 +310,6 @@ fun MarkupLayersContent(
                         }
                     }
                 }
-
             }
         },
         controls = {
