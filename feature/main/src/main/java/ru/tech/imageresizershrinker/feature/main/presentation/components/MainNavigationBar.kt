@@ -53,7 +53,7 @@ internal fun MainNavigationBar(
                     .calculateBottomPadding()
             ),
     ) {
-        Screen.typedEntries.forEachIndexed { index, (_, data) ->
+        Screen.typedEntries.forEachIndexed { index, group ->
             val selected = index == selectedIndex
             val haptics = LocalHapticFeedback.current
             NavigationBarItem(
@@ -73,14 +73,14 @@ internal fun MainNavigationBar(
                         }
                     ) { selected ->
                         Icon(
-                            imageVector = if (selected) data.second else data.third,
-                            contentDescription = null
+                            imageVector = group.icon(selected),
+                            contentDescription = stringResource(group.title)
                         )
                     }
                 },
                 label = {
                     Text(
-                        text = stringResource(data.first),
+                        text = stringResource(group.title),
                         modifier = Modifier.marquee()
                     )
                 }

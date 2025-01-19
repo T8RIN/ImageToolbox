@@ -18,7 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -36,15 +38,12 @@ internal fun FiltersContentSheets(
     val isPortrait by isPortraitOrientationAsState()
 
     if (component.filterType is Screen.Filter.Type.Basic) {
+        val transformations by remember(component.basicFilterState, component.imageInfo) {
+            derivedStateOf(component::getFiltersTransformation)
+        }
+
         PickImageFromUrisSheet(
-            transformations = listOf(
-                component.imageInfoTransformationFactory(
-                    imageInfo = component.imageInfo,
-                    transformations = component.basicFilterState.filters.map(
-                        component.filterProvider::filterToTransformation
-                    )
-                )
-            ),
+            transformations = transformations,
             visible = component.isPickImageFromUrisSheetVisible,
             onDismiss = component::hidePickImageFromUrisSheet,
             uris = component.basicFilterState.uris,

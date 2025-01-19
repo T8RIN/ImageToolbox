@@ -141,6 +141,7 @@ internal fun List<Uri>.screenList(
                 ),
                 Screen.SvgMaker(uris),
                 Screen.Zip(uris),
+                Screen.EditExif(uris.firstOrNull()),
                 Screen.DeleteExif(uris),
                 Screen.LimitResize(uris)
             ).let {

@@ -710,78 +710,102 @@ sealed class Screen(
         subtitle = 0
     )
 
+    @Serializable
+    data class EditExif(
+        val uri: KUri? = null,
+    ) : Screen(
+        id = 37,
+        title = R.string.edit_exif_screen,
+        subtitle = R.string.edit_exif_screen_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
-                listOf(
-                    SingleEdit(),
-                    ResizeAndConvert(),
-                    FormatConversion(),
-                    Crop(),
-                    WeightResize(),
-                    LimitResize(),
-                    DeleteExif(),
-                ) to Triple(
-                    R.string.edit,
-                    Icons.Rounded.MiniEditLarge,
-                    Icons.Outlined.MiniEditLarge
+                ScreenGroup(
+                    entries = listOf(
+                        SingleEdit(),
+                        ResizeAndConvert(),
+                        FormatConversion(),
+                        Crop(),
+                        WeightResize(),
+                        LimitResize(),
+                        EditExif(),
+                        DeleteExif(),
+                    ),
+                    title = R.string.edit,
+                    selectedIcon = Icons.Rounded.MiniEditLarge,
+                    baseIcon = Icons.Outlined.MiniEditLarge
                 ),
-                listOf(
-                    Filter(),
-                    Draw(),
-                    EraseBackground(),
-                    MarkupLayers(),
-                    CollageMaker(),
-                    ImageStitching(),
-                    ImageStacking(),
-                    ImageSplitting(),
-                    Watermarking(),
-                    GradientMaker(),
-                    NoiseGeneration,
-                ) to Triple(
-                    R.string.create,
-                    Icons.Filled.AutoAwesome,
-                    Icons.Outlined.AutoAwesome
+                ScreenGroup(
+                    entries = listOf(
+                        Filter(),
+                        Draw(),
+                        EraseBackground(),
+                        MarkupLayers(),
+                        CollageMaker(),
+                        ImageStitching(),
+                        ImageStacking(),
+                        ImageSplitting(),
+                        Watermarking(),
+                        GradientMaker(),
+                        NoiseGeneration,
+                    ),
+                    title = R.string.create,
+                    selectedIcon = Icons.Filled.AutoAwesome,
+                    baseIcon = Icons.Outlined.AutoAwesome
                 ),
-                listOf(
-                    PickColorFromImage(),
-                    RecognizeText(),
-                    Compare(),
-                    ImagePreview(),
-                    Base64Tools(),
-                    SvgMaker(),
-                    GeneratePalette(),
-                    LoadNetImage(),
-                ) to Triple(
-                    R.string.image,
-                    Icons.Filled.FilterHdr,
-                    Icons.Outlined.FilterHdr
+                ScreenGroup(
+                    entries = listOf(
+                        PickColorFromImage(),
+                        RecognizeText(),
+                        Compare(),
+                        ImagePreview(),
+                        Base64Tools(),
+                        SvgMaker(),
+                        GeneratePalette(),
+                        LoadNetImage(),
+                    ),
+                    title = R.string.image,
+                    selectedIcon = Icons.Filled.FilterHdr,
+                    baseIcon = Icons.Outlined.FilterHdr
                 ),
-                listOf(
-                    PdfTools(),
-                    DocumentScanner,
-                    ScanQrCode(),
-                    ColorTools,
-                    GifTools(),
-                    Cipher(),
-                    ChecksumTools(),
-                    Zip(),
-                    JxlTools(),
-                    ApngTools(),
-                    WebpTools()
-                ) to Triple(
-                    R.string.tools,
-                    Icons.Rounded.Toolbox,
-                    Icons.Outlined.Toolbox
+                ScreenGroup(
+                    entries = listOf(
+                        PdfTools(),
+                        DocumentScanner,
+                        ScanQrCode(),
+                        ColorTools,
+                        GifTools(),
+                        Cipher(),
+                        ChecksumTools(),
+                        Zip(),
+                        JxlTools(),
+                        ApngTools(),
+                        WebpTools()
+                    ),
+                    title = R.string.tools,
+                    selectedIcon = Icons.Rounded.Toolbox,
+                    baseIcon = Icons.Outlined.Toolbox
                 )
             )
         }
+
         val entries by lazy {
-            typedEntries.flatMap { it.first }.sortedBy { it.id }
+            typedEntries.flatMap { it.entries }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 60
+        const val FEATURES_COUNT = 61
     }
+}
+
+data class ScreenGroup(
+    val entries: List<Screen>,
+    @StringRes val title: Int,
+    val selectedIcon: ImageVector,
+    val baseIcon: ImageVector
+) {
+    fun icon(isSelected: Boolean) = if (isSelected) selectedIcon else baseIcon
 }
 
 private typealias KUri = @Serializable(UriSerializer::class) Uri

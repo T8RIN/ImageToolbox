@@ -112,9 +112,13 @@ fun rememberClipboardText(): State<String> {
     return clip
 }
 
-fun ClipboardManager?.clipList(): List<Uri> = this?.primaryClip?.clipList() ?: emptyList()
+fun ClipboardManager?.clipList(): List<Uri> = runCatching {
+    this?.primaryClip?.clipList()
+}.getOrNull() ?: emptyList()
 
-fun ClipboardManager?.clipText(): String = this?.primaryClip?.getItemAt(0)?.text?.toString() ?: ""
+fun ClipboardManager?.clipText(): String = runCatching {
+    this?.primaryClip?.getItemAt(0)?.text?.toString()
+}.getOrNull() ?: ""
 
 fun ClipData.clipList() = List(
     size = itemCount,
@@ -123,12 +127,15 @@ fun ClipData.clipList() = List(
     }
 ).filterNotNull()
 
-fun List<Uri>.toClipData(): ClipData? {
+fun List<Uri>.toClipData(
+    description: String = "Images"
+): ClipData? {
     if (this.isEmpty()) return null
 
     return ClipData(
         ClipDescription(
-            "Images", arrayOf("image/*")
+            description,
+            arrayOf("image/*")
         ),
         ClipData.Item(this.first())
     ).apply {
@@ -139,11 +146,12 @@ fun List<Uri>.toClipData(): ClipData? {
 }
 
 fun Uri.asClip(
-    context: Context
+    context: Context,
+    label: String = "Image"
 ): ClipEntry = ClipEntry(
     ClipData.newUri(
         context.contentResolver,
-        "IMAGE",
+        label,
         this
     )
 )

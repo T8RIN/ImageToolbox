@@ -33,6 +33,7 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -392,13 +393,12 @@ fun ResizeAndConvertContent(
         onReset = component::resetValues
     )
 
+    val transformations by remember(component.imageInfo, component.presetSelected) {
+        derivedStateOf(component::getTransformations)
+    }
+
     PickImageFromUrisSheet(
-        transformations = listOf(
-            component.imageInfoTransformationFactory(
-                imageInfo = component.imageInfo,
-                preset = component.presetSelected
-            )
-        ),
+        transformations = transformations,
         visible = showPickImageFromUrisSheet,
         onDismiss = {
             showPickImageFromUrisSheet = false

@@ -31,6 +31,7 @@ import ru.tech.imageresizershrinker.feature.delete_exif.presentation.screenLogic
 import ru.tech.imageresizershrinker.feature.document_scanner.presentation.screenLogic.DocumentScannerComponent
 import ru.tech.imageresizershrinker.feature.draw.presentation.screenLogic.DrawComponent
 import ru.tech.imageresizershrinker.feature.easter_egg.presentation.screenLogic.EasterEggComponent
+import ru.tech.imageresizershrinker.feature.edit_exif.presentation.screenLogic.EditExifComponent
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
 import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FiltersComponent
 import ru.tech.imageresizershrinker.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
@@ -107,7 +108,8 @@ internal class ChildProvider @Inject constructor(
     private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
     private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
     private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory,
-    private val meshGradientsComponentFactory: MeshGradientsComponent.Factory
+    private val meshGradientsComponentFactory: MeshGradientsComponent.Factory,
+    private val editExifComponentFactory: EditExifComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -471,6 +473,15 @@ internal class ChildProvider @Inject constructor(
         is Screen.MeshGradients -> MeshGradients(
             meshGradientsComponentFactory(
                 componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.EditExif -> EditExif(
+            editExifComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

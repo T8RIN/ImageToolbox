@@ -55,7 +55,7 @@ internal fun filteredScreenListFor(
     ) {
         derivedStateOf {
             if (settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {
-                Screen.typedEntries[selectedNavigationItem].first
+                Screen.typedEntries[selectedNavigationItem].entries
             } else if (!settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {
                 if (selectedNavigationItem == 0) {
                     screenList.filter {

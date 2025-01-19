@@ -102,7 +102,7 @@ internal fun MainNavigationRail(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.height(8.dp))
-                Screen.typedEntries.forEachIndexed { index, (_, data) ->
+                Screen.typedEntries.forEachIndexed { index, group ->
                     val selected = index == selectedIndex
                     val haptics = LocalHapticFeedback.current
                     NavigationRailItem(
@@ -122,20 +122,20 @@ internal fun MainNavigationRail(
                                 }
                             ) { selected ->
                                 Icon(
-                                    imageVector = if (selected) data.second else data.third,
-                                    contentDescription = stringResource(data.first)
+                                    imageVector = group.icon(selected),
+                                    contentDescription = stringResource(group.title)
                                 )
                             }
                         },
                         label = {
-                            Text(stringResource(data.first))
+                            Text(stringResource(group.title))
                         }
                     )
                 }
                 Spacer(Modifier.height(8.dp))
             }
         }
-        Box(
+        Spacer(
             Modifier
                 .fillMaxHeight()
                 .width(settingsState.borderWidth)

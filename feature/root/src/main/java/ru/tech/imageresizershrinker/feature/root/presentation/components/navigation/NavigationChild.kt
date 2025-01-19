@@ -42,6 +42,8 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.DrawContent
 import ru.tech.imageresizershrinker.feature.draw.presentation.screenLogic.DrawComponent
 import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggContent
 import ru.tech.imageresizershrinker.feature.easter_egg.presentation.screenLogic.EasterEggComponent
+import ru.tech.imageresizershrinker.feature.edit_exif.presentation.EditExifContent
+import ru.tech.imageresizershrinker.feature.edit_exif.presentation.screenLogic.EditExifComponent
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundContent
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
 import ru.tech.imageresizershrinker.feature.filters.presentation.FiltersContent
@@ -318,6 +320,11 @@ internal sealed class NavigationChild {
     class MeshGradients(val component: MeshGradientsComponent) : NavigationChild() {
         @Composable
         override fun Content() = MeshGradientsContent(component)
+    }
+
+    class EditExif(val component: EditExifComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = EditExifContent(component)
     }
 
 }

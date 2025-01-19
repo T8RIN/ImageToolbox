@@ -70,7 +70,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
+    private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -623,6 +623,12 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         if (uris?.size == 1) imageInfo.imageFormat
         else null
 
+    fun getTransformations() = listOf(
+        imageInfoTransformationFactory(
+            imageInfo = imageInfo,
+            preset = presetSelected
+        )
+    )
 
     @AssistedFactory
     fun interface Factory {

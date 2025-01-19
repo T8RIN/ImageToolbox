@@ -66,7 +66,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
+    private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -449,6 +449,13 @@ class FormatConversionComponent @AssistedInject internal constructor(
     fun getFormatForFilenameSelection(): ImageFormat? =
         if (uris?.size == 1) imageInfo.imageFormat
         else null
+
+    fun getConversionTransformation() = listOf(
+        imageInfoTransformationFactory(
+            imageInfo = imageInfo,
+            preset = Preset.Original
+        )
+    )
 
 
     @AssistedFactory

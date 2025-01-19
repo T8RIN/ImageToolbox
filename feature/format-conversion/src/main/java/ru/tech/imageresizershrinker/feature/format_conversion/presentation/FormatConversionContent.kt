@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
-import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
@@ -288,13 +288,12 @@ fun FormatConversionContent(
         isPortrait = isPortrait
     )
 
+    val transformations by remember(component.imageInfo) {
+        derivedStateOf(component::getConversionTransformation)
+    }
+
     PickImageFromUrisSheet(
-        transformations = listOf(
-            component.imageInfoTransformationFactory(
-                imageInfo = component.imageInfo,
-                preset = Preset.Original
-            )
-        ),
+        transformations = transformations,
         visible = showPickImageFromUrisSheet,
         onDismiss = {
             showPickImageFromUrisSheet = false

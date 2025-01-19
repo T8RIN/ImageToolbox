@@ -68,7 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 fun Picture(
     model: Any?,
     modifier: Modifier = Modifier,
-    transformations: List<Transformation> = emptyList(),
+    transformations: List<Transformation>? = null,
     manualImageLoader: ImageLoader? = null,
     contentDescription: String? = null,
     shape: Shape = RectangleShape,
@@ -131,7 +131,7 @@ fun Picture(
                 .crossfade(crossfadeEnabled)
                 .allowHardware(allowHardware)
                 .transformations(
-                    transformations + hdrTransformation
+                    (transformations ?: emptyList()) + hdrTransformation
                 )
                 .build()
         }

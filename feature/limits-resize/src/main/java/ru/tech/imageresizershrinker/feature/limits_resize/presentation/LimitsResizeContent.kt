@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
@@ -293,11 +292,6 @@ fun LimitsResizeContent(
     )
 
     PickImageFromUrisSheet(
-        transformations = listOf(
-            component.imageInfoTransformationFactory(
-                imageInfo = ImageInfo()
-            )
-        ),
         visible = showPickImageFromUrisSheet,
         onDismiss = {
             showPickImageFromUrisSheet = false

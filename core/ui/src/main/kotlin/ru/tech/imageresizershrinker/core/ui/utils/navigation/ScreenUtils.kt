@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.Draw
 import ru.tech.imageresizershrinker.core.resources.icons.Encrypted
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
+import ru.tech.imageresizershrinker.core.resources.icons.ExifEdit
 import ru.tech.imageresizershrinker.core.resources.icons.ImageCombine
 import ru.tech.imageresizershrinker.core.resources.icons.ImageConvert
 import ru.tech.imageresizershrinker.core.resources.icons.ImageDownload
@@ -111,6 +112,7 @@ internal fun Screen.simpleName(): String? = when (this) {
     is Screen.Base64Tools -> "Base64_Tools"
     is Screen.ChecksumTools -> "Checksum_Tools"
     is Screen.MeshGradients -> "Mesh_Gradients"
+    is Screen.EditExif -> "Edit_EXIF"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -157,6 +159,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.MarkupLayers -> Icons.Outlined.Stack
     is Screen.Base64Tools -> Icons.Outlined.Base64
     is Screen.ChecksumTools -> Icons.Rounded.Tag
+    is Screen.EditExif -> Icons.Outlined.ExifEdit
 }
 
 internal object UriSerializer : KSerializer<Uri> {

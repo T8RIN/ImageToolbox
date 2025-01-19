@@ -68,7 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun PickImageFromUrisSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    transformations: List<Transformation>,
+    transformations: List<Transformation>? = null,
     uris: List<Uri>?,
     selectedUri: Uri?,
     onUriRemoved: (Uri) -> Unit,

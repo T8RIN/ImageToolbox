@@ -1560,4 +1560,7 @@
     <string name="pages_selection">Pages Selection</string>
     <string name="tool_exit_confirmation">Tool Exit Confirmation</string>
     <string name="tool_exit_confirmation_sub">If you have unsaved changes while using particular tools and try to close it, then confirm dialog will be shown</string>
+    <string name="edit_exif_screen">Edit EXIF</string>
+    <string name="edit_exif_screen_sub">Change metadata of single image without recompression</string>
+    <string name="edit_exif_tag">Tap to edit available tags</string>
 </resources>

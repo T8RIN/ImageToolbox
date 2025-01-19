@@ -445,14 +445,16 @@ fun GradientMakerContent(
         ).value
     )
 
+    val transformations by remember(component.brush) {
+        derivedStateOf {
+            listOf(
+                component.getGradientTransformation()
+            )
+        }
+    }
+
     PickImageFromUrisSheet(
-        transformations = remember(component.brush) {
-            derivedStateOf {
-                listOf(
-                    component.getGradientTransformation()
-                )
-            }
-        }.value,
+        transformations = transformations,
         visible = showPickImageFromUrisSheet,
         onDismiss = {
             showPickImageFromUrisSheet = false

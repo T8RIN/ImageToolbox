@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import dagger.assisted.Assisted
@@ -73,8 +74,8 @@ class FiltersComponent @AssistedInject internal constructor(
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
-    val filterProvider: FilterProvider<Bitmap>,
-    val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
+    private val filterProvider: FilterProvider<Bitmap>,
+    private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
@@ -104,6 +105,15 @@ class FiltersComponent @AssistedInject internal constructor(
     val addMaskSheetComponent: AddMaskSheetComponent = addMaskSheetComponentFactory(
         componentContext = componentContext.childContext(
             key = "addMaskSheetComponentFactoryFilters"
+        )
+    )
+
+    fun getFiltersTransformation(): List<Transformation> = listOf(
+        imageInfoTransformationFactory(
+            imageInfo = imageInfo,
+            transformations = basicFilterState.filters.map(
+                filterProvider::filterToTransformation
+            )
         )
     )
 
