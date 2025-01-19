@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="single_edit">Vienas redagavimas</string>
+    <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
+    <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>
+    <string name="size">%1$s dydis</string>
+    <string name="loading">Įkeliama…</string>
+    <string name="image_too_large_preview">Vaizdas per didelis, kad būtų galima peržiūrėti, bet vis tiek bus bandoma išsaugoti.</string>
+    <string name="pick_image">Pasirinkite vaizdą, kad pradėtumėte</string>
+    <string name="width">%1$s plotis</string>
+    <string name="height">%1$s aukštis</string>
+    <string name="quality">Kokybė</string>
+    <string name="extension">Plėtinys</string>
+    <string name="single_edit_sub">Pakeiskite vieno pateikto vaizdo specifikacijas.</string>
+    <string name="update">Atnaujinti</string>
+    <string name="check_updates">Tikrinti naujinimus</string>
+    <string name="tool_exit_confirmation_sub">Jei naudodami tam tikrus įrankius turite neišsaugotų pakeitimų ir bandote juos užverti, bus rodomas patvirtinimo dialogas.</string>
+    <string name="tool_exit_confirmation">Įrankio išėjimo patvirtinimas</string>
+    <string name="pages_selection">Puslapių pasirinkimas</string>
+    <string name="custom_pages">Pasirinktiniai puslapiai</string>
+    <string name="check_source_code_sub">Gaukite naujausius naujinimus, aptarkite problemas ir daugiau.</string>
+    <string name="no_updates">Naujinimų nerasta</string>
+    <string name="updates">Naujinimai</string>
+    <string name="search_here">Ieškokite čia</string>
+    <string name="check_updates_sub">Jei įjungta, naujinimo dialogas bus rodomas paleidžiant programėlę.</string>
+    <string name="lut_library_update_sub">Atnaujinti LUT kolekciją (į eilę bus įtraukti tik nauji), kurią galėsite taikyti atsisiuntę.</string>
+    <string name="tg_chat_sub">Aptarkite programėlę ir gaukite kitų naudotojų atsiliepimų. Čia taip pat galite gauti beta versijos naujinimų ir įžvalgų.</string>
+    <string name="check_for_updates">Tikrinti, ar yra naujinimų</string>
+    <string name="allow_betas_sub">Jei įjungta, į naujinimų tikrinimą bus įtrauktos beta programėlės versijos.</string>
+    <string name="foss_update_checker_warning">Šis naujinimų tikrintuvas prisijungs prie „GitHub“, kad patikrintų, ar yra naujas naujinimas.</string>
+    <string name="nothing_found_by_search">Nieko nerasta pagal jūsų užklausą</string>
+    <string name="by_bytes_resize_sub">Pakeiskite vaizdo dydį pagal nurodytą dydį vienetu KB.</string>
+    <string name="resize_type">Keisti dydžio tipą</string>
+    <string name="by_bytes_resize">Keisti dydį pagal svorį</string>
+    <string name="max_bytes">Didžiausias dydis vienetu KB</string>
+    <string name="donation_sub">Ši programa yra visiškai nemokama, bet jei norite palaikyti projekto kūrimą, galite spustelėti čia.</string>
+    <string name="contact_me">Susisiekite su manimi</string>
+    <string name="donation">Aukojimas</string>
+    <string name="search_option">Paieška</string>
+    <string name="search_option_sub">Suteikia galimybę ieškoti visų pagrindiniame ekrane esančių įrankių.</string>
+</resources>
