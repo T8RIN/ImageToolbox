@@ -97,9 +97,12 @@ sealed interface LayerType {
         }
     }
 
-    data class Image(
-        val imageData: Any
+    sealed class Picture(
+        open val imageData: Any
     ) : LayerType {
+        data class Image(override val imageData: Any) : Picture(imageData)
+        data class Sticker(override val imageData: Any) : Picture(imageData)
+
         companion object {
             val Default by lazy {
                 Image(

@@ -20,6 +20,8 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.Build
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -89,7 +91,8 @@ fun Picture(
     allowHardware: Boolean = true,
     showTransparencyChecker: Boolean = true,
     isLoadingFromDifferentPlace: Boolean = false,
-    enableUltraHDRSupport: Boolean = false
+    enableUltraHDRSupport: Boolean = false,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     val context = LocalContext.current
 
@@ -155,7 +158,8 @@ fun Picture(
             modifier = modifier
                 .clip(shape)
                 .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
-                .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier),
+                .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier)
+                .padding(contentPadding),
             contentScale = contentScale,
             loading = {
                 if (loading != null) loading(it)

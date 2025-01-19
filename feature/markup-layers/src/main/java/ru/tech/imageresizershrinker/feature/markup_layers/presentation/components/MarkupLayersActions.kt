@@ -18,8 +18,10 @@
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components
 
 import android.net.Uri
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
@@ -31,14 +33,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.icons.Stacks
+import ru.tech.imageresizershrinker.core.resources.icons.StickerEmoji
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EmojiSelectionSheet
 import ru.tech.imageresizershrinker.feature.markup_layers.domain.LayerType
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
@@ -54,15 +62,25 @@ internal fun MarkupLayersActions(
         component.deactivateAllLayers()
         component.addLayer(
             UiMarkupLayer(
-                type = LayerType.Image(uri)
+                type = LayerType.Picture.Image(uri)
             )
         )
     }
     var showTextEnteringDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    var showEmojiPicker by rememberSaveable {
+        mutableStateOf(false)
+    }
 
-    Box {
+    val state = rememberScrollState()
+    Row(
+        modifier = Modifier
+            .fadingEdges(state)
+            .horizontalScroll(state)
+            .padding(vertical = 2.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         EnhancedIconButton(
             containerColor = takeColorFromScheme {
                 if (showLayersSelection) tertiary
@@ -77,33 +95,63 @@ internal fun MarkupLayersActions(
                 contentDescription = null
             )
         }
-    }
-    EnhancedIconButton(
-        onClick = {
-            showTextEnteringDialog = true
+        EnhancedIconButton(
+            onClick = {
+                showTextEnteringDialog = true
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.TextFields,
+                contentDescription = null
+            )
         }
-    ) {
-        Icon(
-            imageVector = Icons.Rounded.TextFields,
-            contentDescription = null
-        )
-    }
-    EnhancedIconButton(
-        onClick = layerImagePicker::pickImage
-    ) {
-        Icon(
-            imageVector = Icons.Outlined.Image,
-            contentDescription = null
-        )
+        EnhancedIconButton(
+            onClick = {
+                showEmojiPicker = true
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.StickerEmoji,
+                contentDescription = null
+            )
+        }
+        EnhancedIconButton(
+            onClick = layerImagePicker::pickImage
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Image,
+                contentDescription = null
+            )
+        }
+
+        val isPortrait by isPortraitOrientationAsState()
+        if (isPortrait) {
+            MarkupLayersUndoRedo(
+                component = component,
+                color = MaterialTheme.colorScheme.surface
+            )
+        }
     }
 
-    val isPortrait by isPortraitOrientationAsState()
-    if (isPortrait) {
-        MarkupLayersUndoRedo(
-            component = component,
-            color = MaterialTheme.colorScheme.surface
-        )
-    }
+    val allEmojis = Emoji.allIcons()
+
+    EmojiSelectionSheet(
+        selectedEmojiIndex = null,
+        allEmojis = allEmojis,
+        onEmojiPicked = {
+            component.deactivateAllLayers()
+            component.addLayer(
+                UiMarkupLayer(
+                    type = LayerType.Picture.Sticker(allEmojis[it])
+                )
+            )
+            showEmojiPicker = false
+        },
+        visible = showEmojiPicker,
+        onDismiss = {
+            showEmojiPicker = false
+        }
+    )
 
     AddTextLayerDialog(
         visible = showTextEnteringDialog,

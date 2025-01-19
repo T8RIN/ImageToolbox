@@ -53,7 +53,7 @@ internal fun LayerContent(
     textFullSize: Int
 ) {
     when (type) {
-        is LayerType.Image -> {
+        is LayerType.Picture -> {
             Picture(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(type.imageData)

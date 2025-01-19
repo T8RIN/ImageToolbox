@@ -1563,4 +1563,5 @@
     <string name="edit_exif_screen">Edit EXIF</string>
     <string name="edit_exif_screen_sub">Change metadata of single image without recompression</string>
     <string name="edit_exif_tag">Tap to edit available tags</string>
+    <string name="change_sticker">Change Sticker</string>
 </resources>

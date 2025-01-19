@@ -40,7 +40,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.icons.Cool
 import ru.tech.imageresizershrinker.core.resources.icons.Robot
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -54,7 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.EmojiSelectionSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EmojiSelectionSheet
 
 @Composable
 fun EmojiSettingItem(
@@ -140,8 +139,6 @@ fun EmojiSettingItem(
     )
     EmojiSelectionSheet(
         selectedEmojiIndex = selectedEmojiIndex,
-        emojiWithCategories = Emoji.allIconsCategorized(),
-        allEmojis = Emoji.allIcons(),
         onEmojiPicked = onUpdateEmoji,
         visible = showEmojiDialog,
         onDismiss = {

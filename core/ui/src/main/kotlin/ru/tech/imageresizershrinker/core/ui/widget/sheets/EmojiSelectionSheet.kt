@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.settings.presentation.components.additional
+package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
 import android.net.Uri
 import androidx.compose.animation.animateColorAsState
@@ -67,6 +67,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.emoji.EmojiData
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
@@ -85,9 +86,9 @@ import kotlin.random.Random
 
 @Composable
 fun EmojiSelectionSheet(
-    selectedEmojiIndex: Int,
-    emojiWithCategories: ImmutableList<EmojiData>,
-    allEmojis: ImmutableList<Uri>,
+    selectedEmojiIndex: Int?,
+    emojiWithCategories: ImmutableList<EmojiData> = Emoji.allIconsCategorized(),
+    allEmojis: ImmutableList<Uri> = Emoji.allIcons(),
     onEmojiPicked: (Int) -> Unit,
     visible: Boolean,
     onDismiss: () -> Unit
@@ -96,7 +97,7 @@ fun EmojiSelectionSheet(
 
     LaunchedEffect(visible) {
         delay(600)
-        if (selectedEmojiIndex >= 0) {
+        if ((selectedEmojiIndex ?: -1) >= 0) {
             var count = 0
             val item = emojiWithCategories.find { (_, _, emojis) ->
                 count = 0
@@ -128,20 +129,22 @@ fun EmojiSelectionSheet(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                EnhancedIconButton(
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    enabled = emojiEnabled,
-                    onClick = {
-                        onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
-                        scope.launch {
-                            state.animateScrollToItem(selectedEmojiIndex)
-                        }
-                    },
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Shuffle,
-                        contentDescription = stringResource(R.string.shuffle)
-                    )
+                if (selectedEmojiIndex != null) {
+                    EnhancedIconButton(
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        enabled = emojiEnabled,
+                        onClick = {
+                            onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
+                            scope.launch {
+                                state.animateScrollToItem(selectedEmojiIndex)
+                            }
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Shuffle,
+                            contentDescription = stringResource(R.string.shuffle)
+                        )
+                    }
                 }
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -185,7 +188,7 @@ fun EmojiSelectionSheet(
             }
             var expandedCategories by rememberSaveable(visible) {
                 mutableStateOf(
-                    if (selectedEmojiIndex >= 0) {
+                    if ((selectedEmojiIndex ?: -1) >= 0) {
                         emojiWithCategories.find { (_, _, emojis) ->
                             emojis.forEach { emoji ->
                                 val index = allEmojis.indexOf(emoji)
@@ -323,38 +326,44 @@ fun EmojiSelectionSheet(
                 }
             }
 
-            Column(
-                modifier = Modifier.onGloballyPositioned {
-                    topPadding = with(density) {
-                        it.size.height.toDp()
+            if (selectedEmojiIndex != null) {
+                Column(
+                    modifier = Modifier.onGloballyPositioned {
+                        topPadding = with(density) {
+                            it.size.height.toDp()
+                        }
                     }
+                ) {
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.enable_emoji),
+                        color = animateColorAsState(
+                            if (emojiEnabled) MaterialTheme.colorScheme.primaryContainer
+                            else MaterialTheme.colorScheme.surfaceContainer
+                        ).value,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(EnhancedBottomSheetDefaults.containerColor)
+                            .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
+                        shape = RoundedCornerShape(28.dp),
+                        checked = emojiEnabled,
+                        startIcon = Icons.Outlined.Face6,
+                        onClick = {
+                            if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
+                            else onEmojiPicked(-1)
+                        }
+                    )
+                    GradientEdge(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(16.dp),
+                        startColor = EnhancedBottomSheetDefaults.containerColor,
+                        endColor = Color.Transparent
+                    )
                 }
-            ) {
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.enable_emoji),
-                    color = animateColorAsState(
-                        if (emojiEnabled) MaterialTheme.colorScheme.primaryContainer
-                        else MaterialTheme.colorScheme.surfaceContainer
-                    ).value,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(EnhancedBottomSheetDefaults.containerColor)
-                        .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
-                    shape = RoundedCornerShape(28.dp),
-                    checked = emojiEnabled,
-                    startIcon = Icons.Outlined.Face6,
-                    onClick = {
-                        if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
-                        else onEmojiPicked(-1)
-                    }
-                )
-                GradientEdge(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(16.dp),
-                    startColor = EnhancedBottomSheetDefaults.containerColor,
-                    endColor = Color.Transparent
-                )
+            } else {
+                LaunchedEffect(Unit) {
+                    topPadding = 16.dp
+                }
             }
         }
     }

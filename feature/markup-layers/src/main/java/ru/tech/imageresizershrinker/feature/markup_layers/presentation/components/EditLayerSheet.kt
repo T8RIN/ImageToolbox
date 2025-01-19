@@ -18,16 +18,23 @@
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.BorderColor
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.Icon
@@ -38,8 +45,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -49,8 +58,11 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.model.Outline
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.toggle
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
+import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.inverseByLuma
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
@@ -62,9 +74,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.EmojiSelectionSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -85,7 +100,7 @@ internal fun EditLayerSheet(
         onDismiss = onDismiss,
         title = {
             when (val type = layer.type) {
-                is LayerType.Image -> {
+                is LayerType.Picture -> {
                     TitleItem(
                         icon = Icons.Rounded.MiniEditLarge,
                         text = stringResource(R.string.edit_layer)
@@ -138,7 +153,7 @@ internal fun EditLayerSheet(
                 .padding(16.dp)
         ) {
             when (val type = layer.type) {
-                is LayerType.Image -> {
+                is LayerType.Picture.Image -> {
                     ImageSelector(
                         value = type.imageData,
                         onValueChange = {
@@ -322,6 +337,68 @@ internal fun EditLayerSheet(
                                     )
                                 }
                             }
+                        }
+                    )
+                }
+
+                is LayerType.Picture.Sticker -> {
+                    var showEmojiPicker by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+
+                    PreferenceItemOverload(
+                        title = stringResource(R.string.change_sticker),
+                        subtitle = null,
+                        onClick = {
+                            showEmojiPicker = true
+                        },
+                        startIcon = {
+                            Picture(
+                                model = type.imageData,
+                                contentPadding = PaddingValues(8.dp),
+                                shape = MaterialStarShape,
+                                modifier = Modifier.size(48.dp),
+                                error = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.AddPhotoAlternate,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(MaterialStarShape)
+                                            .background(
+                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    0.5f
+                                                )
+                                            )
+                                            .padding(8.dp)
+                                    )
+                                }
+                            )
+                        },
+                        endIcon = {
+                            Icon(
+                                imageVector = Icons.Rounded.MiniEdit,
+                                contentDescription = stringResource(R.string.edit)
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        color = Color.Unspecified,
+                        drawStartIconContainer = false
+                    )
+
+                    val allEmojis = Emoji.allIcons()
+
+                    EmojiSelectionSheet(
+                        selectedEmojiIndex = null,
+                        allEmojis = allEmojis,
+                        onEmojiPicked = {
+                            onUpdateLayer(layer.copy(type.copy(allEmojis[it])))
+                            showEmojiPicker = false
+                        },
+                        visible = showEmojiPicker,
+                        onDismiss = {
+                            showEmojiPicker = false
                         }
                     )
                 }
