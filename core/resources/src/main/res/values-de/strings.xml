@@ -67,7 +67,7 @@
     <string name="update">Aktualisierung</string>
     <string name="check_source_code">Quellcode</string>
     <string name="image">Bild</string>
-    <string name="keep_exif">EXIF beibehalten</string>
+    <string name="keep_exif">EXIF behalten</string>
     <string name="check_source_code_sub">Aktuelle Meldungen, Problemmeldungen und mehr</string>
     <string name="pick_color_sub">Wähle eine Farbe aus einem Bild und kopiere oder teile diese</string>
     <string name="color">Farbe</string>
@@ -257,7 +257,7 @@
     <string name="features">Eigenschaften</string>
     <string name="compatibility">Kompatibilität</string>
     <string name="cipher">Chiffrieren</string>
-    <string name="cipher_sub">Ver- und Entschlüsselung beliebiger Dateien (nicht nur des Bildes) auf der Grundlage des AES-Verschlüsselungsalgorithmus</string>
+    <string name="cipher_sub">Ver- und Entschlüsselung beliebiger Dateien (nicht nur des Bildes) auf der Grundlage verschiedenen AES Verschlüsselungsalgorithmen</string>
     <string name="decrypt">Entschlüsseln</string>
     <string name="implementation">Implementierung</string>
     <string name="encrypt">Verschlüsseln</string>
@@ -273,7 +273,7 @@
     <string name="group_options_by_type_sub">Optionen und Werkzeuge nach Typ in Tabs gruppieren, anstatt sie in selbstdefinierbarer Abfolge in einem einzigen Fenster anzuordnen</string>
     <string name="create">Erstellen</string>
     <string name="store_file_desc">Speichere die Datei auf deinem Gerät oder benutze Teilen, um es wo immer du möchtest abzulegen</string>
-    <string name="implementation_sub">AES-256, GCM-Modus, kein Padding, 12 Bytes zufällige IVs. Die Schlüssel werden als SHA-3-Hashes (256 Bit) verwendet.</string>
+    <string name="implementation_sub">AES-256, GCM-Modus, kein Padding, 12 Bytes zufällige IVs. (Als Standard, man kann aber den benötigten Algorithmus auswählen). Die Schlüssel werden als SHA-3-Hashes (256 Bit) verwendet.</string>
     <string name="file_size_sub">Die maximale Dateigröße wird durch das Android-Betriebssystem und den verfügbaren Speicher begrenzt, was natürlich von Ihrem Gerät abhängt.
 \nBitte beachten Sie: Speicher ist nicht gleich Speicherplatz.</string>
     <string name="compatibility_sub">Bitte beachte, dass die Kompatibilität zu anderen Dateiverschlüsselungsprogrammen oder -diensten nicht gewährleistet ist. Eine leicht abweichende Behandlung des Schlüssels oder eine andere Chiffrierkonfiguration können Gründe für eine Inkompatibilität sein.</string>
@@ -1535,4 +1535,11 @@
     <string name="export_fonts">Schriftarten exportieren</string>
     <string name="wrong_font">Es können nur TTF-Schriften importiert werden</string>
     <string name="import_font">Schriftart importieren (TTF/OTF)</string>
+    <string name="custom_pages">Benutzerdefinierte Seiten</string>
+    <string name="tool_exit_confirmation_sub">Wenn du bei der Verwendung bestimmter Werkzeuge nicht gespeicherte Änderungen vorgenommen hast und versuchst, sie zu schließen, wird ein Bestätigungsdialog angezeigt</string>
+    <string name="tool_exit_confirmation">Werkzeug Beenden Bestätigung</string>
+    <string name="none">Keine</string>
+    <string name="error_while_saving">Fehler beim Speichern, versuche den Ausgabeordner zu ändern</string>
+    <string name="filename_is_not_set">Dateiname ist nicht festgelegt</string>
+    <string name="pages_selection">Seitenauswahl</string>
 </resources>
