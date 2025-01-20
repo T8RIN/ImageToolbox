@@ -127,6 +127,7 @@ internal fun Activity.parseSaveResults(
     } else if (failed < done) {
         essentials.showConfetti()
         val saveResult = results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
+        val errorSaveResult = results.firstOrNull { it is SaveResult.Error } as? SaveResult.Error
         essentials.showToast(
             message = saveResult?.message
                 ?: getString(
@@ -141,11 +142,25 @@ internal fun Activity.parseSaveResults(
             icon = Icons.Rounded.ErrorOutline,
             duration = ToastDuration.Long
         )
+        essentials.showToast(
+            message = getString(
+                R.string.smth_went_wrong,
+                errorSaveResult?.throwable?.localizedMessage ?: ""
+            )
+        )
     } else {
+        val errorSaveResult = results.firstOrNull { it is SaveResult.Error } as? SaveResult.Error
+
         essentials.showToast(
             message = getString(R.string.failed_to_save, failed),
             icon = Icons.Rounded.ErrorOutline,
             duration = ToastDuration.Long
+        )
+        essentials.showToast(
+            message = getString(
+                R.string.smth_went_wrong,
+                errorSaveResult?.throwable?.localizedMessage ?: ""
+            )
         )
     }
 }
