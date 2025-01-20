@@ -321,7 +321,8 @@ fun MarkupLayersContent(
                 if (!isPortrait) {
                     MarkupLayersUndoRedo(
                         component = component,
-                        color = Color.Unspecified
+                        color = Color.Unspecified,
+                        removePadding = false
                     )
                     Spacer(Modifier.height(4.dp))
                 }

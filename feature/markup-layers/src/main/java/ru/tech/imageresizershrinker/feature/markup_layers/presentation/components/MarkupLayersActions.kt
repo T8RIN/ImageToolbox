@@ -20,7 +20,9 @@ package ru.tech.imageresizershrinker.feature.markup_layers.presentation.componen
 import android.net.Uri
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -78,7 +80,7 @@ internal fun MarkupLayersActions(
         modifier = Modifier
             .fadingEdges(state)
             .horizontalScroll(state)
-            .padding(vertical = 2.dp),
+            .padding(bottom = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         EnhancedIconButton(
@@ -128,8 +130,10 @@ internal fun MarkupLayersActions(
         if (isPortrait) {
             MarkupLayersUndoRedo(
                 component = component,
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.surface,
+                removePadding = true
             )
+            Spacer(Modifier.width(8.dp))
         }
     }
 
@@ -166,12 +170,14 @@ internal fun MarkupLayersActions(
 @Composable
 internal fun MarkupLayersUndoRedo(
     component: MarkupLayersComponent,
-    color: Color
+    color: Color,
+    removePadding: Boolean
 ) {
     Row(
         modifier = Modifier.container(
             shape = CircleShape,
-            color = color
+            color = color,
+            resultPadding = if (removePadding) 0.dp else 4.dp
         )
     ) {
         EnhancedIconButton(
