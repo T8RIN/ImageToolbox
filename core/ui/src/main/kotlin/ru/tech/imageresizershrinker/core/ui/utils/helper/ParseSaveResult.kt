@@ -97,8 +97,7 @@ internal fun Activity.parseSaveResults(
                 duration = ToastDuration.Long
             )
         } else {
-            val saveResult =
-                results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
+            val saveResult = results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
 
             if (saveResult?.isOverwritten == true) {
                 essentials.showToast(
