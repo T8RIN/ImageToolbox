@@ -47,8 +47,10 @@ object ListUtils {
         return destination
     }
 
-    fun <T> List<T>.toggle(item: T): List<T> = run {
+    fun <T> Iterable<T>.toggle(item: T): List<T> = run {
         if (item in this) this - item
         else this + item
     }
+
+    inline fun <reified R : Any> Iterable<Any?>.firstOfType(): R? = firstOrNull { it is R } as? R
 }

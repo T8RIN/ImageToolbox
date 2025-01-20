@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.firstOfType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
@@ -86,7 +87,7 @@ internal fun Activity.parseSaveResults(
     if (results.any { it == SaveResult.Error.MissingPermissions }) requestStoragePermission()
     else if (failed == 0) {
         if (done == 1) {
-            val saveResult = results.first { it is SaveResult.Success } as? SaveResult.Success
+            val saveResult = results.firstOfType<SaveResult.Success>()
             val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
             essentials.showToast(
                 message = saveResult?.message ?: getString(
@@ -97,7 +98,7 @@ internal fun Activity.parseSaveResults(
                 duration = ToastDuration.Long
             )
         } else {
-            val saveResult = results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
+            val saveResult = results.firstOfType<SaveResult.Success>()
 
             if (saveResult?.isOverwritten == true) {
                 essentials.showToast(
@@ -117,16 +118,17 @@ internal fun Activity.parseSaveResults(
                     duration = ToastDuration.Long
                 )
             }
-            showReview(this)
-            essentials.showConfetti()
         }
 
         showReview(this)
         essentials.showConfetti()
+
     } else if (failed < done) {
         essentials.showConfetti()
-        val saveResult = results.firstOrNull { it is SaveResult.Success } as? SaveResult.Success
-        val errorSaveResult = results.firstOrNull { it is SaveResult.Error } as? SaveResult.Error
+
+        val saveResult = results.firstOfType<SaveResult.Success>()
+        val errorSaveResult = results.firstOfType<SaveResult.Error>()
+
         essentials.showToast(
             message = saveResult?.message
                 ?: getString(
@@ -148,7 +150,7 @@ internal fun Activity.parseSaveResults(
             )
         )
     } else {
-        val errorSaveResult = results.firstOrNull { it is SaveResult.Error } as? SaveResult.Error
+        val errorSaveResult = results.firstOfType<SaveResult.Error>()
 
         essentials.showToast(
             message = getString(R.string.failed_to_save, failed),
