@@ -28,7 +28,7 @@ data class StackImage(
     val scale: Scale
 ) {
     enum class Scale {
-        None, Fill, Fit
+        None, Fill, Fit, FitWidth, FitHeight, Crop
     }
 }
 

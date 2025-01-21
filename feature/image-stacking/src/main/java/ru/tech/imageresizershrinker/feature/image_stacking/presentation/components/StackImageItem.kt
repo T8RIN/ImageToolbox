@@ -212,6 +212,9 @@ fun StackImageItem(
                                 StackImage.Scale.None -> stringResource(R.string.none)
                                 StackImage.Scale.Fill -> stringResource(R.string.fill)
                                 StackImage.Scale.Fit -> stringResource(R.string.fit)
+                                StackImage.Scale.FitWidth -> stringResource(R.string.fit_width)
+                                StackImage.Scale.FitHeight -> stringResource(R.string.fit_height)
+                                StackImage.Scale.Crop -> stringResource(R.string.crop)
                             }
                         },
                         color = Color.Unspecified,

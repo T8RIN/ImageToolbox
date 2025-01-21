@@ -290,26 +290,28 @@ internal class AndroidImageScaler @Inject constructor(
             imageScaleMode = imageScaleMode
         )
 
-        val blurredBitmap = imageTransformer.transform(
-            image = drawImage.let { bitmap ->
-                val xScale: Float = targetWidth.toFloat() / originalWidth
-                val yScale: Float = targetHeight.toFloat() / originalHeight
-                val scale = xScale.coerceAtLeast(yScale)
-                createScaledBitmap(
-                    image = bitmap,
-                    width = (scale * originalWidth).toInt(),
-                    height = (scale * originalHeight).toInt(),
-                    imageScaleMode = imageScaleMode
-                )
-            },
-            transformations = listOf(
-                filterProvider.filterToTransformation(
-                    createFilter<Float, Filter.NativeStackBlur>(
-                        blurRadius.toFloat() / 1000 * max(targetWidth, targetHeight)
+        val blurredBitmap = if (canvasColor == null) {
+            imageTransformer.transform(
+                image = drawImage.let { bitmap ->
+                    val xScale: Float = targetWidth.toFloat() / originalWidth
+                    val yScale: Float = targetHeight.toFloat() / originalHeight
+                    val scale = xScale.coerceAtLeast(yScale)
+                    createScaledBitmap(
+                        image = bitmap,
+                        width = (scale * originalWidth).toInt(),
+                        height = (scale * originalHeight).toInt(),
+                        imageScaleMode = imageScaleMode
+                    )
+                },
+                transformations = listOf(
+                    filterProvider.filterToTransformation(
+                        createFilter<Float, Filter.NativeStackBlur>(
+                            blurRadius.toFloat() / 1000 * max(targetWidth, targetHeight)
+                        )
                     )
                 )
             )
-        )
+        } else null
 
         Bitmap.createBitmap(
             targetWidth,

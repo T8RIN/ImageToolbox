@@ -82,21 +82,23 @@ internal class AndroidImageStacker @Inject constructor(
             )?.let { bitmap ->
                 bitmap.setHasAlpha(true)
 
-                when (stackImage.scale) {
-                    StackImage.Scale.None -> bitmap
-                    StackImage.Scale.Fill -> imageScaler.scaleImage(
-                        image = bitmap,
-                        width = resultSize.width,
-                        height = resultSize.height
-                    )
+                val resizeType = when (stackImage.scale) {
+                    StackImage.Scale.None -> null
+                    StackImage.Scale.Fill -> ResizeType.Explicit
+                    StackImage.Scale.Fit -> ResizeType.Flexible(ResizeAnchor.Min)
+                    StackImage.Scale.FitWidth -> ResizeType.Flexible(ResizeAnchor.Width)
+                    StackImage.Scale.FitHeight -> ResizeType.Flexible(ResizeAnchor.Height)
+                    StackImage.Scale.Crop -> ResizeType.CenterCrop(0x00000000)
+                }
 
-                    StackImage.Scale.Fit -> imageScaler.scaleImage(
+                resizeType?.let {
+                    imageScaler.scaleImage(
                         image = bitmap,
                         width = resultSize.width,
                         height = resultSize.height,
-                        resizeType = ResizeType.Flexible(ResizeAnchor.Min)
+                        resizeType = resizeType
                     )
-                }
+                } ?: bitmap
             }
             paint.alpha = (stackImage.alpha * 255).toInt()
             paint.xfermode = PorterDuffXfermode(stackImage.blendingMode.toPorterDuffMode())
