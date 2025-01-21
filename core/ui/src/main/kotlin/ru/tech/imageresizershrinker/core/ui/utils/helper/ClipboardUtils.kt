@@ -145,6 +145,10 @@ fun List<Uri>.toClipData(
     }
 }
 
+fun CharSequence.toClipData(
+    label: String = "plain text"
+): ClipData = ClipData.newPlainText(label, this)
+
 fun Uri.asClip(
     context: Context,
     label: String = "Image"

@@ -97,10 +97,7 @@ fun DonateContainerContent(
             shape = ContainerShapeDefaults.topShape,
             onClick = {
                 context.apply {
-                    copyToClipboard(
-                        label = getString(R.string.ton_space),
-                        value = TONSpaceWallet
-                    )
+                    copyToClipboard(TONSpaceWallet)
                     scope.launch {
                         toastHostState.showToast(
                             icon = Icons.Rounded.ContentCopy,
@@ -125,10 +122,7 @@ fun DonateContainerContent(
             shape = ContainerShapeDefaults.centerShape,
             onClick = {
                 context.apply {
-                    copyToClipboard(
-                        label = getString(R.string.ton),
-                        value = TONWallet
-                    )
+                    copyToClipboard(TONWallet)
                     scope.launch {
                         toastHostState.showToast(
                             icon = Icons.Rounded.ContentCopy,
@@ -153,10 +147,7 @@ fun DonateContainerContent(
             shape = ContainerShapeDefaults.centerShape,
             onClick = {
                 context.apply {
-                    copyToClipboard(
-                        label = getString(R.string.bitcoin),
-                        value = BitcoinWallet
-                    )
+                    copyToClipboard(BitcoinWallet)
                     scope.launch {
                         toastHostState.showToast(
                             icon = Icons.Rounded.ContentCopy,
@@ -181,10 +172,7 @@ fun DonateContainerContent(
             shape = ContainerShapeDefaults.bottomShape,
             onClick = {
                 context.apply {
-                    copyToClipboard(
-                        label = getString(R.string.usdt),
-                        value = USDTWallet
-                    )
+                    copyToClipboard(USDTWallet)
                     scope.launch {
                         toastHostState.showToast(
                             icon = Icons.Rounded.ContentCopy,

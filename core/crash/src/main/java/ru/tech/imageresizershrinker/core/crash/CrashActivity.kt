@@ -51,7 +51,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
@@ -64,7 +63,6 @@ import androidx.exifinterface.media.ExifInterface
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.crash.components.CrashHandler
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
@@ -83,14 +81,13 @@ import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import javax.inject.Inject
@@ -118,20 +115,13 @@ class CrashActivity : CrashHandler() {
                     onGetEmojiColorTuple = ::getColorTupleFromEmoji
                 )
             ) {
-                val toastHostState = LocalToastHostState.current
-                val scope = rememberCoroutineScope()
-
+                val essentials = rememberLocalEssentials()
                 val createClip: (String) -> Unit = {
-                    copyToClipboard(
-                        label = getString(R.string.exception),
-                        value = it
+                    essentials.copyToClipboard(it)
+                    essentials.showToast(
+                        icon = Icons.Rounded.ContentCopy,
+                        message = getString(R.string.copied),
                     )
-                    scope.launch {
-                        toastHostState.showToast(
-                            icon = Icons.Rounded.ContentCopy,
-                            message = getString(R.string.copied),
-                        )
-                    }
                 }
 
                 val linkHandler = LocalUriHandler.current

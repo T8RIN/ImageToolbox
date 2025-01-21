@@ -190,10 +190,7 @@ fun RecognizeTextContent(
 
     val copyText: () -> Unit = {
         editedText?.let {
-            context.copyToClipboard(
-                label = context.getString(R.string.recognize_text),
-                value = it
-            )
+            context.copyToClipboard(it)
             essentials.showToast(
                 icon = Icons.Rounded.ContentCopy,
                 message = context.getString(R.string.copied),

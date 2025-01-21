@@ -51,7 +51,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
@@ -72,19 +71,21 @@ import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogi
 internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
     val essentials = rememberLocalEssentials()
     val context = LocalContext.current
-    val clipboardManager = LocalClipboardManager.current
 
     val pasteTile: @Composable RowScope.(shape: Shape) -> Unit = { shape ->
         Tile(
             onClick = {
-                val text = clipboardManager.getText()?.text?.trimToBase64() ?: ""
-                if (text.isBase64()) {
-                    component.setBase64(text)
-                } else {
-                    essentials.showToast(
-                        message = context.getString(R.string.not_a_valid_base_64),
-                        icon = Icons.Rounded.Base64
-                    )
+                essentials.getTextFromClipboard { text ->
+                    val text = text.trimToBase64()
+
+                    if (text.isBase64()) {
+                        component.setBase64(text)
+                    } else {
+                        essentials.showToast(
+                            message = context.getString(R.string.not_a_valid_base_64),
+                            icon = Icons.Rounded.Base64
+                        )
+                    }
                 }
             },
             shape = shape,
@@ -181,7 +182,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                                 append(component.base64String)
                             }
                             if (component.base64String.isBase64()) {
-                                clipboardManager.setText(text)
+                                essentials.copyToClipboard(text)
                                 essentials.showToast(
                                     message = context.getString(R.string.copied),
                                     icon = Icons.Rounded.CopyAll

@@ -88,10 +88,7 @@ internal fun MaterialYouPalette(
     MaterialYouPaletteGroup(
         colorScheme = colorScheme,
         onCopy = { color ->
-            context.copyToClipboard(
-                context.getString(R.string.color),
-                color.toHex()
-            )
+            context.copyToClipboard(color.toHex())
             scope.launch {
                 toastHostState.showToast(
                     icon = Icons.Rounded.ContentPaste,
@@ -125,10 +122,7 @@ internal fun MaterialYouPalette(
                 isInvertColors = isInvertColors
             ).asCodeString(true)
 
-            context.copyToClipboard(
-                context.getString(R.string.color_scheme),
-                light + "\n\n" + dark
-            )
+            context.copyToClipboard(light + "\n\n" + dark)
             scope.launch {
                 toastHostState.showToast(
                     icon = Icons.Rounded.ContentPaste,

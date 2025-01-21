@@ -238,7 +238,7 @@ fun CompareContent(
                 percent = compareProgress,
                 imageFormat = imageFormat
             ) { uri ->
-                manager.setClip(uri.asClip(context))
+                manager.copyToClipboard(uri.asClip(context))
                 showConfetti()
             }
         },

@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
-import android.content.ClipData
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,7 +36,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,20 +45,18 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LinkPreview
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -71,12 +66,9 @@ fun LinkPreviewCard(
     linkPreview: LinkPreview,
     shape: Shape
 ) {
-    val clipboardManager = LocalClipboardManager.current.nativeClipboard
-    val coroutineScope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
     val onLinkCopiedText = stringResource(R.string.copied)
-    val linkTextLabel = stringResource(R.string.image_link)
-    val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
+    val linkHandler = LocalUriHandler.current
 
     Row(
         modifier = Modifier
@@ -88,28 +80,14 @@ fun LinkPreviewCard(
             )
             .hapticsCombinedClickable(
                 onClick = {
-                    linkPreview.link?.let {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                it.toUri()
-                            )
-                        )
-                    }
+                    linkPreview.link?.let(linkHandler::openUri)
                 },
                 onLongClick = {
-                    clipboardManager.setPrimaryClip(
-                        ClipData.newPlainText(
-                            linkTextLabel,
-                            linkPreview.link
-                        )
+                    linkPreview.link?.let(essentials::copyToClipboard)
+                    essentials.showToast(
+                        message = onLinkCopiedText,
+                        icon = Icons.Default.Link
                     )
-                    coroutineScope.launch {
-                        toastHostState.showToast(
-                            message = onLinkCopiedText,
-                            icon = Icons.Default.Link
-                        )
-                    }
                 },
             ),
         verticalAlignment = Alignment.CenterVertically

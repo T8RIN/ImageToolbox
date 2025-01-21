@@ -73,11 +73,9 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -297,14 +295,8 @@ fun ChecksumToolsContent(
                             0.5f
                         )
                     )
-                    val clipboardManager = LocalClipboardManager.current
-                    val onCopyText: (String) -> Unit = { text ->
-                        clipboardManager.setText(
-                            buildAnnotatedString {
-                                append(text)
-                            }
-                        )
-                    }
+
+                    val onCopyText: (String) -> Unit = essentials::copyToClipboard
 
                     when (pageIndex) {
                         ChecksumPage.CalculateFromUri.INDEX -> {

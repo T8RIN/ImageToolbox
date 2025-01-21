@@ -185,7 +185,7 @@ fun SingleEditContent(
                 },
                 onCopy = { manager ->
                     component.cacheCurrentImage { uri ->
-                        manager.setClip(uri.asClip(context))
+                        manager.copyToClipboard(uri.asClip(context))
                         showConfetti()
                     }
                 },

@@ -366,11 +366,10 @@ object ContextUtils {
 
     /** Save a text into the clipboard. */
     fun Context.copyToClipboard(
-        label: String,
         value: String,
     ) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText(label, value)
+        val clip = ClipData.newPlainText("plain text", value)
         clipboard.setPrimaryClip(clip)
     }
 

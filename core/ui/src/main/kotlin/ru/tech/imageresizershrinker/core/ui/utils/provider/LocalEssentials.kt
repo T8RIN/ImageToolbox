@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
+import android.content.ClipData
+import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
@@ -27,6 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.Clipboard
+import androidx.compose.ui.platform.LocalClipboard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -37,6 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.createScre
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toClipData
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
@@ -49,22 +55,26 @@ fun rememberLocalEssentials(): LocalEssentials {
     val confettiHostState = LocalConfettiHostState.current
     val context = LocalComponentActivity.current
     val coroutineScope = rememberCoroutineScope()
+    val clipboard = LocalClipboard.current
 
     return remember(
         toastHostState,
         coroutineScope,
         confettiHostState,
-        context
+        context,
+        clipboard
     ) {
         LocalEssentials(
             toastHostState = toastHostState,
             confettiHostState = confettiHostState,
             coroutineScope = coroutineScope,
-            context = context
+            context = context,
+            clipboard = clipboard
         )
     }
 }
 
+@ConsistentCopyVisibility
 @Stable
 @Immutable
 data class LocalEssentials internal constructor(
@@ -72,6 +82,7 @@ data class LocalEssentials internal constructor(
     val confettiHostState: ConfettiHostState,
     val coroutineScope: CoroutineScope,
     val context: ComponentActivity,
+    val clipboard: Clipboard
 ) {
     fun showToast(
         message: String,
@@ -144,6 +155,48 @@ data class LocalEssentials internal constructor(
                 screen = screen,
                 tint = tint,
                 onFailure = ::showFailureToast
+            )
+        }
+    }
+
+    fun copyToClipboard(clipEntry: ClipEntry?) {
+        coroutineScope.launch {
+            clipboard.setClipEntry(clipEntry)
+        }
+    }
+
+    fun copyToClipboard(text: CharSequence) {
+        copyToClipboard(ClipEntry(text.toClipData()))
+    }
+
+    fun getTextFromClipboard(
+        onSuccess: (CharSequence) -> Unit
+    ) {
+        coroutineScope.launch {
+            clipboard.getClipEntry()
+                ?.clipData?.let { primaryClip ->
+                    if (primaryClip.itemCount > 0) {
+                        primaryClip.getItemAt(0)?.text
+                    } else {
+                        null
+                    }
+                }?.takeIf { it.isNotEmpty() }?.let(onSuccess)
+        }
+    }
+
+    fun clearClipboard() {
+        val clipboardManager = clipboard.nativeClipboard
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            runCatching {
+                clipboardManager.clearPrimaryClip()
+            }.onFailure {
+                clipboardManager.setPrimaryClip(
+                    ClipData.newPlainText(null, "")
+                )
+            }
+        } else {
+            clipboardManager.setPrimaryClip(
+                ClipData.newPlainText(null, "")
             )
         }
     }

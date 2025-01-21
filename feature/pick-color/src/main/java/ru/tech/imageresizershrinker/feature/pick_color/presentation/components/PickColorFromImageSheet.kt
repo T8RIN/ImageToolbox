@@ -161,10 +161,7 @@ fun PickColorFromImageSheet(
                                     )
                                     .clip(RoundedCornerShape(12.dp))
                                     .hapticsClickable {
-                                        context.copyToClipboard(
-                                            context.getString(R.string.color),
-                                            color.toHex()
-                                        )
+                                        context.copyToClipboard(color.toHex())
                                         scope.launch {
                                             toastHostState.showToast(
                                                 icon = Icons.Rounded.ContentPaste,
@@ -194,10 +191,7 @@ fun PickColorFromImageSheet(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(8.dp))
                                     .hapticsClickable {
-                                        context.copyToClipboard(
-                                            context.getString(R.string.color),
-                                            color.toHex()
-                                        )
+                                        context.copyToClipboard(color.toHex())
                                         scope.launch {
                                             toastHostState.showToast(
                                                 icon = Icons.Rounded.ContentPaste,

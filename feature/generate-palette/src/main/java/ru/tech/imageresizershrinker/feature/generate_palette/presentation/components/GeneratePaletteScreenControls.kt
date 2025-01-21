@@ -360,10 +360,7 @@ internal fun GeneratePaletteScreenControls(
                     },
                     maximumColorCount = count,
                     onColorChange = {
-                        context.copyToClipboard(
-                            context.getString(R.string.color),
-                            it.color.toHex()
-                        )
+                        context.copyToClipboard(it.color.toHex())
                         scope.launch {
                             toastHostState.showToast(
                                 icon = Icons.Rounded.ContentPaste,

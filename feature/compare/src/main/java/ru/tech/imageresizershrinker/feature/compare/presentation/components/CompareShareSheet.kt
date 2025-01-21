@@ -43,12 +43,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.ClipboardManager
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalEssentials
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -69,10 +69,10 @@ internal fun CompareShareSheet(
     onVisibleChange: (Boolean) -> Unit,
     onSaveBitmap: (ImageFormat, String?) -> Unit,
     onShare: (ImageFormat) -> Unit,
-    onCopy: (ImageFormat, ClipboardManager) -> Unit,
+    onCopy: (ImageFormat, LocalEssentials) -> Unit,
     previewBitmap: Bitmap?
 ) {
-    val clipboardManager = LocalClipboardManager.current
+    val essentials = rememberLocalEssentials()
 
     EnhancedModalBottomSheet(
         sheetContent = {
@@ -147,7 +147,7 @@ internal fun CompareShareSheet(
                             .padding(horizontal = 16.dp),
                         shape = centerShape,
                         onClick = {
-                            onCopy(imageFormat, clipboardManager)
+                            onCopy(imageFormat, essentials)
                         },
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         endIcon = Icons.Rounded.ContentCopy

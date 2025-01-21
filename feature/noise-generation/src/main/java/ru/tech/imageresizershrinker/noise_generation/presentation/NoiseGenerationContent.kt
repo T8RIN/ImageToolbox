@@ -91,7 +91,7 @@ fun NoiseGenerationContent(
             },
             onCopy = { manager ->
                 component.cacheCurrentNoise { uri ->
-                    manager.setClip(uri.asClip(context))
+                    manager.copyToClipboard(uri.asClip(context))
                     showConfetti()
                 }
             },

@@ -169,10 +169,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 .padding(horizontal = 8.dp)
                                                 .clip(RoundedCornerShape(8.dp))
                                                 .hapticsClickable {
-                                                    context.copyToClipboard(
-                                                        context.getString(R.string.color),
-                                                        color.toHex()
-                                                    )
+                                                    context.copyToClipboard(color.toHex())
                                                     essentials.showToast(
                                                         icon = Icons.Rounded.ContentPaste,
                                                         message = context.getString(R.string.color_copied)
@@ -226,10 +223,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 )
                                                 .clip(RoundedCornerShape(12.dp))
                                                 .hapticsClickable {
-                                                    context.copyToClipboard(
-                                                        context.getString(R.string.color),
-                                                        color.toHex()
-                                                    )
+                                                    context.copyToClipboard(color.toHex())
                                                     essentials.showToast(
                                                         icon = Icons.Rounded.ContentPaste,
                                                         message = context.getString(R.string.color_copied)
@@ -264,10 +258,7 @@ internal fun PickColorFromImageTopAppBar(
                                             .padding(horizontal = 8.dp)
                                             .clip(RoundedCornerShape(8.dp))
                                             .hapticsClickable {
-                                                context.copyToClipboard(
-                                                    context.getString(R.string.color),
-                                                    color.toHex()
-                                                )
+                                                context.copyToClipboard(color.toHex())
                                                 essentials.showToast(
                                                     icon = Icons.Rounded.ContentPaste,
                                                     message = context.getString(R.string.color_copied)
@@ -313,10 +304,7 @@ internal fun PickColorFromImageTopAppBar(
                                             )
                                             .clip(RoundedCornerShape(12.dp))
                                             .hapticsClickable {
-                                                context.copyToClipboard(
-                                                    context.getString(R.string.color),
-                                                    color.toHex()
-                                                )
+                                                context.copyToClipboard(color.toHex())
                                                 essentials.showToast(
                                                     icon = Icons.Rounded.ContentPaste,
                                                     message = context.getString(R.string.color_copied)

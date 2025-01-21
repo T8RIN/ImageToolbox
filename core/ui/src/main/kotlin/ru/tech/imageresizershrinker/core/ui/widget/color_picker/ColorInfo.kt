@@ -98,10 +98,7 @@ fun ColorInfo(
     val context = LocalContext.current
     val colorPasteError = rememberSaveable { mutableStateOf<String?>(null) }
     val onCopyCustomColor = {
-        context.copyToClipboard(
-            label = context.getString(R.string.color),
-            value = getFormattedColor(color)
-        )
+        context.copyToClipboard(getFormattedColor(color))
     }
     val onPasteCustomColor = {
         context.pasteColorFromClipboard(

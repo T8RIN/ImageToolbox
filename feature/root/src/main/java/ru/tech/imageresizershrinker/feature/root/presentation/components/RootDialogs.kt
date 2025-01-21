@@ -17,13 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
-import android.content.ClipData
-import android.os.Build
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalClipboardManager
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs.EditPresetsSheet
@@ -45,7 +43,7 @@ internal fun RootDialogs(component: RootComponent) {
         onUpdatePresets = component::setPresets
     )
 
-    val clipboardManager = LocalClipboardManager.current.nativeClipboard
+    val essentials = rememberLocalEssentials()
     ProcessImagesPreferenceSheet(
         uris = component.uris ?: emptyList(),
         extraImageType = component.extraImageType,
@@ -53,19 +51,7 @@ internal fun RootDialogs(component: RootComponent) {
         onDismiss = component::hideSelectDialog,
         onNavigate = { screen ->
             component.navigateTo(screen)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                runCatching {
-                    clipboardManager.clearPrimaryClip()
-                }.onFailure {
-                    clipboardManager.setPrimaryClip(
-                        ClipData.newPlainText(null, "")
-                    )
-                }
-            } else {
-                clipboardManager.setPrimaryClip(
-                    ClipData.newPlainText(null, "")
-                )
-            }
+            essentials.clearClipboard()
         }
     )
 

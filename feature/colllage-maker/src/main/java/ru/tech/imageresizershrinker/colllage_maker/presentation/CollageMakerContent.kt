@@ -212,7 +212,7 @@ fun CollageMakerContent(
                 },
                 onCopy = { manager ->
                     component.cacheImage { uri ->
-                        manager.setClip(uri.asClip(context))
+                        manager.copyToClipboard(uri.asClip(context))
                         showConfetti()
                     }
                 },

@@ -172,7 +172,7 @@ fun ScanQrCodeContent(
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
                         component.cacheImage(bitmap) { uri ->
-                            manager.setClip(uri.asClip(context))
+                            manager.copyToClipboard(uri.asClip(context))
                             showConfetti()
                         }
                     }

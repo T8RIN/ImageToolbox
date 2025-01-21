@@ -168,10 +168,7 @@ internal fun ColorShading(
                                         .transparencyChecker()
                                         .background(boxColor)
                                         .hapticsClickable {
-                                            context.copyToClipboard(
-                                                label = context.getString(R.string.color),
-                                                value = getFormattedColor(color)
-                                            )
+                                            context.copyToClipboard(getFormattedColor(color))
                                             scope.launch {
                                                 toastHostState.showToast(
                                                     icon = Icons.Rounded.ContentPaste,

@@ -225,7 +225,7 @@ internal fun OtherContent(
                                     },
                                     onCopy = { manager ->
                                         component.cacheNeutralLut { uri ->
-                                            manager.setClip(
+                                            manager.copyToClipboard(
                                                 uri.asClip(context)
                                             )
                                             showConfetti()

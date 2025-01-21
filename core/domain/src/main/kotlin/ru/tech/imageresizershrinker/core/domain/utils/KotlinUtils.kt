@@ -24,9 +24,9 @@ inline fun <reified T> T?.notNullAnd(
 ): Boolean = if (this != null) predicate(this)
 else false
 
-fun String.isBase64() = isNotEmpty() && BASE64_PATTERN.matches(this)
+fun CharSequence.isBase64() = isNotEmpty() && BASE64_PATTERN.matches(this)
 
-fun String.trimToBase64() = filter { !it.isWhitespace() }.substringAfter(",")
+fun CharSequence.trimToBase64() = toString().filter { !it.isWhitespace() }.substringAfter(",")
 
 private val BASE64_PATTERN = Regex(
     "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"

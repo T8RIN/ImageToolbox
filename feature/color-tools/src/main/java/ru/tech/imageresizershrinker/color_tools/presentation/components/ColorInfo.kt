@@ -105,10 +105,7 @@ internal fun ColorInfo(
                         .transparencyChecker()
                         .background(boxColor)
                         .hapticsClickable {
-                            context.copyToClipboard(
-                                label = context.getString(R.string.color),
-                                value = getFormattedColor(selectedColor)
-                            )
+                            context.copyToClipboard(getFormattedColor(selectedColor))
                             scope.launch {
                                 toastHostState.showToast(
                                     icon = Icons.Rounded.ContentPaste,
@@ -179,10 +176,7 @@ internal fun ColorInfo(
                         onColorChange(it ?: selectedColor)
                     },
                     onCopy = {
-                        context.copyToClipboard(
-                            label = context.getString(R.string.color),
-                            value = it
-                        )
+                        context.copyToClipboard(it)
                         scope.launch {
                             toastHostState.showToast(
                                 icon = Icons.Rounded.ContentPaste,
