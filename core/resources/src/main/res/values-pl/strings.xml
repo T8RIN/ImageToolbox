@@ -1546,4 +1546,6 @@
     <string name="edit_exif_screen_sub">Zmiana metadanych pojedynczego obrazu bez rekompresji</string>
     <string name="edit_exif_tag">Dotknij, aby edytować dostępne znacziki</string>
     <string name="change_sticker">Zmień naklejkę</string>
+    <string name="fit_height">Dopasuj do wysokości</string>
+    <string name="fit_width">Dopasuj do szerokości</string>
 </resources>
