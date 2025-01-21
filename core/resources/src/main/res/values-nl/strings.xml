@@ -1542,4 +1542,8 @@
     <string name="none">Geen</string>
     <string name="tool_exit_confirmation">Bevestiging bij het afsluiten van tools</string>
     <string name="tool_exit_confirmation_sub">Als je niet-opgeslagen wijzigingen hebt tijdens het gebruik van bepaalde tools en deze probeert te sluiten, wordt het bevestigingsdialoogvenster weergegeven</string>
+    <string name="edit_exif_screen">EXIF bewerken</string>
+    <string name="edit_exif_screen_sub">Metagegevens bewerken van een enkele afbeelding zonder hercompressie</string>
+    <string name="change_sticker">Sticker wijzigen</string>
+    <string name="edit_exif_tag">Tik om beschikbare tags te bewerken</string>
 </resources>
