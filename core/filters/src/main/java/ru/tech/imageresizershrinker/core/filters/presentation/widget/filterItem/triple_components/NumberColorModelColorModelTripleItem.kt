@@ -110,7 +110,7 @@ internal fun NumberColorModelColorModelTripleItem(
             Spacer(Modifier.height(8.dp))
             ColorRowSelector(
                 title = stringResource(filter.paramsInfo[2].title!!),
-                value = color1,
+                value = color2,
                 onValueChange = {
                     color2 = it
                     onFilterChange(
