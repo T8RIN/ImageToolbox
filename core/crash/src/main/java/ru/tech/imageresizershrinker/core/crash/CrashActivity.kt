@@ -73,7 +73,7 @@ import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.icons.Github
-import ru.tech.imageresizershrinker.core.resources.icons.Robot
+import ru.tech.imageresizershrinker.core.resources.icons.ImageToolboxBroken
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
@@ -147,7 +147,7 @@ class CrashActivity : CrashHandler() {
                     ) {
                         Spacer(modifier = Modifier.height(16.dp))
                         Icon(
-                            imageVector = Icons.Rounded.Robot,
+                            imageVector = Icons.Outlined.ImageToolboxBroken,
                             contentDescription = null,
                             modifier = Modifier
                                 .size(80.dp)

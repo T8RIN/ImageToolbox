@@ -149,9 +149,7 @@ fun ChecksumToolsContent(
                 )
             }
         },
-        actions = {
-
-        },
+        actions = {},
         topAppBarPersistentActions = {
             TopAppBarEmoji()
         },
