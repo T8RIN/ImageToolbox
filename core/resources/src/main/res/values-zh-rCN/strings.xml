@@ -1542,4 +1542,8 @@
     <string name="tool_exit_confirmation">工具退出确认</string>
     <string name="tool_exit_confirmation_sub">如果在使用特定工具时存在未保存的更改，而您尝试关闭该工具，系统将弹出确认对话框</string>
     <string name="pages_selection">页面选择</string>
+    <string name="edit_exif_screen">编辑 EXIF</string>
+    <string name="edit_exif_screen_sub">无需重新压缩即可更改单张图片的元数据</string>
+    <string name="edit_exif_tag">点击编辑可用标签</string>
+    <string name="change_sticker">更改贴纸</string>
 </resources>
