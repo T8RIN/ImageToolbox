@@ -621,7 +621,7 @@
     <string name="rate">Oran</string>
     <string name="rate_app_sub">Bu uygulama tamamen ücretsizdir, daha büyük olmasını istiyorsanız lütfen projeye Github\'da yıldız verin 😄</string>
     <string name="tritonomaly">Tritonomali</string>
-    <string name="deutaromaly">Dötaromali</string>
+    <string name="deutaromaly">Döteranomali</string>
     <string name="browni">Browni</string>
     <string name="coda_chrome">koda krom</string>
     <string name="gradient_type_linear">Doğrusal</string>
@@ -812,4 +812,16 @@
     <string name="jxl_tools">JXL Araçları</string>
     <string name="jxl_tools_sub">Kalite kaybı olmadan JXL ~ JPEG kod dönüştürmesi gerçekleştirin veya GIF/APNG\'yi JXL animasyonuna dönüştürün</string>
     <string name="jxl_type_to_jpeg">JXL\'den JPEG\'ye</string>
+    <string name="jpeg_type_to_jxl">JPEG\'den JXL\'ye</string>
+    <string name="select_jxl_image_to_start">Başlamak için JXL resmini seçin</string>
+    <string name="lanczos_bessel">Lanczos Bessel</string>
+    <string name="harmonization_color">Uyumlaştırma Rengi</string>
+    <string name="gif_type_to_jxl_sub">GIF görüntülerini JXL animasyonlu resimlere dönüştürün</string>
+    <string name="jxl_type_to_jpeg_sub">JXL\'den JPEG\'e kayıpsız codec değiştirin</string>
+    <string name="jpeg_type_to_jxl_sub">"JPEG\'den JXL\'ye  kayıpsız codec dönüştürme"</string>
+    <string name="auto_paste_sub">"Uygulamanın pano verilerini otomatik olarak yapıştırmasına izin verin,böylece ana ekranda  görünecek ve bunu işleyebileceksiniz"</string>
+    <string name="auto_paste">Otomatik Yapıştır</string>
+    <string name="harmonization_level">Uyumlaştırma Düzeyi</string>
+    <string name="lanczos_bessel_sub">Piksel değerlerine Bessel (jinc) işlevi uygulayarak yüksek kaliteli enterpolasyonu koruyan yeniden örnekleme yöntemi</string>
+    <string name="gif_type_to_jxl">GIF\'den JXL\'ye</string>
 </resources>
