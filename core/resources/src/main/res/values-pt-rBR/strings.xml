@@ -13,7 +13,7 @@
     <string name="explicit">Explícito</string>
     <string name="flexible">Flexível</string>
     <string name="pick_image_alt">Escolha a imagem</string>
-    <string name="app_closing_sub">Você deseja fechar o aplicativo?</string>
+    <string name="app_closing_sub">Você deseja encerrar o aplicativo?</string>
     <string name="app_closing">Fechar aplicativo</string>
     <string name="stay">Ficar</string>
     <string name="close">Fechar</string>
@@ -1541,4 +1541,10 @@
     <string name="pages_selection">Seleção de Páginas</string>
     <string name="tool_exit_confirmation">Confirmação ao Sair da Ferramenta</string>
     <string name="tool_exit_confirmation_sub">Se você tiver alterações não salvas ao usar determinadas ferramentas e tentar fechá-las, será exibida uma caixa de diálogo de confirmação</string>
+    <string name="edit_exif_screen">Editar EXIF</string>
+    <string name="edit_exif_screen_sub">Alterar metadados de uma única imagem sem recompressão</string>
+    <string name="edit_exif_tag">Toque para editar as tags disponíveis</string>
+    <string name="change_sticker">Alterar Adesivo</string>
+    <string name="fit_width">Ajustar Largura</string>
+    <string name="fit_height">Ajustar Altura</string>
 </resources>
