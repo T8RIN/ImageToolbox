@@ -17,21 +17,18 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
-import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import java.net.URLDecoder
-import java.util.LinkedList
 
 
 fun Uri?.toUiPath(
@@ -55,54 +52,6 @@ fun Uri?.toUiPath(
             startPath + endPath
         }
 } ?: default
-
-suspend fun Activity.listFilesInDirectory(
-    rootUri: Uri
-): List<Uri> = coroutineScope {
-    var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
-        rootUri,
-        DocumentsContract.getTreeDocumentId(rootUri)
-    )
-
-    val files: MutableList<Pair<Uri, Long>> = LinkedList()
-
-    val dirNodes: MutableList<Uri> = LinkedList()
-    dirNodes.add(childrenUri)
-    while (dirNodes.isNotEmpty()) {
-        childrenUri = dirNodes.removeAt(0)
-
-        contentResolver.query(
-            childrenUri,
-            arrayOf(
-                DocumentsContract.Document.COLUMN_DOCUMENT_ID,
-                DocumentsContract.Document.COLUMN_LAST_MODIFIED,
-                DocumentsContract.Document.COLUMN_MIME_TYPE,
-            ),
-            null,
-            null,
-            null
-        ).use {
-            while (it!!.moveToNext()) {
-                val docId = it.getString(0)
-                val lastModified = it.getLong(1)
-                val mime = it.getString(2)
-                if (isDirectory(mime)) {
-                    val newNode = DocumentsContract.buildChildDocumentsUriUsingTree(rootUri, docId)
-                    dirNodes.add(newNode)
-                } else {
-                    files.add(
-                        DocumentsContract.buildDocumentUriUsingTree(
-                            rootUri,
-                            docId
-                        ) to lastModified
-                    )
-                }
-            }
-        }
-    }
-
-    files.sortedByDescending { it.second }.map { it.first }
-}
 
 fun Uri.lastModified(context: Context): Long? = with(context.contentResolver) {
     val query = query(this@lastModified, null, null, null, null)
@@ -150,10 +99,6 @@ fun List<Uri>.sortedByName(
     context: Context
 ): List<Uri> = sortedBy {
     context.getFilename(it)
-}
-
-private fun isDirectory(mimeType: String): Boolean {
-    return DocumentsContract.Document.MIME_TYPE_DIR == mimeType
 }
 
 fun ImageModel.toUri(): Uri? = when (data) {

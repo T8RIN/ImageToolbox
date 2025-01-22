@@ -17,12 +17,16 @@
 
 package ru.tech.imageresizershrinker.feature.checksum_tools.presentation
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -36,6 +40,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -45,10 +50,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBackIos
+import androidx.compose.material.icons.automirrored.rounded.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.rounded.CompareArrows
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material.icons.rounded.Calculate
 import androidx.compose.material.icons.rounded.Tag
@@ -56,15 +64,17 @@ import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,16 +83,25 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
+import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.FolderCompare
+import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.Red
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -93,10 +112,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FileSelect
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.negativePadding
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
@@ -117,7 +140,7 @@ fun ChecksumToolsContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val pagerState = rememberPagerState { 3 }
+    val pagerState = rememberPagerState { ChecksumPage.ENTRIES_COUNT }
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
@@ -177,7 +200,7 @@ fun ChecksumToolsContent(
                     },
                 horizontalArrangement = Arrangement.Center
             ) {
-                TabRow(
+                ScrollableTabRow(
                     modifier = Modifier.windowInsetsPadding(
                         WindowInsets.statusBars.union(
                             WindowInsets.displayCutout
@@ -185,6 +208,7 @@ fun ChecksumToolsContent(
                             WindowInsetsSides.Horizontal
                         )
                     ),
+                    edgePadding = 8.dp,
                     divider = {},
                     containerColor = Color.Transparent,
                     selectedTabIndex = pagerState.currentPage,
@@ -203,7 +227,7 @@ fun ChecksumToolsContent(
                         }
                     }
                 ) {
-                    repeat(3) { index ->
+                    repeat(pagerState.pageCount) { index ->
                         val selected = pagerState.currentPage == index
                         val color by animateColorAsState(
                             if (selected) {
@@ -214,12 +238,13 @@ fun ChecksumToolsContent(
                             0 -> Icons.Rounded.Calculate to R.string.calculate
                             1 -> Icons.Rounded.TextFields to R.string.text_hash
                             2 -> Icons.AutoMirrored.Rounded.CompareArrows to R.string.compare
+                            3 -> Icons.Rounded.FolderCompare to R.string.batch_compare
                             else -> throw IllegalArgumentException("Not presented index $index of ChecksumPage")
                         }
                         Tab(
                             unselectedContentColor = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
-                                .padding(8.dp)
+                                .padding(vertical = 8.dp)
                                 .clip(CircleShape),
                             selected = selected,
                             onClick = {
@@ -540,6 +565,275 @@ fun ChecksumToolsContent(
                                         stringResource(R.string.difference_sub)
                                     },
                                     startIcon = if (page.isCorrect) {
+                                        Icons.Outlined.CheckCircle
+                                    } else {
+                                        Icons.Outlined.WarningAmber
+                                    },
+                                    contentColor = contentColor,
+                                    color = containerColor,
+                                    onClick = null
+                                )
+                            }
+                        }
+
+                        ChecksumPage.CompareWithUris.INDEX -> {
+                            var previousFolder by rememberSaveable {
+                                mutableStateOf<Uri?>(null)
+                            }
+
+                            val isFilesLoading = component.filesLoadingProgress >= 0
+
+                            val openDirectoryLauncher = rememberLauncherForActivityResult(
+                                contract = ActivityResultContracts.OpenDocumentTree(),
+                                onResult = { treeUri ->
+                                    treeUri?.let { uri ->
+                                        previousFolder = uri
+                                        component.setDataForBatchComparisonFromTree(uri)
+                                    }
+                                }
+                            )
+
+                            val pickDirectory: () -> Unit = {
+                                runCatching {
+                                    openDirectoryLauncher.launch(previousFolder)
+                                }.onFailure {
+                                    essentials.showActivateFilesToast()
+                                }
+                            }
+
+                            LaunchedEffect(Unit) {
+                                pickDirectory()
+                            }
+
+                            val page = component.compareWithUrisPage
+
+
+                            val nestedPagerState = rememberPagerState { page.uris.size }
+
+                            AnimatedContent(
+                                targetState = page.uris.isNotEmpty() to isFilesLoading
+                            ) { (isNotEmpty, isLoading) ->
+                                if (isLoading) {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        LoadingIndicator(
+                                            progress = component.filesLoadingProgress
+                                        )
+                                    }
+                                } else if (isNotEmpty) {
+                                    HorizontalPager(
+                                        state = nestedPagerState,
+                                        pageSpacing = 16.dp,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .negativePadding(horizontal = 20.dp)
+                                            .fadingEdges(nestedPagerState),
+                                        contentPadding = PaddingValues(horizontal = 20.dp),
+                                        beyondViewportPageCount = 10
+                                    ) { nestedPage ->
+                                        val (uri, checksum) = page.uris[nestedPage]
+
+                                        val context = LocalContext.current
+
+                                        val filename = remember {
+                                            context.getFilename(uri)
+                                                ?: context.getString(R.string.filename)
+                                        }
+                                        val fileSize = remember {
+                                            readableByteCount(uri.fileSize(context) ?: 0L)
+                                        }
+
+                                        Column(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            PreferenceItemOverload(
+                                                title = filename,
+                                                subtitle = fileSize,
+                                                startIcon = {
+                                                    Icon(
+                                                        imageVector = Icons.Outlined.FilePresent,
+                                                        contentDescription = null,
+                                                        modifier = Modifier
+                                                            .size(48.dp)
+                                                            .clip(CloverShape)
+                                                            .background(
+                                                                MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                                    0.5f
+                                                                )
+                                                            )
+                                                            .padding(8.dp)
+                                                    )
+                                                },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                drawStartIconContainer = false
+                                            )
+
+                                            RoundedTextField(
+                                                modifier = Modifier
+                                                    .container(
+                                                        shape = MaterialTheme.shapes.large,
+                                                        resultPadding = 8.dp,
+                                                        color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                                            0.2f
+                                                        )
+                                                    ),
+                                                keyboardOptions = KeyboardOptions(
+                                                    keyboardType = KeyboardType.Text
+                                                ),
+                                                onValueChange = {},
+                                                singleLine = false,
+                                                readOnly = true,
+                                                value = checksum,
+                                                endIcon = {
+                                                    AnimatedVisibility(checksum.isNotBlank()) {
+                                                        EnhancedIconButton(
+                                                            onClick = {
+                                                                onCopyText(checksum)
+                                                            },
+                                                            modifier = Modifier.padding(end = 4.dp)
+                                                        ) {
+                                                            Icon(
+                                                                imageVector = Icons.Outlined.ContentCopy,
+                                                                contentDescription = stringResource(
+                                                                    R.string.copy
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+                                                },
+                                                colors = checksumOutputColors,
+                                                label = stringResource(R.string.source_checksum)
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    InfoContainer(
+                                        text = stringResource(R.string.pick_files_to_checksum),
+                                        modifier = Modifier.padding(8.dp),
+                                    )
+                                }
+                            }
+
+                            AnimatedVisibility(page.uris.isNotEmpty()) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Row(
+                                        modifier = Modifier.container(
+                                            shape = CircleShape,
+                                            resultPadding = 4.dp
+                                        ),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                scope.launch {
+                                                    nestedPagerState.animateScrollToPage(
+                                                        (nestedPagerState.currentPage - 1).takeIf { it >= 0 }
+                                                            ?: (nestedPagerState.pageCount - 1)
+                                                    )
+                                                }
+                                            },
+                                            containerColor = MaterialTheme.colorScheme.surface
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Rounded.ArrowBackIos,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                        }
+
+                                        Text(
+                                            text = "${nestedPagerState.currentPage + 1} / ${nestedPagerState.pageCount}",
+                                            modifier = Modifier.weight(1f),
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 18.sp
+                                        )
+
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                scope.launch {
+                                                    nestedPagerState.animateScrollToPage(
+                                                        (nestedPagerState.currentPage + 1) % nestedPagerState.pageCount
+                                                    )
+                                                }
+                                            },
+                                            containerColor = MaterialTheme.colorScheme.surface
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Rounded.ArrowForwardIos,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                        }
+                                    }
+
+                                    RoundedTextField(
+                                        modifier = Modifier
+                                            .container(
+                                                shape = MaterialTheme.shapes.large,
+                                                resultPadding = 8.dp
+                                            ),
+                                        keyboardOptions = KeyboardOptions(
+                                            keyboardType = KeyboardType.Text
+                                        ),
+                                        onValueChange = {
+                                            component.setDataForBatchComparison(targetChecksum = it)
+                                        },
+                                        endIcon = {
+                                            AnimatedVisibility(page.targetChecksum.isNotBlank()) {
+                                                EnhancedIconButton(
+                                                    onClick = {
+                                                        component.setDataForBatchComparison(
+                                                            targetChecksum = ""
+                                                        )
+                                                    },
+                                                    modifier = Modifier.padding(end = 4.dp)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Outlined.Cancel,
+                                                        contentDescription = stringResource(R.string.cancel)
+                                                    )
+                                                }
+                                            }
+                                        },
+                                        singleLine = false,
+                                        value = page.targetChecksum,
+                                        label = stringResource(R.string.checksum_to_compare)
+                                    )
+                                }
+                            }
+
+                            AnimatedVisibility(page.targetChecksum.isNotEmpty() && page.uris.isNotEmpty()) {
+                                val isCorrect =
+                                    page.targetChecksum == page.uris[nestedPagerState.currentPage].checksum
+
+                                val contentColor by animateColorAsState(
+                                    when {
+                                        isCorrect -> Green
+                                        else -> Red
+                                    }
+                                )
+                                val containerColor = contentColor.copy(0.3f)
+
+                                PreferenceRow(
+                                    title = if (isCorrect) {
+                                        stringResource(R.string.match)
+                                    } else {
+                                        stringResource(R.string.difference)
+                                    },
+                                    subtitle = if (isCorrect) {
+                                        stringResource(R.string.match_sub)
+                                    } else {
+                                        stringResource(R.string.difference_sub)
+                                    },
+                                    startIcon = if (isCorrect) {
                                         Icons.Outlined.CheckCircle
                                     } else {
                                         Icons.Outlined.WarningAmber

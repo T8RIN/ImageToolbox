@@ -21,19 +21,74 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import okio.use
+import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.resources.R
 import java.net.URLDecoder
+import java.util.LinkedList
+import kotlin.io.use
 
 fun ImageModel.toUri(): Uri? = when (data) {
     is Uri -> data as Uri
     is String -> (data as String).toUri()
     else -> null
+}
+
+private fun isDirectory(mimeType: String): Boolean {
+    return DocumentsContract.Document.MIME_TYPE_DIR == mimeType
+}
+
+internal suspend fun Context.listFilesInDirectory(
+    rootUri: Uri
+): List<Uri> = coroutineScope {
+    var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
+        rootUri,
+        DocumentsContract.getTreeDocumentId(rootUri)
+    )
+
+    val files: MutableList<Pair<Uri, Long>> = LinkedList()
+
+    val dirNodes: MutableList<Uri> = LinkedList()
+    dirNodes.add(childrenUri)
+    while (dirNodes.isNotEmpty()) {
+        childrenUri = dirNodes.removeAt(0)
+
+        contentResolver.query(
+            childrenUri,
+            arrayOf(
+                DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                DocumentsContract.Document.COLUMN_MIME_TYPE,
+            ),
+            null,
+            null,
+            null
+        ).use {
+            while (it!!.moveToNext()) {
+                val docId = it.getString(0)
+                val lastModified = it.getLong(1)
+                val mime = it.getString(2)
+                if (isDirectory(mime)) {
+                    val newNode = DocumentsContract.buildChildDocumentsUriUsingTree(rootUri, docId)
+                    dirNodes.add(newNode)
+                } else {
+                    files.add(
+                        DocumentsContract.buildDocumentUriUsingTree(
+                            rootUri,
+                            docId
+                        ) to lastModified
+                    )
+                }
+            }
+        }
+    }
+
+    files.sortedByDescending { it.second }.map { it.first }
 }
 
 fun Uri.fileSize(context: Context): Long? {

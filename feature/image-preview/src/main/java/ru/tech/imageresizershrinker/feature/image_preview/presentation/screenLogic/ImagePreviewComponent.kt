@@ -22,13 +22,17 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -39,6 +43,7 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider<Bitmap>,
+    private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -47,6 +52,9 @@ class ImagePreviewComponent @AssistedInject internal constructor(
             initialUris?.let(::updateUris)
         }
     }
+
+    private val _isLoadingImages = mutableStateOf(false)
+    val isLoadingImages by _isLoadingImages
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -96,6 +104,18 @@ class ImagePreviewComponent @AssistedInject internal constructor(
 
     fun updateImageFrames(imageFrames: ImageFrames) {
         _imageFrames.update { imageFrames }
+    }
+
+    private var treeJob: Job? by smartJob {
+        _isLoadingImages.update { false }
+    }
+
+    fun updateUrisFromTree(uri: Uri) {
+        treeJob = componentScope.launch {
+            _isLoadingImages.update { true }
+            fileController.listFilesInDirectory(uri.toString()).map { it.toUri() }.let(::updateUris)
+            _isLoadingImages.update { false }
+        }
     }
 
     @AssistedFactory

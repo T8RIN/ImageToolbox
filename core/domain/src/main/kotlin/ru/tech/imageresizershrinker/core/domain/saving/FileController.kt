@@ -59,4 +59,6 @@ interface FileController {
         metadata: M?
     )
 
+    suspend fun listFilesInDirectory(treeUri: String): List<String>
+
 }

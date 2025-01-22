@@ -72,7 +72,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FolderOpened
@@ -80,8 +79,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.listFilesInDirectory
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -117,35 +114,24 @@ fun ImagePreviewContent(
     val settingsState = LocalSettingsState.current
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
 
-    var isLoadingImages by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val isLoadingImages = component.isLoadingImages
 
     var previousFolder by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
-    val context = LocalComponentActivity.current
     val openDirectoryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocumentTree(),
         onResult = { treeUri ->
             treeUri?.let { uri ->
-                scope.launch {
-                    isLoadingImages = true
-                    previousFolder = uri
-                    val uris = context.listFilesInDirectory(uri)
-                    component.updateUris(uris)
-                    isLoadingImages = false
-                }
+                previousFolder = uri
+                component.updateUrisFromTree(uri)
             }
         }
     )
-
-    val pickImage = imagePicker::pickImage
 
     val pickDirectory: () -> Unit = {
         runCatching {
@@ -154,6 +140,8 @@ fun ImagePreviewContent(
             essentials.showActivateFilesToast()
         }
     }
+
+    val pickImage = imagePicker::pickImage
 
     val selectedUris by remember(component.uris, component.imageFrames) {
         derivedStateOf {

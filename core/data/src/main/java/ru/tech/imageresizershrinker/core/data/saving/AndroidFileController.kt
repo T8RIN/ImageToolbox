@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.getPath
 import ru.tech.imageresizershrinker.core.data.utils.isExternalStorageWritable
+import ru.tech.imageresizershrinker.core.data.utils.listFilesInDirectory
 import ru.tech.imageresizershrinker.core.data.utils.openWriteableStream
 import ru.tech.imageresizershrinker.core.data.utils.toUiPath
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -389,6 +390,12 @@ internal class AndroidFileController @Inject constructor(
                 originalUri = imageUri.toUri()
             )
         }
+    }
+
+    override suspend fun listFilesInDirectory(
+        treeUri: String
+    ): List<String> = withContext(ioDispatcher) {
+        context.listFilesInDirectory(treeUri.toUri()).map { it.toString() }
     }
 
 }

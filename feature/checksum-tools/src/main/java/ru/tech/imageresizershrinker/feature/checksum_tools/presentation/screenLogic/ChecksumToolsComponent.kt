@@ -20,19 +20,24 @@ package ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenL
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumManager
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumSource
 import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.components.ChecksumPage
+import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.components.UriWithHash
 
 class ChecksumToolsComponent @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
@@ -58,6 +63,10 @@ class ChecksumToolsComponent @AssistedInject constructor(
     private val _compareWithUriPage: MutableState<ChecksumPage.CompareWithUri> =
         mutableStateOf(ChecksumPage.CompareWithUri.Empty)
     val compareWithUriPage: ChecksumPage.CompareWithUri by _compareWithUriPage
+
+    private val _compareWithUrisPage: MutableState<ChecksumPage.CompareWithUris> =
+        mutableStateOf(ChecksumPage.CompareWithUris.Empty)
+    val compareWithUrisPage: ChecksumPage.CompareWithUris by _compareWithUrisPage
 
 
     init {
@@ -147,11 +156,74 @@ class ChecksumToolsComponent @AssistedInject constructor(
         calculateFromUriPage.uri?.let(::setUri)
         calculateFromTextPage.text.let(::setText)
         compareWithUriPage.uri?.let(::setDataForComparison)
+        setDataForBatchComparison(forceReload = true)
         componentScope.launch {
             fileController.saveObject(
                 key = "checksum_type",
                 value = type
             )
+        }
+    }
+
+    private var treeJob: Job? by smartJob {
+        _filesLoadingProgress.update { -1f }
+    }
+
+    fun setDataForBatchComparison(
+        uris: List<Uri> = compareWithUrisPage.uris.map { it.uri },
+        targetChecksum: String = compareWithUrisPage.targetChecksum,
+        forceReload: Boolean = false
+    ) {
+        _compareWithUrisPage.update {
+            it.copy(
+                targetChecksum = targetChecksum
+            )
+        }
+
+        val targetUris = compareWithUrisPage.uris.map { it.uri }
+
+        if (targetUris != uris || forceReload) {
+            treeJob = componentScope.launch {
+                _filesLoadingProgress.update { 0f }
+
+                var done = 0
+
+                val urisWithHash = uris.map { uri ->
+                    val checksum = checksumManager.calculateChecksum(
+                        type = hashingType,
+                        source = ChecksumSource.Uri(uri.toString())
+                    )
+
+                    _filesLoadingProgress.update {
+                        ((done++) / uris.size.toFloat()).takeIf { it.isFinite() } ?: 0f
+                    }
+
+                    UriWithHash(
+                        uri = uri,
+                        checksum = checksum
+                    )
+                }
+
+                _compareWithUrisPage.update {
+                    it.copy(
+                        uris = urisWithHash,
+                        targetChecksum = targetChecksum
+                    )
+                }
+                _filesLoadingProgress.update { -1f }
+            }
+        }
+    }
+
+    private val _filesLoadingProgress = mutableFloatStateOf(-1f)
+    val filesLoadingProgress by _filesLoadingProgress
+
+    fun setDataForBatchComparisonFromTree(uri: Uri) {
+        treeJob = componentScope.launch {
+            _filesLoadingProgress.update { 0f }
+            fileController.listFilesInDirectory(uri.toString())
+                .map { it.toUri() }
+                .let(::setDataForBatchComparison)
         }
     }
 

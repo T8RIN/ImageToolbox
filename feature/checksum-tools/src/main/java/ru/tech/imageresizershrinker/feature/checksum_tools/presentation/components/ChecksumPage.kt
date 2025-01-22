@@ -70,4 +70,28 @@ sealed interface ChecksumPage {
         }
     }
 
+    data class CompareWithUris(
+        val uris: List<UriWithHash>,
+        val targetChecksum: String
+    ) : ChecksumPage {
+        companion object {
+            const val INDEX = 3
+            val Empty: CompareWithUris by lazy {
+                CompareWithUris(
+                    uris = emptyList(),
+                    targetChecksum = ""
+                )
+            }
+        }
+    }
+
+    companion object {
+        const val ENTRIES_COUNT: Int = 4
+    }
+
 }
+
+data class UriWithHash(
+    val uri: Uri,
+    val checksum: String
+)
