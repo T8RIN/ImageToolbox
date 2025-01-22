@@ -23,12 +23,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
+import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -43,6 +45,7 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -113,7 +116,15 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     fun updateUrisFromTree(uri: Uri) {
         treeJob = componentScope.launch {
             _isLoadingImages.update { true }
-            fileController.listFilesInDirectory(uri.toString()).map { it.toUri() }.let(::updateUris)
+            fileController.listFilesInDirectory(uri.toString()).mapNotNull { uri ->
+                val excluded = listOf(
+                    "xml", "mov", "zip", "apk", "mp4", "mp3", "pdf", "ldb", "ttf", "gz", "rar"
+                )
+                if (excluded.any { uri.endsWith(".$it", true) }) return@mapNotNull null
+
+                if (imageGetter.getImage(uri, 10) != null) uri.toUri()
+                else null
+            }.let(::updateUris)
             _isLoadingImages.update { false }
         }
     }
