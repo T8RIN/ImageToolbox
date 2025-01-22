@@ -28,6 +28,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -36,7 +37,9 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -56,7 +59,9 @@ import androidx.compose.material.icons.automirrored.rounded.CompareArrows
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.FileCopy
 import androidx.compose.material.icons.outlined.FilePresent
+import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material.icons.rounded.Calculate
 import androidx.compose.material.icons.rounded.Tag
@@ -70,7 +75,6 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -101,6 +105,8 @@ import ru.tech.imageresizershrinker.core.resources.icons.FolderCompare
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.Red
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.FileType
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
@@ -119,6 +125,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -601,17 +608,61 @@ fun ChecksumToolsContent(
                                 }
                             }
 
-                            LaunchedEffect(Unit) {
-                                pickDirectory()
-                            }
+                            val filePicker = rememberFilePicker(
+                                type = FileType.Multiple,
+                                onSuccess = component::setDataForBatchComparison
+                            )
 
                             val page = component.compareWithUrisPage
 
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.height(IntrinsicSize.Max)
+                            ) {
+                                PreferenceRow(
+                                    title = "   ${stringResource(R.string.pick_files)}   ",
+                                    onClick = filePicker::pickFile,
+                                    shape = RoundedCornerShape(
+                                        topStart = 16.dp,
+                                        bottomStart = 16.dp,
+                                        topEnd = 4.dp,
+                                        bottomEnd = 4.dp
+                                    ),
+                                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
+                                    startIcon = Icons.Outlined.FileCopy,
+                                    drawStartIconContainer = false,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight(),
+                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                                PreferenceRow(
+                                    title = stringResource(R.string.pick_directory),
+                                    onClick = pickDirectory,
+                                    shape = RoundedCornerShape(
+                                        topStart = 4.dp,
+                                        bottomStart = 4.dp,
+                                        topEnd = 16.dp,
+                                        bottomEnd = 16.dp
+                                    ),
+                                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
+                                    startIcon = Icons.Outlined.FolderOpen,
+                                    drawStartIconContainer = false,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight(),
+                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                            }
 
                             val nestedPagerState = rememberPagerState { page.uris.size }
 
                             AnimatedContent(
-                                targetState = page.uris.isNotEmpty() to isFilesLoading
+                                targetState = page.uris.isNotEmpty() to isFilesLoading,
+                                modifier = Modifier.padding(vertical = 4.dp)
                             ) { (isNotEmpty, isLoading) ->
                                 if (isLoading) {
                                     Box(
@@ -723,54 +774,56 @@ fun ChecksumToolsContent(
                                     verticalArrangement = Arrangement.spacedBy(8.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Row(
-                                        modifier = Modifier.container(
-                                            shape = CircleShape,
-                                            resultPadding = 4.dp
-                                        ),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        EnhancedIconButton(
-                                            onClick = {
-                                                scope.launch {
-                                                    nestedPagerState.animateScrollToPage(
-                                                        (nestedPagerState.currentPage - 1).takeIf { it >= 0 }
-                                                            ?: (nestedPagerState.pageCount - 1)
-                                                    )
-                                                }
-                                            },
-                                            containerColor = MaterialTheme.colorScheme.surface
+                                    if (page.uris.size > 1) {
+                                        Row(
+                                            modifier = Modifier.container(
+                                                shape = CircleShape,
+                                                resultPadding = 4.dp
+                                            ),
+                                            verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Rounded.ArrowBackIos,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(20.dp)
-                                            )
-                                        }
+                                            EnhancedIconButton(
+                                                onClick = {
+                                                    scope.launch {
+                                                        nestedPagerState.animateScrollToPage(
+                                                            (nestedPagerState.currentPage - 1).takeIf { it >= 0 }
+                                                                ?: (nestedPagerState.pageCount - 1)
+                                                        )
+                                                    }
+                                                },
+                                                containerColor = MaterialTheme.colorScheme.surface
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBackIos,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(20.dp)
+                                                )
+                                            }
 
-                                        Text(
-                                            text = "${nestedPagerState.currentPage + 1} / ${nestedPagerState.pageCount}",
-                                            modifier = Modifier.weight(1f),
-                                            fontWeight = FontWeight.Bold,
-                                            textAlign = TextAlign.Center,
-                                            fontSize = 18.sp
-                                        )
-
-                                        EnhancedIconButton(
-                                            onClick = {
-                                                scope.launch {
-                                                    nestedPagerState.animateScrollToPage(
-                                                        (nestedPagerState.currentPage + 1) % nestedPagerState.pageCount
-                                                    )
-                                                }
-                                            },
-                                            containerColor = MaterialTheme.colorScheme.surface
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Rounded.ArrowForwardIos,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(20.dp)
+                                            Text(
+                                                text = "${nestedPagerState.currentPage + 1} / ${nestedPagerState.pageCount}",
+                                                modifier = Modifier.weight(1f),
+                                                fontWeight = FontWeight.Bold,
+                                                textAlign = TextAlign.Center,
+                                                fontSize = 18.sp
                                             )
+
+                                            EnhancedIconButton(
+                                                onClick = {
+                                                    scope.launch {
+                                                        nestedPagerState.animateScrollToPage(
+                                                            (nestedPagerState.currentPage + 1) % nestedPagerState.pageCount
+                                                        )
+                                                    }
+                                                },
+                                                containerColor = MaterialTheme.colorScheme.surface
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.AutoMirrored.Rounded.ArrowForwardIos,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(20.dp)
+                                                )
+                                            }
                                         }
                                     }
 

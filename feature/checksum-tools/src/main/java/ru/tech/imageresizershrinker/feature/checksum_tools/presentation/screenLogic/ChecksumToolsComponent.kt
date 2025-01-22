@@ -28,6 +28,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -184,6 +185,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
 
         if (targetUris != uris || forceReload) {
             treeJob = componentScope.launch {
+                delay(500)
                 _filesLoadingProgress.update { 0f }
 
                 var done = 0
@@ -220,6 +222,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
 
     fun setDataForBatchComparisonFromTree(uri: Uri) {
         treeJob = componentScope.launch {
+            delay(500)
             _filesLoadingProgress.update { 0f }
             fileController.listFilesInDirectory(uri.toString())
                 .map { it.toUri() }
