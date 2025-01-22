@@ -90,40 +90,32 @@ class TessParams private constructor(
         val Default by lazy {
             TessParams(
                 tessParamList = listOf(
-                    TessParam(
-                        key = KEY_PRESERVE_INTERWORD_SPACES,
-                        value = false
-                    ),
-                    TessParam(
-                        key = KEY_CHOP_ENABLE,
-                        value = true
-                    ),
-                    TessParam(
-                        key = KEY_USE_NEW_STATE_COST,
-                        value = false
-                    ),
-                    TessParam(
-                        key = KEY_SEGMENT_SEGCOST_RATING,
-                        value = false
-                    ),
-                    TessParam(
-                        key = KEY_ENABLE_NEW_SEGSEARCH,
-                        value = false
-                    ),
-                    TessParam(
-                        key = KEY_LANGUAGE_MODEL_NGRAM_ON,
-                        value = false
-                    ),
-                    TessParam(
-                        key = KEY_TEXTORD_FORCE_MAKE_PROP_WORDS,
-                        value = false
-                    ),
-                    TessParam(
-                        key = KEY_EDGES_MAX_CHILDREN_PER_OUTLINE,
-                        value = 40
-                    )
+                    KEY_PRESERVE_INTERWORD_SPACES.disabled(),
+                    KEY_CHOP_ENABLE.enabled(),
+                    KEY_USE_NEW_STATE_COST.disabled(),
+                    KEY_SEGMENT_SEGCOST_RATING.disabled(),
+                    KEY_ENABLE_NEW_SEGSEARCH.disabled(),
+                    KEY_LANGUAGE_MODEL_NGRAM_ON.disabled(),
+                    KEY_TEXTORD_FORCE_MAKE_PROP_WORDS.disabled(),
+                    KEY_EDGES_MAX_CHILDREN_PER_OUTLINE.int(40)
                 )
             )
         }
+
+        private fun String.enabled() = TessParam(
+            key = this,
+            value = true
+        )
+
+        private fun String.disabled() = TessParam(
+            key = this,
+            value = false
+        )
+
+        private fun String.int(value: Int) = TessParam(
+            key = this,
+            value = value
+        )
+
     }
 }
