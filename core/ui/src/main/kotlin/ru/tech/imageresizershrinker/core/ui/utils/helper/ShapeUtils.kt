@@ -30,34 +30,24 @@ import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-private fun String?.toPath(
-    size: Size?,
-    pathDestination: Path? = null
-): Path? {
-    this?.let {
-        size?.let {
-            if (isNotEmpty()) {
-                val pathDestinationResult = pathDestination ?: kotlin.run {
-                    Path()
-                }
-                val scaleMatrix = Matrix()
-                val rectF = RectF()
-                val path =
-                    PathParser().parsePathString(this)
-                        .toPath(pathDestinationResult)
-                val rectPath = path.getBounds().toAndroidRectF()
-                val scaleXFactor = size.width / rectPath.width()
-                val scaleYFactor = size.height / rectPath.height()
-                val androidPath = path.asAndroidPath()
-                scaleMatrix.setScale(scaleXFactor, scaleYFactor, rectF.centerX(), rectF.centerY())
-                @Suppress("DEPRECATION")
-                androidPath.computeBounds(rectF, true)
-                androidPath.transform(scaleMatrix)
-                return androidPath.asComposePath()
-            }
-        }
+private fun String.toPath(
+    size: Size
+): Path {
+    if (isNotEmpty()) {
+        val scaleMatrix = Matrix()
+        val rectF = RectF()
+        val path = PathParser().parsePathString(this).toPath()
+        val rectPath = path.getBounds().toAndroidRectF()
+        val scaleXFactor = size.width / rectPath.width()
+        val scaleYFactor = size.height / rectPath.height()
+        val androidPath = path.asAndroidPath()
+        scaleMatrix.setScale(scaleXFactor, scaleYFactor, rectF.centerX(), rectF.centerY())
+        @Suppress("DEPRECATION")
+        androidPath.computeBounds(rectF, true)
+        androidPath.transform(scaleMatrix)
+        return androidPath.asComposePath()
     }
-    return null
+    return Path()
 }
 
 class PathShape(private val pathData: String) : Shape {
@@ -73,10 +63,7 @@ class PathShape(private val pathData: String) : Shape {
     private fun drawPath(size: Size): Path {
         return Path().apply {
             reset()
-            pathData.toPath(
-                size = size,
-                pathDestination = this
-            )
+            addPath(pathData.toPath(size))
             close()
         }
     }
