@@ -1547,4 +1547,8 @@
     <string name="change_sticker">Alterar Adesivo</string>
     <string name="fit_width">Ajustar Largura</string>
     <string name="fit_height">Ajustar Altura</string>
+    <string name="batch_compare">Comparação em Lote</string>
+    <string name="pick_files_to_checksum">Escolha um ou mais arquivos para calcular a checksum com base no algoritmo selecionado</string>
+    <string name="pick_directory">Selecionar Pasta</string>
+    <string name="pick_files">Selecionar Arquivos</string>
 </resources>
