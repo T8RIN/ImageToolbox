@@ -1546,4 +1546,8 @@
     <string name="edit_exif_screen_sub">Metagegevens bewerken van een enkele afbeelding zonder hercompressie</string>
     <string name="change_sticker">Sticker wijzigen</string>
     <string name="edit_exif_tag">Tik om beschikbare tags te bewerken</string>
+    <string name="batch_compare">Reeks vergelijken</string>
+    <string name="pick_files_to_checksum">Kies bestand/bestanden om de controlesom te berekenen op basis van het geselecteerde algoritme</string>
+    <string name="fit_width">Breedte passend</string>
+    <string name="fit_height">Hoogte passend</string>
 </resources>
