@@ -41,7 +41,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import coil3.ImageLoader
 import coil3.compose.AsyncImageModelEqualityDelegate
 import coil3.compose.AsyncImagePainter
@@ -92,7 +91,7 @@ fun Picture(
     enableUltraHDRSupport: Boolean = false,
     contentPadding: PaddingValues = PaddingValues()
 ) {
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
 
     var errorOccurred by rememberSaveable { mutableStateOf(false) }
 
@@ -100,15 +99,13 @@ fun Picture(
 
     val imageLoader = manualImageLoader ?: LocalImageLoader.current
 
-    val activity = LocalComponentActivity.current
-
-    val hdrTransformation = remember {
+    val hdrTransformation = remember(context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
             listOf(
                 GenericTransformation<Bitmap> { bitmap ->
                     withContext(Dispatchers.Main.immediate) {
                         delay(1000)
-                        activity.window.colorMode = if (bitmap.hasGainmap()) {
+                        context.window.colorMode = if (bitmap.hasGainmap()) {
                             ActivityInfo.COLOR_MODE_HDR
                         } else ActivityInfo.COLOR_MODE_DEFAULT
                     }
@@ -141,7 +138,7 @@ fun Picture(
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && enableUltraHDRSupport) {
         DisposableEffect(model) {
             onDispose {
-                activity.window.colorMode = ActivityInfo.COLOR_MODE_DEFAULT
+                context.window.colorMode = ActivityInfo.COLOR_MODE_DEFAULT
             }
         }
     }
@@ -167,7 +164,7 @@ fun Picture(
             error = error,
             onSuccess = {
                 if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
-                    activity.window.colorMode =
+                    context.window.colorMode =
                         if (it.result.image.toBitmap(400, 400).hasGainmap()) {
                             ActivityInfo.COLOR_MODE_HDR
                         } else ActivityInfo.COLOR_MODE_DEFAULT
