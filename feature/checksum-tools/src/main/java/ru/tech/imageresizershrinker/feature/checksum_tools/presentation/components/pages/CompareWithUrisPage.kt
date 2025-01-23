@@ -109,7 +109,7 @@ internal fun ColumnScope.CompareWithUrisPage(
         modifier = Modifier.height(IntrinsicSize.Max)
     ) {
         PreferenceRow(
-            title = "   ${stringResource(R.string.pick_files)}   ",
+            title = stringResource(R.string.pick_files),
             onClick = filePicker::pickFile,
             shape = RoundedCornerShape(
                 topStart = 16.dp,

@@ -81,6 +81,13 @@ internal fun Activity.parseSaveResults(
     results: List<SaveResult>,
     essentials: LocalEssentials
 ) {
+    if (results.size == 1) {
+        return parseSaveResult(
+            saveResult = results.first(),
+            essentials = essentials
+        )
+    }
+
     val failed = results.count { it is SaveResult.Error }
     val done = results.count { it is SaveResult.Success }
 

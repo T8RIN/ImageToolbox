@@ -42,24 +42,31 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabPosition
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FolderCompare
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
 @Composable
@@ -88,33 +95,30 @@ internal fun ChecksumToolsTabs(
             },
         horizontalArrangement = Arrangement.Center
     ) {
-        ScrollableTabRow(
-            modifier = Modifier.windowInsetsPadding(
-                WindowInsets.statusBars.union(
-                    WindowInsets.displayCutout
-                ).only(
-                    WindowInsetsSides.Horizontal
-                )
-            ),
-            edgePadding = 8.dp,
-            divider = {},
-            containerColor = Color.Transparent,
-            selectedTabIndex = pagerState.currentPage,
-            indicator = { tabPositions ->
-                if (pagerState.currentPage < tabPositions.size) {
-                    val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
-                    TabRowDefaults.PrimaryIndicator(
-                        modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                        width = width,
-                        height = 4.dp,
-                        shape = RoundedCornerShape(
-                            topStart = 100f,
-                            topEnd = 100f
-                        )
+        val modifier = Modifier.windowInsetsPadding(
+            WindowInsets.statusBars.union(
+                WindowInsets.displayCutout
+            ).only(
+                WindowInsetsSides.Horizontal
+            )
+        )
+
+        val indicator: @Composable (tabPositions: List<TabPosition>) -> Unit = { tabPositions ->
+            if (pagerState.currentPage < tabPositions.size) {
+                val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
+                TabRowDefaults.PrimaryIndicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                    width = width,
+                    height = 4.dp,
+                    shape = RoundedCornerShape(
+                        topStart = 100f,
+                        topEnd = 100f
                     )
-                }
+                )
             }
-        ) {
+        }
+
+        val tabs: @Composable () -> Unit = {
             repeat(pagerState.pageCount) { index ->
                 val selected = pagerState.currentPage == index
                 val color by animateColorAsState(
@@ -158,6 +162,38 @@ internal fun ChecksumToolsTabs(
                     }
                 )
             }
+        }
+
+        var disableScroll by remember { mutableStateOf(false) }
+
+        if (disableScroll) {
+            TabRow(
+                modifier = modifier.padding(horizontal = 8.dp),
+                divider = {},
+                containerColor = Color.Transparent,
+                selectedTabIndex = pagerState.currentPage,
+                indicator = indicator,
+                tabs = tabs
+            )
+        } else {
+            val screenWidth = LocalScreenSize.current.widthPx
+            ScrollableTabRow(
+                modifier = modifier.layout { measurable, constraints ->
+                    val placeable = measurable.measure(constraints)
+                    if (!disableScroll) {
+                        disableScroll = screenWidth > placeable.measuredWidth
+                    }
+                    layout(placeable.measuredWidth, placeable.measuredHeight) {
+                        placeable.placeWithLayer(x = 0, y = 0)
+                    }
+                },
+                edgePadding = 8.dp,
+                divider = {},
+                containerColor = Color.Transparent,
+                selectedTabIndex = pagerState.currentPage,
+                indicator = indicator,
+                tabs = tabs
+            )
         }
     }
 }
