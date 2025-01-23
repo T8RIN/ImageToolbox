@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
@@ -194,7 +193,6 @@ object CustomSliderDefaults {
      * accessibility services.
      */
     @Composable
-    @ExperimentalMaterial3Api
     fun Track(
         sliderState: CustomSliderState,
         modifier: Modifier = Modifier,
@@ -235,7 +233,6 @@ object CustomSliderDefaults {
      * not respond to user input, and it will appear visually disabled and disabled to
      * accessibility services.
      */
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Track(
         rangeSliderState: CustomRangeSliderState,

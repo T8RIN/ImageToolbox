@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.twotone.BrokenImage
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -70,7 +69,6 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMed
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.MediaPickerActivity
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MediaPickerActivity.MediaPickerRootContent(
     component: MediaPickerComponent,

@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -54,7 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
-@OptIn(ExperimentalFoundationApi::class)
+
 @Composable
 fun ColorTuplePreview(
     modifier: Modifier = Modifier,

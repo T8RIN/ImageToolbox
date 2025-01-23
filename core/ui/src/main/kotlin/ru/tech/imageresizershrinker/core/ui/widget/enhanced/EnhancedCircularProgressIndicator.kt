@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 import androidx.compose.foundation.background
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.WavyProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
@@ -31,7 +30,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EnhancedCircularProgressIndicator(
     modifier: Modifier = Modifier,
@@ -76,7 +74,6 @@ fun EnhancedCircularProgressIndicator(
     }
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EnhancedCircularProgressIndicator(
     progress: () -> Float,
@@ -127,7 +124,7 @@ fun EnhancedCircularProgressIndicator(
 sealed class EnhancedCircularProgressIndicatorType {
     data object Normal : EnhancedCircularProgressIndicatorType()
 
-    data class Wavy @OptIn(ExperimentalMaterial3ExpressiveApi::class) constructor(
+    data class Wavy(
         val amplitude: (progress: Float) -> Float = { progress ->
             if (progress <= 0.1f || progress >= 0.95f) {
                 0f

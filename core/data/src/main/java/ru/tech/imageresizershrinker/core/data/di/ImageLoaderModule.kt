@@ -22,7 +22,6 @@ import android.os.Build
 import coil3.ComponentRegistry
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
-import coil3.annotation.DelicateCoilApi
 import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
 import coil3.imageLoader
@@ -55,7 +54,6 @@ import ru.tech.imageresizershrinker.core.resources.BuildConfig
 @InstallIn(SingletonComponent::class)
 internal object ImageLoaderModule {
 
-    @OptIn(DelicateCoilApi::class)
     @Provides
     fun provideImageLoader(
         @ApplicationContext context: Context,

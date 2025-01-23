@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.ui.theme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -30,7 +29,6 @@ import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ImageToolboxTheme(
     content: @Composable () -> Unit

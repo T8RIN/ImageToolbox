@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -69,7 +68,6 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.components.Comp
 import ru.tech.imageresizershrinker.feature.compare.presentation.screenLogic.CompareComponent
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompareContent(
     component: CompareComponent

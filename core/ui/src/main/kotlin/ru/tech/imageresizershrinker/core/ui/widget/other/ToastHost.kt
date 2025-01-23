@@ -48,7 +48,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -193,14 +192,12 @@ open class ToastHostState {
     var currentToastData by mutableStateOf<ToastData?>(null)
         private set
 
-    @OptIn(ExperimentalMaterial3Api::class)
     suspend fun showToast(
         message: String,
         icon: ImageVector? = null,
         duration: ToastDuration = ToastDuration.Short
     ) = showToast(ToastVisualsImpl(message, icon, duration))
 
-    @ExperimentalMaterial3Api
     suspend fun showToast(visuals: ToastVisuals) = mutex.withLock {
         try {
             suspendCancellableCoroutine { continuation ->

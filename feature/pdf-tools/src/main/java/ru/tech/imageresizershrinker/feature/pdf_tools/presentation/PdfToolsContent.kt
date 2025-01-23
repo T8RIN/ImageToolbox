@@ -45,7 +45,6 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Pages
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -100,7 +99,6 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.Pd
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PdfToolsContent(
     component: PdfToolsComponent

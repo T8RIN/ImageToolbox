@@ -50,7 +50,6 @@ import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.twotone.FileOpen
 import androidx.compose.material3.Badge
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -110,7 +109,6 @@ import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.Ciph
 import kotlin.random.Random
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CipherContent(
     component: CipherComponent

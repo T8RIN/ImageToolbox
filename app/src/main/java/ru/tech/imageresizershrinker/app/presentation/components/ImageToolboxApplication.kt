@@ -19,12 +19,10 @@ package ru.tech.imageresizershrinker.app.presentation.components
 
 import android.app.Application
 import com.arkivanov.decompose.DecomposeExperimentFlags
-import com.arkivanov.decompose.ExperimentalDecomposeApi
 import dagger.hilt.android.HiltAndroidApp
 import ru.tech.imageresizershrinker.app.presentation.components.utils.registerSecurityProviders
 
 
-@OptIn(ExperimentalDecomposeApi::class)
 @HiltAndroidApp
 class ImageToolboxApplication : Application() {
 

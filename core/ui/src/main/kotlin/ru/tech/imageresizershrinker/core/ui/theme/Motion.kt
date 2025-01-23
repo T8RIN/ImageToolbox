@@ -22,12 +22,11 @@ package ru.tech.imageresizershrinker.core.ui.theme
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MotionScheme
 import ru.tech.imageresizershrinker.core.domain.utils.cast
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 internal val CustomMotionScheme: MotionScheme = object : MotionScheme {
     val SpringDefaultSpatialDamping = 0.8f
     val SpringDefaultSpatialStiffness = 380.0f

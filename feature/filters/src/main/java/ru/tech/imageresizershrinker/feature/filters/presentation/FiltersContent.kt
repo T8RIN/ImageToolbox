@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Badge
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -75,7 +74,6 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Filt
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FiltersContentTopAppBarActions
 import ru.tech.imageresizershrinker.feature.filters.presentation.screenLogic.FiltersComponent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FiltersContent(
     component: FiltersComponent

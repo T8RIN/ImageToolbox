@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider
 
 import androidx.annotation.IntRange
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -48,7 +47,6 @@ import kotlin.math.min
  * and [activeRangeEnd] will be coerced to this range.
  */
 @Stable
-@ExperimentalMaterial3Api
 class CustomRangeSliderState(
     activeRangeStart: Float = 0f,
     activeRangeEnd: Float = 1f,

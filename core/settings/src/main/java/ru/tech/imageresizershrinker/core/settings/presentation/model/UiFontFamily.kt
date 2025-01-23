@@ -23,7 +23,6 @@ import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -406,7 +405,6 @@ fun DomainFontFamily.toUiFont(): UiFontFamily = when (this) {
     )
 }
 
-@OptIn(ExperimentalTextApi::class)
 private fun fontFamilyResource(resId: Int) = FontFamily(
     Font(
         resId = resId,
@@ -450,7 +448,6 @@ private fun fontFamilyResource(resId: Int) = FontFamily(
     )
 )
 
-@OptIn(ExperimentalTextApi::class)
 private fun fontFamilyFromFile(file: File) = FontFamily(
     Font(
         file = file,

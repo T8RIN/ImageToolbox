@@ -48,7 +48,6 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.InvertColors
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -98,7 +97,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AvailableColorTuplesSheet(
     visible: Boolean,

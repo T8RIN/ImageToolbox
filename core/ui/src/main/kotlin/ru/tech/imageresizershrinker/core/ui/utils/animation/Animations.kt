@@ -24,7 +24,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.plus
@@ -83,7 +82,6 @@ private fun <T> openCloseTransitionSpec(
     easing = TransitionEasing
 )
 
-@OptIn(ExperimentalDecomposeApi::class)
 fun <NavigationChild : Any> toolboxPredictiveBackAnimation(
     backHandler: BackHandler,
     onBack: () -> Unit

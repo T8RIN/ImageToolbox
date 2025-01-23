@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -64,7 +63,6 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageTopAppBar
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickColorFromImageContent(
     component: PickColorFromImageComponent

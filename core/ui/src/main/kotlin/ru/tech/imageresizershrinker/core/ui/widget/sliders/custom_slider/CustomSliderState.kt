@@ -24,7 +24,6 @@ import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.MutatorMutex
 import androidx.compose.foundation.gestures.DragScope
 import androidx.compose.foundation.gestures.DraggableState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -52,7 +51,6 @@ import kotlin.math.min
  * coerced to this range.
  */
 @Stable
-@ExperimentalMaterial3Api
 class CustomSliderState(
     value: Float = 0f,
     @IntRange(from = 0)

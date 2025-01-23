@@ -28,7 +28,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.progressSemantics
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -89,7 +88,6 @@ import kotlin.math.roundToInt
  * @param colors [CustomSliderColors] that will be used to determine the color of the Range Slider
  * parts in different state. See [CustomSliderDefaults.colors] to customize.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomRangeSlider(
     value: ClosedFloatingPointRange<Float>,
@@ -187,7 +185,6 @@ fun CustomRangeSlider(
  * coerced to this range.
  */
 @Composable
-@ExperimentalMaterial3Api
 fun CustomRangeSlider(
     value: ClosedFloatingPointRange<Float>,
     onValueChange: (ClosedFloatingPointRange<Float>) -> Unit,
@@ -291,7 +288,6 @@ fun CustomRangeSlider(
  * The lambda receives a [CustomRangeSliderState] which is used to obtain the current active track.
  */
 @Composable
-@ExperimentalMaterial3Api
 fun CustomRangeSlider(
     state: CustomRangeSliderState,
     modifier: Modifier = Modifier,
@@ -335,7 +331,6 @@ fun CustomRangeSlider(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CustomRangeSliderImpl(
     modifier: Modifier,
@@ -452,7 +447,6 @@ private fun CustomRangeSliderImpl(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Stable
 private fun Modifier.rangeSliderPressDragModifier(
     state: CustomRangeSliderState,
@@ -537,7 +531,6 @@ private suspend fun AwaitPointerEventScope.awaitSlop(
     return if (afterSlopResult != null) afterSlopResult to initialDelta else null
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private class RangeSliderLogic(
     val state: CustomRangeSliderState,
     val startInteractionSource: MutableInteractionSource,
@@ -568,7 +561,6 @@ private class RangeSliderLogic(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private fun Modifier.rangeSliderStartThumbSemantics(
     state: CustomRangeSliderState,
     enabled: Boolean
@@ -631,7 +623,6 @@ private fun Modifier.rangeSliderStartThumbSemantics(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private fun Modifier.rangeSliderEndThumbSemantics(
     state: CustomRangeSliderState,
     enabled: Boolean

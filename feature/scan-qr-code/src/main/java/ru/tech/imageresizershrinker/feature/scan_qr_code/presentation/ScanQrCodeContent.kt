@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
@@ -48,7 +47,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -87,8 +85,6 @@ import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
-@SuppressLint("StringFormatInvalid")
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ScanQrCodeContent(
     component: ScanQrCodeComponent

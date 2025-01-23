@@ -17,7 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
@@ -35,6 +37,8 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.launch as internalLaunch
 
+@Stable
+@Immutable
 abstract class BaseComponent(
     private val dispatchersHolder: DispatchersHolder,
     private val componentContext: ComponentContext

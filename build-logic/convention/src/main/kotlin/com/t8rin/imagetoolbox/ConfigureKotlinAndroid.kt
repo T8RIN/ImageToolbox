@@ -27,8 +27,8 @@ import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
@@ -97,9 +97,10 @@ val Project.javaVersion: JavaVersion
 /**
  * Configure base Kotlin options
  */
-private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin() = configure<T> {
+private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() = configure<T> {
     val args = listOf(
         "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+        "-opt-in=androidx.compose.material3.ExperimentalMaterial3ExpressiveApi",
         "-opt-in=androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi",
         "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
         "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
@@ -107,6 +108,14 @@ private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin
         "-opt-in=androidx.compose.ui.unit.ExperimentalUnitApi",
         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         "-opt-in=kotlinx.coroutines.FlowPreview",
+        "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
+        "-opt-in=com.arkivanov.decompose.ExperimentalDecomposeApi",
+        "-opt-in=coil3.annotation.ExperimentalCoilApi",
+        "-opt-in=coil3.annotation.DelicateCoilApi",
+        "-opt-in=kotlin.contracts.ExperimentalContracts",
+        "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
+        "-opt-in=androidx.compose.ui.text.ExperimentalTextApi",
+        "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi"
     )
     // Treat all Kotlin warnings as errors (disabled by default)
     // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties

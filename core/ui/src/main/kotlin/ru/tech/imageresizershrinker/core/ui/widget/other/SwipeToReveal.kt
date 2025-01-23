@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.ResistanceConfig
 import androidx.compose.material.SwipeableDefaults
@@ -52,11 +51,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.animation.AlphaEasing
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterialApi::class)
 typealias RevealState = SwipeableState<RevealValue>
 
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SwipeToReveal(
     modifier: Modifier = Modifier,
@@ -137,7 +133,7 @@ fun SwipeToReveal(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+
 fun Modifier.revealSwipeable(
     maxRevealPx: Float,
     maxAmountOfOverflow: Dp,
@@ -219,7 +215,6 @@ enum class RevealValue {
  * @param initialValue The initial value of the state.
  * @param confirmStateChange Optional callback invoked to confirm or veto a pending state change.
  */
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun rememberRevealState(
     initialValue: RevealValue = RevealValue.Default,
@@ -234,7 +229,6 @@ fun rememberRevealState(
 /**
  * Reset the component to the default position, with an animation.
  */
-@OptIn(ExperimentalMaterialApi::class)
 suspend fun RevealState.reset() {
     animateTo(
         targetValue = RevealValue.Default,

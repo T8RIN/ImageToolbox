@@ -29,7 +29,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.progressSemantics
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -91,7 +90,6 @@ import kotlin.math.roundToInt
  * for this slider. You can create and pass in your own `remember`ed instance to observe
  * [Interaction]s and customize the appearance / behavior of this slider in different states.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomSlider(
     value: Float,
@@ -174,7 +172,6 @@ fun CustomSlider(
  * to this range.
  */
 @Composable
-@ExperimentalMaterial3Api
 fun CustomSlider(
     value: Float,
     onValueChange: (Float) -> Unit,
@@ -260,7 +257,6 @@ fun CustomSlider(
  * lambda receives a [CustomSliderState] which is used to obtain the current active track.
  */
 @Composable
-@ExperimentalMaterial3Api
 fun CustomSlider(
     state: CustomSliderState,
     modifier: Modifier = Modifier,
@@ -295,7 +291,6 @@ fun CustomSlider(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CustomSliderImpl(
     modifier: Modifier,
@@ -383,7 +378,6 @@ private fun CustomSliderImpl(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private fun Modifier.sliderSemantics(
     state: CustomSliderState,
     enabled: Boolean
@@ -443,7 +437,6 @@ private fun Modifier.sliderSemantics(
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Stable
 private fun Modifier.sliderTapModifier(
     state: CustomSliderState,

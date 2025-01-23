@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -78,7 +77,6 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropTyp
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CropEditOption(
     visible: Boolean,

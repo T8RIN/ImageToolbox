@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Collections
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -96,7 +95,6 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.componen
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.rememberGradientState
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun GradientMakerContent(
     component: GradientMakerComponent

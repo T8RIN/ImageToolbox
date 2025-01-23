@@ -43,10 +43,12 @@ internal fun Project.configureCompose(
 
     extensions.configure<ComposeCompilerGradlePluginExtension> {
         featureFlags = setOf(
-            ComposeFeatureFlag.OptimizeNonSkippingGroups
+            ComposeFeatureFlag.OptimizeNonSkippingGroups,
+            ComposeFeatureFlag.PausableComposition
         )
 
-        stabilityConfigurationFile =
+        stabilityConfigurationFiles.addAll(
             rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
+        )
     }
 }

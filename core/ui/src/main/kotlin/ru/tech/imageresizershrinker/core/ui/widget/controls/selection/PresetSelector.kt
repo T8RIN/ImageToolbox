@@ -36,7 +36,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FitScreen
 import androidx.compose.material.icons.outlined.Info
@@ -88,7 +87,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 
-@OptIn(ExperimentalMaterialApi::class)
+
 @Composable
 fun PresetSelector(
     value: Preset,
@@ -206,7 +205,7 @@ fun PresetSelector(
                             modifier = Modifier.fillMaxWidth(),
                             title = stringResource(R.string.fit_to_bounds),
                             subtitle = stringResource(R.string.fit_to_bounds_sub),
-                            checked = (value as? Preset.AspectRatio)?.isFit ?: false,
+                            checked = (value as? Preset.AspectRatio)?.isFit == true,
                             onClick = {
                                 if (value is Preset.AspectRatio) {
                                     onValueChange(

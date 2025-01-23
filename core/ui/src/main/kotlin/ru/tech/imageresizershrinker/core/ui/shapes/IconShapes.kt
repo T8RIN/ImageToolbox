@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.runtime.Composable
@@ -57,7 +56,6 @@ import kotlin.math.atan2
 
 object IconShapeDefaults {
 
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     val shapes: ImmutableList<IconShape> by lazy {
         listOf(
             IconShape(SquircleShape),
@@ -202,7 +200,6 @@ fun IconShapeContainer(
     }
 }
 
-@ExperimentalMaterial3ExpressiveApi
 fun RoundedPolygon.toShape(startAngle: Int = 0): Shape {
     return GenericShape { size, direction ->
         rewind()

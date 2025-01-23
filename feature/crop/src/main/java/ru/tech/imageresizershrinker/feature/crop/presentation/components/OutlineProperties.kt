@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.crop.presentation.components
 
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -53,7 +52,6 @@ import ru.tech.imageresizershrinker.core.ui.shapes.SmallMaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.SquircleShape
 import ru.tech.imageresizershrinker.core.ui.shapes.toShape
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun outlineProperties(): List<CropOutlineProperty> = remember {
     listOf(
