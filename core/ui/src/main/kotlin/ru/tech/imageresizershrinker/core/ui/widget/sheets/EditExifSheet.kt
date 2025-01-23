@@ -157,7 +157,10 @@ fun EditExifSheet(
                     contentPadding = PaddingValues(8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    itemsIndexed(data) { index, (tag, value) ->
+                    itemsIndexed(
+                        items = data,
+                        key = { _, t -> t.first.key }
+                    ) { index, (tag, value) ->
                         Column(
                             Modifier
                                 .fillMaxWidth()

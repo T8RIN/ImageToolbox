@@ -89,7 +89,10 @@ fun ProcessImagesPreferenceSheet(
                             UrisCarousel(uris)
                         }
                     }
-                    items(urisCorrespondingScreens) { screen ->
+                    items(
+                        items = urisCorrespondingScreens,
+                        key = { it.id }
+                    ) { screen ->
                         ScreenPreference(
                             screen = screen,
                             navigate = {

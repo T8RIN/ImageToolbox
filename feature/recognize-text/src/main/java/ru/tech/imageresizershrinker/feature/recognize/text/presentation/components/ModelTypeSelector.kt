@@ -91,7 +91,10 @@ fun ModelTypeSelector(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            itemsIndexed(SegmentationMode.entries) { index, mode ->
+            itemsIndexed(
+                items = SegmentationMode.entries,
+                key = { _, e -> e.name }
+            ) { index, mode ->
                 PreferenceItem(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = mode.title),

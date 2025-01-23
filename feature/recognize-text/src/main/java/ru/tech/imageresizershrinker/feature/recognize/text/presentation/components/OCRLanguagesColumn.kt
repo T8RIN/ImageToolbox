@@ -212,7 +212,10 @@ internal fun OCRLanguagesColumn(
                 )
             }
         }
-        itemsIndexed(downloadedLanguages) { index, lang ->
+        itemsIndexed(
+            items = downloadedLanguages,
+            key = { _, l -> l.code }
+        ) { index, lang ->
             DownloadedLanguageItem(
                 index = index,
                 value = value,
@@ -238,7 +241,10 @@ internal fun OCRLanguagesColumn(
                 )
             }
         }
-        itemsIndexed(notDownloadedLanguages) { index, lang ->
+        itemsIndexed(
+            items = notDownloadedLanguages,
+            key = { _, l -> l.code }
+        ) { index, lang ->
             val selected by remember(value, lang) {
                 derivedStateOf {
                     lang in value

@@ -52,6 +52,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
@@ -185,6 +186,7 @@ fun Toast(
 }
 
 @Stable
+@Immutable
 open class ToastHostState {
 
     private val mutex = Mutex()
@@ -261,23 +263,29 @@ open class ToastHostState {
 }
 
 @Stable
+@Immutable
 interface ToastData {
     val visuals: ToastVisuals
     fun dismiss()
 }
 
 @Stable
+@Immutable
 interface ToastVisuals {
     val message: String
     val icon: ImageVector?
     val duration: ToastDuration
 }
 
+@Stable
+@Immutable
 open class ToastDuration(val time: kotlin.Long) {
     object Short : ToastDuration(3500L)
     object Long : ToastDuration(6500L)
 }
 
+@Stable
+@Immutable
 object ToastDefaults {
     val transition: ContentTransform
         get() = fadeIn(tween(300)) + scaleIn(

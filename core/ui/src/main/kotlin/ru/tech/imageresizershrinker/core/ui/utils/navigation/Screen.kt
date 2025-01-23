@@ -31,6 +31,8 @@ import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -43,6 +45,8 @@ import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
 
 @Serializable
+@Stable
+@Immutable
 sealed class Screen(
     open val id: Int,
     @StringRes val title: Int,

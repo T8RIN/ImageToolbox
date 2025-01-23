@@ -98,7 +98,10 @@ fun PickImageFromUrisSheet(
                     ),
                 ) {
                     uris?.let { uris ->
-                        items(uris, key = { it.toString() }) { uri ->
+                        items(
+                            items = uris,
+                            key = { it.toString() }
+                        ) { uri ->
                             val selected = selectedUri == uri
                             val color by animateColorAsState(
                                 if (selected) MaterialTheme.colorScheme.surface

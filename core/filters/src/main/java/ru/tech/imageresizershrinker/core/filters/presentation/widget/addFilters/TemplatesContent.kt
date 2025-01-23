@@ -108,7 +108,10 @@ internal fun TemplatesContent(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(16.dp)
             ) {
-                itemsIndexed(templateFilters) { index, templateFilter ->
+                itemsIndexed(
+                    items = templateFilters,
+                    key = { _, f -> f.hashCode() }
+                ) { index, templateFilter ->
                     var showFilterTemplateInfoSheet by rememberSaveable {
                         mutableStateOf(false)
                     }

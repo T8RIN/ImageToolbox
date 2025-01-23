@@ -305,7 +305,10 @@ internal fun MainTopAppBar(
                             )
                         }
 
-                        items(screenList) { screen ->
+                        items(
+                            items = screenList,
+                            key = { it.id }
+                        ) { screen ->
                             PreferenceItem(
                                 onClick = {
                                     showShortcutPreviewDialog = true

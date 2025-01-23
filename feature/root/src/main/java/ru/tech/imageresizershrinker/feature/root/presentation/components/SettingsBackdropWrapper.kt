@@ -158,33 +158,35 @@ internal fun SettingsBackdropWrapper(
             }
         },
         backLayerContent = {
-            if (scaffoldState.targetValue == BackdropValue.Revealed) {
-                PredictiveBackHandler { progress ->
-                    try {
-                        progress.collect { event ->
-                            if (event.progress <= 0.05f) {
+            if (canExpandSettings && (scaffoldState.isRevealed || scaffoldState.targetValue == BackdropValue.Revealed)) {
+                if (scaffoldState.targetValue == BackdropValue.Revealed) {
+                    PredictiveBackHandler { progress ->
+                        try {
+                            progress.collect { event ->
+                                if (event.progress <= 0.05f) {
+                                    clean()
+                                }
+                                predictiveBackProgress = event.progress * 1.3f
+                            }
+                            scope.launch {
+                                scaffoldState.conceal()
                                 clean()
                             }
-                            predictiveBackProgress = event.progress * 1.3f
-                        }
-                        scope.launch {
-                            scaffoldState.conceal()
+                        } catch (_: CancellationException) {
                             clean()
                         }
-                    } catch (_: CancellationException) {
-                        clean()
                     }
                 }
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(shape)
-                    .alpha(1f - animatedPredictiveBackProgress)
-            ) {
-                SettingsContent(
-                    component = settingsComponent
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(shape)
+                        .alpha(1f - animatedPredictiveBackProgress)
+                ) {
+                    SettingsContent(
+                        component = settingsComponent
+                    )
+                }
             }
         },
         peekHeight = 0.dp,

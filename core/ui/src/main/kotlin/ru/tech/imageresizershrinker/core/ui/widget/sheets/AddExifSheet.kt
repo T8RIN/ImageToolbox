@@ -225,7 +225,10 @@ fun AddExifSheet(
                         contentPadding = PaddingValues(8.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        itemsIndexed(list) { index, tag ->
+                        itemsIndexed(
+                            items = list,
+                            key = { _, t -> t.key }
+                        ) { index, tag ->
                             val isSelected by remember(isTagsRemovable, tag, selectedTags) {
                                 derivedStateOf {
                                     isTagsRemovable && tag in selectedTags

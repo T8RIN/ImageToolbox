@@ -40,6 +40,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -298,66 +299,67 @@ internal fun FilterSelectionCubeLutBottomContent(
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                         contentPadding = PaddingValues(8.dp)
                     ) {
-                        data.forEachIndexed { index, (uri, name) ->
-                            item {
-                                PreferenceItemOverload(
-                                    title = remember(name) {
-                                        name.removeSuffix(".cube")
-                                            .removeSuffix("_LUT")
-                                            .replace("_", " ")
-                                    },
-                                    drawStartIconContainer = false,
-                                    startIcon = {
-                                        Row(
-                                            verticalAlignment = Alignment.Companion.CenterVertically
-                                        ) {
-                                            Picture(
-                                                model = remember(uri, previewModel) {
-                                                    ImageRequest.Builder(context)
-                                                        .data(previewModel.data)
-                                                        .error(R.drawable.filter_preview_source)
-                                                        .transformations(
-                                                            onRequestFilterMapping(
-                                                                UiCubeLutFilter(
-                                                                    1f to FileModel(uri)
-                                                                )
+                        itemsIndexed(
+                            items = data,
+                            key = { _, d -> d.name + d.uri }
+                        ) { index, (uri, name) ->
+                            PreferenceItemOverload(
+                                title = remember(name) {
+                                    name.removeSuffix(".cube")
+                                        .removeSuffix("_LUT")
+                                        .replace("_", " ")
+                                },
+                                drawStartIconContainer = false,
+                                startIcon = {
+                                    Row(
+                                        verticalAlignment = Alignment.Companion.CenterVertically
+                                    ) {
+                                        Picture(
+                                            model = remember(uri, previewModel) {
+                                                ImageRequest.Builder(context)
+                                                    .data(previewModel.data)
+                                                    .error(R.drawable.filter_preview_source)
+                                                    .transformations(
+                                                        onRequestFilterMapping(
+                                                            UiCubeLutFilter(
+                                                                1f to FileModel(uri)
                                                             )
                                                         )
-                                                        .diskCacheKey(uri + previewModel.data.hashCode())
-                                                        .memoryCacheKey(uri + previewModel.data.hashCode())
-                                                        .size(300, 300)
-                                                        .build()
-                                                },
-                                                shape = MaterialTheme.shapes.medium,
-                                                contentScale = ContentScale.Companion.Crop,
-                                                modifier = Modifier
-                                                    .size(48.dp)
-                                                    .scale(1.2f)
-                                            )
-                                            Spacer(Modifier.width(16.dp))
-                                            Box(
-                                                modifier = Modifier
-                                                    .height(36.dp)
-                                                    .width(1.dp)
-                                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                                            )
-                                        }
-                                    },
-                                    onClick = {
-                                        showSelection = false
-                                        onClick(
-                                            UiCubeLutFilter(1f to FileModel(uri))
+                                                    )
+                                                    .diskCacheKey(uri + previewModel.data.hashCode())
+                                                    .memoryCacheKey(uri + previewModel.data.hashCode())
+                                                    .size(300, 300)
+                                                    .build()
+                                            },
+                                            shape = MaterialTheme.shapes.medium,
+                                            contentScale = ContentScale.Companion.Crop,
+                                            modifier = Modifier
+                                                .size(48.dp)
+                                                .scale(1.2f)
                                         )
-                                    },
-                                    shape = ContainerShapeDefaults.shapeForIndex(
-                                        index = index,
-                                        size = data.size
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .animateItem()
-                                )
-                            }
+                                        Spacer(Modifier.width(16.dp))
+                                        Box(
+                                            modifier = Modifier
+                                                .height(36.dp)
+                                                .width(1.dp)
+                                                .background(MaterialTheme.colorScheme.outlineVariant())
+                                        )
+                                    }
+                                },
+                                onClick = {
+                                    showSelection = false
+                                    onClick(
+                                        UiCubeLutFilter(1f to FileModel(uri))
+                                    )
+                                },
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index = index,
+                                    size = data.size
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .animateItem()
+                            )
                         }
                     }
                 } else {

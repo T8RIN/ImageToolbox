@@ -48,6 +48,8 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -126,7 +128,7 @@ fun SettingsContent(
     val padding = WindowInsets.navigationBars
         .asPaddingValues()
         .plus(
-            paddingValues = WindowInsets.displayCutout
+            WindowInsets.displayCutout
                 .asPaddingValues()
                 .run {
                     PaddingValues(
@@ -252,9 +254,11 @@ fun SettingsContent(
             },
             windowInsets = if (isStandaloneScreen) {
                 EnhancedTopAppBarDefaults.windowInsets
-            } else EnhancedTopAppBarDefaults.windowInsets.only(
-                WindowInsetsSides.End + WindowInsetsSides.Top
-            ),
+            } else {
+                EnhancedTopAppBarDefaults.windowInsets.only(
+                    WindowInsetsSides.End + WindowInsetsSides.Top
+                )
+            },
             colors = if (isStandaloneScreen) {
                 EnhancedTopAppBarDefaults.colors()
             } else {
@@ -295,89 +299,90 @@ fun SettingsContent(
                         verticalItemSpacing = spacing,
                         horizontalArrangement = Arrangement.spacedBy(spacing)
                     ) {
-                        initialSettingGroups.forEach { group ->
-                            item {
-                                BoxAnimatedVisibility(
-                                    visible = if (group is SettingsGroup.Shadows) {
-                                        settingsState.borderWidth <= 0.dp
-                                    } else true
-                                ) {
-                                    if (isStandaloneScreen) {
-                                        Column(
-                                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                                            modifier = if (!oneColumn) {
-                                                Modifier.container(
-                                                    shape = RoundedCornerShape(20.dp),
-                                                    resultPadding = 0.dp,
-                                                    color = MaterialTheme.colorScheme.surfaceContainerLowest
-                                                )
-                                            } else Modifier
-                                        ) {
-                                            TitleItem(
-                                                modifier = Modifier.padding(
-                                                    start = 8.dp,
-                                                    end = 8.dp,
-                                                    top = 12.dp,
-                                                    bottom = 12.dp
-                                                ),
-                                                icon = group.icon,
-                                                text = stringResource(group.titleId),
-                                                iconContainerColor = takeColorFromScheme {
-                                                    primary.blend(tertiary, 0.5f)
-                                                },
-                                                iconContentColor = takeColorFromScheme {
-                                                    onPrimary.blend(onTertiary, 0.5f)
-                                                }
+                        items(
+                            items = initialSettingGroups,
+                            key = { it.id }
+                        ) { group ->
+                            BoxAnimatedVisibility(
+                                visible = if (group is SettingsGroup.Shadows) {
+                                    settingsState.borderWidth <= 0.dp
+                                } else true
+                            ) {
+                                if (isStandaloneScreen) {
+                                    Column(
+                                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                                        modifier = if (!oneColumn) {
+                                            Modifier.container(
+                                                shape = RoundedCornerShape(20.dp),
+                                                resultPadding = 0.dp,
+                                                color = MaterialTheme.colorScheme.surfaceContainerLowest
                                             )
-                                            Column(
-                                                verticalArrangement = Arrangement.spacedBy(4.dp),
-                                                modifier = Modifier.padding(bottom = 8.dp)
-                                            ) {
-                                                group.settingsList.forEach { setting ->
-                                                    SettingItem(
-                                                        setting = setting,
-                                                        component = component,
-                                                        isUpdateAvailable = isUpdateAvailable,
-                                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                                                        onNavigateToEasterEgg = {
-                                                            component.onNavigate(Screen.EasterEgg)
-                                                        },
-                                                        onNavigateToSettings = {
-                                                            component.onNavigate(Screen.Settings())
-                                                        },
-                                                        onNavigateToLibrariesInfo = {
-                                                            component.onNavigate(Screen.LibrariesInfo)
-                                                        }
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        SettingGroupItem(
-                                            groupKey = group.id,
+                                        } else Modifier
+                                    ) {
+                                        TitleItem(
+                                            modifier = Modifier.padding(
+                                                start = 8.dp,
+                                                end = 8.dp,
+                                                top = 12.dp,
+                                                bottom = 12.dp
+                                            ),
                                             icon = group.icon,
                                             text = stringResource(group.titleId),
-                                            initialState = group.initialState
+                                            iconContainerColor = takeColorFromScheme {
+                                                primary.blend(tertiary, 0.5f)
+                                            },
+                                            iconContentColor = takeColorFromScheme {
+                                                onPrimary.blend(onTertiary, 0.5f)
+                                            }
+                                        )
+                                        Column(
+                                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                                            modifier = Modifier.padding(bottom = 8.dp)
                                         ) {
-                                            Column(
-                                                verticalArrangement = Arrangement.spacedBy(4.dp)
-                                            ) {
-                                                group.settingsList.forEach { setting ->
-                                                    SettingItem(
-                                                        setting = setting,
-                                                        component = component,
-                                                        isUpdateAvailable = isUpdateAvailable,
-                                                        onNavigateToEasterEgg = {
-                                                            component.onNavigate(Screen.EasterEgg)
-                                                        },
-                                                        onNavigateToSettings = {
-                                                            component.onNavigate(Screen.Settings())
-                                                        },
-                                                        onNavigateToLibrariesInfo = {
-                                                            component.onNavigate(Screen.LibrariesInfo)
-                                                        }
-                                                    )
-                                                }
+                                            group.settingsList.forEach { setting ->
+                                                SettingItem(
+                                                    setting = setting,
+                                                    component = component,
+                                                    isUpdateAvailable = isUpdateAvailable,
+                                                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                                    onNavigateToEasterEgg = {
+                                                        component.onNavigate(Screen.EasterEgg)
+                                                    },
+                                                    onNavigateToSettings = {
+                                                        component.onNavigate(Screen.Settings())
+                                                    },
+                                                    onNavigateToLibrariesInfo = {
+                                                        component.onNavigate(Screen.LibrariesInfo)
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    SettingGroupItem(
+                                        groupKey = group.id,
+                                        icon = group.icon,
+                                        text = stringResource(group.titleId),
+                                        initialState = group.initialState
+                                    ) {
+                                        Column(
+                                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                                        ) {
+                                            group.settingsList.forEach { setting ->
+                                                SettingItem(
+                                                    setting = setting,
+                                                    component = component,
+                                                    isUpdateAvailable = isUpdateAvailable,
+                                                    onNavigateToEasterEgg = {
+                                                        component.onNavigate(Screen.EasterEgg)
+                                                    },
+                                                    onNavigateToSettings = {
+                                                        component.onNavigate(Screen.Settings())
+                                                    },
+                                                    onNavigateToLibrariesInfo = {
+                                                        component.onNavigate(Screen.LibrariesInfo)
+                                                    }
+                                                )
                                             }
                                         }
                                     }
@@ -392,28 +397,29 @@ fun SettingsContent(
                         verticalItemSpacing = spacing,
                         horizontalArrangement = Arrangement.spacedBy(spacing)
                     ) {
-                        settingsAnimated.forEachIndexed { index, (group, setting) ->
-                            item {
-                                SearchableSettingItem(
-                                    shape = ContainerShapeDefaults.shapeForIndex(
-                                        index = if (oneColumn) index else -1,
-                                        size = settingsAnimated.size
-                                    ),
-                                    group = group,
-                                    setting = setting,
-                                    component = component,
-                                    isUpdateAvailable = isUpdateAvailable,
-                                    onNavigateToEasterEgg = {
-                                        component.onNavigate(Screen.EasterEgg)
-                                    },
-                                    onNavigateToSettings = {
-                                        component.onNavigate(Screen.Settings())
-                                    },
-                                    onNavigateToLibrariesInfo = {
-                                        component.onNavigate(Screen.LibrariesInfo)
-                                    }
-                                )
-                            }
+                        itemsIndexed(
+                            items = settingsAnimated,
+                            key = { _, v -> v.hashCode() }
+                        ) { index, (group, setting) ->
+                            SearchableSettingItem(
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index = if (oneColumn) index else -1,
+                                    size = settingsAnimated.size
+                                ),
+                                group = group,
+                                setting = setting,
+                                component = component,
+                                isUpdateAvailable = isUpdateAvailable,
+                                onNavigateToEasterEgg = {
+                                    component.onNavigate(Screen.EasterEgg)
+                                },
+                                onNavigateToSettings = {
+                                    component.onNavigate(Screen.Settings())
+                                },
+                                onNavigateToLibrariesInfo = {
+                                    component.onNavigate(Screen.LibrariesInfo)
+                                }
+                            )
                         }
                     }
                 } else {

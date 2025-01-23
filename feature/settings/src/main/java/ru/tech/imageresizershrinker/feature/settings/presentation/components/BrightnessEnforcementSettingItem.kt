@@ -122,7 +122,10 @@ fun BrightnessEnforcementSettingItem(
                     contentPadding = PaddingValues(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(Screen.entries) { screen ->
+                    items(
+                        items = Screen.entries,
+                        key = { it.id }
+                    ) { screen ->
                         val checked by remember(screen, screenList) {
                             derivedStateOf {
                                 screenList.fastAny { it::class.isInstance(screen) }

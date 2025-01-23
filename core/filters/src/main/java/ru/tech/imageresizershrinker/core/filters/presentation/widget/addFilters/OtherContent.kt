@@ -261,7 +261,10 @@ internal fun OtherContent(
                 )
             }
         }
-        itemsIndexed(filters) { index, filter ->
+        itemsIndexed(
+            items = filters,
+            key = { _, f -> f.hashCode() }
+        ) { index, filter ->
             FilterSelectionItem(
                 filter = filter,
                 canOpenPreview = previewBitmap != null,

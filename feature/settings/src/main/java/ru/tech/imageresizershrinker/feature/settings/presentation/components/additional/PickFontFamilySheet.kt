@@ -160,7 +160,10 @@ internal fun PickFontFamilySheet(
                     )
                 }
 
-                items(defaultEntries) { font ->
+                items(
+                    items = defaultEntries,
+                    key = { it.name ?: "sys" }
+                ) { font ->
                     FontItem(
                         font = font,
                         onFontSelected = onFontSelected,
@@ -178,7 +181,10 @@ internal fun PickFontFamilySheet(
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.4f)
                     )
                 }
-                items(customEntries) { font ->
+                items(
+                    items = customEntries,
+                    key = { it.name ?: "sys" }
+                ) { font ->
                     FontItem(
                         font = font,
                         onFontSelected = onFontSelected,

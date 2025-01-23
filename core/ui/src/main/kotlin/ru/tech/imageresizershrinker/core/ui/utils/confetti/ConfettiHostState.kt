@@ -24,7 +24,9 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -45,6 +47,8 @@ val LocalConfettiHostState = compositionLocalOf { ConfettiHostState() }
 @Composable
 fun rememberConfettiHostState() = remember { ConfettiHostState() }
 
+@Stable
+@Immutable
 class ConfettiHostState : ToastHostState() {
     suspend fun showConfetti(
         duration: ToastDuration = ToastDuration(4500L)

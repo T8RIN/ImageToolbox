@@ -302,7 +302,10 @@ fun AddFiltersSheet(
                                 modifier = Modifier.animateContentSize(),
                                 contentPadding = PaddingValues(16.dp)
                             ) {
-                                itemsIndexed(filtersForSearch) { index, filter ->
+                                itemsIndexed(
+                                    items = filtersForSearch,
+                                    key = { _, f -> f.hashCode() }
+                                ) { index, filter ->
                                     FilterSelectionItem(
                                         filter = filter,
                                         isFavoritePage = false,

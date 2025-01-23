@@ -67,7 +67,10 @@ internal fun OCRLanguageColumnForSearch(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        itemsIndexed(languagesForSearch) { index, lang ->
+        itemsIndexed(
+            items = languagesForSearch,
+            key = { _, l -> l.code }
+        ) { index, lang ->
             val selected by remember(value, lang) {
                 derivedStateOf {
                     lang in value
