@@ -225,7 +225,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                             imageScaler.scaleByMaxBytes(
                                 image = bitmap,
                                 maxBytes = (fileController.getSize(uri.toString()) ?: 0)
-                                    .times(_presetSelected.value / 100f)
+                                    .times(presetSelected / 100f)
                                     .toLong(),
                                 imageFormat = imageFormat,
                                 imageScaleMode = imageScaleMode
@@ -314,7 +314,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                             imageScaler.scaleByMaxBytes(
                                 image = bitmap,
                                 maxBytes = (fileController.getSize(uri) ?: 0)
-                                    .times(_presetSelected.value / 100f)
+                                    .times(presetSelected / 100f)
                                     .toLong(),
                                 imageFormat = imageFormat,
                                 imageScaleMode = imageScaleMode
@@ -388,7 +388,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                         imageScaler.scaleByMaxBytes(
                             image = bitmap,
                             maxBytes = (fileController.getSize(uri) ?: 0)
-                                .times(_presetSelected.value / 100f)
+                                .times(presetSelected / 100f)
                                 .toLong(),
                             imageFormat = imageFormat,
                             imageScaleMode = imageScaleMode
@@ -436,7 +436,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                         imageScaler.scaleByMaxBytes(
                             image = bitmap,
                             maxBytes = (fileController.getSize(uri.toString()) ?: 0)
-                                .times(_presetSelected.value / 100f)
+                                .times(presetSelected / 100f)
                                 .toLong(),
                             imageFormat = imageFormat,
                             imageScaleMode = imageScaleMode

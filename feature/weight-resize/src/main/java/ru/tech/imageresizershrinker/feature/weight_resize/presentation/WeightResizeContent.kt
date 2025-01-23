@@ -240,9 +240,9 @@ fun WeightResizeContent(
                     )
                 } else {
                     PresetSelector(
-                        value = component.presetSelected.let {
+                        value = component.presetSelected.takeIf { it > 0 }?.let {
                             Preset.Percentage(it)
-                        },
+                        } ?: Preset.None,
                         includeTelegramOption = false,
                         onValueChange = component::selectPreset,
                         isBytesResize = true

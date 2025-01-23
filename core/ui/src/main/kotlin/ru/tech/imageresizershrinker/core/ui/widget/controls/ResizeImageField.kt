@@ -36,7 +36,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.CalculatorDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 
 @Composable
@@ -97,7 +97,7 @@ fun ResizeImageField(
                         bottomEnd = 6.dp
                     ),
                     label = {
-                        Text(
+                        AutoSizeText(
                             stringResource(
                                 R.string.width,
                                 originalSize?.width?.toString() ?: ""
@@ -130,7 +130,7 @@ fun ResizeImageField(
                         bottomStart = 6.dp
                     ),
                     label = {
-                        Text(
+                        AutoSizeText(
                             stringResource(
                                 R.string.height,
                                 originalSize?.height?.toString()
