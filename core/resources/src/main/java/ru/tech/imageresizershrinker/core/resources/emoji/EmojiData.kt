@@ -18,8 +18,12 @@
 package ru.tech.imageresizershrinker.core.resources.emoji
 
 import android.net.Uri
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
 
+@Stable
+@Immutable
 data class EmojiData(
     val title: String,
     val icon: ImageVector,

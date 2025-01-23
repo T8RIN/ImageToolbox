@@ -110,8 +110,6 @@ object Emoji {
 
     /**
      * Generates Uri of the assets path.
-     * @see coil.map.FileUriMapper
-     * @see coil.fetch.AssetUriFetcher
      */
     private fun getFileFromAssets(
         cat: String,
