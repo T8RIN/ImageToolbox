@@ -1357,7 +1357,7 @@
     <string name="select_webp_image_to_start">WEBP-Bild zum Starten auswählen</string>
     <string name="image_toolbox_in_telegram">ImageToolbox in Telegram 🎉</string>
     <string name="custom_options">Eigene Optionen</string>
-    <string name="custom_params_info">Optionen sollten nach folgendem Muster eingegeben werden: „--{option_name} {value}„</string>
+    <string name="custom_params_info">Optionen sollten nach folgendem Muster eingegeben werden: „--{option_name} {value}\\</string>
     <string name="free_corners">Freie Ecken</string>
     <string name="mask">Maske</string>
     <string name="spot_heal">Fleckkorrektur</string>
@@ -1542,4 +1542,5 @@
     <string name="error_while_saving">Fehler beim Speichern, versuche den Ausgabeordner zu ändern</string>
     <string name="filename_is_not_set">Dateiname ist nicht festgelegt</string>
     <string name="pages_selection">Seitenauswahl</string>
+    <string name="edit_exif_screen">EXIF bearbeiten</string>
 </resources>
