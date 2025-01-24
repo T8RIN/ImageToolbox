@@ -1543,4 +1543,13 @@
     <string name="filename_is_not_set">Dateiname ist nicht festgelegt</string>
     <string name="pages_selection">Seitenauswahl</string>
     <string name="edit_exif_screen">EXIF bearbeiten</string>
+    <string name="batch_compare">Stapelvergleich</string>
+    <string name="pick_files_to_checksum">Wähle die Datei(en) aus, deren Prüfsumme auf der Grundlage des gewählten Algorithmus berechnet werden soll</string>
+    <string name="pick_directory">Verzeichnis auswählen</string>
+    <string name="edit_exif_screen_sub">Metadaten eines einzelnen Bildes ohne erneute Komprimierung ändern</string>
+    <string name="edit_exif_tag">Tippen, um die verfügbaren Tags zu bearbeiten</string>
+    <string name="change_sticker">Sticker ändern</string>
+    <string name="fit_width">Breite anpassen</string>
+    <string name="fit_height">Höhe anpassen</string>
+    <string name="pick_files">Dateien auswählen</string>
 </resources>
