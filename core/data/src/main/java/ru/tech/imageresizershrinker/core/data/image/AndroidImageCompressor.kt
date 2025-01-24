@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
-import ru.tech.imageresizershrinker.core.data.image.utils.SimpleCompressor
+import ru.tech.imageresizershrinker.core.data.image.utils.ImageCompressorBackend
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -72,8 +72,8 @@ internal class AndroidImageCompressor @Inject constructor(
         imageFormat: ImageFormat,
         quality: Quality
     ): ByteArray = withContext(encodingDispatcher) {
-        SimpleCompressor
-            .getInstance(
+        ImageCompressorBackend.Factory()
+            .create(
                 imageFormat = imageFormat,
                 context = context,
                 imageScaler = imageScaler
