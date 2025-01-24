@@ -106,7 +106,9 @@ internal class AndroidFileController @Inject constructor(
 
         val data = if (saveTarget is ImageSaveTarget<*> && saveTarget.readFromUriInsteadOfData) {
             readBytes(saveTarget.originalUri)
-        } else saveTarget.data
+        } else {
+            saveTarget.data
+        }
 
         val savingPath = oneTimeSaveLocationUri?.getPath(context) ?: defaultSavingPath
 

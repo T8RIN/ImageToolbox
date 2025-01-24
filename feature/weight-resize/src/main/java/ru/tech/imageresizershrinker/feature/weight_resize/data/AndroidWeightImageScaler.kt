@@ -57,7 +57,7 @@ internal class AndroidWeightImageScaler @Inject constructor(
             )
             val normalization = 2048 * (initialSize / (5 * 1024 * 1024)).coerceAtLeast(1)
 
-            val targetSize = maxBytes - normalization
+            val targetSize = (maxBytes - normalization).coerceAtLeast(1024)
 
             if (initialSize > targetSize) {
                 var outArray = ByteArray(initialSize.toInt())

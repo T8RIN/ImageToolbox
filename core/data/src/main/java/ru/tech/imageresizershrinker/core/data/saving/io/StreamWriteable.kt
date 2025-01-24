@@ -23,12 +23,14 @@ import java.io.InputStream
 import java.io.OutputStream
 
 internal class StreamWriteable(
-    private val stream: OutputStream
+    outputStream: OutputStream
 ) : Writeable {
+
+    private val stream = outputStream.buffered()
 
     override fun copyFrom(readable: Readable) = writeBytes(readable.readBytes())
 
-    override fun writeBytes(byteArray: ByteArray) = stream.buffered().write(byteArray)
+    override fun writeBytes(byteArray: ByteArray) = stream.write(byteArray)
 
     override fun close() {
         stream.flush()
@@ -38,13 +40,15 @@ internal class StreamWriteable(
 }
 
 internal class StreamReadable(
-    private val stream: InputStream?
+    inputStream: InputStream
 ) : Readable {
 
-    override fun readBytes(): ByteArray = stream?.buffered()?.readBytes() ?: ByteArray(0)
+    private val stream = inputStream.buffered()
+
+    override fun readBytes(): ByteArray = stream.buffered().readBytes()
 
     override fun copyTo(writeable: Writeable) = writeable.writeBytes(readBytes())
 
-    override fun close() = stream?.close() ?: Unit
+    override fun close() = stream.close()
 
 }

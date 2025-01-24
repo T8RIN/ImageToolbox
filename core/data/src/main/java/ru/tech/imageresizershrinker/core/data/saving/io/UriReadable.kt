@@ -27,13 +27,13 @@ class UriReadable(
     private val uri: Uri,
     private val context: Context
 ) : Readable by StreamReadable(
-    stream = context.contentResolver.openInputStream(uri)
+    inputStream = context.contentResolver.openInputStream(uri) ?: ByteArray(0).inputStream()
 )
 
 class ByteArrayReadable(
     private val byteArray: ByteArray
 ) : Readable by StreamReadable(
-    stream = byteArray.inputStream()
+    inputStream = byteArray.inputStream()
 )
 
 class StringReadable(
