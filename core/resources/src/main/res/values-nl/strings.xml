@@ -1550,4 +1550,6 @@
     <string name="pick_files_to_checksum">Kies bestand/bestanden om de controlesom te berekenen op basis van het geselecteerde algoritme</string>
     <string name="fit_width">Breedte passend</string>
     <string name="fit_height">Hoogte passend</string>
+    <string name="pick_directory">Map kiezen</string>
+    <string name="pick_files">Bestanden kiezen</string>
 </resources>
