@@ -48,7 +48,6 @@ import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
-import androidx.compose.material.icons.twotone.FileOpen
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -78,7 +77,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ShieldKey
 import ru.tech.imageresizershrinker.core.resources.icons.ShieldOpen
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
@@ -94,8 +92,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
+import ru.tech.imageresizershrinker.core.ui.widget.image.FileNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -251,33 +249,7 @@ fun CipherContent(
         },
         canShowScreenData = component.uri != null,
         noDataControls = {
-            Column(
-                modifier = Modifier.container(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(Modifier.height(16.dp))
-                Icon(
-                    imageVector = Icons.TwoTone.FileOpen,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .container(
-                            shape = CloverShape,
-                            resultPadding = 0.dp,
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                        .hapticsClickable(onClick = filePicker::pickFile)
-                        .padding(12.dp),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-                Text(
-                    text = stringResource(R.string.pick_file_to_start),
-                    modifier = Modifier.padding(16.dp),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            FileNotPickedWidget(onPickFile = filePicker::pickFile)
         },
         controls = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {

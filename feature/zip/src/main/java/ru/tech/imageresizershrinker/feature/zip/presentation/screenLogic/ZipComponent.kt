@@ -78,12 +78,11 @@ class ZipComponent @AssistedInject internal constructor(
     }
 
     fun startCompression(
-        onComplete: (Throwable?) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         savingJob = componentScope.launch(defaultDispatcher) {
             _isSaving.value = true
             if (uris.isEmpty()) {
-                onComplete(null)
                 return@launch
             }
             runCatching {
@@ -95,7 +94,7 @@ class ZipComponent @AssistedInject internal constructor(
                         _done.update { it + 1 }
                     }
                 )
-            }.onFailure(onComplete)
+            }.onFailure(onFailure)
             _isSaving.value = false
         }
     }

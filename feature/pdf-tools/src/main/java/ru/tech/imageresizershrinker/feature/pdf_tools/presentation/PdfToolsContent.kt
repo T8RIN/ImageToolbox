@@ -197,7 +197,10 @@ fun PdfToolsContent(
             }
         },
         title = {
-            TitleItem(text = stringResource(id = R.string.pick_file), icon = Icons.Rounded.FileOpen)
+            TitleItem(
+                text = stringResource(id = R.string.pick_file),
+                icon = Icons.Rounded.FileOpen
+            )
         }
     )
 

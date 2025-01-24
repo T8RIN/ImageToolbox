@@ -36,7 +36,7 @@ import com.gigamole.composefadingedges.marqueeHorizontalFadingEdges
 
 
 fun Modifier.marquee(
-    edgeColor: Color = Color.Unspecified,
+    edgesColor: Color = Color.Unspecified,
 ) = this.composed {
     var showMarquee by remember { mutableStateOf(false) }
 
@@ -45,9 +45,9 @@ fun Modifier.marquee(
         .then(
             if (showMarquee) {
                 Modifier.marqueeHorizontalFadingEdges(
-                    fillType = if (edgeColor.isSpecified) {
+                    fillType = if (edgesColor.isSpecified) {
                         FadingEdgesFillType.FadeColor(
-                            color = edgeColor
+                            color = edgesColor
                         )
                     } else FadingEdgesFillType.FadeClip(),
                     length = 10.dp,
