@@ -53,4 +53,6 @@ object ListUtils {
     }
 
     inline fun <reified R : Any> Iterable<Any?>.firstOfType(): R? = firstOrNull { it is R } as? R
+
+    operator fun <E> List<E>.component6(): E = get(5)
 }

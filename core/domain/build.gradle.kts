@@ -23,6 +23,5 @@ plugins {
 android.namespace = "ru.tech.imageresizershrinker.core.domain"
 
 dependencies {
-    implementation(libs.coil)
     implementation(projects.core.resources)
 }
