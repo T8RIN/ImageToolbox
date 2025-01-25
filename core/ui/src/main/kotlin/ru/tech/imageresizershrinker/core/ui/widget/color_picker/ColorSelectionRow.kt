@@ -505,11 +505,11 @@ fun ColorSelectionRow(
                 }
 
                 val containerColor by animateColorAsState(
-                    if (inFavorite) MaterialTheme.colorScheme.secondaryContainer
-                    else MaterialTheme.colorScheme.surface
+                    if (inFavorite) MaterialTheme.colorScheme.tertiaryContainer
+                    else MaterialTheme.colorScheme.surfaceContainer
                 )
                 val contentColor by animateColorAsState(
-                    if (inFavorite) MaterialTheme.colorScheme.surfaceContainer
+                    if (inFavorite) MaterialTheme.colorScheme.onTertiaryContainer
                     else MaterialTheme.colorScheme.onBackground
                 )
 
