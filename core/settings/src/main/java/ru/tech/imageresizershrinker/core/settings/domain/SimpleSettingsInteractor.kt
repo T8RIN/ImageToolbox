@@ -26,9 +26,14 @@ interface SimpleSettingsInteractor {
 
     suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
 
+    suspend fun toggleRecentColor(
+        color: ColorModel,
+        forceExclude: Boolean = false
+    )
+
     suspend fun toggleFavoriteColor(
         color: ColorModel,
-        forceExclude: Boolean
+        forceExclude: Boolean = true
     )
 
     fun isInstalledFromPlayStore(): Boolean

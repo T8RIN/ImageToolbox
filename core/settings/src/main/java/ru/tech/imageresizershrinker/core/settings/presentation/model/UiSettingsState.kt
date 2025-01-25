@@ -144,7 +144,8 @@ data class UiSettingsState(
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
     val hashingTypeForFilename: HashingType?,
     val customFonts: List<UiFontFamily.Custom>,
-    val enableToolExitConfirmation: Boolean
+    val enableToolExitConfirmation: Boolean,
+    val recentColors: List<Color>,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -268,6 +269,12 @@ fun SettingsState.toUiState(
         }
     }
 
+    val recentColors by remember(recentColors) {
+        derivedStateOf {
+            recentColors.map { Color(it.colorInt) }
+        }
+    }
+
     val mainScreenTitle by remember(mainScreenTitle) {
         derivedStateOf {
             mainScreenTitle.ifEmpty {
@@ -374,7 +381,8 @@ fun SettingsState.toUiState(
                 settingGroupsInitialVisibility = settingGroupsInitialVisibility,
                 hashingTypeForFilename = hashingTypeForFilename,
                 customFonts = customFonts,
-                enableToolExitConfirmation = enableToolExitConfirmation
+                enableToolExitConfirmation = enableToolExitConfirmation,
+                recentColors = recentColors
             )
         }
     }.value

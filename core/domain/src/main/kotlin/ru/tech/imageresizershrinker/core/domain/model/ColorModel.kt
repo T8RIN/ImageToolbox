@@ -21,3 +21,5 @@ package ru.tech.imageresizershrinker.core.domain.model
 value class ColorModel(
     val colorInt: Int
 )
+
+fun Int.toColorModel() = ColorModel(this)

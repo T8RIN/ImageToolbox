@@ -62,6 +62,7 @@ import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
+import kotlin.collections.toSet
 import kotlin.io.use
 import kotlin.random.Random
 
@@ -449,9 +450,27 @@ internal class AndroidSettingsManager @Inject constructor(
         }.distinctBy { it.uri }.joinToString(", ")
     }
 
-    override suspend fun toggleFavoriteColor(
+    override suspend fun toggleRecentColor(
         color: ColorModel,
         forceExclude: Boolean,
+    ) = edit {
+        val current = currentSettings.recentColors
+        val newColors = if (color in current) {
+            if (forceExclude) {
+                current - color
+            } else {
+                listOf(color) + (current - color)
+            }
+        } else {
+            listOf(color) + current
+        }
+
+        it[RECENT_COLORS] = newColors.take(30).map { it.colorInt.toString() }.toSet()
+    }
+
+    override suspend fun toggleFavoriteColor(
+        color: ColorModel,
+        forceExclude: Boolean
     ) = edit {
         val current = currentSettings.favoriteColors
         val newColors = if (color in current) {
@@ -464,7 +483,7 @@ internal class AndroidSettingsManager @Inject constructor(
             listOf(color) + current
         }
 
-        it[FAVORITE_COLORS] = newColors.take(30).joinToString("/") { it.colorInt.toString() }
+        it[FAVOURITE_COLORS] = newColors.map { it.colorInt.toString() }.toSet()
     }
 
     override suspend fun toggleOpenEditInsteadOfPreview() = toggle(

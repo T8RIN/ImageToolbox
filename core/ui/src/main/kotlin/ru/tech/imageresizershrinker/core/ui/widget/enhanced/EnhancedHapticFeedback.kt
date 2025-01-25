@@ -16,6 +16,7 @@
  */
 
 @file:Suppress("DEPRECATION")
+@file:SuppressLint("UnnecessaryComposedModifier")
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
@@ -65,11 +66,12 @@ private fun Context.isTouchExplorationEnabled(): Boolean {
     return accessibilityManager?.isTouchExplorationEnabled == true
 }
 
+@SuppressLint("InlinedApi")
 internal data class EnhancedHapticFeedback(
     val hapticsStrength: Int,
     val view: View
 ) : HapticFeedback {
-    @SuppressLint("InlinedApi")
+
     override fun performHapticFeedback(hapticFeedbackType: HapticFeedbackType) {
         when (hapticFeedbackType) {
             HapticFeedbackType.LongPress -> {
@@ -114,6 +116,7 @@ internal data class EnhancedHapticFeedback(
                 view.reallyPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
         }
     }
+
 }
 
 internal data object EmptyHaptics : HapticFeedback {

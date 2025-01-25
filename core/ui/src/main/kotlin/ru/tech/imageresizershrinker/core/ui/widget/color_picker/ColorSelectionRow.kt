@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -25,6 +26,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +43,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.rounded.Bookmark
+import androidx.compose.material.icons.rounded.BookmarkBorder
+import androidx.compose.material.icons.rounded.BookmarkRemove
 import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.ContentPasteGo
 import androidx.compose.material.icons.rounded.DoneAll
@@ -71,13 +76,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ColorModel
+import ru.tech.imageresizershrinker.core.domain.model.toColorModel
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
@@ -280,17 +286,22 @@ fun ColorSelectionRow(
         mutableIntStateOf(customColor?.toArgb() ?: 0)
     }
     val settingsState = LocalSettingsState.current
+    val recentColors = settingsState.recentColors
+    val favoriteColors = settingsState.favoriteColors
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
     EnhancedModalBottomSheet(
         sheetContent = {
             Box {
                 Column(
                     modifier = Modifier
-                        .verticalScroll(rememberScrollState())
+                        .verticalScroll(rememberScrollState(), reverseScrolling = true)
                         .padding(24.dp)
                 ) {
-                    val favoriteColors = settingsState.favoriteColors
-                    BoxAnimatedVisibility(favoriteColors.isNotEmpty()) {
+                    BoxAnimatedVisibility(
+                        visible = recentColors.isNotEmpty() || favoriteColors.isNotEmpty()
+                    ) {
+                        val itemWidth = with(LocalDensity.current) { 48.dp.toPx() }
+
                         Column(
                             modifier = Modifier
                                 .padding(bottom = 16.dp)
@@ -298,75 +309,156 @@ fun ColorSelectionRow(
                                     shape = RoundedCornerShape(24.dp),
                                     resultPadding = 0.dp
                                 )
-                                .padding(16.dp)
+                                .padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            TitleItem(
-                                text = stringResource(R.string.recently_used),
-                                icon = Icons.Outlined.History,
-                                modifier = Modifier
-                            )
-                            Spacer(Modifier.height(16.dp))
-                            val rowState = rememberLazyListState()
-                            val itemWidth = with(LocalDensity.current) { 48.dp.toPx() }
-                            val possibleCount by remember(rowState, itemWidth) {
-                                derivedStateOf {
-                                    (rowState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
-                                }
-                            }
-                            LazyRow(
-                                state = rowState,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fadingEdges(rowState),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                items(favoriteColors) { color ->
-                                    Box(
+                            BoxAnimatedVisibility(recentColors.isNotEmpty()) {
+                                Column {
+                                    TitleItem(
+                                        text = stringResource(R.string.recently_used),
+                                        icon = Icons.Outlined.History,
                                         modifier = Modifier
-                                            .size(40.dp)
-                                            .aspectRatio(1f)
-                                            .container(
-                                                shape = CircleShape,
-                                                color = color,
-                                                resultPadding = 0.dp
-                                            )
-                                            .transparencyChecker()
-                                            .background(color, CircleShape)
-                                            .hapticsClickable {
-                                                tempColor = color.toArgb()
-                                            },
-                                        contentAlignment = Alignment.Center
+                                    )
+                                    Spacer(Modifier.height(12.dp))
+                                    val recentState = rememberLazyListState()
+                                    val possibleCount by remember(recentState, itemWidth) {
+                                        derivedStateOf {
+                                            (recentState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
+                                        }
+                                    }
+                                    LazyRow(
+                                        state = recentState,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fadingEdges(recentState),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.ContentPasteGo,
-                                            contentDescription = null,
-                                            tint = color.inverse(
-                                                fraction = {
-                                                    if (it) 0.8f
-                                                    else 0.5f
-                                                },
-                                                darkMode = color.luminance() < 0.3f
-                                            ),
-                                            modifier = Modifier
-                                                .size(24.dp)
-                                                .background(
-                                                    color = color.copy(alpha = 1f),
-                                                    shape = CircleShape
+                                        items(recentColors) { color ->
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(40.dp)
+                                                    .aspectRatio(1f)
+                                                    .container(
+                                                        shape = CircleShape,
+                                                        color = color,
+                                                        resultPadding = 0.dp
+                                                    )
+                                                    .transparencyChecker()
+                                                    .background(color, CircleShape)
+                                                    .hapticsClickable {
+                                                        tempColor = color.toArgb()
+                                                    }
+                                                    .animateItem(),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.ContentPasteGo,
+                                                    contentDescription = null,
+                                                    tint = color.inverse(
+                                                        fraction = {
+                                                            if (it) 0.8f
+                                                            else 0.5f
+                                                        },
+                                                        darkMode = color.luminance() < 0.3f
+                                                    ),
+                                                    modifier = Modifier
+                                                        .size(24.dp)
+                                                        .background(
+                                                            color = color.copy(alpha = 1f),
+                                                            shape = CircleShape
+                                                        )
+                                                        .padding(3.dp)
                                                 )
-                                                .padding(3.dp)
-                                        )
+                                            }
+                                        }
+                                        if (recentColors.size < possibleCount) {
+                                            items(possibleCount - recentColors.size) {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(40.dp)
+                                                        .clip(CircleShape)
+                                                        .alpha(0.4f)
+                                                        .transparencyChecker()
+                                                        .animateItem()
+                                                )
+                                            }
+                                        }
                                     }
                                 }
-                                if (favoriteColors.size < possibleCount) {
-                                    items(possibleCount - favoriteColors.size) {
-                                        Box(
-                                            modifier = Modifier
-                                                .size(40.dp)
-                                                .clip(CircleShape)
-                                                .alpha(0.4f)
-                                                .transparencyChecker()
-                                        )
+                            }
+                            BoxAnimatedVisibility(favoriteColors.isNotEmpty()) {
+                                Column {
+                                    TitleItem(
+                                        text = stringResource(R.string.favorite),
+                                        icon = Icons.Rounded.BookmarkBorder,
+                                        modifier = Modifier
+                                    )
+                                    Spacer(Modifier.height(12.dp))
+                                    val favoriteState = rememberLazyListState()
+                                    val possibleCount by remember(favoriteState, itemWidth) {
+                                        derivedStateOf {
+                                            (favoriteState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
+                                        }
+                                    }
+                                    LazyRow(
+                                        state = favoriteState,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fadingEdges(favoriteState),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        items(favoriteColors) { color ->
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(40.dp)
+                                                    .aspectRatio(1f)
+                                                    .container(
+                                                        shape = CircleShape,
+                                                        color = color,
+                                                        resultPadding = 0.dp
+                                                    )
+                                                    .transparencyChecker()
+                                                    .background(color, CircleShape)
+                                                    .hapticsClickable {
+                                                        tempColor = color.toArgb()
+                                                    }
+                                                    .animateItem(),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.ContentPasteGo,
+                                                    contentDescription = null,
+                                                    tint = color.inverse(
+                                                        fraction = {
+                                                            if (it) 0.8f
+                                                            else 0.5f
+                                                        },
+                                                        darkMode = color.luminance() < 0.3f
+                                                    ),
+                                                    modifier = Modifier
+                                                        .size(24.dp)
+                                                        .background(
+                                                            color = color.copy(alpha = 1f),
+                                                            shape = CircleShape
+                                                        )
+                                                        .padding(3.dp)
+                                                )
+                                            }
+                                        }
+                                        if (favoriteColors.size < possibleCount) {
+                                            items(possibleCount - favoriteColors.size) {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(40.dp)
+                                                        .clip(CircleShape)
+                                                        .alpha(0.4f)
+                                                        .transparencyChecker()
+                                                        .animateItem()
+                                                )
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -402,21 +494,55 @@ fun ColorSelectionRow(
             )
         },
         confirmButton = {
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    scope.launch {
-                        simpleSettingsInteractor.toggleFavoriteColor(
-                            color = ColorModel(colorInt = tempColor),
-                            forceExclude = false
-                        )
-                    }
-                    onValueChange(Color(tempColor))
-                    customColor = Color(tempColor)
-                    showColorPicker = false
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                AutoSizeText(stringResource(R.string.ok))
+                val inFavorite by remember(tempColor, favoriteColors) {
+                    derivedStateOf {
+                        Color(tempColor) in favoriteColors
+                    }
+                }
+
+                val containerColor by animateColorAsState(
+                    if (inFavorite) MaterialTheme.colorScheme.secondaryContainer
+                    else MaterialTheme.colorScheme.surface
+                )
+                val contentColor by animateColorAsState(
+                    if (inFavorite) MaterialTheme.colorScheme.surfaceContainer
+                    else MaterialTheme.colorScheme.onBackground
+                )
+
+                EnhancedIconButton(
+                    containerColor = containerColor,
+                    contentColor = contentColor,
+                    onClick = {
+                        scope.launch {
+                            simpleSettingsInteractor.toggleFavoriteColor(tempColor.toColorModel())
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = if (inFavorite) {
+                            Icons.Rounded.BookmarkRemove
+                        } else {
+                            Icons.Rounded.Bookmark
+                        },
+                        contentDescription = null
+                    )
+                }
+                EnhancedButton(
+                    onClick = {
+                        scope.launch {
+                            simpleSettingsInteractor.toggleRecentColor(tempColor.toColorModel())
+                        }
+                        onValueChange(Color(tempColor))
+                        customColor = Color(tempColor)
+                        showColorPicker = false
+                    }
+                ) {
+                    AutoSizeText(stringResource(R.string.ok))
+                }
             }
         }
     )

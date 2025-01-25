@@ -115,7 +115,8 @@ data class SettingsState(
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
     val hashingTypeForFilename: HashingType?,
     val customFonts: List<DomainFontFamily.Custom>,
-    val enableToolExitConfirmation: Boolean
+    val enableToolExitConfirmation: Boolean,
+    val recentColors: List<ColorModel>,
 ) {
 
     companion object {
@@ -209,7 +210,8 @@ data class SettingsState(
                 settingGroupsInitialVisibility = emptyMap(),
                 hashingTypeForFilename = null,
                 customFonts = emptyList(),
-                enableToolExitConfirmation = true
+                enableToolExitConfirmation = true,
+                recentColors = emptyList()
             )
         }
     }
