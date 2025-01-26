@@ -805,7 +805,7 @@ or click one of the badges below.
 
 # 🌐 Translation
 
-You can help translate ImageResizer into your language
+You can help translate Image Toolbox into your language
 on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
 [![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
