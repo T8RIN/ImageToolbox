@@ -74,15 +74,20 @@ capabilities.
 
 <div align="center">
 
+# 📔 Wiki
+Check out Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for FAQ and useful info
+</br>
+</br>
+
 # ✈️ Telegram Links
 
 </br>
 <a href="https://t.me/t8rin_imagetoolbox">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=17270b&colorB=617626&logo=telegram&logoColor=b3ffdd&label=ImageToolbox ✨ Chat&url=https://mogyo.ro/quart-apis/tgmembercount?chat_id=t8rin_imagetoolbox" alt="Telegram">
+    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=17270b&colorB=617626&logo=telegram&logoColor=b3ffdd&label=ImageToolbox ✨ Chat&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox" alt="Telegram">
   </a>
 
   <a href="https://t.me/t8rin_imagetoolbox_ci">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=17270b&colorB=617626&logo=telegram&logoColor=b3ffdd&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci" alt="Telegram">
+    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=2e4a52&colorB=2b93ad&logo=telegram&logoColor=b3ffdd&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci" alt="Telegram">
   </a>
 
   </br>
