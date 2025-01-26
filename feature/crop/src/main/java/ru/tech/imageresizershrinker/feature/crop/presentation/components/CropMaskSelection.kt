@@ -129,7 +129,10 @@ fun CropMaskSelection(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fadingEdges(listState)
         ) {
-            itemsIndexed(outlineProperties) { _, item ->
+            itemsIndexed(
+                items = outlineProperties,
+                key = { _, o -> o.cropOutline.id }
+            ) { _, item ->
                 val selected = selectedItem.cropOutline.id == item.cropOutline.id
                 CropFrameDisplayCard(
                     modifier = Modifier

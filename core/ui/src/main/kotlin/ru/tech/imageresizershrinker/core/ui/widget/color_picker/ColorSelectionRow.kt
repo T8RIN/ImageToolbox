@@ -222,7 +222,10 @@ fun ColorSelectionRow(
                 )
             }
         }
-        items(defaultColors) { color ->
+        items(
+            items = defaultColors,
+            key = { it.toArgb() }
+        ) { color ->
             val isSelected = value == color && customColor == null
             val shape = animateShape(
                 if (isSelected) RoundedCornerShape(8.dp)
@@ -334,7 +337,10 @@ fun ColorSelectionRow(
                                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        items(recentColors) { color ->
+                                        items(
+                                            items = recentColors,
+                                            key = { it.toArgb() }
+                                        ) { color ->
                                             Box(
                                                 modifier = Modifier
                                                     .size(40.dp)
@@ -409,7 +415,10 @@ fun ColorSelectionRow(
                                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        items(favoriteColors) { color ->
+                                        items(
+                                            items = favoriteColors,
+                                            key = { it.toArgb() }
+                                        ) { color ->
                                             Box(
                                                 modifier = Modifier
                                                     .size(40.dp)

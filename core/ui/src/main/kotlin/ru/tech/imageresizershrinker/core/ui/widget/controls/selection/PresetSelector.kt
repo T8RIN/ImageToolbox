@@ -244,7 +244,7 @@ fun PresetSelector(
                         contentPadding = PaddingValues(horizontal = 8.dp)
                     ) {
                         if (includeTelegramOption) {
-                            item {
+                            item(key = "tg") {
                                 val selected = value.isTelegram()
                                 EnhancedChip(
                                     selected = selected,
@@ -260,7 +260,7 @@ fun PresetSelector(
                             }
                         }
                         if (includeAspectRatioOption) {
-                            item {
+                            item(key = "aspect") {
                                 val selected = value.isAspectRatio()
                                 EnhancedChip(
                                     selected = selected,
@@ -282,7 +282,10 @@ fun PresetSelector(
                                 }
                             }
                         }
-                        items(data) {
+                        items(
+                            items = data,
+                            key = { it }
+                        ) {
                             val selected = value.value() == it
                             EnhancedChip(
                                 selected = selected,

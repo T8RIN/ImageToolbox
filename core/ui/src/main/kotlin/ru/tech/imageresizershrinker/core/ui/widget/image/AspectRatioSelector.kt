@@ -140,7 +140,10 @@ fun AspectRatioSelector(
                 enabled = enableFadingEdges
             )
         ) {
-            itemsIndexed(aspectRatios) { index, item ->
+            itemsIndexed(
+                items = aspectRatios,
+                key = { _, a -> a.value }
+            ) { index, item ->
                 val selected = (item == selectedAspectRatio)
                     .or(
                         item is DomainAspectRatio.Custom && selectedAspectRatio is DomainAspectRatio.Custom

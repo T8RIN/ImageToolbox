@@ -40,6 +40,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.ContentPasteGo
 import androidx.compose.material3.Icon
@@ -215,8 +216,14 @@ fun ConfettiHarmonizerSettingItem(
                     .verticalScroll(rememberScrollState())
                     .padding(24.dp)
             ) {
+                val recentColors = settingsState.recentColors
                 val favoriteColors = settingsState.favoriteColors
-                BoxAnimatedVisibility(favoriteColors.isNotEmpty()) {
+
+                BoxAnimatedVisibility(
+                    visible = recentColors.isNotEmpty() || favoriteColors.isNotEmpty()
+                ) {
+                    val itemWidth = with(LocalDensity.current) { 48.dp.toPx() }
+
                     Column(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
@@ -224,80 +231,168 @@ fun ConfettiHarmonizerSettingItem(
                                 shape = RoundedCornerShape(24.dp),
                                 resultPadding = 0.dp
                             )
-                            .padding(16.dp)
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        TitleItem(
-                            text = stringResource(R.string.recently_used),
-                            icon = Icons.Outlined.History,
-                            modifier = Modifier
-                        )
-                        Spacer(Modifier.height(16.dp))
-                        val rowState = rememberLazyListState()
-                        val itemWidth = with(LocalDensity.current) { 48.dp.toPx() }
-                        val possibleCount by remember(rowState, itemWidth) {
-                            derivedStateOf {
-                                (rowState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
-                            }
-                        }
-                        LazyRow(
-                            state = rowState,
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fadingEdges(rowState),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            items(favoriteColors) { color ->
-                                Box(
+                        BoxAnimatedVisibility(recentColors.isNotEmpty()) {
+                            Column {
+                                TitleItem(
+                                    text = stringResource(R.string.recently_used),
+                                    icon = Icons.Outlined.History,
                                     modifier = Modifier
-                                        .size(40.dp)
-                                        .aspectRatio(1f)
-                                        .container(
-                                            shape = CircleShape,
-                                            color = color,
-                                            resultPadding = 0.dp
-                                        )
-                                        .transparencyChecker()
-                                        .background(color, CircleShape)
-                                        .hapticsClickable {
-                                            tempColor = color.toArgb()
-                                        },
-                                    contentAlignment = Alignment.Center
+                                )
+                                Spacer(Modifier.height(12.dp))
+                                val recentState = rememberLazyListState()
+                                val possibleCount by remember(recentState, itemWidth) {
+                                    derivedStateOf {
+                                        (recentState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
+                                    }
+                                }
+                                LazyRow(
+                                    state = recentState,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fadingEdges(recentState),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.ContentPasteGo,
-                                        contentDescription = null,
-                                        tint = color.inverse(
-                                            fraction = {
-                                                if (it) 0.8f
-                                                else 0.5f
-                                            },
-                                            darkMode = color.luminance() < 0.3f
-                                        ),
-                                        modifier = Modifier
-                                            .size(24.dp)
-                                            .background(
-                                                color = color.copy(alpha = 1f),
-                                                shape = CircleShape
+                                    items(
+                                        items = recentColors,
+                                        key = { it.toArgb() }
+                                    ) { color ->
+                                        Box(
+                                            modifier = Modifier
+                                                .size(40.dp)
+                                                .aspectRatio(1f)
+                                                .container(
+                                                    shape = CircleShape,
+                                                    color = color,
+                                                    resultPadding = 0.dp
+                                                )
+                                                .transparencyChecker()
+                                                .background(color, CircleShape)
+                                                .hapticsClickable {
+                                                    tempColor = color.toArgb()
+                                                }
+                                                .animateItem(),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.ContentPasteGo,
+                                                contentDescription = null,
+                                                tint = color.inverse(
+                                                    fraction = {
+                                                        if (it) 0.8f
+                                                        else 0.5f
+                                                    },
+                                                    darkMode = color.luminance() < 0.3f
+                                                ),
+                                                modifier = Modifier
+                                                    .size(24.dp)
+                                                    .background(
+                                                        color = color.copy(alpha = 1f),
+                                                        shape = CircleShape
+                                                    )
+                                                    .padding(3.dp)
                                             )
-                                            .padding(3.dp)
-                                    )
+                                        }
+                                    }
+                                    if (recentColors.size < possibleCount) {
+                                        items(possibleCount - recentColors.size) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(40.dp)
+                                                    .clip(CircleShape)
+                                                    .alpha(0.4f)
+                                                    .transparencyChecker()
+                                                    .animateItem()
+                                            )
+                                        }
+                                    }
                                 }
                             }
-                            if (favoriteColors.size < possibleCount) {
-                                items(possibleCount - favoriteColors.size) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(40.dp)
-                                            .clip(CircleShape)
-                                            .alpha(0.4f)
-                                            .transparencyChecker()
-                                    )
+                        }
+                        BoxAnimatedVisibility(favoriteColors.isNotEmpty()) {
+                            Column {
+                                TitleItem(
+                                    text = stringResource(R.string.favorite),
+                                    icon = Icons.Rounded.BookmarkBorder,
+                                    modifier = Modifier
+                                )
+                                Spacer(Modifier.height(12.dp))
+                                val favoriteState = rememberLazyListState()
+                                val possibleCount by remember(favoriteState, itemWidth) {
+                                    derivedStateOf {
+                                        (favoriteState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
+                                    }
+                                }
+                                LazyRow(
+                                    state = favoriteState,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fadingEdges(favoriteState),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    items(
+                                        items = favoriteColors,
+                                        key = { it.toArgb() }
+                                    ) { color ->
+                                        Box(
+                                            modifier = Modifier
+                                                .size(40.dp)
+                                                .aspectRatio(1f)
+                                                .container(
+                                                    shape = CircleShape,
+                                                    color = color,
+                                                    resultPadding = 0.dp
+                                                )
+                                                .transparencyChecker()
+                                                .background(color, CircleShape)
+                                                .hapticsClickable {
+                                                    tempColor = color.toArgb()
+                                                }
+                                                .animateItem(),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.ContentPasteGo,
+                                                contentDescription = null,
+                                                tint = color.inverse(
+                                                    fraction = {
+                                                        if (it) 0.8f
+                                                        else 0.5f
+                                                    },
+                                                    darkMode = color.luminance() < 0.3f
+                                                ),
+                                                modifier = Modifier
+                                                    .size(24.dp)
+                                                    .background(
+                                                        color = color.copy(alpha = 1f),
+                                                        shape = CircleShape
+                                                    )
+                                                    .padding(3.dp)
+                                            )
+                                        }
+                                    }
+                                    if (favoriteColors.size < possibleCount) {
+                                        items(possibleCount - favoriteColors.size) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(40.dp)
+                                                    .clip(CircleShape)
+                                                    .alpha(0.4f)
+                                                    .transparencyChecker()
+                                                    .animateItem()
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
                 ColorSelection(
                     color = tempColor,
                     onColorChange = {
