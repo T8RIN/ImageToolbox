@@ -1550,4 +1550,6 @@
     <string name="fit_width">Dopasuj do szerokości</string>
     <string name="batch_compare">Porównanie wsadowe</string>
     <string name="pick_files_to_checksum">Wybierz plik/pliki, aby obliczyć jego sumę kontrolną na podstawie wybranego algorytmu</string>
+    <string name="pick_files">Wybierz pliki</string>
+    <string name="pick_directory">Wybierz katalog</string>
 </resources>
