@@ -67,7 +67,6 @@ import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedTextOnPa
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
-import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 import javax.inject.Inject
@@ -356,21 +355,27 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         currentSize = canvasSize,
                         oldSize = size
                     )
-                    this.drawPath(
+
+                    drawPath(
                         path.asAndroidPath(),
                         Paint().apply {
-                            style = if (mode is DrawPathMode.Lasso) {
-                                PaintingStyle.Fill
-                            } else PaintingStyle.Stroke
+                            if (mode.isFilled) {
+                                style = PaintingStyle.Fill
+                            } else {
+                                style = PaintingStyle.Stroke
+                                this.strokeWidth = stroke.toPx(canvasSize)
+                                if (mode.isSharpEdge) {
+                                    strokeCap = StrokeCap.Square
+                                } else {
+                                    strokeCap = StrokeCap.Round
+                                    strokeJoin = StrokeJoin.Round
+                                }
+                            }
                             if (isRecoveryOn) {
                                 shader = recoveryShader
                             } else {
                                 blendMode = BlendMode.Clear
                             }
-                            strokeCap = StrokeCap.Round
-                            this.strokeWidth = stroke.toPx(canvasSize)
-                            strokeJoin = StrokeJoin.Round
-
                         }.asFrameworkPaint().apply {
                             if (radius.value > 0f) {
                                 maskFilter =
