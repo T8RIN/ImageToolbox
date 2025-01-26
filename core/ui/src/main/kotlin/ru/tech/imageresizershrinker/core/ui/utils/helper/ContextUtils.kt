@@ -364,7 +364,6 @@ object ContextUtils {
         else -> null
     }
 
-    /** Save a text into the clipboard. */
     fun Context.copyToClipboard(
         value: String,
     ) {
@@ -381,7 +380,6 @@ object ContextUtils {
         Configuration(resources.configuration).apply { setLocale(locale) }
     ).getText(resId).toString()
 
-    /** Receive the clipboard data. */
     fun Context.pasteColorFromClipboard(
         onPastedColor: (Int) -> Unit,
         onPastedColorFailure: (String) -> Unit,

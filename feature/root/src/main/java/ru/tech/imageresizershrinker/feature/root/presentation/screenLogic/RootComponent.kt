@@ -189,9 +189,7 @@ class RootComponent @AssistedInject internal constructor(
 
     fun setPresets(newPresets: List<Int>) {
         componentScope.launch {
-            settingsManager.setPresets(
-                newPresets.joinToString("*")
-            )
+            settingsManager.setPresets(newPresets)
         }
     }
 

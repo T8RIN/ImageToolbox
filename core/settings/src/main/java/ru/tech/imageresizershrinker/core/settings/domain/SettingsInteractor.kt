@@ -51,7 +51,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setColorTuple(colorTuple: String)
 
-    suspend fun setPresets(newPresets: String)
+    suspend fun setPresets(newPresets: List<Int>)
 
     suspend fun toggleDynamicColors()
 

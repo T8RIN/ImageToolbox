@@ -132,13 +132,14 @@ internal class AndroidSettingsManager @Inject constructor(
         it[APP_COLOR_TUPLE] = colorTuple
     }
 
-    override suspend fun setPresets(newPresets: String) = edit {
-        if (newPresets.split("*").size > 3) {
-            it[PRESETS] = newPresets.split("*")
-                    .map { it.toIntOrNull()?.coerceIn(10..500) ?: 0 }
-                    .toSortedSet()
-                    .toList().reversed()
-                    .joinToString("*")
+    override suspend fun setPresets(newPresets: List<Int>) = edit {
+        if (newPresets.size > 3) {
+            it[PRESETS] = newPresets
+                .map { it.coerceIn(10..500) }
+                .toSortedSet()
+                .toList()
+                .reversed()
+                .joinToString("*")
         }
     }
 
