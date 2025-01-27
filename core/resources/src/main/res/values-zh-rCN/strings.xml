@@ -1550,4 +1550,6 @@
     <string name="batch_compare">批量比较</string>
     <string name="fit_width">适应宽度</string>
     <string name="fit_height">适应高度</string>
+    <string name="pick_files">选取文件</string>
+    <string name="pick_directory">选取目录</string>
 </resources>
