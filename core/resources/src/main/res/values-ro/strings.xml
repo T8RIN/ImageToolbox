@@ -20,7 +20,7 @@
     <string name="edit_exif">Editează EXIF</string>
     <string name="ok">Ok</string>
     <string name="no_exif">Nu s-au găsit date EXIF</string>
-    <string name="add_tag">Adaugă etichetă</string>
+    <string name="add_tag">Adăugați etichetă</string>
     <string name="clear">Curăță</string>
     <string name="clear_exif">Curăță EXIF</string>
     <string name="clear_exif_sub">Toate datele EXIF al imaginii vor fi șterse. Această acțiune nu poate fi anulată!</string>
@@ -28,7 +28,7 @@
     <string name="crop">Decupare</string>
     <string name="image_not_saved">Salvare</string>
     <string name="image_not_saved_sub">Toate modificările nesalvate vor fi pierdute, dacă ieșiți acum</string>
-    <string name="check_source_code_sub">Obține cele mai recente actualizări, discută probleme și multe altele</string>
+    <string name="check_source_code_sub">Obțineți cele mai recente actualizări, discutați probleme și multe altele</string>
     <string name="single_edit">Editare unică</string>
     <string name="single_edit_sub">Modificați specificațiile unei singure imagini date</string>
     <string name="pick_color">Alegeți culoarea</string>
@@ -96,7 +96,7 @@
     <string name="about_app">Despre aplicație</string>
     <string name="no_updates">Nu s-au găsit actualizări</string>
     <string name="issue_tracker">Detector de probleme</string>
-    <string name="issue_tracker_sub">Trimiteți rapoarte de bug-uri și solicitări de funcții aici</string>
+    <string name="issue_tracker_sub">Trimiteți rapoarte de erori și solicitări de caracteristici aici</string>
     <string name="help_translate">Ajutați la traducere</string>
     <string name="search_here">Căutați aici</string>
     <string name="help_translate_sub">Corectarea greșelilor de traducere sau localizarea proiectului în alte limbi</string>
@@ -110,7 +110,7 @@
     <string name="border_thickness">Grosimea marginii</string>
     <string name="donation_sub">Această aplicație este complet gratuită, dar dacă doriți să sprijiniți dezvoltarea proiectului, puteți face clic aici</string>
     <string name="values">Valori</string>
-    <string name="add">Adaugă</string>
+    <string name="add">Adăugare</string>
     <string name="permission">Permisiune</string>
     <string name="grant">Acordă</string>
     <string name="permission_sub">Aplicația are nevoie de acces la spațiul dvs. de stocare pentru a salva imagini pentru a funcționa, este necesar. Vă rugăm să acordați permisiunea în caseta de dialog următoare.</string>
@@ -171,7 +171,7 @@
     <string name="sequence_num">sequenceNum</string>
     <string name="original_filename">originalFilename</string>
     <string name="add_original_filename">Adăugați numele fișierului original</string>
-    <string name="add_original_filename_sub">Dacă este activat, adaugă numele fișierului original în numele imaginii de ieșire</string>
+    <string name="add_original_filename_sub">Dacă este activată, adaugă numele fișierului original în numele imaginii de ieșire</string>
     <string name="replace_sequence_number_sub">Dacă este activată, înlocuiește marcajul de timp standard cu numărul de secvență a imaginii dacă utilizați procesarea în lot</string>
     <string name="filename_not_work_with_photopicker">Adăugarea numelui original al fișierului nu funcționează dacă este selectată sursa de imagine a selectorului de fotografii</string>
     <string name="load_image_from_net">Încărcați imaginea de pe net</string>
@@ -275,7 +275,7 @@
     <string name="draw_on_image_sub">Alegeți o imagine și desenați ceva pe ea</string>
     <string name="draw_on_background">Desenați pe fundal</string>
     <string name="draw_on_background_sub">Alegeți culoarea de fundal și desenați deasupra ei</string>
-    <string name="background_color">Culoare de fundal</string>
+    <string name="background_color">Culoarea fundalului</string>
     <string name="compatibility_sub">Vă rugăm să rețineți că nu este garantată compatibilitatea cu alte programe sau servicii de criptare a fișierelor. Un tratament al cheii sau o configurație de cifrare ușor diferită poate cauza incompatibilitate.</string>
     <string name="file_size">Mărime fișier</string>
     <string name="draw">Desenare</string>
@@ -354,7 +354,7 @@
     <string name="effort_sub">O valoare de %1$d înseamnă că se comprimă rapid, ceea ce duce la o dimensiune relativ mare a fișierului. %2$d înseamnă că trebuie să se petreacă mai mult timp comprimând, rezultând un fișier mai mic.</string>
     <string name="allow_betas">Permiteți beta</string>
     <string name="saving_almost_complete">Salvarea este aproape finalizată. Anularea acum va necesita salvarea din nou.</string>
-    <string name="allow_betas_sub">Verificarea pentru actualizări va include și versiuni beta al aplicației dacă este activată</string>
+    <string name="allow_betas_sub">Verificarea actualizărilor va include versiunile beta ale aplicațiilor, dacă este activată</string>
     <string name="brush_softness">Moliciunea periei</string>
     <string name="draw_arrows">Desenați săgeți</string>
     <string name="draw_arrows_sub">Dacă este activată, traiectoria de desen va fi reprezentată ca o săgeată orientată.</string>
@@ -423,7 +423,7 @@
     <string name="pdf_to_images">PDF în Imagini</string>
     <string name="images_to_pdf_sub">Împachetați imaginile date într-un fișier PDF</string>
     <string name="preview_pdf_sub">Previzualizare PDF simplu</string>
-    <string name="add_mask">Adaugă mască</string>
+    <string name="add_mask">Adăugați mască</string>
     <string name="pdf_tools_sub">Operați cu fișiere PDF: Previzualizați, convertiți în lot de imagini sau creați una din imaginile date</string>
     <string name="mask_indexed">Masca %d</string>
     <string name="pdf_to_images_sub">Convertiți PDF în imagini în formatul de ieșire dat</string>
@@ -962,4 +962,18 @@
     <string name="path_scale">Scara căii</string>
     <string name="detailed">Detaliat</string>
     <string name="downscale_image_sub">Imaginea va fi redusă la dimensiuni mai mici înainte de procesare, ceea ce ajută instrumentul să lucreze mai rapid și mai sigur</string>
+    <string name="fancy_sub">Glisor personalizat cu aspect elegant cu animații, acesta este implicit pentru această aplicație</string>
+    <string name="add_outline">Adăugați contur</string>
+    <string name="material_2_sub">Glisor bazat pe Material 2, nu modern, simplu și direct</string>
+    <string name="ci_channel_sub">Primiți notificări cu privire la noile versiuni ale aplicației și citiți anunțurile</string>
+    <string name="main_screen_title">Titlul ecranului principal</string>
+    <string name="compact_selectors">Selectori compacți</string>
+    <string name="slider_type">Tip glisor</string>
+    <string name="fancy">Elegant</string>
+    <string name="center_align_dialog_buttons">Butoane de dialog centrale</string>
+    <string name="center_align_dialog_buttons_sub">Dacă este posibil, butoanele dialogurilor vor fi poziționate în centru în loc de partea stângă</string>
+    <string name="add_outline_sub">Adăugați contur în jurul textului cu culoarea și lățimea specificate</string>
+    <string name="harmonization_color">Armonizare culoare</string>
+    <string name="harmonization_level">Nivelul armonizării</string>
+    <string name="switch_type">Tip comutator</string>
 </resources>
