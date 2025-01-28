@@ -142,7 +142,13 @@ fun AspectRatioSelector(
         ) {
             itemsIndexed(
                 items = aspectRatios,
-                key = { _, a -> a.value }
+                key = { _, a ->
+                    a.toCropAspectRatio(
+                        original = "0",
+                        free = "1",
+                        custom = "2"
+                    ).title
+                }
             ) { index, item ->
                 val selected = (item == selectedAspectRatio)
                     .or(

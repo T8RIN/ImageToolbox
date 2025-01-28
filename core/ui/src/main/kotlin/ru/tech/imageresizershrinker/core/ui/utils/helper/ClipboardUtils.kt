@@ -128,14 +128,15 @@ fun ClipData.clipList() = List(
 ).filterNotNull()
 
 fun List<Uri>.toClipData(
-    description: String = "Images"
+    description: String = "Images",
+    mimeTypes: Array<String> = arrayOf("image/*")
 ): ClipData? {
     if (this.isEmpty()) return null
 
     return ClipData(
         ClipDescription(
             description,
-            arrayOf("image/*")
+            mimeTypes
         ),
         ClipData.Item(this.first())
     ).apply {
@@ -159,3 +160,7 @@ fun Uri.asClip(
         this
     )
 )
+
+fun List<Uri>.asClip(): ClipEntry? = toClipData(
+    mimeTypes = arrayOf("*/*")
+)?.let { ClipEntry(it) }
