@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
+import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -171,9 +172,9 @@ internal class AndroidGifConverter @Inject constructor(
     }
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
-        return Bitmap.createBitmap(width, height, safeConfig).applyCanvas {
+        return Bitmap.createBitmap(width, height, safeConfig.toSoftware()).applyCanvas {
             drawBitmap(this@overlay, Matrix(), null)
-            drawBitmap(overlay, 0f, 0f, null)
+            drawBitmap(overlay.toSoftware(), 0f, 0f, null)
         }
     }
 

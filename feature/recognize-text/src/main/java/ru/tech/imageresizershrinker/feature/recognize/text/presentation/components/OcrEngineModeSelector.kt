@@ -91,10 +91,7 @@ fun OcrEngineModeSelector(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            itemsIndexed(
-                items = OcrEngineMode.entries,
-                key = { _, e -> e.name }
-            ) { index, mode ->
+            itemsIndexed(OcrEngineMode.entries) { index, mode ->
                 PreferenceItem(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = mode.title),

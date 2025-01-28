@@ -100,7 +100,7 @@ fun PickImageFromUrisSheet(
                     uris?.let { uris ->
                         items(
                             items = uris,
-                            key = { it.toString() }
+                            key = { it.toString() + it.hashCode() }
                         ) { uri ->
                             val selected = selectedUri == uri
                             val color by animateColorAsState(

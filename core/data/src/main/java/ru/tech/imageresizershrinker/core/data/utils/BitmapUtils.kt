@@ -20,14 +20,15 @@ package ru.tech.imageresizershrinker.core.data.utils
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import androidx.core.graphics.drawable.toBitmap
 import java.io.ByteArrayOutputStream
 
 private val possibleConfigs = mutableListOf<Bitmap.Config>().apply {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         add(Bitmap.Config.RGBA_1010102)
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    if (SDK_INT >= Build.VERSION_CODES.O) {
         add(Bitmap.Config.RGBA_F16)
     }
     add(Bitmap.Config.ARGB_8888)
@@ -69,3 +70,10 @@ fun Bitmap.compress(
         compress(format, quality, out)
     }
 }.toByteArray()
+
+val Bitmap.Config.isHardware: Boolean
+    get() = SDK_INT >= 26 && this == Bitmap.Config.HARDWARE
+
+fun Bitmap.Config?.toSoftware(): Bitmap.Config {
+    return if (this == null || isHardware) Bitmap.Config.ARGB_8888 else this
+}

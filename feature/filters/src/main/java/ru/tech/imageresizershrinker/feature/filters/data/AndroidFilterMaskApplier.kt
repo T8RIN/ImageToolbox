@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
+import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -155,10 +156,11 @@ internal class AndroidFilterMaskApplier @Inject constructor(
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.safeConfig)
+        val finalBitmap =
+            Bitmap.createBitmap(image.width, image.height, image.safeConfig.toSoftware())
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(overlay, 0f, 0f, null)
+        canvas.drawBitmap(overlay.toSoftware(), 0f, 0f, null)
         return finalBitmap
     }
 

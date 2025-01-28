@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toSoftware
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.BackgroundBehavior
@@ -275,10 +276,18 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private suspend fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.safeConfig)
+        val config = image.safeConfig.toSoftware()
+        val finalBitmap =
+            Bitmap.createBitmap(image.width, image.height, config)
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(imageScaler.scaleImage(overlay, width, height), 0f, 0f, null)
+        canvas.drawBitmap(
+            imageScaler.scaleImage(
+                image = overlay.copy(config, false),
+                width = width,
+                height = height
+            ), 0f, 0f, null
+        )
         return finalBitmap
     }
 

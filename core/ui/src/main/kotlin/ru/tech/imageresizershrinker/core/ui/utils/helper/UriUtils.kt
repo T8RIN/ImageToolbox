@@ -23,6 +23,7 @@ import android.os.Build
 import android.provider.DocumentsContract
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
+import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.SortType
@@ -79,14 +80,16 @@ fun Uri.lastModified(context: Context): Long? = with(context.contentResolver) {
     return null
 }
 
-fun List<Uri>.sortedByType(
+suspend fun List<Uri>.sortedByType(
     sortType: SortType,
     context: Context
-): List<Uri> = when (sortType) {
-    SortType.Date -> sortedByDate(context)
-    SortType.DateReversed -> sortedByDate(context).reversed()
-    SortType.Name -> sortedByName(context)
-    SortType.NameReversed -> sortedByName(context).reversed()
+): List<Uri> = coroutineScope {
+    when (sortType) {
+        SortType.Date -> sortedByDate(context)
+        SortType.DateReversed -> sortedByDate(context).reversed()
+        SortType.Name -> sortedByName(context)
+        SortType.NameReversed -> sortedByName(context).reversed()
+    }
 }
 
 fun List<Uri>.sortedByDate(

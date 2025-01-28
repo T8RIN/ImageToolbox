@@ -50,6 +50,7 @@ import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.tech.imageresizershrinker.core.data.utils.density
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
+import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
@@ -529,10 +530,11 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.safeConfig)
+        val config = safeConfig.toSoftware()
+        val finalBitmap = Bitmap.createBitmap(image.width, image.height, config)
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(overlay, 0f, 0f, null)
+        canvas.drawBitmap(overlay.toSoftware(), 0f, 0f, null)
         return finalBitmap
     }
 
