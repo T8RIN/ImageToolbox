@@ -266,7 +266,10 @@ internal class AndroidImageCombiner @Inject constructor(
                     }
                 }
             }
-            size
+            IntegerSize(
+                width = size.width.coerceAtLeast(1),
+                height = size.height.coerceAtLeast(1)
+            )
         }
     }
 
@@ -331,7 +334,10 @@ internal class AndroidImageCombiner @Inject constructor(
             w = maxWidth
         }
 
-        IntegerSize(w, h) to drawables
+        IntegerSize(
+            width = w.coerceAtLeast(1),
+            height = h.coerceAtLeast(1)
+        ) to drawables
     }
 
     private fun distributeImages(
