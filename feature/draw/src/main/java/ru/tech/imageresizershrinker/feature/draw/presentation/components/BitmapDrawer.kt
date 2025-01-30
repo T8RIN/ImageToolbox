@@ -72,7 +72,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.Line
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHelperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
@@ -81,10 +80,9 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.copy
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawInfiniteLine
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.copyAsAndroidPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.mirrorIfNeeded
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.overlay
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPaint
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPathEffectPaint
@@ -115,7 +113,6 @@ fun BitmapDrawer(
     drawColor: Color,
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
-    mirroringLines: List<Line> = remember { emptyList() }
 ) {
     val scope = rememberCoroutineScope()
 
@@ -392,10 +389,7 @@ fun BitmapDrawer(
 
                             onAddPath(
                                 UiPathPaint(
-                                    path = drawPath.mirrorIfNeeded(
-                                        canvasSize = canvasSize,
-                                        mirroringLines = mirroringLines
-                                    ),
+                                    path = drawPath,
                                     strokeWidth = strokeWidth,
                                     brushSoftness = brushSoftness,
                                     drawColor = drawColor,
@@ -432,23 +426,21 @@ fun BitmapDrawer(
                         UiPathPaintCanvasAction(
                             uiPathPaint = uiPathPaint,
                             invalidations = invalidations,
-                            onInvalidate = invalidations::inc,
+                            onInvalidate = { invalidations++ },
                             pathsCount = paths.size,
                             backgroundColor = backgroundColor,
                             drawImageBitmap = drawImageBitmap,
                             drawBitmap = drawBitmap,
                             onClearDrawPath = { drawPath = Path() },
-                            onRequestFiltering = onRequestFiltering
+                            onRequestFiltering = onRequestFiltering,
+                            canvasSize = canvasSize
                         )
                     }
 
                     if (drawMode !is DrawMode.PathEffect || isEraserOn) {
-                        val androidPath by remember(drawPath, invalidations) {
+                        val androidPath by remember(drawPath) {
                             derivedStateOf {
-                                drawPath.asAndroidPath().mirrorIfNeeded(
-                                    canvasSize = canvasSize,
-                                    mirroringLines = mirroringLines
-                                )
+                                drawPath.asAndroidPath()
                             }
                         }
                         if (drawMode is DrawMode.Text && !isEraserOn) {
@@ -479,50 +471,30 @@ fun BitmapDrawer(
                         } else {
                             drawPath(androidPath, drawPaint)
                         }
-
-                        mirroringLines.forEach {
-                            drawInfiniteLine(it)
-                        }
                     }
                 }
             }
 
             if (drawMode is DrawMode.PathEffect && !isEraserOn) {
-                var shaderBitmap by remember(
-                    outputImage,
-                    paths,
-                    backgroundColor,
-                    drawMode,
-                    canvasSize
-                ) {
+                var shaderBitmap by remember {
                     mutableStateOf<ImageBitmap?>(null)
                 }
 
-                LaunchedEffect(
-                    outputImage,
-                    paths,
-                    backgroundColor,
-                    drawMode,
-                    canvasSize
-                ) {
-                    scope.launch {
-                        if (shaderBitmap == null) {
-                            shaderBitmap = onRequestFiltering(
-                                outputImage.asAndroidBitmap(),
-                                transformationsForMode(
-                                    drawMode = drawMode,
-                                    canvasSize = canvasSize
-                                )
-                            )?.createScaledBitmap(
-                                width = imageWidth,
-                                height = imageHeight
-                            )?.asImageBitmap()
-                        }
-                    }
+                LaunchedEffect(outputImage, paths, backgroundColor, drawMode) {
+                    shaderBitmap = onRequestFiltering(
+                        outputImage.asAndroidBitmap(),
+                        transformationsForMode(
+                            drawMode = drawMode,
+                            canvasSize = canvasSize
+                        )
+                    )?.createScaledBitmap(
+                        width = imageWidth,
+                        height = imageHeight
+                    )?.asImageBitmap()
                 }
 
                 shaderBitmap?.let {
-                    with(drawPathCanvas) {
+                    drawPathCanvas.apply {
                         with(nativeCanvas) {
                             drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
 
@@ -531,15 +503,8 @@ fun BitmapDrawer(
                                 drawPathMode = drawPathMode,
                                 canvasSize = canvasSize
                             )
-                            val androidPath by remember(drawPath, invalidations) {
-                                derivedStateOf {
-                                    drawPath.copy().asAndroidPath().apply {
-                                        fillType = NativePath.FillType.INVERSE_WINDING
-                                    }.mirrorIfNeeded(
-                                        canvasSize = canvasSize,
-                                        mirroringLines = mirroringLines
-                                    )
-                                }
+                            val newPath = drawPath.copyAsAndroidPath().apply {
+                                fillType = NativePath.FillType.INVERSE_WINDING
                             }
                             val imagePaint = remember { Paint() }
 
@@ -548,7 +513,7 @@ fun BitmapDrawer(
                                 topLeftOffset = Offset.Zero,
                                 paint = imagePaint
                             )
-                            drawPath(androidPath, paint)
+                            drawPath(newPath, paint)
                         }
                     }
                 }

@@ -61,20 +61,15 @@ internal fun Canvas.UiPathPaintCanvasAction(
     uiPathPaint: UiPathPaint,
     invalidations: Int,
     onInvalidate: () -> Unit,
+    canvasSize: IntegerSize,
     pathsCount: Int,
     backgroundColor: Color,
     drawImageBitmap: ImageBitmap,
     drawBitmap: ImageBitmap,
     onClearDrawPath: () -> Unit,
     onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
-) {
+) = with(nativeCanvas) {
     val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle) = uiPathPaint
-
-    val canvasSize by remember(nativeCanvas) {
-        derivedStateOf {
-            IntegerSize(nativeCanvas.width, nativeCanvas.height)
-        }
-    }
 
     val path by remember(nonScaledPath, canvasSize, size) {
         derivedStateOf {
@@ -85,49 +80,50 @@ internal fun Canvas.UiPathPaintCanvasAction(
         }
     }
 
-    with(nativeCanvas) {
-        if (drawMode is DrawMode.PathEffect && !isEraserOn) {
-            var shaderSource by remember(backgroundColor) {
-                mutableStateOf<ImageBitmap?>(null)
-            }
-            LaunchedEffect(shaderSource, invalidations) {
-                if (shaderSource == null || invalidations <= pathsCount) {
-                    shaderSource = onRequestFiltering(
-                        drawImageBitmap.overlay(drawBitmap)
-                            .asAndroidBitmap(),
-                        transformationsForMode(
-                            drawMode = drawMode,
-                            canvasSize = canvasSize
-                        )
-                    )?.asImageBitmap()?.clipBitmap(
-                        path = path.asComposePath(),
-                        paint = pathEffectPaint(
-                            strokeWidth = strokeWidth,
-                            drawPathMode = drawPathMode,
-                            canvasSize = canvasSize
-                        ).asComposePaint()
-                    )?.also {
-                        it.prepareToDraw()
-                        onInvalidate()
-                    }
+    if (drawMode is DrawMode.PathEffect && !isEraserOn) {
+        var shaderSource by remember(backgroundColor) {
+            mutableStateOf<ImageBitmap?>(null)
+        }
+        LaunchedEffect(shaderSource, invalidations) {
+            if (shaderSource == null || invalidations <= pathsCount) {
+                shaderSource = onRequestFiltering(
+                    drawImageBitmap.overlay(drawBitmap)
+                        .asAndroidBitmap(),
+                    transformationsForMode(
+                        drawMode = drawMode,
+                        canvasSize = canvasSize
+                    )
+                )?.asImageBitmap()?.clipBitmap(
+                    path = path.asComposePath(),
+                    paint = pathEffectPaint(
+                        strokeWidth = strokeWidth,
+                        drawPathMode = drawPathMode,
+                        canvasSize = canvasSize
+                    ).asComposePaint()
+                )?.also {
+                    it.prepareToDraw()
+                    onInvalidate()
                 }
             }
-            if (shaderSource != null) {
-                LaunchedEffect(shaderSource) {
-                    onClearDrawPath()
-                }
-                val imagePaint = remember { Paint() }
-                drawImage(
-                    image = shaderSource!!,
-                    topLeftOffset = Offset.Zero,
-                    paint = imagePaint
-                )
+        }
+        if (shaderSource != null) {
+            LaunchedEffect(shaderSource) {
+                onClearDrawPath()
             }
-        } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
+            val imagePaint = remember { Paint() }
+            drawImage(
+                image = shaderSource!!,
+                topLeftOffset = Offset.Zero,
+                paint = imagePaint
+            )
+        }
+    } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
+        val paint = remember(uiPathPaint, canvasSize) {
             val isSharpEdge = drawPathMode.isSharpEdge
             val isFilled = drawPathMode.isFilled
             val stroke = strokeWidth.toPx(canvasSize)
-            val paint = Paint().apply {
+
+            Paint().apply {
                 if (isFilled) {
                     style = PaintingStyle.Fill
                 } else {
@@ -143,90 +139,90 @@ internal fun Canvas.UiPathPaintCanvasAction(
 
                 color = Color.White
             }
+        }
 
-            var shaderSource by remember(backgroundColor) {
-                mutableStateOf<ImageBitmap?>(null)
-            }
-            LaunchedEffect(shaderSource, invalidations) {
-                if (shaderSource == null || invalidations <= pathsCount) {
-                    shaderSource = onRequestFiltering(
-                        drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
-                        listOf(
-                            createFilter<Triple<ImageModel, Float, Int>, Filter.SpotHeal>(
-                                Triple(
-                                    first = Bitmap.createBitmap(
-                                        canvasSize.width,
-                                        canvasSize.height,
-                                        Bitmap.Config.ARGB_8888
-                                    ).applyCanvas {
-                                        drawColor(Color.Black.toArgb())
-                                        drawPath(
-                                            path,
-                                            paint.asFrameworkPaint()
-                                        )
-                                    }.toImageModel(),
-                                    second = 3f,
-                                    third = 1
-                                )
+        var shaderSource by remember(backgroundColor) {
+            mutableStateOf<ImageBitmap?>(null)
+        }
+        LaunchedEffect(shaderSource, invalidations) {
+            if (shaderSource == null || invalidations <= pathsCount) {
+                shaderSource = onRequestFiltering(
+                    drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
+                    listOf(
+                        createFilter<Triple<ImageModel, Float, Int>, Filter.SpotHeal>(
+                            Triple(
+                                first = Bitmap.createBitmap(
+                                    canvasSize.width,
+                                    canvasSize.height,
+                                    Bitmap.Config.ARGB_8888
+                                ).applyCanvas {
+                                    drawColor(Color.Black.toArgb())
+                                    drawPath(
+                                        path,
+                                        paint.asFrameworkPaint()
+                                    )
+                                }.toImageModel(),
+                                second = 3f,
+                                third = 1
                             )
                         )
-                    )?.asImageBitmap()?.clipBitmap(
-                        path = path.asComposePath(),
-                        paint = paint.apply {
-                            blendMode = BlendMode.Clear
-                        }
-                    )?.also {
-                        it.prepareToDraw()
-                        onInvalidate()
+                    )
+                )?.asImageBitmap()?.clipBitmap(
+                    path = path.asComposePath(),
+                    paint = paint.apply {
+                        blendMode = BlendMode.Clear
                     }
-                }
-            }
-            if (shaderSource != null) {
-                LaunchedEffect(shaderSource) {
-                    onClearDrawPath()
+                )?.also {
+                    it.prepareToDraw()
                     onInvalidate()
                 }
-                val imagePaint = remember { Paint() }
-                drawImage(
-                    image = shaderSource!!,
-                    topLeftOffset = Offset.Zero,
-                    paint = imagePaint
-                )
             }
-        } else {
-            val pathPaint by rememberPaint(
-                strokeWidth = strokeWidth,
-                isEraserOn = isEraserOn,
-                drawColor = drawColor,
-                brushSoftness = brushSoftness,
-                drawMode = drawMode,
-                canvasSize = canvasSize,
-                drawPathMode = drawPathMode,
-                drawLineStyle = drawLineStyle
+        }
+        if (shaderSource != null) {
+            LaunchedEffect(shaderSource) {
+                onClearDrawPath()
+                onInvalidate()
+            }
+            val imagePaint = remember { Paint() }
+            drawImage(
+                image = shaderSource!!,
+                topLeftOffset = Offset.Zero,
+                paint = imagePaint
             )
-            if (drawMode is DrawMode.Text && !isEraserOn) {
-                if (drawMode.isRepeated) {
-                    drawRepeatedTextOnPath(
-                        text = drawMode.text,
-                        path = path,
-                        paint = pathPaint,
-                        interval = drawMode.repeatingInterval.toPx(canvasSize)
-                    )
-                } else {
-                    drawTextOnPath(drawMode.text, path, 0f, 0f, pathPaint)
-                }
-            } else if (drawMode is DrawMode.Image && !isEraserOn) {
-                drawRepeatedImageOnPath(
-                    drawMode = drawMode,
-                    strokeWidth = strokeWidth,
-                    canvasSize = canvasSize,
+        }
+    } else {
+        val pathPaint by rememberPaint(
+            strokeWidth = strokeWidth,
+            isEraserOn = isEraserOn,
+            drawColor = drawColor,
+            brushSoftness = brushSoftness,
+            drawMode = drawMode,
+            canvasSize = canvasSize,
+            drawPathMode = drawPathMode,
+            drawLineStyle = drawLineStyle
+        )
+        if (drawMode is DrawMode.Text && !isEraserOn) {
+            if (drawMode.isRepeated) {
+                drawRepeatedTextOnPath(
+                    text = drawMode.text,
                     path = path,
                     paint = pathPaint,
-                    invalidations = invalidations
+                    interval = drawMode.repeatingInterval.toPx(canvasSize)
                 )
             } else {
-                drawPath(path, pathPaint)
+                drawTextOnPath(drawMode.text, path, 0f, 0f, pathPaint)
             }
+        } else if (drawMode is DrawMode.Image && !isEraserOn) {
+            drawRepeatedImageOnPath(
+                drawMode = drawMode,
+                strokeWidth = strokeWidth,
+                canvasSize = canvasSize,
+                path = path,
+                paint = pathPaint,
+                invalidations = invalidations
+            )
+        } else {
+            drawPath(path, pathPaint)
         }
     }
 }

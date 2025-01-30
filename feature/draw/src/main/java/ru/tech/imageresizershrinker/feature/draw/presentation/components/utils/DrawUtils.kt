@@ -79,7 +79,9 @@ import kotlin.math.sqrt
 import android.graphics.Paint as NativePaint
 import android.graphics.Path as NativePath
 
-internal fun Path.copy(): Path = NativePath(this.asAndroidPath()).asComposePath()
+internal fun Path.copy(): Path = copyAsAndroidPath().asComposePath()
+
+internal fun Path.copyAsAndroidPath(): NativePath = NativePath(this.asAndroidPath())
 
 internal fun NativePath.mirror(
     x: Float,
