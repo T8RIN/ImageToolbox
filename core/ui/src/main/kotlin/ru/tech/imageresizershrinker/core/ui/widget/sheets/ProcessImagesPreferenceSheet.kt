@@ -91,7 +91,7 @@ fun ProcessImagesPreferenceSheet(
                     }
                     items(
                         items = urisCorrespondingScreens,
-                        key = { it.id }
+                        key = { it.toString() }
                     ) { screen ->
                         ScreenPreference(
                             screen = screen,

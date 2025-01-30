@@ -94,8 +94,6 @@ class WatermarkingComponent @AssistedInject internal constructor(
     private val _uris = mutableStateOf<List<Uri>>(emptyList())
     val uris by _uris
 
-    override val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 

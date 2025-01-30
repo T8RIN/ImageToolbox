@@ -46,6 +46,13 @@ abstract class BaseComponent(
 
     val componentScope = coroutineScope
 
+    protected open val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    open val isImageLoading: Boolean by _isImageLoading
+
+    private var imageCalculationJob: Job? by smartJob {
+        _isImageLoading.update { false }
+    }
+
     inline fun debounce(
         time: Long = 150,
         crossinline block: suspend () -> Unit
@@ -54,13 +61,6 @@ abstract class BaseComponent(
             delay(time)
             block()
         }
-    }
-
-    protected open val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    open val isImageLoading: Boolean by _isImageLoading
-
-    private var imageCalculationJob: Job? by smartJob {
-        _isImageLoading.update { false }
     }
 
     protected open val _haveChanges: MutableState<Boolean> = mutableStateOf(false)
