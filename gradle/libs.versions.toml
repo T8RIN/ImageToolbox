@@ -8,7 +8,7 @@ versionCode = "167"
 
 jvmTarget = "17"
 
-imageToolboxLibs = "3.3.0"
+imageToolboxLibs = "3.3.1"
 trickle = "1.2.2"
 
 avifCoder = "2.0.10"
