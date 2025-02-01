@@ -31,7 +31,7 @@
     <string name="pick_image_alt">Pilih Gambar</string>
     <string name="app_closing_sub">Apakah Anda ingin menutup aplikasi?</string>
     <string name="app_closing">Penutupan aplikasi</string>
-    <string name="stay">Tinggal</string>
+    <string name="stay">Tetap di sini</string>
     <string name="close">Tutup</string>
     <string name="reset_image">Mengatur ulang gambar</string>
     <string name="reset_image_sub">Perubahan gambar akan dikembalikan ke semula</string>
@@ -41,11 +41,11 @@
     <string name="restart_app">Mulai ulang aplikasi</string>
     <string name="exception">Pengecualian</string>
     <string name="edit_exif">Edit EXIF</string>
-    <string name="ok">Baiklah.</string>
+    <string name="ok">OK</string>
     <string name="no_exif">Tidak ditemukan data EXIF</string>
     <string name="add_tag">Tambahkan tag</string>
     <string name="save">Simpan</string>
-    <string name="clear">Jelas</string>
+    <string name="clear">Bersihkan</string>
     <string name="clear_exif">Hapus EXIF</string>
     <string name="clear_exif_sub">Semua data EXIF gambar akan dihapus, tindakan ini tidak dapat dibatalkan!</string>
     <string name="presets">Preset</string>
@@ -780,7 +780,7 @@
     <string name="both">Keduanya</string>
     <string name="invert_colors">Balikkan Warna</string>
     <string name="invert_colors_sub">Mengganti warna tema menjadi warna negatif jika diaktifkan</string>
-    <string name="exit">KELUAR</string>
+    <string name="exit">Keluar</string>
     <string name="preview_closing">Jika Anda keluar dari pratinjau sekarang, Anda perlu menambahkan gambar lagi</string>
     <string name="image_format">Format Gambar</string>
     <string name="material_you_sub">Membuat palet “Material You” dari gambar</string>
@@ -868,4 +868,17 @@
     <string name="sorting">Mengurutkan</string>
     <string name="sort_by_date">Urutkan Berdasarkan Tanggal</string>
     <string name="sort_by_name">Urutkan Berdasarkan Nama</string>
+    <string name="cupertino_switch">Cupertino</string>
+    <string name="legacy">Lama</string>
+    <string name="images_to_svg">Gambar ke SVG</string>
+    <string name="pixel_switch">Pixel</string>
+    <string name="fluent_switch">Fluent</string>
+    <string name="fluent_switch_sub">Menggunakan gaya sakelar Windows 11 berdasarkan sistem desain \"Fluent\"</string>
+    <string name="min_color_ratio">Rasio Warna Minimum</string>
+    <string name="default_line_width">Lebar Garis Default</string>
+    <string name="engine_mode">Mode Mesin</string>
+    <string name="lstm_network">Jaringan LSTM</string>
+    <string name="convert">Konversi</string>
+    <string name="add_new_folder">Tambah Folder Baru</string>
+    <string name="cupertino_switch_sub">Menggunakan gaya sakelar iOS berdasarkan sistem desain Cupertino</string>
 </resources>
