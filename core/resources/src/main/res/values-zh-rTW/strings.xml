@@ -1165,4 +1165,9 @@
     <string name="tag_gps_h_positioning_error">GPS 水平定位誤差</string>
     <string name="tag_dng_version">DNG 版本</string>
     <string name="tag_orf_preview_image_length">預覽圖片長度</string>
+    <string name="draw_text_sub">使用給定字體和顏色沿路徑繪製文本</string>
+    <string name="repeat_text_sub">當前文本將重複繪製直到路徑結束而非僅繪製一次</string>
+    <string name="dash_size">虛線長度</string>
+    <string name="draw_mode_image_sub">使用所選圖片沿著給定路徑繪製</string>
+    <string name="tag_orf_preview_image_start">檢視圖片起始位置</string>
 </resources>
