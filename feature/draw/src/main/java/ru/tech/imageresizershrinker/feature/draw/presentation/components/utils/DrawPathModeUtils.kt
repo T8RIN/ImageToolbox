@@ -86,7 +86,107 @@ internal fun DrawPathMode.saveState(
         )
     }
 
+    value is DrawPathMode.PointingArrow && this is DrawPathMode.LinePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.LinePointingArrow && this is DrawPathMode.PointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.PointingArrow && this is DrawPathMode.DoublePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.DoublePointingArrow && this is DrawPathMode.PointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.PointingArrow && this is DrawPathMode.DoubleLinePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.DoubleLinePointingArrow && this is DrawPathMode.PointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.LinePointingArrow && this is DrawPathMode.DoublePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.DoublePointingArrow && this is DrawPathMode.LinePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.LinePointingArrow && this is DrawPathMode.DoubleLinePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.DoubleLinePointingArrow && this is DrawPathMode.LinePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.DoublePointingArrow && this is DrawPathMode.DoubleLinePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
+    value is DrawPathMode.DoubleLinePointingArrow && this is DrawPathMode.DoublePointingArrow -> {
+        copy(
+            sizeScale = value.sizeScale,
+            angle = value.angle
+        )
+    }
+
     else -> this
+}
+
+internal fun DrawPathMode.sizeScale(): Float = when (this) {
+    is DrawPathMode.PointingArrow -> sizeScale
+    is DrawPathMode.LinePointingArrow -> sizeScale
+    is DrawPathMode.DoublePointingArrow -> sizeScale
+    is DrawPathMode.DoubleLinePointingArrow -> sizeScale
+    else -> 1f
+}
+
+internal fun DrawPathMode.angle(): Float = when (this) {
+    is DrawPathMode.PointingArrow -> angle
+    is DrawPathMode.LinePointingArrow -> angle
+    is DrawPathMode.DoublePointingArrow -> angle
+    is DrawPathMode.DoubleLinePointingArrow -> angle
+    else -> 0f
 }
 
 internal fun DrawPathMode.vertices(): Int = when (this) {
@@ -190,6 +290,45 @@ internal fun DrawPathMode.updateRect(
     else -> this
 }
 
+internal fun DrawPathMode.updateArrow(
+    sizeScale: Float? = null,
+    angle: Float? = null
+) = when (this) {
+    is DrawPathMode.PointingArrow -> {
+        copy(
+            sizeScale = sizeScale ?: this.sizeScale,
+            angle = angle ?: this.angle
+        )
+    }
+
+    is DrawPathMode.LinePointingArrow -> {
+        copy(
+            sizeScale = sizeScale ?: this.sizeScale,
+            angle = angle ?: this.angle
+        )
+    }
+
+    is DrawPathMode.DoublePointingArrow -> {
+        copy(
+            sizeScale = sizeScale ?: this.sizeScale,
+            angle = angle ?: this.angle
+        )
+    }
+
+    is DrawPathMode.DoubleLinePointingArrow -> {
+        copy(
+            sizeScale = sizeScale ?: this.sizeScale,
+            angle = angle ?: this.angle
+        )
+    }
+
+    else -> this
+}
+
+internal fun DrawPathMode.isArrow(): Boolean =
+    this is DrawPathMode.PointingArrow || this is DrawPathMode.LinePointingArrow
+            || this is DrawPathMode.DoublePointingArrow || this is DrawPathMode.DoubleLinePointingArrow
+
 internal fun DrawPathMode.isRect(): Boolean =
     this is DrawPathMode.Rect || this is DrawPathMode.OutlinedRect
 
@@ -200,12 +339,12 @@ internal fun DrawPathMode.isStar(): Boolean =
     this is DrawPathMode.Star || this is DrawPathMode.OutlinedStar
 
 internal fun DrawPathMode.getSubtitle(): Int = when (this) {
-    DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
-    DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
+    is DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
+    is DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
     DrawPathMode.Free -> R.string.free_drawing_sub
     DrawPathMode.Line -> R.string.line_sub
-    DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
-    DrawPathMode.PointingArrow -> R.string.arrow_sub
+    is DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
+    is DrawPathMode.PointingArrow -> R.string.arrow_sub
     DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
     is DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
     DrawPathMode.Oval -> R.string.oval_sub
@@ -220,12 +359,12 @@ internal fun DrawPathMode.getSubtitle(): Int = when (this) {
 }
 
 internal fun DrawPathMode.getTitle(): Int = when (this) {
-    DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
-    DrawPathMode.DoublePointingArrow -> R.string.double_arrow
+    is DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
+    is DrawPathMode.DoublePointingArrow -> R.string.double_arrow
     DrawPathMode.Free -> R.string.free_drawing
     DrawPathMode.Line -> R.string.line
-    DrawPathMode.LinePointingArrow -> R.string.line_arrow
-    DrawPathMode.PointingArrow -> R.string.arrow
+    is DrawPathMode.LinePointingArrow -> R.string.line_arrow
+    is DrawPathMode.PointingArrow -> R.string.arrow
     DrawPathMode.OutlinedOval -> R.string.outlined_oval
     is DrawPathMode.OutlinedRect -> R.string.outlined_rect
     DrawPathMode.Oval -> R.string.oval
@@ -240,12 +379,12 @@ internal fun DrawPathMode.getTitle(): Int = when (this) {
 }
 
 internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
-    DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
-    DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
+    is DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
+    is DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
     DrawPathMode.Free -> Icons.Rounded.FreeDraw
     DrawPathMode.Line -> Icons.Rounded.Line
-    DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
-    DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
+    is DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
+    is DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
     DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
     is DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
     DrawPathMode.Oval -> Icons.Rounded.Circle

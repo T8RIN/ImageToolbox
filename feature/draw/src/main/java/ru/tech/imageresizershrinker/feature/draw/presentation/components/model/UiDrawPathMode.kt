@@ -30,16 +30,28 @@ sealed class UiDrawPathMode : Parcelable {
     data object Line : UiDrawPathMode()
 
     @Parcelize
-    data object PointingArrow : UiDrawPathMode()
+    data class PointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : UiDrawPathMode()
 
     @Parcelize
-    data object DoublePointingArrow : UiDrawPathMode()
+    data class DoublePointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : UiDrawPathMode()
 
     @Parcelize
-    data object LinePointingArrow : UiDrawPathMode()
+    data class LinePointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : UiDrawPathMode()
 
     @Parcelize
-    data object DoubleLinePointingArrow : UiDrawPathMode()
+    data class DoubleLinePointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : UiDrawPathMode()
 
     @Parcelize
     data object Lasso : UiDrawPathMode()
@@ -98,12 +110,22 @@ sealed class UiDrawPathMode : Parcelable {
 }
 
 fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
-    DrawPathMode.DoubleLinePointingArrow -> UiDrawPathMode.DoubleLinePointingArrow
-    DrawPathMode.DoublePointingArrow -> UiDrawPathMode.DoublePointingArrow
+    is DrawPathMode.DoubleLinePointingArrow -> UiDrawPathMode.DoubleLinePointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
+
+    is DrawPathMode.DoublePointingArrow -> UiDrawPathMode.DoublePointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
     DrawPathMode.Free -> UiDrawPathMode.Free
     DrawPathMode.Lasso -> UiDrawPathMode.Lasso
     DrawPathMode.Line -> UiDrawPathMode.Line
-    DrawPathMode.LinePointingArrow -> UiDrawPathMode.LinePointingArrow
+    is DrawPathMode.LinePointingArrow -> UiDrawPathMode.LinePointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
     DrawPathMode.OutlinedOval -> UiDrawPathMode.OutlinedOval
     is DrawPathMode.OutlinedPolygon -> UiDrawPathMode.OutlinedPolygon(
         vertices = vertices,
@@ -121,7 +143,10 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
 
     DrawPathMode.OutlinedTriangle -> UiDrawPathMode.OutlinedTriangle
     DrawPathMode.Oval -> UiDrawPathMode.Oval
-    DrawPathMode.PointingArrow -> UiDrawPathMode.PointingArrow
+    is DrawPathMode.PointingArrow -> UiDrawPathMode.PointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
     is DrawPathMode.Polygon -> UiDrawPathMode.Polygon(
         vertices = vertices,
         rotationDegrees = rotationDegrees,
@@ -140,12 +165,22 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
 }
 
 fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
-    UiDrawPathMode.DoubleLinePointingArrow -> DrawPathMode.DoubleLinePointingArrow
-    UiDrawPathMode.DoublePointingArrow -> DrawPathMode.DoublePointingArrow
+    is UiDrawPathMode.DoubleLinePointingArrow -> DrawPathMode.DoubleLinePointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
+
+    is UiDrawPathMode.DoublePointingArrow -> DrawPathMode.DoublePointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
     UiDrawPathMode.Free -> DrawPathMode.Free
     UiDrawPathMode.Lasso -> DrawPathMode.Lasso
     UiDrawPathMode.Line -> DrawPathMode.Line
-    UiDrawPathMode.LinePointingArrow -> DrawPathMode.LinePointingArrow
+    is UiDrawPathMode.LinePointingArrow -> DrawPathMode.LinePointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
     UiDrawPathMode.OutlinedOval -> DrawPathMode.OutlinedOval
     is UiDrawPathMode.OutlinedPolygon -> DrawPathMode.OutlinedPolygon(
         vertices = vertices,
@@ -163,7 +198,10 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
 
     UiDrawPathMode.OutlinedTriangle -> DrawPathMode.OutlinedTriangle
     UiDrawPathMode.Oval -> DrawPathMode.Oval
-    UiDrawPathMode.PointingArrow -> DrawPathMode.PointingArrow
+    is UiDrawPathMode.PointingArrow -> DrawPathMode.PointingArrow(
+        sizeScale = sizeScale,
+        angle = angle
+    )
     is UiDrawPathMode.Polygon -> DrawPathMode.Polygon(
         vertices = vertices,
         rotationDegrees = rotationDegrees,

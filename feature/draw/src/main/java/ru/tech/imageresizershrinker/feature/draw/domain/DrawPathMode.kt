@@ -23,10 +23,27 @@ sealed class DrawPathMode(
 
     data object Free : DrawPathMode(0)
     data object Line : DrawPathMode(1)
-    data object PointingArrow : DrawPathMode(2)
-    data object DoublePointingArrow : DrawPathMode(3)
-    data object LinePointingArrow : DrawPathMode(4)
-    data object DoubleLinePointingArrow : DrawPathMode(5)
+
+    data class PointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : DrawPathMode(2)
+
+    data class DoublePointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : DrawPathMode(3)
+
+    data class LinePointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : DrawPathMode(4)
+
+    data class DoubleLinePointingArrow(
+        val sizeScale: Float = 3f,
+        val angle: Float = 150f
+    ) : DrawPathMode(5)
+
     data object Lasso : DrawPathMode(6)
 
     data class OutlinedRect(
@@ -87,10 +104,10 @@ sealed class DrawPathMode(
             listOf(
                 Free,
                 Line,
-                PointingArrow,
-                DoublePointingArrow,
-                LinePointingArrow,
-                DoubleLinePointingArrow,
+                PointingArrow(),
+                DoublePointingArrow(),
+                LinePointingArrow(),
+                DoubleLinePointingArrow(),
                 Lasso,
                 OutlinedRect(),
                 OutlinedOval,

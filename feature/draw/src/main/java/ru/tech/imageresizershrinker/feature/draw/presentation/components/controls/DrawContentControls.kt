@@ -230,10 +230,10 @@ internal fun DrawContentControls(
                             !is DrawLineStyle.Stamped<*> -> listOf(
                                 DrawPathMode.Free,
                                 DrawPathMode.Line,
-                                DrawPathMode.LinePointingArrow,
-                                DrawPathMode.PointingArrow,
-                                DrawPathMode.DoublePointingArrow,
-                                DrawPathMode.DoubleLinePointingArrow,
+                                DrawPathMode.LinePointingArrow(),
+                                DrawPathMode.PointingArrow(),
+                                DrawPathMode.DoublePointingArrow(),
+                                DrawPathMode.DoubleLinePointingArrow(),
                             ) + outlinedModes
 
                             else -> listOf(

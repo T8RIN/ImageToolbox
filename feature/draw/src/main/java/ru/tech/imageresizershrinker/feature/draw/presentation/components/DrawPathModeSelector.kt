@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.ArrowParamsSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.DrawPathModeInfoSheet
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.PolygonParamsSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.RectParamsSelector
@@ -121,6 +122,11 @@ fun DrawPathModeSelector(
         )
 
         RectParamsSelector(
+            value = value,
+            onValueChange = onValueChange
+        )
+
+        ArrowParamsSelector(
             value = value,
             onValueChange = onValueChange
         )

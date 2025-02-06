@@ -1570,4 +1570,5 @@
     <string name="pick_files_to_checksum">Pick file/files to calculate it\'s checksum based on selected algorithm</string>
     <string name="pick_files">Pick Files</string>
     <string name="pick_directory">Pick Directory</string>
+    <string name="head_length_scale">Head Length Scale</string>
 </resources>

@@ -37,7 +37,6 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
 
-@Suppress("MemberVisibilityCanBePrivate")
 data class PathHelper(
     val drawDownPosition: Offset,
     val currentDrawPosition: Offset,
@@ -53,29 +52,60 @@ data class PathHelper(
             override fun drawArrowsIfNeeded(
                 drawPath: Path,
             ) {
+                fun drawStartEndArrows(
+                    sizeScale: Float = 3f,
+                    angle: Float = 150f
+                ) {
+                    drawEndArrow(
+                        drawPath = drawPath,
+                        strokeWidth = strokeWidth,
+                        canvasSize = canvasSize,
+                        arrowSize = sizeScale,
+                        arrowAngle = angle.toDouble()
+                    )
+
+                    drawStartArrow(
+                        drawPath = drawPath,
+                        strokeWidth = strokeWidth,
+                        canvasSize = canvasSize,
+                        arrowSize = sizeScale,
+                        arrowAngle = angle.toDouble()
+                    )
+                }
+
+
                 when (drawPathMode) {
-                    DrawPathMode.DoublePointingArrow,
-                    DrawPathMode.DoubleLinePointingArrow -> {
-
-                        drawEndArrow(
-                            drawPath = drawPath,
-                            strokeWidth = strokeWidth,
-                            canvasSize = canvasSize
-                        )
-
-                        drawStartArrow(
-                            drawPath = drawPath,
-                            strokeWidth = strokeWidth,
-                            canvasSize = canvasSize
+                    is DrawPathMode.DoublePointingArrow -> {
+                        drawStartEndArrows(
+                            sizeScale = drawPathMode.sizeScale,
+                            angle = drawPathMode.angle
                         )
                     }
 
-                    DrawPathMode.PointingArrow,
-                    DrawPathMode.LinePointingArrow -> {
+                    is DrawPathMode.DoubleLinePointingArrow -> {
+                        drawStartEndArrows(
+                            sizeScale = drawPathMode.sizeScale,
+                            angle = drawPathMode.angle
+                        )
+                    }
+
+                    is DrawPathMode.PointingArrow -> {
                         drawEndArrow(
                             drawPath = drawPath,
                             strokeWidth = strokeWidth,
-                            canvasSize = canvasSize
+                            canvasSize = canvasSize,
+                            arrowSize = drawPathMode.sizeScale,
+                            arrowAngle = drawPathMode.angle.toDouble()
+                        )
+                    }
+
+                    is DrawPathMode.LinePointingArrow -> {
+                        drawEndArrow(
+                            drawPath = drawPath,
+                            strokeWidth = strokeWidth,
+                            canvasSize = canvasSize,
+                            arrowSize = drawPathMode.sizeScale,
+                            arrowAngle = drawPathMode.angle.toDouble()
                         )
                     }
 
@@ -376,12 +406,12 @@ data class PathHelper(
         onBaseDraw: () -> Unit,
     ) = if (!isEraserOn) {
         when (drawPathMode) {
-            DrawPathMode.PointingArrow,
-            DrawPathMode.DoublePointingArrow -> onDrawFreeArrow(drawArrowsScope)
+            is DrawPathMode.PointingArrow,
+            is DrawPathMode.DoublePointingArrow -> onDrawFreeArrow(drawArrowsScope)
 
-            DrawPathMode.DoubleLinePointingArrow,
+            is DrawPathMode.DoubleLinePointingArrow,
             DrawPathMode.Line,
-            DrawPathMode.LinePointingArrow -> drawLine()
+            is DrawPathMode.LinePointingArrow -> drawLine()
 
             is DrawPathMode.Rect -> drawRect(drawPathMode.rotationDegrees)
 
