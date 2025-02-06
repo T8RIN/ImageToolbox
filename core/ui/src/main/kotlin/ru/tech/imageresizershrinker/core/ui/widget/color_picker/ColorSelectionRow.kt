@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,17 +36,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Error
-import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.rounded.Bookmark
-import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.BookmarkRemove
 import androidx.compose.material.icons.rounded.ColorLens
-import androidx.compose.material.icons.rounded.ContentPasteGo
 import androidx.compose.material.icons.rounded.DoneAll
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
@@ -63,15 +58,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -91,11 +83,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import kotlin.math.roundToInt
 
 @Composable
 fun ColorSelectionRow(
@@ -289,8 +279,7 @@ fun ColorSelectionRow(
         mutableIntStateOf(customColor?.toArgb() ?: 0)
     }
     val settingsState = LocalSettingsState.current
-    val recentColors = settingsState.recentColors
-    val favoriteColors = settingsState.favoriteColors
+
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
     EnhancedModalBottomSheet(
         sheetContent = {
@@ -300,179 +289,10 @@ fun ColorSelectionRow(
                         .verticalScroll(rememberScrollState(), reverseScrolling = true)
                         .padding(24.dp)
                 ) {
-                    BoxAnimatedVisibility(
-                        visible = recentColors.isNotEmpty() || favoriteColors.isNotEmpty()
-                    ) {
-                        val itemWidth = with(LocalDensity.current) { 48.dp.toPx() }
-
-                        Column(
-                            modifier = Modifier
-                                .padding(bottom = 16.dp)
-                                .container(
-                                    shape = RoundedCornerShape(24.dp),
-                                    resultPadding = 0.dp
-                                )
-                                .padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            BoxAnimatedVisibility(recentColors.isNotEmpty()) {
-                                Column {
-                                    TitleItem(
-                                        text = stringResource(R.string.recently_used),
-                                        icon = Icons.Outlined.History,
-                                        modifier = Modifier
-                                    )
-                                    Spacer(Modifier.height(12.dp))
-                                    val recentState = rememberLazyListState()
-                                    val possibleCount by remember(recentState, itemWidth) {
-                                        derivedStateOf {
-                                            (recentState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
-                                        }
-                                    }
-                                    LazyRow(
-                                        state = recentState,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .fadingEdges(recentState),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        items(
-                                            items = recentColors,
-                                            key = { it.toArgb() }
-                                        ) { color ->
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(40.dp)
-                                                    .aspectRatio(1f)
-                                                    .container(
-                                                        shape = CircleShape,
-                                                        color = color,
-                                                        resultPadding = 0.dp
-                                                    )
-                                                    .transparencyChecker()
-                                                    .background(color, CircleShape)
-                                                    .hapticsClickable {
-                                                        tempColor = color.toArgb()
-                                                    }
-                                                    .animateItem(),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Rounded.ContentPasteGo,
-                                                    contentDescription = null,
-                                                    tint = color.inverse(
-                                                        fraction = {
-                                                            if (it) 0.8f
-                                                            else 0.5f
-                                                        },
-                                                        darkMode = color.luminance() < 0.3f
-                                                    ),
-                                                    modifier = Modifier
-                                                        .size(24.dp)
-                                                        .background(
-                                                            color = color.copy(alpha = 1f),
-                                                            shape = CircleShape
-                                                        )
-                                                        .padding(3.dp)
-                                                )
-                                            }
-                                        }
-                                        if (recentColors.size < possibleCount) {
-                                            items(possibleCount - recentColors.size) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .size(40.dp)
-                                                        .clip(CircleShape)
-                                                        .alpha(0.4f)
-                                                        .transparencyChecker()
-                                                        .animateItem()
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            BoxAnimatedVisibility(favoriteColors.isNotEmpty()) {
-                                Column {
-                                    TitleItem(
-                                        text = stringResource(R.string.favorite),
-                                        icon = Icons.Rounded.BookmarkBorder,
-                                        modifier = Modifier
-                                    )
-                                    Spacer(Modifier.height(12.dp))
-                                    val favoriteState = rememberLazyListState()
-                                    val possibleCount by remember(favoriteState, itemWidth) {
-                                        derivedStateOf {
-                                            (favoriteState.layoutInfo.viewportSize.width / itemWidth).roundToInt()
-                                        }
-                                    }
-                                    LazyRow(
-                                        state = favoriteState,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .fadingEdges(favoriteState),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        items(
-                                            items = favoriteColors,
-                                            key = { it.toArgb() }
-                                        ) { color ->
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(40.dp)
-                                                    .aspectRatio(1f)
-                                                    .container(
-                                                        shape = CircleShape,
-                                                        color = color,
-                                                        resultPadding = 0.dp
-                                                    )
-                                                    .transparencyChecker()
-                                                    .background(color, CircleShape)
-                                                    .hapticsClickable {
-                                                        tempColor = color.toArgb()
-                                                    }
-                                                    .animateItem(),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Rounded.ContentPasteGo,
-                                                    contentDescription = null,
-                                                    tint = color.inverse(
-                                                        fraction = {
-                                                            if (it) 0.8f
-                                                            else 0.5f
-                                                        },
-                                                        darkMode = color.luminance() < 0.3f
-                                                    ),
-                                                    modifier = Modifier
-                                                        .size(24.dp)
-                                                        .background(
-                                                            color = color.copy(alpha = 1f),
-                                                            shape = CircleShape
-                                                        )
-                                                        .padding(3.dp)
-                                                )
-                                            }
-                                        }
-                                        if (favoriteColors.size < possibleCount) {
-                                            items(possibleCount - favoriteColors.size) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .size(40.dp)
-                                                        .clip(CircleShape)
-                                                        .alpha(0.4f)
-                                                        .transparencyChecker()
-                                                        .animateItem()
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    RecentAndFavoriteColorsCard(
+                        onRecentColorClick = { tempColor = it.toArgb() },
+                        onFavoriteColorClick = { tempColor = it.toArgb() }
+                    )
 
                     if (allowAlpha) {
                         AlphaColorSelection(
@@ -507,6 +327,8 @@ fun ColorSelectionRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
+                val favoriteColors = settingsState.favoriteColors
+
                 val inFavorite by remember(tempColor, favoriteColors) {
                     derivedStateOf {
                         Color(tempColor) in favoriteColors
@@ -556,6 +378,7 @@ fun ColorSelectionRow(
         }
     )
 }
+
 
 object ColorSelectionRowDefaults {
     val colorList by lazy {
