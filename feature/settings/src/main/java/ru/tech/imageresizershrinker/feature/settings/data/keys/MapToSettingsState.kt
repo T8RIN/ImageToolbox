@@ -162,7 +162,7 @@ internal fun Preferences.toSettingsState(
         ?: default.addTimestampToFilename,
     useFormattedFilenameTimestamp = this[USE_FORMATTED_TIMESTAMP]
         ?: default.useFormattedFilenameTimestamp,
-    favoriteColors = this[FAVOURITE_COLORS]?.mapNotNull { color ->
+    favoriteColors = this[FAVORITE_COLORS]?.split("/")?.mapNotNull { color ->
         color.toIntOrNull()?.let { ColorModel(it) }
     } ?: default.favoriteColors,
     defaultResizeType = this[DEFAULT_RESIZE_TYPE]?.let {

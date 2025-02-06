@@ -43,4 +43,10 @@ interface SimpleSettingsInteractor {
         value: Boolean
     )
 
+    suspend fun clearRecentColors()
+
+    suspend fun updateFavoriteColors(
+        colors: List<ColorModel>
+    )
+
 }

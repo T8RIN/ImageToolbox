@@ -484,7 +484,7 @@ internal class AndroidSettingsManager @Inject constructor(
             listOf(color) + current
         }
 
-        it[FAVOURITE_COLORS] = newColors.map { it.colorInt.toString() }.toSet()
+        it[FAVORITE_COLORS] = newColors.map { it.colorInt.toString() }.joinToString("/")
     }
 
     override suspend fun toggleOpenEditInsteadOfPreview() = toggle(
@@ -634,6 +634,16 @@ internal class AndroidSettingsManager @Inject constructor(
                     "${it.key}:${it.value}"
                 }.toSet()
             }
+    }
+
+    override suspend fun clearRecentColors() = edit {
+        it[RECENT_COLORS] = emptySet()
+    }
+
+    override suspend fun updateFavoriteColors(
+        colors: List<ColorModel>
+    ) = edit {
+        it[FAVORITE_COLORS] = colors.map { it.colorInt.toString() }.joinToString("/")
     }
 
     override suspend fun setFastSettingsSide(side: FastSettingsSide) = edit {

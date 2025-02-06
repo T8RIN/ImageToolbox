@@ -117,4 +117,4 @@ internal val CHECKSUM_TYPE_FOR_FILENAME = stringPreferencesKey("CHECKSUM_TYPE_FO
 internal val CUSTOM_FONTS = stringSetPreferencesKey("CUSTOM_FONTS")
 internal val ENABLE_TOOL_EXIT_CONFIRMATION = booleanPreferencesKey("ENABLE_TOOL_EXIT_CONFIRMATION")
 internal val RECENT_COLORS = stringSetPreferencesKey("RECENT_COLORS")
-internal val FAVOURITE_COLORS = stringSetPreferencesKey("FAVOURITE_COLORS")
+internal val FAVORITE_COLORS = stringPreferencesKey("FAVORITE_COLORS_KEY")
