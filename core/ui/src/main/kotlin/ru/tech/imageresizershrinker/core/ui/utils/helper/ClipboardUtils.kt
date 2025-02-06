@@ -160,7 +160,3 @@ fun Uri.asClip(
         this
     )
 )
-
-fun List<Uri>.asClip(): ClipEntry? = toClipData(
-    mimeTypes = arrayOf("*/*")
-)?.let { ClipEntry(it) }
