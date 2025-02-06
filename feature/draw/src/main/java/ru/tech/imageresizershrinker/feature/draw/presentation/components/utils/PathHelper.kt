@@ -87,23 +87,24 @@ data class PathHelper(
                 drawPath: Path,
                 strokeWidth: Pt,
                 canvasSize: IntegerSize,
+                arrowSize: Float = 3f,
+                arrowAngle: Double = 150.0
             ) {
                 val (preLastPoint, lastPoint) = PathMeasure().apply {
                     setPath(drawPath, false)
                 }.let {
                     Pair(
-                        it.getPosition(it.length - strokeWidth.toPx(canvasSize) * 3f)
+                        it.getPosition(it.length - strokeWidth.toPx(canvasSize) * arrowSize)
                             .takeOrElse { Offset.Zero },
                         it.getPosition(it.length).takeOrElse { Offset.Zero }
                     )
                 }
 
                 val arrowVector = lastPoint - preLastPoint
+
                 fun drawArrow() {
-
-                    val (rx1, ry1) = arrowVector.rotate(150.0)
-                    val (rx2, ry2) = arrowVector.rotate(210.0)
-
+                    val (rx1, ry1) = arrowVector.rotate(arrowAngle)
+                    val (rx2, ry2) = arrowVector.rotate(360 - arrowAngle)
 
                     drawPath.apply {
                         relativeLineTo(rx1, ry1)
@@ -112,9 +113,9 @@ data class PathHelper(
                     }
                 }
 
-                if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
-                        arrowVector.y
-                    ) < 3f * strokeWidth.toPx(canvasSize) && preLastPoint != Offset.Zero
+                if (abs(arrowVector.x) < arrowSize * strokeWidth.toPx(canvasSize) &&
+                    abs(arrowVector.y) < arrowSize * strokeWidth.toPx(canvasSize) &&
+                    preLastPoint != Offset.Zero
                 ) {
                     drawArrow()
                 }
@@ -124,22 +125,24 @@ data class PathHelper(
                 drawPath: Path,
                 strokeWidth: Pt,
                 canvasSize: IntegerSize,
+                arrowSize: Float = 3f,
+                arrowAngle: Double = 150.0
             ) {
                 val (firstPoint, secondPoint) = PathMeasure().apply {
                     setPath(drawPath, false)
                 }.let {
                     Pair(
                         it.getPosition(0f).takeOrElse { Offset.Zero },
-                        it.getPosition(strokeWidth.toPx(canvasSize) * 3f).takeOrElse { Offset.Zero }
+                        it.getPosition(strokeWidth.toPx(canvasSize) * arrowSize)
+                            .takeOrElse { Offset.Zero }
                     )
                 }
 
                 val arrowVector = firstPoint - secondPoint
+
                 fun drawArrow() {
-
-                    val (rx1, ry1) = arrowVector.rotate(150.0)
-                    val (rx2, ry2) = arrowVector.rotate(210.0)
-
+                    val (rx1, ry1) = arrowVector.rotate(arrowAngle)
+                    val (rx2, ry2) = arrowVector.rotate(360 - arrowAngle)
 
                     drawPath.apply {
                         moveTo(firstPoint.x, firstPoint.y)
@@ -149,9 +152,9 @@ data class PathHelper(
                     }
                 }
 
-                if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
-                        arrowVector.y
-                    ) < 3f * strokeWidth.toPx(canvasSize) && secondPoint != Offset.Zero
+                if (abs(arrowVector.x) < arrowSize * strokeWidth.toPx(canvasSize) &&
+                    abs(arrowVector.y) < arrowSize * strokeWidth.toPx(canvasSize) &&
+                    secondPoint != Offset.Zero
                 ) {
                     drawArrow()
                 }
