@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.CipherType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -87,29 +88,30 @@ class CipherComponent @AssistedInject internal constructor(
         onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
-            if (_uri.value == null) {
+            val uri = uri
+
+            if (uri == null) {
                 onComplete(null)
                 return@launch
             }
-            val file = onFileRequest(_uri.value!!)
-            runCatching {
-                if (isEncrypt) {
-                    _byteArray.value = file?.let {
-                        cryptographyManager.encrypt(
-                            data = it,
-                            key = key,
-                            type = cipherType
-                        )
-                    }
-                } else {
-                    _byteArray.value = file?.let {
-                        cryptographyManager.decrypt(
-                            data = it,
-                            key = key,
-                            type = cipherType
-                        )
+            runSuspendCatching {
+                _byteArray.update {
+                    onFileRequest(uri)?.let { file ->
+                        if (isEncrypt) {
+                            cryptographyManager.encrypt(
+                                data = file,
+                                key = key,
+                                type = cipherType
+                            )
+                        } else {
+                            cryptographyManager.decrypt(
+                                data = file,
+                                key = key,
+                                type = cipherType
+                            )
+                        }
                     }
                 }
             }.exceptionOrNull().let(onComplete)
@@ -141,7 +143,7 @@ class CipherComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             byteArray?.let { byteArray ->
                 fileController.writeBytes(

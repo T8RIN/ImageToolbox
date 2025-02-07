@@ -159,7 +159,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
         onStandaloneGradientSaveResult: (SaveResult) -> Unit,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _left.value = -1
             _isSaving.value = true
             if (uris.isEmpty()) {
@@ -398,7 +398,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     fun updateUrisSilently(
         removedUri: Uri
-    ) = componentScope.launch(defaultDispatcher) {
+    ) = componentScope.launch {
         if (selectedUri == removedUri) {
             val index = uris.indexOf(removedUri)
             if (index == 0) {

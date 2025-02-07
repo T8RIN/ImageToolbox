@@ -249,7 +249,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             bitmap?.let { bitmap ->
                 onComplete(

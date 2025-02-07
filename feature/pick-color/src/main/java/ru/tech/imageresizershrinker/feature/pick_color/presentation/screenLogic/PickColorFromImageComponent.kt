@@ -31,6 +31,7 @@ import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 
 class PickColorFromImageComponent @AssistedInject internal constructor(
@@ -68,7 +69,7 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
     ) {
         _uri.value = uri
         componentScope.launch {
-            runCatching {
+            runSuspendCatching {
                 updateBitmap(
                     imageGetter.getImage(
                         data = uri,

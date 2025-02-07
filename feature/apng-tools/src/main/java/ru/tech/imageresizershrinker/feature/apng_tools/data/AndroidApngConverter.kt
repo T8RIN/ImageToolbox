@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngConverter
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngParams
 import java.io.ByteArrayOutputStream
@@ -145,7 +146,7 @@ internal class AndroidApngConverter @Inject constructor(
     ) = withContext(defaultDispatcher) {
         apngUris.forEach { uri ->
             uri.bytes?.let { apngData ->
-                runCatching {
+                runSuspendCatching {
                     JxlCoder.Convenience.apng2JXL(
                         apngData = apngData,
                         quality = quality.qualityValue,

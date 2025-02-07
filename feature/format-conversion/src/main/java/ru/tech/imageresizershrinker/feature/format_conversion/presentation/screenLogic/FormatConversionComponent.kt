@@ -30,7 +30,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -48,6 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
@@ -138,7 +138,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
         removedUri: Uri,
         onFailure: (Throwable) -> Unit
     ) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -172,17 +172,13 @@ class FormatConversionComponent @AssistedInject internal constructor(
 
     private suspend fun updatePreview(
         bitmap: Bitmap
-    ): Bitmap? = withContext(defaultDispatcher) {
-        imageInfo.run {
-            imagePreviewCreator.createPreview(
-                image = bitmap,
-                imageInfo = this,
-                onGetByteCount = { size ->
-                    _imageInfo.update { it.copy(sizeInBytes = size) }
-                }
-            )
+    ): Bitmap? = imagePreviewCreator.createPreview(
+        image = bitmap,
+        imageInfo = imageInfo,
+        onGetByteCount = { size ->
+            _imageInfo.update { it.copy(sizeInBytes = size) }
         }
-    }
+    )
 
     private fun resetValues() {
         _imageInfo.value = ImageInfo(
@@ -252,12 +248,12 @@ class FormatConversionComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
-                runCatching {
+                runSuspendCatching {
                     imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
                     imageInfo.copy(
@@ -302,8 +298,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit = {}
     ) {
         _selectedUri.value = uri
-        componentScope.launch(defaultDispatcher) {
-            runCatching {
+        componentScope.launch {
+            runSuspendCatching {
                 _isImageLoading.update { true }
                 val bitmap = imageGetter.getImage(
                     uri = uri.toString(),

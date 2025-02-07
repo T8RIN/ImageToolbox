@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -111,7 +112,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(ioDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _byteArray.value?.let { byteArray ->
                 fileController.writeBytes(
@@ -395,7 +396,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private fun checkForOOM() {
         val preset = _presetSelected.value
         presetSelectionJob = componentScope.launch {
-            runCatching {
+            runSuspendCatching {
                 _pdfToImageState.value?.let { (uri, _, selectedPages) ->
                     val pagesSize = pdfManager.getPdfPageSizes(uri.toString())
                         .filterIndexed { index, _ -> index in selectedPages }

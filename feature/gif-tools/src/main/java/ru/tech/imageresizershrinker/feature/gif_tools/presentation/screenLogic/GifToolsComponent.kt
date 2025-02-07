@@ -152,7 +152,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         }
         updateGifFrames(ImageFrames.All)
 
-        collectionJob = componentScope.launch(defaultDispatcher) {
+        collectionJob = componentScope.launch {
             _isLoading.update { true }
             _isLoadingGifImages.update { true }
             gifConverter.extractFramesFromGif(
@@ -201,7 +201,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             gifData?.let { byteArray ->
                 fileController.writeBytes(
@@ -219,7 +219,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         onGifSaveResult: (filename: String) -> Unit,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -467,7 +467,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     }
 
     fun performSharing(onComplete: () -> Unit) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

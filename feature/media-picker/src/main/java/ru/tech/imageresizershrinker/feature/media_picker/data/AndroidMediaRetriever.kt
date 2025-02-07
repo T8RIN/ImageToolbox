@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.Query
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.contentFlowObserver
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getAlbums
@@ -170,7 +171,7 @@ internal class AndroidMediaRetriever @Inject constructor(
         uris = uris,
         coroutineContext = ioDispatcher
     ).map {
-        runCatching {
+        runSuspendCatching {
             dataBody.invoke(contentResolver)
         }
     }.conflate()
@@ -181,7 +182,7 @@ internal class AndroidMediaRetriever @Inject constructor(
         uris = uris,
         coroutineContext = ioDispatcher
     ).map {
-        runCatching {
+        runSuspendCatching {
             dataBody.invoke(contentResolver)
         }
     }.conflate()

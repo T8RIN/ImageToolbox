@@ -325,7 +325,7 @@ class SettingsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit,
     ) {
-        componentScope.launch(ioDispatcher) {
+        componentScope.launch {
             fileController.writeBytes(
                 uri = uri.toString(),
                 block = { it.writeBytes(settingsManager.createBackupFile()) }
@@ -337,7 +337,7 @@ class SettingsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit,
     ) {
-        componentScope.launch(ioDispatcher) {
+        componentScope.launch {
             fileController.writeBytes(
                 uri = uri.toString(),
                 block = { it.writeBytes(settingsManager.createCustomFontsExport()) }

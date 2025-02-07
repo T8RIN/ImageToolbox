@@ -29,6 +29,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.feature.load_net_image.domain.HtmlImageParser
 import java.net.UnknownHostException
@@ -53,7 +54,7 @@ internal class AndroidHtmlImageParser @Inject constructor(
         val baseImage = loadImage(realUrl)
 
         val parsedImages = if (realUrl.isNotEmpty()) {
-            runCatching {
+            runSuspendCatching {
                 val parsed = Jsoup
                     .connect(realUrl)
                     .userAgent(USER_AGENT)

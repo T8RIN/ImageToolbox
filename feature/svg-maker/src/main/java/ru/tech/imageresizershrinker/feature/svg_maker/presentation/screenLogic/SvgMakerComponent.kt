@@ -87,7 +87,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             val results = mutableListOf<SaveResult>()
 
             _isSaving.value = true

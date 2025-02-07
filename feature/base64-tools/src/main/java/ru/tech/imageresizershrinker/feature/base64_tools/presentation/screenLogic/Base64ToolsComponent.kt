@@ -184,7 +184,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             uri?.let { imageGetter.getImage(it) }?.let { image ->
                 val imageInfo = ImageInfo(

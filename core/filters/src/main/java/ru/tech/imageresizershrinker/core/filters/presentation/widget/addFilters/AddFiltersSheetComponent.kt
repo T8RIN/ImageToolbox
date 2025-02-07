@@ -247,7 +247,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         fileUri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        componentScope.launch(ioDispatcher) {
+        componentScope.launch {
             fileController.writeBytes(
                 uri = fileUri.toString(),
                 block = { it.writeBytes(content.toByteArray()) }

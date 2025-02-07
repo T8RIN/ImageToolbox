@@ -89,7 +89,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             noiseGenerator.generateNoise(
                 width = noiseSize.width,

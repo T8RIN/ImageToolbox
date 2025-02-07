@@ -112,7 +112,7 @@ class ImageSplitterComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0

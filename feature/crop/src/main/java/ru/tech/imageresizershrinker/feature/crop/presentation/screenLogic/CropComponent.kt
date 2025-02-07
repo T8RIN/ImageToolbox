@@ -141,7 +141,7 @@ class CropComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             bitmap?.let { localBitmap ->
                 val byteArray = imageCompressor.compressAndTransform(

@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -136,7 +137,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -186,12 +187,12 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
-                runCatching {
+                runSuspendCatching {
                     imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
                     imageScaler.scaleImage(
@@ -236,10 +237,10 @@ class LimitsResizeComponent @AssistedInject internal constructor(
 
     fun updateSelectedUri(
         uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
+        onFailure: (Throwable) -> Unit = {} //TODO: Remove unnecessary callbacks
     ) {
         runCatching {
-            componentScope.launch(defaultDispatcher) {
+            componentScope.launch {
                 _isImageLoading.value = true
                 updateBitmap(imageGetter.getImage(uri.toString())?.image)
                 _selectedUri.value = uri

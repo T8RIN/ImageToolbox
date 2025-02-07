@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.io.use
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.resources.R
 import java.io.File
 import javax.inject.Inject
@@ -79,7 +80,7 @@ internal class AndroidShareProvider @Inject constructor(
         imageInfo: ImageInfo,
         filename: String?
     ): String? = withContext(ioDispatcher) {
-        runCatching {
+        runSuspendCatching {
             val saveTarget = ImageSaveTarget<ExifInterface>(
                 imageInfo = imageInfo,
                 originalUri = imageInfo.originalUri ?: "share",
@@ -121,7 +122,7 @@ internal class AndroidShareProvider @Inject constructor(
         onComplete: () -> Unit
     ) {
         withContext(defaultDispatcher) {
-            runCatching {
+            runSuspendCatching {
                 shareUriImpl(
                     uri = uri,
                     type = type
@@ -221,7 +222,7 @@ internal class AndroidShareProvider @Inject constructor(
     ): String? = withContext(ioDispatcher) {
         val imagesFolder = File(context.cacheDir, "files")
 
-        runCatching {
+        runSuspendCatching {
             imagesFolder.mkdirs()
             val file = File(imagesFolder, filename)
             FileWriteable(file).use {

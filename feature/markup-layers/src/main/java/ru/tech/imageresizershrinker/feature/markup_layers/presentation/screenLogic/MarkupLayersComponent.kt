@@ -199,7 +199,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit,
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
                 onComplete(

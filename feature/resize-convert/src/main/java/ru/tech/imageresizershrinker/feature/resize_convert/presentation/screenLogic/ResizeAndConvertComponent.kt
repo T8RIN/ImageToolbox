@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
@@ -162,7 +163,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             _uris.update { uris }
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -381,12 +382,12 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.update { true }
             val results = mutableListOf<SaveResult>()
             _done.update { 0 }
             uris?.forEach { uri ->
-                runCatching {
+                runSuspendCatching {
                     imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
                     imageInfo.copy(
@@ -432,7 +433,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     ) {
         runCatching {
             _selectedUri.update { uri }
-            componentScope.launch(defaultDispatcher) {
+            componentScope.launch {
                 _isImageLoading.update { true }
                 val bitmap = imageGetter.getImage(
                     uri = uri.toString(),

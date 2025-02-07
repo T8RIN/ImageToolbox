@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.util.Locale
@@ -227,7 +228,7 @@ internal class AndroidImageGetter @Inject constructor(
             .decoderFactory(UpscaleSvgDecoder.Factory())
             .build()
 
-        runCatching {
+        runSuspendCatching {
             imageLoader.execute(request).image?.toBitmap()
         }.onFailure(onFailure).getOrNull()
     }

@@ -79,7 +79,7 @@ class MeshGradientsComponent @AssistedInject constructor(
     fun shareImages(
         uriList: List<Uri>,
         onComplete: () -> Unit
-    ) = componentScope.launch(defaultDispatcher) {
+    ) = componentScope.launch {
         shareProvider.shareImages(
             uris = uriList.map { it.toString() },
             imageLoader = {

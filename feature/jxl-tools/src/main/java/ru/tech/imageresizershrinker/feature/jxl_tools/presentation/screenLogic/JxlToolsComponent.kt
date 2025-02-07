@@ -147,7 +147,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
             Screen.JxlTools.Type.JxlToImage(uri)
         }
         updateJxlFrames(ImageFrames.All)
-        collectionJob = componentScope.launch(defaultDispatcher) {
+        collectionJob = componentScope.launch {
             _isLoading.update { true }
             _isLoadingJxlImages.update { true }
             jxlConverter.extractFramesFromJxl(
@@ -176,7 +176,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -382,7 +382,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

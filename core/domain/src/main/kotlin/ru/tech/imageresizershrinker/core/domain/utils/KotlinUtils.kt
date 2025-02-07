@@ -18,6 +18,9 @@
 
 package ru.tech.imageresizershrinker.core.domain.utils
 
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+
 
 inline fun <reified T> T?.notNullAnd(
     predicate: (T) -> Boolean
@@ -40,3 +43,15 @@ inline fun <reified T, reified R> T.safeCast(): R? = this as? R
 inline operator fun CharSequence.times(
     count: Int
 ): CharSequence = repeat(count.coerceAtLeast(0))
+
+
+suspend inline fun <T, R> T.runSuspendCatching(block: T.() -> R): Result<R> {
+    currentCoroutineContext().ensureActive()
+
+    return try {
+        Result.success(block())
+    } catch (e: Throwable) {
+        currentCoroutineContext().ensureActive()
+        Result.failure(e)
+    }
+}

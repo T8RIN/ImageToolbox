@@ -140,7 +140,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _isSaving.update { true }
         _collageCreationTrigger.update { true }
         requestedOperation = {
-            savingJob = componentScope.launch(defaultDispatcher) {
+            savingJob = componentScope.launch {
                 collageBitmap?.let { image ->
                     _isSaving.update { true }
                     val imageInfo = ImageInfo(

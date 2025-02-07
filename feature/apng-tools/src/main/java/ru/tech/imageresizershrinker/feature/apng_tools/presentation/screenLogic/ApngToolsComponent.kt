@@ -146,7 +146,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
             Screen.ApngTools.Type.ApngToImage(uri)
         }
         updateApngFrames(ImageFrames.All)
-        collectionJob = componentScope.launch(defaultDispatcher) {
+        collectionJob = componentScope.launch {
             _isLoading.update { true }
             _isLoadingApngImages.update { true }
             apngConverter.extractFramesFromApng(
@@ -192,7 +192,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             apngData?.let { byteArray ->
                 fileController.writeBytes(
@@ -212,7 +212,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -423,7 +423,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

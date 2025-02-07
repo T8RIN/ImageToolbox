@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgManager
 import ru.tech.imageresizershrinker.feature.svg_maker.domain.SvgParams
 import java.io.File
@@ -50,7 +51,7 @@ internal class AndroidSvgManager @Inject constructor(
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     ) = withContext(defaultDispatcher) {
         imageUris.forEach { uri ->
-            runCatching {
+            runSuspendCatching {
                 val folder = File(context.cacheDir, "svg").apply { mkdirs() }
                 val file = File(folder, "${randomStringGenerator.generate(10)}.svg")
 

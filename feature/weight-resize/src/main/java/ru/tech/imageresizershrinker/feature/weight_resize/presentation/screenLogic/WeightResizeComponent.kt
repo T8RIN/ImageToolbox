@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -159,7 +160,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -205,15 +206,15 @@ class WeightResizeComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
-                runCatching {
+                runSuspendCatching {
                     imageGetter.getImage(uri.toString())
                 }.getOrNull()?.image?.let { bitmap ->
-                    runCatching {
+                    runSuspendCatching {
                         if (handMode) {
                             imageScaler.scaleByMaxBytes(
                                 image = bitmap,
@@ -261,7 +262,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit = {}
     ) {
         runCatching {
-            componentScope.launch(defaultDispatcher) {
+            componentScope.launch {
                 updateBitmap(
                     imageGetter.getImage(
                         uri = uri.toString(),

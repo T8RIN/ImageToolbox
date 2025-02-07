@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -80,12 +81,12 @@ class ZipComponent @AssistedInject internal constructor(
     fun startCompression(
         onFailure: (Throwable) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             if (uris.isEmpty()) {
                 return@launch
             }
-            runCatching {
+            runSuspendCatching {
                 _done.update { 0 }
                 _left.update { uris.size }
                 _byteArray.value = zipManager.zip(
@@ -107,7 +108,7 @@ class ZipComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _byteArray.value?.let { byteArray ->
                 fileController.writeBytes(

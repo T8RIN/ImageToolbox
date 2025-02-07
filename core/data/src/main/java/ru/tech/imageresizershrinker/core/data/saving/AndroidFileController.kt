@@ -55,6 +55,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.io.use
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -112,7 +113,7 @@ internal class AndroidFileController @Inject constructor(
 
         val savingPath = oneTimeSaveLocationUri?.getPath(context) ?: defaultSavingPath
 
-        runCatching {
+        runSuspendCatching {
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
                 val clipboardManager = context.getSystemService<ClipboardManager>()
 
@@ -327,8 +328,8 @@ internal class AndroidFileController @Inject constructor(
     override suspend fun writeBytes(
         uri: String,
         block: suspend (Writeable) -> Unit,
-    ): SaveResult {
-        runCatching {
+    ): SaveResult = withContext(ioDispatcher) {
+        runSuspendCatching {
             context.openWriteableStream(
                 uri = uri.toUri(),
                 onFailure = { throw it }
@@ -336,15 +337,15 @@ internal class AndroidFileController @Inject constructor(
                 StreamWriteable(stream).use { block(it) }
             }
         }.onSuccess {
-            return SaveResult.Success(
+            return@withContext SaveResult.Success(
                 message = null,
                 savingPath = ""
             )
         }.onFailure {
-            return SaveResult.Error.Exception(it)
+            return@withContext SaveResult.Error.Exception(it)
         }
 
-        return SaveResult.Error.Exception(IllegalStateException())
+        return@withContext SaveResult.Error.Exception(IllegalStateException())
     }
 
     override suspend fun <O : Any> saveObject(

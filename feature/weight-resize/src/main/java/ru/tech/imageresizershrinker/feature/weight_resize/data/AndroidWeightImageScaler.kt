@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.feature.weight_resize.domain.WeightImageScaler
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -46,7 +47,7 @@ internal class AndroidWeightImageScaler @Inject constructor(
         imageScaleMode: ImageScaleMode,
         maxBytes: Long
     ): Pair<ByteArray, ImageInfo>? = withContext(defaultDispatcher) {
-        runCatching {
+        runSuspendCatching {
             val initialSize = imageCompressor.calculateImageSize(
                 image = image,
                 imageInfo = ImageInfo(

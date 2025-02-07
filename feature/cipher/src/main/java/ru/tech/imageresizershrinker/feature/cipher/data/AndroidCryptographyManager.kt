@@ -19,8 +19,10 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.data
 
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.saving.io.StringReadable
 import ru.tech.imageresizershrinker.core.data.utils.computeBytesFromReadable
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.CipherType
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
@@ -35,7 +37,9 @@ import javax.crypto.spec.PBEParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import javax.inject.Inject
 
-internal class AndroidCryptographyManager @Inject constructor() : CryptographyManager {
+internal class AndroidCryptographyManager @Inject constructor(
+    private val dispatchersHolder: DispatchersHolder
+) : CryptographyManager, DispatchersHolder by dispatchersHolder {
 
     private val CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
@@ -65,7 +69,7 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
         data: ByteArray,
         key: String,
         type: CipherType
-    ): ByteArray {
+    ): ByteArray = withContext(defaultDispatcher) {
         val cipher = type.toCipher(
             keySpec = createKey(
                 password = key,
@@ -74,14 +78,14 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
             isEncrypt = false
         )
 
-        return cipher.doOrThrow(data)
+        cipher.doOrThrow(data)
     }
 
     override suspend fun encrypt(
         data: ByteArray,
         key: String,
         type: CipherType
-    ): ByteArray {
+    ): ByteArray = withContext(defaultDispatcher) {
         val cipher = type.toCipher(
             keySpec = createKey(
                 password = key,
@@ -90,7 +94,7 @@ internal class AndroidCryptographyManager @Inject constructor() : CryptographyMa
             isEncrypt = true
         )
 
-        return cipher.doOrThrow(data)
+        cipher.doOrThrow(data)
     }
 
     private fun Cipher.init(

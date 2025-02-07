@@ -457,7 +457,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        languagesJob = componentScope.launch(ioDispatcher) {
+        languagesJob = componentScope.launch {
             _isExporting.value = true
             imageTextReader.exportLanguagesToZip()?.let { zipUri ->
                 fileController.writeBytes(
@@ -490,7 +490,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
-        languagesJob = componentScope.launch(ioDispatcher) {
+        languagesJob = componentScope.launch {
             _isExporting.value = true
             imageTextReader.importLanguagesFromUri(uri.toString())
                 .onSuccess {

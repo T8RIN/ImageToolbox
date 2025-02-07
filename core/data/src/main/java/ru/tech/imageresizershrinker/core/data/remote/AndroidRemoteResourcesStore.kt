@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.core.domain.remote.RemoteResource
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesStore
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -71,7 +72,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
         onFailure: (Throwable) -> Unit,
         downloadOnlyNewData: Boolean
     ): RemoteResources? = withContext(defaultDispatcher) {
-        runCatching {
+        runSuspendCatching {
             val connection = URL(getResourcesLink(name)).openConnection() as HttpURLConnection
 
             connection.apply {
@@ -153,7 +154,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                 var count: Int
                 var downloaded = 0
 
-                val isSuccess = runCatching {
+                val isSuccess = runSuspendCatching {
                     BufferedInputStream(conn).use { input ->
                         FileOutputStream(outFile).use { output ->
                             withContext(ioDispatcher) {
@@ -219,7 +220,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
     override suspend fun getResourceLinks(
         name: String
     ): RemoteResources? = withContext(defaultDispatcher) {
-        runCatching {
+        runSuspendCatching {
             val connection = URL(getResourcesLink(name)).openConnection() as HttpURLConnection
 
             connection.apply {

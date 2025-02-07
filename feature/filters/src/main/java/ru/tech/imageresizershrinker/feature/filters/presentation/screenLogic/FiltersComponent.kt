@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -217,7 +218,7 @@ class FiltersComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             val state = _basicFilterState.value
             if (state.selectedUri == removedUri) {
                 val index = state.uris?.indexOf(removedUri) ?: -1
@@ -260,13 +261,13 @@ class FiltersComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
             _left.value = _basicFilterState.value.uris?.size ?: 1
             _basicFilterState.value.uris?.forEach { uri ->
-                runCatching {
+                runSuspendCatching {
                     imageGetter.getImageWithTransformations(
                         uri = uri.toString(),
                         transformations = _basicFilterState.value.filters.map {
@@ -310,7 +311,7 @@ class FiltersComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit = {}
     ) {
         runCatching {
-            componentScope.launch(defaultDispatcher) {
+            componentScope.launch {
                 _isImageLoading.update { true }
                 val req = imageGetter.getImage(uri = uri.toString())
                 val tempBitmap = req?.image
@@ -475,7 +476,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
     private fun updatePreview() {
         _bitmap.value?.let { bitmap ->
-            filterJob = componentScope.launch(defaultDispatcher) {
+            filterJob = componentScope.launch {
                 delay(200L)
                 _isImageLoading.value = true
                 when (filterType) {
@@ -554,7 +555,7 @@ class FiltersComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             _done.value = 0
             _left.value = maskingFilterState.masks.size

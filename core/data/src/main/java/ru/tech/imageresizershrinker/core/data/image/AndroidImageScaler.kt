@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeAnchor
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.image.model.ScaleColorSpace
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.createFilter
@@ -493,7 +494,7 @@ internal class AndroidImageScaler @Inject constructor(
             ResizeAnchor.Height -> scaleByHeight()
 
             ResizeAnchor.Default -> {
-                runCatching {
+                runSuspendCatching {
                     if (image.height >= image.width) {
                         val aspectRatio = image.aspectRatio
                         val targetWidth = (max * aspectRatio).toInt()

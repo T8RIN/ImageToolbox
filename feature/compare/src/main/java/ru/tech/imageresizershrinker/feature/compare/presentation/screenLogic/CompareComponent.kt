@@ -88,7 +88,7 @@ class CompareComponent @AssistedInject internal constructor(
             if (it == 90f) 0f
             else 90f
         }
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             _bitmapData.value?.let { (f, s) ->
                 if (f != null && s != null) {
                     _isImageLoading.value = true
@@ -118,7 +118,7 @@ class CompareComponent @AssistedInject internal constructor(
     }
 
     fun swap() {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             _isImageLoading.value = true
             _bitmapData.value = _bitmapData.value?.run { second to first }
             _isImageLoading.value = false
@@ -130,7 +130,7 @@ class CompareComponent @AssistedInject internal constructor(
         onFailure: () -> Unit,
         onSuccess: () -> Unit
     ) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
             if (data.first == null || data.second == null) onFailure()
             else {
@@ -153,7 +153,7 @@ class CompareComponent @AssistedInject internal constructor(
         imageFormat: ImageFormat,
         onComplete: () -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isImageLoading.value = true
             getOverlappedImage(percent)?.let {
                 shareProvider.shareImage(
@@ -176,7 +176,7 @@ class CompareComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isImageLoading.value = true
             getOverlappedImage(percent)?.let { localBitmap ->
                 onComplete(

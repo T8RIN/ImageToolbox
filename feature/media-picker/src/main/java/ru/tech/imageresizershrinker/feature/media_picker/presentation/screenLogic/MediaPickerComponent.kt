@@ -105,7 +105,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private var albumJob: Job? by smartJob()
 
     private fun getAlbums(allowedMedia: AllowedMedia) {
-        albumJob = componentScope.launch(defaultDispatcher) {
+        albumJob = componentScope.launch {
             mediaRetriever.getAlbumsWithType(allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
@@ -135,7 +135,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         albumId: Long,
         allowedMedia: AllowedMedia
     ) {
-        mediaGettingJob = componentScope.launch(defaultDispatcher) {
+        mediaGettingJob = componentScope.launch {
             _mediaState.emit(mediaState.value.copy(isLoading = true))
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(defaultDispatcher)

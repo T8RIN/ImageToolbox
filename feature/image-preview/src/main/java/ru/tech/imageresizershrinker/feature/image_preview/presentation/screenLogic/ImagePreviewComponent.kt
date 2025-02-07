@@ -77,7 +77,7 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     fun shareImages(
         uriList: List<Uri>?,
         onComplete: () -> Unit
-    ) = componentScope.launch(defaultDispatcher) {
+    ) = componentScope.launch {
         uris?.let {
             shareProvider.shareUris(
                 if (uriList.isNullOrEmpty()) {

@@ -142,7 +142,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _left.value = -1
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
@@ -283,7 +283,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             if (selectedUri == removedUri) {
                 val index = uris.indexOf(removedUri)
                 if (index == 0) {

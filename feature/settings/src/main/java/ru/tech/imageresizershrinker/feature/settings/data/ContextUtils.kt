@@ -23,6 +23,7 @@ import androidx.datastore.preferences.core.PreferencesSerializer
 import kotlinx.coroutines.coroutineScope
 import okio.buffer
 import okio.source
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.resources.R
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -33,7 +34,7 @@ internal suspend fun Context.restoreDatastore(
     onFailure: (Throwable) -> Unit,
     onSuccess: suspend () -> Unit
 ) = coroutineScope {
-    runCatching {
+    runSuspendCatching {
         contentResolver.openInputStream(backupUri)?.use { input ->
             val bytes = input.readBytes()
             restoreDatastore(
@@ -54,10 +55,11 @@ internal suspend fun Context.restoreDatastore(
     onFailure: (Throwable) -> Unit,
     onSuccess: suspend () -> Unit
 ) = coroutineScope {
-    runCatching {
-        try {
+    runSuspendCatching {
+
+        runSuspendCatching {
             PreferencesSerializer.readFrom(ByteArrayInputStream(backupData).source().buffer())
-        } catch (_: Throwable) {
+        }.onFailure {
             onFailure(Throwable(getString(R.string.corrupted_file_or_not_a_backup)))
             return@coroutineScope
         }

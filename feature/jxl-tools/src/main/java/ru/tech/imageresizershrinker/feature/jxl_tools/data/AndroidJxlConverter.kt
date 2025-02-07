@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.AnimatedJxlParams
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
 import javax.inject.Inject
@@ -66,7 +67,7 @@ internal class AndroidJxlConverter @Inject constructor(
         onProgress: suspend (String, ByteArray) -> Unit
     ) = withContext(defaultDispatcher) {
         jpegUris.forEach { uri ->
-            runCatching {
+            runSuspendCatching {
                 uri.jxl?.let { onProgress(uri, it) }
             }.onFailure(onFailure)
         }
@@ -78,7 +79,7 @@ internal class AndroidJxlConverter @Inject constructor(
         onProgress: suspend (String, ByteArray) -> Unit
     ) = withContext(defaultDispatcher) {
         jxlUris.forEach { uri ->
-            runCatching {
+            runSuspendCatching {
                 uri.jpeg?.let { onProgress(uri, it) }
             }.onFailure(onFailure)
         }
@@ -97,7 +98,7 @@ internal class AndroidJxlConverter @Inject constructor(
             return@withContext null
         }
 
-        runCatching {
+        runSuspendCatching {
             val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
                 IntegerSize(width, height)
             }

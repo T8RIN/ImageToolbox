@@ -178,7 +178,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getErasedBitmap(true)?.let { localBitmap ->
                 onComplete(
@@ -303,7 +303,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
     ) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             getErasedBitmap(false)?.let { bitmap1 ->
                 _isErasingBG.value = true
                 autoBackgroundRemover.removeBackgroundFromImage(

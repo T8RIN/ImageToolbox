@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
 import java.io.ByteArrayOutputStream
@@ -185,7 +186,7 @@ internal class AndroidGifConverter @Inject constructor(
     ) = withContext(defaultDispatcher) {
         gifUris.forEach { uri ->
             uri.bytes?.let { gifData ->
-                runCatching {
+                runSuspendCatching {
                     JxlCoder.Convenience.gif2JXL(
                         gifData = gifData,
                         quality = quality.qualityValue,
@@ -212,7 +213,7 @@ internal class AndroidGifConverter @Inject constructor(
                     backgroundColor = Color.Transparent.toArgb()
                 )
 
-                runCatching {
+                runSuspendCatching {
                     encoder
                         .loadGif(uri.file)
                         .encode()

@@ -28,6 +28,7 @@ import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import java.io.OutputStream
 import kotlin.io.use
 
@@ -44,7 +45,7 @@ suspend fun Context.copyMetadata(
     fileUri: Uri?,
     keepMetadata: Boolean,
     originalUri: Uri
-) = runCatching {
+) = runSuspendCatching {
     if (initialExif != null) {
         getFileDescriptorFor(fileUri)?.use {
             val ex = ExifInterface(it.fileDescriptor)

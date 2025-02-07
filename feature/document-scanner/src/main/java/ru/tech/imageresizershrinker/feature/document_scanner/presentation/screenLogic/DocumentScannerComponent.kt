@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ScanResult
@@ -108,12 +109,12 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris.forEach { uri ->
-                runCatching {
+                runSuspendCatching {
                     imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
                     val imageInfo = ImageInfo(
@@ -154,7 +155,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch(ioDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             getPdfUri()?.let { pdfUri ->
                 fileController.writeBytes(
@@ -200,7 +201,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                 _done.update { 0 }
                 _left.update { 0 }
 
-                runCatching {
+                runSuspendCatching {
                     shareProvider.shareUri(
                         uri = pdfUri.toString(),
                         onComplete = onComplete

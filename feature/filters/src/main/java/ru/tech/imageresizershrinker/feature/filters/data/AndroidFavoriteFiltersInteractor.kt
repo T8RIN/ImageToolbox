@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
@@ -90,9 +91,9 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onFailure: suspend () -> Unit,
     ) {
-        runCatching {
+        runSuspendCatching {
             if (isValidTemplateFilter(string)) {
-                runCatching {
+                runSuspendCatching {
                     string.removePrefix(LINK_HEADER).toTemplateFiltersList(context).firstOrNull()
                 }.getOrNull()?.let {
                     addTemplateFilter(it)

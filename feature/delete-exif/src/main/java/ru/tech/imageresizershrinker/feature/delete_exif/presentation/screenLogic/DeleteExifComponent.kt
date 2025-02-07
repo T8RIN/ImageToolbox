@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -102,7 +103,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        componentScope.launch(defaultDispatcher) {
+        componentScope.launch {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
@@ -145,12 +146,12 @@ class DeleteExifComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch(defaultDispatcher) {
+        savingJob = componentScope.launch {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
-                runCatching {
+                runSuspendCatching {
                     imageGetter.getImage(uri.toString())
                 }.getOrNull()?.let {
                     val metadata: ExifInterface? = if (selectedTags.isNotEmpty()) {
@@ -189,7 +190,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     fun updateSelectedUri(
         uri: Uri,
         onFailure: (Throwable) -> Unit = {}
-    ) = componentScope.launch(defaultDispatcher) {
+    ) = componentScope.launch {
         _isImageLoading.value = true
         _selectedUri.value = uri
         imageGetter.getImageAsync(
