@@ -25,7 +25,7 @@ plugins {
 android {
     var isFoss = false
 
-    var supportedAbi = arrayOf("armeabi-v7a", "arm64-v8a", "x86_64")
+    val supportedAbi = arrayOf("armeabi-v7a", "arm64-v8a", "x86_64")
 
     namespace = "ru.tech.imageresizershrinker"
 
