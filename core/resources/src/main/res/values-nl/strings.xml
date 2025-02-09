@@ -1552,4 +1552,5 @@
     <string name="fit_height">Hoogte passend</string>
     <string name="pick_directory">Map kiezen</string>
     <string name="pick_files">Bestanden kiezen</string>
+    <string name="head_length_scale">Lengte schaal kop</string>
 </resources>
