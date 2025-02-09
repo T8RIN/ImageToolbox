@@ -26,11 +26,11 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.components.LoadNetImageActionButtons
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.components.LoadNetImageAdaptiveActions
-import ru.tech.imageresizershrinker.feature.load_net_image.presentation.components.LoadNetImageSavingIndicator
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.components.LoadNetImageTopAppBarActions
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.components.LoadNetImageUrlTextField
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.components.ParsedImagePreview
@@ -83,5 +83,10 @@ fun LoadNetImageContent(
         isPortrait = isPortrait
     )
 
-    LoadNetImageSavingIndicator(component)
+    LoadingDialog(
+        visible = component.isSaving,
+        done = component.done,
+        left = component.left,
+        onCancelLoading = component::cancelSaving
+    )
 }

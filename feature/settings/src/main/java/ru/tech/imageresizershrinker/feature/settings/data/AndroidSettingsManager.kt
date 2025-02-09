@@ -209,7 +209,7 @@ internal class AndroidSettingsManager @Inject constructor(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
-    ) = withContext(defaultDispatcher) {
+    ) = withContext(ioDispatcher) {
         context.restoreDatastore(
             fileName = GlobalStorageName,
             backupUri = backupFileUri.toUri(),

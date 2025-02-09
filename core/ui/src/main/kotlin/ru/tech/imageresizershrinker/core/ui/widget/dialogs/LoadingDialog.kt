@@ -83,6 +83,31 @@ fun LoadingDialog(
     onCancelLoading: () -> Unit,
     canCancel: Boolean = true,
 ) {
+    if (left < 0) {
+        LoadingDialog(
+            visible = visible,
+            onCancelLoading = onCancelLoading,
+            canCancel = canCancel && visible
+        )
+    } else {
+        ProgressLoadingDialog(
+            visible = visible,
+            done = done,
+            left = left,
+            onCancelLoading = onCancelLoading,
+            canCancel = canCancel && visible
+        )
+    }
+}
+
+@Composable
+private fun ProgressLoadingDialog(
+    visible: Boolean,
+    done: Int,
+    left: Int,
+    onCancelLoading: () -> Unit,
+    canCancel: Boolean = true,
+) {
     var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
     BasicEnhancedAlertDialog(
         visible = visible,

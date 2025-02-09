@@ -513,20 +513,13 @@ fun GradientMakerContent(
         shape = MaterialTheme.shapes.medium
     )
 
-    if (component.left != -1) {
-        LoadingDialog(
-            visible = component.isSaving || component.isImageLoading,
-            done = component.done,
-            left = component.left,
-            onCancelLoading = component::cancelSaving
-        )
-    } else {
-        LoadingDialog(
-            visible = component.isSaving || component.isImageLoading,
-            canCancel = component.isSaving,
-            onCancelLoading = component::cancelSaving
-        )
-    }
+    LoadingDialog(
+        visible = component.isSaving || component.isImageLoading,
+        done = component.done,
+        left = component.left,
+        onCancelLoading = component::cancelSaving,
+        canCancel = component.isSaving,
+    )
 
     ExitWithoutSavingDialog(
         onExit = {

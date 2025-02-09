@@ -51,6 +51,18 @@ class CipherComponent @AssistedInject internal constructor(
     private val _cipherType: MutableState<CipherType> = mutableStateOf(CipherType.entries.first())
     val cipherType: CipherType by _cipherType
 
+    private val _showTip: MutableState<Boolean> = mutableStateOf(false)
+    val showTip by _showTip
+
+    private val _key: MutableState<String> = mutableStateOf("")
+    val key by _key
+
+    val canGoBack: Boolean
+        get() = uri == null || (key.isEmpty() && byteArray == null)
+
+    fun showTip() = _showTip.update { true }
+    fun hideTip() = _showTip.update { false }
+
     init {
         debounce {
             initialUri?.let(::setUri)
@@ -59,6 +71,11 @@ class CipherComponent @AssistedInject internal constructor(
                 kClass = CipherType::class
             )?.let(::updateCipherType)
         }
+    }
+
+    fun updateKey(newKey: String) {
+        _key.update { newKey }
+        resetCalculatedData()
     }
 
 
@@ -84,8 +101,6 @@ class CipherComponent @AssistedInject internal constructor(
     }
 
     fun startCryptography(
-        key: String,
-        onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
     ) {
         savingJob = componentScope.launch {
@@ -98,7 +113,7 @@ class CipherComponent @AssistedInject internal constructor(
             }
             runSuspendCatching {
                 _byteArray.update {
-                    onFileRequest(uri)?.let { file ->
+                    fileController.readBytes(uri.toString()).let { file ->
                         if (isEncrypt) {
                             cryptographyManager.encrypt(
                                 data = file,
