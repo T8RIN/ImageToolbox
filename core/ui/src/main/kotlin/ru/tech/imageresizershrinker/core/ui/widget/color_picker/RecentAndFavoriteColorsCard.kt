@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -67,6 +68,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -213,9 +216,11 @@ fun RecentAndFavoriteColorsCard(
                         }
                     }
                     val data = remember(favoriteColors) { mutableStateOf(favoriteColors) }
+                    val haptics = LocalHapticFeedback.current
                     val reorderableState = rememberReorderableLazyListState(
                         lazyListState = favoriteState,
                         onMove = { from, to ->
+                            haptics.press()
                             data.value = data.value.toMutableList().apply {
                                 add(to.index, removeAt(from.index))
                             }
@@ -257,11 +262,16 @@ fun RecentAndFavoriteColorsCard(
                                         .hapticsClickable {
                                             onFavoriteColorClick(color)
                                         }
-                                        .longPressDraggableHandle {
-                                            scope.launch {
-                                                interactor.updateFavoriteColors(data.value.map { it.toModel() })
+                                        .longPressDraggableHandle(
+                                            onDragStarted = {
+                                                haptics.longPress()
+                                            },
+                                            onDragStopped = {
+                                                scope.launch {
+                                                    interactor.updateFavoriteColors(data.value.map { it.toModel() })
+                                                }
                                             }
-                                        }
+                                        )
                                         .animateItem(),
                                     contentAlignment = Alignment.Center
                                 ) {

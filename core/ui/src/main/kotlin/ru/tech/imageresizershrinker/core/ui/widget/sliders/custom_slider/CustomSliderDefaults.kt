@@ -99,16 +99,16 @@ object CustomSliderDefaults {
      */
     @Composable
     fun colors(
-        thumbColor: Color = Color.Companion.Unspecified,
-        activeTrackColor: Color = Color.Companion.Unspecified,
-        activeTickColor: Color = Color.Companion.Unspecified,
-        inactiveTrackColor: Color = Color.Companion.Unspecified,
-        inactiveTickColor: Color = Color.Companion.Unspecified,
-        disabledThumbColor: Color = Color.Companion.Unspecified,
-        disabledActiveTrackColor: Color = Color.Companion.Unspecified,
-        disabledActiveTickColor: Color = Color.Companion.Unspecified,
-        disabledInactiveTrackColor: Color = Color.Companion.Unspecified,
-        disabledInactiveTickColor: Color = Color.Companion.Unspecified
+        thumbColor: Color = Color.Unspecified,
+        activeTrackColor: Color = Color.Unspecified,
+        activeTickColor: Color = Color.Unspecified,
+        inactiveTrackColor: Color = Color.Unspecified,
+        inactiveTickColor: Color = Color.Unspecified,
+        disabledThumbColor: Color = Color.Unspecified,
+        disabledActiveTrackColor: Color = Color.Unspecified,
+        disabledActiveTickColor: Color = Color.Unspecified,
+        disabledInactiveTrackColor: Color = Color.Unspecified,
+        disabledInactiveTickColor: Color = Color.Unspecified
     ): CustomSliderColors = CustomSliderColors(
         thumbColor = thumbColor,
         activeTrackColor = activeTrackColor,
@@ -284,7 +284,7 @@ object CustomSliderDefaults {
             sliderStart,
             sliderEnd,
             trackHeight,
-            StrokeCap.Companion.Round
+            StrokeCap.Round
         )
         val sliderValueEnd = Offset(
             sliderStart.x +
@@ -303,7 +303,7 @@ object CustomSliderDefaults {
             sliderValueStart,
             sliderValueEnd,
             trackHeight,
-            StrokeCap.Companion.Round
+            StrokeCap.Round
         )
 
         for (tick in tickFractions) {

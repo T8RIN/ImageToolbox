@@ -77,7 +77,7 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
             )
         )
 
-    private val _maskColor = mutableStateOf(Color.Companion.Red)
+    private val _maskColor = mutableStateOf(Color.Red)
     val maskColor by _maskColor
 
     private val _paths: MutableState<List<UiPathPaint>> = mutableStateOf(emptyList())
@@ -279,7 +279,7 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
     )
 
     override fun resetState() {
-        _maskColor.update { Color.Companion.Red }
+        _maskColor.update { Color.Red }
         _paths.update { emptyList() }
         _undonePaths.update { emptyList() }
         _lastPaths.update { emptyList() }

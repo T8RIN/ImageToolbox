@@ -43,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,6 +55,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterSelec
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -79,14 +82,14 @@ internal fun FavoritesContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Spacer(Modifier.weight(1f))
                 Text(
                     text = stringResource(R.string.no_favorite_filters),
                     fontSize = 18.sp,
-                    textAlign = TextAlign.Companion.Center,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier.padding(
                         start = 24.dp,
                         end = 24.dp,
@@ -108,10 +111,12 @@ internal fun FavoritesContent(
             val data = remember {
                 mutableStateOf(favoriteFilters)
             }
+            val haptics = LocalHapticFeedback.current
             val listState = rememberLazyListState()
             val state = rememberReorderableLazyListState(
                 lazyListState = listState,
                 onMove = { from, to ->
+                    haptics.press()
                     data.value = data.value.toMutableList().apply {
                         add(to.index, removeAt(from.index))
                     }
@@ -127,7 +132,7 @@ internal fun FavoritesContent(
                 modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.spacedBy(
                     space = 4.dp,
-                    alignment = Alignment.Companion.CenterVertically
+                    alignment = Alignment.CenterVertically
                 ),
                 contentPadding = PaddingValues(16.dp)
             ) {
@@ -165,11 +170,14 @@ internal fun FavoritesContent(
                                 component.toggleFavorite(filter)
                             },
                             modifier = Modifier
-                                .longPressDraggableHandle {
-                                    component.reorderFavoriteFilters(
-                                        data.value
-                                    )
-                                }
+                                .longPressDraggableHandle(
+                                    onDragStarted = {
+                                        haptics.longPress()
+                                    },
+                                    onDragStopped = {
+                                        component.reorderFavoriteFilters(data.value)
+                                    }
+                                )
                                 .scale(
                                     animateFloatAsState(
                                         if (isDragging) 1.05f

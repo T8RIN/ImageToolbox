@@ -47,7 +47,7 @@ internal fun GifToolsImagePreview(
         targetState = component.isLoading to component.type
     ) { (loading, type) ->
         Box(
-            contentAlignment = Alignment.Companion.Center,
+            contentAlignment = Alignment.Center,
             modifier = if (loading) {
                 Modifier.padding(32.dp)
             } else Modifier

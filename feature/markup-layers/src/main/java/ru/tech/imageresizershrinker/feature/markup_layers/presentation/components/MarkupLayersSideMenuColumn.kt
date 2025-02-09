@@ -47,9 +47,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
@@ -64,10 +67,12 @@ internal fun MarkupLayersSideMenuColumn(
     onReorderLayers: (List<UiMarkupLayer>) -> Unit,
     onActivateLayer: (UiMarkupLayer) -> Unit
 ) {
+    val haptics = LocalHapticFeedback.current
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(
         lazyListState = lazyListState
     ) { from, to ->
+        haptics.press()
         val data = layers.toMutableList().apply {
             add(to.index, removeAt(from.index))
         }
@@ -192,7 +197,11 @@ internal fun MarkupLayersSideMenuColumn(
                     Icon(
                         imageVector = Icons.Rounded.DragHandle,
                         contentDescription = null,
-                        modifier = Modifier.draggableHandle()
+                        modifier = Modifier.draggableHandle(
+                            onDragStarted = {
+                                haptics.longPress()
+                            }
+                        )
                     )
                 }
             }

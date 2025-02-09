@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -52,6 +53,8 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -124,9 +127,11 @@ fun ScreenOrderSettingItem(
             Box {
                 val data = remember { mutableStateOf(screenList) }
                 val listState = rememberLazyListState()
+                val haptics = LocalHapticFeedback.current
                 val state = rememberReorderableLazyListState(
                     lazyListState = listState,
                     onMove = { from, to ->
+                        haptics.press()
                         data.value = data.value.toMutableList().apply {
                             add(to.index, removeAt(from.index))
                         }
@@ -135,7 +140,7 @@ fun ScreenOrderSettingItem(
                 LazyColumn(
                     state = listState,
                     contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     itemsIndexed(
                         items = data.value,
@@ -148,9 +153,14 @@ fun ScreenOrderSettingItem(
                             PreferenceItem(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .draggableHandle {
-                                        onValueChange(data.value)
-                                    }
+                                    .draggableHandle(
+                                        onDragStarted = {
+                                            haptics.longPress()
+                                        },
+                                        onDragStopped = {
+                                            onValueChange(data.value)
+                                        }
+                                    )
                                     .scale(
                                         animateFloatAsState(
                                             if (isDragging) 1.05f

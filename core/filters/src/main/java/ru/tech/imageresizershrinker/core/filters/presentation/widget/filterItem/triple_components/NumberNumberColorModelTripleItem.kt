@@ -110,7 +110,7 @@ internal fun NumberNumberColorModelTripleItem(
         allowScroll = !previewOnly,
         icon = null,
         defaultColors = ColorSelectionRowDefaults.colorList,
-        titleFontWeight = FontWeight.Companion.Normal,
+        titleFontWeight = FontWeight.Normal,
         contentHorizontalPadding = 16.dp,
         modifier = Modifier.padding(start = 4.dp)
     )

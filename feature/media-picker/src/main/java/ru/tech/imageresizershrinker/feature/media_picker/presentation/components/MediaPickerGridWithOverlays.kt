@@ -148,7 +148,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
             )
             BoxAnimatedVisibility(
                 modifier = Modifier
-                    .align(Alignment.Companion.BottomEnd)
+                    .align(Alignment.BottomEnd)
                     .padding(16.dp)
                     .safeDrawingPadding(),
                 visible = isButtonVisible,
@@ -167,7 +167,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                     } else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Column(
-                    horizontalAlignment = Alignment.Companion.End
+                    horizontalAlignment = Alignment.End
                 ) {
                     AnimatedVisibility(visible = selectedMedia.isNotEmpty()) {
                         EnhancedFloatingActionButton(
@@ -198,7 +198,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                         EnhancedFloatingActionButton(
                             content = {
                                 Row(
-                                    verticalAlignment = Alignment.Companion.CenterVertically,
+                                    verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 ) {
                                     Icon(
@@ -260,7 +260,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                             .asPaddingValues()
                             .calculateBottomPadding()
                     ),
-                contentAlignment = Alignment.Companion.Center
+                contentAlignment = Alignment.Center
             ) {
                 LoadingIndicator()
             }
@@ -276,14 +276,14 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Spacer(Modifier.weight(1f))
                 Text(
                     text = stringResource(R.string.nothing_found_by_search),
                     fontSize = 18.sp,
-                    textAlign = TextAlign.Companion.Center,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier.padding(
                         start = 24.dp,
                         end = 24.dp,
@@ -314,7 +314,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
             val errorMessage = albumsState.error + "\n" + mediaState.error
             Column(
                 modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Spacer(Modifier.weight(1f))
@@ -328,7 +328,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                     text = errorMessage.trim().ifEmpty {
                         stringResource(id = R.string.no_data)
                     },
-                    fontWeight = FontWeight.Companion.SemiBold,
+                    fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -362,7 +362,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Companion.BottomStart
+                    contentAlignment = Alignment.BottomStart
                 ) {
                     if (it) {
                         RoundedTextField(

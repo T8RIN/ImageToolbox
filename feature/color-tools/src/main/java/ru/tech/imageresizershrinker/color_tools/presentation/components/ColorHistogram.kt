@@ -83,7 +83,7 @@ internal fun ColorHistogram() {
                         initialType = HistogramType.RGB,
                         onSwapType = null,
                         linesThickness = 1.dp,
-                        bordersShape = androidx.compose.foundation.shape.RoundedCornerShape(6.dp)
+                        bordersShape = RoundedCornerShape(6.dp)
                     )
                     ImageHistogram(
                         imageUri = imageUri,
@@ -93,7 +93,7 @@ internal fun ColorHistogram() {
                         initialType = HistogramType.Brightness,
                         onSwapType = null,
                         linesThickness = 1.dp,
-                        bordersShape = androidx.compose.foundation.shape.RoundedCornerShape(6.dp)
+                        bordersShape = RoundedCornerShape(6.dp)
                     )
                     ImageHistogram(
                         imageUri = imageUri,
@@ -103,7 +103,7 @@ internal fun ColorHistogram() {
                         initialType = HistogramType.Camera,
                         onSwapType = null,
                         linesThickness = 1.dp,
-                        bordersShape = androidx.compose.foundation.shape.RoundedCornerShape(6.dp)
+                        bordersShape = RoundedCornerShape(6.dp)
                     )
                 }
             }

@@ -40,7 +40,7 @@ internal data class IcoBackend(
                 image = image,
                 width = 256,
                 height = 256,
-                resizeType = ResizeType.Companion.Flexible
+                resizeType = ResizeType.Flexible
             )
         } else image
 

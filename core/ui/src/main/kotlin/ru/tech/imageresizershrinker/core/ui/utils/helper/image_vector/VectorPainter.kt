@@ -38,7 +38,7 @@ internal class VectorPainter internal constructor(
     root: GroupComponent = GroupComponent()
 ) : Painter() {
 
-    internal var size by mutableStateOf(Size.Companion.Zero)
+    internal var size by mutableStateOf(Size.Zero)
 
     internal var autoMirror by mutableStateOf(false)
 

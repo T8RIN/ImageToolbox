@@ -108,7 +108,7 @@ internal fun NumberColorModelPopArtTripleItem(
                 allowScroll = !previewOnly,
                 icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
-                titleFontWeight = FontWeight.Companion.Normal,
+                titleFontWeight = FontWeight.Normal,
                 contentHorizontalPadding = 0.dp
             )
             Text(

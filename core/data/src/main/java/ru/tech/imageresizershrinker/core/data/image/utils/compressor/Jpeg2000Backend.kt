@@ -32,9 +32,9 @@ internal data class Jpeg2000Backend(
     ): ByteArray = JP2Encoder(image)
         .setOutputFormat(
             if (isJ2K) {
-                JP2Encoder.Companion.FORMAT_J2K
+                JP2Encoder.FORMAT_J2K
             } else {
-                JP2Encoder.Companion.FORMAT_JP2
+                JP2Encoder.FORMAT_JP2
             }
         )
         .setVisualQuality(quality.qualityValue.toFloat())

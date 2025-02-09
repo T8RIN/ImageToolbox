@@ -89,7 +89,7 @@ internal fun RowScope.GifToolsTopAppBarActions(component: GifToolsComponent) {
     ) {
         Row(
             modifier = Modifier.padding(start = 12.dp),
-            verticalAlignment = Alignment.Companion.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             pagesSize.takeIf { it != 0 }?.let {
@@ -97,7 +97,7 @@ internal fun RowScope.GifToolsTopAppBarActions(component: GifToolsComponent) {
                 Text(
                     text = it.toString(),
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Companion.Medium
+                    fontWeight = FontWeight.Medium
                 )
             }
             EnhancedIconButton(

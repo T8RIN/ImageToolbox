@@ -123,6 +123,9 @@ internal data object EmptyHaptics : HapticFeedback {
     override fun performHapticFeedback(hapticFeedbackType: HapticFeedbackType) = Unit
 }
 
+fun HapticFeedback.press() = performHapticFeedback(HapticFeedbackType.TextHandleMove)
+fun HapticFeedback.longPress() = performHapticFeedback(HapticFeedbackType.LongPress)
+
 @Composable
 fun rememberEnhancedHapticFeedback(hapticsStrength: Int): HapticFeedback {
     val view = LocalView.current

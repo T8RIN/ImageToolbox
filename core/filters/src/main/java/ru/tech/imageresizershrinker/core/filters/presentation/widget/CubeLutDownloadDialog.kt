@@ -98,7 +98,7 @@ internal fun CubeLutDownloadDialog(
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(8.dp)
@@ -107,8 +107,8 @@ internal fun CubeLutDownloadDialog(
                     text = cubeLutDownloadProgress?.run { "$itemsDownloaded/$itemsCount" }
                         ?: "",
                     maxLines = 1,
-                    fontWeight = FontWeight.Companion.Medium,
-                    textAlign = TextAlign.Companion.Center,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center,
                     fontSize = 12.sp,
                     lineHeight = 12.sp
                 )
@@ -116,7 +116,7 @@ internal fun CubeLutDownloadDialog(
                 Text(
                     text = readableByteCount(cubeLutDownloadProgress?.currentTotalSize ?: 0),
                     maxLines = 1,
-                    textAlign = TextAlign.Companion.Center,
+                    textAlign = TextAlign.Center,
                     fontSize = 10.sp,
                     lineHeight = 10.sp
                 )

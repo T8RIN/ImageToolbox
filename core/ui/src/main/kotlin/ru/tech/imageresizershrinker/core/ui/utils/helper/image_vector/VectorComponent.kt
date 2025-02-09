@@ -53,7 +53,7 @@ internal class VectorComponent(val root: GroupComponent) : VNode() {
     private val cacheDrawScope = DrawCache()
 
     private val cacheBitmapConfig: ImageBitmapConfig
-        get() = cacheDrawScope.mCachedImage?.config ?: ImageBitmapConfig.Companion.Argb8888
+        get() = cacheDrawScope.mCachedImage?.config ?: ImageBitmapConfig.Argb8888
 
     internal var invalidateCallback = {}
 
@@ -63,9 +63,9 @@ internal class VectorComponent(val root: GroupComponent) : VNode() {
     // alpha8 channel bitmap and tint the result to the desired color
     private var tintFilter: ColorFilter? = null
 
-    internal var viewportSize by mutableStateOf(Size.Companion.Zero)
+    internal var viewportSize by mutableStateOf(Size.Zero)
 
-    private var previousDrawSize = Size.Companion.Unspecified
+    private var previousDrawSize = Size.Unspecified
 
     private var rootScaleX = 1f
     private var rootScaleY = 1f
@@ -75,7 +75,7 @@ internal class VectorComponent(val root: GroupComponent) : VNode() {
      */
     private val drawVectorBlock: DrawScope.() -> Unit = {
         with(root) {
-            scale(rootScaleX, rootScaleY, pivot = Offset.Companion.Zero) {
+            scale(rootScaleX, rootScaleY, pivot = Offset.Zero) {
                 draw()
             }
         }
@@ -91,14 +91,14 @@ internal class VectorComponent(val root: GroupComponent) : VNode() {
         val targetImageConfig = if (isOneColor && intrinsicColorFilter.tintableWithAlphaMask() &&
             colorFilter.tintableWithAlphaMask()
         ) {
-            ImageBitmapConfig.Companion.Alpha8
+            ImageBitmapConfig.Alpha8
         } else {
-            ImageBitmapConfig.Companion.Argb8888
+            ImageBitmapConfig.Argb8888
         }
 
         if (isDirty || previousDrawSize != size || targetImageConfig != cacheBitmapConfig) {
-            tintFilter = if (targetImageConfig == ImageBitmapConfig.Companion.Alpha8) {
-                ColorFilter.Companion.tint(root.tintColor)
+            tintFilter = if (targetImageConfig == ImageBitmapConfig.Alpha8) {
+                ColorFilter.tint(root.tintColor)
             } else {
                 null
             }

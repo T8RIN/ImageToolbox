@@ -32,10 +32,10 @@ internal data object JpegliBackend : ImageCompressorBackend {
         quality: Quality
     ): ByteArray = ByteArrayOutputStream().apply {
         use { out ->
-            JpegliCoder.Companion.compress(
+            JpegliCoder.compress(
                 bitmap = image,
                 quality = quality.qualityValue,
-                background = Scalar.Companion.ZERO,
+                background = Scalar.ZERO,
                 progressive = true,
                 strategy = IccStrategy.DEFAULT,
                 outputStream = out

@@ -45,8 +45,8 @@ internal class DrawCache {
     private var cachedCanvas: Canvas? = null
     private var scopeDensity: Density? = null
     private var layoutDirection: LayoutDirection = LayoutDirection.Ltr
-    private var size: IntSize = IntSize.Companion.Zero
-    private var config: ImageBitmapConfig = ImageBitmapConfig.Companion.Argb8888
+    private var size: IntSize = IntSize.Zero
+    private var config: ImageBitmapConfig = ImageBitmapConfig.Argb8888
 
     private val cacheScope = CanvasDrawScope()
 
@@ -108,6 +108,6 @@ internal class DrawCache {
      * DrawScope
      */
     private fun DrawScope.clear() {
-        drawRect(color = Color.Companion.Black, blendMode = BlendMode.Companion.Clear)
+        drawRect(color = Color.Black, blendMode = BlendMode.Clear)
     }
 }

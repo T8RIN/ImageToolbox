@@ -112,8 +112,8 @@ internal fun OtherContent(
                         },
                         title = stringResource(R.string.filter_preview_image),
                         subtitle = stringResource(R.string.filter_preview_image_sub),
-                        contentScale = ContentScale.Companion.Crop,
-                        color = Color.Companion.Unspecified,
+                        contentScale = ContentScale.Crop,
+                        color = Color.Unspecified,
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight(),
@@ -170,7 +170,7 @@ internal fun OtherContent(
                                         resultPadding = 0.dp
                                     )
                                     .padding(horizontal = 12.dp),
-                                contentAlignment = Alignment.Companion.Center
+                                contentAlignment = Alignment.Center
                             ) {
                                 AutoSizeText(
                                     text = (index + 1).toString(),
@@ -196,11 +196,11 @@ internal fun OtherContent(
                     endIcon = {
                         Column(
                             verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.Companion.CenterHorizontally
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Picture(
                                 model = R.drawable.lookup,
-                                contentScale = ContentScale.Companion.Crop,
+                                contentScale = ContentScale.Crop,
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(48.dp)

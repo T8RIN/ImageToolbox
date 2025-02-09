@@ -205,7 +205,7 @@ internal fun MediaImagePager(
                         modifier = Modifier
                             .height(50.dp)
                             .width(90.dp),
-                        bordersColor = Color.Companion.White
+                        bordersColor = Color.White
                     )
                 }
                 val imageErrorPages = remember {
@@ -266,7 +266,7 @@ internal fun MediaImagePager(
                                     }
                                 ),
                             enableUltraHDRSupport = true,
-                            contentScale = ContentScale.Companion.Fit,
+                            contentScale = ContentScale.Fit,
                             shape = RectangleShape,
                             onSuccess = {
                                 imageErrorPages.remove(page)
@@ -276,7 +276,7 @@ internal fun MediaImagePager(
                             },
                             error = {
                                 Box(
-                                    contentAlignment = Alignment.Companion.Center,
+                                    contentAlignment = Alignment.Center,
                                     modifier = Modifier.background(
                                         takeColorFromScheme { isNightMode ->
                                             errorContainer.copy(
@@ -366,7 +366,7 @@ internal fun MediaImagePager(
                     exit = fadeOut() + slideOutVertically()
                 ) {
                     Box(
-                        contentAlignment = Alignment.Companion.Center,
+                        contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         currentMedia?.label?.let {
@@ -375,7 +375,7 @@ internal fun MediaImagePager(
                                 modifier = Modifier
                                     .animateContentSize()
                                     .padding(top = 64.dp)
-                                    .align(Alignment.Companion.TopCenter)
+                                    .align(Alignment.TopCenter)
                                     .padding(8.dp)
                                     .statusBarsPadding()
                                     .background(
@@ -392,7 +392,7 @@ internal fun MediaImagePager(
 
                 AnimatedVisibility(
                     visible = draggableState.offset == 0f && showBottomHist && !hideControls,
-                    modifier = Modifier.align(Alignment.Companion.BottomEnd),
+                    modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
                     exit = fadeOut() + slideOutVertically { it / 2 }
                 ) {
@@ -409,7 +409,7 @@ internal fun MediaImagePager(
                                     .asPaddingValues()
                             )
                             .padding(16.dp),
-                        verticalAlignment = Alignment.Companion.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         currentMedia?.label?.let {
                             Text(

@@ -57,11 +57,11 @@ internal fun ManageExternalStorageWarning(
                 top = 16.dp,
                 bottom = 16.dp
             ),
-        verticalAlignment = Alignment.Companion.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Row(
-                verticalAlignment = Alignment.Companion.CenterVertically
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     imageVector = Icons.Outlined.WarningAmber,
@@ -83,7 +83,7 @@ internal fun ManageExternalStorageWarning(
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 lineHeight = 16.sp,
-                textAlign = TextAlign.Companion.Start
+                textAlign = TextAlign.Start
             )
         }
         Spacer(modifier = Modifier.width(8.dp))

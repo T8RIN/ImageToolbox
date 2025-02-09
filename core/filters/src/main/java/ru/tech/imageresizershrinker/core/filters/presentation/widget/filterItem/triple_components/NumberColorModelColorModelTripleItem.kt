@@ -104,7 +104,7 @@ internal fun NumberColorModelColorModelTripleItem(
                 allowScroll = !previewOnly,
                 icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
-                titleFontWeight = FontWeight.Companion.Normal,
+                titleFontWeight = FontWeight.Normal,
                 contentHorizontalPadding = 0.dp
             )
             Spacer(Modifier.height(8.dp))
@@ -124,7 +124,7 @@ internal fun NumberColorModelColorModelTripleItem(
                 allowScroll = !previewOnly,
                 icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
-                titleFontWeight = FontWeight.Companion.Normal,
+                titleFontWeight = FontWeight.Normal,
                 contentHorizontalPadding = 0.dp
             )
         }

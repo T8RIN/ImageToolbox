@@ -80,7 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 internal fun PdfPage(
     selected: Boolean,
     selectionEnabled: Boolean,
-    contentScale: ContentScale = ContentScale.Companion.Crop,
+    contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier,
     index: Int,
     renderWidth: Int,
@@ -161,14 +161,14 @@ internal fun PdfPage(
         Picture(
             modifier = Modifier
                 .then(
-                    if (contentScale == ContentScale.Companion.Crop) Modifier.matchParentSize()
+                    if (contentScale == ContentScale.Crop) Modifier.matchParentSize()
                     else Modifier
                 )
                 .width(with(density) { renderWidth.toDp() * zoom })
                 .aspectRatio(renderWidth / renderHeight.toFloat())
                 .padding(padding)
-                .clip(androidx.compose.foundation.shape.RoundedCornerShape(corners))
-                .background(Color.Companion.White),
+                .clip(RoundedCornerShape(corners))
+                .background(Color.White),
             shape = RectangleShape,
             contentScale = contentScale,
             showTransparencyChecker = false,
@@ -183,15 +183,15 @@ internal fun PdfPage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(corners))
+                    .clip(RoundedCornerShape(corners))
                     .background(MaterialTheme.colorScheme.scrim.copy(0.32f)),
-                contentAlignment = Alignment.Companion.Center
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = (index + 1).toString(),
-                    color = Color.Companion.White,
+                    color = Color.White,
                     fontSize = 24.sp,
-                    fontWeight = FontWeight.Companion.Medium
+                    fontWeight = FontWeight.Medium
                 )
             }
             AnimatedContent(
@@ -214,7 +214,7 @@ internal fun PdfPage(
                 } else {
                     Icon(
                         imageVector = Icons.Filled.RadioButtonUnchecked,
-                        tint = Color.Companion.White.copy(alpha = 0.7f),
+                        tint = Color.White.copy(alpha = 0.7f),
                         contentDescription = null,
                         modifier = Modifier.padding(6.dp)
                     )

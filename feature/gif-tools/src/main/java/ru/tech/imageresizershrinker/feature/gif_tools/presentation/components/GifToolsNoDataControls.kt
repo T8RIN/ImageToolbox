@@ -107,7 +107,7 @@ internal fun GifToolsNoDataControls(
         }
     } else {
         val direction = LocalLayoutDirection.current
-        val cutout = WindowInsets.Companion.displayCutout.asPaddingValues().let {
+        val cutout = WindowInsets.displayCutout.asPaddingValues().let {
             PaddingValues(
                 start = it.calculateStartPadding(direction),
                 end = it.calculateEndPadding(direction)

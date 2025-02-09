@@ -65,6 +65,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -79,6 +80,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -98,10 +101,12 @@ fun ImageReorderCarousel(
 ) {
     val data = remember { mutableStateOf(images ?: emptyList()) }
 
+    val haptics = LocalHapticFeedback.current
     val listState = rememberLazyListState()
     val state = rememberReorderableLazyListState(
         lazyListState = listState,
         onMove = { from, to ->
+            haptics.press()
             data.value = data.value.toMutableList().apply {
                 add(to.index, removeAt(from.index))
             }
@@ -255,9 +260,14 @@ fun ImageReorderCarousel(
                             Box(
                                 modifier = Modifier
                                     .size(120.dp)
-                                    .longPressDraggableHandle {
-                                        onReorder(data.value)
-                                    }
+                                    .longPressDraggableHandle(
+                                        onDragStarted = {
+                                            haptics.longPress()
+                                        },
+                                        onDragStopped = {
+                                            onReorder(data.value)
+                                        }
+                                    )
                                     .scale(
                                         animateFloatAsState(
                                             if (isDragging) 1.05f

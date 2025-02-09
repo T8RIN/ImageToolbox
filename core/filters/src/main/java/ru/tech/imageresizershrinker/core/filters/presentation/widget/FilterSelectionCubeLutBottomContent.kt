@@ -137,7 +137,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                     }
                 }
                 .padding(8.dp),
-            verticalAlignment = Alignment.Companion.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             TitleItem(
                 text = stringResource(R.string.lut_library),
@@ -152,7 +152,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                 },
                 containerColor = if (resources.list.isEmpty()) {
                     MaterialTheme.colorScheme.secondary
-                } else Color.Companion.Transparent
+                } else Color.Transparent
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Download,
@@ -208,8 +208,8 @@ internal fun FilterSelectionCubeLutBottomContent(
                             RoundedTextField(
                                 maxLines = 1,
                                 hint = { Text(stringResource(id = R.string.search_here)) },
-                                keyboardOptions = KeyboardOptions.Companion.Default.copy(
-                                    imeAction = ImeAction.Companion.Search,
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Search,
                                     autoCorrectEnabled = null
                                 ),
                                 value = searchKeyword,
@@ -256,7 +256,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                         }
                     } else {
                         Row(
-                            verticalAlignment = Alignment.Companion.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             TitleItem(
                                 text = stringResource(R.string.lut_library),
@@ -312,7 +312,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                                 drawStartIconContainer = false,
                                 startIcon = {
                                     Row(
-                                        verticalAlignment = Alignment.Companion.CenterVertically
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Picture(
                                             model = remember(uri, previewModel) {
@@ -332,7 +332,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                                                     .build()
                                             },
                                             shape = MaterialTheme.shapes.medium,
-                                            contentScale = ContentScale.Companion.Crop,
+                                            contentScale = ContentScale.Crop,
                                             modifier = Modifier
                                                 .size(48.dp)
                                                 .scale(1.2f)
@@ -367,14 +367,14 @@ internal fun FilterSelectionCubeLutBottomContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight(0.5f),
-                        horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Spacer(Modifier.weight(1f))
                         Text(
                             text = stringResource(R.string.nothing_found_by_search),
                             fontSize = 18.sp,
-                            textAlign = TextAlign.Companion.Center,
+                            textAlign = TextAlign.Center,
                             modifier = Modifier.padding(
                                 start = 24.dp,
                                 end = 24.dp,

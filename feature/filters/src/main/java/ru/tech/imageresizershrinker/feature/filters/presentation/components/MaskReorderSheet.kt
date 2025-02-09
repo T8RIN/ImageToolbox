@@ -33,11 +33,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -58,9 +61,11 @@ fun MaskReorderSheet(
             Box {
                 val data = remember { mutableStateOf(maskList) }
                 val listState = rememberLazyListState()
+                val haptics = LocalHapticFeedback.current
                 val state = rememberReorderableLazyListState(
                     lazyListState = listState,
                     onMove = { from, to ->
+                        haptics.press()
                         data.value = data.value.toMutableList().apply {
                             add(to.index, removeAt(from.index))
                         }
@@ -83,9 +88,14 @@ fun MaskReorderSheet(
                                 mask = mask,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .draggableHandle {
-                                        onReorder(data.value)
-                                    }
+                                    .draggableHandle(
+                                        onDragStarted = {
+                                            haptics.longPress()
+                                        },
+                                        onDragStopped = {
+                                            onReorder(data.value)
+                                        }
+                                    )
                                     .scale(
                                         animateFloatAsState(
                                             if (isDragging) 1.05f

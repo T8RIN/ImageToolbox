@@ -58,7 +58,7 @@ internal class GroupComponent : VNode() {
      * Tint color to render all the contents of this group. This is configured only if all the
      * contents within the group are the same color
      */
-    var tintColor = Color.Companion.Unspecified
+    var tintColor = Color.Unspecified
         private set
 
     /**
@@ -119,7 +119,7 @@ internal class GroupComponent : VNode() {
 
     private fun markNotTintable() {
         isTintable = false
-        tintColor = Color.Companion.Unspecified
+        tintColor = Color.Unspecified
     }
 
     var clipPathData = EmptyPath

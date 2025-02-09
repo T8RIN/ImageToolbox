@@ -198,7 +198,7 @@ internal fun ColorMixing(
                                     .padding(4.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
-                                        shape = androidx.compose.foundation.shape.RoundedCornerShape(
+                                        shape = RoundedCornerShape(
                                             8.dp
                                         )
                                     )
@@ -218,7 +218,7 @@ internal fun ColorMixing(
                                     .padding(4.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
-                                        shape = androidx.compose.foundation.shape.RoundedCornerShape(
+                                        shape = RoundedCornerShape(
                                             8.dp
                                         )
                                     )
