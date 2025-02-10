@@ -1551,4 +1551,9 @@
     <string name="pick_files_to_checksum">Escolha um ou mais arquivos para calcular a checksum com base no algoritmo selecionado</string>
     <string name="pick_directory">Selecionar Pasta</string>
     <string name="pick_files">Selecionar Arquivos</string>
+    <string name="format_pattern">Formato Padrão</string>
+    <string name="timestamp">Carimbo de data</string>
+    <string name="padding">Preenchimento</string>
+    <string name="head_length_scale">Escala de Comprimento da Cabeça</string>
+    <string name="stamp">Carimbo</string>
 </resources>
