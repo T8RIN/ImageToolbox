@@ -1571,4 +1571,8 @@
     <string name="pick_files">Pick Files</string>
     <string name="pick_directory">Pick Directory</string>
     <string name="head_length_scale">Head Length Scale</string>
+    <string name="stamp">Stamp</string>
+    <string name="timestamp">Timestamp</string>
+    <string name="format_pattern">Format Pattern</string>
+    <string name="padding">Padding</string>
 </resources>

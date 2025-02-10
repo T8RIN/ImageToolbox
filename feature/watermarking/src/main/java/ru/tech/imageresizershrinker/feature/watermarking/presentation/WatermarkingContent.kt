@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.feature.watermarking.presentation
 
 import android.net.Uri
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -207,47 +207,42 @@ fun WatermarkingContent(
             )
         },
         controls = {
-            ImageCounter(
-                imageCount = component.uris.size.takeIf { it > 1 },
-                onRepick = {
-                    showPickImageFromUrisSheet = true
-                }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            WatermarkingTypeSelector(
-                value = component.watermarkParams,
-                onValueChange = component::updateWatermarkParams
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            WatermarkParamsSelectionGroup(
-                value = component.watermarkParams,
-                onValueChange = component::updateWatermarkParams
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            WatermarkDataSelector(
-                value = component.watermarkParams,
-                onValueChange = component::updateWatermarkParams
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SaveExifWidget(
-                checked = component.keepExif,
-                imageFormat = component.imageFormat,
-                onCheckedChange = component::toggleKeepExif
-            )
-            if (component.imageFormat.canChangeCompressionValue) {
-                Spacer(Modifier.height(8.dp))
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                ImageCounter(
+                    imageCount = component.uris.size.takeIf { it > 1 },
+                    onRepick = {
+                        showPickImageFromUrisSheet = true
+                    }
+                )
+                WatermarkingTypeSelector(
+                    value = component.watermarkParams,
+                    onValueChange = component::updateWatermarkParams
+                )
+                WatermarkDataSelector(
+                    value = component.watermarkParams,
+                    onValueChange = component::updateWatermarkParams
+                )
+                WatermarkParamsSelectionGroup(
+                    value = component.watermarkParams,
+                    onValueChange = component::updateWatermarkParams
+                )
+                SaveExifWidget(
+                    checked = component.keepExif,
+                    imageFormat = component.imageFormat,
+                    onCheckedChange = component::toggleKeepExif
+                )
+                QualitySelector(
+                    imageFormat = component.imageFormat,
+                    quality = component.quality,
+                    onQualityChange = component::setQuality
+                )
+                ImageFormatSelector(
+                    value = component.imageFormat,
+                    onValueChange = component::setImageFormat
+                )
             }
-            QualitySelector(
-                imageFormat = component.imageFormat,
-                quality = component.quality,
-                onQualityChange = component::setQuality
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            ImageFormatSelector(
-                value = component.imageFormat,
-                onValueChange = component::setImageFormat
-            )
-            Spacer(modifier = Modifier.height(8.dp))
         },
         buttons = {
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {

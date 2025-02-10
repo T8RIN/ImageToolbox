@@ -37,7 +37,8 @@ fun PositionSelector(
     entries: List<Position> = Position.entries,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(20.dp),
-    color: Color = MaterialTheme.colorScheme.surface
+    color: Color = MaterialTheme.colorScheme.surface,
+    selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
 ) {
     DataSelector(
         value = value,
@@ -49,7 +50,8 @@ fun PositionSelector(
         itemContentText = { it.translatedName },
         modifier = modifier,
         shape = shape,
-        color = color
+        color = color,
+        selectedItemColor = selectedItemColor
     )
 }
 

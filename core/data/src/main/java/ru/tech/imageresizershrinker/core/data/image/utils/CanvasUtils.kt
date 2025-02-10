@@ -26,18 +26,20 @@ import ru.tech.imageresizershrinker.core.domain.model.Position
 fun Canvas.drawBitmap(
     bitmap: Bitmap,
     position: Position,
-    paint: Paint? = null
+    paint: Paint? = null,
+    horizontalPadding: Float = 0f,
+    verticalPadding: Float = 0f
 ) {
     val left = when (position) {
-        Position.TopLeft, Position.CenterLeft, Position.BottomLeft -> 0f
+        Position.TopLeft, Position.CenterLeft, Position.BottomLeft -> horizontalPadding
         Position.TopCenter, Position.Center, Position.BottomCenter -> (width - bitmap.width) / 2f
-        Position.TopRight, Position.CenterRight, Position.BottomRight -> (width - bitmap.width).toFloat()
+        Position.TopRight, Position.CenterRight, Position.BottomRight -> (width - bitmap.width - horizontalPadding)
     }
 
     val top = when (position) {
-        Position.TopLeft, Position.TopCenter, Position.TopRight -> 0f
+        Position.TopLeft, Position.TopCenter, Position.TopRight -> verticalPadding
         Position.CenterLeft, Position.Center, Position.CenterRight -> (height - bitmap.height) / 2f
-        Position.BottomLeft, Position.BottomCenter, Position.BottomRight -> (height - bitmap.height).toFloat()
+        Position.BottomLeft, Position.BottomCenter, Position.BottomRight -> (height - bitmap.height - verticalPadding)
     }
 
     drawBitmap(

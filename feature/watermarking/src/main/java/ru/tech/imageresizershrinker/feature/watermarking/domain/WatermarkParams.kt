@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.watermarking.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
+import ru.tech.imageresizershrinker.core.domain.model.Position
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 
 data class WatermarkParams(
@@ -46,21 +47,13 @@ data class WatermarkParams(
 
 sealed interface WatermarkingType {
     data class Text(
-        val color: Int,
-        val style: Int,
-        val size: Float,
-        val font: FontType?,
-        val backgroundColor: Int,
+        val params: TextParams,
         val text: String,
     ) : WatermarkingType {
         companion object {
             val Default by lazy {
                 Text(
-                    color = -16777216,
-                    style = 0,
-                    size = 0.1f,
-                    font = null,
-                    backgroundColor = 0,
+                    params = TextParams.Default,
                     text = "Watermark"
                 )
             }
@@ -81,9 +74,98 @@ sealed interface WatermarkingType {
         }
     }
 
+    sealed interface Stamp : WatermarkingType {
+        val position: Position
+        val padding: Float
+        val params: TextParams
+
+        data class Text(
+            override val position: Position,
+            override val padding: Float,
+            override val params: TextParams,
+            val text: String,
+        ) : Stamp {
+            companion object {
+                val Default by lazy {
+                    Text(
+                        params = TextParams.Default.copy(size = 0.2f),
+                        padding = 20f,
+                        position = Position.BottomRight,
+                        text = "Stamp"
+                    )
+                }
+            }
+        }
+
+        data class Time(
+            override val position: Position,
+            override val padding: Float,
+            override val params: TextParams,
+            val format: String,
+        ) : Stamp {
+            companion object {
+                val Default by lazy {
+                    Time(
+                        params = TextParams.Default.copy(size = 0.2f),
+                        padding = 20f,
+                        position = Position.BottomRight,
+                        format = "dd/MM/yyyy HH:mm"
+                    )
+                }
+            }
+        }
+    }
+
     companion object {
         val entries by lazy {
-            listOf(Text.Default, Image.Default)
+            listOf(
+                Text.Default,
+                Image.Default,
+                Stamp.Text.Default,
+                Stamp.Time.Default
+            )
+        }
+    }
+}
+
+fun WatermarkingType.Stamp.copy(
+    position: Position = this.position,
+    padding: Float = this.padding,
+    params: TextParams = this.params,
+): WatermarkingType.Stamp = when (this) {
+    is WatermarkingType.Stamp.Text -> {
+        copy(
+            position = position,
+            padding = padding,
+            params = params,
+            text = this.text
+        )
+    }
+
+    is WatermarkingType.Stamp.Time -> {
+        copy(
+            position = position,
+            padding = padding,
+            params = params,
+            format = this.format
+        )
+    }
+}
+
+data class TextParams(
+    val color: Int,
+    val size: Float,
+    val font: FontType?,
+    val backgroundColor: Int,
+) {
+    companion object {
+        val Default by lazy {
+            TextParams(
+                color = -16777216,
+                size = 0.1f,
+                font = null,
+                backgroundColor = 0,
+            )
         }
     }
 }

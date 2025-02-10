@@ -17,20 +17,28 @@
 
 package ru.tech.imageresizershrinker.feature.watermarking.presentation.components
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.JAVA_FORMAT_SPECIFICATION
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
@@ -42,53 +50,118 @@ fun WatermarkDataSelector(
     onValueChange: (WatermarkParams) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AnimatedVisibility(
-        visible = value.watermarkingType is WatermarkingType.Text,
-        enter = slideInVertically { it } + fadeIn(),
-        exit = slideOutVertically { -it } + fadeOut()
-    ) {
-        val type = value.watermarkingType as? WatermarkingType.Text
-            ?: return@AnimatedVisibility
+    Column {
+        AnimatedContent(
+            targetState = value.watermarkingType::class.qualifiedName,
+            transitionSpec = { fadeIn() + slideInVertically() togetherWith fadeOut() + slideOutVertically() }
+        ) { qualifiedName ->
+            when (qualifiedName) {
+                WatermarkingType.Image::class.qualifiedName -> {
+                    val type = value.watermarkingType as? WatermarkingType.Image
+                        ?: return@AnimatedContent
 
-        RoundedTextField(
-            modifier = modifier
-                .container(
-                    shape = MaterialTheme.shapes.large,
-                    resultPadding = 8.dp
-                ),
-            value = type.text,
-            singleLine = false,
-            onValueChange = {
-                onValueChange(
-                    value.copy(
-                        watermarkingType = type.copy(text = it)
+                    ImageSelector(
+                        value = type.imageData,
+                        subtitle = stringResource(id = R.string.watermarking_image_sub),
+                        onValueChange = {
+                            onValueChange(
+                                value.copy(
+                                    watermarkingType = type.copy(imageData = it)
+                                )
+                            )
+                        },
+                        modifier = modifier.fillMaxWidth()
                     )
-                )
-            },
-            label = {
-                Text(stringResource(R.string.text))
+                }
+
+                WatermarkingType.Text::class.qualifiedName -> {
+                    val type = value.watermarkingType as? WatermarkingType.Text
+                        ?: return@AnimatedContent
+
+                    RoundedTextField(
+                        modifier = modifier
+                            .container(
+                                shape = MaterialTheme.shapes.large,
+                                resultPadding = 8.dp
+                            ),
+                        value = type.text,
+                        singleLine = false,
+                        onValueChange = {
+                            onValueChange(
+                                value.copy(
+                                    watermarkingType = type.copy(text = it)
+                                )
+                            )
+                        },
+                        label = {
+                            Text(stringResource(R.string.text))
+                        }
+                    )
+                }
+
+                WatermarkingType.Stamp.Text::class.qualifiedName -> {
+                    val type = value.watermarkingType as? WatermarkingType.Stamp.Text
+                        ?: return@AnimatedContent
+
+                    RoundedTextField(
+                        modifier = modifier
+                            .container(
+                                shape = MaterialTheme.shapes.large,
+                                resultPadding = 8.dp
+                            ),
+                        value = type.text,
+                        singleLine = false,
+                        onValueChange = {
+                            onValueChange(
+                                value.copy(
+                                    watermarkingType = type.copy(text = it)
+                                )
+                            )
+                        },
+                        label = {
+                            Text(stringResource(R.string.text))
+                        }
+                    )
+                }
+
+                WatermarkingType.Stamp.Time::class.qualifiedName -> {
+                    val type = value.watermarkingType as? WatermarkingType.Stamp.Time
+                        ?: return@AnimatedContent
+
+                    RoundedTextField(
+                        modifier = modifier
+                            .container(
+                                shape = MaterialTheme.shapes.large,
+                                resultPadding = 8.dp
+                            ),
+                        value = type.format,
+                        singleLine = false,
+                        onValueChange = {
+                            onValueChange(
+                                value.copy(
+                                    watermarkingType = type.copy(format = it)
+                                )
+                            )
+                        },
+                        label = {
+                            Text(stringResource(R.string.format_pattern))
+                        },
+                        endIcon = {
+                            val linkHandler = LocalUriHandler.current
+                            EnhancedIconButton(
+                                onClick = {
+                                    linkHandler.openUri(JAVA_FORMAT_SPECIFICATION)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    )
+                }
             }
-        )
-    }
-    AnimatedVisibility(
-        visible = value.watermarkingType is WatermarkingType.Image,
-        enter = slideInVertically { -it } + fadeIn(),
-        exit = slideOutVertically { it } + fadeOut()
-    ) {
-        val type = value.watermarkingType as? WatermarkingType.Image
-            ?: return@AnimatedVisibility
-
-        ImageSelector(
-            value = type.imageData,
-            subtitle = stringResource(id = R.string.watermarking_image_sub),
-            onValueChange = {
-                onValueChange(
-                    value.copy(
-                        watermarkingType = type.copy(imageData = it)
-                    )
-                )
-            },
-            modifier = modifier.fillMaxWidth()
-        )
+        }
     }
 }

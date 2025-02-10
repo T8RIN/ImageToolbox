@@ -68,4 +68,6 @@ private val WatermarkingType.translatedName: String
     get() = when (this) {
         is WatermarkingType.Text -> stringResource(R.string.text)
         is WatermarkingType.Image -> stringResource(R.string.image)
+        is WatermarkingType.Stamp.Text -> stringResource(R.string.stamp)
+        is WatermarkingType.Stamp.Time -> stringResource(R.string.timestamp)
     }
