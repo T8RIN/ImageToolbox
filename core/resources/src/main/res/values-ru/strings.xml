@@ -259,7 +259,7 @@
     <string name="key">Ключ</string>
     <string name="compatibility">Совместимость</string>
     <string name="cipher">Шифр</string>
-    <string name="cipher_sub">Зашифруйте и расшифруйте любой файл (не только изображение) на основе криптоалгоритма AES.</string>
+    <string name="cipher_sub">Зашифруйте и расшифруйте любой файл (не только изображение) на основе различных криптоалгоритмов.</string>
     <string name="encrypt">Зашифровать</string>
     <string name="decrypt">Расшифровать</string>
     <string name="pick_file_to_start">Выберите файл, чтобы начать</string>
@@ -267,7 +267,7 @@
     <string name="features">Функции</string>
     <string name="implementation">Реализация</string>
     <string name="features_sub">Шифрование файлов на основе пароля. Полученные файлы могут храниться в выбранном каталоге. Расшифрованные файлы также могут быть открыты напрямую.</string>
-    <string name="implementation_sub">AES-256, режим GCM, без заполнения, 12 байт случайных IV. Ключи используются в виде хэшей SHA-3 (256 бит)</string>
+    <string name="implementation_sub">AES-256, режим GCM, без заполнения, 12 байт случайных IV. (По умолчанию, но вы можете выбрать необходимый алгоритм) Ключи используются в виде хэшей SHA-3 (256 бит)</string>
     <string name="file_size">Размер файла</string>
     <string name="file_size_sub">Максимальный размер файла ограничен ОС Android и доступной памятью, которая зависит от устройства.
 \nОбратите внимание: память - не внутреннее хранилище.</string>
@@ -1529,4 +1529,32 @@
     <string name="pick_file_to_checksum">Выберите файл для расчета его контрольной суммы на основе выбранного алгоритма</string>
     <string name="match">Совпадение!</string>
     <string name="difference_sub">Контрольные суммы не равны, файл может быть небезопасен!</string>
+    <string name="batch_compare">Пакетное сравнение</string>
+    <string name="pick_files_to_checksum">Выберите файл/файлы для расчета его контрольной суммы на основе выбранного алгоритма</string>
+    <string name="mesh_gradients">Сеточные градиенты</string>
+    <string name="mesh_gradients_sub">Посмотрите Онлайн коллекцию сеточных градиентов</string>
+    <string name="error_while_saving">Ошибка во время попытки сохранения, попробуйте изменить директорию сохранения в настройках</string>
+    <string name="pick_files">Выберите файлы</string>
+    <string name="pick_directory">Выберите директорию</string>
+    <string name="edit_exif_screen">Редактировать EXIF</string>
+    <string name="edit_exif_screen_sub">Изменить метаданные одного изображения без повторного сжатия</string>
+    <string name="edit_exif_tag">Нажмите, чтобы редактировать доступные теги</string>
+    <string name="change_sticker">Изменить наклейку</string>
+    <string name="head_length_scale">Коэффициент длины наконечника</string>
+    <string name="stamp">Штамп</string>
+    <string name="timestamp">Временная метка</string>
+    <string name="format_pattern">Шаблон форматирования</string>
+    <string name="padding">Отступ</string>
+    <string name="import_font">Импортировать шрифт (TTF/OTF)</string>
+    <string name="export_fonts">Экспорт шрифтов</string>
+    <string name="wrong_font">Только TTF шрифты могут быть импортированы</string>
+    <string name="imported_fonts">Импортированные шрифты</string>
+    <string name="filename_is_not_set">Имя файла не задано</string>
+    <string name="fit_width">Вписать ширину</string>
+    <string name="fit_height">Вписать высоту</string>
+    <string name="none">Ничего</string>
+    <string name="custom_pages">Пользовательские страницы</string>
+    <string name="pages_selection">Выбор страниц</string>
+    <string name="tool_exit_confirmation">Подтверждение закрытия инструмента</string>
+    <string name="tool_exit_confirmation_sub">Если у вас есть несохраненные изменения при использовании определенных инструментов и вы пытаетесь закрыть их, то будет показано диалоговое окно подтверждения</string>
 </resources>
