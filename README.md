@@ -826,11 +826,11 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 # ⭐ Star History
 
 <a href="https://star-history.com/#T8RIN/ImageToolbox&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
-  </picture>
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
+ </picture>
 </a>
 
 ![](https://repobeats.axiom.co/api/embed/c62092c6ec0d00e67496223d50e39f48a582c532.svg)
