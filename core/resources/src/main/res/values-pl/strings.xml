@@ -1553,4 +1553,8 @@
     <string name="pick_files">Wybierz pliki</string>
     <string name="pick_directory">Wybierz katalog</string>
     <string name="head_length_scale">Czołowa długość skali</string>
+    <string name="stamp">Pieczęć</string>
+    <string name="timestamp">Znacznik czasu</string>
+    <string name="format_pattern">Wzór formatu</string>
+    <string name="padding">Wypełnienie</string>
 </resources>
