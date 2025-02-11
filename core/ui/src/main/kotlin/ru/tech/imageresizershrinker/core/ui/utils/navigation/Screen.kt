@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.navigation
 
-import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
@@ -811,5 +810,3 @@ data class ScreenGroup(
 ) {
     fun icon(isSelected: Boolean) = if (isSelected) selectedIcon else baseIcon
 }
-
-private typealias KUri = @Serializable(UriSerializer::class) Uri

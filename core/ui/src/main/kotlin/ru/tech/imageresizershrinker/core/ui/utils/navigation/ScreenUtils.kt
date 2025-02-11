@@ -20,11 +20,9 @@ package ru.tech.imageresizershrinker.core.ui.utils.navigation
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
-import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.Colorize
-import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
@@ -37,12 +35,14 @@ import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import ru.tech.imageresizershrinker.core.resources.icons.ApngBox
 import ru.tech.imageresizershrinker.core.resources.icons.Base64
+import ru.tech.imageresizershrinker.core.resources.icons.Collage
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.Draw
 import ru.tech.imageresizershrinker.core.resources.icons.Encrypted
@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.OverlayAbove
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.core.resources.icons.SplitAlt
 import ru.tech.imageresizershrinker.core.resources.icons.Stack
 import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 import ru.tech.imageresizershrinker.core.resources.icons.VectorPolyline
@@ -151,11 +152,11 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.DocumentScanner -> Icons.Outlined.DocumentScanner
     is Screen.ScanQrCode -> Icons.Outlined.QrCode
     is Screen.ImageStacking -> Icons.Outlined.OverlayAbove
-    is Screen.ImageSplitting -> Icons.Outlined.ContentCut
+    is Screen.ImageSplitting -> Icons.Outlined.SplitAlt
     is Screen.ColorTools -> Icons.Outlined.ColorLens
     is Screen.WebpTools -> Icons.Rounded.WebpBox
     is Screen.NoiseGeneration -> Icons.Outlined.Grain
-    is Screen.CollageMaker -> Icons.Outlined.AutoAwesomeMosaic
+    is Screen.CollageMaker -> Icons.Outlined.Collage
     is Screen.MarkupLayers -> Icons.Outlined.Stack
     is Screen.Base64Tools -> Icons.Outlined.Base64
     is Screen.ChecksumTools -> Icons.Rounded.Tag
@@ -165,14 +166,14 @@ internal fun Screen.icon(): ImageVector? = when (this) {
 internal object UriSerializer : KSerializer<Uri> {
     override val descriptor = PrimitiveSerialDescriptor("Uri", PrimitiveKind.STRING)
 
-    override fun deserialize(decoder: Decoder): Uri {
-        return Uri.parse(decoder.decodeString())
-    }
+    override fun deserialize(
+        decoder: Decoder
+    ): Uri = Uri.parse(decoder.decodeString())
 
     override fun serialize(
         encoder: Encoder,
         value: Uri
-    ) {
-        encoder.encodeString(value.toString())
-    }
+    ) = encoder.encodeString(value.toString())
 }
+
+internal typealias KUri = @Serializable(UriSerializer::class) Uri
