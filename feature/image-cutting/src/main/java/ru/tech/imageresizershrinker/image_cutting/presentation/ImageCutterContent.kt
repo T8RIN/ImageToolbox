@@ -49,7 +49,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAs
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -65,7 +67,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.image_cutting.presentation.components.CutParamsSelector
 import ru.tech.imageresizershrinker.image_cutting.presentation.screenLogic.ImageCutterComponent
 
@@ -101,6 +105,17 @@ fun ImageCutterContent(
     val onBack = {
         if (component.haveChanges) showExitDialog = true
         else component.onGoBack()
+    }
+
+    val selectedUriTransformations by remember(
+        component.params,
+        component.selectedUri,
+        component.imageFormat,
+        component.quality
+    ) {
+        derivedStateOf {
+            component.getCutTransformation()
+        }
     }
 
     var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
@@ -166,16 +181,7 @@ fun ImageCutterContent(
                     model = component.selectedUri,
                     size = 1500,
                     contentScale = ContentScale.FillBounds,
-                    transformations = remember(
-                        component.params,
-                        component.selectedUri,
-                        component.imageFormat,
-                        component.quality
-                    ) {
-                        derivedStateOf {
-                            component.getCutTransformation()
-                        }
-                    }.value,
+                    transformations = selectedUriTransformations,
                     modifier = Modifier.aspectRatio(aspectRatio),
                     onSuccess = {
                         aspectRatio = it.result.image.toBitmap().safeAspectRatio
@@ -249,7 +255,63 @@ fun ImageCutterContent(
             )
         },
         topAppBarPersistentActions = {
-            if (component.uris.isNullOrEmpty()) TopAppBarEmoji()
+            if (component.uris.isNullOrEmpty()) {
+                TopAppBarEmoji()
+            }
+
+            var showZoomSheet by rememberSaveable {
+                mutableStateOf(false)
+            }
+            var showCompareSheet by rememberSaveable {
+                mutableStateOf(false)
+            }
+            ZoomButton(
+                visible = !component.uris.isNullOrEmpty(),
+                onClick = { showZoomSheet = true }
+            )
+            CompareButton(
+                visible = !component.uris.isNullOrEmpty(),
+                onClick = { showCompareSheet = true }
+            )
+
+            CompareSheet(
+                beforeContent = {
+                    var aspectRatio by remember {
+                        mutableFloatStateOf(1f)
+                    }
+                    Picture(
+                        model = component.selectedUri,
+                        modifier = Modifier.aspectRatio(aspectRatio),
+                        onSuccess = {
+                            aspectRatio = it.result.image.toBitmap().safeAspectRatio
+                        }
+                    )
+                },
+                afterContent = {
+                    var aspectRatio by remember {
+                        mutableFloatStateOf(1f)
+                    }
+                    Picture(
+                        model = component.selectedUri,
+                        transformations = selectedUriTransformations,
+                        modifier = Modifier.aspectRatio(aspectRatio),
+                        onSuccess = {
+                            aspectRatio = it.result.image.toBitmap().safeAspectRatio
+                        }
+                    )
+                },
+                visible = showCompareSheet,
+                onDismiss = {
+                    showCompareSheet = false
+                }
+            )
+
+            ZoomModalSheet(
+                data = component.selectedUri,
+                transformations = selectedUriTransformations,
+                visible = showZoomSheet,
+                onDismiss = { showZoomSheet = false }
+            )
         },
         canShowScreenData = !component.uris.isNullOrEmpty(),
         noDataControls = {

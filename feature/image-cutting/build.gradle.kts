@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.image_cutting"
+
+dependencies {
+    implementation(projects.feature.compare)
+}

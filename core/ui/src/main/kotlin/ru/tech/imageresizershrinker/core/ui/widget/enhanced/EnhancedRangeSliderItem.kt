@@ -348,7 +348,7 @@ fun EnhancedRangeSliderItem(
                                     } else FontWeight.Normal
                                 )
                                 Row(
-                                    verticalAlignment = Alignment.Bottom,
+                                    verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier
                                         .height(IntrinsicSize.Max)
                                         .padding(
