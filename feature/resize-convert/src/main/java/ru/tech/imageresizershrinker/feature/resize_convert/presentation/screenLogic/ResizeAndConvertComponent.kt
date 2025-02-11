@@ -51,6 +51,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.leftFrom
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.rightFrom
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
@@ -490,7 +492,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             ?.indexOf(selectedUri ?: Uri.EMPTY)
             ?.takeIf { it >= 0 }
             ?.let {
-                uris?.getOrNull(it - 1)
+                uris?.leftFrom(it)
             }
             ?.let(::updateSelectedUri)
     }
@@ -500,7 +502,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             ?.indexOf(selectedUri ?: Uri.EMPTY)
             ?.takeIf { it >= 0 }
             ?.let {
-                uris?.getOrNull(it + 1)
+                uris?.rightFrom(it)
             }
             ?.let(::updateSelectedUri)
     }

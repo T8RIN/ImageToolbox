@@ -68,4 +68,5 @@ dependencies {
     implementation(projects.feature.checksumTools)
     implementation(projects.feature.meshGradients)
     implementation(projects.feature.editExif)
+    implementation(projects.feature.imageCutting)
 }

@@ -62,6 +62,7 @@ import ru.tech.imageresizershrinker.feature.watermarking.presentation.screenLogi
 import ru.tech.imageresizershrinker.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
 import ru.tech.imageresizershrinker.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
 import ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic.ZipComponent
+import ru.tech.imageresizershrinker.image_cutting.presentation.screenLogic.ImageCutterComponent
 import ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic.ImageSplitterComponent
 import ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 import javax.inject.Inject
@@ -109,7 +110,8 @@ internal class ChildProvider @Inject constructor(
     private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
     private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory,
     private val meshGradientsComponentFactory: MeshGradientsComponent.Factory,
-    private val editExifComponentFactory: EditExifComponent.Factory
+    private val editExifComponentFactory: EditExifComponent.Factory,
+    private val imageCutterComponentFactory: ImageCutterComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -482,6 +484,15 @@ internal class ChildProvider @Inject constructor(
             editExifComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.ImageCutter -> ImageCutter(
+            imageCutterComponentFactory(
+                componentContext = componentContext,
+                initialUris = config.uris,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

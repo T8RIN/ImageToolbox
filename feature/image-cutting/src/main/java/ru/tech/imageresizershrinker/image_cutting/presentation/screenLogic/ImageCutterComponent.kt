@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.format_conversion.presentation.screenLogic
+package ru.tech.imageresizershrinker.image_cutting.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -25,86 +25,61 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.leftFrom
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.rightFrom
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
-import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.image_cutting.domain.CutParams
+import ru.tech.imageresizershrinker.image_cutting.domain.ImageCutter
 
-class FormatConversionComponent @AssistedInject internal constructor(
+class ImageCutterComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
-    private val imageTransformer: ImageTransformer<Bitmap>,
-    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
+    private val imageCutter: ImageCutter<Bitmap>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     init {
         debounce {
-            initialUris?.let {
-                updateUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::updateUris)
         }
     }
-
-    private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
-    private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val bitmap: Bitmap? by _bitmap
-
-    private val _keepExif = mutableStateOf(false)
-    val keepExif by _keepExif
-
-    private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
-    val imageInfo: ImageInfo by _imageInfo
-
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
-
-    private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
-    val shouldShowPreview by _shouldShowPreview
-
-    private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val previewBitmap: Bitmap? by _previewBitmap
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
@@ -112,45 +87,38 @@ class FormatConversionComponent @AssistedInject internal constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private var job: Job? by smartJob {
-        _isImageLoading.update { false }
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default)
+    val imageFormat: ImageFormat by _imageFormat
+
+    private val _quality: MutableState<Quality> = mutableStateOf(Quality.Base(100))
+    val quality: Quality by _quality
+
+    private val _params: MutableState<CutParams> = mutableStateOf(CutParams.Default)
+    val params by _params
+
+    fun updateParams(cutParams: CutParams) {
+        _params.update { cutParams }
+        registerChanges()
     }
 
-    fun updateUris(
-        uris: List<Uri>?,
-        onFailure: (Throwable) -> Unit
-    ) {
+    fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
-        uris?.firstOrNull()?.let { uri ->
-            _imageInfo.update {
-                it.copy(originalUri = uri.toString())
-            }
-            imageGetter.getImageAsync(
-                uri = uri.toString(),
-                originalSize = false,
-                onGetImage = ::setImageData,
-                onFailure = onFailure
-            )
-        }
     }
 
-    fun updateUrisSilently(
-        removedUri: Uri,
-        onFailure: (Throwable) -> Unit
-    ) {
+    fun updateUrisSilently(removedUri: Uri) {
         componentScope.launch {
             _uris.value = uris
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
                 if (index == 0) {
                     uris?.getOrNull(1)?.let {
-                        updateSelectedUri(it, onFailure)
+                        updateSelectedUri(it)
                     }
                 } else {
                     uris?.getOrNull(index - 1)?.let {
-                        updateSelectedUri(it, onFailure)
+                        updateSelectedUri(it)
                     }
                 }
             }
@@ -163,83 +131,18 @@ class FormatConversionComponent @AssistedInject internal constructor(
         }
     }
 
-    private suspend fun checkBitmapAndUpdate() {
-        _bitmap.value?.let { bmp ->
-            val preview = updatePreview(bmp)
-            _previewBitmap.value = null
-            _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
-            if (shouldShowPreview) _previewBitmap.value = preview
-        }
-    }
-
-    private suspend fun updatePreview(
-        bitmap: Bitmap
-    ): Bitmap? = imagePreviewCreator.createPreview(
-        image = bitmap,
-        imageInfo = imageInfo,
-        onGetByteCount = { size ->
-            _imageInfo.update { it.copy(sizeInBytes = size) }
-        }
-    )
-
-    private fun resetValues() {
-        _imageInfo.value = ImageInfo(
-            width = _originalSize.value?.width ?: 0,
-            height = _originalSize.value?.height ?: 0,
-            imageFormat = imageInfo.imageFormat,
-            originalUri = selectedUri?.toString()
-        )
-        debouncedImageCalculation {
-            checkBitmapAndUpdate()
-        }
-    }
-
-    private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job = componentScope.launch {
-            _isImageLoading.update { true }
-            val bitmap = imageData.image
-            val size = bitmap.width to bitmap.height
-            _originalSize.update {
-                size.run { IntegerSize(width = first, height = second) }
-            }
-            _bitmap.update {
-                imageScaler.scaleUntilCanShow(bitmap)
-            }
-            resetValues()
-            _imageInfo.update {
-                imageData.imageInfo.copy(
-                    width = size.first,
-                    height = size.second
-                )
-            }
-            checkBitmapAndUpdate()
-            _isImageLoading.update { false }
-        }
-    }
-
     fun setQuality(quality: Quality) {
-        if (_imageInfo.value.quality != quality) {
-            _imageInfo.value = _imageInfo.value.copy(quality = quality)
-            debouncedImageCalculation {
-                checkBitmapAndUpdate()
-            }
+        if (_quality.value != quality) {
+            _quality.value = quality
             registerChanges()
         }
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        if (_imageInfo.value.imageFormat != imageFormat) {
-            _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
-            debouncedImageCalculation {
-                checkBitmapAndUpdate()
-            }
+        if (_imageFormat.value != imageFormat) {
+            _imageFormat.value = imageFormat
             registerChanges()
         }
-    }
-
-    fun setKeepExif(boolean: Boolean) {
-        _keepExif.value = boolean
-        registerChanges()
     }
 
     private var savingJob: Job? by smartJob {
@@ -256,17 +159,18 @@ class FormatConversionComponent @AssistedInject internal constructor(
             _done.value = 0
             uris?.forEach { uri ->
                 runSuspendCatching {
-                    imageGetter.getImage(uri.toString())?.image
+                    imageCutter.cutAndMerge(
+                        imageUri = uri.toString(),
+                        params = params
+                    )
                 }.getOrNull()?.let { bitmap ->
-                    imageInfo.copy(
-                        originalUri = uri.toString()
-                    ).let {
-                        imageTransformer.applyPresetBy(
-                            image = bitmap,
-                            preset = Preset.Original,
-                            currentInfo = it
-                        )
-                    }.let { imageInfo ->
+                    ImageInfo(
+                        width = bitmap.width,
+                        height = bitmap.height,
+                        originalUri = uri.toString(),
+                        quality = quality,
+                        imageFormat = imageFormat
+                    ).let { imageInfo ->
                         results.add(
                             fileController.save(
                                 saveTarget = ImageSaveTarget(
@@ -274,12 +178,13 @@ class FormatConversionComponent @AssistedInject internal constructor(
                                     metadata = null,
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value + 1,
-                                    data = imageCompressor.compressAndTransform(
+                                    data = imageCompressor.compress(
                                         image = bitmap,
-                                        imageInfo = imageInfo
+                                        imageFormat = imageFormat,
+                                        quality = quality
                                     )
                                 ),
-                                keepOriginalMetadata = keepExif,
+                                keepOriginalMetadata = false,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
@@ -295,38 +200,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
-    ) {
+    fun updateSelectedUri(uri: Uri) {
         _selectedUri.value = uri
-        componentScope.launch {
-            runSuspendCatching {
-                _isImageLoading.update { true }
-                val bitmap = imageGetter.getImage(
-                    uri = uri.toString(),
-                    originalSize = true
-                )?.image
-                val size = bitmap?.let { it.width to it.height }
-                _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
-                _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-                _imageInfo.value = _imageInfo.value.copy(
-                    width = size?.first ?: 0,
-                    height = size?.second ?: 0,
-                    originalUri = uri.toString()
-                )
-                _imageInfo.value = imageTransformer.applyPresetBy(
-                    image = _bitmap.value,
-                    preset = Preset.Original,
-                    currentInfo = _imageInfo.value
-                )
-                checkBitmapAndUpdate()
-                _isImageLoading.update { false }
-            }.onFailure {
-                _isImageLoading.update { false }
-                onFailure(it)
-            }
-        }
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
@@ -336,15 +211,13 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
                     imageGetter.getImage(uri)?.image?.let { bmp ->
-                        bmp to imageInfo.copy(
-                            originalUri = uri
-                        ).let {
-                            imageTransformer.applyPresetBy(
-                                image = bitmap,
-                                preset = Preset.Original,
-                                currentInfo = it
-                            )
-                        }
+                        bmp to ImageInfo(
+                            width = bmp.width,
+                            height = bmp.height,
+                            originalUri = uri,
+                            quality = quality,
+                            imageFormat = imageFormat
+                        )
                     }
                 },
                 onProgressChange = {
@@ -369,16 +242,17 @@ class FormatConversionComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = componentScope.launch {
             _isSaving.value = true
-            imageGetter.getImage(selectedUri.toString())?.image?.let { bmp ->
-                bmp to imageInfo.copy(
-                    originalUri = selectedUri.toString()
-                ).let {
-                    imageTransformer.applyPresetBy(
-                        image = bitmap,
-                        preset = Preset.Original,
-                        currentInfo = it
-                    )
-                }
+            imageCutter.cutAndMerge(
+                imageUri = selectedUri.toString(),
+                params = params
+            )?.let { bmp ->
+                bmp to ImageInfo(
+                    width = bmp.width,
+                    height = bmp.height,
+                    originalUri = selectedUri.toString(),
+                    quality = quality,
+                    imageFormat = imageFormat
+                )
             }?.let { (image, imageInfo) ->
                 shareProvider.cacheImage(
                     image = image,
@@ -398,21 +272,22 @@ class FormatConversionComponent @AssistedInject internal constructor(
             _isSaving.value = true
             _done.value = 0
             val list = mutableListOf<Uri>()
-            uris?.forEach {
-                imageGetter.getImage(it.toString())?.image?.let { bmp ->
-                    bmp to imageInfo.copy(
-                        originalUri = it.toString()
-                    ).let { info ->
-                        imageTransformer.applyPresetBy(
-                            image = bitmap,
-                            preset = Preset.Original,
-                            currentInfo = info
-                        )
-                    }
+            uris?.forEach { uri ->
+                imageCutter.cutAndMerge(
+                    imageUri = uri.toString(),
+                    params = params
+                )?.let { bmp ->
+                    bmp to ImageInfo(
+                        width = bmp.width,
+                        height = bmp.height,
+                        originalUri = uri.toString(),
+                        quality = quality,
+                        imageFormat = imageFormat
+                    )
                 }?.let { (image, imageInfo) ->
                     shareProvider.cacheImage(
                         image = image,
-                        imageInfo = imageInfo.copy(originalUri = it.toString())
+                        imageInfo = imageInfo.copy(originalUri = uri.toString())
                     )?.let { uri ->
                         list.add(uri.toUri())
                     }
@@ -445,16 +320,29 @@ class FormatConversionComponent @AssistedInject internal constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat? =
-        if (uris?.size == 1) imageInfo.imageFormat
+        if (uris?.size == 1) imageFormat
         else null
 
-    fun getConversionTransformation() = listOf(
-        imageInfoTransformationFactory(
-            imageInfo = imageInfo,
-            preset = Preset.Original
-        )
-    )
+    fun getCutTransformation(): List<Transformation> = listOf(
+        GenericTransformation<Bitmap> {
+            val bitmap = imageCutter.cutAndMerge(
+                image = it,
+                params = params
+            ) ?: it
 
+            imagePreviewCreator.createPreview(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    quality = quality,
+                    imageFormat = imageFormat
+                ),
+                transformations = emptyList(),
+                onGetByteCount = {}
+            ) ?: it
+        }.toCoil()
+    )
 
     @AssistedFactory
     fun interface Factory {
@@ -463,6 +351,6 @@ class FormatConversionComponent @AssistedInject internal constructor(
             initialUris: List<Uri>?,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
-        ): FormatConversionComponent
+        ): ImageCutterComponent
     }
 }

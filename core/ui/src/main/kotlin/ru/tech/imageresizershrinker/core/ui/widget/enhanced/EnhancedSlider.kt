@@ -35,8 +35,11 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.FancyRangeSlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.FancySlider
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.M2RangeSlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.M2Slider
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.M3RangeSlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.M3Slider
 
 @Composable
@@ -132,6 +135,114 @@ fun EnhancedSlider(
                 enabled = enabled,
                 colors = realColors,
                 interactionSource = interactionSource,
+                modifier = modifier,
+                onValueChange = onValueChange,
+                onValueChangeFinished = onValueChangeFinished,
+                valueRange = valueRange,
+                steps = steps,
+                drawContainer = drawContainer
+            )
+        }
+    }
+}
+
+@Composable
+fun EnhancedRangeSlider(
+    value: ClosedFloatingPointRange<Float>,
+    onValueChange: (ClosedFloatingPointRange<Float>) -> Unit,
+    modifier: Modifier = Modifier,
+    onValueChangeFinished: (() -> Unit)? = null,
+    valueRange: ClosedFloatingPointRange<Float>,
+    steps: Int = 0,
+    enabled: Boolean = true,
+    colors: SliderColors? = null,
+    startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    drawContainer: Boolean = true
+) {
+    val settingsState = LocalSettingsState.current
+    val sliderType = settingsState.sliderType
+
+    val realColors = colors ?: when (sliderType) {
+        SliderType.Fancy -> {
+            SliderDefaults.colors(
+                activeTickColor = MaterialTheme.colorScheme.inverseSurface,
+                inactiveTickColor = MaterialTheme.colorScheme.surface,
+                activeTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                inactiveTrackColor = SwitchDefaults.colors().disabledCheckedTrackColor,
+                disabledThumbColor = SliderDefaults.colors().disabledThumbColor,
+                disabledActiveTrackColor = SliderDefaults.colors().disabledActiveTrackColor,
+                thumbColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+
+        SliderType.MaterialYou -> {
+            SliderDefaults.colors()
+        }
+
+        SliderType.Material -> {
+            SliderDefaults.colors()
+        }
+    }
+
+    if (steps != 0) {
+        var compositions by remember {
+            mutableIntStateOf(0)
+        }
+        val haptics = LocalHapticFeedback.current
+        val updatedValue by rememberUpdatedState(newValue = value)
+
+        LaunchedEffect(updatedValue) {
+            if (compositions > 0) {
+                haptics.performHapticFeedback(
+                    HapticFeedbackType.TextHandleMove
+                )
+            }
+            compositions++
+        }
+    }
+
+    when (sliderType) {
+        SliderType.Fancy -> {
+            FancyRangeSlider(
+                value = value,
+                enabled = enabled,
+                colors = realColors,
+                startInteractionSource = startInteractionSource,
+                endInteractionSource = endInteractionSource,
+                thumbShape = MaterialStarShape,
+                modifier = modifier,
+                onValueChange = onValueChange,
+                onValueChangeFinished = onValueChangeFinished,
+                valueRange = valueRange,
+                steps = steps,
+                drawContainer = drawContainer
+            )
+        }
+
+        SliderType.MaterialYou -> {
+            M3RangeSlider(
+                value = value,
+                enabled = enabled,
+                colors = realColors,
+                startInteractionSource = startInteractionSource,
+                endInteractionSource = endInteractionSource,
+                modifier = modifier,
+                onValueChange = onValueChange,
+                onValueChangeFinished = onValueChangeFinished,
+                valueRange = valueRange,
+                steps = steps,
+                drawContainer = drawContainer
+            )
+        }
+
+        SliderType.Material -> {
+            M2RangeSlider(
+                value = value,
+                enabled = enabled,
+                colors = realColors,
+                startInteractionSource = startInteractionSource,
+                endInteractionSource = endInteractionSource,
                 modifier = modifier,
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,

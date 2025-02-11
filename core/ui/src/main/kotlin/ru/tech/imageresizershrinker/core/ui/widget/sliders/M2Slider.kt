@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.sliders
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -34,8 +33,10 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.animation.animateFloatingRangeAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomRangeSlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSliderDefaults
 
@@ -101,10 +102,7 @@ fun M2Slider(
                         .padding(horizontal = 12.dp)
                 } else Modifier
             ),
-        value = animateFloatAsState(
-            targetValue = value,
-            animationSpec = tween(100)
-        ).value,
+        value = animateFloatAsState(value).value,
         colors = colors.toCustom(),
         onValueChange = onValueChange,
         onValueChangeFinished = onValueChangeFinished,
@@ -113,6 +111,87 @@ fun M2Slider(
         track = {
             CustomSliderDefaults.Track(
                 sliderState = it,
+                colors = colors.toCustom(),
+                trackHeight = 4.dp,
+                enabled = enabled
+            )
+        }
+    )
+}
+
+@Composable
+fun M2RangeSlider(
+    value: ClosedFloatingPointRange<Float>,
+    enabled: Boolean,
+    colors: SliderColors,
+    startInteractionSource: MutableInteractionSource,
+    endInteractionSource: MutableInteractionSource,
+    modifier: Modifier,
+    onValueChange: (ClosedFloatingPointRange<Float>) -> Unit,
+    onValueChangeFinished: (() -> Unit)?,
+    valueRange: ClosedFloatingPointRange<Float>,
+    steps: Int,
+    drawContainer: Boolean = true
+) {
+    val settingsState = LocalSettingsState.current
+    CustomRangeSlider(
+        startInteractionSource = startInteractionSource,
+        endInteractionSource = endInteractionSource,
+        enabled = enabled,
+        modifier = modifier
+            .then(
+                if (drawContainer) {
+                    Modifier
+                        .container(
+                            shape = CircleShape,
+                            autoShadowElevation = animateDpAsState(
+                                if (settingsState.drawSliderShadows) {
+                                    1.dp
+                                } else 0.dp
+                            ).value,
+                            resultPadding = 0.dp,
+                            borderColor = MaterialTheme.colorScheme
+                                .outlineVariant(
+                                    luminance = 0.1f,
+                                    onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
+                                )
+                                .copy(0.3f),
+                            color = SafeLocalContainerColor
+                                .copy(0.3f)
+                                .compositeOver(
+                                    takeColorFromScheme {
+                                        if (it) {
+                                            tertiaryContainer
+                                                .blend(
+                                                    secondaryContainer,
+                                                    0.5f
+                                                )
+                                                .copy(0.1f)
+                                        } else {
+                                            secondaryContainer
+                                                .blend(
+                                                    tertiaryContainer,
+                                                    0.3f
+                                                )
+                                                .copy(0.2f)
+                                        }
+                                    }
+                                )
+                                .copy(colors.activeTrackColor.alpha),
+                            composeColorOnTopOfBackground = false
+                        )
+                        .padding(horizontal = 12.dp)
+                } else Modifier
+            ),
+        value = animateFloatingRangeAsState(value).value,
+        colors = colors.toCustom(),
+        onValueChange = onValueChange,
+        onValueChangeFinished = onValueChangeFinished,
+        valueRange = valueRange,
+        steps = steps,
+        track = {
+            CustomSliderDefaults.Track(
+                rangeSliderState = it,
                 colors = colors.toCustom(),
                 trackHeight = 4.dp,
                 enabled = enabled

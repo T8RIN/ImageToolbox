@@ -15,24 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.image_splitting.di
-
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.image_splitting.data.AndroidImageSplitter
-import ru.tech.imageresizershrinker.image_splitting.domain.ImageSplitter
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface ImageSplitterModule {
-
-    @Binds
-    @Singleton
-    fun splitter(
-        impl: AndroidImageSplitter
-    ): ImageSplitter
-
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.feature)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
 }
+
+android.namespace = "ru.tech.imageresizershrinker.image_cutting"

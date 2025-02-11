@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.sliders
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.hoverable
@@ -56,12 +55,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.animation.animateFloatingRangeAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberRipple
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.trackOverslide
+import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomRangeSlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSlider
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSliderColors
 import ru.tech.imageresizershrinker.core.ui.widget.sliders.custom_slider.CustomSliderDefaults
@@ -85,11 +86,7 @@ fun FancySlider(
         if (enabled) colors.thumbColor else colors.disabledThumbColor
     )
 
-    val animatedValue by animateFloatAsState(
-        targetValue = value,
-        spring(stiffness = 15_000f, dampingRatio = 0.2f),
-        label = "animatedValue",
-    )
+    val animatedValue by animateFloatAsState(value)
     val thumb: @Composable (CustomSliderState) -> Unit = { sliderState ->
         val sliderFraction by remember {
             derivedStateOf {
@@ -208,6 +205,129 @@ fun FancySlider(
 
                         translateX = overslide * with(density) { 24.dp.toPx() }
                     }
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun FancyRangeSlider(
+    value: ClosedFloatingPointRange<Float>,
+    enabled: Boolean,
+    colors: SliderColors,
+    startInteractionSource: MutableInteractionSource,
+    endInteractionSource: MutableInteractionSource,
+    thumbShape: Shape,
+    modifier: Modifier,
+    onValueChange: (ClosedFloatingPointRange<Float>) -> Unit,
+    onValueChangeFinished: (() -> Unit)?,
+    valueRange: ClosedFloatingPointRange<Float>,
+    steps: Int,
+    drawContainer: Boolean = true
+) {
+    val thumbColor by animateColorAsState(
+        if (enabled) colors.thumbColor else colors.disabledThumbColor
+    )
+
+
+    val settingsState = LocalSettingsState.current
+    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
+        var scaleX by remember { mutableFloatStateOf(1f) }
+        var scaleY by remember { mutableFloatStateOf(1f) }
+        var translateX by remember { mutableFloatStateOf(0f) }
+        var transformOrigin by remember { mutableStateOf(TransformOrigin.Center) }
+        CustomRangeSlider(
+            startInteractionSource = startInteractionSource,
+            endInteractionSource = endInteractionSource,
+            enabled = enabled,
+            modifier = modifier
+                .graphicsLayer {
+                    this.transformOrigin = transformOrigin
+                    this.scaleX = scaleX
+                    this.scaleY = scaleY
+                    this.translationX = translateX
+                }
+                .then(
+                    if (drawContainer) {
+                        Modifier
+                            .container(
+                                shape = CircleShape,
+                                autoShadowElevation = animateDpAsState(
+                                    if (settingsState.drawSliderShadows) {
+                                        1.dp
+                                    } else 0.dp
+                                ).value,
+                                resultPadding = 0.dp,
+                                borderColor = MaterialTheme.colorScheme
+                                    .outlineVariant(
+                                        luminance = 0.1f,
+                                        onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
+                                    )
+                                    .copy(0.3f),
+                                color = SafeLocalContainerColor
+                                    .copy(0.5f)
+                                    .compositeOver(MaterialTheme.colorScheme.surface)
+                                    .copy(colors.activeTrackColor.alpha),
+                                composeColorOnTopOfBackground = false
+                            )
+                            .padding(horizontal = 6.dp)
+                    } else Modifier
+                ),
+            colors = colors.toCustom(),
+            value = animateFloatingRangeAsState(value).value,
+            onValueChange = onValueChange,
+            onValueChangeFinished = onValueChangeFinished,
+            valueRange = valueRange,
+            startThumb = {
+                Spacer(
+                    Modifier
+                        .zIndex(100f)
+                        .size(26.dp)
+                        .indication(
+                            interactionSource = startInteractionSource,
+                            indication = rememberRipple(
+                                bounded = false,
+                                radius = 24.dp
+                            )
+                        )
+                        .hoverable(interactionSource = startInteractionSource)
+                        .materialShadow(
+                            shape = thumbShape,
+                            elevation = 1.dp,
+                            enabled = LocalSettingsState.current.drawSliderShadows
+                        )
+                        .background(thumbColor, thumbShape)
+                )
+            },
+            endThumb = {
+                Spacer(
+                    Modifier
+                        .zIndex(100f)
+                        .size(26.dp)
+                        .indication(
+                            interactionSource = endInteractionSource,
+                            indication = rememberRipple(
+                                bounded = false,
+                                radius = 24.dp
+                            )
+                        )
+                        .hoverable(interactionSource = endInteractionSource)
+                        .materialShadow(
+                            shape = thumbShape,
+                            elevation = 1.dp,
+                            enabled = LocalSettingsState.current.drawSliderShadows
+                        )
+                        .background(thumbColor, thumbShape)
+                )
+            },
+            steps = steps,
+            track = { sliderState ->
+                CustomSliderDefaults.Track(
+                    rangeSliderState = sliderState,
+                    colors = colors.toCustom(),
+                    trackHeight = 38.dp,
+                    enabled = enabled
                 )
             }
         )

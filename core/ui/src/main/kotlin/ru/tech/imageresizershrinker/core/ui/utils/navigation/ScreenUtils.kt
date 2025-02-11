@@ -32,6 +32,7 @@ import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
 import androidx.compose.material.icons.rounded.Compare
+import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.KSerializer
@@ -114,6 +115,7 @@ internal fun Screen.simpleName(): String? = when (this) {
     is Screen.ChecksumTools -> "Checksum_Tools"
     is Screen.MeshGradients -> "Mesh_Gradients"
     is Screen.EditExif -> "Edit_EXIF"
+    is Screen.ImageCutter -> "Image_Cutting"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -161,6 +163,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.Base64Tools -> Icons.Outlined.Base64
     is Screen.ChecksumTools -> Icons.Rounded.Tag
     is Screen.EditExif -> Icons.Outlined.ExifEdit
+    is Screen.ImageCutter -> Icons.Rounded.ContentCut
 }
 
 internal object UriSerializer : KSerializer<Uri> {

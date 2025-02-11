@@ -1575,4 +1575,11 @@
     <string name="timestamp">Timestamp</string>
     <string name="format_pattern">Format Pattern</string>
     <string name="padding">Padding</string>
+    <string name="image_cutting">Image Cutting</string>
+    <string name="image_cutting_sub">Cut image part and merge left ones (can be inverse) by vertical or horizontal lines</string>
+    <string name="vertical_pivot_line">Vertical Pivot Line</string>
+    <string name="horizontal_pivot_line">Horizontal Pivot Line</string>
+    <string name="inverse_selection">Inverse Selection</string>
+    <string name="inverse_vertical_selection_sub">Vertical cut part will be leaved, instead of merging parts around cut area</string>
+    <string name="inverse_horizontal_selection_sub">Horizontal cut part will be leaved, instead of merging parts around cut area</string>
 </resources>

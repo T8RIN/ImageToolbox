@@ -50,6 +50,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.leftFrom
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.rightFrom
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -519,7 +521,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
             .indexOf(selectedUri)
             .takeIf { it >= 0 }
             ?.let {
-                uris.getOrNull(it - 1)
+                uris.leftFrom(it)
             }
             ?.let(::updateSelectedUri)
     }
@@ -529,7 +531,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
             .indexOf(selectedUri)
             .takeIf { it >= 0 }
             ?.let {
-                uris.getOrNull(it + 1)
+                uris.rightFrom(it)
             }
             ?.let(::updateSelectedUri)
     }

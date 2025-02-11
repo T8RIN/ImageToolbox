@@ -89,6 +89,7 @@ fun Picture(
     showTransparencyChecker: Boolean = true,
     isLoadingFromDifferentPlace: Boolean = false,
     enableUltraHDRSupport: Boolean = false,
+    size: Int? = null,
     contentPadding: PaddingValues = PaddingValues()
 ) {
     val context = LocalComponentActivity.current
@@ -122,7 +123,8 @@ fun Picture(
             crossfadeEnabled,
             allowHardware,
             transformations,
-            hdrTransformation
+            hdrTransformation,
+            size
         ) {
             ImageRequest.Builder(context)
                 .data(model)
@@ -131,6 +133,9 @@ fun Picture(
                 .transformations(
                     (transformations ?: emptyList()) + hdrTransformation
                 )
+                .apply {
+                    size?.let { size(it) }
+                }
                 .build()
         }
     } else model

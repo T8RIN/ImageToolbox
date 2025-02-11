@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package ru.tech.imageresizershrinker.core.domain.utils
 
 import kotlin.reflect.KClass
@@ -55,4 +57,8 @@ object ListUtils {
     inline fun <reified R : Any> Iterable<Any?>.firstOfType(): R? = firstOrNull { it is R } as? R
 
     operator fun <E> List<E>.component6(): E = get(5)
+
+    inline fun <E> List<E>.leftFrom(index: Int): E = getOrNull(index - 1) ?: get(lastIndex)
+
+    inline fun <E> List<E>.rightFrom(index: Int): E = getOrNull(index + 1) ?: get(0)
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.image_splitting.di
+package ru.tech.imageresizershrinker.image_cutting.domain
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.image_splitting.data.AndroidImageSplitter
-import ru.tech.imageresizershrinker.image_splitting.domain.ImageSplitter
-import javax.inject.Singleton
+interface ImageCutter<Image> {
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface ImageSplitterModule {
+    suspend fun cutAndMerge(
+        imageUri: String,
+        params: CutParams
+    ): Image?
 
-    @Binds
-    @Singleton
-    fun splitter(
-        impl: AndroidImageSplitter
-    ): ImageSplitter
+    suspend fun cutAndMerge(
+        image: Image,
+        params: CutParams
+    ): Image?
 
 }

@@ -18,12 +18,19 @@
 package ru.tech.imageresizershrinker.core.ui.utils.animation
 
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.plus
@@ -108,3 +115,25 @@ fun <NavigationChild : Any> toolboxPredictiveBackAnimation(
     ),
     selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
 )
+
+@Composable
+fun animateFloatingRangeAsState(
+    range: ClosedFloatingPointRange<Float>,
+    animationSpec: AnimationSpec<Float> = spring()
+): State<ClosedFloatingPointRange<Float>> {
+    val start = animateFloatAsState(
+        targetValue = range.start,
+        animationSpec = animationSpec
+    )
+
+    val end = animateFloatAsState(
+        targetValue = range.endInclusive,
+        animationSpec = animationSpec
+    )
+
+    return remember(start, end) {
+        derivedStateOf {
+            start.value..end.value
+        }
+    }
+}

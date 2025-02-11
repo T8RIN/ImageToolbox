@@ -722,6 +722,15 @@ sealed class Screen(
         subtitle = R.string.edit_exif_screen_sub
     )
 
+    @Serializable
+    data class ImageCutter(
+        val uris: List<KUri>? = null
+    ) : Screen(
+        id = 38,
+        title = R.string.image_cutting,
+        subtitle = R.string.image_cutting_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -731,6 +740,7 @@ sealed class Screen(
                         ResizeAndConvert(),
                         FormatConversion(),
                         Crop(),
+                        ImageCutter(),
                         WeightResize(),
                         LimitResize(),
                         EditExif(),
@@ -798,7 +808,7 @@ sealed class Screen(
             typedEntries.flatMap { it.entries }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 61
+        const val FEATURES_COUNT = 62
     }
 }
 

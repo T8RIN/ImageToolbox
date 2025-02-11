@@ -100,6 +100,8 @@ import ru.tech.imageresizershrinker.feature.weight_resize.presentation.WeightRes
 import ru.tech.imageresizershrinker.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipContent
 import ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic.ZipComponent
+import ru.tech.imageresizershrinker.image_cutting.presentation.ImageCutterContent
+import ru.tech.imageresizershrinker.image_cutting.presentation.screenLogic.ImageCutterComponent
 import ru.tech.imageresizershrinker.image_splitting.presentation.ImageSplitterContent
 import ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic.ImageSplitterComponent
 import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGenerationContent
@@ -325,6 +327,11 @@ internal sealed class NavigationChild {
     class EditExif(val component: EditExifComponent) : NavigationChild() {
         @Composable
         override fun Content() = EditExifContent(component)
+    }
+
+    class ImageCutter(val component: ImageCutterComponent) : NavigationChild() {
+        @Composable
+        override fun Content() = ImageCutterContent(component)
     }
 
 }

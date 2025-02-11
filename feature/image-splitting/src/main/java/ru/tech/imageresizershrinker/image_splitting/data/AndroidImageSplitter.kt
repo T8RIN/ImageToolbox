@@ -36,7 +36,7 @@ internal class AndroidImageSplitter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : ImageSplitter<Bitmap>, DispatchersHolder by dispatchersHolder {
+) : ImageSplitter, DispatchersHolder by dispatchersHolder {
 
     override suspend fun split(
         imageUri: String,

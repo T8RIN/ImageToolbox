@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.image_splitting.domain
 
-interface ImageSplitter<Image> {
+interface ImageSplitter {
 
     suspend fun split(
         imageUri: String,

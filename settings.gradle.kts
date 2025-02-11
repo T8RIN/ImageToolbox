@@ -108,6 +108,7 @@ include(":feature:base64-tools")
 include(":feature:checksum-tools")
 include(":feature:mesh-gradients")
 include(":feature:edit-exif")
+include(":feature:image-cutting")
 
 include(":feature:root")
 

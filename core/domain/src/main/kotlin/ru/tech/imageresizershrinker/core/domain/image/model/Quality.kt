@@ -73,6 +73,8 @@ sealed class Quality(
                 )
             }
 
+            is ImageFormat.Jpeg2000 -> Base(qualityValue.coerceIn(20..100))
+
             else -> {
                 Base(qualityValue.coerceIn(0..100))
             }
