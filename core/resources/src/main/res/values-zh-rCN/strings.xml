@@ -1552,4 +1552,9 @@
     <string name="fit_height">适应高度</string>
     <string name="pick_files">选取文件</string>
     <string name="pick_directory">选取目录</string>
+    <string name="head_length_scale">头部长度缩放</string>
+    <string name="format_pattern">格式化模式</string>
+    <string name="padding">填充</string>
+    <string name="stamp">印章</string>
+    <string name="timestamp">时间戳</string>
 </resources>
