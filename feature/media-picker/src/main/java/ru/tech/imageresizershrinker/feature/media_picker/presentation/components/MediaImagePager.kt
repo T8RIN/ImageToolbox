@@ -95,7 +95,7 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
+import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
@@ -287,7 +287,7 @@ internal fun MediaImagePager(
                                     )
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Rounded.BrokenImageVariant,
+                                        imageVector = Icons.Rounded.BrokenImageAlt,
                                         contentDescription = null,
                                         modifier = Modifier.fillMaxSize(0.5f),
                                         tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)

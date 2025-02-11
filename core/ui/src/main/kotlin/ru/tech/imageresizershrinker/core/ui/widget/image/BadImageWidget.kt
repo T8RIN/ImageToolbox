@@ -20,13 +20,13 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -38,7 +38,7 @@ fun BadImageWidget() {
             .padding(16.dp)
     ) {
         Icon(
-            imageVector = Icons.TwoTone.BrokenImage,
+            imageVector = Icons.Rounded.BrokenImageAlt,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )

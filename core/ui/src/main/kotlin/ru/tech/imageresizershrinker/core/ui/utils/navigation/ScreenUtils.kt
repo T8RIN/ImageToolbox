@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Collage
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.Draw
 import ru.tech.imageresizershrinker.core.resources.icons.Encrypted
+import ru.tech.imageresizershrinker.core.resources.icons.Eraser
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.ExifEdit
 import ru.tech.imageresizershrinker.core.resources.icons.ImageCombine
@@ -54,15 +55,14 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageConvert
 import ru.tech.imageresizershrinker.core.resources.icons.ImageDownload
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.ImageLimit
+import ru.tech.imageresizershrinker.core.resources.icons.ImageOverlay
 import ru.tech.imageresizershrinker.core.resources.icons.ImageText
 import ru.tech.imageresizershrinker.core.resources.icons.ImageWeight
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
-import ru.tech.imageresizershrinker.core.resources.icons.OverlayAbove
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.core.resources.icons.SplitAlt
 import ru.tech.imageresizershrinker.core.resources.icons.Stack
-import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 import ru.tech.imageresizershrinker.core.resources.icons.VectorPolyline
 import ru.tech.imageresizershrinker.core.resources.icons.WebpBox
 
@@ -132,7 +132,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.Crop -> Icons.Rounded.CropSmall
     is Screen.DeleteExif -> Icons.Outlined.Exif
     is Screen.Draw -> Icons.Outlined.Draw
-    is Screen.EraseBackground -> Icons.Filled.Transparency
+    is Screen.EraseBackground -> Icons.Rounded.Eraser
     is Screen.Filter -> Icons.Outlined.AutoFixHigh
     is Screen.GeneratePalette -> Icons.Outlined.PaletteSwatch
     is Screen.GifTools -> Icons.Outlined.GifBox
@@ -153,7 +153,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.FormatConversion -> Icons.Outlined.ImageConvert
     is Screen.DocumentScanner -> Icons.Outlined.DocumentScanner
     is Screen.ScanQrCode -> Icons.Outlined.QrCode
-    is Screen.ImageStacking -> Icons.Outlined.OverlayAbove
+    is Screen.ImageStacking -> Icons.Outlined.ImageOverlay
     is Screen.ImageSplitting -> Icons.Outlined.SplitAlt
     is Screen.ColorTools -> Icons.Outlined.ColorLens
     is Screen.WebpTools -> Icons.Rounded.WebpBox

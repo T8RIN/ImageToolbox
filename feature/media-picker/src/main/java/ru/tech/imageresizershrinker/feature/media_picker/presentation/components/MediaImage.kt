@@ -56,7 +56,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageVariant
+import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.theme.Red
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
@@ -163,7 +163,7 @@ fun MediaImage(
                         )
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.BrokenImageVariant,
+                            imageVector = Icons.Rounded.BrokenImageAlt,
                             contentDescription = null,
                             modifier = Modifier.fillMaxSize(0.5f),
                             tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)

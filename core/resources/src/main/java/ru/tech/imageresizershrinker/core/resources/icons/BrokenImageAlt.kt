@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.BrokenImageVariant: ImageVector by lazy {
+val Icons.Rounded.BrokenImageAlt: ImageVector by lazy {
     ImageVector.Builder(
-        name = "BrokenImageVariant",
+        name = "BrokenImageAlt",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 24f,
