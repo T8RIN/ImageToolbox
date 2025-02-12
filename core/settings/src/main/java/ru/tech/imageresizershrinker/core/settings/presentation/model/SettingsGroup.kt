@@ -269,7 +269,7 @@ sealed class SettingsGroup(
 
     data object Firebase : SettingsGroup(
         id = 17,
-        icon = Icons.Rounded.Firebase,
+        icon = Icons.Outlined.Firebase,
         titleId = R.string.firebase,
         settingsList = listOf(
             Setting.Crashlytics,
