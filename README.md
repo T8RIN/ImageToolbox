@@ -591,7 +591,8 @@ or click one of the badges below.
 
           </details>
 
-         
+
+- Image Cutting (can be used as batch crop)         
 - Tracing raster images to SVG
 - Format Conversion
     - HEIF
