@@ -98,7 +98,7 @@ fun TitleItem(
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = if (icon == Icons.Rounded.Firebase) Color.Unspecified
+                        tint = if (icon == Icons.TwoTone.Firebase) Color.Unspecified
                         else LocalContentColor.current
                     )
                 },
