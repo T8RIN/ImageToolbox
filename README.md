@@ -408,8 +408,10 @@ or click one of the badges below.
     - By drawing
     - Automatically
 - Watermarking
-    - By Text
-    - By Image
+    - Repeating Text
+    - Image
+    - Stamp
+    - Timestamp
 - Drawing on Image/Background
     - Pen
     - Neon
