@@ -120,6 +120,7 @@ internal fun List<Uri>.screenList(
                 Screen.ImageStitching(uris),
                 Screen.ImageStacking(uris),
                 Screen.ImageSplitting(uris.firstOrNull()),
+                Screen.ImageCutter(uris),
                 Screen.GradientMaker(uris),
                 Screen.PdfTools(
                     Screen.PdfTools.Type.ImagesToPdf(uris)
@@ -193,6 +194,7 @@ internal fun List<Uri>.screenList(
                     )
                 )
                 add(Screen.ImageStacking(uris))
+                add(Screen.ImageCutter(uris))
                 add(Screen.ImagePreview(uris))
                 add(Screen.LimitResize(uris))
                 add(Screen.Zip(uris))
