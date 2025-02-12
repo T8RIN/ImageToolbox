@@ -388,14 +388,16 @@ fun EnhancedRangeSliderItem(
             }
         }
     }
+
     ValueDialog(
         roundTo = null,
-        valueRange = valueRange.start..value.endInclusive,
-        valueState = internalStateTransformation(value).start.toString(),
+        valueRange = valueRange.start..internalState.value.endInclusive,
+        valueState = internalState.value.start.toString(),
         expanded = visible && showStartValueDialog,
         onDismiss = { showStartValueDialog = false },
         onValueUpdate = {
-            val range = it.coerceAtMost(value.endInclusive)..value.endInclusive
+            val range =
+                it.coerceAtMost(internalState.value.endInclusive)..internalState.value.endInclusive
 
             onValueChange(range)
             onValueChangeFinished?.invoke(range)
@@ -403,12 +405,12 @@ fun EnhancedRangeSliderItem(
     )
     ValueDialog(
         roundTo = null,
-        valueRange = value.start..valueRange.endInclusive,
-        valueState = internalStateTransformation(value).endInclusive.toString(),
+        valueRange = internalState.value.start..valueRange.endInclusive,
+        valueState = internalState.value.endInclusive.toString(),
         expanded = visible && showEndValueDialog,
         onDismiss = { showEndValueDialog = false },
         onValueUpdate = {
-            val range = value.start..it.coerceAtLeast(value.start)
+            val range = internalState.value.start..it.coerceAtLeast(internalState.value.start)
 
             onValueChange(range)
             onValueChangeFinished?.invoke(range)
