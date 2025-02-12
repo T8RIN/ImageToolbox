@@ -725,9 +725,7 @@ sealed class Screen(
         subtitle = R.string.image_cutting_sub
     )
 
-    companion object : ScreenConstants by ScreenConstantsImpl {
-        const val FEATURES_COUNT = 62
-    }
+    companion object : ScreenConstants by ScreenConstantsImpl
 }
 
 data class ScreenGroup(

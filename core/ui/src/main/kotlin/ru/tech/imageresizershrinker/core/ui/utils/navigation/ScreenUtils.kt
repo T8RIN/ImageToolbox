@@ -229,6 +229,8 @@ internal interface ScreenConstants {
     val typedEntries: List<ScreenGroup>
 
     val entries: List<Screen>
+
+    val FEATURES_COUNT: Int
 }
 
 internal object ScreenConstantsImpl : ScreenConstants {
@@ -307,4 +309,6 @@ internal object ScreenConstantsImpl : ScreenConstants {
     override val entries by lazy {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
+
+    override val FEATURES_COUNT = 62
 }
