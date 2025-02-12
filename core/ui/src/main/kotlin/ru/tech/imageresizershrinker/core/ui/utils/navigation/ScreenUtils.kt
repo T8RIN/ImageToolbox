@@ -20,10 +20,14 @@ package ru.tech.imageresizershrinker.core.ui.utils.navigation
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.FilterHdr
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.DocumentScanner
+import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
@@ -41,6 +45,7 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ApngBox
 import ru.tech.imageresizershrinker.core.resources.icons.Base64
 import ru.tech.imageresizershrinker.core.resources.icons.Collage
@@ -59,63 +64,102 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageOverlay
 import ru.tech.imageresizershrinker.core.resources.icons.ImageText
 import ru.tech.imageresizershrinker.core.resources.icons.ImageWeight
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
 import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.core.resources.icons.SplitAlt
 import ru.tech.imageresizershrinker.core.resources.icons.Stack
+import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.VectorPolyline
 import ru.tech.imageresizershrinker.core.resources.icons.WebpBox
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ApngTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Base64Tools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ChecksumTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Cipher
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.CollageMaker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ColorTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Crop
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.DeleteExif
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Draw
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.EditExif
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.EraseBackground
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Filter
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.FormatConversion
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GeneratePalette
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GifTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GradientMaker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageCutter
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImagePreview
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageSplitting
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageStacking
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageStitching
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.JxlTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.LimitResize
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.LoadNetImage
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.MarkupLayers
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.NoiseGeneration
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.PdfTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.PickColorFromImage
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.RecognizeText
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ResizeAndConvert
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ScanQrCode
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.SingleEdit
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.SvgMaker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Watermarking
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.WebpTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.WeightResize
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Zip
 
 internal fun Screen.isBetaFeature(): Boolean = when (this) {
-    is Screen.MarkupLayers -> true
+    is MarkupLayers -> true
     else -> false
 }
 
 internal fun Screen.simpleName(): String? = when (this) {
-    is Screen.ApngTools -> "APNG_Tools"
-    is Screen.Cipher -> "Cipher"
+    is ApngTools -> "APNG_Tools"
+    is Cipher -> "Cipher"
     is Screen.Compare -> "Compare"
-    is Screen.Crop -> "Crop"
-    is Screen.DeleteExif -> "Delete_Exif"
-    is Screen.Draw -> "Draw"
+    is Crop -> "Crop"
+    is DeleteExif -> "Delete_Exif"
+    is Draw -> "Draw"
     is Screen.EasterEgg -> "Easter_Egg"
-    is Screen.EraseBackground -> "Erase_Background"
-    is Screen.Filter -> "Filter"
-    is Screen.GeneratePalette -> "Generate_Palette"
-    is Screen.GifTools -> "GIF_Tools"
-    is Screen.GradientMaker -> "Gradient_Maker"
-    is Screen.ImagePreview -> "Image_Preview"
-    is Screen.ImageStitching -> "Image_Stitching"
-    is Screen.JxlTools -> "JXL_Tools"
-    is Screen.LimitResize -> "Limit_Resize"
-    is Screen.LoadNetImage -> "Load_Net_Image"
+    is EraseBackground -> "Erase_Background"
+    is Filter -> "Filter"
+    is GeneratePalette -> "Generate_Palette"
+    is GifTools -> "GIF_Tools"
+    is GradientMaker -> "Gradient_Maker"
+    is ImagePreview -> "Image_Preview"
+    is ImageStitching -> "Image_Stitching"
+    is JxlTools -> "JXL_Tools"
+    is LimitResize -> "Limit_Resize"
+    is LoadNetImage -> "Load_Net_Image"
     is Screen.Main -> null
-    is Screen.PdfTools -> "PDF_Tools"
-    is Screen.PickColorFromImage -> "Pick_Color_From_Image"
-    is Screen.RecognizeText -> "Recognize_Text"
-    is Screen.ResizeAndConvert -> "Resize_And_Convert"
-    is Screen.WeightResize -> "Resize_By_Bytes"
+    is PdfTools -> "PDF_Tools"
+    is PickColorFromImage -> "Pick_Color_From_Image"
+    is RecognizeText -> "Recognize_Text"
+    is ResizeAndConvert -> "Resize_And_Convert"
+    is WeightResize -> "Resize_By_Bytes"
     is Screen.Settings -> "Settings"
-    is Screen.SingleEdit -> "Single_Edit"
-    is Screen.Watermarking -> "Watermarking"
-    is Screen.Zip -> "Zip"
-    is Screen.SvgMaker -> "Svg"
-    is Screen.FormatConversion -> "Convert"
+    is SingleEdit -> "Single_Edit"
+    is Watermarking -> "Watermarking"
+    is Zip -> "Zip"
+    is SvgMaker -> "Svg"
+    is FormatConversion -> "Convert"
     is Screen.DocumentScanner -> "Document_Scanner"
-    is Screen.ScanQrCode -> "QR_Code"
-    is Screen.ImageStacking -> "Image_Stacking"
-    is Screen.ImageSplitting -> "Image_Splitting"
-    is Screen.ColorTools -> "Color_Tools"
-    is Screen.WebpTools -> "WEBP_Tools"
-    is Screen.NoiseGeneration -> "Noise_Generation"
-    is Screen.CollageMaker -> "Collage_Maker"
+    is ScanQrCode -> "QR_Code"
+    is ImageStacking -> "Image_Stacking"
+    is ImageSplitting -> "Image_Splitting"
+    is ColorTools -> "Color_Tools"
+    is WebpTools -> "WEBP_Tools"
+    is NoiseGeneration -> "Noise_Generation"
+    is CollageMaker -> "Collage_Maker"
     is Screen.LibrariesInfo -> "Libraries_Info"
-    is Screen.MarkupLayers -> "Markup_Layers"
-    is Screen.Base64Tools -> "Base64_Tools"
-    is Screen.ChecksumTools -> "Checksum_Tools"
+    is MarkupLayers -> "Markup_Layers"
+    is Base64Tools -> "Base64_Tools"
+    is ChecksumTools -> "Checksum_Tools"
     is Screen.MeshGradients -> "Mesh_Gradients"
-    is Screen.EditExif -> "Edit_EXIF"
-    is Screen.ImageCutter -> "Image_Cutting"
+    is EditExif -> "Edit_EXIF"
+    is ImageCutter -> "Image_Cutting"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -125,45 +169,45 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.LibrariesInfo,
     is Screen.MeshGradients -> null
 
-    is Screen.SingleEdit -> Icons.Outlined.ImageEdit
-    is Screen.ApngTools -> Icons.Rounded.ApngBox
-    is Screen.Cipher -> Icons.Outlined.Encrypted
+    is SingleEdit -> Icons.Outlined.ImageEdit
+    is ApngTools -> Icons.Rounded.ApngBox
+    is Cipher -> Icons.Outlined.Encrypted
     is Screen.Compare -> Icons.Rounded.Compare
-    is Screen.Crop -> Icons.Rounded.CropSmall
-    is Screen.DeleteExif -> Icons.Outlined.Exif
-    is Screen.Draw -> Icons.Outlined.Draw
-    is Screen.EraseBackground -> Icons.Rounded.Eraser
-    is Screen.Filter -> Icons.Outlined.AutoFixHigh
-    is Screen.GeneratePalette -> Icons.Outlined.PaletteSwatch
-    is Screen.GifTools -> Icons.Outlined.GifBox
-    is Screen.GradientMaker -> Icons.Outlined.Gradient
-    is Screen.ImagePreview -> Icons.Outlined.Photo
-    is Screen.ImageStitching -> Icons.Rounded.ImageCombine
-    is Screen.JxlTools -> Icons.Filled.Jxl
-    is Screen.LimitResize -> Icons.Outlined.ImageLimit
-    is Screen.LoadNetImage -> Icons.Outlined.ImageDownload
-    is Screen.PdfTools -> Icons.Outlined.PictureAsPdf
-    is Screen.PickColorFromImage -> Icons.Outlined.Colorize
-    is Screen.RecognizeText -> Icons.Outlined.ImageText
-    is Screen.ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
-    is Screen.WeightResize -> Icons.Rounded.ImageWeight
-    is Screen.Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
-    is Screen.Zip -> Icons.Outlined.FolderZip
-    is Screen.SvgMaker -> Icons.Outlined.VectorPolyline
-    is Screen.FormatConversion -> Icons.Outlined.ImageConvert
+    is Crop -> Icons.Rounded.CropSmall
+    is DeleteExif -> Icons.Outlined.Exif
+    is Draw -> Icons.Outlined.Draw
+    is EraseBackground -> Icons.Rounded.Eraser
+    is Filter -> Icons.Outlined.AutoFixHigh
+    is GeneratePalette -> Icons.Outlined.PaletteSwatch
+    is GifTools -> Icons.Outlined.GifBox
+    is GradientMaker -> Icons.Outlined.Gradient
+    is ImagePreview -> Icons.Outlined.Photo
+    is ImageStitching -> Icons.Rounded.ImageCombine
+    is JxlTools -> Icons.Filled.Jxl
+    is LimitResize -> Icons.Outlined.ImageLimit
+    is LoadNetImage -> Icons.Outlined.ImageDownload
+    is PdfTools -> Icons.Outlined.PictureAsPdf
+    is PickColorFromImage -> Icons.Outlined.Colorize
+    is RecognizeText -> Icons.Outlined.ImageText
+    is ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
+    is WeightResize -> Icons.Rounded.ImageWeight
+    is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
+    is Zip -> Icons.Outlined.FolderZip
+    is SvgMaker -> Icons.Outlined.VectorPolyline
+    is FormatConversion -> Icons.Outlined.ImageConvert
     is Screen.DocumentScanner -> Icons.Outlined.DocumentScanner
-    is Screen.ScanQrCode -> Icons.Outlined.QrCode
-    is Screen.ImageStacking -> Icons.Outlined.ImageOverlay
-    is Screen.ImageSplitting -> Icons.Outlined.SplitAlt
-    is Screen.ColorTools -> Icons.Outlined.ColorLens
-    is Screen.WebpTools -> Icons.Rounded.WebpBox
-    is Screen.NoiseGeneration -> Icons.Outlined.Grain
-    is Screen.CollageMaker -> Icons.Outlined.Collage
-    is Screen.MarkupLayers -> Icons.Outlined.Stack
-    is Screen.Base64Tools -> Icons.Outlined.Base64
-    is Screen.ChecksumTools -> Icons.Rounded.Tag
-    is Screen.EditExif -> Icons.Outlined.ExifEdit
-    is Screen.ImageCutter -> Icons.Rounded.ContentCut
+    is ScanQrCode -> Icons.Outlined.QrCode
+    is ImageStacking -> Icons.Outlined.ImageOverlay
+    is ImageSplitting -> Icons.Outlined.SplitAlt
+    is ColorTools -> Icons.Outlined.ColorLens
+    is WebpTools -> Icons.Rounded.WebpBox
+    is NoiseGeneration -> Icons.Outlined.Grain
+    is CollageMaker -> Icons.Outlined.Collage
+    is MarkupLayers -> Icons.Outlined.Stack
+    is Base64Tools -> Icons.Outlined.Base64
+    is ChecksumTools -> Icons.Rounded.Tag
+    is EditExif -> Icons.Outlined.ExifEdit
+    is ImageCutter -> Icons.Rounded.ContentCut
 }
 
 internal object UriSerializer : KSerializer<Uri> {
@@ -180,3 +224,87 @@ internal object UriSerializer : KSerializer<Uri> {
 }
 
 internal typealias KUri = @Serializable(UriSerializer::class) Uri
+
+internal interface ScreenConstants {
+    val typedEntries: List<ScreenGroup>
+
+    val entries: List<Screen>
+}
+
+internal object ScreenConstantsImpl : ScreenConstants {
+    override val typedEntries by lazy {
+        listOf(
+            ScreenGroup(
+                entries = listOf(
+                    SingleEdit(),
+                    ResizeAndConvert(),
+                    FormatConversion(),
+                    Crop(),
+                    ImageCutter(),
+                    WeightResize(),
+                    LimitResize(),
+                    EditExif(),
+                    DeleteExif(),
+                ),
+                title = R.string.edit,
+                selectedIcon = Icons.Rounded.MiniEditLarge,
+                baseIcon = Icons.Outlined.MiniEditLarge
+            ),
+            ScreenGroup(
+                entries = listOf(
+                    Filter(),
+                    Draw(),
+                    EraseBackground(),
+                    MarkupLayers(),
+                    CollageMaker(),
+                    ImageStitching(),
+                    ImageStacking(),
+                    ImageSplitting(),
+                    Watermarking(),
+                    GradientMaker(),
+                    NoiseGeneration,
+                ),
+                title = R.string.create,
+                selectedIcon = Icons.Filled.AutoAwesome,
+                baseIcon = Icons.Outlined.AutoAwesome
+            ),
+            ScreenGroup(
+                entries = listOf(
+                    PickColorFromImage(),
+                    RecognizeText(),
+                    Screen.Compare(),
+                    ImagePreview(),
+                    Base64Tools(),
+                    SvgMaker(),
+                    GeneratePalette(),
+                    LoadNetImage(),
+                ),
+                title = R.string.image,
+                selectedIcon = Icons.Filled.FilterHdr,
+                baseIcon = Icons.Outlined.FilterHdr
+            ),
+            ScreenGroup(
+                entries = listOf(
+                    PdfTools(),
+                    Screen.DocumentScanner,
+                    ScanQrCode(),
+                    ColorTools,
+                    GifTools(),
+                    Cipher(),
+                    ChecksumTools(),
+                    Zip(),
+                    JxlTools(),
+                    ApngTools(),
+                    WebpTools()
+                ),
+                title = R.string.tools,
+                selectedIcon = Icons.Rounded.Toolbox,
+                baseIcon = Icons.Outlined.Toolbox
+            )
+        )
+    }
+
+    override val entries by lazy {
+        typedEntries.flatMap { it.entries }.sortedBy { it.id }
+    }
+}

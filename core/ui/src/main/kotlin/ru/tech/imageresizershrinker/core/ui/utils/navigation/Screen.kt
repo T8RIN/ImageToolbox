@@ -19,12 +19,8 @@ package ru.tech.imageresizershrinker.core.ui.utils.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.FilterHdr
-import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
-import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
@@ -39,8 +35,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.Jpg
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
-import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
-import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
 
 @Serializable
@@ -731,83 +725,7 @@ sealed class Screen(
         subtitle = R.string.image_cutting_sub
     )
 
-    companion object {
-        val typedEntries by lazy {
-            listOf(
-                ScreenGroup(
-                    entries = listOf(
-                        SingleEdit(),
-                        ResizeAndConvert(),
-                        FormatConversion(),
-                        Crop(),
-                        ImageCutter(),
-                        WeightResize(),
-                        LimitResize(),
-                        EditExif(),
-                        DeleteExif(),
-                    ),
-                    title = R.string.edit,
-                    selectedIcon = Icons.Rounded.MiniEditLarge,
-                    baseIcon = Icons.Outlined.MiniEditLarge
-                ),
-                ScreenGroup(
-                    entries = listOf(
-                        Filter(),
-                        Draw(),
-                        EraseBackground(),
-                        MarkupLayers(),
-                        CollageMaker(),
-                        ImageStitching(),
-                        ImageStacking(),
-                        ImageSplitting(),
-                        Watermarking(),
-                        GradientMaker(),
-                        NoiseGeneration,
-                    ),
-                    title = R.string.create,
-                    selectedIcon = Icons.Filled.AutoAwesome,
-                    baseIcon = Icons.Outlined.AutoAwesome
-                ),
-                ScreenGroup(
-                    entries = listOf(
-                        PickColorFromImage(),
-                        RecognizeText(),
-                        Compare(),
-                        ImagePreview(),
-                        Base64Tools(),
-                        SvgMaker(),
-                        GeneratePalette(),
-                        LoadNetImage(),
-                    ),
-                    title = R.string.image,
-                    selectedIcon = Icons.Filled.FilterHdr,
-                    baseIcon = Icons.Outlined.FilterHdr
-                ),
-                ScreenGroup(
-                    entries = listOf(
-                        PdfTools(),
-                        DocumentScanner,
-                        ScanQrCode(),
-                        ColorTools,
-                        GifTools(),
-                        Cipher(),
-                        ChecksumTools(),
-                        Zip(),
-                        JxlTools(),
-                        ApngTools(),
-                        WebpTools()
-                    ),
-                    title = R.string.tools,
-                    selectedIcon = Icons.Rounded.Toolbox,
-                    baseIcon = Icons.Outlined.Toolbox
-                )
-            )
-        }
-
-        val entries by lazy {
-            typedEntries.flatMap { it.entries }.sortedBy { it.id }
-        }
-
+    companion object : ScreenConstants by ScreenConstantsImpl {
         const val FEATURES_COUNT = 62
     }
 }
