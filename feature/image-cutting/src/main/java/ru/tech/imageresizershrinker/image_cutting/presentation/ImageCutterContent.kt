@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -71,6 +70,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.image_cutting.presentation.components.CutParamsSelector
+import ru.tech.imageresizershrinker.image_cutting.presentation.components.rememberCutTransformations
 import ru.tech.imageresizershrinker.image_cutting.presentation.screenLogic.ImageCutterComponent
 
 @Composable
@@ -105,17 +105,6 @@ fun ImageCutterContent(
     val onBack = {
         if (component.haveChanges) showExitDialog = true
         else component.onGoBack()
-    }
-
-    val selectedUriTransformations by remember(
-        component.params,
-        component.selectedUri,
-        component.imageFormat,
-        component.quality
-    ) {
-        derivedStateOf {
-            component.getCutTransformation()
-        }
     }
 
     var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
@@ -181,7 +170,7 @@ fun ImageCutterContent(
                     model = component.selectedUri,
                     size = 1500,
                     contentScale = ContentScale.FillBounds,
-                    transformations = selectedUriTransformations,
+                    transformations = component.rememberCutTransformations(component.selectedUri),
                     modifier = Modifier.aspectRatio(aspectRatio),
                     onSuccess = {
                         aspectRatio = it.result.image.toBitmap().safeAspectRatio
@@ -293,7 +282,7 @@ fun ImageCutterContent(
                     }
                     Picture(
                         model = component.selectedUri,
-                        transformations = selectedUriTransformations,
+                        transformations = component.rememberCutTransformations(component.selectedUri),
                         modifier = Modifier.aspectRatio(aspectRatio),
                         onSuccess = {
                             aspectRatio = it.result.image.toBitmap().safeAspectRatio
@@ -308,7 +297,7 @@ fun ImageCutterContent(
 
             ZoomModalSheet(
                 data = component.selectedUri,
-                transformations = selectedUriTransformations,
+                transformations = component.rememberCutTransformations(component.selectedUri),
                 visible = showZoomSheet,
                 onDismiss = { showZoomSheet = false }
             )
@@ -333,16 +322,7 @@ fun ImageCutterContent(
         onDismiss = {
             showPickImageFromUrisSheet = false
         },
-        transformations = remember(
-            component.params,
-            component.uris,
-            component.imageFormat,
-            component.quality
-        ) {
-            derivedStateOf {
-                component.getCutTransformation()
-            }
-        }.value,
+        transformations = component.rememberCutTransformations(component.uris),
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = { uri ->
