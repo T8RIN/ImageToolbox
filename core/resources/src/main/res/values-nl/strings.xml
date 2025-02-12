@@ -1553,4 +1553,8 @@
     <string name="pick_directory">Map kiezen</string>
     <string name="pick_files">Bestanden kiezen</string>
     <string name="head_length_scale">Lengte schaal kop</string>
+    <string name="stamp">Stempel</string>
+    <string name="timestamp">Tijdstempel</string>
+    <string name="padding">Binnenruimte</string>
+    <string name="format_pattern">Patroonopmaak</string>
 </resources>
