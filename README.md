@@ -390,7 +390,7 @@ or click one of the badges below.
     - You can create filter from any filter chain
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
-- AES-256 GCM No Padding files encryption and decryption
+- Files encryption and decryption with 100+ different algorithms available
 - Adding Stickers and Text (Markup Layers Mode)
 - Extract Text From Images
     - 120+ languages
@@ -649,7 +649,6 @@ or click one of the badges below.
     - Using image cheksum as filename
     - Checksum Tools with ability to calculate and compare hashes
     - 64 different hashing algorithms
-    - 100+ encryption/decryption methods
     - Embedded media picker
 
 **And More!**
