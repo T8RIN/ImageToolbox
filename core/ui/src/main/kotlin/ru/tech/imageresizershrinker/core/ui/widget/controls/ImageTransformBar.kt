@@ -49,8 +49,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.Curve
 import ru.tech.imageresizershrinker.core.resources.icons.Draw
+import ru.tech.imageresizershrinker.core.resources.icons.Eraser
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
-import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
@@ -212,7 +212,7 @@ fun ImageExtraTransformBar(
                 onClick = onEraseBackground
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Transparency,
+                    imageVector = Icons.Rounded.Eraser,
                     contentDescription = stringResource(R.string.erase_background)
                 )
             }

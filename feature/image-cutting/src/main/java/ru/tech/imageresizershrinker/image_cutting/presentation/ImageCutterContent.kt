@@ -254,13 +254,13 @@ fun ImageCutterContent(
             var showCompareSheet by rememberSaveable {
                 mutableStateOf(false)
             }
-            ZoomButton(
-                visible = !component.uris.isNullOrEmpty(),
-                onClick = { showZoomSheet = true }
-            )
             CompareButton(
                 visible = !component.uris.isNullOrEmpty(),
                 onClick = { showCompareSheet = true }
+            )
+            ZoomButton(
+                visible = !component.uris.isNullOrEmpty(),
+                onClick = { showZoomSheet = true }
             )
 
             CompareSheet(
