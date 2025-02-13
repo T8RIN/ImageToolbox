@@ -53,6 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.containerFabBorder
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun EnhancedFloatingActionButton(
@@ -70,6 +71,12 @@ fun EnhancedFloatingActionButton(
     val size by animateDpAsState(type.size)
     val haptics = LocalHapticFeedback.current
     val focus = LocalFocusManager.current
+
+    val shape = shapeByInteraction(
+        shape = type.shape,
+        pressedShape = RoundedCornerShape(type.size / 8),
+        interactionSource = interactionSource
+    )
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         if (onLongClick != null) {
@@ -122,7 +129,7 @@ fun EnhancedFloatingActionButton(
             modifier = modifier
                 .sizeIn(minWidth = size, minHeight = size)
                 .containerFabBorder(
-                    shape = type.shape,
+                    shape = shape,
                     autoElevation = animateDpAsState(
                         if (settingsState.drawFabShadows) autoElevation
                         else 0.dp
@@ -130,7 +137,7 @@ fun EnhancedFloatingActionButton(
                 ),
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             contentColor = animateColorAsState(contentColor).value,
-            shape = type.shape,
+            shape = shape,
             containerColor = animateColorAsState(containerColor).value,
             interactionSource = interactionSource,
             content = {

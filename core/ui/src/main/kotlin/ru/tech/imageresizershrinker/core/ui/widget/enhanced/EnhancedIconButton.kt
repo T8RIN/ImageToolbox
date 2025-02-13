@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun EnhancedIconButton(
@@ -59,7 +60,8 @@ fun EnhancedIconButton(
     containerColor: Color = Color.Transparent,
     contentColor: Color = contentColor(containerColor),
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant(onTopOf = containerColor),
-    shape: Shape = IconButtonDefaults.outlinedShape,
+    shape: Shape = IconButtonDefaults.smallRoundShape,
+    pressedShape: Shape = IconButtonDefaults.smallPressedShape,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     forceMinimumInteractiveComponentSize: Boolean = true,
     enableAutoShadowAndBorder: Boolean = containerColor != Color.Transparent,
@@ -105,6 +107,12 @@ fun EnhancedIconButton(
                 }
             }
         }
+        val shadowShape = shapeByInteraction(
+            shape = shape,
+            pressedShape = pressedShape,
+            interactionSource = interactionSource
+        )
+
         OutlinedIconButton(
             onClick = {
                 if (onLongClick == null) {
@@ -120,12 +128,15 @@ fun EnhancedIconButton(
                     else Modifier
                 )
                 .materialShadow(
-                    shape = shape,
+                    shape = shadowShape,
                     isClipped = isShadowClip,
                     enabled = LocalSettingsState.current.drawButtonShadows,
                     elevation = if (settingsState.borderWidth > 0.dp || !enableAutoShadowAndBorder) 0.dp else 0.7.dp
                 ),
-            shape = shape,
+            shapes = IconButtonDefaults.shapes(
+                shape = shape,
+                pressedShape = pressedShape
+            ),
             colors = IconButtonDefaults.iconButtonColors(
                 contentColor = contentColor,
                 containerColor = containerColor

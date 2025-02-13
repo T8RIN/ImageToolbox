@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun EnhancedButton(
@@ -64,20 +66,10 @@ fun EnhancedButton(
     contentColor: Color = contentColor(containerColor),
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant(onTopOf = containerColor),
     shape: Shape = ButtonDefaults.outlinedShape,
+    pressedShape: Shape = ButtonDefaults.pressedShape,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     isShadowClip: Boolean = containerColor.alpha != 1f,
-    shadowModifier: @Composable () -> Modifier = {
-        val settingsState = LocalSettingsState.current
-        Modifier.materialShadow(
-            shape = shape,
-            elevation = animateDpAsState(
-                if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
-            ).value,
-            enabled = LocalSettingsState.current.drawButtonShadows,
-            isClipped = isShadowClip
-        )
-    },
     content: @Composable RowScope.() -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -124,6 +116,12 @@ fun EnhancedButton(
                 }
             }
 
+            val shadowShape = shapeByInteraction(
+                shape = shape,
+                pressedShape = pressedShape,
+                interactionSource = interactionSource
+            )
+
             OutlinedButton(
                 onClick = {
                     if (onLongClick == null) {
@@ -135,8 +133,18 @@ fun EnhancedButton(
                     }
                 },
                 modifier = modifier
-                    .then(shadowModifier()),
-                shape = shape,
+                    .materialShadow(
+                        shape = shadowShape,
+                        elevation = animateDpAsState(
+                            if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
+                        ).value,
+                        enabled = LocalSettingsState.current.drawButtonShadows,
+                        isClipped = isShadowClip
+                    ),
+                shapes = ButtonShapes(
+                    shape = shape,
+                    pressedShape = pressedShape
+                ),
                 colors = ButtonDefaults.buttonColors(
                     contentColor = animateColorAsState(
                         if (enabled) contentColor

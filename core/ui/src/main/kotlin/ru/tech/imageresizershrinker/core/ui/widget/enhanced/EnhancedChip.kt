@@ -18,6 +18,8 @@
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
@@ -30,6 +32,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun EnhancedChip(
@@ -54,6 +58,8 @@ fun EnhancedChip(
     unselectedColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     unselectedContentColor: Color = MaterialTheme.colorScheme.onSurface,
     shape: Shape = RoundedCornerShape(10.dp),
+    pressedShape: Shape = RoundedCornerShape(4.dp),
+    interactionSource: MutableInteractionSource? = null,
     defaultMinSize: Dp = 36.dp,
     label: @Composable () -> Unit
 ) {
@@ -64,6 +70,13 @@ fun EnhancedChip(
     val contentColor by animateColorAsState(
         if (selected) selectedContentColor
         else unselectedContentColor
+    )
+
+    val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val shape = shapeByInteraction(
+        shape = shape,
+        pressedShape = pressedShape,
+        interactionSource = realInteractionSource
     )
 
     CompositionLocalProvider(
@@ -90,7 +103,10 @@ fun EnhancedChip(
                 )
                 .then(
                     onClick?.let {
-                        Modifier.hapticsClickable {
+                        Modifier.hapticsClickable(
+                            indication = LocalIndication.current,
+                            interactionSource = realInteractionSource
+                        ) {
                             focus.clearFocus()
                             onClick()
                         }

@@ -17,17 +17,21 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -35,6 +39,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun SupportingButton(
@@ -44,17 +49,25 @@ fun SupportingButton(
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     contentColor: Color = MaterialTheme.colorScheme.contentColorFor(containerColor)
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val shape = shapeByInteraction(
+        shape = IconButtonDefaults.smallRoundShape,
+        pressedShape = RoundedCornerShape(4.dp),
+        interactionSource = interactionSource
+    )
+
     Icon(
         imageVector = icon,
         contentDescription = icon.name,
         tint = contentColor,
         modifier = modifier
-            .background(
-                color = containerColor,
-                shape = CircleShape
+            .clip(shape)
+            .background(containerColor)
+            .hapticsClickable(
+                onClick = onClick,
+                interactionSource = interactionSource,
+                indication = LocalIndication.current
             )
-            .clip(CircleShape)
-            .hapticsClickable(onClick = onClick)
             .padding(1.dp)
             .size(
                 with(LocalDensity.current) {

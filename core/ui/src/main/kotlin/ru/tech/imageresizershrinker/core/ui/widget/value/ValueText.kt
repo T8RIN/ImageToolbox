@@ -22,8 +22,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -60,12 +63,19 @@ fun ValueText(
             customText ?: "${value.toString().trimTrailingZero()}$valueSuffix"
         }
     }
+    val interactionSource = remember { MutableInteractionSource() }
+
+    val shape = shapeByInteraction(
+        shape = ButtonDefaults.shape,
+        pressedShape = ButtonDefaults.pressedShape,
+        interactionSource = interactionSource
+    )
     AnimatedContent(
         targetState = text,
         transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) },
         modifier = modifier
             .container(
-                shape = CircleShape,
+                shape = shape,
                 color = backgroundColor,
                 resultPadding = 0.dp,
                 autoShadowElevation = if (enabled) 0.7.dp else 0.dp
@@ -76,7 +86,12 @@ fun ValueText(
             color = LocalContentColor.current.copy(0.5f),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .hapticsClickable(enabled = enabled, onClick = onClick)
+                .hapticsClickable(
+                    enabled = enabled,
+                    onClick = onClick,
+                    interactionSource = interactionSource,
+                    indication = LocalIndication.current
+                )
                 .padding(horizontal = 16.dp, vertical = 6.dp),
             lineHeight = 18.sp
         )
