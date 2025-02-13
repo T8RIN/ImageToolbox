@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,14 +56,16 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.utils.isBase64
 import ru.tech.imageresizershrinker.core.domain.utils.trimToBase64
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Base64
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 
 @Composable
@@ -275,34 +276,20 @@ private fun RowScope.Tile(
             }
         }
     } else {
-        Row(
+        PreferenceRow(
+            title = stringResource(id = textRes),
+            onClick = onClick,
+            shape = shape,
+            titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall.copy(
+                fontSize = 13.sp
+            ),
+            startIcon = icon,
+            drawStartIconContainer = false,
             modifier = Modifier
                 .weight(1f)
-                .heightIn(min = 56.dp)
-                .fillMaxHeight()
-                .container(
-                    color = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
-                    shape = shape,
-                    resultPadding = 0.dp
-                )
-                .hapticsClickable(onClick = onClick)
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
-                alignment = Alignment.CenterHorizontally
-            )
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-            Text(
-                text = stringResource(id = textRes),
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                textAlign = TextAlign.Center
-            )
-        }
+                .fillMaxHeight(),
+            color = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+        )
     }
 }
