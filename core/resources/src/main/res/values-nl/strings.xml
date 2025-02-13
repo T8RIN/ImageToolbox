@@ -1557,4 +1557,11 @@
     <string name="timestamp">Tijdstempel</string>
     <string name="padding">Binnenruimte</string>
     <string name="format_pattern">Patroonopmaak</string>
+    <string name="vertical_pivot_line">Verticale draailijn</string>
+    <string name="horizontal_pivot_line">Horizontale draailijn</string>
+    <string name="inverse_selection">Selectie inverteren</string>
+    <string name="inverse_horizontal_selection_sub">Het horizontaal gesneden deel wordt verlaten, in plaats van delen samen te voegen rond het snijgebied</string>
+    <string name="image_cutting">Afbeelding versnijden</string>
+    <string name="image_cutting_sub">Knip het afbeeldingsgedeelte af en voeg het linkerdeel samen (kan omgekeerd zijn) door verticale of horizontale lijnen</string>
+    <string name="inverse_vertical_selection_sub">Verticaal gesneden deel wordt verlaten, in plaats van delen samen te voegen rond het snijgebied</string>
 </resources>

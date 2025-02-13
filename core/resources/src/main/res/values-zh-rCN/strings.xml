@@ -1557,4 +1557,11 @@
     <string name="padding">填充</string>
     <string name="stamp">印章</string>
     <string name="timestamp">时间戳</string>
+    <string name="vertical_pivot_line">垂直枢轴线</string>
+    <string name="horizontal_pivot_line">水平枢轴线</string>
+    <string name="inverse_selection">反向选择</string>
+    <string name="inverse_vertical_selection_sub">将保留垂直切割部分，而不是合并切割区域周围的部分</string>
+    <string name="inverse_horizontal_selection_sub">将保留水平切割部分，而不是合并切割区域周围的部分。</string>
+    <string name="image_cutting">图像裁剪</string>
+    <string name="image_cutting_sub">裁剪图像部分，并通过垂直线或水平线合并左侧部分（可反向操作）</string>
 </resources>
