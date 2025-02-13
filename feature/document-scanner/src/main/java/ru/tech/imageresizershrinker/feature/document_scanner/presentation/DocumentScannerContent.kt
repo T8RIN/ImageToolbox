@@ -55,7 +55,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberDocumentScanner
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -68,8 +67,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
+import ru.tech.imageresizershrinker.core.ui.widget.image.ClickableActionIcon
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -151,25 +150,15 @@ fun DocumentScannerContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.height(16.dp))
-                Icon(
-                    imageVector = Icons.TwoTone.DocumentScanner,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .container(
-                            shape = CloverShape,
-                            resultPadding = 0.dp,
-                            color = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                        .hapticsClickable {
-                            runCatching {
-                                documentScanner.scan()
-                            }.onFailure {
-                                essentials.showActivateFilesToast()
-                            }
+                ClickableActionIcon(
+                    icon = Icons.TwoTone.DocumentScanner,
+                    onClick = {
+                        runCatching {
+                            documentScanner.scan()
+                        }.onFailure {
+                            essentials.showActivateFilesToast()
                         }
-                        .padding(12.dp),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    }
                 )
                 Text(
                     text = stringResource(R.string.click_to_start_scanning),
