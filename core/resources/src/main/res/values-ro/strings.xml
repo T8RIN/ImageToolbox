@@ -341,7 +341,7 @@
     <string name="pipette">Pipetă</string>
     <string name="draw_mode">Mod de desen</string>
     <string name="create_issue">Creați o problemă</string>
-    <string name="something_went_wrong_emphasis">Oops... Ceva nu a mers bine. Îmi puteți scrie folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
+    <string name="something_went_wrong_emphasis">Oops… Ceva nu a mers bine. Îmi puteți scrie folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
     <string name="resize_and_convert_sub">Modificați dimensiunea imaginilor date sau convertiți-le în alte formate, de asemenea, acolo puteți edita metadatele EXIF dacă alegeți o singură imagine</string>
     <string name="presets_sub_bytes">Pre-setarea aici determină % din fișierul de ieșire, de exemplu, dacă selectați pre-setarea 50 pe o imagine de 5 mb, atunci veți obține o imagine de 2,5 mb după salvare</string>
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>
@@ -977,7 +977,7 @@
     <string name="harmonization_level">Nivelul armonizării</string>
     <string name="switch_type">Tip comutator</string>
     <string name="mesh_gradients">Gradiente de plasă</string>
-    <string name="mesh_gradients_sub">Uitați-vă la colecția online de Gradiente de plasă</string>
+    <string name="collection_mesh_gradients_sub">Uitați-vă la colecția online de Gradiente de plasă</string>
     <string name="checksum_tools">Instrumente de control</string>
     <string name="open_edit_instead_of_preview">Deschideți în Editare în loc de Previzualizare</string>
     <string name="checksum_as_filename_sub">Imaginile de ieșire vor avea numele corespunzător sumei de control a datelor lor</string>

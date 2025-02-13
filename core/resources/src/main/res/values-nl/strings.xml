@@ -384,7 +384,7 @@
     <string name="auto_erase_background">Achtergrond automatisch wissen</string>
     <string name="restore_image">Afbeelding herstellen</string>
     <string name="erase_mode">Wismodus</string>
-    <string name="something_went_wrong_emphasis">Oeps... Er is iets misgegaan. Je kunt me schrijven met behulp van de onderstaande opties en ik zal proberen een oplossing te vinden</string>
+    <string name="something_went_wrong_emphasis">Oeps… Er is iets misgegaan. Je kunt me schrijven met behulp van de onderstaande opties en ik zal proberen een oplossing te vinden</string>
     <string name="resize_and_convert">Formaat wijzigen en converteren</string>
     <string name="resize_and_convert_sub">Wijzig de grootte van bepaalde afbeeldingen of converteer ze naar andere formaten. EXIF-metagegevens kunnen hier ook worden bewerkt als u een enkele afbeelding kiest.</string>
     <string name="max_colors_count">Maximaal aantal kleuren</string>
@@ -1524,7 +1524,7 @@
     <string name="enter_text_to_checksum">Voer tekst in om de controlesom te berekenen op basis van het geselecteerde algoritme</string>
     <string name="mesh_gradients">Maaswerk-verlopen</string>
     <string name="algorithms">Algoritme</string>
-    <string name="mesh_gradients_sub">Bekijk de online collectie van maaswerk-verlopen</string>
+    <string name="collection_mesh_gradients_sub">Bekijk de online collectie van maaswerk-verlopen</string>
     <string name="checksum_tools_sub">Vergelijk controlegetallen, bereken hashes, maak hexadecimale tekenreeksen van bestanden met behulp van verschillende hashing-algoritmen</string>
     <string name="difference">Verschil</string>
     <string name="match">Overeenkomst!</string>

@@ -37,6 +37,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -60,6 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiMeshGradientState
 
 class GradientMakerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -89,6 +91,16 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     private var _gradientState = UiGradientState()
     private val gradientState: UiGradientState get() = _gradientState
+
+    private var _meshGradientState = UiMeshGradientState()
+    val meshGradientState: UiMeshGradientState get() = _meshGradientState
+
+    private val _isMeshGradient: MutableState<Boolean> = mutableStateOf(false)
+    val isMeshGradient: Boolean by _isMeshGradient
+
+    val meshResolutionX: Int get() = meshGradientState.resolutionX
+    val meshResolutionY: Int get() = meshGradientState.resolutionY
+    val meshPoints: List<List<Pair<Offset, Color>>> get() = meshGradientState.points
 
     val brush: ShaderBrush? get() = gradientState.brush
     val gradientType: GradientType get() = gradientState.gradientType
@@ -128,20 +140,35 @@ class GradientMakerComponent @AssistedInject internal constructor(
         useBitmapOriginalSizeIfAvailable: Boolean = false
     ): Bitmap? {
         return if (selectedUri == Uri.EMPTY) {
-            gradientMaker.createGradientBitmap(
-                integerSize = integerSize,
-                gradientState = gradientState
-            )
+            if (isMeshGradient) {
+                gradientMaker.createMeshGradient(
+                    integerSize = integerSize,
+                    gradientState = meshGradientState
+                )
+            } else {
+                gradientMaker.createGradient(
+                    integerSize = integerSize,
+                    gradientState = gradientState
+                )
+            }
         } else {
             imageGetter.getImage(
                 data = data,
                 originalSize = useBitmapOriginalSizeIfAvailable
             )?.let {
-                gradientMaker.createGradientBitmap(
-                    src = it,
-                    gradientState = gradientState,
-                    gradientAlpha = gradientAlpha
-                )
+                if (isMeshGradient) {
+                    gradientMaker.createMeshGradient(
+                        src = it,
+                        gradientState = meshGradientState,
+                        gradientAlpha = gradientAlpha
+                    )
+                } else {
+                    gradientMaker.createGradient(
+                        src = it,
+                        gradientState = gradientState,
+                        gradientAlpha = gradientAlpha
+                    )
+                }
             }
         }
     }
@@ -337,6 +364,20 @@ class GradientMakerComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun setResolutionX(resolutionX: Int) {
+        meshGradientState.resolutionX = resolutionX
+        registerChanges()
+    }
+
+    fun setResolutionY(resolutionY: Int) {
+        meshGradientState.resolutionY = resolutionY
+        registerChanges()
+    }
+
+    fun setIsMeshGradient(value: Boolean) {
+        _isMeshGradient.update { value }
+    }
+
     fun addColorStop(
         pair: Pair<Float, Color>,
         isInitial: Boolean = false
@@ -391,11 +432,16 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     override fun resetState() {
-        _selectedUri.update { Uri.EMPTY }
-        _uris.update { emptyList() }
-        _gradientAlpha.update { 1f }
-        _gradientState = UiGradientState()
-        registerChangesCleared()
+        componentScope.launch {
+            delay(200)
+            _selectedUri.update { Uri.EMPTY }
+            _uris.update { emptyList() }
+            _gradientAlpha.update { 1f }
+            _gradientState = UiGradientState()
+            _meshGradientState = UiMeshGradientState()
+            _isMeshGradient.update { false }
+            registerChangesCleared()
+        }
     }
 
     fun updateUrisSilently(
@@ -425,7 +471,9 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun getGradientTransformation(): Transformation =
-        GenericTransformation<Bitmap>(brush) { input ->
+        GenericTransformation<Bitmap>(
+            Triple(brush, meshPoints, isMeshGradient)
+        ) { input ->
             createGradientBitmap(
                 data = input,
                 useBitmapOriginalSizeIfAvailable = false

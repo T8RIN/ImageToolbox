@@ -18,15 +18,12 @@
 package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,23 +32,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Error
-import androidx.compose.material.icons.rounded.Bookmark
-import androidx.compose.material.icons.rounded.BookmarkRemove
-import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.DoneAll
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -64,19 +54,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.toColorModel
-import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
@@ -84,8 +66,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ColorSelectionRow(
@@ -275,107 +255,16 @@ fun ColorSelectionRow(
             }
         }
     }
-    var tempColor by remember(showColorPicker) {
-        mutableIntStateOf(customColor?.toArgb() ?: 0)
-    }
-    val settingsState = LocalSettingsState.current
 
-    val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
-    EnhancedModalBottomSheet(
-        sheetContent = {
-            Box {
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState(), reverseScrolling = true)
-                        .padding(24.dp)
-                ) {
-                    RecentAndFavoriteColorsCard(
-                        onRecentColorClick = { tempColor = it.toArgb() },
-                        onFavoriteColorClick = { tempColor = it.toArgb() }
-                    )
-
-                    if (allowAlpha) {
-                        AlphaColorSelection(
-                            color = tempColor,
-                            onColorChange = {
-                                tempColor = it
-                            }
-                        )
-                    } else {
-                        ColorSelection(
-                            color = tempColor,
-                            onColorChange = {
-                                tempColor = it
-                            }
-                        )
-                    }
-                }
-            }
-        },
+    ColorPickerSheet(
         visible = showColorPicker,
-        onDismiss = {
-            showColorPicker = it
+        onDismiss = { showColorPicker = false },
+        color = customColor,
+        onColorSelected = {
+            onValueChange(it)
+            customColor = it
         },
-        title = {
-            TitleItem(
-                text = stringResource(R.string.color),
-                icon = Icons.Rounded.ColorLens
-            )
-        },
-        confirmButton = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                val favoriteColors = settingsState.favoriteColors
-
-                val inFavorite by remember(tempColor, favoriteColors) {
-                    derivedStateOf {
-                        Color(tempColor) in favoriteColors
-                    }
-                }
-
-                val containerColor by animateColorAsState(
-                    if (inFavorite) MaterialTheme.colorScheme.tertiaryContainer
-                    else MaterialTheme.colorScheme.surfaceContainer
-                )
-                val contentColor by animateColorAsState(
-                    if (inFavorite) MaterialTheme.colorScheme.onTertiaryContainer
-                    else MaterialTheme.colorScheme.onBackground
-                )
-
-                EnhancedIconButton(
-                    containerColor = containerColor,
-                    contentColor = contentColor,
-                    onClick = {
-                        scope.launch {
-                            simpleSettingsInteractor.toggleFavoriteColor(tempColor.toColorModel())
-                        }
-                    }
-                ) {
-                    Icon(
-                        imageVector = if (inFavorite) {
-                            Icons.Rounded.BookmarkRemove
-                        } else {
-                            Icons.Rounded.Bookmark
-                        },
-                        contentDescription = null
-                    )
-                }
-                EnhancedButton(
-                    onClick = {
-                        scope.launch {
-                            simpleSettingsInteractor.toggleRecentColor(tempColor.toColorModel())
-                        }
-                        onValueChange(Color(tempColor))
-                        customColor = Color(tempColor)
-                        showColorPicker = false
-                    }
-                ) {
-                    AutoSizeText(stringResource(R.string.ok))
-                }
-            }
-        }
+        allowAlpha = allowAlpha
     )
 }
 

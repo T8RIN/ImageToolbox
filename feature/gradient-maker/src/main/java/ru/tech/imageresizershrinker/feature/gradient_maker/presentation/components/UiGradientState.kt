@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.compone
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +34,13 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
+import com.smarttoolfactory.colorpicker.ui.Yellow400
+import com.smarttoolfactory.extendedcolors.MaterialColor.Indigo700
+import com.smarttoolfactory.extendedcolors.MaterialColor.Pink500
+import com.smarttoolfactory.extendedcolors.MaterialColor.Teal900
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientState
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
+import ru.tech.imageresizershrinker.feature.gradient_maker.domain.MeshGradientState
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -63,7 +69,6 @@ fun rememberGradientState(
         UiGradientState(sizePx)
     }
 }
-
 
 class UiGradientState(
     size: Size = Size.Zero
@@ -143,4 +148,30 @@ class UiGradientState(
 
     override var centerFriction by mutableStateOf(Offset(.5f, .5f))
     override var radiusFriction by mutableFloatStateOf(.5f)
+}
+
+class UiMeshGradientState : MeshGradientState<Color, Offset> {
+
+    override val points = mutableStateListOf(
+        listOf(
+            Offset(0f, 0f) to Teal900,
+            Offset(.5f, 0f) to Teal900,
+            Offset(1f, 0f) to Teal900,
+        ),
+        listOf(
+            Offset(0f, .5f) to Indigo700,
+            Offset(.5f, .9f) to Yellow400,
+            Offset(1f, .5f) to Indigo700,
+        ),
+        listOf(
+            Offset(0f, 1f) to Pink500,
+            Offset(.5f, 1f) to Pink500,
+            Offset(1f, 1f) to Pink500,
+        )
+    )
+
+    override var resolutionX: Int by mutableIntStateOf(32)
+
+    override var resolutionY: Int by mutableIntStateOf(32)
+
 }

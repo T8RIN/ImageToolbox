@@ -65,11 +65,12 @@ val PtSaver: Saver<Pt, Float> = Saver(
     }
 )
 
-val OffsetSaver: Saver<Offset, Any> = listSaver<Offset, Float>(
+val OffsetSaver: Saver<Offset?, Any> = listSaver<Offset?, Float>(
     save = {
-        listOf(it.x, it.y)
+        listOfNotNull(it?.x, it?.y)
     },
     restore = {
-        Offset(it[0], it[1])
+        if (it.isEmpty()) null
+        else Offset(it[0], it[1])
     }
 )

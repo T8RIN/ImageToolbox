@@ -1291,7 +1291,7 @@
     <string name="tag_gps_longitude">Długość geograficzna GPS</string>
     <string name="checksum_tools">Narzędzie sum kontrolnych</string>
     <string name="calculate">Przelicz</string>
-    <string name="mesh_gradients_sub">Zobacz kolekcję gradientów siatki online</string>
+    <string name="collection_mesh_gradients_sub">Zobacz kolekcję gradientów siatki online</string>
     <string name="checksum">Suma kontrolna</string>
     <string name="tag_gps_timestamp">Znacznik czasu GPS</string>
     <string name="tag_pixel_x_dimension">Wymiar piksel X</string>

@@ -82,7 +82,7 @@ fun MeshGradientsContent(
             EnhancedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.mesh_gradients),
+                        text = stringResource(R.string.collection_mesh_gradients),
                         modifier = Modifier.marquee()
                     )
                 },

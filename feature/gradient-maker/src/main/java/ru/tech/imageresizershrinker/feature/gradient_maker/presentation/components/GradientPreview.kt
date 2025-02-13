@@ -22,6 +22,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -42,6 +43,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.meshGradient
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
 @Composable
@@ -109,6 +111,56 @@ fun GradientPreview(
                     model = selectedUri,
                     modifier = Modifier.matchParentSize(),
                     shape = MaterialTheme.shapes.medium
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun GradientPreview(
+    meshGradientState: UiMeshGradientState,
+    gradientAlpha: Float,
+    allowPickingImage: Boolean?,
+    gradientSize: IntegerSize,
+    imageAspectRatio: Float,
+    selectedUri: Uri
+) {
+    val alpha by animateFloatAsState(gradientAlpha)
+    AnimatedContent(
+        targetState = if (allowPickingImage == true) {
+            imageAspectRatio
+        } else {
+            gradientSize
+                .aspectRatio
+                .roundToTwoDigits()
+                .coerceIn(0.01f..100f)
+        }
+    ) { aspectRatio ->
+        Box {
+            Spacer(
+                modifier = Modifier
+                    .aspectRatio(aspectRatio)
+                    .clip(MaterialTheme.shapes.medium)
+                    .then(
+                        if (allowPickingImage != true) {
+                            Modifier.transparencyChecker()
+                        } else Modifier
+                    )
+                    .meshGradient(
+                        points = meshGradientState.points,
+                        resolutionX = meshGradientState.resolutionX,
+                        resolutionY = meshGradientState.resolutionY,
+                        alpha = alpha
+                    )
+                    .zIndex(2f)
+            )
+            if (allowPickingImage == true) {
+                Picture(
+                    model = selectedUri,
+                    modifier = Modifier.matchParentSize(),
+                    shape = MaterialTheme.shapes.medium,
+                    size = 1500
                 )
             }
         }

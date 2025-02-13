@@ -1276,7 +1276,7 @@
     <string name="match">Coincide!</string>
     <string name="difference_sub">Os checksums não são iguais, o arquivo pode ser inseguro!</string>
     <string name="difference">Diferença</string>
-    <string name="mesh_gradients_sub">Veja a coleção on-line de Malhas de Gradientes</string>
+    <string name="collection_mesh_gradients_sub">Veja a coleção on-line de Malhas de Gradientes</string>
     <string name="mesh_gradients">Malha de Gradientes</string>
     <string name="tiff_compression_scheme">Esquema de Compactação TIFF</string>
     <string name="checksum_tools">Ferramentas de Checksum</string>
@@ -1372,7 +1372,7 @@
     <string name="default_draw_path_mode">Modo de Desenho de Caminho Padrão</string>
     <string name="ci_channel_sub">Receba notificações sobre novas versões do aplicativo e leia os anúncios</string>
     <string name="default_draw_color">Cor de Desenho Padrão</string>
-    <string name="collage_maker_sub">Faça várias colagens com 2...10 imagens</string>
+    <string name="collage_maker_sub">Faça várias colagens com 2..10 imagens</string>
     <string name="formatted_timestamp">Data e Hora Formatados</string>
     <string name="histogram">Histograma</string>
     <string name="image_toolbox_in_telegram_sub">Participe do nosso bate-papo, onde você pode discutir o que quiser, e também dê uma olhada no Canal CI, onde eu publico betas e anúncios</string>

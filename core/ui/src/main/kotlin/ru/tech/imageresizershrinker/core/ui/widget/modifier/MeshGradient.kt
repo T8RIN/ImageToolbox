@@ -1,3 +1,5 @@
+package ru.tech.imageresizershrinker.core.ui.widget.modifier
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -27,7 +29,8 @@ fun Modifier.meshGradient(
     resolutionX: Int = 1,
     resolutionY: Int = 1,
     showPoints: Boolean = false,
-    indicesModifier: (List<Int>) -> List<Int> = { it }
+    indicesModifier: (List<Int>) -> List<Int> = { it },
+    alpha: Float = 1f
 ): Modifier {
     val pointData by remember(points, resolutionX, resolutionY) {
         derivedStateOf {
@@ -41,7 +44,8 @@ fun Modifier.meshGradient(
                 pointData = pointData,
                 showPoints = showPoints,
                 indicesModifier = indicesModifier,
-                size = size
+                size = size,
+                alpha = alpha
             )
         }
     }
@@ -52,7 +56,8 @@ fun Canvas.drawMeshGradient(
     pointData: PointData,
     showPoints: Boolean = false,
     indicesModifier: (List<Int>) -> List<Int> = { it },
-    size: Size
+    size: Size,
+    alpha: Float
 ) {
     CanvasDrawScope().apply {
         drawContext.canvas = this@drawMeshGradient
@@ -73,7 +78,9 @@ fun Canvas.drawMeshGradient(
                         indices = indicesModifier(pointData.indices)
                     ),
                     blendMode = BlendMode.Dst,
-                    paint = paint,
+                    paint = Paint().apply {
+                        this.alpha = alpha
+                    }
                 )
             }
 
@@ -331,5 +338,3 @@ private fun cubicPathY(
     }
     return path
 }
-
-private val paint = Paint()

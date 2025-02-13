@@ -1532,7 +1532,7 @@
     <string name="batch_compare">Пакетное сравнение</string>
     <string name="pick_files_to_checksum">Выберите файл/файлы для расчета его контрольной суммы на основе выбранного алгоритма</string>
     <string name="mesh_gradients">Сеточные градиенты</string>
-    <string name="mesh_gradients_sub">Посмотрите Онлайн коллекцию сеточных градиентов</string>
+    <string name="collection_mesh_gradients_sub">Посмотрите Онлайн коллекцию сеточных градиентов</string>
     <string name="error_while_saving">Ошибка во время попытки сохранения, попробуйте изменить директорию сохранения в настройках</string>
     <string name="pick_files">Выберите файлы</string>
     <string name="pick_directory">Выберите директорию</string>

@@ -21,14 +21,25 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 interface GradientMaker<Image, Brush, Size, Color, TileMode, Offset> {
 
-    suspend fun createGradientBitmap(
+    suspend fun createGradient(
         integerSize: IntegerSize,
         gradientState: GradientState<Brush, Size, Color, TileMode, Offset>
     ): Image?
 
-    suspend fun createGradientBitmap(
+    suspend fun createGradient(
         src: Image,
         gradientState: GradientState<Brush, Size, Color, TileMode, Offset>,
+        gradientAlpha: Float
+    ): Image?
+
+    suspend fun createMeshGradient(
+        integerSize: IntegerSize,
+        gradientState: MeshGradientState<Color, Offset>,
+    ): Image?
+
+    suspend fun createMeshGradient(
+        src: Image,
+        gradientState: MeshGradientState<Color, Offset>,
         gradientAlpha: Float
     ): Image?
 

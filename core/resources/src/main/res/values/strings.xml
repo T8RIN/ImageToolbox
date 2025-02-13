@@ -620,7 +620,7 @@
     <string name="brightness_enforcement">Brightness Enforcement</string>
     <string name="screen">Screen</string>
     <string name="gradient_maker_type_image">Gradient Overlay</string>
-    <string name="gradient_maker_type_image_sub">Compose any gradient of top of given image</string>
+    <string name="gradient_maker_type_image_sub">Compose any gradient of top of given images</string>
     <string name="transformations">Transformations</string>
     <string name="camera">Camera</string>
     <string name="camera_sub">Uses camera to take picture, note that it is possible to get only one image from this image source</string>
@@ -1548,7 +1548,7 @@
     <string name="match_sub">Checksums are equal, it can be safe</string>
     <string name="difference_sub">Checksums are not equal, file can be unsafe!</string>
     <string name="mesh_gradients">Mesh Gradients</string>
-    <string name="mesh_gradients_sub">Look at online collection of Mesh Gradients</string>
+    <string name="collection_mesh_gradients_sub">Look at online collection of Mesh Gradients</string>
     <string name="wrong_font">Only TTF fonts can be imported</string>
     <string name="import_font">Import Font (TTF/OTF)</string>
     <string name="export_fonts">Export Fonts</string>
@@ -1582,4 +1582,9 @@
     <string name="inverse_selection">Inverse Selection</string>
     <string name="inverse_vertical_selection_sub">Vertical cut part will be leaved, instead of merging parts around cut area</string>
     <string name="inverse_horizontal_selection_sub">Horizontal cut part will be leaved, instead of merging parts around cut area</string>
+    <string name="collection_mesh_gradients">Collection of Mesh Gradients</string>
+    <string name="mesh_gradients_sub">Create mesh gradient with custom amount of knots and resolution</string>
+    <string name="gradient_maker_type_image_mesh">Mesh Gradient Overlay</string>
+    <string name="gradient_maker_type_image_mesh_sub">Compose mesh gradient of top of given images</string>
+    <string name="points_customization">Points Customization</string>
 </resources>

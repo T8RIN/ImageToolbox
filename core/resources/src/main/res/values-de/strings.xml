@@ -1530,7 +1530,7 @@
     <string name="mesh_gradients">Meshverläufe</string>
     <string name="enter_text_to_checksum">Gib den Text ein, um seine Prüfsumme des gewählten Algorithmus zu berechnen.</string>
     <string name="pick_file_to_checksum">Wählen die Datei aus, um ihre Prüfsumme des gewählten Algorithmus zu berechnen</string>
-    <string name="mesh_gradients_sub">Online-Sammlung von Meshverläufen ansehen</string>
+    <string name="collection_mesh_gradients_sub">Online-Sammlung von Meshverläufen ansehen</string>
     <string name="imported_fonts">Importierte Schriftarten</string>
     <string name="export_fonts">Schriftarten exportieren</string>
     <string name="wrong_font">Es können nur TTF-Schriften importiert werden</string>

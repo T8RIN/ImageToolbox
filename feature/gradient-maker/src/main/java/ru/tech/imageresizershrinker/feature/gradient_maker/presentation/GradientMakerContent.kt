@@ -22,21 +22,21 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,12 +48,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.ImageOverlay
 import ru.tech.imageresizershrinker.core.resources.icons.MeshDownload
+import ru.tech.imageresizershrinker.core.resources.icons.MeshGradient
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
@@ -83,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
@@ -91,6 +93,7 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.componen
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientPropertiesSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientSizeSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientTypeSelector
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.MeshGradientEditor
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.TileModeSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.rememberGradientState
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
@@ -112,7 +115,7 @@ fun GradientMakerContent(
     }
 
     AutoContentBasedColors(
-        model = component.brush to component.selectedUri,
+        model = Triple(component.brush, component.meshPoints, component.selectedUri),
         selector = { (_, uri) ->
             component.createGradientBitmap(
                 data = uri,
@@ -123,7 +126,7 @@ fun GradientMakerContent(
     )
 
     LaunchedEffect(allowPickingImage) {
-        if (allowPickingImage != true) {
+        if (allowPickingImage != true && !component.isMeshGradient) {
             component.resetState()
         }
     }
@@ -176,8 +179,18 @@ fun GradientMakerContent(
         title = {
             TopAppBarTitle(
                 title = if (allowPickingImage != true) {
-                    stringResource(R.string.gradient_maker)
-                } else stringResource(R.string.gradient_maker_type_image),
+                    if (component.isMeshGradient) {
+                        stringResource(R.string.mesh_gradients)
+                    } else {
+                        stringResource(R.string.gradient_maker)
+                    }
+                } else {
+                    if (component.isMeshGradient) {
+                        stringResource(R.string.gradient_maker_type_image_mesh)
+                    } else {
+                        stringResource(R.string.gradient_maker_type_image)
+                    }
+                },
                 input = Unit,
                 isLoading = false,
                 size = null
@@ -245,15 +258,26 @@ fun GradientMakerContent(
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                GradientPreview(
-                    brush = component.brush,
-                    gradientAlpha = if (showOriginal) 0f else component.gradientAlpha,
-                    allowPickingImage = allowPickingImage,
-                    gradientSize = component.gradientSize,
-                    onSizeChanged = component::setPreviewSize,
-                    selectedUri = component.selectedUri,
-                    imageAspectRatio = component.imageAspectRatio
-                )
+                if (component.isMeshGradient) {
+                    GradientPreview(
+                        meshGradientState = component.meshGradientState,
+                        gradientAlpha = if (showOriginal) 0f else component.gradientAlpha,
+                        allowPickingImage = allowPickingImage,
+                        gradientSize = component.gradientSize,
+                        selectedUri = component.selectedUri,
+                        imageAspectRatio = component.imageAspectRatio
+                    )
+                } else {
+                    GradientPreview(
+                        brush = component.brush,
+                        gradientAlpha = if (showOriginal) 0f else component.gradientAlpha,
+                        allowPickingImage = allowPickingImage,
+                        gradientSize = component.gradientSize,
+                        onSizeChanged = component::setPreviewSize,
+                        selectedUri = component.selectedUri,
+                        imageAspectRatio = component.imageAspectRatio
+                    )
+                }
             }
         },
         controls = {
@@ -281,43 +305,69 @@ fun GradientMakerContent(
                 }
             }
             Spacer(Modifier.height(8.dp))
-            GradientTypeSelector(
-                value = component.gradientType,
-                onValueChange = component::setGradientType
-            ) {
-                GradientPropertiesSelector(
-                    gradientType = component.gradientType,
-                    linearAngle = component.angle,
-                    onLinearAngleChange = component::updateLinearAngle,
-                    centerFriction = component.centerFriction,
-                    radiusFriction = component.radiusFriction,
-                    onRadialDimensionsChange = component::setRadialProperties
+
+            if (component.isMeshGradient) {
+                Column(
+                    modifier = Modifier.container(
+                        resultPadding = 0.dp
+                    )
+                ) {
+                    Spacer(Modifier.height(16.dp))
+                    TitleItem(
+                        text = stringResource(R.string.points_customization),
+                        icon = Icons.Rounded.Build,
+                        modifier = Modifier.padding(
+                            horizontal = 16.dp
+                        )
+                    )
+                    MeshGradientEditor(
+                        state = component.meshGradientState,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .padding(16.dp)
+                    )
+                }
+            } else {
+                GradientTypeSelector(
+                    value = component.gradientType,
+                    onValueChange = component::setGradientType
+                ) {
+                    GradientPropertiesSelector(
+                        gradientType = component.gradientType,
+                        linearAngle = component.angle,
+                        onLinearAngleChange = component::updateLinearAngle,
+                        centerFriction = component.centerFriction,
+                        radiusFriction = component.radiusFriction,
+                        onRadialDimensionsChange = component::setRadialProperties
+                    )
+                }
+                Spacer(Modifier.height(8.dp))
+                ColorStopSelection(
+                    colorStops = component.colorStops,
+                    onRemoveClick = component::removeColorStop,
+                    onValueChange = component::updateColorStop,
+                    onAddColorStop = component::addColorStop
+                )
+                Spacer(Modifier.height(8.dp))
+                TileModeSelector(
+                    value = component.tileMode,
+                    onValueChange = component::setTileMode
                 )
             }
-            Spacer(Modifier.height(8.dp))
-            ColorStopSelection(
-                colorStops = component.colorStops,
-                onRemoveClick = component::removeColorStop,
-                onValueChange = component::updateColorStop,
-                onAddColorStop = component::addColorStop
-            )
-            Spacer(Modifier.height(8.dp))
-            TileModeSelector(
-                value = component.tileMode,
-                onValueChange = component::setTileMode
-            )
-            Spacer(Modifier.height(8.dp))
-            SaveExifWidget(
-                checked = component.keepExif,
-                imageFormat = component.imageFormat,
-                onCheckedChange = component::toggleKeepExif
-            )
+            if (allowPickingImage == true) {
+                Spacer(Modifier.height(8.dp))
+                SaveExifWidget(
+                    checked = component.keepExif,
+                    imageFormat = component.imageFormat,
+                    onCheckedChange = component::toggleKeepExif
+                )
+            }
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
                 value = component.imageFormat,
                 forceEnabled = allowPickingImage == false,
-                onValueChange = component::setImageFormat,
-                backgroundColor = MaterialTheme.colorScheme.surfaceContainer
+                onValueChange = component::setImageFormat
             )
         },
         insetsForNoData = WindowInsets(0),
@@ -332,6 +382,7 @@ fun GradientMakerContent(
                     startIcon = screen.icon,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
+                        component.setIsMeshGradient(false)
                         allowPickingImage = false
                     }
                 )
@@ -342,13 +393,40 @@ fun GradientMakerContent(
                     subtitle = stringResource(R.string.gradient_maker_type_image_sub),
                     startIcon = Icons.Outlined.Collections,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = pickImage
+                    onClick = {
+                        component.setIsMeshGradient(false)
+                        pickImage()
+                    }
                 )
             }
             val preference3 = @Composable {
                 PreferenceItem(
                     title = stringResource(R.string.mesh_gradients),
                     subtitle = stringResource(R.string.mesh_gradients_sub),
+                    startIcon = Icons.Outlined.MeshGradient,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        component.setIsMeshGradient(true)
+                        allowPickingImage = false
+                    }
+                )
+            }
+            val preference4 = @Composable {
+                PreferenceItem(
+                    title = stringResource(R.string.gradient_maker_type_image_mesh),
+                    subtitle = stringResource(R.string.gradient_maker_type_image_mesh_sub),
+                    startIcon = Icons.Outlined.ImageOverlay,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        component.setIsMeshGradient(true)
+                        pickImage()
+                    }
+                )
+            }
+            val preference5 = @Composable {
+                PreferenceItem(
+                    title = stringResource(R.string.collection_mesh_gradients),
+                    subtitle = stringResource(R.string.collection_mesh_gradients_sub),
                     startIcon = Icons.Outlined.MeshDownload,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
@@ -363,20 +441,18 @@ fun GradientMakerContent(
                     preference2()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference3()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference4()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference5()
                 }
             } else {
-                val direction = LocalLayoutDirection.current
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
-                        modifier = Modifier.padding(
-                            WindowInsets.displayCutout.asPaddingValues().let {
-                                PaddingValues(
-                                    start = it.calculateStartPadding(direction),
-                                    end = it.calculateEndPadding(direction)
-                                )
-                            }
+                        modifier = Modifier.windowInsetsPadding(
+                            WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
                         )
                     ) {
                         preference1.withModifier(modifier = Modifier.weight(1f))
@@ -384,7 +460,17 @@ fun GradientMakerContent(
                         preference2.withModifier(modifier = Modifier.weight(1f))
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+                    Row(
+                        modifier = Modifier.windowInsetsPadding(
+                            WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
+                        )
+                    ) {
+                        preference3.withModifier(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        preference4.withModifier(modifier = Modifier.weight(1f))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference5.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
                 }
             }
         },
@@ -443,7 +529,14 @@ fun GradientMakerContent(
         ).value
     )
 
-    val transformations by remember(component.brush) {
+    val transformations by remember(
+        component.brush,
+        component.isMeshGradient,
+        component.meshPoints,
+        component.meshResolutionX,
+        component.meshResolutionY,
+        component.gradientAlpha
+    ) {
         derivedStateOf {
             listOf(
                 component.getGradientTransformation()
@@ -477,40 +570,49 @@ fun GradientMakerContent(
                 model = component.selectedUri,
                 modifier = Modifier.aspectRatio(
                     component.imageAspectRatio
-                ),
-                shape = MaterialTheme.shapes.medium
+                )
             )
         },
         afterContent = {
-            val gradientState = rememberGradientState()
-            LaunchedEffect(component.brush) {
-                gradientState.gradientType = component.gradientType
-                gradientState.linearGradientAngle = component.angle
-                gradientState.centerFriction = component.centerFriction
-                gradientState.radiusFriction = component.radiusFriction
-                gradientState.colorStops.apply {
-                    clear()
-                    addAll(component.colorStops)
+            if (component.isMeshGradient) {
+                GradientPreview(
+                    meshGradientState = component.meshGradientState,
+                    gradientAlpha = component.gradientAlpha,
+                    allowPickingImage = allowPickingImage,
+                    gradientSize = component.gradientSize,
+                    selectedUri = component.selectedUri,
+                    imageAspectRatio = component.imageAspectRatio
+                )
+            } else {
+                val gradientState = rememberGradientState()
+                LaunchedEffect(component.brush) {
+                    gradientState.gradientType = component.gradientType
+                    gradientState.linearGradientAngle = component.angle
+                    gradientState.centerFriction = component.centerFriction
+                    gradientState.radiusFriction = component.radiusFriction
+                    gradientState.colorStops.apply {
+                        clear()
+                        addAll(component.colorStops)
+                    }
+                    gradientState.tileMode = component.tileMode
                 }
-                gradientState.tileMode = component.tileMode
+                GradientPreview(
+                    brush = gradientState.brush,
+                    gradientAlpha = component.gradientAlpha,
+                    allowPickingImage = allowPickingImage,
+                    gradientSize = component.gradientSize,
+                    onSizeChanged = {
+                        gradientState.size = it
+                    },
+                    selectedUri = component.selectedUri,
+                    imageAspectRatio = component.imageAspectRatio
+                )
             }
-            GradientPreview(
-                brush = gradientState.brush,
-                gradientAlpha = component.gradientAlpha,
-                allowPickingImage = allowPickingImage,
-                gradientSize = component.gradientSize,
-                onSizeChanged = {
-                    gradientState.size = it
-                },
-                selectedUri = component.selectedUri,
-                imageAspectRatio = component.imageAspectRatio
-            )
         },
         visible = showCompareSheet,
         onDismiss = {
             showCompareSheet = false
-        },
-        shape = MaterialTheme.shapes.medium
+        }
     )
 
     LoadingDialog(
