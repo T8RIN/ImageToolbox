@@ -1587,4 +1587,8 @@
     <string name="gradient_maker_type_image_mesh">Mesh Gradient Overlay</string>
     <string name="gradient_maker_type_image_mesh_sub">Compose mesh gradient of top of given images</string>
     <string name="points_customization">Points Customization</string>
+    <string name="grid_size">Grid Size</string>
+    <string name="resolution_x">Resolution X</string>
+    <string name="resolution_y">Resolution Y</string>
+    <string name="resolution">Resoution</string>
 </resources>

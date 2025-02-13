@@ -37,6 +37,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.DensitySmall
+import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageOverlay
@@ -75,6 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -95,8 +99,10 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.componen
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientTypeSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.MeshGradientEditor
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.TileModeSelector
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.generateMesh
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.rememberGradientState
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
+import kotlin.math.roundToInt
 
 @Composable
 fun GradientMakerContent(
@@ -328,6 +334,31 @@ fun GradientMakerContent(
                             .padding(16.dp)
                     )
                 }
+                Spacer(Modifier.height(8.dp))
+                EnhancedSliderItem(
+                    value = component.meshGradientState.gridSize,
+                    title = stringResource(R.string.grid_size),
+                    icon = Icons.Rounded.GridOn,
+                    valueRange = 2f..6f,
+                    internalStateTransformation = { it.roundToInt() },
+                    onValueChange = { value ->
+                        val size = value.roundToInt()
+                        component.setResolution(lerp(1f, 64f, 2f / size))
+                        component.meshGradientState.points.apply {
+                            clear()
+                            addAll(generateMesh(size))
+                        }
+                    }
+                )
+                Spacer(Modifier.height(8.dp))
+                EnhancedSliderItem(
+                    value = component.meshResolutionX,
+                    title = stringResource(R.string.resolution),
+                    icon = Icons.Rounded.DensitySmall,
+                    valueRange = 1f..64f,
+                    internalStateTransformation = { it.roundToInt() },
+                    onValueChange = component::setResolution
+                )
             } else {
                 GradientTypeSelector(
                     value = component.gradientType,

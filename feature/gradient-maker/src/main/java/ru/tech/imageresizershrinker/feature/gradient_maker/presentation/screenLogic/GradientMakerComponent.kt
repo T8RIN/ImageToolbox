@@ -62,6 +62,7 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiMeshGradientState
+import kotlin.math.roundToInt
 
 class GradientMakerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -364,13 +365,9 @@ class GradientMakerComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun setResolutionX(resolutionX: Int) {
-        meshGradientState.resolutionX = resolutionX
-        registerChanges()
-    }
-
-    fun setResolutionY(resolutionY: Int) {
-        meshGradientState.resolutionY = resolutionY
+    fun setResolution(resolution: Float) {
+        meshGradientState.resolutionX = resolution.roundToInt()
+        meshGradientState.resolutionY = resolution.roundToInt()
         registerChanges()
     }
 

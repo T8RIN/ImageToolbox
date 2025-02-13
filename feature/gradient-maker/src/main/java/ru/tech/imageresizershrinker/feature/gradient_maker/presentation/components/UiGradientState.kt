@@ -34,10 +34,6 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
-import com.smarttoolfactory.colorpicker.ui.Yellow400
-import com.smarttoolfactory.extendedcolors.MaterialColor.Indigo700
-import com.smarttoolfactory.extendedcolors.MaterialColor.Pink500
-import com.smarttoolfactory.extendedcolors.MaterialColor.Teal900
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientState
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.MeshGradientState
@@ -47,6 +43,7 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 @Composable
 fun rememberGradientState(
@@ -152,26 +149,25 @@ class UiGradientState(
 
 class UiMeshGradientState : MeshGradientState<Color, Offset> {
 
-    override val points = mutableStateListOf(
-        listOf(
-            Offset(0f, 0f) to Teal900,
-            Offset(.5f, 0f) to Teal900,
-            Offset(1f, 0f) to Teal900,
-        ),
-        listOf(
-            Offset(0f, .5f) to Indigo700,
-            Offset(.5f, .9f) to Yellow400,
-            Offset(1f, .5f) to Indigo700,
-        ),
-        listOf(
-            Offset(0f, 1f) to Pink500,
-            Offset(.5f, 1f) to Pink500,
-            Offset(1f, 1f) to Pink500,
-        )
-    )
+    override val points = mutableStateListOf<List<Pair<Offset, Color>>>().apply {
+        addAll(generateMesh(2))
+    }
+
+    val gridSize: Int
+        get() = points.firstOrNull()?.size ?: 0
 
     override var resolutionX: Int by mutableIntStateOf(32)
 
     override var resolutionY: Int by mutableIntStateOf(32)
 
 }
+
+fun generateMesh(size: Int): List<List<Pair<Offset, Color>>> {
+    return List(size) { y ->
+        List(size) { x ->
+            Offset(x / (size - 1f), y / (size - 1f)) to Color.random()
+        }
+    }
+}
+
+private fun Color.Companion.random(): Color = Color(Random.nextInt()).copy(1f)
