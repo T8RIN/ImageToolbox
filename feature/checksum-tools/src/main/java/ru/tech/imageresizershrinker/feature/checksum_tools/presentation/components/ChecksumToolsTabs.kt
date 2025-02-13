@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.checksum_tools.presentation.compone
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -32,7 +33,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.CompareArrows
@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FolderCompare
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 internal fun ChecksumToolsTabs(
@@ -133,11 +134,20 @@ internal fun ChecksumToolsTabs(
                     3 -> Icons.Rounded.FolderCompare to R.string.batch_compare
                     else -> throw IllegalArgumentException("Not presented index $index of ChecksumPage")
                 }
+
+                val interactionSource = remember { MutableInteractionSource() }
+                val shape = shapeByInteraction(
+                    shape = RoundedCornerShape(42.dp),
+                    pressedShape = RoundedCornerShape(16.dp),
+                    interactionSource = interactionSource
+                )
+
                 Tab(
                     unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                    interactionSource = interactionSource,
                     modifier = Modifier
                         .padding(vertical = 8.dp)
-                        .clip(CircleShape),
+                        .clip(shape),
                     selected = selected,
                     onClick = {
                         haptics.performHapticFeedback(

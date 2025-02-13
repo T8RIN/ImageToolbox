@@ -28,6 +28,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -110,6 +111,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -246,11 +248,19 @@ fun AddFiltersSheet(
                                         MaterialTheme.colorScheme.primary
                                     } else MaterialTheme.colorScheme.onSurface
                                 )
+                                val interactionSource = remember { MutableInteractionSource() }
+                                val shape = shapeByInteraction(
+                                    shape = RoundedCornerShape(42.dp),
+                                    pressedShape = RoundedCornerShape(16.dp),
+                                    interactionSource = interactionSource
+                                )
+
                                 Tab(
+                                    interactionSource = interactionSource,
                                     unselectedContentColor = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier
                                         .padding(8.dp)
-                                        .clip(CircleShape),
+                                        .clip(shape),
                                     selected = selected,
                                     onClick = {
                                         haptics.performHapticFeedback(
