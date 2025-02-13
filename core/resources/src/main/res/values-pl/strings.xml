@@ -1557,4 +1557,11 @@
     <string name="timestamp">Znacznik czasu</string>
     <string name="format_pattern">Wzór formatu</string>
     <string name="padding">Wypełnienie</string>
+    <string name="vertical_pivot_line">Pionowa linia obrotu</string>
+    <string name="horizontal_pivot_line">Pozioma linia obrotu</string>
+    <string name="inverse_selection">Odwróć zaznaczenie</string>
+    <string name="inverse_vertical_selection_sub">Pionowa część cięcia zostanie pozostawiona, zamiast łączenia części wokół obszaru cięcia</string>
+    <string name="image_cutting_sub">Wycinanie części obrazu i łączenie lewych części (może być odwrotnie) za pomocą pionowych lub poziomych linii</string>
+    <string name="inverse_horizontal_selection_sub">Pozioma część cięcia zostanie pozostawiona, zamiast łączenia części wokół obszaru cięcia</string>
+    <string name="image_cutting">Przycinanie obrazu</string>
 </resources>

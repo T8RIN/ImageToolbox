@@ -1556,4 +1556,11 @@
     <string name="padding">Preenchimento</string>
     <string name="head_length_scale">Escala de Comprimento da Cabeça</string>
     <string name="stamp">Carimbo</string>
+    <string name="image_cutting">Recorte de Imagem</string>
+    <string name="vertical_pivot_line">Linha de Pivô Vertical</string>
+    <string name="horizontal_pivot_line">Linha de Pivô Horizontal</string>
+    <string name="inverse_selection">Inverter Seleção</string>
+    <string name="inverse_vertical_selection_sub">A parte cortada verticalmente será deixada ao invés de mesclar as partes ao redor da área cortada</string>
+    <string name="inverse_horizontal_selection_sub">A parte cortada horizontalmente será deixada ao invés de mesclar as partes ao redor da área cortada</string>
+    <string name="image_cutting_sub">Corte parte da imagem e mescle as partes restantes (ou o inverso) por meio de linhas verticais ou horizontais</string>
 </resources>
