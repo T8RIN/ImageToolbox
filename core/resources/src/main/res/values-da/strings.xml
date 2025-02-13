@@ -804,4 +804,5 @@
     <string name="zip">Lynlås</string>
     <string name="zip_sub">Opret zip-fil fra givne filer eller billeder</string>
     <string name="drag_handle_width">Trækhåndtagsbredde</string>
+    <string name="show_system_bars_by_swipe_sub"></string>
 </resources>
