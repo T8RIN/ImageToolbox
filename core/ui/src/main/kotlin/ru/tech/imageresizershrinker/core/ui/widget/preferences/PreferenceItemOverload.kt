@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefau
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 
 @Composable
@@ -72,6 +73,7 @@ fun PreferenceItemOverload(
     startIcon: (@Composable () -> Unit)? = null,
     endIcon: (@Composable () -> Unit)? = null,
     shape: Shape = RoundedCornerShape(16.dp),
+    pressedShape: Shape = RoundedCornerShape(6.dp),
     color: Color = Color.Unspecified,
     contentColor: Color = contentColorFor(backgroundColor = color),
     overrideIconShapeContentColor: Boolean = false,
@@ -96,6 +98,11 @@ fun PreferenceItemOverload(
             ) else it
         }
     ) {
+        val shape = shapeByInteraction(
+            shape = shape,
+            pressedShape = pressedShape,
+            interactionSource = interactionSource
+        )
         Card(
             shape = shape,
             modifier = modifier

@@ -20,9 +20,11 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.shape.CornerBasedShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -40,6 +42,7 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.channels.Channel
@@ -54,7 +57,7 @@ object ContainerShapeDefaults {
         index: Int,
         size: Int,
         forceDefault: Boolean = false,
-    ): Shape {
+    ): RoundedCornerShape {
         val internalShape by remember(index, size, forceDefault) {
             derivedStateOf {
                 when {
@@ -65,7 +68,24 @@ object ContainerShapeDefaults {
                 }
             }
         }
-        return animateShape(internalShape)
+        val topStart by animateDpAsState(
+            internalShape.topStart.dp
+        )
+        val topEnd by animateDpAsState(
+            internalShape.topEnd.dp
+        )
+        val bottomStart by animateDpAsState(
+            internalShape.bottomStart.dp
+        )
+        val bottomEnd by animateDpAsState(
+            internalShape.bottomEnd.dp
+        )
+        return RoundedCornerShape(
+            topStart = topStart,
+            topEnd = topEnd,
+            bottomStart = bottomStart,
+            bottomEnd = bottomEnd
+        )
     }
 
     val topShape = RoundedCornerShape(
@@ -74,19 +94,26 @@ object ContainerShapeDefaults {
         bottomStart = 6.dp,
         bottomEnd = 6.dp
     )
+
     val centerShape = RoundedCornerShape(
         topStart = 6.dp,
         topEnd = 6.dp,
         bottomStart = 6.dp,
         bottomEnd = 6.dp
     )
+
     val bottomShape = RoundedCornerShape(
         topStart = 6.dp,
         topEnd = 6.dp,
         bottomStart = 16.dp,
         bottomEnd = 16.dp
     )
+
     val defaultShape = RoundedCornerShape(16.dp)
+
+    private val CornerSize.dp: Dp
+        @Composable
+        get() = with(LocalDensity.current) { toPx(Size.Unspecified, this).toDp() }
 }
 
 @Stable

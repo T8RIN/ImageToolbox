@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun PreferenceRow(
@@ -84,6 +85,12 @@ fun PreferenceRow(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     drawContainer: Boolean = true,
 ) {
+    val shape = shapeByInteraction(
+        shape = shape,
+        pressedShape = RoundedCornerShape(6.dp),
+        interactionSource = interactionSource
+    )
+
     val internalColor = contentColor
         ?: contentColorFor(backgroundColor = color)
     CompositionLocalProvider(

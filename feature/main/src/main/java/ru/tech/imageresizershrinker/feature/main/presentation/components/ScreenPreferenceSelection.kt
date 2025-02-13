@@ -22,7 +22,6 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -30,8 +29,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -191,15 +188,6 @@ internal fun RowScope.ScreenPreferenceSelection(
                     contentPadding = contentPadding,
                     content = {
                         items(currentScreenList) { screen ->
-                            val interactionSource = remember {
-                                MutableInteractionSource()
-                            }
-                            val pressed by interactionSource.collectIsPressedAsState()
-
-                            val cornerSize by animateDpAsState(
-                                if (pressed) 6.dp
-                                else 18.dp
-                            )
                             PreferenceItemOverload(
                                 onClick = {
                                     onNavigateToScreenWithPopUpTo(screen)
@@ -209,7 +197,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                     .widthIn(min = 1.dp)
                                     .fillMaxWidth()
                                     .animateItem(),
-                                shape = RoundedCornerShape(cornerSize),
+                                shape = RoundedCornerShape(18.dp),
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
                                 endIcon = {
@@ -283,8 +271,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                             )
                                         }
                                     }
-                                },
-                                interactionSource = interactionSource
+                                }
                             )
                         }
                     }
