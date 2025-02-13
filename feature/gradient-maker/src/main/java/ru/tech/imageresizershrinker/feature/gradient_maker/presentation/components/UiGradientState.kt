@@ -156,9 +156,9 @@ class UiMeshGradientState : MeshGradientState<Color, Offset> {
     val gridSize: Int
         get() = points.firstOrNull()?.size ?: 0
 
-    override var resolutionX: Int by mutableIntStateOf(32)
+    override var resolutionX: Int by mutableIntStateOf(64)
 
-    override var resolutionY: Int by mutableIntStateOf(32)
+    override var resolutionY: Int by mutableIntStateOf(64)
 
 }
 
