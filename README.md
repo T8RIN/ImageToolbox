@@ -627,7 +627,7 @@ or click one of the badges below.
         - Material You Scheme
         - Simple Colors
     - Picking color from image
-    - Gradient creation
+    - Gradient creation (Mesh gradients too)
     - Overlaying image with gradient
     - Mixing
     - Conversion
