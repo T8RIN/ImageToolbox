@@ -93,14 +93,14 @@
     <string name="original">原始</string>
     <string name="compare_sub">比較兩個選取的圖片</string>
     <string name="app_closing">關閉應用程式</string>
-    <string name="allow_image_monet">允許圖片 Monet</string>
+    <string name="allow_image_monet">允許圖片莫內</string>
     <string name="app_closing_sub">您確定要關閉此應用程式嗎？</string>
     <string name="restart_app">重新啟動應用程式</string>
     <string name="stay">取消</string>
     <string name="single_edit_sub">變更單一選取圖片的規格</string>
     <string name="values_reset">變更已重置</string>
     <string name="exception">例外</string>
-    <string name="single_edit">調整單一圖片尺寸</string>
+    <string name="single_edit">編輯單一圖片</string>
     <string name="palette_sub">從選取的圖片產生調色盤樣本</string>
     <string name="failed_to_save">無法儲存 %d 圖片</string>
     <string name="border_thickness">邊框厚度</string>
@@ -1302,4 +1302,13 @@
     <string name="tool_exit_confirmation">工具退出確認</string>
     <string name="tool_exit_confirmation_sub">如果您在使用特定工具並嘗試關閉它時有未儲存的變更，將會顯示確認對話框</string>
     <string name="tag_gps_datestamp">GPS 日期戳記</string>
+    <string name="open_source_licenses">開放原始碼授權</string>
+    <string name="low_poly">低多邊形</string>
+    <string name="links_preview_sub">在可以獲取文字的地方（QRCode,、OCR 等等）啟用連結預覽檢索</string>
+    <string name="group">群組</string>
+    <string name="opening">正在開啟</string>
+    <string name="closing">正在關閉</string>
+    <string name="apply">應用</string>
+    <string name="open_source_licenses_sub">檢視在此應用程式中使用的開放原始碼函式庫的授權</string>
+    <string name="cannot_use_monet_while_dynamic_colors_applied">當動態色彩開啟時無法使用莫內色彩</string>
 </resources>
