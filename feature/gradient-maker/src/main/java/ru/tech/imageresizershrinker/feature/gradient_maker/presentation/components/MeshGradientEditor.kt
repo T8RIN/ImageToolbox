@@ -53,7 +53,7 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 @Composable
-fun MeshGradientEditor(
+internal fun MeshGradientEditor(
     state: UiMeshGradientState,
     modifier: Modifier = Modifier
 ) {
