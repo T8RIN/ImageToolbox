@@ -1649,4 +1649,7 @@
     <string name="tritonomaly"></string>
     <string name="something_went_wrong_emphasis"></string>
     <string name="protonomaly"></string>
+    <string name="resolution"></string>
+    <string name="downscale_image_sub"></string>
+    <string name="soft_glow"></string>
 </resources>
