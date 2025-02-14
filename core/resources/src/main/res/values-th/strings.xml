@@ -1649,4 +1649,7 @@
     <string name="usdt" translatable="false"></string>
     <string name="enter_text_to_checksum"></string>
     <string name="pick_files_to_checksum"></string>
+    <string name="resolution"></string>
+    <string name="soft_glow"></string>
+    <string name="downscale_image_sub"></string>
 </resources>
