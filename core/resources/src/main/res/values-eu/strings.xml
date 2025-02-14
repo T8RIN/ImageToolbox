@@ -1651,4 +1651,5 @@
     <string name="sobel_simple"></string>
     <string name="document_scanner_sub"></string>
     <string name="tag_flash_energy"></string>
+    <string name="resolution"></string>
 </resources>
