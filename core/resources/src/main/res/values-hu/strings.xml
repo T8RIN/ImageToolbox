@@ -1651,4 +1651,5 @@
     <string name="settings_group_visibility_visible"></string>
     <string name="tag_strip_byte_counts"></string>
     <string name="lanczos4_jinc_sub"></string>
+    <string name="resolution"></string>
 </resources>
