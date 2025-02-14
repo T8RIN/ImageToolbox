@@ -1650,4 +1650,6 @@
     <string name="bleach_bypass"></string>
     <string name="bottom_center"></string>
     <string name="center_right"></string>
+    <string name="resolution"></string>
+    <string name="soft_glow"></string>
 </resources>
