@@ -1651,4 +1651,5 @@
     <string name="tag_subsec_time_digitized"></string>
     <string name="apng_type_to_jxl"></string>
     <string name="tag_scene_capture_type"></string>
+    <string name="resolution"></string>
 </resources>
