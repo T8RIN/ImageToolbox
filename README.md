@@ -622,6 +622,13 @@ or click one of the badges below.
     - Toggle Tap
     - Transparency
     - Side By Side
+    - Pixel By Pixel (7 Methods)
+        - SSIM
+        - AE
+        - MAE
+        - NCC
+        - PSNR
+        - RMSE
 - Color Utils
     - Palette generation
         - Material You Scheme
