@@ -1651,4 +1651,5 @@
     <string name="domain_warp"></string>
     <string name="clear_selection"></string>
     <string name="ico_size_warning"></string>
+    <string name="resolution"></string>
 </resources>
