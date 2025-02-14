@@ -1651,4 +1651,5 @@
     <string name="box_sub"></string>
     <string name="resolution_y"></string>
     <string name="resolution_x"></string>
+    <string name="resolution"></string>
 </resources>
