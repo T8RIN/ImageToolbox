@@ -1651,4 +1651,5 @@
     <string name="fractal_type"></string>
     <string name="enhanced_zoom_blur"></string>
     <string name="checksum_as_filename"></string>
+    <string name="resolution"></string>
 </resources>
