@@ -617,7 +617,7 @@
     <string name="spatial_sigma">Spatial Sigma</string>
     <string name="median_blur">Rozmycie medianą</string>
     <string name="gradient_maker_type_image">Nakładka gradientu</string>
-    <string name="gradient_maker_type_image_sub">Skomponuj dowolny gradient na danym obrazie</string>
+    <string name="gradient_maker_type_image_sub">Skomponuj dowolny gradient na danych obrazach</string>
     <string name="transformations">Przekształcenia</string>
     <string name="camera">Aparat</string>
     <string name="watermarking">Znaki wodne</string>
@@ -1564,4 +1564,8 @@
     <string name="image_cutting_sub">Wycinanie części obrazu i łączenie lewych części (może być odwrotnie) za pomocą pionowych lub poziomych linii</string>
     <string name="inverse_horizontal_selection_sub">Pozioma część cięcia zostanie pozostawiona, zamiast łączenia części wokół obszaru cięcia</string>
     <string name="image_cutting">Przycinanie obrazu</string>
+    <string name="collection_mesh_gradients">Kolekcja gradientów siatki</string>
+    <string name="gradient_maker_type_image_mesh">Nakładka gradientu siatki</string>
+    <string name="mesh_gradients_sub">Tworzenie gradientu siatki z własną ilością węzłów i rozdzielczością</string>
+    <string name="gradient_maker_type_image_mesh_sub">Skomponuj gradient siatki górnej części podanych obrazów</string>
 </resources>

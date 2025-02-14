@@ -717,7 +717,7 @@
     <string name="brightness_enforcement">Hohe Bildschirmhelligkeit</string>
     <string name="screen">Bildschirm</string>
     <string name="gradient_maker_type_image">Verlaufsüberlagerung</string>
-    <string name="gradient_maker_type_image_sub">Erstelle einen beliebigen Farbverlauf am oberen Rand des angegebenen Bildes</string>
+    <string name="gradient_maker_type_image_sub">Erstelle einen beliebigen Farbverlauf am oberen Rand der angegebenen Bilder</string>
     <string name="transformations">Transformationen</string>
     <string name="camera">Kamera</string>
     <string name="camera_sub">Verwendet die Kamera zum Fotografieren. Beachte, dass von dieser Bildquelle nur ein Bild aufgenommen werden kann</string>
@@ -1357,7 +1357,7 @@
     <string name="select_webp_image_to_start">WEBP-Bild zum Starten auswählen</string>
     <string name="image_toolbox_in_telegram">ImageToolbox in Telegram 🎉</string>
     <string name="custom_options">Eigene Optionen</string>
-    <string name="custom_params_info">Optionen sollten nach folgendem Muster eingegeben werden: „--{option_name} {value}\\</string>
+    <string name="custom_params_info">Optionen sollten nach folgendem Muster eingegeben werden: \"--{option_name} {value}\"</string>
     <string name="free_corners">Freie Ecken</string>
     <string name="mask">Maske</string>
     <string name="spot_heal">Fleckkorrektur</string>
@@ -1552,4 +1552,25 @@
     <string name="fit_width">Breite anpassen</string>
     <string name="fit_height">Höhe anpassen</string>
     <string name="pick_files">Dateien auswählen</string>
+    <string name="head_length_scale">Kopf Länge Skala</string>
+    <string name="padding">Polsterung</string>
+    <string name="horizontal_pivot_line">Horizontale Pivotlinie</string>
+    <string name="inverse_selection">Umgekehrte Auswahl</string>
+    <string name="inverse_horizontal_selection_sub">Horizontal geschnittene Teile werden ausgelassen, anstatt die Teile um den Schnittbereich herum zusammenzuführen.</string>
+    <string name="mesh_gradients_sub">Erstellen eines Maschenverlaufs mit benutzerdefinierter Anzahl von Knoten und Auflösung</string>
+    <string name="gradient_maker_type_image_mesh_sub">Zusammensetzen des Maschenverlaufs des oberen Teils der gegebenen Bilder</string>
+    <string name="resolution_x">Auflösung X</string>
+    <string name="resolution_y">Auflösung Y</string>
+    <string name="resolution">Auflösung</string>
+    <string name="gradient_maker_type_image_mesh">Maschenverlaufsüberlagerung</string>
+    <string name="points_customization">Punkteanpassung</string>
+    <string name="timestamp">Zeitstempel</string>
+    <string name="inverse_vertical_selection_sub">Vertikaler Schnittteil wird ausgelassen, anstatt Teile um den Schnittbereich herum zusammenzuführen</string>
+    <string name="grid_size">Rastergröße</string>
+    <string name="stamp">Stempel</string>
+    <string name="format_pattern">Formatmuster</string>
+    <string name="image_cutting">Bild schneiden</string>
+    <string name="collection_mesh_gradients">Sammlung von Maschenverläufen</string>
+    <string name="image_cutting_sub">Schneide einen Teil des Bildes aus und füge den linken Teil (kann auch umgekehrt sein) mit vertikalen oder horizontalen Linien zusammen</string>
+    <string name="vertical_pivot_line">Vertikale Pivotlinie</string>
 </resources>

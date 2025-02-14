@@ -139,7 +139,7 @@
     <string name="options_arrangement">選項排列</string>
     <string name="edit">編輯</string>
     <string name="order">順序</string>
-    <string name="order_sub">確定主螢幕上工具的順序</string>
+    <string name="order_sub">確定主畫面上工具的順序</string>
     <string name="emojis_count">表情符號數量</string>
     <string name="sequence_num">序號</string>
     <string name="original_filename">原始檔案名稱</string>
@@ -276,14 +276,13 @@
     <string name="implementation">執行</string>
     <string name="compatibility">相容性</string>
     <string name="file_size">檔案大小</string>
-    <string name="file_size_sub">Android 作業系統及裝置的可用記憶體會影響檔案的最大尺寸限制。
-\n提醒您：記憶體和儲存空間不是同一回事。</string>
+    <string name="file_size_sub">Android 作業系統及裝置的可用記憶體會影響檔案大小的最大限制。 \n提醒您：記憶體和儲存空間不是同一回事。</string>
     <string name="compatibility_sub">請注意，不保證與其他檔案加密軟體或服務的相容性。稍有不同的密鑰處理或密碼組態可能是不相容的原因。</string>
     <string name="features_sub">基於密碼的檔案加密。處理過的檔案可以儲存在選擇的目錄中或分享。解密後的檔案也可以直接開啟。</string>
     <string name="invalid_password_or_not_encrypted">密碼無效或選擇的檔案未加密</string>
     <string name="tools">工具</string>
     <string name="group_options_by_type">按類型對選項進行分組</string>
-    <string name="group_options_by_type_sub">將主螢幕上的選項按類型分組，而不是自定義列表排列</string>
+    <string name="group_options_by_type_sub">將主畫面上的選項按類型分組，而不是自定義列表排列</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">啟用選項分組時無法變更排列</string>
     <string name="warning_bytes">以 %1$s 模式儲存可能不穩定，因為它是無損格式</string>
     <string name="skip">略過</string>
@@ -419,7 +418,7 @@
     <string name="invert_colors">顏色反轉</string>
     <string name="attention">提醒</string>
     <string name="search_option">搜尋</string>
-    <string name="search_option_sub">能夠搜尋主螢幕上的所有可用工具</string>
+    <string name="search_option_sub">能夠搜尋主畫面上的所有可用工具</string>
     <string name="pdf_tools">PDF 工具</string>
     <string name="images_to_pdf">圖像轉 PDF</string>
     <string name="preview_pdf">預覽 PDF</string>
@@ -603,8 +602,8 @@
     <string name="segmentation_mode_sparse_text_osd">檢測鬆散文字及其方向</string>
     <string name="gradient_maker_sub">建立指定輸出尺寸的漸變效果，並自定義顏色和外觀類型</string>
     <string name="gradient_maker_type_image_sub">合成給定圖像頂部的任意梯度</string>
-    <string name="use_pixel_switch">使用畫素開關</string>
-    <string name="use_pixel_switch_sub">將使用類似畫素的開關，而不是基於谷歌自帶的開關</string>
+    <string name="use_pixel_switch">使用 Pixel 開關</string>
+    <string name="use_pixel_switch_sub">將使用類似 Pixel 的開關，而不是基於 Google 自帶的開關</string>
     <string name="force_exif_widget_initial_value_sub">強制初始檢查 EXIF 部件</string>
     <string name="repeat_watermark_sub">在圖片上重複水印，而不是在給定位置重複單個水印</string>
     <string name="offset_x">偏移 X</string>
@@ -820,7 +819,7 @@
     <string name="fast_gaussian_blur_3d">快速高斯模糊 3D</string>
     <string name="fast_gaussian_blur_4d">快速高斯模糊 4D</string>
     <string name="auto_paste">自動貼上</string>
-    <string name="auto_paste_sub">允許應用程式自動貼上剪貼簿數據，因此它將顯示在主螢幕上，您將能夠處理它</string>
+    <string name="auto_paste_sub">允許應用程式自動貼上剪貼簿資料，因此它將顯示在主畫面上，您將能夠處理它</string>
     <string name="harmonization_color">協調顏色</string>
     <string name="harmonization_level">協調水平</string>
     <string name="generate_previews">生成預覽</string>
@@ -862,12 +861,12 @@
     <string name="show_settings_in_landscape_sub">如果停用此選項，則在橫向模式下，設定將始终在顶部應用栏中的按钮上打开，而不是始终可见的选项。</string>
     <string name="fullscreen_settings">全螢幕設定</string>
     <string name="switch_type">開關類型</string>
-    <string name="compose">撰寫</string>
+    <string name="compose">Compose</string>
     <string name="fullscreen_settings_sub">將「啟用」設定為「設定頁面總是全螢幕開啟，而不是可滑動抽屜頁」。</string>
-    <string name="compose_switch_sub">使用您切換的 Jetpack Compose 材質，但它不如基於視圖的漂亮</string>
-    <string name="material_you_switch_sub">使用您切換的基於視圖的材質，這個看起來比其他材質更好並且有漂亮的動畫</string>
+    <string name="compose_switch_sub">使用 Jetpack Compose 的 material you 開關，沒有基於檢視的漂亮</string>
+    <string name="material_you_switch_sub">使用您切換的基於檢視的材質，這個看起來比其他材質更好並且有漂亮的動畫</string>
     <string name="max">最大</string>
-    <string name="pixel_switch">像素</string>
+    <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">Fluent</string>
     <string name="cupertino_switch">Cupertino</string>
     <string name="cupertino_switch_sub">使用基於Cupertino設計系統的類IOS開關</string>
@@ -984,8 +983,7 @@
     <string name="tag_gps_speed_ref">GPS速度參考值</string>
     <string name="tag_gps_speed">GPS速度</string>
     <string name="ginseng">人參</string>
-    <string name="ginseng_sub">一個設計給高品質影像的重新採樣濾鏡，
-\n可以在銳利度和平滑度之間取得美好的平衡。</string>
+    <string name="ginseng_sub">一個設計給高品質影像的重新取樣濾鏡， \n可以在銳利度和平滑度之間取得美好的平衡</string>
     <string name="dismiss_forever">永遠講掰掰</string>
     <string name="tag_gps_latitude">GPS 緯度</string>
     <string name="tag_gps_altitude_ref">GPS 高度參考</string>
@@ -1311,4 +1309,9 @@
     <string name="apply">應用</string>
     <string name="open_source_licenses_sub">檢視在此應用程式中使用的開放原始碼函式庫的授權</string>
     <string name="cannot_use_monet_while_dynamic_colors_applied">當動態色彩開啟時無法使用莫內色彩</string>
+    <string name="free_software_partner_sub">在 Android 合作夥伴頻道中有更多實用軟體</string>
+    <string name="fancy_sub">具有動畫效果的自訂精美滑動塊，這是此應用程式的預設</string>
+    <string name="material_2_sub">Material 2 基本滑動塊，不具現代化，簡單且直截</string>
+    <string name="material_you_slider_sub">現代化的 Material You 滑動塊，未來感、新穎、平易近人</string>
+    <string name="fast_settings_side_sub">當編輯圖片時，在所選的一邊加入懸浮條，點擊後將開啟快速設定</string>
 </resources>
