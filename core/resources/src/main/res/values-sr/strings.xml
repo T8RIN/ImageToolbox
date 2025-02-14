@@ -1651,4 +1651,5 @@
     <string name="imported_fonts"></string>
     <string name="tools_arrangement"></string>
     <string name="checksum_to_compare"></string>
+    <string name="resolution"></string>
 </resources>
