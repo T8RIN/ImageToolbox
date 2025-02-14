@@ -1563,4 +1563,13 @@
     <string name="inverse_vertical_selection_sub">A parte cortada verticalmente será deixada ao invés de mesclar as partes ao redor da área cortada</string>
     <string name="inverse_horizontal_selection_sub">A parte cortada horizontalmente será deixada ao invés de mesclar as partes ao redor da área cortada</string>
     <string name="image_cutting_sub">Corte parte da imagem e mescle as partes restantes (ou o inverso) por meio de linhas verticais ou horizontais</string>
+    <string name="mesh_gradients_sub">Criar gradiente mesh com quantidade personalizada de nós e resolução</string>
+    <string name="gradient_maker_type_image_mesh">Sobreposição de Gradiente Mesh</string>
+    <string name="points_customization">Personalização de Pontos</string>
+    <string name="grid_size">Tamanho da Grade</string>
+    <string name="resolution_x">Resolução X</string>
+    <string name="resolution_y">Resolução Y</string>
+    <string name="resolution">Resolução</string>
+    <string name="gradient_maker_type_image_mesh_sub">Componha o gradiente mesh por cima das imagens fornecidas</string>
+    <string name="collection_mesh_gradients">Coleção de Gradientes Mesh</string>
 </resources>
