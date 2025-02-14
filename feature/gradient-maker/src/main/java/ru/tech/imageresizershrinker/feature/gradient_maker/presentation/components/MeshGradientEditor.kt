@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.asComposePaint
-import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -147,6 +146,7 @@ internal fun MeshGradientEditor(
             state.points.flatten().forEach { (offset, color) ->
                 val scaledOffset = Offset(offset.x * size.width, offset.y * size.height)
                 val isSelected = selectedPoint.value?.first == offset
+                val inverseColor = color.inverseByLuma()
                 drawContext.canvas.apply {
                     drawCircle(
                         radius = if (isSelected) 32f else 27f,
@@ -162,11 +162,17 @@ internal fun MeshGradientEditor(
                         }.asComposePaint()
                     )
                 }
+                if (isSelected) {
+                    drawCircle(
+                        color = inverseColor,
+                        radius = 40f,
+                        center = scaledOffset
+                    )
+                }
                 drawCircle(
                     color = color,
                     radius = if (isSelected) 35f else 30f,
-                    center = scaledOffset,
-                    style = Fill
+                    center = scaledOffset
                 )
                 if (isSelected) {
                     translate(
@@ -176,7 +182,7 @@ internal fun MeshGradientEditor(
                         with(painter) {
                             draw(
                                 size = Size(width = 50f, height = 50f),
-                                colorFilter = ColorFilter.tint(color.inverseByLuma())
+                                colorFilter = ColorFilter.tint(inverseColor)
                             )
                         }
                     }

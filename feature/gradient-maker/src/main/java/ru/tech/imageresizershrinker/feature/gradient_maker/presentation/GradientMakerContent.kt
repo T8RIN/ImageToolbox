@@ -342,11 +342,13 @@ fun GradientMakerContent(
                     valueRange = 2f..6f,
                     internalStateTransformation = { it.roundToInt() },
                     onValueChange = { value ->
-                        val size = value.roundToInt()
-                        component.setResolution(lerp(1f, 64f, 2f / size))
-                        component.meshGradientState.points.apply {
-                            clear()
-                            addAll(generateMesh(size))
+                        if (value.roundToInt() != component.meshGradientState.gridSize) {
+                            val size = value.roundToInt()
+                            component.setResolution(lerp(1f, 16f, 2f / size))
+                            component.meshGradientState.points.apply {
+                                clear()
+                                addAll(generateMesh(size))
+                            }
                         }
                     }
                 )
