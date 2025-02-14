@@ -623,7 +623,7 @@
     <string name="brightness_enforcement">Helderheidshandhaving</string>
     <string name="screen">Scherm</string>
     <string name="gradient_maker_type_image">Verloopoverlay</string>
-    <string name="gradient_maker_type_image_sub">Stel een verloop van de bovenkant van een bepaalde afbeelding samen</string>
+    <string name="gradient_maker_type_image_sub">Stel elk verloop van de bovenkant van de gegeven afbeeldingen samen</string>
     <string name="transformations">Transformaties</string>
     <string name="camera">Camera</string>
     <string name="camera_sub">Gebruikt de camera om een foto te maken. Houd er rekening mee dat het mogelijk is om slechts één afbeelding uit deze afbeeldingsbron te halen</string>
@@ -1564,4 +1564,13 @@
     <string name="image_cutting">Afbeelding versnijden</string>
     <string name="image_cutting_sub">Knip het afbeeldingsgedeelte af en voeg het linkerdeel samen (kan omgekeerd zijn) door verticale of horizontale lijnen</string>
     <string name="inverse_vertical_selection_sub">Verticaal gesneden deel wordt verlaten, in plaats van delen samen te voegen rond het snijgebied</string>
+    <string name="mesh_gradients_sub">Een maaswerk-verloop aanmaken met een aangepast aantal knopen en resolutie</string>
+    <string name="collection_mesh_gradients">Verzameling van maaswerk-verlopen</string>
+    <string name="gradient_maker_type_image_mesh_sub">Maaswerk-verloop samenstellen van de bovenkant van gegeven afbeeldingen</string>
+    <string name="resolution_x">Resolutie X</string>
+    <string name="resolution_y">Resolutie Y</string>
+    <string name="resolution">Resolutie</string>
+    <string name="gradient_maker_type_image_mesh">Maaswerk-verloop overlay</string>
+    <string name="points_customization">Punten aanpassen</string>
+    <string name="grid_size">Rastergrootte</string>
 </resources>
