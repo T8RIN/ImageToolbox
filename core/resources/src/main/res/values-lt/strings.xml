@@ -1651,4 +1651,5 @@
     <string name="weak_pixel_inclusion"></string>
     <string name="import_base_64"></string>
     <string name="rotation"></string>
+    <string name="resolution"></string>
 </resources>
