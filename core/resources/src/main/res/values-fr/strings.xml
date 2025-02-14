@@ -1651,4 +1651,5 @@
     <string name="points_customization"></string>
     <string name="collage_maker"></string>
     <string name="delete_template"></string>
+    <string name="resolution"></string>
 </resources>
