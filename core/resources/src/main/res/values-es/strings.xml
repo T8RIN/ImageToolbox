@@ -1651,4 +1651,5 @@
     <string name="import_font"></string>
     <string name="domain_warp"></string>
     <string name="image_cutting"></string>
+    <string name="resolution"></string>
 </resources>
