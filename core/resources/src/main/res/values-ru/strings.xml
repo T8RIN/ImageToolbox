@@ -1651,4 +1651,5 @@
     <string name="scan_barcode"></string>
     <string name="invisible_mode"></string>
     <string name="image_cutting"></string>
+    <string name="resolution"></string>
 </resources>
