@@ -1650,4 +1650,6 @@
     <string name="export_fonts"></string>
     <string name="image_toolbox_in_telegram"></string>
     <string name="tool_exit_confirmation"></string>
+    <string name="resolution"></string>
+    <string name="soft_glow"></string>
 </resources>
