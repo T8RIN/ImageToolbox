@@ -1568,4 +1568,9 @@
     <string name="gradient_maker_type_image_mesh">Nakładka gradientu siatki</string>
     <string name="mesh_gradients_sub">Tworzenie gradientu siatki z własną ilością węzłów i rozdzielczością</string>
     <string name="gradient_maker_type_image_mesh_sub">Skomponuj gradient siatki górnej części podanych obrazów</string>
+    <string name="points_customization">Dostosowywanie punktów</string>
+    <string name="grid_size">Rozmiar siatki</string>
+    <string name="resolution_x">Rozdzielczość X</string>
+    <string name="resolution_y">Rozdzielczość Y</string>
+    <string name="resolution">Rozdzielczość</string>
 </resources>
