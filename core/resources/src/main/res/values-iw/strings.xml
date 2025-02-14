@@ -1651,4 +1651,5 @@
     <string name="domain_warp"></string>
     <string name="document_scanner"></string>
     <string name="edgy_amber"></string>
+    <string name="resolution"></string>
 </resources>
