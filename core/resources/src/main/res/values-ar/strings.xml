@@ -1651,4 +1651,5 @@
     <string name="histogram"></string>
     <string name="tag_rows_per_strip"></string>
     <string name="tag_strip_offsets"></string>
+    <string name="resolution"></string>
 </resources>
