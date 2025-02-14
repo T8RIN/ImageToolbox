@@ -1651,4 +1651,5 @@
     <string name="actions"></string>
     <string name="gif_type_to_webp"></string>
     <string name="import_word"></string>
+    <string name="resolution"></string>
 </resources>
