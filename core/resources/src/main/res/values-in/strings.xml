@@ -1649,4 +1649,7 @@
     <string name="wrong_font"></string>
     <string name="manage_storage_extra_types_sub"></string>
     <string name="image_cutting"></string>
+    <string name="resolution"></string>
+    <string name="soft_glow"></string>
+    <string name="downscale_image_sub"></string>
 </resources>
