@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
+import ru.tech.imageresizershrinker.feature.compare.presentation.components.PixelByPixelCompareState
 import kotlin.math.roundToInt
 
 class CompareComponent @AssistedInject internal constructor(
@@ -81,6 +82,15 @@ class CompareComponent @AssistedInject internal constructor(
 
     private val _compareType: MutableState<CompareType> = mutableStateOf(CompareType.Slide)
     val compareType by _compareType
+
+    private val _pixelByPixelCompareState: MutableState<PixelByPixelCompareState> = mutableStateOf(
+        PixelByPixelCompareState.Default
+    )
+    val pixelByPixelCompareState: PixelByPixelCompareState by _pixelByPixelCompareState
+
+    fun updatePixelByPixelCompareState(state: PixelByPixelCompareState) {
+        _pixelByPixelCompareState.update { state }
+    }
 
     fun rotate() {
         val old = _rotation.value

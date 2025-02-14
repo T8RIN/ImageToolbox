@@ -54,7 +54,8 @@ fun CompareScreenTopAppBar(
     isImagesRotated: Boolean,
     titleWhenBitmapsPicked: String,
     onToggleLabelsEnabled: (Boolean) -> Unit,
-    isLabelsEnabled: Boolean
+    isLabelsEnabled: Boolean,
+    isLabelsButtonVisible: Boolean
 ) {
     if (imageNotPicked) {
         EnhancedTopAppBar(
@@ -115,19 +116,21 @@ fun CompareScreenTopAppBar(
                         )
                     }
                 }
-                EnhancedIconButton(
-                    onClick = {
-                        onToggleLabelsEnabled(!isLabelsEnabled)
-                    },
-                    containerColor = animateColorAsState(
-                        if (isLabelsEnabled) MaterialTheme.colorScheme.secondary
-                        else Color.Transparent
-                    ).value
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.Label,
-                        contentDescription = "Label"
-                    )
+                AnimatedVisibility(visible = isLabelsButtonVisible) {
+                    EnhancedIconButton(
+                        onClick = {
+                            onToggleLabelsEnabled(!isLabelsEnabled)
+                        },
+                        containerColor = animateColorAsState(
+                            if (isLabelsEnabled) MaterialTheme.colorScheme.secondary
+                            else Color.Transparent
+                        ).value
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.Label,
+                            contentDescription = "Label"
+                        )
+                    }
                 }
             },
             title = {

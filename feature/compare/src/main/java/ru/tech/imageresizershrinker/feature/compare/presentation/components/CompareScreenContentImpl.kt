@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,12 +44,18 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
+import com.t8rin.opencv_tools.image_comparison.ImageDiffTool
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
+import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
@@ -58,6 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 internal fun CompareScreenContentImpl(
     compareType: CompareType,
     bitmapPair: Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>,
+    pixelByPixelCompareState: PixelByPixelCompareState,
     compareProgress: Float,
     onCompareProgressChange: (Float) -> Unit,
     isPortrait: Boolean,
@@ -143,8 +149,8 @@ internal fun CompareScreenContentImpl(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             if (first != null) {
-                                Image(
-                                    bitmap = first.asImageBitmap(),
+                                AsyncImage(
+                                    model = first,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -154,8 +160,8 @@ internal fun CompareScreenContentImpl(
                                 HorizontalDivider()
                             }
                             if (second != null) {
-                                Image(
-                                    bitmap = second.asImageBitmap(),
+                                AsyncImage(
+                                    model = second,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -186,8 +192,8 @@ internal fun CompareScreenContentImpl(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             if (first != null) {
-                                Image(
-                                    bitmap = first.asImageBitmap(),
+                                AsyncImage(
+                                    model = first,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .fillMaxHeight()
@@ -197,8 +203,8 @@ internal fun CompareScreenContentImpl(
                                 VerticalDivider()
                             }
                             if (second != null) {
-                                Image(
-                                    bitmap = second.asImageBitmap(),
+                                AsyncImage(
+                                    model = second,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .fillMaxHeight()
@@ -242,15 +248,15 @@ internal fun CompareScreenContentImpl(
                     val first = bitmapPair.first?.second
                     val second = bitmapPair.second?.second
                     if (!showSecondImage && first != null) {
-                        Image(
-                            bitmap = first.asImageBitmap(),
+                        AsyncImage(
+                            model = first,
                             contentDescription = null,
                             contentScale = ContentScale.Inside
                         )
                     }
                     if (showSecondImage && second != null) {
-                        Image(
-                            bitmap = second.asImageBitmap(),
+                        AsyncImage(
+                            model = second,
                             contentDescription = null,
                             contentScale = ContentScale.Inside
                         )
@@ -285,15 +291,15 @@ internal fun CompareScreenContentImpl(
                     val first = bitmapPair.first?.second
                     val second = bitmapPair.second?.second
                     if (first != null) {
-                        Image(
-                            bitmap = first.asImageBitmap(),
+                        AsyncImage(
+                            model = first,
                             contentDescription = null,
                             contentScale = ContentScale.Inside
                         )
                     }
                     if (second != null) {
-                        Image(
-                            bitmap = second.asImageBitmap(),
+                        AsyncImage(
+                            model = second,
                             contentDescription = null,
                             contentScale = ContentScale.Inside,
                             modifier = Modifier.alpha(compareProgress / 100f)
@@ -322,6 +328,43 @@ internal fun CompareScreenContentImpl(
                             shape = RoundedCornerShape(
                                 topStart = 16.dp
                             )
+                        )
+                    }
+                }
+            }
+
+            CompareType.PixelByPixel -> {
+                Box(
+                    modifier = modifier
+                ) {
+                    val first = bitmapPair.first?.second
+                    val second = bitmapPair.second?.second
+                    if (first != null) {
+                        Picture(
+                            model = first,
+                            transformations = remember(
+                                first,
+                                second,
+                                compareProgress,
+                                pixelByPixelCompareState
+                            ) {
+                                listOf(
+                                    GenericTransformation<Bitmap>(
+                                        compareProgress to pixelByPixelCompareState
+                                    ) { first ->
+                                        ImageDiffTool.highlightDifferences(
+                                            input = first,
+                                            other = second
+                                                ?: return@GenericTransformation first,
+                                            comparisonType = pixelByPixelCompareState.comparisonType,
+                                            highlightColor = pixelByPixelCompareState.highlightColor.toArgb(),
+                                            threshold = compareProgress
+                                        )
+                                    }.toCoil()
+                                )
+                            },
+                            contentDescription = null,
+                            contentScale = ContentScale.Inside
                         )
                     }
                 }
