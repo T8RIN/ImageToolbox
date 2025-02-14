@@ -1651,4 +1651,5 @@
     <string name="ci_channel_sub"></string>
     <string name="collection_mesh_gradients"></string>
     <string name="collection_mesh_gradients_sub"></string>
+    <string name="resolution"></string>
 </resources>
