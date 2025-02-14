@@ -1649,4 +1649,7 @@
     <string name="enhanced_zoom_blur"></string>
     <string name="sobel_simple"></string>
     <string name="material_you_slider_sub"></string>
+    <string name="resolution"></string>
+    <string name="soft_glow"></string>
+    <string name="downscale_image_sub"></string>
 </resources>
