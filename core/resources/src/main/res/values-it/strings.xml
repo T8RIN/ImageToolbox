@@ -1651,4 +1651,5 @@
     <string name="tag_gps_speed_ref"></string>
     <string name="lagrange_2_sub"></string>
     <string name="lanczos4_sub"></string>
+    <string name="resolution"></string>
 </resources>
