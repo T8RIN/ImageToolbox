@@ -1567,4 +1567,5 @@
     <string name="collection_mesh_gradients">Kolekcja gradientów siatki</string>
     <string name="gradient_maker_type_image_mesh">Nakładka gradientu siatki</string>
     <string name="mesh_gradients_sub">Tworzenie gradientu siatki z własną ilością węzłów i rozdzielczością</string>
+    <string name="gradient_maker_type_image_mesh_sub">Skomponuj gradient siatki górnej części podanych obrazów</string>
 </resources>
