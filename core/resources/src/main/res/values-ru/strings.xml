@@ -1651,4 +1651,5 @@
     <string name="ocr_write_to_file_sub"></string>
     <string name="crash_subtitle"></string>
     <string name="right_to_left"></string>
+    <string name="resolution"></string>
 </resources>
