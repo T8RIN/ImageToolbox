@@ -602,7 +602,7 @@
     <string name="brightness_enforcement">Aplicação de brilho</string>
     <string name="screen">Tela</string>
     <string name="gradient_maker_type_image">Sobreposição de Gradiente</string>
-    <string name="gradient_maker_type_image_sub">Componha qualquer gradiente do topo de determinada imagem</string>
+    <string name="gradient_maker_type_image_sub">Componha qualquer gradiente por cima de determinadas imagens</string>
     <string name="transformations">Transformações</string>
     <string name="camera">Câmera</string>
     <string name="camera_sub">Usa a câmera para tirar fotos, observe que é possível obter apenas uma imagem desta fonte de imagem</string>
