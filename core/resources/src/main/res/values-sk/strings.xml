@@ -1651,4 +1651,5 @@
     <string name="delete_template_warn"></string>
     <string name="image_splitting"></string>
     <string name="grid_color"></string>
+    <string name="resolution"></string>
 </resources>
