@@ -1651,4 +1651,5 @@
     <string name="points_customization"></string>
     <string name="gradient_maker_type_image_mesh"></string>
     <string name="gradient_maker_type_image_mesh_sub"></string>
+    <string name="resolution"></string>
 </resources>
