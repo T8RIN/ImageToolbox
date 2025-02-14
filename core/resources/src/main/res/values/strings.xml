@@ -1590,5 +1590,8 @@
     <string name="grid_size">Grid Size</string>
     <string name="resolution_x">Resolution X</string>
     <string name="resolution_y">Resolution Y</string>
-    <string name="resolution">Resolution</string>
+    <string name="resolution">Resoution</string>
+    <string name="pixel_by_pixel">Pixel By Pixel</string>
+    <string name="highlight_color">Highlight Color</string>
+    <string name="pixel_comparison_type">Pixel Comparison Type</string>
 </resources>

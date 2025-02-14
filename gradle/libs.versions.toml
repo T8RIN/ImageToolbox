@@ -8,7 +8,7 @@ versionCode = "169"
 
 jvmTarget = "17"
 
-imageToolboxLibs = "3.3.4"
+imageToolboxLibs = "3.3.5"
 trickle = "1.2.2"
 
 avifCoder = "2.0.10"
@@ -58,7 +58,7 @@ reviewKtx = "2.0.2"
 splashScreen = "1.2.0-alpha02"
 
 espresso = "3.6.1"
-ksp = "2.1.10-1.0.29"
+ksp = "2.1.10-1.0.30"
 
 androidx-test-ext-junit = "1.2.1"
 documentfile = "1.0.1"

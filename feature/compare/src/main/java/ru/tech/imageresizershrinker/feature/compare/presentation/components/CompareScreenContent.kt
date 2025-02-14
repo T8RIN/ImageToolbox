@@ -23,8 +23,10 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -33,6 +35,7 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -41,9 +44,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.Highlight
+import androidx.compose.material.icons.rounded.Pix
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -64,6 +71,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
+import com.t8rin.opencv_tools.image_comparison.ComparisonType
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -72,21 +80,31 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.ImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
-fun CompareScreenContent(
+internal fun CompareScreenContent(
     bitmapData: Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>?,
     compareType: CompareType,
     onCompareTypeSelected: (CompareType) -> Unit,
     isPortrait: Boolean,
     compareProgress: Float,
     onCompareProgressChange: (Float) -> Unit,
+    pixelByPixelCompareState: PixelByPixelCompareState,
+    onPixelByPixelCompareStateChange: (PixelByPixelCompareState) -> Unit,
     imagePicker: ImagePicker,
     isLabelsEnabled: Boolean
 ) {
@@ -111,23 +129,117 @@ fun CompareScreenContent(
                     zoomEnabled = zoomEnabled
                 )
 
+            val tuneButton: @Composable BoxScope.() -> Unit = {
+                BoxAnimatedVisibility(
+                    visible = compareType == CompareType.PixelByPixel,
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                ) {
+                    var openTuneMenu by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+                    EnhancedIconButton(
+                        onClick = {
+                            openTuneMenu = true
+                        },
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        containerColor = MaterialTheme.colorScheme.primary.copy(0.85f),
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Tune,
+                            contentDescription = null
+                        )
+                    }
+
+                    EnhancedModalBottomSheet(
+                        visible = openTuneMenu,
+                        onDismiss = { openTuneMenu = it },
+                        title = {
+                            TitleItem(
+                                icon = Icons.Rounded.Tune,
+                                text = stringResource(compareType.title)
+                            )
+                        },
+                        confirmButton = {
+                            EnhancedButton(
+                                onClick = { openTuneMenu = false }
+                            ) {
+                                Text(stringResource(R.string.close))
+                            }
+                        }
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .verticalScroll(rememberScrollState())
+                                .padding(8.dp)
+                        ) {
+                            ColorRowSelector(
+                                value = pixelByPixelCompareState.highlightColor,
+                                onValueChange = {
+                                    onPixelByPixelCompareStateChange(
+                                        pixelByPixelCompareState.copy(
+                                            highlightColor = it
+                                        )
+                                    )
+                                },
+                                allowAlpha = false,
+                                modifier = Modifier.container(
+                                    shape = ContainerShapeDefaults.topShape
+                                ),
+                                title = stringResource(R.string.highlight_color),
+                                icon = Icons.Rounded.Highlight
+                            )
+                            Spacer(Modifier.height(4.dp))
+                            DataSelector(
+                                value = pixelByPixelCompareState.comparisonType,
+                                onValueChange = {
+                                    onPixelByPixelCompareStateChange(
+                                        pixelByPixelCompareState.copy(
+                                            comparisonType = it
+                                        )
+                                    )
+                                },
+                                entries = ComparisonType.entries,
+                                title = stringResource(R.string.pixel_comparison_type),
+                                titleIcon = Icons.Rounded.Pix,
+                                spanCount = 2,
+                                shape = ContainerShapeDefaults.bottomShape,
+                                itemContentText = {
+                                    it.name
+                                },
+                                color = Color.Unspecified
+                            )
+                        }
+                    }
+                }
+            }
+
             if (isPortrait) {
                 Column {
                     Box(
-                        contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .weight(1f)
-                            .fillMaxWidth()
-                            .then(zoomModifier)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        CompareScreenContentImpl(
-                            compareType = compareType,
-                            bitmapPair = bitmapPair,
-                            compareProgress = compareProgress,
-                            onCompareProgressChange = onCompareProgressChange,
-                            isPortrait = true,
-                            isLabelsEnabled = isLabelsEnabled
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .then(zoomModifier),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            CompareScreenContentImpl(
+                                compareType = compareType,
+                                bitmapPair = bitmapPair,
+                                compareProgress = compareProgress,
+                                onCompareProgressChange = onCompareProgressChange,
+                                isPortrait = true,
+                                isLabelsEnabled = isLabelsEnabled,
+                                pixelByPixelCompareState = pixelByPixelCompareState
+                            )
+                        }
+
+                        tuneButton()
                     }
                     val showButtonsAtTheTop by remember(compareType) {
                         derivedStateOf {
@@ -213,20 +325,19 @@ fun CompareScreenContent(
                 Row {
                     val direction = LocalLayoutDirection.current
                     Box(
-                        modifier = Modifier
-                            .weight(0.8f)
-                            .then(zoomModifier)
-                            .padding(
-                                start = WindowInsets
-                                    .displayCutout
-                                    .asPaddingValues()
-                                    .calculateStartPadding(direction)
-                            )
+                        modifier = Modifier.weight(0.8f),
+                        contentAlignment = Alignment.Center
                     ) {
                         Box(
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .fillMaxSize(),
+                                .fillMaxSize()
+                                .then(zoomModifier)
+                                .padding(
+                                    start = WindowInsets
+                                        .displayCutout
+                                        .asPaddingValues()
+                                        .calculateStartPadding(direction)
+                                ),
                             contentAlignment = Alignment.Center
                         ) {
                             CompareScreenContentImpl(
@@ -235,9 +346,12 @@ fun CompareScreenContent(
                                 compareProgress = compareProgress,
                                 onCompareProgressChange = onCompareProgressChange,
                                 isPortrait = false,
-                                isLabelsEnabled = isLabelsEnabled
+                                isLabelsEnabled = isLabelsEnabled,
+                                pixelByPixelCompareState = pixelByPixelCompareState
                             )
                         }
+
+                        tuneButton()
                     }
                     val showButtonsAtTheStart by remember(compareType) {
                         derivedStateOf {

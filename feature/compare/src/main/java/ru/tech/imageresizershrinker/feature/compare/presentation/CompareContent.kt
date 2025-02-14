@@ -95,6 +95,12 @@ fun CompareContent(
         }
     }
 
+    LaunchedEffect(component.compareType) {
+        if (component.compareType == CompareType.PixelByPixel) {
+            compareProgress = 4f
+        }
+    }
+
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size != 2) {
             essentials.showToast(
@@ -104,7 +110,8 @@ fun CompareContent(
         } else {
             component.updateUris(
                 onSuccess = {
-                    compareProgress = 50f
+                    compareProgress = if (component.compareType == CompareType.PixelByPixel) 4f
+                    else 50f
                 },
                 uris = uris[0] to uris[1],
                 onFailure = {
@@ -154,7 +161,8 @@ fun CompareContent(
                 isImagesRotated = component.rotation == 90f,
                 titleWhenBitmapsPicked = stringResource(component.compareType.title),
                 isLabelsEnabled = isLabelsEnabled,
-                onToggleLabelsEnabled = { isLabelsEnabled = it }
+                onToggleLabelsEnabled = { isLabelsEnabled = it },
+                isLabelsButtonVisible = component.compareType != CompareType.PixelByPixel
             )
 
             CompareScreenContent(
@@ -167,7 +175,9 @@ fun CompareContent(
                     compareProgress = it
                 },
                 imagePicker = imagePicker,
-                isLabelsEnabled = isLabelsEnabled
+                isLabelsEnabled = isLabelsEnabled,
+                pixelByPixelCompareState = component.pixelByPixelCompareState,
+                onPixelByPixelCompareStateChange = component::updatePixelByPixelCompareState
             )
         }
 

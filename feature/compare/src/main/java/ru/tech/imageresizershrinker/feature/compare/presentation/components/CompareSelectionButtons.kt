@@ -18,9 +18,12 @@
 package ru.tech.imageresizershrinker.feature.compare.presentation.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,8 +33,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 
 @Composable
 fun CompareSelectionButtons(
@@ -62,10 +67,22 @@ fun CompareSelectionButtons(
             }
         }
     }
-    val internalModifier = modifier.container(
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        shape = CircleShape
-    )
+    val scrollState = rememberScrollState()
+    val internalModifier = modifier
+        .container(
+            color = MaterialTheme.colorScheme.surfaceContainerLowest,
+            shape = CircleShape,
+            resultPadding = 0.dp
+        )
+        .fadingEdges(
+            scrollableState = scrollState,
+            isVertical = !isPortrait
+        )
+        .then(
+            if (isPortrait) Modifier.horizontalScroll(scrollState)
+            else Modifier.verticalScroll(scrollState)
+        )
+
     if (isPortrait) {
         Row(
             modifier = internalModifier

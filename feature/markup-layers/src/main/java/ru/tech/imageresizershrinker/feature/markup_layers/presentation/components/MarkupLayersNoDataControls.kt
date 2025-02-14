@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -165,8 +164,7 @@ internal fun MarkupLayersNoDataControls(
             }
         },
         sheetContent = {
-            Box {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
                     Row(
                         Modifier
                             .padding(16.dp)
@@ -228,7 +226,6 @@ internal fun MarkupLayersNoDataControls(
                             .container(RoundedCornerShape(24.dp))
                     )
                 }
-            }
         },
         visible = showBackgroundDrawingSetup,
         onDismiss = {
