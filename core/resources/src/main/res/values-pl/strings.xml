@@ -1574,4 +1574,6 @@
     <string name="resolution_y">Rozdzielczość Y</string>
     <string name="resolution">Rozdzielczość</string>
     <string name="pixel_by_pixel">Piksel po pikselu</string>
+    <string name="highlight_color">Kolor podświetlenia</string>
+    <string name="pixel_comparison_type">Typ porównania pikseli</string>
 </resources>
