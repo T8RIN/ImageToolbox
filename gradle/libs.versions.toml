@@ -37,7 +37,7 @@ google-segmentationSelfie = "16.0.0-beta6"
 google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.7"
 detektCompose = "0.4.22"
-decompose = "3.2.2"
+decompose = "3.3.0-beta01"
 
 kotlin = "2.1.10"
 agp = "8.8.1"
