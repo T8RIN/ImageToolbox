@@ -64,6 +64,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            resValue("string", "app_launcher_name", "Image Toolbox DEBUG")
+            resValue("string", "file_provider", "ru.tech.imageresizershrinker.fileprovider.debug")
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -71,6 +76,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            resValue("string", "app_launcher_name", "Image Toolbox")
+            resValue("string", "file_provider", "ru.tech.imageresizershrinker.fileprovider")
         }
         create("benchmark") {
             initWith(buildTypes.getByName("release"))
@@ -106,6 +113,10 @@ android {
 
     aboutLibraries {
         excludeFields = arrayOf("generated")
+    }
+
+    buildFeatures {
+        resValues = true
     }
 }
 
