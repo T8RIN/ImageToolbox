@@ -52,6 +52,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -61,6 +62,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
@@ -72,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.onSwipeDown
 
 @Composable
 fun AdaptiveBottomScaffoldLayoutScreen(
@@ -260,6 +263,10 @@ fun AdaptiveBottomScaffoldLayoutScreen(
         ) { useScaffold ->
             if (useScaffold) {
                 val screenHeight = LocalScreenSize.current.height
+                val sheetSwipeEnabled =
+                    scaffoldState.bottomSheetState.currentValue == SheetValue.PartiallyExpanded
+                            && !scaffoldState.bottomSheetState.isAnimationRunning
+
                 BottomSheetScaffold(
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState,
@@ -267,6 +274,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                         .calculateBottomPadding(),
                     sheetDragHandle = null,
                     sheetShape = RectangleShape,
+                    sheetSwipeEnabled = sheetSwipeEnabled,
                     sheetContent = {
                         Column(
                             Modifier
@@ -275,8 +283,17 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                     detectTapGestures { focus.clearFocus() }
                                 }
                         ) {
-                            buttons {
-                                actions(scaffoldState)
+                            val scope = rememberCoroutineScope()
+                            Box(
+                                modifier = Modifier.onSwipeDown(!sheetSwipeEnabled) {
+                                    scope.launch {
+                                        scaffoldState.bottomSheetState.partialExpand()
+                                    }
+                                }
+                            ) {
+                                buttons {
+                                    actions(scaffoldState)
+                                }
                             }
                             ProvideContainerDefaults(
                                 color = EnhancedBottomSheetDefaults.contentContainerColor

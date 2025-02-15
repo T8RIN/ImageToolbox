@@ -82,6 +82,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetD
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.onSwipeDown
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 
@@ -100,7 +101,7 @@ fun FullscreenEditOption(
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
     content: @Composable () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
+    rememberCoroutineScope()
 
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
@@ -152,6 +153,10 @@ fun FullscreenEditOption(
             Column {
                 if (useScaffold) {
                     val screenHeight = LocalScreenSize.current.height
+                    val sheetSwipeEnabled =
+                        scaffoldState.bottomSheetState.currentValue == SheetValue.PartiallyExpanded
+                                && !scaffoldState.bottomSheetState.isAnimationRunning
+
                     BottomSheetScaffold(
                         topBar = {
                             topAppBar {
@@ -170,6 +175,7 @@ fun FullscreenEditOption(
                             .calculateBottomPadding(),
                         sheetDragHandle = null,
                         sheetShape = RectangleShape,
+                        sheetSwipeEnabled = sheetSwipeEnabled,
                         sheetContent = {
                             Column(
                                 modifier
@@ -178,43 +184,52 @@ fun FullscreenEditOption(
                                         detectTapGestures { focus.clearFocus() }
                                     }
                             ) {
-                                BottomAppBar(
-                                    modifier = Modifier.drawHorizontalStroke(true),
-                                    actions = {
-                                        actions()
-                                        if (showControls) {
-                                            EnhancedIconButton(
-                                                onClick = {
-                                                    scope.launch {
-                                                        if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                                            scaffoldState.bottomSheetState.partialExpand()
-                                                        } else {
-                                                            scaffoldState.bottomSheetState.expand()
-                                                        }
-                                                    }
-                                                }
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Rounded.Tune,
-                                                    contentDescription = stringResource(R.string.properties)
-                                                )
-                                            }
-                                        }
-                                    },
-                                    floatingActionButton = {
-                                        Row(
-                                            horizontalArrangement = Arrangement.spacedBy(
-                                                8.dp,
-                                                Alignment.CenterHorizontally
-                                            ),
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            if (fabButtons != null) {
-                                                fabButtons()
-                                            }
+                                val scope = rememberCoroutineScope()
+                                Box(
+                                    modifier = Modifier.onSwipeDown(!sheetSwipeEnabled) {
+                                        scope.launch {
+                                            scaffoldState.bottomSheetState.partialExpand()
                                         }
                                     }
-                                )
+                                ) {
+                                    BottomAppBar(
+                                        modifier = Modifier.drawHorizontalStroke(true),
+                                        actions = {
+                                            actions()
+                                            if (showControls) {
+                                                EnhancedIconButton(
+                                                    onClick = {
+                                                        scope.launch {
+                                                            if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                                                scaffoldState.bottomSheetState.partialExpand()
+                                                            } else {
+                                                                scaffoldState.bottomSheetState.expand()
+                                                            }
+                                                        }
+                                                    }
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.Tune,
+                                                        contentDescription = stringResource(R.string.properties)
+                                                    )
+                                                }
+                                            }
+                                        },
+                                        floatingActionButton = {
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(
+                                                    8.dp,
+                                                    Alignment.CenterHorizontally
+                                                ),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                if (fabButtons != null) {
+                                                    fabButtons()
+                                                }
+                                            }
+                                        }
+                                    )
+                                }
                                 if (showControls) {
                                     Column(
                                         modifier = Modifier

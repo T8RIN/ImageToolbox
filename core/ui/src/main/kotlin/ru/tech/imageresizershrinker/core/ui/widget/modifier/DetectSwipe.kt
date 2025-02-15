@@ -19,6 +19,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 
@@ -53,6 +54,29 @@ fun Modifier.onSwipeRight(onSwipe: () -> Unit): Modifier {
             },
             onHorizontalDrag = { _, dragAmount ->
                 dx = dragAmount
+            }
+        )
+    }
+}
+
+fun Modifier.onSwipeDown(
+    enabled: Boolean = true,
+    onSwipe: () -> Unit
+): Modifier {
+    if (!enabled) return this
+
+    var dy = 0F
+
+    return this.pointerInput(Unit) {
+        detectVerticalDragGestures(
+            onDragEnd = {
+                if (dy > 0) {
+                    dy = 0F
+                    onSwipe()
+                }
+            },
+            onVerticalDrag = { _, dragAmount ->
+                dy = dragAmount
             }
         )
     }
