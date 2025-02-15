@@ -1573,4 +1573,5 @@
     <string name="resolution_x">Rozdzielczość X</string>
     <string name="resolution_y">Rozdzielczość Y</string>
     <string name="resolution">Rozdzielczość</string>
+    <string name="pixel_by_pixel">Piksel po pikselu</string>
 </resources>
