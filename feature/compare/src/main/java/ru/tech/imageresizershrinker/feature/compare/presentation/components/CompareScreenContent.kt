@@ -110,8 +110,8 @@ internal fun CompareScreenContent(
     isLabelsEnabled: Boolean,
     createPixelByPixelTransformation: () -> Transformation
 ) {
-    AnimatedContent(bitmapData == null) { nil ->
-        bitmapData.takeIf { !nil }?.let { bitmapPair ->
+    AnimatedContent(bitmapData == null) { noData ->
+        bitmapData.takeIf { !noData }?.let { bitmapPair ->
             var showOneTimeImagePickingDialog by rememberSaveable {
                 mutableStateOf(false)
             }
