@@ -204,7 +204,7 @@ internal fun CompareScreenContent(
                                 entries = ComparisonType.entries,
                                 title = stringResource(R.string.pixel_comparison_type),
                                 titleIcon = Icons.Rounded.Pix,
-                                spanCount = 2,
+                                spanCount = 1,
                                 shape = ContainerShapeDefaults.bottomShape,
                                 itemContentText = {
                                     it.name

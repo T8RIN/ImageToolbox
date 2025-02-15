@@ -80,13 +80,19 @@ fun <T : Any> DataSelector(
     selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
     initialExpanded: Boolean = false
 ) {
+    val spanCount = spanCount.coerceAtLeast(1)
+
     Column(
         modifier = modifier.container(
             shape = shape,
             color = color
         )
     ) {
-        var expanded by rememberSaveable(initialExpanded) { mutableStateOf(initialExpanded) }
+        var expanded by rememberSaveable(initialExpanded, spanCount) {
+            mutableStateOf(
+                initialExpanded && spanCount > 1
+            )
+        }
         Row {
             val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             Row(
@@ -122,15 +128,17 @@ fun <T : Any> DataSelector(
                 }
             }
 
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                onClick = { expanded = !expanded }
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.KeyboardArrowDown,
-                    contentDescription = "Expand",
-                    modifier = Modifier.rotate(rotation)
-                )
+            if (spanCount > 1) {
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    onClick = { expanded = !expanded }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowDown,
+                        contentDescription = "Expand",
+                        modifier = Modifier.rotate(rotation)
+                    )
+                }
             }
         }
         val state = rememberLazyStaggeredGridState()
