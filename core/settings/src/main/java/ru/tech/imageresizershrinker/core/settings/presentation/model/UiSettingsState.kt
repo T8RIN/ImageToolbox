@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -434,4 +435,7 @@ private fun NightMode.isNightMode(): Boolean = when (this) {
     else -> this is NightMode.Dark
 }
 
-val defaultColorTuple = ColorTuple(Color(0xFF8FDB3A))
+val defaultColorTuple = ColorTuple(
+    if (BuildConfig.DEBUG) Color(0xFF3ADBD6)
+    else Color(0xFF8FDB3A)
+)
