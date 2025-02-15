@@ -35,7 +35,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -81,7 +80,7 @@ fun CompareContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    var compareProgress by rememberSaveable { mutableFloatStateOf(50f) }
+
 
     LaunchedEffect(component.bitmapData) {
         component.bitmapData?.let { (b, a) ->
@@ -95,12 +94,6 @@ fun CompareContent(
         }
     }
 
-    LaunchedEffect(component.compareType) {
-        if (component.compareType == CompareType.PixelByPixel) {
-            compareProgress = 4f
-        }
-    }
-
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size != 2) {
             essentials.showToast(
@@ -109,10 +102,6 @@ fun CompareContent(
             )
         } else {
             component.updateUris(
-                onSuccess = {
-                    compareProgress = if (component.compareType == CompareType.PixelByPixel) 4f
-                    else 50f
-                },
                 uris = uris[0] to uris[1],
                 onFailure = {
                     essentials.showToast(
@@ -157,7 +146,8 @@ fun CompareContent(
                 },
                 onSwapImagesClick = component::swap,
                 onRotateImagesClick = component::rotate,
-                isShareButtonVisible = component.compareType == CompareType.Slide,
+                isShareButtonVisible = component.compareType == CompareType.Slide
+                        || component.compareType == CompareType.PixelByPixel,
                 isImagesRotated = component.rotation == 90f,
                 titleWhenBitmapsPicked = stringResource(component.compareType.title),
                 isLabelsEnabled = isLabelsEnabled,
@@ -170,14 +160,13 @@ fun CompareContent(
                 compareType = component.compareType,
                 onCompareTypeSelected = component::setCompareType,
                 isPortrait = isPortrait,
-                compareProgress = compareProgress,
-                onCompareProgressChange = {
-                    compareProgress = it
-                },
+                compareProgress = component.compareProgress,
+                onCompareProgressChange = component::setCompareProgress,
                 imagePicker = imagePicker,
                 isLabelsEnabled = isLabelsEnabled,
                 pixelByPixelCompareState = component.pixelByPixelCompareState,
-                onPixelByPixelCompareStateChange = component::updatePixelByPixelCompareState
+                onPixelByPixelCompareStateChange = component::updatePixelByPixelCompareState,
+                createPixelByPixelTransformation = component::createPixelByPixelTransformation
             )
         }
 
@@ -216,8 +205,19 @@ fun CompareContent(
 
     val previewBitmap by remember(component.bitmapData) {
         derivedStateOf {
-            component.getOverlappedImage(compareProgress)
+            component.getImagePreview()
         }
+    }
+    val transformations = remember(
+        component.bitmapData,
+        component.compareProgress,
+        component.pixelByPixelCompareState,
+        component.compareType,
+        showShareSheet
+    ) {
+        if (component.compareType == CompareType.PixelByPixel && showShareSheet) {
+            listOf(component.createPixelByPixelTransformation())
+        } else emptyList()
     }
     CompareShareSheet(
         visible = showShareSheet,
@@ -226,7 +226,6 @@ fun CompareContent(
         },
         onSaveBitmap = { imageFormat, oneTimeSaveLocationUri ->
             component.saveBitmap(
-                percent = compareProgress,
                 imageFormat = imageFormat,
                 oneTimeSaveLocationUri = oneTimeSaveLocationUri,
                 onComplete = essentials::parseSaveResult
@@ -235,7 +234,6 @@ fun CompareContent(
         },
         onShare = { imageFormat ->
             component.shareBitmap(
-                percent = compareProgress,
                 imageFormat = imageFormat,
                 onComplete = showConfetti
             )
@@ -243,14 +241,14 @@ fun CompareContent(
         },
         onCopy = { imageFormat, manager ->
             component.cacheCurrentImage(
-                percent = compareProgress,
                 imageFormat = imageFormat
             ) { uri ->
                 manager.copyToClipboard(uri.asClip(context))
                 showConfetti()
             }
         },
-        previewBitmap = previewBitmap
+        previewData = previewBitmap,
+        transformations = transformations
     )
 
     LoadingDialog(

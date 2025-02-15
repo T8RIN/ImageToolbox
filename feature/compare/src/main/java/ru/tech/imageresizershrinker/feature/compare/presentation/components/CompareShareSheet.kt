@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.compare.presentation.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -45,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil3.transform.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalEssentials
@@ -70,7 +70,8 @@ internal fun CompareShareSheet(
     onSaveBitmap: (ImageFormat, String?) -> Unit,
     onShare: (ImageFormat) -> Unit,
     onCopy: (ImageFormat, LocalEssentials) -> Unit,
-    previewBitmap: Bitmap?
+    previewData: Any?,
+    transformations: List<Transformation>
 ) {
     val essentials = rememberLocalEssentials()
 
@@ -98,7 +99,8 @@ internal fun CompareShareSheet(
                             )
                     ) {
                         Picture(
-                            model = previewBitmap,
+                            model = previewData,
+                            transformations = transformations,
                             shape = RectangleShape,
                             modifier = Modifier.fillMaxSize()
                         )

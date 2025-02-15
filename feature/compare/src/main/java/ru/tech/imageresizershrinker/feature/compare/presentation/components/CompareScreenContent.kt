@@ -71,6 +71,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
+import coil3.transform.Transformation
 import com.t8rin.opencv_tools.image_comparison.ComparisonType
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -106,7 +107,8 @@ internal fun CompareScreenContent(
     pixelByPixelCompareState: PixelByPixelCompareState,
     onPixelByPixelCompareStateChange: (PixelByPixelCompareState) -> Unit,
     imagePicker: ImagePicker,
-    isLabelsEnabled: Boolean
+    isLabelsEnabled: Boolean,
+    createPixelByPixelTransformation: () -> Transformation
 ) {
     AnimatedContent(bitmapData == null) { nil ->
         bitmapData.takeIf { !nil }?.let { bitmapPair ->
@@ -235,7 +237,8 @@ internal fun CompareScreenContent(
                                 onCompareProgressChange = onCompareProgressChange,
                                 isPortrait = true,
                                 isLabelsEnabled = isLabelsEnabled,
-                                pixelByPixelCompareState = pixelByPixelCompareState
+                                pixelByPixelCompareState = pixelByPixelCompareState,
+                                createPixelByPixelTransformation = createPixelByPixelTransformation
                             )
                         }
 
@@ -347,7 +350,8 @@ internal fun CompareScreenContent(
                                 onCompareProgressChange = onCompareProgressChange,
                                 isPortrait = false,
                                 isLabelsEnabled = isLabelsEnabled,
-                                pixelByPixelCompareState = pixelByPixelCompareState
+                                pixelByPixelCompareState = pixelByPixelCompareState,
+                                createPixelByPixelTransformation = createPixelByPixelTransformation
                             )
                         }
 

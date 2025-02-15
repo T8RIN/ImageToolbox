@@ -23,13 +23,18 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.opencv_tools.image_comparison.ImageDiffTool
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import ru.tech.imageresizershrinker.core.data.utils.asDomain
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -41,9 +46,11 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.PixelByPixelCompareState
@@ -67,10 +74,16 @@ class CompareComponent @AssistedInject internal constructor(
                 updateUris(
                     uris = it,
                     onFailure = {},
-                    onSuccess = {}
                 )
             }
         }
+    }
+
+    private val _compareProgress: MutableState<Float> = mutableFloatStateOf(50f)
+    val compareProgress by _compareProgress
+
+    fun setCompareProgress(progress: Float) {
+        _compareProgress.update { progress }
     }
 
     private val _bitmapData: MutableState<Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>?> =
@@ -138,14 +151,16 @@ class CompareComponent @AssistedInject internal constructor(
     fun updateUris(
         uris: Pair<Uri, Uri>,
         onFailure: () -> Unit,
-        onSuccess: () -> Unit
     ) {
         componentScope.launch {
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
             if (data.first == null || data.second == null) onFailure()
             else {
                 _bitmapData.value = (uris.first to data.first!!) to (uris.second to data.second!!)
-                onSuccess()
+                setCompareProgress(
+                    if (compareType == CompareType.PixelByPixel) 4f
+                    else 50f
+                )
             }
         }
     }
@@ -159,13 +174,12 @@ class CompareComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(
-        percent: Float,
         imageFormat: ImageFormat,
         onComplete: () -> Unit
     ) {
         savingJob = componentScope.launch {
             _isImageLoading.value = true
-            getOverlappedImage(percent)?.let {
+            getResultImage()?.let {
                 shareProvider.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
@@ -181,14 +195,13 @@ class CompareComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmap(
-        percent: Float,
         imageFormat: ImageFormat,
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
         savingJob = componentScope.launch {
             _isImageLoading.value = true
-            getOverlappedImage(percent)?.let { localBitmap ->
+            getResultImage()?.let { localBitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
@@ -238,10 +251,28 @@ class CompareComponent @AssistedInject internal constructor(
         return finalBitmap
     }
 
-    fun getOverlappedImage(percent: Float): Bitmap? {
+    private fun getOverlappedImage(): Bitmap? {
         return _bitmapData.value?.let { (b, a) ->
-            a?.second?.let { b?.second?.overlay(it, percent) }
+            a?.second?.let { b?.second?.overlay(it, compareProgress) }
         }
+    }
+
+    private suspend fun getResultImage(): Bitmap? = coroutineScope {
+        when (compareType) {
+            CompareType.PixelByPixel -> imageTransformer.transform(
+                image = bitmapData?.first?.second ?: return@coroutineScope null,
+                transformations = listOf(createPixelByPixelTransformation().asDomain())
+            )
+
+            CompareType.Slide -> getOverlappedImage()
+            else -> null
+        }
+    }
+
+    fun getImagePreview(): Bitmap? = when (compareType) {
+        CompareType.PixelByPixel -> bitmapData?.first?.second
+        CompareType.Slide -> getOverlappedImage()
+        else -> null
     }
 
     fun cancelSaving() {
@@ -252,16 +283,18 @@ class CompareComponent @AssistedInject internal constructor(
 
     fun setCompareType(value: CompareType) {
         _compareType.update { value }
+        if (value == CompareType.PixelByPixel) {
+            setCompareProgress(4f)
+        }
     }
 
     fun cacheCurrentImage(
-        percent: Float,
         imageFormat: ImageFormat,
         onComplete: (Uri) -> Unit
     ) {
         savingJob = componentScope.launch {
             _isImageLoading.value = true
-            getOverlappedImage(percent)?.let {
+            getResultImage()?.let {
                 shareProvider.cacheImage(
                     image = it,
                     imageInfo = ImageInfo(
@@ -276,6 +309,18 @@ class CompareComponent @AssistedInject internal constructor(
             _isImageLoading.value = false
         }
     }
+
+    fun createPixelByPixelTransformation(): Transformation =
+        GenericTransformation<Bitmap> { first ->
+            ImageDiffTool.highlightDifferences(
+                input = first,
+                other = bitmapData?.second?.second
+                    ?: return@GenericTransformation first,
+                comparisonType = pixelByPixelCompareState.comparisonType,
+                highlightColor = pixelByPixelCompareState.highlightColor.toArgb(),
+                threshold = compareProgress
+            )
+        }.toCoil()
 
     @AssistedFactory
     fun interface Factory {
