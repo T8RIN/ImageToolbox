@@ -155,7 +155,7 @@
     <string name="non_maximum_suppression">非极大值抑制(NMS)</string>
     <string name="weak_pixel_inclusion">弱像素包含(WPI)</string>
     <string name="lookup">抬头</string>
-    <string name="stack_blur">堆栈模糊</string>
+    <string name="stack_blur">堆叠模糊</string>
     <string name="second_color">第二种颜色</string>
     <string name="reorder">重新排序</string>
     <string name="fast_blur">快速模糊</string>
