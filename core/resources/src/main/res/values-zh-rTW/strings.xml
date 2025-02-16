@@ -532,8 +532,7 @@
     <string name="pixelation_sub">類似隱私模糊，但是像素化而非模糊</string>
     <string name="value_in_range">在 %1$s - %2$s 範圍內的值</string>
     <string name="switches_shadow">切換按鈕</string>
-    <string name="download_description">為使 Tesseract OCR 正常運作，須要將訓練資料（%1$s）下載至您的裝置中。
-\n您是否想要下載 %2$s 資料？</string>
+    <string name="download_description">為使 Tesseract OCR 正常運作，須要將訓練資料（%1$s）下載至您的裝置中。 \n您是否想要下載 %2$s 資料？</string>
     <string name="no_such_directory">找不到「%1$s」目錄，我們已經將其切換至預設目錄，請再次儲存檔案</string>
     <string name="overwrite_file_requirements">若需要覆蓋檔案，您需要使用「檔案管理器」圖片來源，嘗試重新選取圖片，我們已變更圖片來源至所需的來源</string>
     <string name="overwrite_files_sub">在選擇的資料夾中原始的檔案將被新的儲存所取代，此選項需要圖片來源為「檔案管理器」或 GetContent，當它開啟時，將被自動設定。</string>
