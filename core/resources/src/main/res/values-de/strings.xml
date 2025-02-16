@@ -1573,4 +1573,7 @@
     <string name="collection_mesh_gradients">Sammlung von Maschenverläufen</string>
     <string name="image_cutting_sub">Schneide einen Teil des Bildes aus und füge den linken Teil (kann auch umgekehrt sein) mit vertikalen oder horizontalen Linien zusammen</string>
     <string name="vertical_pivot_line">Vertikale Pivotlinie</string>
+    <string name="pixel_by_pixel">Pixel für Pixel</string>
+    <string name="highlight_color">Hervorhebungsfarbe</string>
+    <string name="pixel_comparison_type">Pixel-Vergleichstyp</string>
 </resources>
