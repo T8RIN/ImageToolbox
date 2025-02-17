@@ -25,7 +25,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.ContextualFlowRow
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -91,128 +91,128 @@ fun UrisPreview(
 
         val width = this.maxWidth / count - 4.dp * (count - 1)
 
-        ContextualFlowRow(
+        FlowRow(
             modifier = modifier,
-            itemCount = uris.size + 1,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) { index ->
-            val uri = uris.getOrNull(index)
-            if (uri != null && uri != Uri.EMPTY) {
-                Box(
-                    modifier = Modifier.container(
-                        shape = RoundedCornerShape(4.dp),
-                        resultPadding = 0.dp,
-                        color = MaterialTheme.colorScheme.surfaceContainerHighest
-                    )
-                ) {
-                    Picture(
-                        model = uri,
-                        error = {
-                            Box {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Outlined.InsertDriveFile,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(width / 3f)
-                                        .align(Alignment.Center),
-                                    tint = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                        },
-                        modifier = Modifier
-                            .then(
-                                if (onClickUri != null) {
-                                    Modifier.hapticsClickable {
-                                        onClickUri(uri)
-                                    }
-                                } else Modifier
-                            )
-                            .width(width)
-                            .aspectRatio(1f)
-                    )
+        ) {
+            uris.forEachIndexed { index, uri ->
+                if (uri != Uri.EMPTY) {
                     Box(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .background(MaterialTheme.colorScheme.scrim.copy(0.5f)),
-                    ) {
-                        Text(
-                            text = (index + 1).toString(),
-                            color = Color.White,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Medium,
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.TopStart)
+                        modifier = Modifier.container(
+                            shape = RoundedCornerShape(4.dp),
+                            resultPadding = 0.dp,
+                            color = MaterialTheme.colorScheme.surfaceContainerHighest
                         )
-                        if (onRemoveUri != null) {
-                            Icon(
-                                imageVector = Icons.Rounded.RemoveCircleOutline,
-                                contentDescription = stringResource(R.string.remove),
-                                modifier = Modifier
-                                    .padding(4.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        MaterialTheme.colorScheme.scrim.copy(
-                                            animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value
-                                        )
+                    ) {
+                        Picture(
+                            model = uri,
+                            error = {
+                                Box {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Outlined.InsertDriveFile,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(width / 3f)
+                                            .align(Alignment.Center),
+                                        tint = MaterialTheme.colorScheme.primary
                                     )
-                                    .hapticsClickable(
-                                        enabled = uris.size > 1
-                                    ) {
-                                        onRemoveUri(uri)
-                                    }
-                                    .padding(4.dp)
-                                    .align(Alignment.TopEnd),
-                                tint = Color.White.copy(
-                                    animateFloatAsState(if (uris.size > 1) 0.7f else 0f).value
-                                ),
-                            )
-                        }
-                        val filename by remember(uri) {
-                            derivedStateOf {
-                                context.getFilename(uri)
-                            }
-                        }
-                        filename?.let {
-                            AutoSizeText(
-                                text = it,
-                                style = LocalTextStyle.current.copy(
-                                    color = Color.White,
-                                    fontSize = 11.sp,
-                                    lineHeight = 12.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    textAlign = TextAlign.End
-                                ),
-                                maxLines = 3,
+                                }
+                            },
+                            modifier = Modifier
+                                .then(
+                                    if (onClickUri != null) {
+                                        Modifier.hapticsClickable {
+                                            onClickUri(uri)
+                                        }
+                                    } else Modifier
+                                )
+                                .width(width)
+                                .aspectRatio(1f)
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .background(MaterialTheme.colorScheme.scrim.copy(0.5f)),
+                        ) {
+                            Text(
+                                text = (index + 1).toString(),
+                                color = Color.White,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Medium,
                                 modifier = Modifier
                                     .padding(8.dp)
-                                    .align(Alignment.BottomEnd)
+                                    .align(Alignment.TopStart)
                             )
+                            if (onRemoveUri != null) {
+                                Icon(
+                                    imageVector = Icons.Rounded.RemoveCircleOutline,
+                                    contentDescription = stringResource(R.string.remove),
+                                    modifier = Modifier
+                                        .padding(4.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            MaterialTheme.colorScheme.scrim.copy(
+                                                animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value
+                                            )
+                                        )
+                                        .hapticsClickable(
+                                            enabled = uris.size > 1
+                                        ) {
+                                            onRemoveUri(uri)
+                                        }
+                                        .padding(4.dp)
+                                        .align(Alignment.TopEnd),
+                                    tint = Color.White.copy(
+                                        animateFloatAsState(if (uris.size > 1) 0.7f else 0f).value
+                                    ),
+                                )
+                            }
+                            val filename by remember(uri) {
+                                derivedStateOf {
+                                    context.getFilename(uri)
+                                }
+                            }
+                            filename?.let {
+                                AutoSizeText(
+                                    text = it,
+                                    style = LocalTextStyle.current.copy(
+                                        color = Color.White,
+                                        fontSize = 11.sp,
+                                        lineHeight = 12.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        textAlign = TextAlign.End
+                                    ),
+                                    maxLines = 3,
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .align(Alignment.BottomEnd)
+                                )
+                            }
                         }
                     }
-                }
-            } else {
-                AnimatedVisibility(visible = isAddUrisVisible) {
-                    Box(
-                        modifier = Modifier
-                            .container(
-                                shape = RoundedCornerShape(4.dp),
-                                resultPadding = 0.dp,
-                                color = MaterialTheme.colorScheme.surfaceContainerHigh
-                            )
-                            .width(width)
-                            .aspectRatio(1f)
-                            .then(
-                                if (onAddUris != null) {
-                                    Modifier.hapticsClickable(onClick = onAddUris)
-                                } else Modifier
-                            ),
-                        contentAlignment = Alignment.Center,
-                        content = {
-                            addUrisContent(width)
-                        }
-                    )
+                } else {
+                    AnimatedVisibility(visible = isAddUrisVisible) {
+                        Box(
+                            modifier = Modifier
+                                .container(
+                                    shape = RoundedCornerShape(4.dp),
+                                    resultPadding = 0.dp,
+                                    color = MaterialTheme.colorScheme.surfaceContainerHigh
+                                )
+                                .width(width)
+                                .aspectRatio(1f)
+                                .then(
+                                    if (onAddUris != null) {
+                                        Modifier.hapticsClickable(onClick = onAddUris)
+                                    } else Modifier
+                                ),
+                            contentAlignment = Alignment.Center,
+                            content = {
+                                addUrisContent(width)
+                            }
+                        )
+                    }
                 }
             }
         }
