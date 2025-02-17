@@ -1,81 +1,51 @@
-Image Toolbox with these ✨
-
-<b>Features:</b>
+<h1>✨Image Toolbox✨</h1> 
+<h2>Basic Features</h2>
+<p>Note: This is only a partial list of features. For a complete list of this app's capabilities please see the <a href="https://github.com/T8RIN/ImageToolbox/blob/master/README.md">readme</a> file.</p>
 
 <ul>
-<li>Batch processing</li>
-<li>Applying filter chains (More than 45 various filters)</li>
-<li>AES-256 GCM No Padding files encryption and decryption</li>
+<li>batch processing</li>
+<li>includes over 230 filters</li>
+<li>AES-256 GCM, no padding file encryption and decryption</li>
 <li>EXIF metadata editing/deleting</li>
-<li>Loading images from internet</li>
-<li>Background Removing</li>
-  <ul>
-  <li>By drawing</li>
-  <li>Automatically</li>
-  </ul>
-<li>Drawing on Image/Background</li>
-  <ul>
-  <li>Pen</li>
-  <li>Neon</li>
-  <li>Highlighter</li>
-  </ul>
-<li>Image Resizing</li>
-  <ul>
-  <li>Width changing</li>
-  <li>Height changing</li>
-  <li>Adaptive resize</li>
-  <li>Resize retaining aspect ratio</li>
-  <li>Resize by given limits</li>
-  </ul>
-<li>Image Shrinking</li>
-  <ul>
-  <li>Quality compressing</li>
-  <li>Preset shrinking</li>
-  <li>Reducing size by given weight (in KB)</li>
-  </ul>
-<li>Cropping</li>
-  <ul>
-  <li>Regular crop</li>
-  <li>Crop by aspect ratio</li>
-  <li>Crop with shape mask</li>
-    <ul>
-    <li>Rounded Corners</li>
-    <li>Cut Corners</li>
-    <li>Oval</li>
-    <li>Squircle</li>
-    <li>Octagon</li>
-    <li>Rounded Pentagon</li>
-    <li>Clover</li>
-    <li>David Star</li>
-    <li>Kotlin Logo</li>
-    <li>Heart</li>
-    <li>Star</li>
-    <li>Image Mask</li>
-    </ul>
-  </ul>
-<li>Format Conversion</li>
-  <ul>
-  <li>HEIF</li>
-  <li>HEIC</li>
-  <li>AVIF</li>
-  <li>WEBP</li>
-  <li>JPEG</li>
-  <li>JPG</li>
-  <li>PNG</li>
-  <li>SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF</li>
-  <li>Telegram sticker PNG format</li>
-  </ul>
-<li>Color Utils</li>
-  <ul>
-  <li>Palette generation</li>
-  <li>Picking color from image</li>
-  </ul>
-<li>Additional Features</li>
-  <ul>
-  <li>Rotating</li>
-  <li>Flipping</li>
-  <li>Comparing images</li>
-  <li>Previewing SVG, GIF and almost all types of images</li>
-  <li>Saving to any folder</li>
-  </ul>
+<li>internet image access</li>
+<li>background removal (automatic and interactive)</li>
+<li>drawing capabilities (pen, highlighter, neon)</li>
+<li>resize options (width/height; aspect ratio retention; resize by specific dimension)</li>
+<li>image size reduction (quality compressing; preset shrinking options; size reduction by specific amount (in KB)</li>
+<li>cropping</li>
+<li>different scale color spaces</li>
+<li>PDF tools</li>
+<li>image stitching</li>
+<li>image stacking</li>
+<li>image splitting</li>
+<li>watermarking</li>
+<li>file encryption and decryption with 100+ different algorithms available</li>
+<li>add stickers and text (Markup Layers Mode)</li>
+<li>extract text from images in over 120 languages</li>
 </ul>
+
+<h2>Robust Cropping</h2>
+<p>Image Toolbox's magnificent cropping feature includes:<p>
+
+<ul>
+<li>standard cropping</li>
+<li>aspect ratio cropping</li>
+<li>mask cropping</li>
+</ul>
+
+<p>The app can mask crop the following shapes: rounded corners, cut corners, oval, squircle, octagon, rounded pentagon, clover, star of David, kotlin logo, heart, star, and image mask.</p>
+
+<h2>Extensive Conversion Options</h2>
+<p>The Image Toolbox app allows conversions into many standard graphic types, such as: SVG, GIF, HEIF, HEIC, AVIF, WEBP, JPEG, JPG, JXL, APNG, PNG, and Telegram PNG.</p>
+
+<h2>Additional Features</h2>
+<ul>
+<li>color utilities (palette generation; color selection from image)</li>
+<li>rotate</li>
+<li>flip</li>
+<li>image comparison</li>
+<li>preview most types of images</li>
+<li>save to local folders</li>
+</ul>
+
+<p>This app has many more features that could not be listed here due to space constraints. Please see the <a href="https://github.com/T8RIN/ImageToolbox/blob/master/README.md">readme</a> file for a complete description.</p>
