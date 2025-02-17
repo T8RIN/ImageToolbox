@@ -1,9 +1,10 @@
 <h1>✨Image Toolbox✨</h1> 
 <h2>Basic Features</h2>
+<p>Note: This is only a partial list of features. For a complete list of this app's capabilities please see the <a href="https://github.com/T8RIN/ImageToolbox/blob/master/README.md">readme</a> file.</p>
 
 <ul>
 <li>batch processing</li>
-<li>includes over 45 filters</li>
+<li>includes over 230 filters</li>
 <li>AES-256 GCM, no padding file encryption and decryption</li>
 <li>EXIF metadata editing/deleting</li>
 <li>internet image access</li>
@@ -12,6 +13,15 @@
 <li>resize options (width/height; aspect ratio retention; resize by specific dimension)</li>
 <li>image size reduction (quality compressing; preset shrinking options; size reduction by specific amount (in KB)</li>
 <li>cropping</li>
+<li>different scale color spaces</li>
+<li>PDF tools</li>
+<li>image stitching</li>
+<li>image stacking</li>
+<li>image splitting</li>
+<li>watermarking</li>
+<li>file encryption and decryption with 100+ different algorithms available</li>
+<li>add stickers and text (Markup Layers Mode)</li>
+<li>extract text from images in over 120 languages</li>
 </ul>
 
 <h2>Robust Cropping</h2>
@@ -26,7 +36,7 @@
 <p>The app can mask crop the following shapes: rounded corners, cut corners, oval, squircle, octagon, rounded pentagon, clover, star of David, kotlin logo, heart, star, and image mask.</p>
 
 <h2>Extensive Conversion Options</h2>
-<p>The Image Toolbox app allows conversions into many standard graphic types, such as: SVG, GIF, HEIF, HEIC, AVIF, WEBP, JPEG, JPG, PNG, and Telegram PNG.</p>
+<p>The Image Toolbox app allows conversions into many standard graphic types, such as: SVG, GIF, HEIF, HEIC, AVIF, WEBP, JPEG, JPG, JXL, APNG, PNG, and Telegram PNG.</p>
 
 <h2>Additional Features</h2>
 <ul>
@@ -37,3 +47,5 @@
 <li>preview most types of images</li>
 <li>save to local folders</li>
 </ul>
+
+<p>This app has many more features that could not be listed here due to space constraints. Please see the <a href="https://github.com/T8RIN/ImageToolbox/blob/master/README.md">readme</a> file for a complete description.</p>
