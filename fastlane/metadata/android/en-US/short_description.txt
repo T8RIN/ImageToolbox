@@ -1,1 +1,1 @@
-Filter, Resize, Compare, Crop - do anything with your images
+A powerful image editing app that allows you to crop, filter, convert, resize, compare, and do so much more!
