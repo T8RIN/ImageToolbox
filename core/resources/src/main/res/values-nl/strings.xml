@@ -1573,4 +1573,7 @@
     <string name="gradient_maker_type_image_mesh">Maaswerk-verloop overlay</string>
     <string name="points_customization">Punten aanpassen</string>
     <string name="grid_size">Rastergrootte</string>
+    <string name="highlight_color">Markeringskleur</string>
+    <string name="pixel_by_pixel">Pixel per pixel</string>
+    <string name="pixel_comparison_type">Pixel-vergelijking</string>
 </resources>

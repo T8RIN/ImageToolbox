@@ -1572,4 +1572,7 @@
     <string name="resolution">Resolução</string>
     <string name="gradient_maker_type_image_mesh_sub">Componha o gradiente mesh por cima das imagens fornecidas</string>
     <string name="collection_mesh_gradients">Coleção de Gradientes Mesh</string>
+    <string name="pixel_by_pixel">Pixel Por Pixel</string>
+    <string name="highlight_color">Destacar Cor</string>
+    <string name="pixel_comparison_type">Tipo de Comparação de Pixels</string>
 </resources>
