@@ -1564,4 +1564,16 @@
     <string name="inverse_horizontal_selection_sub">将保留水平切割部分，而不是合并切割区域周围的部分。</string>
     <string name="image_cutting">图像裁剪</string>
     <string name="image_cutting_sub">裁剪图像部分，并通过垂直线或水平线合并左侧部分（可反向操作）</string>
+    <string name="mesh_gradients_sub">自定义网格渐变的节点数量和分辨率</string>
+    <string name="grid_size">网格大小</string>
+    <string name="collection_mesh_gradients">网格渐变集合</string>
+    <string name="gradient_maker_type_image_mesh">网格渐变叠加</string>
+    <string name="gradient_maker_type_image_mesh_sub">在给定图像的顶部合成网格渐变</string>
+    <string name="points_customization">自定义点</string>
+    <string name="resolution_x">X 轴分辨率</string>
+    <string name="resolution_y">Y 轴分辨率</string>
+    <string name="resolution">分辨率</string>
+    <string name="pixel_by_pixel">逐个像素</string>
+    <string name="highlight_color">突出显示颜色</string>
+    <string name="pixel_comparison_type">像素比较类型</string>
 </resources>
