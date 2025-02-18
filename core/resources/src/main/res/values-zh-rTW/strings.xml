@@ -1522,4 +1522,5 @@
     <string name="histogram_sub">RGB 或亮度圖片直方圖幫助您進行調整</string>
     <string name="equalize_histogram_hsv">等化直方圖 HSV</string>
     <string name="equalize_histogram_adaptive_lab">等化直方圖自適應 LAB</string>
+    <string name="beta">Beta</string>
 </resources>
