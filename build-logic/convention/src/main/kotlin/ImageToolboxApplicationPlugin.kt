@@ -54,13 +54,6 @@ class ImageToolboxApplicationPlugin : Plugin<Project> {
 
             dependencies {
                 "implementation"(libs.findLibrary("androidxCore").get())
-                "implementation"(project(":core:data"))
-                "implementation"(project(":core:ui"))
-                "implementation"(project(":core:domain"))
-                "implementation"(project(":core:resources"))
-                "implementation"(project(":core:settings"))
-                "implementation"(project(":core:di"))
-                "implementation"(project(":core:crash"))
             }
 
             configureCompose(extensions.getByType<ApplicationExtension>())

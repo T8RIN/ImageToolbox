@@ -56,18 +56,15 @@
         android:name=".app.presentation.components.ImageToolboxApplication"
         android:allowBackup="true"
         android:colorMode="wideColorGamut"
-        android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
-        android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
-        android:hasFragileUserData="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_launcher_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ImageToolbox.Launcher"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:replace="android:allowBackup, android:label"
         tools:targetApi="tiramisu">
 
@@ -174,17 +171,6 @@
                 <data android:mimeType="*/pdf" />
             </intent-filter>
         </activity>
-        <activity android:name=".core.crash.CrashActivity" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="@string/file_provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
@@ -211,80 +197,6 @@
                 android:value="" />
         </service>
 
-        <service
-            android:name=".feature.quick_tiles.tiles.ColorPickerTile"
-            android:exported="true"
-            android:icon="@drawable/outline_colorize_24"
-            android:label="@string/pick_color"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".feature.quick_tiles.tiles.ImageToolboxTile"
-            android:exported="true"
-            android:icon="@drawable/ic_launcher_monochrome_24"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".feature.quick_tiles.tiles.EditScreenshotTile"
-            android:exported="true"
-            android:icon="@drawable/outline_app_registration_24"
-            android:label="@string/edit_screenshot"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".feature.quick_tiles.tiles.TakeScreenshotTile"
-            android:exported="true"
-            android:icon="@drawable/outline_screenshot_24"
-            android:label="@string/screenshot"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <activity
-            android:name=".feature.quick_tiles.screenshot.ScreenshotLauncher"
-            android:theme="@style/TransparentActivity" />
-
-        <service
-            android:name=".feature.quick_tiles.screenshot.ScreenshotService"
-            android:foregroundServiceType="mediaProjection"
-            android:process=":remote" />
-
-        <activity
-            android:name=".feature.media_picker.presentation.MediaPickerActivity"
-            android:enabled="@bool/at_least_26"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.PICK" />
-                <action android:name="android.intent.action.GET_CONTENT" />
-
-                <data android:mimeType="image/*" />
-                <data android:mimeType="vnd.android.cursor.dir/image" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.OPENABLE" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

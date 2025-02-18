@@ -20,14 +20,12 @@ package ru.tech.imageresizershrinker.app.presentation.components
 import android.app.Application
 import com.arkivanov.decompose.DecomposeExperimentFlags
 import dagger.hilt.android.HiltAndroidApp
-import ru.tech.imageresizershrinker.app.presentation.components.utils.registerSecurityProviders
 
 
 @HiltAndroidApp
 class ImageToolboxApplication : Application() {
 
     init {
-        registerSecurityProviders()
         DecomposeExperimentFlags.duplicateConfigurationsEnabled = true
     }
 

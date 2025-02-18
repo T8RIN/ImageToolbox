@@ -32,7 +32,7 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
 
-        applicationId = "ru.tech.imageresizershrinker"
+        applicationId = "ru.tech.imageresizershrinker.predictive_back_repro"
         versionCode = libs.versions.versionCode.get().toIntOrNull()
         versionName = System.getenv("VERSION_NAME") ?: libs.versions.versionName.get()
 
@@ -121,11 +121,77 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.root)
-    implementation(projects.feature.mediaPicker)
-    implementation(projects.feature.quickTiles)
-    implementation(libs.bouncycastle.pkix)
-    implementation(libs.bouncycastle.provider)
+    // Navigation
+    api(libs.decompose)
+    api(libs.decomposeExtensions)
+
+    //AndroidX
+    api(libs.activityCompose)
+    api(libs.splashScreen)
+    api(libs.androidx.exifinterface)
+    api(libs.appCompat)
+    api(libs.androidx.lifecycle.viewmodel.compose)
+    api(libs.androidx.documentfile)
+
+    //Konfetti
+    api(libs.konfetti.compose)
+
+    //Coil
+    api(libs.coil)
+    api(libs.coilCompose)
+    api(libs.coilGif)
+    api(libs.coilSvg)
+    api(libs.coilNetwork)
+    api(libs.ktor)
+
+    //Modules
+    api(libs.toolbox.uCrop)
+    api(libs.toolbox.cropper)
+    api(libs.toolbox.dynamicTheme)
+    api(libs.toolbox.colordetector)
+    api(libs.toolbox.gesture)
+    api(libs.toolbox.beforeafter)
+    api(libs.toolbox.image)
+    api(libs.toolbox.screenshot)
+    api(libs.toolbox.modalsheet)
+    api(libs.toolbox.colorpicker)
+    api(libs.toolbox.systemuicontroller)
+    api(libs.toolbox.placeholder)
+    api(libs.toolbox.logger)
+    api(libs.toolbox.zoomable)
+    api(libs.toolbox.snowfall)
+    api(libs.toolbox.extendedcolors)
+    api(libs.toolbox.histogram)
+
+    api(libs.reorderable)
+
+    api(libs.shadowGadgets)
+    api(libs.shadowsPlus)
+
+    api(libs.kotlinx.collections.immutable)
+
+    api(libs.fadingEdges)
+    api(libs.scrollbar)
+
+    implementation(libs.datastore.preferences.android)
+    api(libs.material)
+
+    "marketImplementation"(libs.firebase.crashlytics.ktx)
+    "marketImplementation"(libs.firebase.analytics.ktx)
+    "marketImplementation"(libs.review.ktx)
+    "marketImplementation"(libs.app.update)
+    "marketImplementation"(libs.app.update.ktx)
+
+    "marketImplementation"(libs.mlkit.document.scanner)
+    "fossImplementation"(libs.documentscanner)
+
+    "marketImplementation"(libs.quickie.bundled)
+    "fossImplementation"(libs.quickie.foss)
+    implementation(libs.zxing.android.embedded)
+    implementation(libs.jsoup)
+
+    api(libs.capturable)
+    api(libs.evaluator)
 }
 
 

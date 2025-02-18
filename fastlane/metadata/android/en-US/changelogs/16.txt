@@ -1,5 +1,0 @@
-### What's new
-* Only cropping image
-* Color picking
-* Design improved
-* Bug fixes

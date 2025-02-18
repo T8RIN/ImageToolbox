@@ -1,3 +1,0 @@
-* Update strings.xml by @Ilithy in #11
-* Redesign
-* Bug fixes

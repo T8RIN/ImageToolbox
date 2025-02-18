@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:698299287298:android:11af7edf43198644b6e41b",
         "android_client_info": {
-          "package_name": "ru.tech.imageresizershrinker.debug"
+          "package_name": "ru.tech.imageresizershrinker.predictive_back_repro.debug"
         }
       },
       "oauth_client": [

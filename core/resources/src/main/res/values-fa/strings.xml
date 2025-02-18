@@ -1,992 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="size">اندازه %1$s</string>
-    <string name="pick_image">تصویری را برای شروع انتخاب کنید</string>
-    <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
-    <string name="loading">در حال بارگزاری…</string>
-    <string name="image_too_large_preview">تصویر برای پیش‌نمایش بیش از حد بزرگ است، ولی به هر حال برای ذخیره‌اش تلاش می‌کنیم</string>
-    <string name="width">عرض %1$s</string>
-    <string name="height">ارتفاع %1$s</string>
-    <string name="primary">اولیه</string>
-    <string name="cache">حافظه پنهان</string>
-    <string name="background_remover">پاک کننده پس زمینه</string>
-    <string name="fidelity">وفاداری</string>
-    <string name="recognize_text">OCR (تشخیص متن)</string>
-    <string name="best">بهترین</string>
-    <string name="rate">نرخ</string>
-    <string name="color_stops">رنگ متوقف می شود</string>
-    <string name="add_color">اضافه کردن رنگ</string>
-    <string name="millis">میلیس</string>
-    <string name="fps">FPS</string>
-    <string name="use_lasso">از کمند استفاده کنید</string>
-    <string name="secure_mode">حالت امن</string>
-    <string name="median_blur">تاری میانی</string>
-    <string name="amplitude">دامنه</string>
-    <string name="marble">سنگ مرمر</string>
-    <string name="color_matrix_3x3">ماتریس رنگ 3x3</string>
-    <string name="simple_effects">جلوه های ساده</string>
-    <string name="quality">کیفیت</string>
-    <string name="extension">پسوند</string>
-    <string name="resize_type">نوع تغییر اندازه</string>
-    <string name="explicit">صریح</string>
-    <string name="flexible">انعطاف‌پذیر</string>
-    <string name="pick_image_alt">تصویر را انتخاب کنید</string>
-    <string name="app_closing_sub">آیا واقعاً می‌خواهید برنامه را ببندید؟</string>
-    <string name="app_closing">در حال بستن برنامه</string>
-    <string name="stay">ماندن</string>
-    <string name="close">بستن</string>
-    <string name="reset_image">بازنشانی تصویر</string>
-    <string name="reset_image_sub">تغییرات تصویر به مقادیر اولیه بازخواهد گشت</string>
-    <string name="values_reset">مقادیر به درستی بازنشانی شدند</string>
-    <string name="reset">بازنشانی</string>
-    <string name="something_went_wrong">مشکلی پیش آمد</string>
-    <string name="restart_app">برنامه را مجددا راه‌اندازی کنید</string>
-    <string name="copied">در تخته‌گیره رونوشت شد</string>
-    <string name="exception">استثنا</string>
-    <string name="edit_exif">ویرایش EXIF</string>
-    <string name="ok" tools:ignore="ButtonCase,Typos">تایید</string>
-    <string name="no_exif">هیچ داده EXIF یافت نشد</string>
-    <string name="add_tag">افزودن برچسب</string>
-    <string name="save">ذخیره</string>
-    <string name="clear">پاک کردن</string>
-    <string name="clear_exif">پاک کردن EXIF</string>
-    <string name="cancel">لغو</string>
-    <string name="clear_exif_sub">تمام داده‌های EXIF تصویر پاک خواهند شد. این عمل قابل لغو نیست!</string>
-    <string name="presets">پیش تعیین شده</string>
-    <string name="crop">برش</string>
-    <string name="image_not_saved">در حال ذخیره</string>
-    <string name="image_not_saved_sub">اگر اکنون خارج شوید، همه تغییرات ذخیره نشده از بین خواهند رفت</string>
-    <string name="check_source_code">کد منبع</string>
-    <string name="check_source_code_sub">آخرین به‌روز رسانی‌ها را دریافت کنید، درباره مسائل و موارد دیگر بحث کنید</string>
-    <string name="single_edit">ویرایش تک</string>
-    <string name="single_edit_sub">تغییر مشخصات تک تصویر داده شده</string>
-    <string name="pick_color">رنگ را انتخاب کنید</string>
-    <string name="pick_color_sub">رنگ را از تصویر انتخاب کنید، کپی کنید یا به اشتراک بگذارید</string>
-    <string name="image">تصویر</string>
-    <string name="color">رنگ</string>
-    <string name="color_copied">رنگ کپی شده</string>
-    <string name="crop_sub">تصویر را به هر حدی برش دهید</string>
-    <string name="version">نسخه</string>
-    <string name="keep_exif">EXIF را نگه دارید</string>
-    <string name="images">Images: %d</string>
-    <string name="change_preview">تغییر پیش نمایش</string>
-    <string name="remove">برداشتن</string>
-    <string name="palette_sub">نمونه پالت رنگی را از تصویر داده شده ایجاد کنید</string>
-    <string name="generate_palette">پالت تولید کنید</string>
-    <string name="palette">جعبه رنگ نقاشی</string>
-    <string name="update">به روز رسانی</string>
-    <string name="new_version">نسخه جدید %1$s</string>
-    <string name="unsupported_type">نوع پشتیبانی نشده: %1$s</string>
-    <string name="no_palette">نمی توان پالت برای تصویر داده شده ایجاد کرد</string>
-    <string name="original">اصل</string>
-    <string name="folder">پوشه خروجی</string>
-    <string name="def">پیش فرض</string>
-    <string name="custom">سفارشی</string>
-    <string name="unspecified">نامشخص</string>
-    <string name="device_storage">ذخیره سازی دستگاه</string>
-    <string name="by_bytes_resize">تغییر اندازه بر اساس حجم</string>
-    <string name="max_bytes">حداکثر اندازه در کیلوبایت</string>
-    <string name="by_bytes_resize_sub">اندازه یک تصویر را با توجه به اندازه داده شده در کیلوبایت تغییر دهید</string>
-    <string name="compare">مقایسه کنید</string>
-    <string name="compare_sub">دو تصویر داده شده را مقایسه کنید</string>
-    <string name="pick_two_images">برای شروع دو تصویر را انتخاب کنید</string>
-    <string name="pick_images">تصاویر را انتخاب کنید</string>
-    <string name="settings">تنظیمات</string>
-    <string name="night_mode">حالت شب</string>
-    <string name="dark">تاریک</string>
-    <string name="light">سبک</string>
-    <string name="system">سیستم</string>
-    <string name="dynamic_colors">رنگ های پویا</string>
-    <string name="customization">سفارشی سازی</string>
-    <string name="allow_image_monet">اجازه تصویر پول</string>
-    <string name="allow_image_monet_sub">اگر فعال باشد، وقتی تصویری را برای ویرایش انتخاب می‌کنید، رنگ‌های برنامه برای این تصویر انتخاب می‌شوند</string>
-    <string name="language">زبان</string>
-    <string name="amoled_mode">حالت AMOLED</string>
-    <string name="amoled_mode_sub">در صورت فعال بودن رنگ سطوح در حالت شب روی تاریکی مطلق تنظیم می شود</string>
-    <string name="color_scheme">طرح رنگی</string>
-    <string name="color_red">قرمز</string>
-    <string name="color_green">سبز</string>
-    <string name="color_blue">آبی</string>
-    <string name="clipboard_paste_invalid_color_code">aRGB-Code معتبر جای‌گذاری کنید.</string>
-    <string name="clipboard_paste_invalid_empty">چیزی برای چسباندن نیست</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">وقتی رنگ‌های پویا روشن هستند، نمی‌توان طرح رنگ برنامه را تغییر داد</string>
-    <string name="pick_accent_color">طرح زمینه برنامه بر اساس رنگ انتخاب شده خواهد بود</string>
-    <string name="about_app">درباره برنامه</string>
-    <string name="no_updates">هیچ به روز رسانی پیدا نشد</string>
-    <string name="issue_tracker">ردیاب مشکل</string>
-    <string name="issue_tracker_sub">گزارش اشکال و درخواست ویژگی را اینجا ارسال کنید</string>
-    <string name="help_translate">کمک به ترجمه</string>
-    <string name="help_translate_sub">اشتباهات ترجمه را تصحیح کنید یا پروژه را به زبان های دیگر بومی سازی کنید</string>
-    <string name="nothing_found_by_search">با درخواست شما چیزی پیدا نشد</string>
-    <string name="search_here">اینجا جستجو کنید</string>
-    <string name="dynamic_colors_sub">اگر فعال باشد، رنگ‌های برنامه برای رنگ‌های کاغذدیواری استفاده می‌شوند</string>
-    <string name="failed_to_save">%d تصویر ذخیره نشد</string>
-    <string name="email">پست الکترونیک</string>
-    <string name="tertiary">دوره سوم</string>
-    <string name="secondary">ثانوی</string>
-    <string name="border_thickness">ضخامت حاشیه - ضخامت لبه</string>
-    <string name="surface">سطح</string>
-    <string name="values">ارزش های</string>
-    <string name="add">اضافه کردن</string>
-    <string name="permission">اجازه</string>
-    <string name="grant">اعطا کردن</string>
-    <string name="permission_sub">برنامه نیاز به دسترسی به فضای ذخیره سازی شما برای ذخیره تصاویر برای کار دارد، لازم است. لطفاً در کادر محاوره ای بعدی مجوز بدهید.</string>
-    <string name="grant_permission_manual">برنامه برای کار به این مجوز نیاز دارد، لطفاً آن را به صورت دستی اعطا کنید</string>
-    <string name="external_storage">ذخیره سازی خارجی</string>
-    <string name="monet_colors">رنگ های مونی</string>
-    <string name="donation_sub">این برنامه کاملا رایگان است، اما اگر می خواهید از توسعه پروژه پشتیبانی کنید، می توانید اینجا کلیک کنید</string>
-    <string name="fab_alignment">تراز FAB</string>
-    <string name="check_updates">به روز رسانی را بررسی کنید</string>
-    <string name="check_updates_sub">در صورت فعال بودن، گفتگوی به‌روزرسانی هنگام راه‌اندازی برنامه به شما نشان داده می‌شود</string>
-    <string name="zoom">بزرگنمایی تصویر</string>
-    <string name="share">اشتراک گذاری</string>
-    <string name="prefix">پیشوند</string>
-    <string name="filename">نام فایل</string>
-    <string name="emoji">ایموجی</string>
-    <string name="emoji_sub">انتخاب کنید کدام ایموجی در صفحه اصلی نمایش داده شود</string>
-    <string name="add_file_size">اضافه کردن اندازه فایل</string>
-    <string name="add_file_size_sub">در صورت فعال بودن، عرض و ارتفاع تصویر ذخیره شده را به نام فایل خروجی اضافه می کند</string>
-    <string name="delete_exif">EXIF را حذف کنید</string>
-    <string name="delete_exif_sub">ابرداده EXIF را از هر مجموعه ای از تصاویر حذف کنید</string>
-    <string name="image_preview">پیش نمایش تصویر</string>
-    <string name="image_preview_sub">پیش نمایش هر نوع تصویر: GIF، SVG، و غیره</string>
-    <string name="image_source">منبع تصویر</string>
-    <string name="photo_picker">انتخابگر عکس</string>
-    <string name="gallery_picker">آلبوم عکس</string>
-    <string name="file_explorer_picker">جستجوگر فایل</string>
-    <string name="photo_picker_sub">انتخابگر عکس مدرن اندروید که در پایین صفحه ظاهر می شود، ممکن است فقط در اندروید 12+ کار کند. در دریافت فراداده EXIF مشکل دارد</string>
-    <string name="gallery_picker_sub">انتخابگر تصویر گالری ساده. فقط در صورتی کار می کند که برنامه ای داشته باشید که انتخاب رسانه را ارائه دهد</string>
-    <string name="file_explorer_picker_sub">از قصد GetContent برای انتخاب تصویر استفاده کنید. در همه جا کار می کند، اما مشخص است که در دریافت تصاویر انتخابی در برخی از دستگاه ها مشکلاتی دارد. این تقصیر من نیست</string>
-    <string name="options_arrangement">ترتیب گزینه ها</string>
-    <string name="edit">ویرایش کنید</string>
-    <string name="order">سفارش</string>
-    <string name="order_sub">ترتیب ابزار ها را در صفحه اصلی تعیین می کند</string>
-    <string name="emojis_count">تعداد ایموجی ها</string>
-    <string name="sequence_num">sequenceNum</string>
-    <string name="original_filename">نام فایل اصلی</string>
-    <string name="add_original_filename">نام فایل اصلی را اضافه کنید</string>
-    <string name="add_original_filename_sub">اگر فعال باشد، نام فایل اصلی را به نام تصویر خروجی اضافه می کند</string>
-    <string name="replace_sequence_number">شماره دنباله را جایگزین کنید</string>
-    <string name="replace_sequence_number_sub">اگر فعال باشد، اگر از پردازش دسته‌ای استفاده می‌کنید، مهر زمانی استاندارد را به شماره توالی تصویر جایگزین می‌کند</string>
-    <string name="filename_not_work_with_photopicker">اگر منبع تصویر انتخابگر عکس انتخاب شود، افزودن نام فایل اصلی کار نمی‌کند</string>
-    <string name="load_image_from_net">بارگذاری تصویر از شبکه</string>
-    <string name="load_image_from_net_sub">هر تصویری را از اینترنت برای پیش نمایش، زوم، ویرایش و ذخیره آن در صورت تمایل بارگیری کنید.</string>
-    <string name="no_image">بدون تصویر</string>
-    <string name="image_link">لینک تصویر</string>
-    <string name="fill">پر کنید</string>
-    <string name="fit">مناسب</string>
-    <string name="content_scale">مقیاس محتوا</string>
-    <string name="explicit_description">هر تصویر را به تصویری که با پارامتر Width و Height داده می شود مجبور می کند - ممکن است نسبت تصویر را تغییر دهد</string>
-    <string name="flexible_description">اندازه تصاویر را به تصاویری با ضلع بلند داده شده توسط پارامتر Width یا Height تغییر می دهد، تمام محاسبات اندازه پس از ذخیره انجام می شود - نسبت تصویر را حفظ می کند.</string>
-    <string name="brightness">روشنایی</string>
-    <string name="contrast">تضاد</string>
-    <string name="hue">رنگ</string>
-    <string name="saturation">اشباع</string>
-    <string name="add_filter">افزودن فیلتر</string>
-    <string name="filter">فیلتر کنید</string>
-    <string name="filter_sub">هر زنجیره فیلتر را روی تصاویر داده شده اعمال کنید</string>
-    <string name="filters">فیلترها</string>
-    <string name="light_aka_illumination">سبک</string>
-    <string name="color_filter">فیلتر رنگ</string>
-    <string name="alpha">آلفا</string>
-    <string name="exposure">قرار گرفتن در معرض بیماری</string>
-    <string name="white_balance">تعادل رنگ سفید</string>
-    <string name="temperature">درجه حرارت</string>
-    <string name="tint">رنگ</string>
-    <string name="monochrome">تک رنگ</string>
-    <string name="gamma">گاما</string>
-    <string name="highlights_shadows">هایلایت و سایه ها</string>
-    <string name="highlights">نکات برجسته</string>
-    <string name="shadows">سایه ها</string>
-    <string name="haze">مه</string>
-    <string name="effect">اثر</string>
-    <string name="distance">فاصله</string>
-    <string name="slope">شیب</string>
-    <string name="sharpen">تیز کردن</string>
-    <string name="sepia">سپیا</string>
-    <string name="negative">منفی</string>
-    <string name="solarize">خورشیدی کنید</string>
-    <string name="vibrance">جنب و جوش</string>
-    <string name="black_and_white">سیاه و سفید</string>
-    <string name="crosshatch">متقاطع</string>
-    <string name="spacing">فاصله گذاری</string>
-    <string name="line_width">عرض خط</string>
-    <string name="sobel_edge">لبه سوبل</string>
-    <string name="blur">محو کردن</string>
-    <string name="halftone">نیم صدا</string>
-    <string name="cga_colorspace">فضای رنگی CGA</string>
-    <string name="gaussian_blur">تاری گاوسی</string>
-    <string name="box_blur">محو شدن جعبه</string>
-    <string name="bilaterial_blur">تاری دو طرفه</string>
-    <string name="emboss">برجسته کردن</string>
-    <string name="laplacian">لاپلاسی</string>
-    <string name="vignette">وینیت</string>
-    <string name="start">شروع کنید</string>
-    <string name="end">پایان</string>
-    <string name="kuwahara">کووهرا صاف کردن</string>
-    <string name="stack_blur">تاری پشته</string>
-    <string name="radius">شعاع</string>
-    <string name="scale">مقیاس</string>
-    <string name="distortion">اعوجاج</string>
-    <string name="angle">زاویه</string>
-    <string name="swirl">چرخش</string>
-    <string name="bulge">برآمدگی</string>
-    <string name="dilation">اتساع</string>
-    <string name="sphere_refraction">شکست کره</string>
-    <string name="refractive_index">ضریب شکست</string>
-    <string name="glass_sphere_refraction">شکست کره شیشه ای</string>
-    <string name="color_matrix">ماتریس رنگ</string>
-    <string name="opacity">کدورت</string>
-    <string name="limits_resize">محدودیت ها تغییر اندازه</string>
-    <string name="limits_resize_sub">اندازه تصاویر انتخاب شده را تغییر دهید تا از محدودیت های عرض و ارتفاع پیروی کنید و در عین حال نسبت ابعاد را ذخیره کنید</string>
-    <string name="sketch">طرح</string>
-    <string name="threshold">آستانه</string>
-    <string name="quantizationLevels">سطوح کوانتیزاسیون</string>
-    <string name="smooth_toon">تون صاف</string>
-    <string name="toon">تون</string>
-    <string name="posterize">پوستر کردن</string>
-    <string name="non_maximum_suppression">عدم سرکوب حداکثری</string>
-    <string name="weak_pixel_inclusion">گنجاندن پیکسل ضعیف</string>
-    <string name="lookup">جستجو</string>
-    <string name="convolution3x3">پیچیدگی 3x3</string>
-    <string name="rgb_filter">فیلتر RGB</string>
-    <string name="false_color">رنگ کاذب</string>
-    <string name="first_color">رنگ اول</string>
-    <string name="second_color">رنگ دوم</string>
-    <string name="reorder">دوباره سفارش دهید</string>
-    <string name="fast_blur">تاری سریع</string>
-    <string name="blur_size">اندازه تاری</string>
-    <string name="blur_center_x">مرکز x را تار کنید</string>
-    <string name="blur_center_y">محو کردن مرکز y</string>
-    <string name="zoom_blur">زوم تاری</string>
-    <string name="color_balance">تعادل رنگ</string>
-    <string name="luminance_threshold">آستانه درخشندگی</string>
-    <string name="activate_files">برنامه Files را غیرفعال کردید، برای استفاده از این ویژگی آن را فعال کنید</string>
-    <string name="draw">قرعه کشی</string>
-    <string name="draw_sub">مانند یک کتاب طراحی روی تصویر بکشید یا روی خود پس زمینه بکشید</string>
-    <string name="paint_color">رنگ رنگ</string>
-    <string name="paint_alpha">رنگ آلفا</string>
-    <string name="draw_on_image">روی تصویر بکشید</string>
-    <string name="draw_on_image_sub">یک تصویر را انتخاب کنید و چیزی روی آن بکشید</string>
-    <string name="draw_on_background">روی پس زمینه بکشید</string>
-    <string name="draw_on_background_sub">رنگ پس زمینه را انتخاب کنید و بالای آن بکشید</string>
-    <string name="background_color">رنگ پس زمینه</string>
-    <string name="cipher">رمز</string>
-    <string name="cipher_sub">هر فایل (نه تنها تصویر) را بر اساس الگوریتم رمزنگاری AES رمزگذاری و رمزگشایی کنید</string>
-    <string name="pick_file">فایل را انتخاب کنید</string>
-    <string name="encrypt">رمزگذاری کنید</string>
-    <string name="decrypt">رمزگشایی</string>
-    <string name="pick_file_to_start">فایل را برای شروع انتخاب کنید</string>
-    <string name="decryption">رمزگشایی</string>
-    <string name="encryption">رمزگذاری</string>
-    <string name="key">کلید</string>
-    <string name="file_proceed">فایل پردازش شد</string>
-    <string name="store_file_desc">این فایل را در دستگاه خود ذخیره کنید یا از اقدام اشتراک گذاری برای قرار دادن آن در هر کجا که می خواهید استفاده کنید</string>
-    <string name="features">امکانات</string>
-    <string name="implementation">پیاده سازی</string>
-    <string name="compatibility">سازگاری</string>
-    <string name="features_sub">رمزگذاری فایل ها بر اساس رمز عبور فایل های ادامه یافته را می توان در فهرست انتخابی ذخیره کرد یا به اشتراک گذاشت. فایل های رمزگشایی شده نیز می توانند مستقیما باز شوند.</string>
-    <string name="implementation_sub">AES-256، حالت GCM، بدون بالشتک، IV های تصادفی 12 بایت. کلیدها به عنوان هش SHA-3 (256 بیت) استفاده می شوند.</string>
-    <string name="file_size">حجم فایل</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
-    <string name="compatibility_sub">لطفاً توجه داشته باشید که سازگاری با سایر نرم افزارها یا خدمات رمزگذاری فایل تضمین نمی شود. یک درمان کلیدی یا پیکربندی رمز کمی متفاوت ممکن است باعث ناسازگاری شود.</string>
-    <string name="invalid_password_or_not_encrypted">رمز عبور نامعتبر یا فایل انتخابی رمزگذاری نشده است</string>
-    <string name="image_size_warning">تلاش برای ذخیره تصویر با عرض و ارتفاع معین ممکن است باعث خطای OOM شود. این کار را با مسئولیت خود انجام دهید و نگویید من به شما هشدار ندادم!</string>
-    <string name="cache_size">اندازه کش</string>
-    <string name="found_s">پیدا شد %1$s</string>
-    <string name="auto_cache_clearing">پاکسازی حافظه پنهان خودکار</string>
-    <string name="auto_cache_clearing_sub">در صورت فعال بودن حافظه پنهان برنامه هنگام راه اندازی برنامه پاک می شود</string>
-    <string name="create">ايجاد كردن</string>
-    <string name="tools">ابزار</string>
-    <string name="group_options_by_type">گروه بندی گزینه ها بر اساس نوع</string>
-    <string name="group_options_by_type_sub">به جای ترتیب فهرست سفارشی، گزینه‌ها را بر اساس نوعشان در صفحه اصلی گروه‌بندی می‌کند</string>
-    <string name="cannot_change_arrangement_while_options_grouping_enabled">وقتی گروه بندی گزینه ها فعال است، نمی توان ترتیب را تغییر داد</string>
-    <string name="edit_screenshot">ویرایش اسکرین شات</string>
-    <string name="secondary_customization">سفارشی سازی ثانویه</string>
-    <string name="screenshot">اسکرین شات</string>
-    <string name="fallback_option">گزینه بازگشتی</string>
-    <string name="skip">پرش کنید</string>
-    <string name="copy">کپی 🀄</string>
-    <string name="warning_bytes">ذخیره در حالت %1$s می تواند ناپایدار باشد، زیرا یک قالب بدون ضرر است</string>
-    <string name="presets_sub" formatted="false">اگر 125 از پیش تعیین شده را انتخاب کرده باشید، تصویر به اندازه 125% اندازه تصویر اصلی ذخیره می شود. اگر 50 از پیش تعیین شده را انتخاب کنید، تصویر با اندازه 50٪ ذخیره می شود</string>
-    <string name="presets_sub_bytes">پیش‌تنظیم در اینجا درصد فایل خروجی را تعیین می‌کند، یعنی اگر 50 از پیش تعیین شده را روی تصویر 5 مگابایتی انتخاب کنید، پس از ذخیره کردن تصویر 2.5 مگابایتی دریافت خواهید کرد.</string>
-    <string name="randomize_filename">تصادفی کردن نام فایل</string>
-    <string name="randomize_filename_sub">اگر فعال باشد نام فایل خروجی کاملا تصادفی خواهد بود</string>
-    <string name="saved_to">در پوشه %1$s با نام %2$s ذخیره شد</string>
-    <string name="saved_to_without_filename">در پوشه %1$s ذخیره شد</string>
-    <string name="tg_chat">چت تلگرام</string>
-    <string name="tg_chat_sub">در مورد برنامه بحث کنید و از سایر کاربران بازخورد دریافت کنید. همچنین می‌توانید به‌روزرسانی‌ها و اطلاعات آماری بتا را در اینجا دریافت کنید.</string>
-    <string name="crop_mask">ماسک برش</string>
-    <string name="aspect_ratio">نسبت ابعاد</string>
-    <string name="image_crop_mask_sub">از این نوع ماسک برای ایجاد ماسک از تصویر داده شده استفاده کنید، توجه کنید که باید کانال آلفا داشته باشد</string>
-    <string name="backup_and_restore">پشتیبان گیری و بازیابی</string>
-    <string name="backup">پشتیبان گیری</string>
-    <string name="restore">بازگرداندن</string>
-    <string name="backup_sub">از تنظیمات برنامه خود در یک فایل نسخه پشتیبان تهیه کنید</string>
-    <string name="restore_sub">تنظیمات برنامه را از فایلی که قبلا ایجاد شده است بازیابی کنید</string>
-    <string name="corrupted_file_or_not_a_backup">فایل خراب است یا نسخه پشتیبان ندارد</string>
-    <string name="settings_restored">تنظیمات با موفقیت بازیابی شد</string>
-    <string name="contact_me">با من تماس بگیر</string>
-    <string name="reset_settings_sub">با این کار تنظیمات شما به مقادیر پیش فرض برمی گردد. توجه داشته باشید که این کار بدون فایل پشتیبان ذکر شده در بالا قابل واگرد نیست.</string>
-    <string name="delete">حذف</string>
-    <string name="delete_color_scheme_warn">شما در حال حذف طرح رنگ انتخابی هستید. این عملیات قابل برگشت نیست</string>
-    <string name="delete_color_scheme_title">حذف طرح</string>
-    <string name="font">فونت</string>
-    <string name="text">متن</string>
-    <string name="font_scale">مقیاس قلم</string>
-    <string name="defaultt">پیش فرض</string>
-    <string name="using_large_fonts_warn">استفاده از مقیاس‌های فونت بزرگ ممکن است باعث اشکالات و مشکلات رابط کاربری شود که رفع نمی‌شوند. با احتیاط استفاده کنید.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
-    <string name="emotions">احساسات</string>
-    <string name="food_and_drink">غذا و نوشیدنی</string>
-    <string name="nature_and_animals">طبیعت و حیوانات</string>
-    <string name="objects">اشیاء</string>
-    <string name="symbols">نمادها</string>
-    <string name="enable_emoji">ایموجی را فعال کنید</string>
-    <string name="travels_and_places">سفرها و مکان ها</string>
-    <string name="activities">فعالیت ها</string>
-    <string name="background_remover_sub">با کشیدن پس زمینه از تصویر حذف کنید یا از گزینه Auto استفاده کنید</string>
-    <string name="trim_image">برش تصویر</string>
-    <string name="keep_exif_sub">ابرداده تصویر اصلی حفظ خواهد شد</string>
-    <string name="trim_image_sub">فضاهای شفاف اطراف تصویر کوتاه خواهند شد</string>
-    <string name="auto_erase_background">پاک کردن خودکار پس زمینه</string>
-    <string name="restore_image">بازیابی تصویر</string>
-    <string name="erase_mode">حالت پاک کردن</string>
-    <string name="erase_background">پاک کردن پس زمینه</string>
-    <string name="restore_background">بازیابی پس زمینه</string>
-    <string name="blur_radius">شعاع تاری</string>
-    <string name="pipette">پیپت</string>
-    <string name="draw_mode">حالت رسم</string>
-    <string name="create_issue">ایجاد مسئله</string>
-    <string name="something_went_wrong_emphasis">اوه... مشکلی پیش آمد. می توانید با استفاده از گزینه های زیر برای من بنویسید و من سعی خواهم کرد راه حلی پیدا کنم</string>
-    <string name="resize_and_convert">تغییر اندازه و تبدیل</string>
-    <string name="resize_and_convert_sub">اندازه تصاویر داده شده را تغییر دهید یا آنها را به فرمت های دیگر تبدیل کنید. در صورت انتخاب یک تصویر واحد، ابرداده EXIF را نیز می توان در اینجا ویرایش کرد.</string>
-    <string name="max_colors_count">حداکثر تعداد رنگ</string>
-    <string name="crashlytics_sub">این به برنامه اجازه می دهد تا گزارش های خرابی را به صورت دستی جمع آوری کند</string>
-    <string name="analytics">تجزیه و تحلیل</string>
-    <string name="analytics_sub">جمع آوری آمار استفاده از برنامه ناشناس را مجاز کنید</string>
-    <string name="jxl_sub">فرمت JXL به طور رسمی توسط اندروید پشتیبانی نمی شود بنابراین ممکن است چیزی کار نکند. ذخیره فقط در صورتی کار خواهد کرد که فهرست خروجی سفارشی را انتخاب کنید. این یک نسخه آزمایشی است، اشکالات اینجا برطرف نمی شود مگر اینکه گوگل پشتیبانی JXL را اضافه کند. این نسخه می تواند تصاویر JXL را مشاهده کند</string>
-    <string name="image_exif_warning">در حال حاضر، قالب %1$s فقط اجازه خواندن فراداده EXIF را در اندروید می دهد. تصویر خروجی در صورت ذخیره به هیچ وجه متادیتا نخواهد داشت.</string>
-    <string name="effort">تلاش</string>
-    <string name="effort_sub">مقدار %1$d به معنای فشرده سازی سریع است که در نتیجه اندازه فایل نسبتاً بزرگی ایجاد می شود. %2$d به معنای فشرده سازی کندتر است که در نتیجه فایل کوچکتری ایجاد می شود.</string>
-    <string name="wait">صبر کن</string>
-    <string name="saving_almost_complete">ذخیره تقریباً کامل شد. لغو اکنون نیاز به ذخیره مجدد دارد.</string>
-    <string name="updates">به روز رسانی ها</string>
-    <string name="allow_betas">بتا را مجاز کنید</string>
-    <string name="allow_betas_sub">در صورت فعال بودن، بررسی به‌روزرسانی شامل نسخه‌های برنامه بتا می‌شود</string>
-    <string name="draw_arrows">فلش ها را بکشید</string>
-    <string name="draw_arrows_sub">اگر فعال باشد مسیر ترسیم به صورت فلش اشاره گر نشان داده می شود</string>
-    <string name="brush_softness">نرمی برس</string>
-    <string name="crop_description">تصاویر به اندازه وارد شده در مرکز برش داده می شوند. اگر تصویر کوچکتر از ابعاد وارد شده باشد، بوم با رنگ پس زمینه داده شده بزرگ می شود.</string>
-    <string name="donation">اهداء</string>
-    <string name="image_stitching">دوخت تصویر</string>
-    <string name="image_stitching_sub">تصاویر داده شده را با هم ترکیب کنید تا یک تصویر بزرگ بدست آورید</string>
-    <string name="pick_at_least_two_images">حداقل 2 تصویر را انتخاب کنید</string>
-    <string name="output_image_scale">مقیاس تصویر خروجی</string>
-    <string name="image_orientation">جهت گیری تصویر</string>
-    <string name="horizontal">افقی</string>
-    <string name="vertical">عمودی</string>
-    <string name="scale_small_images_to_large">تصاویر کوچک را به بزرگ تبدیل کنید</string>
-    <string name="scale_small_images_to_large_sub">در صورت فعال بودن، تصاویر کوچک به بزرگ‌ترین آن‌ها در توالی مقیاس می‌شوند</string>
-    <string name="images_order">سفارش تصاویر</string>
-    <string name="regular">منظم</string>
-    <string name="blur_edges">لبه ها را محو کنید</string>
-    <string name="blur_edges_sub">لبه های تار را زیر تصویر اصلی می کشد تا در صورت فعال بودن، به جای تک رنگ، فضاهای اطراف آن را پر کند</string>
-    <string name="pixelation">پیکسل سازی</string>
-    <string name="enhanced_pixelation">پیکسل‌سازی پیشرفته</string>
-    <string name="stroke_pixelation">Stroke Pixelation</string>
-    <string name="enhanced_diamond_pixelation">پیکسل سازی الماسی پیشرفته</string>
-    <string name="diamond_pixelation">پیکسل سازی الماس</string>
-    <string name="circle_pixelation">دایره پیکسلی</string>
-    <string name="enhanced_circle_pixelation">پیکسل‌سازی دایره‌ای پیشرفته</string>
-    <string name="replace_color">رنگ را جایگزین کنید</string>
-    <string name="tolerance">تحمل</string>
-    <string name="color_to_replace">رنگ برای جایگزینی</string>
-    <string name="target_color">رنگ هدف</string>
-    <string name="color_to_remove">رنگ برای حذف</string>
-    <string name="remove_color">حذف رنگ</string>
-    <string name="recode">رمزگذاری مجدد</string>
-    <string name="pixel_size">اندازه پیکسل</string>
-    <string name="lock_draw_orientation">جهت قرعه کشی را قفل کنید</string>
-    <string name="lock_draw_orientation_sub">اگر در حالت طراحی فعال باشد، صفحه نمی‌چرخد</string>
-    <string name="check_for_updates">به روز رسانی را بررسی کنید</string>
-    <string name="palette_style">سبک پالت</string>
-    <string name="tonal_spot">نقطه تونال</string>
-    <string name="neutral">خنثی</string>
-    <string name="vibrant">پر جنب و جوش</string>
-    <string name="expressive">رسا</string>
-    <string name="rainbow">رنگين كمان</string>
-    <string name="fruit_salad">سالاد میوه</string>
-    <string name="content">محتوا</string>
-    <string name="tonal_spot_sub">سبک پالت پیش‌فرض، امکان سفارشی کردن هر چهار رنگ را فراهم می‌کند، بقیه به شما اجازه می‌دهند فقط رنگ کلید را تنظیم کنید</string>
-    <string name="neutral_sub">سبکی که کمی رنگی تر از تک رنگ است</string>
-    <string name="vibrant_sub">تم بلند، رنگارنگی برای پالت اصلی حداکثر است، برای سایرین افزایش یافته است</string>
-    <string name="playful_scheme">یک تم بازی - رنگ منبع رنگ در طرح زمینه ظاهر نمی شود</string>
-    <string name="monochrome_sub">یک تم تک ، رنگ ها کاملا سیاه / سفید / خاکستری هستند</string>
-    <string name="content_sub">طرحی که رنگ منبع را در Scheme.primaryContainer قرار می دهد</string>
-    <string name="fidelity_sub">طرحی که شباهت زیادی به طرح محتوا دارد</string>
-    <string name="foss_update_checker_warning">این بررسی کننده به روز رسانی به GitHub متصل می شود تا بررسی کند آیا به روز رسانی جدیدی در دسترس است یا خیر</string>
-    <string name="attention">توجه</string>
-    <string name="fading_edges">محو شدن لبه ها</string>
-    <string name="both">هر دو</string>
-    <string name="disabled">معلول</string>
-    <string name="invert_colors">رنگ های معکوس</string>
-    <string name="invert_colors_sub">در صورت فعال بودن، رنگ های طرح زمینه را با رنگ های منفی جایگزین می کند</string>
-    <string name="search_option">جستجو کردن</string>
-    <string name="search_option_sub">امکان جستجو در تمام ابزار های موجود در صفحه اصلی را فعال می کند</string>
-    <string name="pdf_tools">ابزارهای PDF</string>
-    <string name="pdf_tools_sub">کار با فایل های PDF: پیش نمایش، تبدیل به دسته ای از تصاویر یا ایجاد یکی از تصاویر داده شده</string>
-    <string name="preview_pdf">پیش نمایش PDF</string>
-    <string name="pdf_to_images">PDF به تصاویر</string>
-    <string name="images_to_pdf">تصاویر به PDF</string>
-    <string name="preview_pdf_sub">پیش نمایش PDF ساده</string>
-    <string name="pdf_to_images_sub">تبدیل PDF به تصاویر در فرمت خروجی داده شده</string>
-    <string name="images_to_pdf_sub">تصاویر داده شده را در فایل PDF خروجی بسته بندی کنید</string>
-    <string name="mask_filter">فیلتر ماسک</string>
-    <string name="mask_filter_sub">زنجیر فیلتر را روی نواحی پوشانده شده اعمال کنید، هر ناحیه ماسک می تواند مجموعه فیلترهای خود را تعیین کند</string>
-    <string name="masks">ماسک ها</string>
-    <string name="add_mask">ماسک را اضافه کنید</string>
-    <string name="mask_indexed">ماسک %d</string>
-    <string name="mask_color">رنگ ماسک</string>
-    <string name="mask_preview">پیش نمایش ماسک</string>
-    <string name="mask_preview_sub">ماسک فیلتر کشیده شده برای نشان دادن نتیجه تقریبی به شما ارائه می شود</string>
-    <string name="inverse_fill_type">نوع پر معکوس</string>
-    <string name="inverse_fill_type_sub">اگر فعال باشد، به جای رفتار پیش‌فرض، تمام مناطق بدون ماسک فیلتر می‌شوند</string>
-    <string name="delete_mask_warn">شما در حال حذف ماسک فیلتر انتخابی هستید. این عملیات قابل برگشت نیست</string>
-    <string name="delete_mask">ماسک را حذف کنید</string>
-    <string name="full_filter">فیلتر کامل</string>
-    <string name="full_filter_sub">هر زنجیره فیلتر را روی تصاویر داده شده یا تک تصویر اعمال کنید</string>
-    <string name="start_position">شروع کنید</string>
-    <string name="center_position">مرکز</string>
-    <string name="end_position">پایان</string>
-    <string name="simple_variants">انواع ساده</string>
-    <string name="highlighter">هایلایتر</string>
-    <string name="neon">نئون</string>
-    <string name="pen">خودکار</string>
-    <string name="privacy_blur">محو کردن حریم خصوصی</string>
-    <string name="highlighter_sub">مسیرهای هایلایتر تیز شده نیمه شفاف را رسم کنید</string>
-    <string name="neon_sub">جلوه ای درخشان به نقاشی های خود اضافه کنید</string>
-    <string name="pen_sub">پیش‌فرض، ساده‌ترین - فقط رنگ</string>
-    <string name="privacy_blur_sub">تصویر زیر مسیر ترسیم شده را محو می کند تا هر چیزی را که می خواهید پنهان کنید ایمن کنید</string>
-    <string name="pixelation_sub">شبیه محو کردن حریم خصوصی است، اما به جای محو کردن، پیکسل می‌شود</string>
-    <string name="containers_shadow">ظروف</string>
-    <string name="containers_shadow_sub">طراحی سایه پشت کانتینرها را فعال می کند</string>
-    <string name="sliders_shadow">لغزنده</string>
-    <string name="switches_shadow">سوئیچ ها</string>
-    <string name="fabs_shadow">FAB ها</string>
-    <string name="buttons_shadow">دکمه ها</string>
-    <string name="sliders_shadow_sub">طراحی سایه پشت لغزنده را فعال می کند</string>
-    <string name="switches_shadow_sub">طراحی سایه پشت سوئیچ ها را فعال می کند</string>
-    <string name="fabs_shadow_sub">طراحی سایه پشت دکمه‌های عمل شناور را فعال می‌کند</string>
-    <string name="buttons_shadow_sub">طراحی سایه پشت دکمه های پیش فرض را فعال می کند</string>
-    <string name="app_bars_shadow">نوارهای برنامه</string>
-    <string name="app_bars_shadow_sub">طراحی سایه در پشت نوارهای برنامه را فعال می کند</string>
-    <string name="value_in_range">مقدار در محدوده %1$s - %2$s</string>
-    <string name="auto_rotate_limits">چرخش خودکار</string>
-    <string name="auto_rotate_limits_sub">اجازه می دهد تا جعبه محدودیت برای جهت گیری تصویر اتخاذ شود</string>
-    <string name="draw_path_mode">حالت مسیر ترسیم</string>
-    <string name="double_line_arrow">پیکان دو خطی</string>
-    <string name="free_drawing">نقاشی آزاد</string>
-    <string name="double_arrow">دو فلش</string>
-    <string name="line_arrow">پیکان خط</string>
-    <string name="arrow">فلش</string>
-    <string name="line">خط</string>
-    <string name="free_drawing_sub">مسیر را به عنوان مقدار ورودی ترسیم می کند</string>
-    <string name="line_sub">مسیر را از نقطه شروع به نقطه پایان به عنوان یک خط رسم می کند</string>
-    <string name="line_arrow_sub">فلش اشاره گر را از نقطه شروع به نقطه پایان به عنوان یک خط رسم می کند</string>
-    <string name="arrow_sub">فلش اشاره گر را از یک مسیر مشخص می کشد</string>
-    <string name="double_line_arrow_sub">فلش های دوگانه را از نقطه شروع به نقطه پایان به عنوان یک خط رسم می کند</string>
-    <string name="double_arrow_sub">فلش های دو نشان دهنده را از یک مسیر مشخص می کشد</string>
-    <string name="outlined_oval">بیضی مشخص شده است</string>
-    <string name="outlined_rect">رکت مشخص شده</string>
-    <string name="oval">بیضی شکل</string>
-    <string name="rect">راست</string>
-    <string name="rect_sub">راست را از نقطه شروع به نقطه پایان رسم می کند</string>
-    <string name="oval_sub">بیضی شکل را از نقطه شروع تا نقطه پایان ترسیم می کند</string>
-    <string name="outlined_oval_sub">بیضی شکل را از نقطه شروع تا نقطه پایان ترسیم می کند</string>
-    <string name="outlined_rect_sub">رئوس مطالب را از نقطه شروع تا پایان رسم می کند</string>
-    <string name="lasso">کمند</string>
-    <string name="lasso_sub">مسیر پر بسته را بر اساس مسیر داده شده ترسیم می کند</string>
-    <string name="free">آزاد</string>
-    <string name="horizontal_grid">شبکه افقی</string>
-    <string name="vertical_grid">شبکه عمودی</string>
-    <string name="stitch_mode">حالت دوخت</string>
-    <string name="rows_count">تعداد ردیف ها</string>
-    <string name="columns_count">تعداد ستون ها</string>
-    <string name="no_such_directory">دایرکتوری \"%1$s\" یافت نشد، ما آن را به یک فهرست پیش فرض تغییر دادیم، لطفاً فایل را دوباره ذخیره کنید</string>
-    <string name="clipboard">کلیپ بورد</string>
-    <string name="auto_pin">پین خودکار</string>
-    <string name="auto_pin_sub">در صورت فعال بودن، به طور خودکار تصویر ذخیره شده را به کلیپ بورد اضافه می کند</string>
-    <string name="vibration">لرزش</string>
-    <string name="vibration_strength">قدرت ارتعاش</string>
-    <string name="overwrite_file_requirements">برای بازنویسی فایل‌ها باید از منبع تصویر \"Explorer\" استفاده کنید، تصاویر را دوباره انتخاب کنید، ما منبع تصویر را به منبع مورد نیاز تغییر داده‌ایم</string>
-    <string name="overwrite_files">بازنویسی فایل ها</string>
-    <string name="overwrite_files_sub">فایل اصلی به جای ذخیره در پوشه انتخابی با فایل جدید جایگزین می شود، این گزینه باید منبع تصویر \"Explorer\" یا GetContent باشد، در صورت تغییر دادن این، به طور خودکار تنظیم می شود.</string>
-    <string name="empty">خالی</string>
-    <string name="suffix">پسوند</string>
-    <string name="scale_mode">حالت مقیاس</string>
-    <string name="bilinear">دو خطی</string>
-    <string name="catmull">Catmull</string>
-    <string name="bicubic">دو مکعبی</string>
-    <string name="hann">هان</string>
-    <string name="hermite">هرمیت</string>
-    <string name="lanczos">لانچوس</string>
-    <string name="mitchell">میچل</string>
-    <string name="nearest">نزدیکترین</string>
-    <string name="spline">اسپلاین</string>
-    <string name="basic">پایه ای</string>
-    <string name="default_value">مقدار پیش فرض</string>
-    <string name="bilinear_sub">درون یابی خطی (یا دو خطی، در دو بعدی) معمولاً برای تغییر اندازه یک تصویر خوب است، اما باعث نرم شدن نامطلوب جزئیات می شود و هنوز هم می تواند تا حدودی ناهموار باشد.</string>
-    <string name="bicubic_sub">روش‌های مقیاس‌بندی بهتر شامل نمونه‌برداری مجدد Lanczos و فیلترهای Mitchell-Netravali است</string>
-    <string name="nearest_sub">یکی از راه‌های ساده‌تر افزایش اندازه، جایگزینی هر پیکسل با تعدادی پیکسل همرنگ</string>
-    <string name="basic_sub">ساده‌ترین حالت مقیاس‌بندی اندروید که تقریباً در همه برنامه‌ها استفاده می‌شود</string>
-    <string name="catmull_sub">روشی برای درونیابی هموار و نمونه برداری مجدد مجموعه ای از نقاط کنترل که معمولاً در گرافیک کامپیوتری برای ایجاد منحنی های صاف استفاده می شود.</string>
-    <string name="hann_sub">تابع پنجره اغلب در پردازش سیگنال برای به حداقل رساندن نشت طیفی و بهبود دقت تجزیه و تحلیل فرکانس با باریک کردن لبه‌های سیگنال استفاده می‌شود.</string>
-    <string name="hermite_sub">تکنیک درون یابی ریاضی که از مقادیر و مشتقات در نقاط انتهایی یک بخش منحنی برای ایجاد یک منحنی صاف و پیوسته استفاده می کند.</string>
-    <string name="lanczos_sub">روش نمونه گیری مجدد که درون یابی با کیفیت بالا را با اعمال تابع sinc وزنی به مقادیر پیکسل حفظ می کند.</string>
-    <string name="mitchell_sub">روش نمونه برداری مجدد که از فیلتر پیچشی با پارامترهای قابل تنظیم برای دستیابی به تعادل بین وضوح و ضد aliasing در تصویر مقیاس شده استفاده می کند.</string>
-    <string name="spline_sub">از توابع چند جمله ای تعریف شده تکه ای برای درون یابی و تقریب هموار یک منحنی یا سطح، نمایش شکل انعطاف پذیر و پیوسته استفاده می کند.</string>
-    <string name="only_clip">فقط کلیپ</string>
-    <string name="only_clip_sub">ذخیره در فضای ذخیره سازی انجام نمی شود و سعی می شود تصویر فقط در کلیپ بورد قرار داده شود</string>
-    <string name="restore_background_sub">Brush به جای پاک کردن پس زمینه را بازیابی می کند</string>
-    <string name="recognize_text_sub">تشخیص متن از تصویر داده شده، بیش از 120 زبان پشتیبانی می شود</string>
-    <string name="picture_has_no_text">تصویر متنی ندارد یا برنامه آن را پیدا نکرده است</string>
-    <string name="accuracy">Accuracy: %1$d</string>
-    <string name="recognition_type">نوع تشخیص</string>
-    <string name="fast">سریع</string>
-    <string name="standard">استاندارد</string>
-    <string name="no_data">اطلاعاتی وجود ندارد</string>
-    <string name="download_description">برای عملکرد صحیح Tesseract OCR باید داده های آموزشی اضافی (%1$s) در دستگاه شما دانلود شود.
-\nآیا می خواهید داده های %2$s را دانلود کنید؟</string>
-    <string name="download">دانلود</string>
-    <string name="no_connection">بدون اتصال، آن را بررسی کنید و دوباره امتحان کنید تا مدل های قطار را دانلود کنید</string>
-    <string name="downloaded_languages">زبان های دانلود شده</string>
-    <string name="available_languages">زبان های موجود</string>
-    <string name="segmentation_mode">حالت تقسیم بندی</string>
-    <string name="use_pixel_switch">از Pixel Switch استفاده کنید</string>
-    <string name="use_pixel_switch_sub">از سوئیچ پیکسل مانند به جای مطالب Google که شما بر اساس آن استفاده می کنید استفاده می شود</string>
-    <string name="saved_to_original">فایل بازنویسی شده با نام %s در مقصد اصلی</string>
-    <string name="magnifier">ذره بین</string>
-    <string name="magnifier_sub">برای دسترسی بهتر، ذره بین را در بالای انگشت در حالت های طراحی فعال می کند</string>
-    <string name="force_exif_widget_initial_value">اجباری مقدار اولیه</string>
-    <string name="force_exif_widget_initial_value_sub">ویجت exif را وادار می کند که در ابتدا بررسی شود</string>
-    <string name="allow_multiple_languages">اجازه دادن به چند زبان</string>
-    <string name="slide">اسلاید</string>
-    <string name="side_by_side">ساید بای ساید</string>
-    <string name="toggle_tap">روی ضربه بزنید</string>
-    <string name="transparency">شفافیت</string>
-    <string name="rate_app">امتیاز دادن به برنامه</string>
-    <string name="rate_app_sub">این برنامه کاملا رایگان است، اگر می خواهید بزرگتر شود، لطفا پروژه را در Github ستاره دار کنید 😄</string>
-    <string name="segmentation_mode_osd_only">جهت &amp; فقط تشخیص اسکریپت</string>
-    <string name="segmentation_mode_auto_osd">جهت گیری خودکار &amp; تشخیص اسکریپت</string>
-    <string name="segmentation_mode_auto_only">فقط خودکار</string>
-    <string name="segmentation_mode_auto">خودکار</string>
-    <string name="segmentation_mode_single_column">تک ستونی</string>
-    <string name="segmentation_mode_single_block_vert_text">متن عمودی تک بلوکی</string>
-    <string name="segmentation_mode_single_block">تک بلوک</string>
-    <string name="segmentation_mode_single_line">تک خط</string>
-    <string name="segmentation_mode_single_word">تک کلمه</string>
-    <string name="segmentation_mode_circle_word">دور کلمه</string>
-    <string name="segmentation_mode_single_char">کاراکتر تک</string>
-    <string name="segmentation_mode_sparse_text">متن پراکنده</string>
-    <string name="segmentation_mode_sparse_text_osd">جهت متن پراکنده &amp; تشخیص اسکریپت</string>
-    <string name="segmentation_mode_raw_line">خط خام</string>
-    <string name="delete_language_sub">آیا می‌خواهید داده‌های آموزش OCR زبان \"%1$s\" را برای همه انواع تشخیص حذف کنید یا فقط برای یک انتخاب شده (%2$s)؟</string>
-    <string name="current">جاری</string>
-    <string name="all">همه</string>
-    <string name="gradient_maker">گرادیان ساز</string>
-    <string name="gradient_maker_sub">شیب اندازه خروجی داده شده را با رنگ های سفارشی و نوع ظاهر ایجاد کنید</string>
-    <string name="gradient_type_linear">خطی</string>
-    <string name="gradient_type_radial">شعاعی</string>
-    <string name="gradient_type_sweep">جارو کردن</string>
-    <string name="gradient_type">نوع گرادیان</string>
-    <string name="center_x">مرکز X</string>
-    <string name="center_y">مرکز Y</string>
-    <string name="tile_mode">حالت کاشی</string>
-    <string name="tile_mode_repeated">تکرار شد</string>
-    <string name="tile_mode_mirror">آینه</string>
-    <string name="tile_mode_clamp">گیره</string>
-    <string name="tile_mode_decal">برگردان</string>
-    <string name="properties">خواص</string>
-    <string name="brightness_enforcement">اجرای روشنایی</string>
-    <string name="screen">صفحه نمایش</string>
-    <string name="gradient_maker_type_image">همپوشانی گرادیان</string>
-    <string name="gradient_maker_type_image_sub">هر شیب بالای تصویر داده شده را بنویسید</string>
-    <string name="transformations">تحولات</string>
-    <string name="camera">دوربین</string>
-    <string name="camera_sub">از دوربین برای گرفتن عکس استفاده می کند، توجه داشته باشید که دریافت تنها یک تصویر از این منبع تصویر امکان پذیر است</string>
-    <string name="watermarking">واترمارکینگ</string>
-    <string name="watermarking_sub">تصاویر را با واترمارک های متنی/تصویر قابل تنظیم بپوشانید</string>
-    <string name="repeat_watermark">واترمارک را تکرار کنید</string>
-    <string name="repeat_watermark_sub">واترمارک را روی تصویر به جای تک در موقعیت مشخص تکرار می کند</string>
-    <string name="offset_x">افست X</string>
-    <string name="offset_y">افست Y</string>
-    <string name="watermark_type">نوع واترمارک</string>
-    <string name="watermarking_image_sub">این تصویر به عنوان الگو برای واترمارک استفاده خواهد شد</string>
-    <string name="text_color">رنگ متن</string>
-    <string name="overlay_mode">حالت پوشش</string>
-    <string name="gif_tools">ابزارهای GIF</string>
-    <string name="gif_tools_sub">تصاویر را به تصویر GIF تبدیل کنید یا فریم هایی را از تصویر GIF داده شده استخراج کنید</string>
-    <string name="gif_type_to_image">GIF به تصاویر</string>
-    <string name="gif_type_to_image_sub">تبدیل فایل GIF به دسته ای از تصاویر</string>
-    <string name="gif_type_to_gif_sub">تبدیل دسته ای از تصاویر به فایل GIF</string>
-    <string name="gif_type_to_gif">تصاویر به GIF</string>
-    <string name="select_gif_image_to_start">برای شروع تصویر GIF را انتخاب کنید</string>
-    <string name="use_size_of_first_frame">از اندازه فریم اول استفاده کنید</string>
-    <string name="use_size_of_first_frame_sub">اندازه مشخص شده را با ابعاد قاب اول جایگزین کنید</string>
-    <string name="repeat_count">تعداد تکرار</string>
-    <string name="frame_delay">تاخیر فریم</string>
-    <string name="use_lasso_sub">از Lasso مانند در حالت ترسیم برای انجام پاک کردن استفاده می کند</string>
-    <string name="original_image_preview_alpha">پیش نمایش تصویر اصلی آلفا</string>
-    <string name="confetti">کانفتی</string>
-    <string name="confetti_sub">Confetti در ذخیره، اشتراک گذاری و سایر اقدامات اولیه نشان داده می شود</string>
-    <string name="secure_mode_sub">در هنگام خروج محتوا را پنهان می کند، همچنین صفحه نمایش را نمی توان ضبط یا ضبط کرد</string>
-    <string name="exit">خارج شوید</string>
-    <string name="preview_closing">اگر اکنون پیش‌نمایش را ترک کنید، باید دوباره تصاویر را اضافه کنید</string>
-    <string name="dithering">پریشان کردن</string>
-    <string name="quantizier">کوانتیزر</string>
-    <string name="gray_scale">مقیاس خاکستری</string>
-    <string name="bayer_two_dithering">بایر دو در دو دیترینگ</string>
-    <string name="bayer_three_dithering">بایر سه در سه دیترینگ</string>
-    <string name="bayer_four_dithering">بایر چهار با چهار دیترینگ</string>
-    <string name="bayer_eight_dithering">Bayer Eight By Eight Dithering</string>
-    <string name="floyd_steinberg_dithering">فلوید اشتاینبرگ در حال سردرگمی</string>
-    <string name="jarvis_judice_ninke_dithering">جارویس جودیس نینکی دیترینگ</string>
-    <string name="sierra_dithering">سیرا دیترینگ</string>
-    <string name="two_row_sierra_dithering">دو ردیف Sierra Dithering</string>
-    <string name="sierra_lite_dithering">Sierra Lite Dithering</string>
-    <string name="atkinson_dithering">اتکینسون دیترینگ</string>
-    <string name="stucki_dithering">استاکی دیترینگ</string>
-    <string name="burkes_dithering">بورکز دیدرینگ</string>
-    <string name="false_floyd_steinberg_dithering">ناراضی فلوید استاینبرگ</string>
-    <string name="left_to_right_dithering">دویدن از چپ به راست</string>
-    <string name="random_dithering">اختلاف تصادفی</string>
-    <string name="simple_threshold_dithering">ساده شدن آستانه</string>
-    <string name="sigma">سیگما</string>
-    <string name="spatial_sigma">سیگما فضایی</string>
-    <string name="b_spline">B Spline</string>
-    <string name="b_spline_sub">از توابع چند جمله ای دو مکعبی تعریف شده تکه ای برای درون یابی و تقریب هموار یک منحنی یا سطح، نمایش شکل انعطاف پذیر و پیوسته استفاده می کند.</string>
-    <string name="native_stack_blur">Native Stack Blur</string>
-    <string name="tilt_shift">تغییر شیب</string>
-    <string name="glitch">قطعی</string>
-    <string name="amount">میزان</string>
-    <string name="seed">بذر</string>
-    <string name="anaglyph">آناگلیف</string>
-    <string name="noise">نویز</string>
-    <string name="pixel_sort">مرتب سازی پیکسل</string>
-    <string name="shuffle">بر زدن</string>
-    <string name="enhanced_glitch">نقص پیشرفته</string>
-    <string name="channel_shift_x">کانال شیفت X</string>
-    <string name="channel_shift_y">کانال شیفت Y</string>
-    <string name="corruption_size">اندازه فساد</string>
-    <string name="corruption_shift_x">فساد شیفت X</string>
-    <string name="corruption_shift_y">فساد شیفت Y</string>
-    <string name="tent_blur">تاری چادر</string>
-    <string name="side_fade">محو شدن جانبی</string>
-    <string name="side">سمت</string>
-    <string name="top">بالا</string>
-    <string name="bottom">پایین</string>
-    <string name="strength">استحکام - قدرت</string>
-    <string name="erode">فرسایش</string>
-    <string name="anisotropic_diffusion">انتشار ناهمسانگرد</string>
-    <string name="diffusion">انتشار</string>
-    <string name="conduction">هدایت</string>
-    <string name="horizontal_wind_stagger">تلنگر باد افقی</string>
-    <string name="fast_bilaterial_blur">تاری دوطرفه سریع</string>
-    <string name="poisson_blur">پواسون بلور</string>
-    <string name="logarithmic_tone_mapping">نقشه برداری لگاریتمی تن</string>
-    <string name="aces_filmic_tone_mapping">ACES Filmic Tone Mapping</string>
-    <string name="crystallize">متبلور شود</string>
-    <string name="stroke_color">رنگ سکته مغزی</string>
-    <string name="fractal_glass">شیشه فراکتال</string>
-    <string name="turbulence">آشفتگی</string>
-    <string name="oil">روغن</string>
-    <string name="water_effect">اثر آب</string>
-    <string name="just_size">اندازه</string>
-    <string name="frequency_x">فرکانس X</string>
-    <string name="frequency_y">فرکانس Y</string>
-    <string name="amplitude_x">دامنه X</string>
-    <string name="amplitude_y">دامنه Y</string>
-    <string name="perlin_distortion">اعوجاج پرلین</string>
-    <string name="aces_hill_tone_mapping">نقشه برداری ACES Hill Tone</string>
-    <string name="hable_filmic_tone_mapping">Hable Filmic Tone Mapping</string>
-    <string name="heji_burgess_tone_mapping">نقشه برداری تون حجله برگس</string>
-    <string name="speed">سرعت</string>
-    <string name="dehaze">Dehaze</string>
-    <string name="omega">امگا</string>
-    <string name="color_matrix_4x4">ماتریس رنگ 4x4</string>
-    <string name="polaroid">پولاروید</string>
-    <string name="tritonomaly">تریتونومالی</string>
-    <string name="deutaromaly">دیوتارومالی</string>
-    <string name="protonomaly">پروتونومالی</string>
-    <string name="vintage">قدیمی</string>
-    <string name="browni">براونی</string>
-    <string name="coda_chrome">کدا کروم</string>
-    <string name="night_vision">دید در شب</string>
-    <string name="warm">گرم</string>
-    <string name="cool">سرد</string>
-    <string name="tritanopia">تریتانوپیا</string>
-    <string name="deutaronotopia">دوتارونوتوپی</string>
-    <string name="protanopia">پروتانوپیا</string>
-    <string name="achromatomaly">آکروماتومالی</string>
-    <string name="achromatopsia">آکروماتوپسی</string>
-    <string name="grain">غلات</string>
-    <string name="unsharp">بی تیز</string>
-    <string name="pastel">پاستل</string>
-    <string name="orange_haze">مه نارنجی</string>
-    <string name="pink_dream">رویای صورتی</string>
-    <string name="golden_hour">ساعت طلایی</string>
-    <string name="hot_summer">تابستان داغ</string>
-    <string name="purple_mist">مه بنفش</string>
-    <string name="sunrise">طلوع خورشید</string>
-    <string name="colorful_swirl">چرخش رنگارنگ</string>
-    <string name="soft_spring_light">نور بهار نرم</string>
-    <string name="autumn_tones">زنگ های پاییزی</string>
-    <string name="lavender_dream">رویای اسطوخودوس</string>
-    <string name="cyberpunk">سایبرپانک</string>
-    <string name="lemonade_light">لیموناد لایت</string>
-    <string name="spectral_fire">آتش طیفی</string>
-    <string name="night_magic">جادوی شب</string>
-    <string name="fantasy_landscape">منظره فانتزی</string>
-    <string name="color_explosion">انفجار رنگ</string>
-    <string name="electric_gradient">گرادیان الکتریکی</string>
-    <string name="caramel_darkness">تاریکی کاراملی</string>
-    <string name="futuristic_gradient">گرادیان آینده نگر</string>
-    <string name="green_sun">خورشید سبز</string>
-    <string name="rainbow_world">دنیای رنگین کمان</string>
-    <string name="deep_purple">بنفش عمیق</string>
-    <string name="space_portal">پورتال فضایی</string>
-    <string name="red_swirl">چرخش قرمز</string>
-    <string name="digital_code">کد دیجیتال</string>
-    <string name="bokeh">بوکه</string>
-    <string name="random_emojis_sub">شکلک نوار برنامه به‌جای استفاده از یکی انتخاب‌شده، به‌طور مداوم به‌صورت تصادفی تغییر می‌کند</string>
-    <string name="random_emojis">ایموجی های تصادفی</string>
-    <string name="random_emojis_error">وقتی شکلک‌ها غیرفعال هستند، نمی‌توان از انتخاب تصادفی شکلک استفاده کرد</string>
-    <string name="emoji_selection_error">نمی‌توان در حالی که شکلک تصادفی را فعال کرد، یک شکلک انتخاب کرد</string>
-    <string name="old_tv">تلویزیون قدیمی</string>
-    <string name="shuffle_blur">مخدوش کردن</string>
-    <string name="favorite">مورد علاقه</string>
-    <string name="no_favorite_filters">هنوز هیچ فیلتر دلخواه اضافه نشده است</string>
-    <string name="image_format">فرمت تصویر</string>
-    <string name="icon_shape_sub">ظرفی با شکل انتخابی را در زیر نمادهای اصلی کارت ها اضافه می کند</string>
-    <string name="icon_shape">شکل نماد</string>
-    <string name="drago">دراگو</string>
-    <string name="aldridge">آلدریج</string>
-    <string name="cutoff">قطع</string>
-    <string name="uchimura">اوچیمورا</string>
-    <string name="mobius">موبیوس</string>
-    <string name="transition">انتقال</string>
-    <string name="peak">اوج</string>
-    <string name="color_anomaly">ناهنجاری رنگ</string>
-    <string name="images_overwritten">تصاویر در مقصد اصلی بازنویسی شده اند</string>
-    <string name="cannot_change_image_format">وقتی گزینه بازنویسی فایل ها فعال است، قالب تصویر را نمی توان تغییر داد</string>
-    <string name="emoji_as_color_scheme">ایموجی به عنوان طرح رنگ</string>
-    <string name="emoji_as_color_scheme_sub">از رنگ اصلی ایموجی به‌عنوان طرح رنگ برنامه به‌جای تعریف دستی استفاده می‌کند</string>
-    <string name="material_you_sub">پالت \"Material You\" را از تصویر ایجاد می کند</string>
-    <string name="dark_colors">رنگ های تیره</string>
-    <string name="dark_colors_sub">از طرح رنگ حالت شب به جای نوع نور استفاده می کند</string>
-    <string name="copy_as_compose_code">کپی به عنوان\" Jetpack Compose \" کد</string>
-    <string name="ring_blur">تاری حلقه</string>
-    <string name="cross_blur">صلیب تار</string>
-    <string name="circle_blur">دایره تار</string>
-    <string name="star_blur">ستاره تار</string>
-    <string name="linear_tilt_shift">تغییر شیب خطی</string>
-    <string name="tags_to_remove">برچسب ها برای حذف</string>
-    <string name="apng_tools_sub">تصاویر را به تصویر APNG تبدیل کنید یا فریم هایی را از تصویر APNG داده شده استخراج کنید</string>
-    <string name="apng_tools">ابزارهای APNG</string>
-    <string name="apng_type_to_image">APNG به تصاویر</string>
-    <string name="apng_type_to_image_sub">تبدیل فایل APNG به دسته ای از تصاویر</string>
-    <string name="apng_type_to_apng_sub">تبدیل دسته ای از تصاویر به APNG</string>
-    <string name="apng_type_to_apng">تصاویر به APNG</string>
-    <string name="select_apng_image_to_start">برای شروع تصاویر APNG را انتخاب کنید</string>
-    <string name="motion_blur">تاری حرکت</string>
-    <string name="zip">Zip</string>
-    <string name="zip_sub">ساخت فایل Zip از تصاویر یا فایل داده شده</string>
-    <string name="confetti_type">نوع کاغذ رنگی</string>
-    <string name="festive">جشن</string>
-    <string name="explode">انفجار</string>
-    <string name="rain">باران</string>
-    <string name="try_again">امتحان مجدد</string>
-    <string name="show_settings_in_landscape">نمایش تنظیمات در چشم انداز</string>
-    <string name="show_settings_in_landscape_sub">اگر این غیرفعال باشد، تنظیمات حالت افقی مانند همیشه به جای گزینه قابل مشاهده دائم، روی دکمه در نوار بالای برنامه باز می شود.</string>
-    <string name="jxl_tools">ابزارهای JXL</string>
-    <string name="jxl_type_to_jpeg">JXL به JPEG</string>
-    <string name="jxl_type_to_jpeg_sub">رمزگذاری بدون اتلاف از JXL به JPEG</string>
-    <string name="jpeg_type_to_jxl_sub">رمزگذاری بدون اتلاف از JPEG به JXL</string>
-    <string name="jpeg_type_to_jxl">JPEG به JXL</string>
-    <string name="select_jxl_image_to_start">برای شروع تصاویر JXL را انتخاب کنید</string>
-    <string name="reset_properties_sub">همه ویژگی ها روی مقادیر پیش فرض تنظیم می شوند، توجه داشته باشید که این عمل قابل واگرد نیست</string>
-    <string name="pick">انتخاب</string>
-    <string name="fullscreen_settings">تنظیمات تمام صفحه</string>
-    <string name="fullscreen_settings_sub">آن را فعال کنید و صفحه تنظیمات همیشه به‌جای برگه کشویی به‌صورت تمام‌صفحه باز می‌شود</string>
-    <string name="switch_type">نوع سوئیچ</string>
-    <string name="compose">ساختن</string>
-    <string name="pick_multiple_media">چند رسانه را انتخاب کنید</string>
-    <string name="pick_single_media">یک رسانه را انتخاب کنید</string>
-    <string name="corners">گوشه ها</string>
-    <string name="jxl_tools_sub">رمزگذاری JXL ~ JPEG را بدون افت کیفیت انجام دهید یا انیمیشن GIF/APNG را به JXL تبدیل کنید</string>
-    <string name="fast_gaussian_blur_3d">تاری گاوسی سریع 3D</string>
-    <string name="harmonization_level">هماهنگ سازی سطح</string>
-    <string name="jxl_type_to_jxl">تصاویر به JXL</string>
-    <string name="skip_file_picking">پرش از انتخاب فایل</string>
-    <string name="skip_file_picking_sub">در صورت امکان، انتخابگر فایل بلافاصله در صفحه انتخاب شده نشان داده می شود</string>
-    <string name="fast_gaussian_blur_4d">تاری گاوسی سریع 4D</string>
-    <string name="generate_previews_sub">تولید پیش‌نمایش را فعال می‌کند، ممکن است به جلوگیری از خرابی در برخی دستگاه‌ها کمک کند، همچنین برخی از قابلیت‌های ویرایش را در گزینه ویرایش واحد غیرفعال می‌کند.</string>
-    <string name="lossy_compression">فشرده سازی با اتلاف</string>
-    <string name="lossy_compression_sub">از فشرده سازی با اتلاف برای کاهش حجم فایل به جای فشرده سازی بدون اتلاف استفاده می کند</string>
-    <string name="speed_sub">نوع فشرده‌سازی سرعت رمزگشایی تصویر حاصل را کنترل می‌کند، این باید به باز کردن سریع‌تر تصویر حاصل کمک کند، مقدار %1$d به معنای کندترین رمزگشایی است، در حالی که %2$d - سریع‌ترین، این تنظیم ممکن است اندازه تصویر خروجی را افزایش دهد.</string>
-    <string name="compression_type">نوع فشرده سازی</string>
-    <string name="header_today">امروز</string>
-    <string name="header_yesterday">دیروز</string>
-    <string name="sort_by_date_reversed">مرتب سازی بر اساس تاریخ (معکوس)</string>
-    <string name="no_permissions">بدون مجوز</string>
-    <string name="request">درخواست</string>
-    <string name="images_to_svg_sub">تبدیل تصاویر داده شده به تصاویر SVG</string>
-    <string name="use_sampled_palette">از پالت نمونه استفاده کنید</string>
-    <string name="svg_warning">استفاده از این ابزار برای ردیابی تصاویر بزرگ بدون کاهش مقیاس توصیه نمی شود، می تواند باعث کرش و افزایش زمان پردازش شود.</string>
-    <string name="compose_switch_sub">از مواد Jetpack Compose استفاده می‌کند که شما آن را تغییر می‌دهید، آنقدرها هم زیبا نیست که مبتنی بر نمایش باشد</string>
-    <string name="material_you_switch_sub">از مطالب مبتنی بر مشاهده استفاده می کند که شما تغییر می دهید، این یکی بزرگتر از سایرین به نظر می رسد و انیمیشن های خوبی دارد</string>
-    <string name="fast_gaussian_blur_2d">تاری گاوسی سریع 2D</string>
-    <string name="max">حداکثر</string>
-    <string name="resize_anchor">تغییر اندازه لنگر</string>
-    <string name="pixel_switch">پیکسل</string>
-    <string name="fluent_switch">روان</string>
-    <string name="fluent_switch_sub">از سوییچ سبک ویندوز 11 بر اساس سیستم طراحی \"Fluent\" استفاده می کند</string>
-    <string name="cupertino_switch_sub">از سوئیچ مانند iOS بر اساس سیستم طراحی کوپرتینو استفاده می کند</string>
-    <string name="channels_configuration">پیکربندی کانال ها</string>
-    <string name="embedded_picker">انتخابگر تعبیه شده</string>
-    <string name="embedded_picker_sub">از انتخابگر تصویر خود جعبه ابزار تصویر به جای موارد از پیش تعریف شده سیستم استفاده می کند</string>
-    <string name="auto_paste">چسباندن خودکار</string>
-    <string name="auto_paste_sub">به برنامه اجازه می‌دهد تا داده‌های کلیپ‌بورد را به‌طور خودکار جای‌گذاری کند، بنابراین در صفحه اصلی ظاهر می‌شود و می‌توانید آن‌ها را پردازش کنید.</string>
-    <string name="harmonization_color">هماهنگ سازی رنگ</string>
-    <string name="lanczos_bessel_sub">روش نمونه‌گیری مجدد که درون یابی با کیفیت بالا را با اعمال تابع Bessel (jinc) به مقادیر پیکسل حفظ می‌کند.</string>
-    <string name="gif_type_to_jxl">GIF به JXL</string>
-    <string name="gif_type_to_jxl_sub">تبدیل تصاویر GIF به تصاویر متحرک JXL</string>
-    <string name="apng_type_to_jxl">APNG به JXL</string>
-    <string name="apng_type_to_jxl_sub">تبدیل تصاویر APNG به تصاویر متحرک JXL</string>
-    <string name="jxl_type_to_images">JXL به تصاویر</string>
-    <string name="jxl_type_to_images_sub">تبدیل انمیشن JXL به دسته ای از تصاویر</string>
-    <string name="jxl_type_to_jxl_sub">تبدیل دسته ای از تصاویر به انیمیشن JXL</string>
-    <string name="behavior">رفتار</string>
-    <string name="generate_previews">ایجاد پیش نمایش</string>
-    <string name="sorting">مرتب سازی</string>
-    <string name="sort_by_date">مرتب سازی بر اساس تاریخ</string>
-    <string name="sort_by_name">مرتب سازی بر اساس نام</string>
-    <string name="sort_by_name_reversed">مرتب سازی بر اساس نام (معکوس)</string>
-    <string name="images_to_svg">تصاویر به SVG</string>
-    <string name="use_sampled_palette_sub">اگر این گزینه فعال باشد از پالت Quantization نمونه برداری می شود</string>
-    <string name="path_omit">حذف مسیر</string>
-    <string name="downscale_image">کاهش اندازه تصویر</string>
-    <string name="downscale_image_sub">تصویر قبل از پردازش به ابعاد پایین‌تر کاهش می‌یابد، این به ابزار کمک می‌کند تا سریع‌تر و ایمن‌تر کار کند</string>
-    <string name="min_color_ratio">حداقل نسبت رنگ</string>
-    <string name="lines_threshold">آستانه خطوط</string>
-    <string name="quadratic_threshold">آستانه درجه دوم</string>
-    <string name="coordinates_rounding_tolerance">تلورانس گرد کردن مختصات</string>
-    <string name="path_scale">مقیاس مسیر</string>
-    <string name="reset_properties">بازنشانی خصوصیات</string>
-    <string name="add_new_folder">افزودن پوشه جدید</string>
-    <string name="tag_bits_per_sample">بیت ها در نمونه</string>
-    <string name="tag_compression">فشرده سازی</string>
-    <string name="tag_samples_per_pixel">نمونه ها در پیکسل</string>
-    <string name="default_line_width">پیش فرض ردیف های عرض</string>
-    <string name="engine_mode">حالت موتور</string>
-    <string name="lstm_network">شبکه LSTM</string>
-    <string name="legacy">میراث</string>
-    <string name="legacy_and_lstm">میراث و LSTM</string>
-    <string name="convert">تبدیل</string>
-    <string name="min">کمترین</string>
-    <string name="qr_description">توضیحات QR</string>
-    <string name="convert_sub">تبدیل تصاویر به فرمت داده شده</string>
-    <string name="tag_photometric_interpretation">تفسیر فتومتریک</string>
-    <string name="tag_x_resolution">رزولوشن X</string>
-    <string name="tag_y_resolution">رزولوشن Y</string>
-    <string name="tag_resolution_unit">واحد رزولوشن</string>
-    <string name="tag_jpeg_interchange_format">تغییر فرمت JPEG</string>
-    <string name="tag_transfer_function">تابع انتقال</string>
-    <string name="tag_white_point">نقطه سفید</string>
-    <string name="tag_reference_black_white">مرجع سیاه سفید</string>
-    <string name="tag_image_description">توضیحات تصویر</string>
-    <string name="tag_make">ساختن</string>
-    <string name="tag_model">مدل</string>
-    <string name="tag_software">نرم افزار</string>
-    <string name="tag_artist">هنرمند</string>
-    <string name="tag_exif_version">نسخه Exif</string>
-    <string name="tag_flashpix_version">نسخه Flashpix</string>
-    <string name="tag_gamma">گاما</string>
-    <string name="tag_color_space">فضای رنگی</string>
-    <string name="tag_pixel_x_dimension">ابعاد پیکسل X</string>
-    <string name="tag_compressed_bits_per_pixel">بیت های فشرده در هر پیکسل</string>
-    <string name="tag_maker_note">یادداشت ساز</string>
-    <string name="tag_pixel_y_dimension">ابعاد پیکسل Y</string>
-    <string name="tag_related_sound_file">فایل صوتی مرتبط</string>
-    <string name="tag_datetime_original">تاریخ زمان اصلی</string>
-    <string name="tag_datetime_digitized">تاریخ زمان دیجیتالی شدن</string>
-    <string name="grant_camera_permission_to_scan_qr_code">در تنظیمات برای اسکن کد QR به دوربین اجازه دهید</string>
-    <string name="links_preview">پیش نمایش لینک ها</string>
-    <string name="links_preview_sub">بازیابی پیش‌نمایش پیوند را در مکان‌هایی که می‌توانید متن دریافت کنید (کد QR، OCR و غیره) را فعال می‌کند.</string>
-    <string name="format_conversion_sub">تبدیل دسته ای از تصاویر از یک فرمت به فرمت دیگر</string>
-    <string name="format_conversion">تبدیل فرمت</string>
-    <string name="scale_color_space">مقیاس فضای رنگ</string>
-    <string name="gif_type_to_webp">GIF به WEBP</string>
-    <string name="gif_type_to_webp_sub">تبدیل تصاویر GIF به تصاویر متحرک WEBP</string>
-    <string name="webp_type_to_image">WEBP به تصاویر</string>
-    <string name="webp_type_to_image_sub">تبدیل فایل WEBP به دسته ای از تصاویر</string>
-    <string name="webp_type_to_webp_sub">دسته ای از تصاویر را به فایل WEBP تبدیل کنید</string>
-    <string name="webp_type_to_webp">تصاویر به WEBP</string>
-    <string name="select_webp_image_to_start">تصویر WEBP را برای شروع انتخاب کنید</string>
-    <string name="scanned_qr_code_isnt_filter_template">کد QR اسکن شده یک الگوی فیلتر معتبر نیست</string>
-    <string name="scan_qr_code">اسکن QR کد</string>
-    <string name="as_qr_code">QR کد به عنوان تصویر</string>
-    <string name="qr_code">QR کد</string>
-    <string name="scan_qr_code_to_replace_content">کد QR را برای جایگزینی محتوا در فیلد اسکن کنید، یا چیزی را برای تولید کد QR جدید تایپ کنید</string>
-    <string name="no_favorite_options_selected">هیچ گزینه دلخواه انتخاب نشده است، آنها را در صفحه ابزار اضافه کنید</string>
-    <string name="webp_tools">ابزارهای WEBP</string>
-    <string name="color_tools">ابزار رنگ</string>
-    <string name="color_tools_sub">مخلوط کنید، رنگ بسازید، سایه ها ایجاد کنید و موارد دیگر</string>
-    <string name="webp_tools_sub">تصاویر را به تصویر متحرک WEBP تبدیل کنید یا فریم هایی را از انیمیشن WEBP داده شده استخراج کنید</string>
-    <string name="save_as_qr_code_image">ذخیره QR کد به عنوان تصویر</string>
-    <string name="qr_code_sub">کد QR را اسکن کنید و محتوای آن را دریافت کنید یا رشته خود را برای ایجاد کد جدید جایگذاری کنید</string>
-    <string name="gaussian_sub">یک روش درون یابی که یک تابع گاوسی را اعمال می کند و برای صاف کردن و کاهش نویز در تصاویر مفید است.</string>
-    <string name="tag_user_comment">نظر کاربر</string>
-    <string name="tag_subsec_time">زمان زیر ثانیه</string>
-    <string name="tag_iso_speed">سرعت ISO</string>
-    <string name="tag_shutter_speed_value">مقدار سرعت شاتر</string>
-    <string name="tag_flash">فلش</string>
-    <string name="tag_flash_energy">انرژی فلش</string>
-    <string name="image_toolbox_in_telegram">ImageToolbox در تلگرام 🎉</string>
-    <string name="noise_generation">تولید نویز</string>
-    <string name="noise_generation_sub">نویز های مختلفی مانند پرلین یا انواع دیگر تولید کنید</string>
-    <string name="noise_type">نوع نویز</string>
-    <string name="auto">خودکار</string>
-    <string name="hide_all">پنهان کردن همه</string>
-    <string name="show_all">نمایش همه</string>
-    <string name="hide_status_bar">پنهان کردن نوار وضعیت</string>
-    <string name="alignment">تراز</string>
-    <string name="tag_f_number">عدد F</string>
-    <string name="tag_white_balance">وایت بالانس</string>
-    <string name="tag_sharpness">وضوح</string>
-    <string name="tag_camera_owner_name">نام مالک دوربین</string>
-    <string name="tag_gps_version_id">شناسه نسخه GPS</string>
-    <string name="tag_gps_satellites">ماهواره های GPS</string>
-    <string name="tag_gps_status">وضعیت GPS</string>
-    <string name="tag_gps_measure_mode">حالت اندازه گیری GPS</string>
-    <string name="tag_gps_speed">سرعت GPS</string>
-    <string name="tag_datetime">داده زمان</string>
-    <string name="tag_copyright">حق چاپ</string>
-    <string name="tag_offset_time">زمان افست</string>
-    <string name="tag_offset_time_original">افست زمان اصلی</string>
-    <string name="tag_offset_time_digitized">زمان دیجیتالی افست</string>
-    <string name="tag_sensitivity_type">نوع حساسیت</string>
-    <string name="tag_subject_distance">فاصله موضوع</string>
-    <string name="tag_metering_mode">حالت اندازه گیری</string>
-    <string name="filter_preview_image">پیش نمایش تصویر</string>
-    <string name="lut_library_sub">مجموعه LUT ها را دانلود کنید که پس از دانلود می توانید آن را اعمال کنید</string>
-    <string name="filter_preview_image_sub">پیش نمایش تصویر پیش فرض را برای فیلترها تغییر دهید</string>
-    <string name="dont_stack_frames">فریم ها را روی هم قرار ندهید</string>
-    <string name="create_shortcut_subtitle">ابزار به عنوان میانبر به صفحه اصلی راه‌انداز شما اضافه می‌شود، از ترکیب آن با تنظیمات «پرش از انتخاب فایل» برای دستیابی به رفتار مورد نیاز استفاده کنید.</string>
-    <string name="create_shortcut">ایجاد میانبر</string>
-    <string name="main_screen_title">عنوان صفحه اصلی</string>
-    <string name="compact_selectors">انتخابگرهای فشرده</string>
-    <string name="tag_subject_location">محل موضوع</string>
-</resources>

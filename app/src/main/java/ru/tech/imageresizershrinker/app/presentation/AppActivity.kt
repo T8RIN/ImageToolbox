@@ -17,54 +17,96 @@
 
 package ru.tech.imageresizershrinker.app.presentation
 
-import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.BackdropScaffold
+import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatable
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.stack.animation.slide
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.retainedComponent
+import com.arkivanov.essenty.backhandler.BackHandler
+import com.yalantis.ucrop.compose.UCropper
 import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.core.crash.components.M3Activity
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
-import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.feature.root.presentation.RootContent
-import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class AppActivity : M3Activity() {
+class AppActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var rootComponentFactory: RootComponent.Factory
 
     private val component: RootComponent by lazy {
-        retainedComponent(factory = rootComponentFactory::invoke)
+        retainedComponent(factory = { RootComponent(it) })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null) parseImage(intent)
+        setContent {
+            UCropper(null, null, onCropped = {}, croppingTrigger = false)
+            BackdropScaffold(
+                appBar = {
 
-        setContentWithWindowSizeClass {
-            RootContent(component = component)
+                },
+                frontLayerContent = {
+                    Children(
+                        stack = component.childStack.subscribeAsState().value,
+                        modifier = Modifier.fillMaxSize(),
+                        animation = toolboxPredictiveBackAnimation(
+                            backHandler = component.backHandler,
+                            onBack = component::navigateBack
+                        ),
+                        content = { child ->
+                            child.instance.Content()
+                        }
+                    )
+                },
+                backLayerContent = {
+
+                }
+            )
         }
     }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        parseImage(intent)
-    }
-
-    private fun parseImage(intent: Intent?) {
-        parseImageFromIntent(
-            intent = intent,
-            onStart = component::hideSelectDialog,
-            onHasExtraImageType = component::updateExtraImageType,
-            onColdStart = component::cancelShowingExitDialog,
-            onGetUris = component::updateUris,
-            onShowToast = component::showToast,
-            onNavigate = component::navigateTo,
-            isHasUris = !component.uris.isNullOrEmpty(),
-            onWantGithubReview = component::onWantGithubReview,
-            isOpenEditInsteadOfPreview = component.settingsState.openEditInsteadOfPreview
-        )
-    }
 }
+
+fun <NavigationChild : Any> toolboxPredictiveBackAnimation(
+    backHandler: BackHandler,
+    onBack: () -> Unit
+): StackAnimation<Int, NavigationChild> = predictiveBackAnimation(
+    backHandler = backHandler,
+    onBack = onBack,
+    fallbackAnimation = stackAnimation(
+        fade(
+            tween(
+                durationMillis = 300,
+                easing = AlphaEasing
+            )
+        ) + slide(
+            tween(
+                durationMillis = 400,
+                easing = FancyTransitionEasing
+            )
+        ) + scale(
+            tween(
+                durationMillis = 500,
+                easing = PointToPointEasing
+            )
+        )
+    ),
+    selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
+)
+
+val FancyTransitionEasing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+
+val AlphaEasing = CubicBezierEasing(0.4f, 0.4f, 0.17f, 0.9f)
+
+val PointToPointEasing = CubicBezierEasing(0.55f, 0.55f, 0f, 1f)
