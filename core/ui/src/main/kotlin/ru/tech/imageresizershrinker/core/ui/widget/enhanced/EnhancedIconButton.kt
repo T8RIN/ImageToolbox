@@ -107,7 +107,7 @@ fun EnhancedIconButton(
                 }
             }
         }
-        val shadowShape = shapeByInteraction(
+        val animatedShape = shapeByInteraction(
             shape = shape,
             pressedShape = pressedShape,
             interactionSource = interactionSource
@@ -128,15 +128,12 @@ fun EnhancedIconButton(
                     else Modifier
                 )
                 .materialShadow(
-                    shape = shadowShape,
+                    shape = animatedShape,
                     isClipped = isShadowClip,
                     enabled = LocalSettingsState.current.drawButtonShadows,
                     elevation = if (settingsState.borderWidth > 0.dp || !enableAutoShadowAndBorder) 0.dp else 0.7.dp
                 ),
-            shapes = IconButtonDefaults.shapes(
-                shape = shape,
-                pressedShape = pressedShape
-            ),
+            shape = animatedShape,
             colors = IconButtonDefaults.iconButtonColors(
                 contentColor = contentColor,
                 containerColor = containerColor

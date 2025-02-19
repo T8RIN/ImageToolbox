@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
@@ -116,7 +115,7 @@ fun EnhancedButton(
                 }
             }
 
-            val shadowShape = shapeByInteraction(
+            val animatedShape = shapeByInteraction(
                 shape = shape,
                 pressedShape = pressedShape,
                 interactionSource = interactionSource
@@ -134,17 +133,14 @@ fun EnhancedButton(
                 },
                 modifier = modifier
                     .materialShadow(
-                        shape = shadowShape,
+                        shape = animatedShape,
                         elevation = animateDpAsState(
                             if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
                         ).value,
                         enabled = LocalSettingsState.current.drawButtonShadows,
                         isClipped = isShadowClip
                     ),
-                shapes = ButtonShapes(
-                    shape = shape,
-                    pressedShape = pressedShape
-                ),
+                shape = animatedShape,
                 colors = ButtonDefaults.buttonColors(
                     contentColor = animateColorAsState(
                         if (enabled) contentColor
