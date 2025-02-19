@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.navigation
 
-import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
@@ -72,43 +71,8 @@ import ru.tech.imageresizershrinker.core.resources.icons.Stack
 import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.VectorPolyline
 import ru.tech.imageresizershrinker.core.resources.icons.WebpBox
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ApngTools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Base64Tools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ChecksumTools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Cipher
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.CollageMaker
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ColorTools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Crop
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.DeleteExif
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Draw
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.EditExif
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.EraseBackground
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Filter
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.FormatConversion
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GeneratePalette
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GifTools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GradientMaker
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageCutter
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImagePreview
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageSplitting
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageStacking
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageStitching
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.JxlTools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.LimitResize
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.LoadNetImage
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.MarkupLayers
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.NoiseGeneration
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.PdfTools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.PickColorFromImage
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.RecognizeText
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ResizeAndConvert
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ScanQrCode
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.SingleEdit
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.SvgMaker
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Watermarking
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.WebpTools
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.WeightResize
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Zip
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.*
+import android.net.Uri as AndroidUri
 
 internal fun Screen.isBetaFeature(): Boolean = when (this) {
     is MarkupLayers -> true
@@ -210,20 +174,20 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ImageCutter -> Icons.Rounded.ContentCut
 }
 
-internal object UriSerializer : KSerializer<Uri> {
+internal object UriSerializer : KSerializer<AndroidUri> {
     override val descriptor = PrimitiveSerialDescriptor("Uri", PrimitiveKind.STRING)
 
     override fun deserialize(
         decoder: Decoder
-    ): Uri = Uri.parse(decoder.decodeString())
+    ): AndroidUri = AndroidUri.parse(decoder.decodeString())
 
     override fun serialize(
         encoder: Encoder,
-        value: Uri
+        value: AndroidUri
     ) = encoder.encodeString(value.toString())
 }
 
-internal typealias KUri = @Serializable(UriSerializer::class) Uri
+internal typealias Uri = @Serializable(UriSerializer::class) AndroidUri
 
 internal interface ScreenConstants {
     val typedEntries: List<ScreenGroup>
