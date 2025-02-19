@@ -170,7 +170,7 @@ internal class AnimatedShapeState(
     }
 }
 
-//Workaround for https://github.com/arkivanov/Decompose/issues/845
+//TODO: Workaround for https://github.com/arkivanov/Decompose/issues/845
 @Composable
 private fun rememberAnimatedShapeImpl(
     state: AnimatedShapeState,
