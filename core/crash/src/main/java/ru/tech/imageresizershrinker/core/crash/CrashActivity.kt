@@ -81,6 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersion
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -104,7 +105,7 @@ class CrashActivity : CrashHandler() {
 
         val title = "[Bug] App Crash: $exName"
         val deviceInfo =
-            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}), App: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n\n"
+            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}), App: $AppVersion (${BuildConfig.VERSION_CODE})\n\n"
         val body = "$deviceInfo$ex"
 
         setContentWithWindowSizeClass {

@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Github
 import ru.tech.imageresizershrinker.core.resources.icons.GooglePlay
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersion
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -89,7 +90,7 @@ internal fun SearchableBottomBar(
                     onClick = onTryGetUpdate
                 ) {
                     Text(
-                        stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+                        stringResource(R.string.version) + " $AppVersion (${BuildConfig.VERSION_CODE})"
                     )
                 }
             } else {

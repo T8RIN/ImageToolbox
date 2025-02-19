@@ -37,10 +37,21 @@ val AppVersionPreRelease: String by lazy {
         .split("-")
         .takeIf { it.size > 1 }
         ?.drop(1)?.first()
-        ?.takeWhile { it.isLetter() }
-        ?.uppercase()?.takeIf { it.isNotEmpty() }?.let {
-            " $it"
-        } ?: ""
+        ?.takeWhile { it.isLetter() } ?: ""
+}
+
+@Suppress("KotlinConstantConditions")
+val AppVersionPreReleaseFlavored: String by lazy {
+    if (BuildConfig.FLAVOR == "market") {
+        AppVersionPreRelease
+    } else {
+        "${BuildConfig.FLAVOR} $AppVersionPreRelease"
+    }.uppercase()
+}
+
+@Suppress("KotlinConstantConditions")
+val AppVersion: String by lazy {
+    BuildConfig.VERSION_NAME + if (BuildConfig.FLAVOR == "foss") "-foss" else ""
 }
 
 const val ColorSchemeName = "scheme"

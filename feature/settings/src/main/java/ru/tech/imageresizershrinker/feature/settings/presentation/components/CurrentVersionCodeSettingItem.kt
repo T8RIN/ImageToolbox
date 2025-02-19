@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersion
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
@@ -64,7 +65,7 @@ fun CurrentVersionCodeSettingItem(
             .then(modifier),
         title = stringResource(R.string.version),
         subtitle = remember {
-            "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""} (${BuildConfig.VERSION_CODE})"
+            "$AppVersion (${BuildConfig.VERSION_CODE})"
         },
         startIcon = Icons.Outlined.Verified,
         endContent = {

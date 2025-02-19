@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -43,9 +44,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.twotone.BugReport
 import androidx.compose.material3.Badge
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -63,6 +66,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
@@ -74,7 +78,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.AppShortcut
 import ru.tech.imageresizershrinker.core.settings.presentation.model.isFirstLaunch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
-import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersionPreRelease
+import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersionPreReleaseFlavored
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.canPinShortcuts
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -112,13 +116,7 @@ internal fun MainTopAppBar(
         title = {
             LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
                 val badgeText = remember {
-                    "${Screen.FEATURES_COUNT}".plus(
-                        if (BuildConfig.FLAVOR == "market") {
-                            AppVersionPreRelease
-                        } else {
-                            " ${BuildConfig.FLAVOR.uppercase()} $AppVersionPreRelease"
-                        }
-                    )
+                    "${Screen.FEATURES_COUNT} $AppVersionPreReleaseFlavored"
                 }
 
                 Row(
@@ -127,6 +125,19 @@ internal fun MainTopAppBar(
                 ) {
                     AnimatedContent(settingsState.mainScreenTitle) { title ->
                         Text(title)
+                    }
+                    if (BuildConfig.DEBUG) {
+                        Icon(
+                            imageVector = Icons.TwoTone.BugReport,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .offset(x = 2.dp)
+                                .size(
+                                    with(LocalDensity.current) {
+                                        LocalTextStyle.current.fontSize.toDp() * 1.05f
+                                    }
+                                )
+                        )
                     }
                     Badge(
                         content = {

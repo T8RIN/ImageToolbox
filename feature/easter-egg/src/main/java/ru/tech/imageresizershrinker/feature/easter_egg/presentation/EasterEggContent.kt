@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersion
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -264,7 +265,7 @@ fun EasterEggContent(
                             maxLines = 1
                         )
                         AutoSizeText(
-                            text = "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""}\n(${BuildConfig.VERSION_CODE})",
+                            text = "$AppVersion\n(${BuildConfig.VERSION_CODE})",
                             style = LocalTextStyle.current.copy(
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Normal,
