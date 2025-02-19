@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasin
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun ExpandableItem(
@@ -65,6 +66,7 @@ fun ExpandableItem(
     initialState: Boolean = false,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     shape: Shape = RoundedCornerShape(20.dp),
+    pressedShape: Shape = RoundedCornerShape(6.dp),
     color: Color = Color.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     canExpand: Boolean = true,
@@ -72,6 +74,12 @@ fun ExpandableItem(
     onLongClick: (() -> Unit)? = null,
     expansionIconContainerColor: Color = Color.Transparent
 ) {
+    val shape = shapeByInteraction(
+        shape = shape,
+        pressedShape = pressedShape,
+        interactionSource = interactionSource
+    )
+
     Column(
         Modifier
             .animateContentSize(

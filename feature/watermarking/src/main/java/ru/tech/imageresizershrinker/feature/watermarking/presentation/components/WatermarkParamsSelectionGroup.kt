@@ -18,9 +18,6 @@
 package ru.tech.imageresizershrinker.feature.watermarking.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,8 +31,6 @@ import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -67,17 +62,8 @@ fun WatermarkParamsSelectionGroup(
     onValueChange: (WatermarkParams) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val cornerSize by animateDpAsState(
-        if (pressed) 8.dp
-        else 24.dp
-    )
     ExpandableItem(
         modifier = modifier,
-        interactionSource = interactionSource,
         color = MaterialTheme.colorScheme.surfaceContainer,
         visibleContent = {
             TitleItem(
@@ -402,6 +388,6 @@ fun WatermarkParamsSelectionGroup(
                 }
             }
         },
-        shape = RoundedCornerShape(cornerSize)
+        shape = RoundedCornerShape(24.dp)
     )
 }

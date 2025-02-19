@@ -17,10 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +40,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -86,21 +82,10 @@ fun ColorStopSelection(
 ) {
     var showColorPicker by rememberSaveable { mutableStateOf(false) }
 
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
-    val pressed by interactionSource.collectIsPressedAsState()
-
-    val cornerSize by animateDpAsState(
-        if (pressed) 8.dp
-        else 24.dp
-    )
-
     ExpandableItem(
         initialState = true,
         modifier = Modifier.padding(1.dp),
-        interactionSource = interactionSource,
-        shape = RoundedCornerShape(cornerSize),
+        shape = RoundedCornerShape(24.dp),
         color = MaterialTheme.colorScheme.surfaceContainer,
         visibleContent = {
             TitleItem(text = stringResource(R.string.color_stops))

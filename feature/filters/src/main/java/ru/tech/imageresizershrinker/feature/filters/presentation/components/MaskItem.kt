@@ -20,11 +20,8 @@ package ru.tech.imageresizershrinker.feature.filters.presentation.components
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +31,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.DragHandle
@@ -223,15 +219,6 @@ fun MaskItem(
                 }
 
                 AnimatedVisibility(mask.filters.isNotEmpty()) {
-                    val interactionSource = remember {
-                        MutableInteractionSource()
-                    }
-                    val pressed by interactionSource.collectIsPressedAsState()
-
-                    val cornerSize by animateDpAsState(
-                        if (pressed) 8.dp
-                        else 20.dp
-                    )
                     ExpandableItem(
                         modifier = Modifier.padding(8.dp),
                         visibleContent = {
@@ -277,9 +264,7 @@ fun MaskItem(
                                     }
                                 )
                             }
-                        },
-                        interactionSource = interactionSource,
-                        shape = RoundedCornerShape(cornerSize)
+                        }
                     )
                 }
             }
