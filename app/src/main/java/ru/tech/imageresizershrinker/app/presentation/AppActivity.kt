@@ -23,7 +23,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.BackdropScaffold
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
@@ -37,7 +36,6 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.retainedComponent
 import com.arkivanov.essenty.backhandler.BackHandler
-import com.yalantis.ucrop.compose.UCropper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,26 +50,15 @@ class AppActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            UCropper(null, null, onCropped = {}, croppingTrigger = false)
-            BackdropScaffold(
-                appBar = {
-
-                },
-                frontLayerContent = {
-                    Children(
-                        stack = component.childStack.subscribeAsState().value,
-                        modifier = Modifier.fillMaxSize(),
-                        animation = toolboxPredictiveBackAnimation(
-                            backHandler = component.backHandler,
-                            onBack = component::navigateBack
-                        ),
-                        content = { child ->
-                            child.instance.Content()
-                        }
-                    )
-                },
-                backLayerContent = {
-
+            Children(
+                stack = component.childStack.subscribeAsState().value,
+                modifier = Modifier.fillMaxSize(),
+                animation = toolboxPredictiveBackAnimation(
+                    backHandler = component.backHandler,
+                    onBack = component::navigateBack
+                ),
+                content = { child ->
+                    child.instance.Content()
                 }
             )
         }

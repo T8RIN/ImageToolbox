@@ -20,8 +20,10 @@ package ru.tech.imageresizershrinker.app.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.ButtonShapes
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -59,7 +61,12 @@ class RootComponent(
                         )
                     )
 
-                    else -> ScreenB()
+                    else -> ScreenB(
+                        ScreenB.Component(
+                            componentContext = context,
+                            onBack = { navController.pop() }
+                        )
+                    )
                 }
             }
         )
@@ -83,33 +90,53 @@ sealed class NavigationChild {
 
         @Composable
         override fun Content() {
-            ModalNavigationDrawer(
-                drawerContent = {}
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Yellow),
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Yellow),
-                    contentAlignment = Alignment.Center
+                Button(
+                    shapes = ButtonShapes(
+                        shape = CircleShape,
+                        pressedShape = IconButtonDefaults.smallPressedShape
+                    ),
+                    onClick = component.onForward
                 ) {
-                    Button(
-                        onClick = component.onForward
-                    ) {
-                        Text("FORWARD")
-                    }
+                    Text("FORWARD")
                 }
             }
         }
     }
 
-    class ScreenB() : NavigationChild() {
+    class ScreenB(val component: Component) : NavigationChild() {
+
+        class Component(
+            componentContext: ComponentContext,
+            val onBack: () -> Unit
+        ) : ComponentContext by componentContext
+
         @Composable
         override fun Content() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Blue)
-            )
+                    .background(Color.Blue),
+                contentAlignment = Alignment.Center
+            ) {
+                //!!! TODO: IMPORTANT, Flickering causes passing ButtonShapes
+                //!!! TODO:  (no flickering if not using shapes, and passing just shape without press animation to smaller shape),
+                //!!! TODO:  to be more accurate shapeByInteraction function inside sources
+                Button(
+                    shapes = ButtonShapes(
+                        shape = CircleShape,
+                        pressedShape = IconButtonDefaults.smallPressedShape
+                    ),
+                    onClick = component.onBack
+                ) {
+                    Text("Back")
+                }
+            }
         }
     }
 }
