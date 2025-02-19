@@ -21,12 +21,13 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -34,9 +35,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
@@ -121,8 +120,7 @@ internal class AnimatedShapeState(
     val shape: RoundedCornerShape,
     val spec: FiniteAnimationSpec<Float>,
 ) {
-    var size: Size = Size.Zero
-    var density: Density = Density(0f, 0f)
+    private val size = Size(120f, 120f)
 
     private var topStart: Animatable<Float, AnimationVector1D>? = null
 
@@ -133,23 +131,20 @@ internal class AnimatedShapeState(
     private var bottomEnd: Animatable<Float, AnimationVector1D>? = null
 
     fun topStart(
-        size: Size = this.size,
-        density: Density = this.density
+        density: Density
     ): Float {
         return (topStart ?: Animatable(shape.topStart.toPx(size, density)).also { topStart = it })
             .value
     }
 
     fun topEnd(
-        size: Size = this.size,
-        density: Density = this.density
+        density: Density
     ): Float {
         return (topEnd ?: Animatable(shape.topEnd.toPx(size, density)).also { topEnd = it }).value
     }
 
     fun bottomStart(
-        size: Size = this.size,
-        density: Density = this.density
+        density: Density
     ): Float {
         return (bottomStart
             ?: Animatable(shape.bottomStart.toPx(size, density)).also { bottomStart = it })
@@ -157,15 +152,17 @@ internal class AnimatedShapeState(
     }
 
     fun bottomEnd(
-        size: Size = this.size,
-        density: Density = this.density
+        density: Density
     ): Float {
         return (bottomEnd
             ?: Animatable(shape.bottomEnd.toPx(size, density)).also { bottomEnd = it })
             .value
     }
 
-    suspend fun animateToShape(shape: CornerBasedShape) = coroutineScope {
+    suspend fun animateToShape(
+        shape: CornerBasedShape,
+        density: Density
+    ) = coroutineScope {
         launch { topStart?.animateTo(shape.topStart.toPx(size, density), spec) }
         launch { topEnd?.animateTo(shape.topEnd.toPx(size, density), spec) }
         launch { bottomStart?.animateTo(shape.bottomStart.toPx(size, density), spec) }
@@ -173,83 +170,58 @@ internal class AnimatedShapeState(
     }
 }
 
+//Workaround for https://github.com/arkivanov/Decompose/issues/845
 @Composable
-private fun rememberAnimatedShape(
+private fun rememberAnimatedShapeImpl(
     state: AnimatedShapeState,
-): Shape {
-    val density = LocalDensity.current
-    state.density = density
-
-    return remember(density, state) {
-        object : ShapeWithHorizontalCenterOptically {
-            var clampedRange by mutableStateOf(0f..1f)
-
-            override fun offset(): Float {
-                val topStart = state.topStart().coerceIn(clampedRange)
-                val topEnd = state.topEnd().coerceIn(clampedRange)
-                val bottomStart = state.bottomStart().coerceIn(clampedRange)
-                val bottomEnd = state.bottomEnd().coerceIn(clampedRange)
-                val avgStart = (topStart + bottomStart) / 2
-                val avgEnd = (topEnd + bottomEnd) / 2
-                return CenterOpticallyCoefficient * (avgStart - avgEnd)
-            }
-
-            override fun createOutline(
-                size: Size,
-                layoutDirection: LayoutDirection,
-                density: Density
-            ): Outline {
-                state.size = size
-
-                clampedRange = 0f..size.height / 2
-                return RoundedCornerShape(
-                    topStart = state.topStart().coerceIn(clampedRange),
-                    topEnd = state.topEnd().coerceIn(clampedRange),
-                    bottomStart = state.bottomStart().coerceIn(clampedRange),
-                    bottomEnd = state.bottomEnd().coerceIn(clampedRange),
-                )
-                    .createOutline(size, layoutDirection, density)
-            }
+): Shape = remember(state) {
+    object : Shape {
+        override fun createOutline(
+            size: Size,
+            layoutDirection: LayoutDirection,
+            density: Density
+        ): Outline {
+            val clampedRange = 0f..size.height / 2
+            return RoundedCornerShape(
+                topStart = state.topStart(density).coerceIn(clampedRange),
+                topEnd = state.topEnd(density).coerceIn(clampedRange),
+                bottomStart = state.bottomStart(density).coerceIn(clampedRange),
+                bottomEnd = state.bottomEnd(density).coerceIn(clampedRange),
+            ).createOutline(size, layoutDirection, density)
         }
     }
-}
-
-internal const val CenterOpticallyCoefficient = 0.11f
-
-internal interface ShapeWithHorizontalCenterOptically : Shape {
-    fun offset(): Float
 }
 
 @Composable
 internal fun rememberAnimatedShape(
     currentShape: RoundedCornerShape,
-    animationSpec: FiniteAnimationSpec<Float> = MaterialTheme.motionScheme.defaultEffectsSpec(),
+    animationSpec: FiniteAnimationSpec<Float>
 ): Shape {
-    val state =
-        remember(animationSpec) {
-            AnimatedShapeState(
-                shape = currentShape,
-                spec = animationSpec,
-            )
-        }
+    val state = remember(animationSpec) {
+        AnimatedShapeState(
+            shape = currentShape,
+            spec = animationSpec,
+        )
+    }
 
+    val density = LocalDensity.current
     val channel = remember { Channel<RoundedCornerShape>(Channel.CONFLATED) }
 
     SideEffect { channel.trySend(currentShape) }
     LaunchedEffect(state, channel) {
         for (target in channel) {
             val newTarget = channel.tryReceive().getOrNull() ?: target
-            launch { state.animateToShape(newTarget) }
+            launch { state.animateToShape(newTarget, density) }
         }
     }
 
-    return rememberAnimatedShape(state)
+    return rememberAnimatedShapeImpl(state)
 }
 
 @Composable
 fun animateShape(
     targetValue: RoundedCornerShape,
-    animationSpec: FiniteAnimationSpec<Float> = MaterialTheme.motionScheme.defaultEffectsSpec(),
+    animationSpec: FiniteAnimationSpec<Float> = tween(250),
 ): Shape = rememberAnimatedShape(targetValue, animationSpec)
 
 @Composable
@@ -257,15 +229,12 @@ fun shapeByInteraction(
     shape: Shape,
     pressedShape: Shape,
     interactionSource: MutableInteractionSource,
-    animationSpec: FiniteAnimationSpec<Float> = MaterialTheme.motionScheme.defaultEffectsSpec()
+    animationSpec: FiniteAnimationSpec<Float> = tween(250),
 ): Shape {
     val pressed by interactionSource.collectIsPressedAsState()
+    val focused by interactionSource.collectIsFocusedAsState()
 
-    val resultShape = if (pressed) {
-        pressedShape
-    } else {
-        shape
-    }
+    val resultShape = if (pressed || focused) pressedShape else shape
 
     if (shape is RoundedCornerShape && pressedShape is RoundedCornerShape) {
         return key(shape, pressedShape) {
