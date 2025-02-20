@@ -42,7 +42,8 @@ private class QrCodeScannerImpl(
 
     override fun scan() {
         val config = ScannerConfig.build {
-            setBarcodeFormats(listOf(BarcodeFormat.QR_CODE))
+            setBarcodeFormats(listOf(BarcodeFormat.ALL_FORMATS))
+            setOverlayStringRes(R.string.scan_barcode)
             setHapticSuccessFeedback(true)
             setShowTorchToggle(true)
             setShowCloseButton(true)

@@ -168,7 +168,7 @@ fun PreferenceItemOverload(
                         AnimatedContent(
                             targetState = title,
                             transitionSpec = { fadeIn() togetherWith fadeOut() },
-                            modifier = Modifier.weight(1f, fill = false)
+                            modifier = Modifier.weight(1f, fill = badge == null)
                         ) { title ->
                             Text(
                                 text = title,

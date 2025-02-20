@@ -1594,4 +1594,5 @@
     <string name="pixel_by_pixel">Pixel By Pixel</string>
     <string name="highlight_color">Highlight Color</string>
     <string name="pixel_comparison_type">Pixel Comparison Type</string>
+    <string name="scan_barcode">Scan Barcode</string>
 </resources>

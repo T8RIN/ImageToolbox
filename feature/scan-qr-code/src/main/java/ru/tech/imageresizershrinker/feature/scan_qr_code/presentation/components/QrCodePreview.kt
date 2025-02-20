@@ -104,9 +104,7 @@ internal fun QrCodePreview(
                                 } else Modifier
                             )
                             .size(targetSize),
-                        shape = RoundedCornerShape(
-                            animateIntAsState(qrCornersSize).value.dp
-                        )
+                        cornerRadius = animateIntAsState(qrCornersSize).value.dp
                     )
 
                     BoxAnimatedVisibility(visible = qrDescription.isNotEmpty() && qrContent.isNotEmpty()) {
