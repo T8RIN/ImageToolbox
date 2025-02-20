@@ -107,6 +107,10 @@ data class LocalEssentials internal constructor(
         }
     }
 
+    fun dismissToasts() {
+        toastHostState.currentToastData?.dismiss()
+    }
+
     fun showConfetti(
         duration: ToastDuration
     ) = coroutineScope.launch {

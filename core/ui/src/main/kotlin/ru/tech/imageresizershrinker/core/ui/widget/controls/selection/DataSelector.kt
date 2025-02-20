@@ -76,7 +76,7 @@ fun <T : Any> DataSelector(
     modifier: Modifier = Modifier,
     badgeContent: (@Composable RowScope.() -> Unit)? = null,
     shape: Shape = RoundedCornerShape(20.dp),
-    color: Color = MaterialTheme.colorScheme.surface,
+    color: Color = Color.Unspecified,
     selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
     initialExpanded: Boolean = false
 ) {

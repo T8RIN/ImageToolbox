@@ -17,8 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,15 +35,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.InvertColors
 import androidx.compose.material.icons.outlined.QrCodeScanner
+import androidx.compose.material.icons.rounded.QrCode2
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -53,10 +57,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
@@ -65,6 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentia
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
@@ -75,16 +80,20 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.core.ui.widget.other.BarcodeType
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components.QrCodePreview
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
 
+@SuppressLint("StringFormatInvalid")
 @Composable
 fun ScanQrCodeContent(
     component: ScanQrCodeComponent
@@ -95,11 +104,17 @@ fun ScanQrCodeContent(
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val scanner = rememberQrCodeScanner(component::updateQrContent)
+    val params = component.params
 
-    val qrContent = component.qrContent
+    val scanner = rememberQrCodeScanner {
+        component.updateParams(
+            params = params.copy(
+                content = it
+            )
+        )
+    }
 
-    LaunchedEffect(qrContent) {
+    LaunchedEffect(params.content) {
         component.processFilterTemplateFromQrContent(
             onSuccess = { filterName, filtersCount ->
                 essentials.showToast(
@@ -112,18 +127,6 @@ fun ScanQrCodeContent(
                 )
             }
         )
-    }
-
-    var qrImageUri by rememberSaveable {
-        mutableStateOf<Uri?>(null)
-    }
-
-    var qrDescription by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    var qrCornersSize by rememberSaveable {
-        mutableIntStateOf(4)
     }
 
     val captureController = rememberCaptureController()
@@ -139,22 +142,37 @@ fun ScanQrCodeContent(
 
     val isLandscape by isLandscapeOrientationAsState()
 
-    val qrDescriptionFont = component.qrDescriptionFont.toUiFont()
-
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
         title = {
-            TopAppBarTitle(
-                title = stringResource(R.string.qr_code),
-                input = null,
-                isLoading = false,
-                size = null,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.marquee()
+            ) {
+                Text(
+                    text = stringResource(R.string.qr_code)
+                )
+                Badge(
+                    content = {
+                        Text(
+                            text = BarcodeType.entries.size.toString()
+                        )
+                    },
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary,
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .padding(bottom = 12.dp)
+                        .scaleOnTap {
+                            showConfetti()
+                        }
+                )
+            }
         },
         onGoBack = component.onGoBack,
         actions = {
             ShareButton(
-                enabled = qrContent.isNotEmpty(),
+                enabled = params.content.isNotEmpty(),
                 onShare = {
                     scope.launch {
                         val bitmap = captureController.captureAsync().await().asAndroidBitmap()
@@ -184,11 +202,7 @@ fun ScanQrCodeContent(
                 QrCodePreview(
                     captureController = captureController,
                     isLandscape = true,
-                    qrImageUri = qrImageUri,
-                    qrDescription = qrDescription,
-                    qrContent = qrContent,
-                    qrCornersSize = qrCornersSize,
-                    qrDescriptionFont = qrDescriptionFont
+                    params = params
                 )
             }
         },
@@ -198,16 +212,12 @@ fun ScanQrCodeContent(
                 QrCodePreview(
                     captureController = captureController,
                     isLandscape = false,
-                    qrImageUri = qrImageUri,
-                    qrDescription = qrDescription,
-                    qrContent = qrContent,
-                    qrCornersSize = qrCornersSize,
-                    qrDescriptionFont = qrDescriptionFont
+                    params = params
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
             LinkPreviewList(
-                text = qrContent,
+                text = params.content,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
@@ -224,8 +234,14 @@ fun ScanQrCodeContent(
                         end = 8.dp,
                         bottom = 6.dp
                     ),
-                value = qrContent,
-                onValueChange = component::updateQrContent,
+                value = params.content,
+                onValueChange = {
+                    component.updateParams(
+                        params.copy(
+                            content = it
+                        )
+                    )
+                },
                 maxSymbols = 2500,
                 singleLine = false,
                 label = {
@@ -233,9 +249,15 @@ fun ScanQrCodeContent(
                 },
                 keyboardOptions = KeyboardOptions(),
                 endIcon = {
-                    AnimatedVisibility(qrContent.isNotBlank()) {
+                    AnimatedVisibility(params.content.isNotBlank()) {
                         EnhancedIconButton(
-                            onClick = { component.updateQrContent("") },
+                            onClick = {
+                                component.updateParams(
+                                    params.copy(
+                                        content = ""
+                                    )
+                                )
+                            },
                             modifier = Modifier.padding(end = 4.dp)
                         ) {
                             Icon(
@@ -252,30 +274,100 @@ fun ScanQrCodeContent(
                 modifier = Modifier.padding(8.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            AnimatedVisibility(visible = qrContent.isNotEmpty()) {
+            val params by rememberUpdatedState(params)
+
+            AnimatedVisibility(visible = params.content.isNotEmpty()) {
                 Column {
+                    DataSelector(
+                        value = params.type,
+                        onValueChange = {
+                            component.updateParams(
+                                params.copy(
+                                    type = it,
+                                    heightRatio = if (params.type == BarcodeType.DATA_MATRIX) 1f
+                                    else params.heightRatio
+                                )
+                            )
+                        },
+                        spanCount = 2,
+                        entries = BarcodeType.entries,
+                        title = stringResource(R.string.barcode_type),
+                        titleIcon = Icons.Rounded.QrCode2,
+                        itemContentText = {
+                            remember {
+                                it.name.replace("_", " ")
+                            }
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    BoxAnimatedVisibility(
+                        visible = !params.type.isSquare || params.type == BarcodeType.DATA_MATRIX,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        EnhancedSliderItem(
+                            value = params.heightRatio,
+                            title = stringResource(R.string.height_ratio),
+                            valueRange = 1f..4f,
+                            onValueChange = {},
+                            onValueChangeFinished = {
+                                component.updateParams(
+                                    params.copy(
+                                        heightRatio = it
+                                    )
+                                )
+                            },
+                            internalStateTransformation = {
+                                it.roundToTwoDigits()
+                            },
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                    }
+                    PreferenceRowSwitch(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        startIcon = Icons.Outlined.InvertColors,
+                        title = stringResource(R.string.enforce_bw),
+                        subtitle = stringResource(R.string.enforce_bw_sub),
+                        checked = params.enforceBlackAndWhite,
+                        onClick = {
+                            component.updateParams(
+                                params.copy(
+                                    enforceBlackAndWhite = it
+                                )
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                     Row(
                         modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max)
                     ) {
                         ImageSelector(
-                            value = qrImageUri,
+                            value = params.imageUri,
                             subtitle = stringResource(id = R.string.watermarking_image_sub),
                             onValueChange = {
-                                qrImageUri = it
+                                component.updateParams(
+                                    params.copy(
+                                        imageUri = it
+                                    )
+                                )
                             },
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .weight(1f),
                             shape = RoundedCornerShape(24.dp)
                         )
-                        BoxAnimatedVisibility(visible = qrImageUri != null) {
+                        BoxAnimatedVisibility(visible = params.imageUri != null) {
                             Box(
                                 modifier = Modifier
                                     .fillMaxHeight()
                                     .padding(start = 8.dp)
                                     .clip(RoundedCornerShape(16.dp))
                                     .hapticsClickable {
-                                        qrImageUri = null
+                                        component.updateParams(
+                                            params.copy(
+                                                imageUri = null
+                                            )
+                                        )
                                     }
                                     .container(
                                         color = MaterialTheme.colorScheme.errorContainer,
@@ -297,38 +389,53 @@ fun ScanQrCodeContent(
                         modifier = Modifier
                             .container(
                                 shape = animateShape(
-                                    if (qrDescription.isNotEmpty()) ContainerShapeDefaults.topShape
+                                    if (params.description.isNotEmpty()) ContainerShapeDefaults.topShape
                                     else ContainerShapeDefaults.defaultShape
                                 ),
                                 resultPadding = 8.dp
                             ),
-                        value = qrDescription,
+                        value = params.description,
                         onValueChange = {
-                            qrDescription = it
+                            component.updateParams(
+                                params.copy(
+                                    description = it
+                                )
+                            )
                         },
                         singleLine = false,
                         label = {
                             Text(stringResource(id = R.string.qr_description))
                         }
                     )
-                    BoxAnimatedVisibility(visible = qrDescription.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    BoxAnimatedVisibility(
+                        visible = params.description.isNotEmpty(),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         FontSelector(
-                            value = qrDescriptionFont,
+                            value = params.descriptionFont,
                             onValueChange = {
-                                component.setQrCodeDescriptionFont(it.asDomain())
+                                component.updateParams(
+                                    params.copy(
+                                        descriptionFont = it
+                                    )
+                                )
                             },
                             color = Color.Unspecified,
                             shape = ContainerShapeDefaults.bottomShape,
-                            modifier = Modifier.padding(top = 4.dp)
+                            modifier = Modifier.padding(bottom = 8.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
                     EnhancedSliderItem(
-                        value = qrCornersSize,
+                        value = params.cornersSize,
                         title = stringResource(R.string.corners),
                         valueRange = 0f..24f,
                         onValueChange = {
-                            qrCornersSize = it.toInt()
+                            component.updateParams(
+                                params.copy(
+                                    cornersSize = it.toInt()
+                                )
+                            )
                         },
                         internalStateTransformation = {
                             it.roundToInt()
@@ -344,7 +451,7 @@ fun ScanQrCodeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (qrContent.isEmpty()) to !isLandscape,
+                targetState = (params.content.isEmpty()) to !isLandscape,
                 secondaryButtonIcon = Icons.Outlined.QrCodeScanner,
                 secondaryButtonText = stringResource(R.string.start_scanning),
                 onSecondaryButtonClick = scanner::scan,

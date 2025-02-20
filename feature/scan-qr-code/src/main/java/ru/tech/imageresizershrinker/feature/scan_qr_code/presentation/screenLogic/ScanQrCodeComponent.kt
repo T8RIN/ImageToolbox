@@ -44,10 +44,11 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
-import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components.QrPreviewParams
 
 class ScanQrCodeComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -61,8 +62,12 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    private val _qrContent: MutableState<String> = mutableStateOf(initialQrCodeContent ?: "")
-    val qrContent by _qrContent
+    private val _params: MutableState<QrPreviewParams> = mutableStateOf(
+        QrPreviewParams.Default.copy(
+            content = initialQrCodeContent ?: ""
+        )
+    )
+    val params by _params
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -73,19 +78,15 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
 
     private var settingsState: SettingsState = SettingsState.Default
 
-    private val _qrDescriptionFont: MutableState<DomainFontFamily> =
-        mutableStateOf(settingsState.font)
-    val qrDescriptionFont by _qrDescriptionFont
-
     init {
         settingsProvider.getSettingsStateFlow().onEach {
             settingsState = it
-            _qrDescriptionFont.update { settingsState.font }
+            _params.update {
+                it.copy(
+                    descriptionFont = settingsState.font.toUiFont()
+                )
+            }
         }.launchIn(componentScope)
-    }
-
-    fun updateQrContent(content: String) {
-        _qrContent.update { content }
     }
 
     fun saveBitmap(
@@ -177,9 +178,9 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         onSuccess: (filterName: String, filtersCount: Int) -> Unit
     ) {
         componentScope.launch {
-            if (favoriteFiltersInteractor.isValidTemplateFilter(qrContent)) {
+            if (favoriteFiltersInteractor.isValidTemplateFilter(params.content)) {
                 favoriteFiltersInteractor.addTemplateFilterFromString(
-                    string = qrContent,
+                    string = params.content,
                     onSuccess = onSuccess,
                     onFailure = {}
                 )
@@ -189,10 +190,9 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
 
     fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
 
-    fun setQrCodeDescriptionFont(family: DomainFontFamily) {
-        _qrDescriptionFont.update { family }
+    fun updateParams(params: QrPreviewParams) {
+        _params.update { params }
     }
-
 
     @AssistedFactory
     fun interface Factory {

@@ -18,11 +18,13 @@
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import android.graphics.Bitmap
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -50,7 +53,6 @@ import androidx.compose.ui.unit.min
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
-import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -73,7 +75,9 @@ fun rememberQrBitmapPainter(
     padding: Dp = 0.5.dp,
     foregroundColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
     backgroundColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
-    onSuccess: () -> Unit = {}
+    onLoading: () -> Unit = {},
+    onSuccess: () -> Unit = {},
+    onFailure: (Throwable) -> Unit = {}
 ): Painter {
 
     check(width >= 0.dp && height >= 0.dp) { "Size must be non negative" }
@@ -89,18 +93,22 @@ fun rememberQrBitmapPainter(
     }
 
     // Use dependency on 'content' to re-trigger the effect when content changes
-    LaunchedEffect(content, widthPx, heightPx, paddingPx, foregroundColor, backgroundColor) {
+    LaunchedEffect(content, type, widthPx, heightPx, paddingPx, foregroundColor, backgroundColor) {
+        onLoading()
+
         if (content.isNotEmpty()) {
             delay(100)
-            bitmapState.value = generateQrBitmap(
-                content = content,
-                widthPx = widthPx,
-                heightPx = heightPx,
-                paddingPx = paddingPx,
-                foregroundColor = foregroundColor,
-                backgroundColor = backgroundColor,
-                format = type.zxingFormat
-            )
+            bitmapState.value = runSuspendCatching {
+                generateQrBitmap(
+                    content = content,
+                    widthPx = widthPx,
+                    heightPx = heightPx,
+                    paddingPx = paddingPx,
+                    foregroundColor = foregroundColor,
+                    backgroundColor = backgroundColor,
+                    format = type.zxingFormat
+                )
+            }.onFailure(onFailure).getOrNull()
         } else {
             bitmapState.value = null
         }
@@ -144,42 +152,29 @@ private suspend fun generateQrBitmap(
     backgroundColor: Color,
     format: BarcodeFormat
 ): Bitmap? = withContext(Dispatchers.IO) {
-    val qrCodeWriter = QRCodeWriter()
-    val multiFormatWriter = MultiFormatWriter()
-
     val encodeHints = mutableMapOf<EncodeHintType, Any?>()
         .apply {
             this[EncodeHintType.CHARACTER_SET] = Charsets.UTF_8
-            this[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
+            if (format == BarcodeFormat.QR_CODE) {
+                this[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
+            }
             this[EncodeHintType.MARGIN] = paddingPx
         }
 
-    runSuspendCatching {
-        val bitmapMatrix = when (format) {
-            BarcodeFormat.QR_CODE -> {
-                qrCodeWriter.encode(
-                    content, BarcodeFormat.QR_CODE,
-                    widthPx, heightPx, encodeHints
-                )
-            }
+    val bitmapMatrix =
+        MultiFormatWriter().encode(content, format, widthPx, heightPx, encodeHints)
 
-            else -> {
-                multiFormatWriter.encode(content, format, widthPx, heightPx, encodeHints)
-            }
-        }
+    val matrixWidth = bitmapMatrix.width
+    val matrixHeight = bitmapMatrix.height
 
-        val matrixWidth = bitmapMatrix.width
-        val matrixHeight = bitmapMatrix.height
+    val colors = IntArray(matrixWidth * matrixHeight) { index ->
+        val x = index % matrixWidth
+        val y = index / matrixWidth
+        val shouldColorPixel = bitmapMatrix.get(x, y)
+        if (shouldColorPixel) foregroundColor.toArgb() else backgroundColor.toArgb()
+    }
 
-        val colors = IntArray(matrixWidth * matrixHeight) { index ->
-            val x = index % matrixWidth
-            val y = index / matrixWidth
-            val shouldColorPixel = bitmapMatrix.get(x, y)
-            if (shouldColorPixel) foregroundColor.toArgb() else backgroundColor.toArgb()
-        }
-
-        Bitmap.createBitmap(colors, matrixWidth, matrixHeight, Bitmap.Config.ARGB_8888)
-    }.getOrNull()
+    Bitmap.createBitmap(colors, matrixWidth, matrixHeight, Bitmap.Config.ARGB_8888)
 }
 
 /**
@@ -205,15 +200,19 @@ fun QrCode(
     modifier: Modifier,
     cornerRadius: Dp = 4.dp,
     heightRatio: Float = 2f,
-    type: BarcodeType = BarcodeType.CODABAR,
-    enforceBlackAndWhite: Boolean = false
+    type: BarcodeType = BarcodeType.QR_CODE,
+    enforceBlackAndWhite: Boolean = false,
+    onFailure: (Throwable) -> Unit = {},
+    onSuccess: () -> Unit = {},
 ) {
     BoxWithConstraints(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         val width = min(this.maxWidth, maxHeight)
-        val height = if (type.isSquare) width else width / heightRatio
+        val height = animateDpAsState(
+            if (type.isSquare && type != BarcodeType.DATA_MATRIX) width else width / heightRatio
+        ).value
 
         val backgroundColor = if (enforceBlackAndWhite) {
             Color.White
@@ -235,14 +234,7 @@ fun QrCode(
             }
         }
 
-        var isLoading by remember(
-            content,
-            width,
-            height,
-            type,
-            foregroundColor,
-            backgroundColor
-        ) {
+        var isLoading by remember {
             mutableStateOf(true)
         }
 
@@ -254,35 +246,48 @@ fun QrCode(
             foregroundColor = foregroundColor,
             backgroundColor = backgroundColor,
             type = type,
+            onLoading = {
+                isLoading = true
+            },
             onSuccess = {
                 isLoading = false
-            }
+                onSuccess()
+            },
+            onFailure = onFailure
         )
 
         val padding = if (type == BarcodeType.QR_CODE) 0.5.dp else 8.dp
         Image(
             painter = painter,
             modifier = Modifier
+                .size(width, height)
                 .clip(RoundedCornerShape(cornerRadius))
                 .background(backgroundColor)
-                .padding(padding),
+                .padding(padding)
+                .alpha(
+                    animateFloatAsState(
+                        targetValue = if (isLoading) 0f else 1f,
+                        animationSpec = tween(500)
+                    ).value
+                ),
             contentDescription = null
         )
 
         Box(
             modifier = Modifier
-                .matchParentSize()
-                .aspectRatio(((width + padding) / (height + padding)).takeIf { it.isFinite() && it > 0f } ?: 1f)
+                .size(width, height)
                 .clip(RoundedCornerShape((cornerRadius - 1.dp).coerceAtLeast(0.dp)))
                 .shimmer(isLoading)
         )
     }
 }
 
+@Suppress("unused", "RedundantVisibilityModifier")
 enum class BarcodeType(
     internal val zxingFormat: BarcodeFormat,
     val isSquare: Boolean
 ) {
+    QR_CODE(BarcodeFormat.QR_CODE, true),
     AZTEC(BarcodeFormat.AZTEC, true),
     CODABAR(BarcodeFormat.CODABAR, false),
     CODE_39(BarcodeFormat.CODE_39, false),
@@ -292,12 +297,7 @@ enum class BarcodeType(
     EAN_8(BarcodeFormat.EAN_8, false),
     EAN_13(BarcodeFormat.EAN_13, false),
     ITF(BarcodeFormat.ITF, false),
-    MAXICODE(BarcodeFormat.MAXICODE, true),
     PDF_417(BarcodeFormat.PDF_417, false),
-    QR_CODE(BarcodeFormat.QR_CODE, true),
-    RSS_14(BarcodeFormat.RSS_14, false),
-    RSS_EXPANDED(BarcodeFormat.RSS_EXPANDED, false),
     UPC_A(BarcodeFormat.UPC_A, false),
-    UPC_E(BarcodeFormat.UPC_E, false),
-    UPC_EAN_EXTENSION(BarcodeFormat.UPC_EAN_EXTENSION, false);
+    UPC_E(BarcodeFormat.UPC_E, false)
 }

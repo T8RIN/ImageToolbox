@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components
 
-import android.net.Uri
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -43,9 +42,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.CaptureController
-import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberPrevious
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
@@ -54,24 +54,20 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
 internal fun QrCodePreview(
     captureController: CaptureController,
     isLandscape: Boolean,
-    qrImageUri: Uri?,
-    qrDescription: String,
-    qrContent: String,
-    qrCornersSize: Int,
-    qrDescriptionFont: UiFontFamily
+    params: QrPreviewParams
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         Column(Modifier.capturable(captureController)) {
-            if (qrImageUri != null) {
+            if (params.imageUri != null) {
                 Spacer(modifier = Modifier.height(32.dp))
             }
             BoxWithConstraints(
                 modifier = Modifier
                     .then(
-                        if ((qrImageUri != null || qrDescription.isNotEmpty()) && qrContent.isNotEmpty()) {
+                        if ((params.imageUri != null || params.description.isNotEmpty()) && params.content.isNotEmpty()) {
                             Modifier
                                 .background(
                                     color = takeColorFromScheme {
@@ -89,12 +85,14 @@ internal fun QrCodePreview(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    val essentials = rememberLocalEssentials()
+                    val previous = rememberPrevious(params)
                     QrCode(
-                        content = qrContent,
+                        content = params.content,
                         modifier = Modifier
                             .padding(
-                                top = if (qrImageUri != null) 36.dp else 0.dp,
-                                bottom = if (qrDescription.isNotEmpty()) 16.dp else 0.dp
+                                top = if (params.imageUri != null) 36.dp else 0.dp,
+                                bottom = if (params.description.isNotEmpty()) 16.dp else 0.dp
                             )
                             .then(
                                 if (isLandscape) {
@@ -103,16 +101,26 @@ internal fun QrCodePreview(
                                         .aspectRatio(1f)
                                 } else Modifier
                             )
-                            .size(targetSize),
-                        cornerRadius = animateIntAsState(qrCornersSize).value.dp
+                            .width(targetSize),
+                        heightRatio = params.heightRatio,
+                        type = params.type,
+                        enforceBlackAndWhite = params.enforceBlackAndWhite,
+                        cornerRadius = animateIntAsState(params.cornersSize).value.dp,
+                        onSuccess = {
+                            essentials.dismissToasts()
+                        },
+                        onFailure = {
+                            essentials.dismissToasts()
+                            if (previous != params) essentials.showFailureToast(it)
+                        }
                     )
 
-                    BoxAnimatedVisibility(visible = qrDescription.isNotEmpty() && qrContent.isNotEmpty()) {
+                    BoxAnimatedVisibility(visible = params.description.isNotEmpty() && params.content.isNotEmpty()) {
                         MaterialTheme(
-                            typography = Typography(qrDescriptionFont)
+                            typography = Typography(params.descriptionFont)
                         ) {
                             Text(
-                                text = qrDescription,
+                                text = params.description,
                                 style = MaterialTheme.typography.headlineSmall,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.width(targetSize)
@@ -121,13 +129,13 @@ internal fun QrCodePreview(
                     }
                 }
 
-                if (qrImageUri != null && qrContent.isNotEmpty()) {
+                if (params.imageUri != null && params.content.isNotEmpty()) {
                     Picture(
                         modifier = Modifier
                             .align(Alignment.TopCenter)
                             .offset(y = (-48).dp)
                             .size(64.dp),
-                        model = qrImageUri,
+                        model = params.imageUri,
                         contentScale = ContentScale.Crop,
                         contentDescription = null,
                         shape = MaterialTheme.shapes.medium

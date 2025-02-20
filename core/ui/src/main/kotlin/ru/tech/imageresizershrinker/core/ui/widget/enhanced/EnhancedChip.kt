@@ -38,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -87,7 +86,6 @@ fun EnhancedChip(
         LocalContentColor provides contentColor,
         LocalContainerShape provides null
     ) {
-        val focus = LocalFocusManager.current
         Box(
             modifier = modifier
                 .defaultMinSize(defaultMinSize, defaultMinSize)
@@ -105,11 +103,9 @@ fun EnhancedChip(
                     onClick?.let {
                         Modifier.hapticsClickable(
                             indication = LocalIndication.current,
-                            interactionSource = realInteractionSource
-                        ) {
-                            focus.clearFocus()
-                            onClick()
-                        }
+                            interactionSource = realInteractionSource,
+                            onClick = onClick
+                        )
                     } ?: Modifier
                 ),
             contentAlignment = Alignment.Center
