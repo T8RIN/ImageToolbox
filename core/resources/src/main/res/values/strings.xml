@@ -1595,4 +1595,8 @@
     <string name="highlight_color">Highlight Color</string>
     <string name="pixel_comparison_type">Pixel Comparison Type</string>
     <string name="scan_barcode">Scan Barcode</string>
+    <string name="height_ratio">Height Ratio</string>
+    <string name="barcode_type">Barcode Type</string>
+    <string name="enforce_bw">Enforce B/W</string>
+    <string name="enforce_bw_sub">Barcode Image will be fully black and white and not colored by app\'s theme</string>
 </resources>
