@@ -252,7 +252,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
             ScreenGroup(
                 entries = listOf(
                     PdfTools(),
-                    Screen.DocumentScanner,
+                    DocumentScanner,
                     ScanQrCode(),
                     ColorTools,
                     GifTools(),
