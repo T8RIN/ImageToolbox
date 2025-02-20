@@ -200,20 +200,29 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 shape = RoundedCornerShape(18.dp),
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
+                                badge = {
+                                    AnimatedVisibility(
+                                        visible = screen.isBetaFeature,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterVertically)
+                                            .padding(start = 4.dp, bottom = 2.dp),
+                                        enter = fadeIn(),
+                                        exit = fadeOut()
+                                    ) {
+                                        Badge(
+                                            content = {
+                                                Text(stringResource(R.string.beta))
+                                            },
+                                            containerColor = MaterialTheme.colorScheme.tertiary,
+                                            contentColor = MaterialTheme.colorScheme.onTertiary
+                                        )
+                                    }
+                                },
                                 endIcon = {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                                     ) {
-                                        AnimatedVisibility(screen.isBetaFeature) {
-                                            Badge(
-                                                content = {
-                                                    Text(stringResource(R.string.beta))
-                                                },
-                                                containerColor = MaterialTheme.colorScheme.tertiary,
-                                                contentColor = MaterialTheme.colorScheme.onTertiary
-                                            )
-                                        }
                                         if (!settingsState.groupOptionsByTypes) {
                                             EnhancedIconButton(
                                                 onClick = {

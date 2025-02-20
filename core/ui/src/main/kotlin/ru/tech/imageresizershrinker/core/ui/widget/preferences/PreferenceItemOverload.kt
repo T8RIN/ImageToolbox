@@ -26,6 +26,7 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -72,6 +73,7 @@ fun PreferenceItemOverload(
     autoShadowElevation: Dp = 1.dp,
     startIcon: (@Composable () -> Unit)? = null,
     endIcon: (@Composable () -> Unit)? = null,
+    badge: (@Composable RowScope.() -> Unit)? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     pressedShape: Shape = RoundedCornerShape(6.dp),
     color: Color = Color.Unspecified,
@@ -162,15 +164,18 @@ fun PreferenceItemOverload(
                         .weight(1f)
                         .padding(end = 16.dp)
                 ) {
-                    AnimatedContent(
-                        targetState = title,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { title ->
-                        Text(
-                            text = title,
-                            style = titleFontStyle,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                    Row {
+                        AnimatedContent(
+                            targetState = title,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() },
+                            modifier = Modifier.weight(1f, fill = false)
+                        ) { title ->
+                            Text(
+                                text = title,
+                                style = titleFontStyle
+                            )
+                        }
+                        badge?.invoke(this)
                     }
                     AnimatedContent(
                         targetState = subtitle,
