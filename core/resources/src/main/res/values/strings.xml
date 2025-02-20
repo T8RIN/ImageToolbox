@@ -1599,4 +1599,5 @@
     <string name="barcode_type">Barcode Type</string>
     <string name="enforce_bw">Enforce B/W</string>
     <string name="enforce_bw_sub">Barcode Image will be fully black and white and not colored by app\'s theme</string>
+    <string name="barcodes_sub">Scan any Barcode (QR, EAN, AZTEC, …) and get it\'s content or paste your text to generate new one</string>
 </resources>

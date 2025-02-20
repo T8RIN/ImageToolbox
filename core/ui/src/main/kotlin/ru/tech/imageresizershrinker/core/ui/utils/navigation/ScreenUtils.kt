@@ -86,7 +86,7 @@ internal fun Screen.simpleName(): String? = when (this) {
     is Crop -> "Crop"
     is DeleteExif -> "Delete_Exif"
     is Draw -> "Draw"
-    is Screen.EasterEgg -> "Easter_Egg"
+    is EasterEgg -> "Easter_Egg"
     is EraseBackground -> "Erase_Background"
     is Filter -> "Filter"
     is GeneratePalette -> "Generate_Palette"
@@ -97,13 +97,13 @@ internal fun Screen.simpleName(): String? = when (this) {
     is JxlTools -> "JXL_Tools"
     is LimitResize -> "Limit_Resize"
     is LoadNetImage -> "Load_Net_Image"
-    is Screen.Main -> null
+    is Main -> null
     is PdfTools -> "PDF_Tools"
     is PickColorFromImage -> "Pick_Color_From_Image"
     is RecognizeText -> "Recognize_Text"
     is ResizeAndConvert -> "Resize_And_Convert"
     is WeightResize -> "Resize_By_Bytes"
-    is Screen.Settings -> "Settings"
+    is Settings -> "Settings"
     is SingleEdit -> "Single_Edit"
     is Watermarking -> "Watermarking"
     is Zip -> "Zip"
@@ -117,21 +117,21 @@ internal fun Screen.simpleName(): String? = when (this) {
     is WebpTools -> "WEBP_Tools"
     is NoiseGeneration -> "Noise_Generation"
     is CollageMaker -> "Collage_Maker"
-    is Screen.LibrariesInfo -> "Libraries_Info"
+    is LibrariesInfo -> "Libraries_Info"
     is MarkupLayers -> "Markup_Layers"
     is Base64Tools -> "Base64_Tools"
     is ChecksumTools -> "Checksum_Tools"
-    is Screen.MeshGradients -> "Mesh_Gradients"
+    is MeshGradients -> "Mesh_Gradients"
     is EditExif -> "Edit_EXIF"
     is ImageCutter -> "Image_Cutting"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
-    is Screen.EasterEgg,
-    is Screen.Main,
-    is Screen.Settings,
-    is Screen.LibrariesInfo,
-    is Screen.MeshGradients -> null
+    is EasterEgg,
+    is Main,
+    is Settings,
+    is LibrariesInfo,
+    is MeshGradients -> null
 
     is SingleEdit -> Icons.Outlined.ImageEdit
     is ApngTools -> Icons.Rounded.ApngBox
@@ -238,7 +238,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                 entries = listOf(
                     PickColorFromImage(),
                     RecognizeText(),
-                    Screen.Compare(),
+                    Compare(),
                     ImagePreview(),
                     Base64Tools(),
                     SvgMaker(),
@@ -274,5 +274,5 @@ internal object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 65
+    override val FEATURES_COUNT = 66
 }

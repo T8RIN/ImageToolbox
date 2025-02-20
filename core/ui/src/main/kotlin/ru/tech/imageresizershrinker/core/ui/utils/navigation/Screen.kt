@@ -582,7 +582,7 @@ sealed class Screen(
     ) : Screen(
         id = 27,
         title = R.string.qr_code,
-        subtitle = R.string.qr_code_sub
+        subtitle = R.string.barcodes_sub
     )
 
     @Serializable
