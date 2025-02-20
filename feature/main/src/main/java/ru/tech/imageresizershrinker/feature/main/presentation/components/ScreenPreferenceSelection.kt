@@ -205,7 +205,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                         visible = screen.isBetaFeature,
                                         modifier = Modifier
                                             .align(Alignment.CenterVertically)
-                                            .padding(start = 4.dp, bottom = 2.dp),
+                                            .padding(start = 4.dp, bottom = 2.dp, top = 2.dp),
                                         enter = fadeIn(),
                                         exit = fadeOut()
                                     ) {
