@@ -190,9 +190,6 @@ fun ImagePager(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
-                    )
                     .withLayoutCorners { corners ->
                         graphicsLayer {
                             scaleX = scale
@@ -201,6 +198,9 @@ fun ImagePager(
                             clip = true
                         }
                     }
+                    .background(
+                        MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
+                    )
             ) {
                 val moreThanOneUri = (uris?.size ?: 0) > 1
 

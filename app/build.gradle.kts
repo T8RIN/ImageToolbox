@@ -128,6 +128,13 @@ dependencies {
     implementation(libs.bouncycastle.provider)
 }
 
+allprojects {
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute(module("com.caverock:androidsvg-aar:1.4")).using(module("com.github.deckerst:androidsvg:cc9d59a88f"))
+        }
+    }
+}
 
 afterEvaluate {
     android.productFlavors.forEach { flavor ->

@@ -185,9 +185,6 @@ internal fun MediaImagePager(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
-                    )
                     .withLayoutCorners { corners ->
                         graphicsLayer {
                             scaleX = scale
@@ -196,6 +193,9 @@ internal fun MediaImagePager(
                             clip = true
                         }
                     }
+                    .background(
+                        MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
+                    )
             ) {
                 val moreThanOneUri = media.size > 1
                 val currentMedia = media.getOrNull(pagerState.currentPage)
