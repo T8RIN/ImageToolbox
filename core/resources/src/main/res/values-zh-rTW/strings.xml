@@ -603,7 +603,7 @@
     <string name="gradient_maker_sub">建立指定輸出尺寸的漸變效果，並自定義顏色和外觀類型</string>
     <string name="gradient_maker_type_image_sub">合成給定圖像頂部的任意梯度</string>
     <string name="use_pixel_switch">使用 Pixel 開關</string>
-    <string name="use_pixel_switch_sub">將使用類似 Pixel 的開關，而不是基於 Google 自帶的開關</string>
+    <string name="use_pixel_switch_sub">將使用類似Pixel的開關，而不是基於google自帶的開關</string>
     <string name="force_exif_widget_initial_value_sub">強制初始檢查 EXIF 部件</string>
     <string name="repeat_watermark_sub">在圖片上重複水印，而不是在給定位置重複單個水印</string>
     <string name="offset_x">偏移 X</string>
