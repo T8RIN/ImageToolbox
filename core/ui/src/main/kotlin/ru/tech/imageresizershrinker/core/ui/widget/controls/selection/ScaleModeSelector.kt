@@ -17,9 +17,13 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -86,7 +90,6 @@ fun ScaleModeSelector(
     backgroundColor: Color = Color.Unspecified,
     shape: Shape = RoundedCornerShape(24.dp),
     enableItemsCardBackground: Boolean = true,
-    showAsColumns: Boolean = false,
     titlePadding: PaddingValues = PaddingValues(top = 8.dp),
     titleArrangement: Arrangement.Horizontal = Arrangement.Center,
     entries: List<ImageScaleMode> = ImageScaleMode.defaultEntries(),
@@ -171,90 +174,55 @@ fun ScaleModeSelector(
                 } else Modifier.padding(8.dp)
             )
 
-        if (showAsColumns) {
-            FlowRow(
-                verticalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterVertically
+        val state = rememberLazyStaggeredGridState()
+        LazyHorizontalStaggeredGrid(
+            verticalArrangement = Arrangement.spacedBy(
+                space = 8.dp,
+                alignment = Alignment.CenterVertically
+            ),
+            state = state,
+            horizontalItemSpacing = 8.dp,
+            rows = StaggeredGridCells.Adaptive(30.dp),
+            modifier = Modifier
+                .heightIn(max = if (enableItemsCardBackground) 160.dp else 140.dp)
+                .then(chipsModifier)
+                .fadingEdges(
+                    scrollableState = state,
+                    isVertical = false,
+                    spanCount = 3
                 ),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterHorizontally
-                ),
-                modifier = chipsModifier
-            ) {
-                entries.forEach {
-                    val selected by remember(value, it) {
-                        derivedStateOf {
-                            value::class.isInstance(it)
-                        }
+            contentPadding = PaddingValues(2.dp)
+        ) {
+            items(entries) {
+                val selected by remember(value, it) {
+                    derivedStateOf {
+                        value::class.isInstance(it)
                     }
-                    EnhancedChip(
-                        onClick = {
-                            onValueChange(it.copy(value.scaleColorSpace))
-                        },
-                        selected = selected,
-                        label = {
-                            Text(text = stringResource(it.title))
-                        },
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                        selectedColor = MaterialTheme.colorScheme.outlineVariant(
-                            0.2f,
-                            MaterialTheme.colorScheme.tertiary
-                        ),
-                        selectedContentColor = MaterialTheme.colorScheme.onTertiary,
-                        unselectedContentColor = MaterialTheme.colorScheme.onSurface
-                    )
                 }
-            }
-        } else {
-            val state = rememberLazyStaggeredGridState()
-            LazyHorizontalStaggeredGrid(
-                verticalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterVertically
-                ),
-                state = state,
-                horizontalItemSpacing = 8.dp,
-                rows = StaggeredGridCells.Adaptive(30.dp),
-                modifier = Modifier
-                    .heightIn(max = if (enableItemsCardBackground) 160.dp else 140.dp)
-                    .then(chipsModifier)
-                    .fadingEdges(
-                        scrollableState = state,
-                        isVertical = false,
-                        spanCount = 3
+                EnhancedChip(
+                    onClick = {
+                        onValueChange(it.copy(value.scaleColorSpace))
+                    },
+                    selected = selected,
+                    label = {
+                        Text(text = stringResource(id = it.title))
+                    },
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+                    selectedColor = MaterialTheme.colorScheme.outlineVariant(
+                        0.2f,
+                        MaterialTheme.colorScheme.tertiary
                     ),
-                contentPadding = PaddingValues(2.dp)
-            ) {
-                items(entries) {
-                    val selected by remember(value, it) {
-                        derivedStateOf {
-                            value::class.isInstance(it)
-                        }
-                    }
-                    EnhancedChip(
-                        onClick = {
-                            onValueChange(it.copy(value.scaleColorSpace))
-                        },
-                        selected = selected,
-                        label = {
-                            Text(text = stringResource(id = it.title))
-                        },
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                        selectedColor = MaterialTheme.colorScheme.outlineVariant(
-                            0.2f,
-                            MaterialTheme.colorScheme.tertiary
-                        ),
-                        selectedContentColor = MaterialTheme.colorScheme.onTertiary,
-                        unselectedContentColor = MaterialTheme.colorScheme.onSurface
-                    )
-                }
+                    selectedContentColor = MaterialTheme.colorScheme.onTertiary,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurface
+                )
             }
         }
 
-        if (isColorSpaceSelectionVisible) {
-            Spacer(modifier = Modifier.height(4.dp))
+        AnimatedVisibility(
+            visible = isColorSpaceSelectionVisible,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
             val items = remember {
                 ScaleColorSpace.entries
             }
@@ -276,10 +244,14 @@ fun ScaleModeSelector(
                 shape = ContainerShapeDefaults.bottomShape,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 4.dp)
                     .padding(horizontal = 8.dp),
                 selectedItemColor = MaterialTheme.colorScheme.secondary
             )
-            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        AnimatedVisibility(isColorSpaceSelectionVisible || enableItemsCardBackground) {
+            Spacer(Modifier.height(8.dp))
         }
     }
 

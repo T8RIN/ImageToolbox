@@ -38,6 +38,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerColor
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
@@ -70,30 +72,34 @@ fun ValueText(
         pressedShape = ButtonDefaults.pressedShape,
         interactionSource = interactionSource
     )
-    AnimatedContent(
-        targetState = text,
-        transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) },
-        modifier = modifier
-            .container(
-                shape = shape,
-                color = backgroundColor,
-                resultPadding = 0.dp,
-                autoShadowElevation = if (enabled) 0.7.dp else 0.dp
-            )
+    ProvideContainerDefaults(
+        color = LocalContainerColor.current
     ) {
-        AutoSizeText(
-            text = it,
-            color = LocalContentColor.current.copy(0.5f),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .hapticsClickable(
-                    enabled = enabled,
-                    onClick = onClick,
-                    interactionSource = interactionSource,
-                    indication = LocalIndication.current
+        AnimatedContent(
+            targetState = text,
+            transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) },
+            modifier = modifier
+                .container(
+                    shape = shape,
+                    color = backgroundColor,
+                    resultPadding = 0.dp,
+                    autoShadowElevation = if (enabled) 0.7.dp else 0.dp
                 )
-                .padding(horizontal = 16.dp, vertical = 6.dp),
-            lineHeight = 18.sp
-        )
+        ) {
+            AutoSizeText(
+                text = it,
+                color = LocalContentColor.current.copy(0.5f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .hapticsClickable(
+                        enabled = enabled,
+                        onClick = onClick,
+                        interactionSource = interactionSource,
+                        indication = LocalIndication.current
+                    )
+                    .padding(horizontal = 16.dp, vertical = 6.dp),
+                lineHeight = 18.sp
+            )
+        }
     }
 }
