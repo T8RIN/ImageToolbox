@@ -20,8 +20,9 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -221,7 +222,10 @@ internal fun rememberAnimatedShape(
 @Composable
 fun animateShape(
     targetValue: RoundedCornerShape,
-    animationSpec: FiniteAnimationSpec<Float> = tween(250),
+    animationSpec: FiniteAnimationSpec<Float> = spring(
+        dampingRatio = Spring.DampingRatioLowBouncy,
+        stiffness = Spring.StiffnessMediumLow
+    ),
 ): Shape = rememberAnimatedShape(targetValue, animationSpec)
 
 @Composable
@@ -229,7 +233,10 @@ fun shapeByInteraction(
     shape: Shape,
     pressedShape: Shape,
     interactionSource: MutableInteractionSource,
-    animationSpec: FiniteAnimationSpec<Float> = tween(250),
+    animationSpec: FiniteAnimationSpec<Float> = spring(
+        dampingRatio = Spring.DampingRatioLowBouncy,
+        stiffness = Spring.StiffnessMediumLow
+    ),
 ): Shape {
     val pressed by interactionSource.collectIsPressedAsState()
     val focused by interactionSource.collectIsFocusedAsState()
