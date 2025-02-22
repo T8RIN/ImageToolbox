@@ -775,7 +775,7 @@
     <string name="both">Ambos</string>
     <string name="invert_colors">Colores invertidos</string>
     <string name="invert_colors_sub">Reemplaza los colores del tema por negativos si está habilitado</string>
-    <string name="exit">Salida</string>
+    <string name="exit">Salir</string>
     <string name="preview_closing">Si sales de la vista previa ahora, tendrás que agregar las imágenes nuevamente</string>
     <string name="lasso">Lazo</string>
     <string name="lasso_sub">Dibuja un camino cerrado y lleno por un camino dado</string>

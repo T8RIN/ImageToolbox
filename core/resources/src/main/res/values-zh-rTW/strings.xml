@@ -603,7 +603,7 @@
     <string name="gradient_maker_sub">建立指定輸出尺寸的漸變效果，並自定義顏色和外觀類型</string>
     <string name="gradient_maker_type_image_sub">合成給定圖像頂部的任意梯度</string>
     <string name="use_pixel_switch">使用 Pixel 開關</string>
-    <string name="use_pixel_switch_sub">將使用類似 Pixel 的開關，而不是基於 Google 自帶的開關</string>
+    <string name="use_pixel_switch_sub">將使用類似Pixel的開關，而不是基於google自帶的開關</string>
     <string name="force_exif_widget_initial_value_sub">強制初始檢查 EXIF 部件</string>
     <string name="repeat_watermark_sub">在圖片上重複水印，而不是在給定位置重複單個水印</string>
     <string name="offset_x">偏移 X</string>
@@ -1266,7 +1266,7 @@
     <string name="paste_base_64">貼上 Base64</string>
     <string name="base_64_tips">載入圖片以複製或儲存 Base64 字串。如果您已有 Base64 字串，您可以在上方貼上它以獲得圖片</string>
     <string name="import_base_64">匯入 Base64</string>
-    <string name="add_outline">新增外框</string>
+    <string name="add_outline">新增外框文字</string>
     <string name="add_outline_sub">新增具有指定顏色與寬度的外框文字</string>
     <string name="save_base_64">儲存 Base64</string>
     <string name="outline_size">外框大小</string>
@@ -1523,4 +1523,16 @@
     <string name="equalize_histogram_hsv">等化直方圖 HSV</string>
     <string name="equalize_histogram_adaptive_lab">等化直方圖自適應 LAB</string>
     <string name="beta">Beta</string>
+    <string name="lut_library_sub">下載 LUT 集合，您可以在下載之後應用它們</string>
+    <string name="lut_library">LUT 函式庫</string>
+    <string name="helper_grid_sub">在繪圖區域上方顯示輔助網格以協助精確繪畫操縱</string>
+    <string name="crf_sub">%1$d 代表緩慢的壓縮，因而產生相對較小的檔案。%2$d 代表較快的壓縮，因而產生較大的檔案。</string>
+    <string name="lut_library_update_sub">更新 LUT 集合（只有新的項目會被加入下載隊列），您可以在下載之後應用它們</string>
+    <string name="image_cutting">圖片切割</string>
+    <string name="image_cutting_sub">通過垂直或水平線切下部分圖片並合併其餘部分（可逆向操作）</string>
+    <string name="vertical_pivot_line">垂直樞軸線</string>
+    <string name="horizontal_pivot_line">水平樞軸線</string>
+    <string name="inverse_vertical_selection_sub">垂直切割部分將被保留，而不是合併裁剪區域周圍的部分</string>
+    <string name="inverse_horizontal_selection_sub">水平切割部分將被保留，而不是合併裁剪區域周圍的部分</string>
+    <string name="pixel_comparison_type">像素比較類型</string>
 </resources>
