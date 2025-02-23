@@ -1576,4 +1576,10 @@
     <string name="highlight_color">Markeringskleur</string>
     <string name="pixel_by_pixel">Pixel per pixel</string>
     <string name="pixel_comparison_type">Pixel-vergelijking</string>
+    <string name="scan_barcode">Streepjescode scannen</string>
+    <string name="barcode_type">Type streepjescode</string>
+    <string name="enforce_bw_sub">De afbeelding van de streepjescode is volledig zwart-wit en niet gekleurd op het thema van de app</string>
+    <string name="barcodes_sub">Scan een streepjescode (QR, EAN, AZTEC, ...) om de inhoud te lezen of plak een tekst om een nieuwe te genereren</string>
+    <string name="height_ratio">Hoogteverhouding</string>
+    <string name="enforce_bw">Z/W afdwingen</string>
 </resources>
