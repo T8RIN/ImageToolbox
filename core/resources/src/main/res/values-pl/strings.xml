@@ -1576,4 +1576,10 @@
     <string name="pixel_by_pixel">Piksel po pikselu</string>
     <string name="highlight_color">Kolor podświetlenia</string>
     <string name="pixel_comparison_type">Typ porównania pikseli</string>
+    <string name="scan_barcode">Zeskanuj kod kreskowy</string>
+    <string name="height_ratio">Współczynnik wysokości</string>
+    <string name="barcode_type">Rodzaj kodu kreskowego</string>
+    <string name="enforce_bw">Wymuś B/CZ</string>
+    <string name="enforce_bw_sub">Obraz kodu kreskowego będzie w pełni czarno-biały i nie będzie kolorowany przez motyw aplikacji</string>
+    <string name="barcodes_sub">Zeskanuj dowolny kod kreskowy (QR, EAN, AZTEC, ...) i pobierz jego zawartość lub wklej tekst, aby wygenerować nowy</string>
 </resources>
