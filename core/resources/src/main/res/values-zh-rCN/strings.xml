@@ -1576,4 +1576,10 @@
     <string name="pixel_by_pixel">逐个像素</string>
     <string name="highlight_color">突出显示颜色</string>
     <string name="pixel_comparison_type">像素比较类型</string>
+    <string name="scan_barcode">扫描条形码</string>
+    <string name="enforce_bw">强制使用黑白色</string>
+    <string name="enforce_bw_sub">条形码图像将完全为黑白色，不会因应用程序的主题而带有颜色</string>
+    <string name="height_ratio">高度比</string>
+    <string name="barcode_type">条形码类型</string>
+    <string name="barcodes_sub">扫描任何条形码（二维码、欧洲商品编码、阿兹特克码等）并获取其内容，或者粘贴你的文本以生成新的条形码</string>
 </resources>
