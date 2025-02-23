@@ -709,7 +709,7 @@
     <string name="brightness_enforcement">Application de la luminosité</string>
     <string name="screen">Écran</string>
     <string name="gradient_maker_type_image">Incrustation en dégradé</string>
-    <string name="gradient_maker_type_image_sub">Composez n\'importe quel dégradé du haut de l\'image donnée</string>
+    <string name="gradient_maker_type_image_sub">Composez n\'importe quel dégradé du haut des images données</string>
     <string name="transformations">Transformations</string>
     <string name="camera">Caméra</string>
     <string name="grain">Grain</string>
@@ -1006,4 +1006,6 @@
     <string name="tag_camera_owner_name">Nom du propriétaire de caméra</string>
     <string name="tag_lens_specification">Spécification de lentils</string>
     <string name="tag_body_serial_number">Numéro de Série du Corps</string>
+    <string name="tag_lens_model">Lens Modèle</string>
+    <string name="tag_lens_make">Créer Objectif</string>
 </resources>
