@@ -36,6 +36,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
@@ -47,8 +48,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.utils.cast
 
 object ContainerShapeDefaults {
 
@@ -237,20 +238,38 @@ fun shapeByInteraction(
         dampingRatio = Spring.DampingRatioLowBouncy,
         stiffness = Spring.StiffnessMediumLow
     ),
+    enabled: Boolean = true
 ): Shape {
+    if (!enabled) return shape
+
     val pressed by interactionSource.collectIsPressedAsState()
     val focused by interactionSource.collectIsFocusedAsState()
 
-    val resultShape = if (pressed || focused) pressedShape else shape
+    val usePressedShape = pressed || focused
 
-    if (shape is RoundedCornerShape && pressedShape is RoundedCornerShape) {
+    val targetShapeState = remember {
+        mutableStateOf(if (usePressedShape) pressedShape else shape)
+    }
+
+    LaunchedEffect(usePressedShape) {
+        if (usePressedShape) {
+            targetShapeState.value = pressedShape
+        } else {
+            if (shape is RoundedCornerShape) delay(300)
+            targetShapeState.value = shape
+        }
+    }
+
+    val targetShape = targetShapeState.value
+
+    if (targetShape is RoundedCornerShape) {
         return key(shape, pressedShape) {
             rememberAnimatedShape(
-                resultShape.cast(),
+                targetShape,
                 animationSpec,
             )
         }
     }
 
-    return resultShape
+    return targetShape
 }
