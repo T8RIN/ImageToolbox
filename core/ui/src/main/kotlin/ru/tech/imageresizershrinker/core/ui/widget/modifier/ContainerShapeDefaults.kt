@@ -120,55 +120,36 @@ object ContainerShapeDefaults {
 @Stable
 internal class AnimatedShapeState(
     val shape: RoundedCornerShape,
+    val density: Density,
     val spec: FiniteAnimationSpec<Float>,
 ) {
     private val size = Size(120f, 120f)
 
-    private var topStart: Animatable<Float, AnimationVector1D>? = null
+    private var topStart: Animatable<Float, AnimationVector1D> =
+        Animatable(shape.topStart.toPx(size, density))
 
-    private var topEnd: Animatable<Float, AnimationVector1D>? = null
+    private var topEnd: Animatable<Float, AnimationVector1D> =
+        Animatable(shape.topEnd.toPx(size, density))
 
-    private var bottomStart: Animatable<Float, AnimationVector1D>? = null
+    private var bottomStart: Animatable<Float, AnimationVector1D> =
+        Animatable(shape.bottomStart.toPx(size, density))
 
-    private var bottomEnd: Animatable<Float, AnimationVector1D>? = null
+    private var bottomEnd: Animatable<Float, AnimationVector1D> =
+        Animatable(shape.bottomEnd.toPx(size, density))
 
-    fun topStart(
-        density: Density
-    ): Float {
-        return (topStart ?: Animatable(shape.topStart.toPx(size, density)).also { topStart = it })
-            .value
-    }
+    fun topStart(): Float = topStart.value
 
-    fun topEnd(
-        density: Density
-    ): Float {
-        return (topEnd ?: Animatable(shape.topEnd.toPx(size, density)).also { topEnd = it }).value
-    }
+    fun topEnd(): Float = topEnd.value
 
-    fun bottomStart(
-        density: Density
-    ): Float {
-        return (bottomStart
-            ?: Animatable(shape.bottomStart.toPx(size, density)).also { bottomStart = it })
-            .value
-    }
+    fun bottomStart(): Float = bottomStart.value
 
-    fun bottomEnd(
-        density: Density
-    ): Float {
-        return (bottomEnd
-            ?: Animatable(shape.bottomEnd.toPx(size, density)).also { bottomEnd = it })
-            .value
-    }
+    fun bottomEnd(): Float = bottomEnd.value
 
-    suspend fun animateToShape(
-        shape: CornerBasedShape,
-        density: Density
-    ) = coroutineScope {
-        launch { topStart?.animateTo(shape.topStart.toPx(size, density), spec) }
-        launch { topEnd?.animateTo(shape.topEnd.toPx(size, density), spec) }
-        launch { bottomStart?.animateTo(shape.bottomStart.toPx(size, density), spec) }
-        launch { bottomEnd?.animateTo(shape.bottomEnd.toPx(size, density), spec) }
+    suspend fun animateToShape(shape: CornerBasedShape) = coroutineScope {
+        launch { topStart.animateTo(shape.topStart.toPx(size, density), spec) }
+        launch { topEnd.animateTo(shape.topEnd.toPx(size, density), spec) }
+        launch { bottomStart.animateTo(shape.bottomStart.toPx(size, density), spec) }
+        launch { bottomEnd.animateTo(shape.bottomEnd.toPx(size, density), spec) }
     }
 }
 
@@ -185,10 +166,10 @@ private fun rememberAnimatedShapeImpl(
         ): Outline {
             val clampedRange = 0f..size.height / 2
             return RoundedCornerShape(
-                topStart = state.topStart(density).coerceIn(clampedRange),
-                topEnd = state.topEnd(density).coerceIn(clampedRange),
-                bottomStart = state.bottomStart(density).coerceIn(clampedRange),
-                bottomEnd = state.bottomEnd(density).coerceIn(clampedRange),
+                topStart = state.topStart().coerceIn(clampedRange),
+                topEnd = state.topEnd().coerceIn(clampedRange),
+                bottomStart = state.bottomStart().coerceIn(clampedRange),
+                bottomEnd = state.bottomEnd().coerceIn(clampedRange),
             ).createOutline(size, layoutDirection, density)
         }
     }
@@ -199,21 +180,23 @@ internal fun rememberAnimatedShape(
     currentShape: RoundedCornerShape,
     animationSpec: FiniteAnimationSpec<Float>
 ): Shape {
-    val state = remember(animationSpec) {
+    val density = LocalDensity.current
+
+    val state = remember(animationSpec, density) {
         AnimatedShapeState(
             shape = currentShape,
             spec = animationSpec,
+            density = density
         )
     }
 
-    val density = LocalDensity.current
     val channel = remember { Channel<RoundedCornerShape>(Channel.CONFLATED) }
 
     SideEffect { channel.trySend(currentShape) }
     LaunchedEffect(state, channel) {
         for (target in channel) {
             val newTarget = channel.tryReceive().getOrNull() ?: target
-            launch { state.animateToShape(newTarget, density) }
+            launch { state.animateToShape(newTarget) }
         }
     }
 
@@ -248,7 +231,7 @@ fun shapeByInteraction(
     val usePressedShape = pressed || focused
 
     val targetShapeState = remember {
-        mutableStateOf(if (usePressedShape) pressedShape else shape)
+        mutableStateOf(shape)
     }
 
     LaunchedEffect(usePressedShape) {
