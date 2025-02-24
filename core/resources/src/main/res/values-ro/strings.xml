@@ -118,7 +118,7 @@
     <string name="external_storage">Stocare externă</string>
     <string name="monet_colors">Culori monet</string>
     <string name="fab_alignment">Alinierea FAB</string>
-    <string name="check_updates">Verificați dacă există actualizări</string>
+    <string name="check_updates">Verifică dacă există actualizări</string>
     <string name="check_updates_sub">Dacă este activată, dialogul de actualizare vă va fi afișat la pornirea aplicației</string>
     <string name="zoom">Mărește imaginea</string>
     <string name="prefix">Prefix</string>
@@ -1008,4 +1008,6 @@
     <string name="fullscreen_settings_sub">Activați-o și pagina de setări va fi întotdeauna deschisă ca ecran complet în loc de foaia glisantă a sertarului</string>
     <string name="tool_exit_confirmation">Confirmare ieșire instrument</string>
     <string name="tool_exit_confirmation_sub">Dacă aveți modificări nesalvate în timp ce utilizați anumite instrumente și încercați să le închideți, se va afișa un dialog de confirmare</string>
+    <string name="image_cutting">Tăierea imaginii</string>
+    <string name="image_cutting_sub">Tăiați o parte a imaginii și îmbinați cele din stânga (pot fi inverse) prin linii verticale sau orizontale</string>
 </resources>
