@@ -43,7 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberBarcodeScanner
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -77,7 +77,7 @@ internal fun FilterTemplateAddingGroup(
         onFailure: suspend () -> Unit
     ) = onAddTemplateFilterFromUri(uri, onSuccess, onFailure)
 
-    val scanner = rememberQrCodeScanner {
+    val scanner = rememberBarcodeScanner {
         addTemplateFilterFromString(
             string = it,
             onSuccess = { filterName, filtersCount ->

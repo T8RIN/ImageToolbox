@@ -45,7 +45,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberQrCodeScanner
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberBarcodeScanner
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -74,7 +74,7 @@ fun ScanQrCodeContent(
 
     val params = component.params
 
-    val scanner = rememberQrCodeScanner {
+    val scanner = rememberBarcodeScanner {
         component.updateParams(
             params = params.copy(
                 content = it

@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
 import android.content.ClipData
+import android.content.Context
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.compose.material.icons.Icons
@@ -95,6 +96,16 @@ data class LocalEssentials internal constructor(
             duration = duration
         )
     }
+
+    fun showToast(
+        messageSelector: Context.() -> String,
+        icon: ImageVector? = null,
+        duration: ToastDuration = ToastDuration.Short
+    ) = showToast(
+        message = messageSelector(context),
+        icon = icon,
+        duration = duration
+    )
 
     fun showFailureToast(
         throwable: Throwable

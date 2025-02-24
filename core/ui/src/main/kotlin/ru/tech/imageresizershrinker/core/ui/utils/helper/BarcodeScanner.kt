@@ -25,20 +25,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanCustomCode
 import io.github.g00fy2.quickie.config.BarcodeFormat
 import io.github.g00fy2.quickie.config.ScannerConfig
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
-private class QrCodeScannerImpl(
+private class BarcodeScannerImpl(
     private val scannerLauncher: ManagedActivityResultLauncher<ScannerConfig, QRResult>
-) : QrCodeScanner {
+) : BarcodeScanner {
 
     override fun scan() {
         val config = ScannerConfig.build {
@@ -57,37 +53,26 @@ private class QrCodeScannerImpl(
 
 @Stable
 @Immutable
-interface QrCodeScanner {
+interface BarcodeScanner {
     fun scan()
 }
 
 
 @Composable
-fun rememberQrCodeScanner(
-    onSuccess: (String) -> Unit
-): QrCodeScanner {
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
-    val context = LocalComponentActivity.current
+fun rememberBarcodeScanner(
+    onSuccess: (rawCode: String) -> Unit
+): BarcodeScanner {
+    val essentials = rememberLocalEssentials()
 
     val scannerLauncher = rememberLauncherForActivityResult(ScanCustomCode()) { result ->
         when (result) {
-            is QRResult.QRError -> {
-                scope.launch {
-                    toastHostState.showFailureToast(
-                        context = context,
-                        throwable = result.exception
-                    )
-                }
-            }
+            is QRResult.QRError -> essentials.showFailureToast(result.exception)
 
             QRResult.QRMissingPermission -> {
-                scope.launch {
-                    toastHostState.showToast(
-                        message = context.getString(R.string.grant_camera_permission_to_scan_qr_code),
-                        icon = Icons.Outlined.CameraAlt
-                    )
-                }
+                essentials.showToast(
+                    messageSelector = { getString(R.string.grant_camera_permission_to_scan_qr_code) },
+                    icon = Icons.Outlined.CameraAlt
+                )
             }
 
             is QRResult.QRSuccess -> {
@@ -100,6 +85,6 @@ fun rememberQrCodeScanner(
 
 
     return remember(scannerLauncher) {
-        QrCodeScannerImpl(scannerLauncher)
+        BarcodeScannerImpl(scannerLauncher)
     }
 }
