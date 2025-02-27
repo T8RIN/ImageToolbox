@@ -144,3 +144,7 @@ sealed class ImageFormatGroup(
         ): ImageFormatGroup = entries.first { imageFormat in it.formats }
     }
 }
+
+val ImageFormat.Companion.alphaContainedEntries: List<ImageFormat> by lazy {
+    ImageFormatGroup.alphaContainedEntries.flatMap { it.formats }
+}

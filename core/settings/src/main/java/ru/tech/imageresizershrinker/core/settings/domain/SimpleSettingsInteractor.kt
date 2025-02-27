@@ -49,4 +49,8 @@ interface SimpleSettingsInteractor {
         colors: List<ColorModel>
     )
 
+    suspend fun setBackgroundColorForNoAlphaFormats(
+        color: ColorModel
+    )
+
 }

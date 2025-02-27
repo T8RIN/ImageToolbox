@@ -646,6 +646,12 @@ internal class AndroidSettingsManager @Inject constructor(
         it[FAVORITE_COLORS] = colors.map { it.colorInt.toString() }.joinToString("/")
     }
 
+    override suspend fun setBackgroundColorForNoAlphaFormats(
+        color: ColorModel
+    ) = edit {
+        it[BACKGROUND_COLOR_FOR_NA_FORMATS] = color.colorInt
+    }
+
     override suspend fun setFastSettingsSide(side: FastSettingsSide) = edit {
         it[FAST_SETTINGS_SIDE] = side.ordinal
     }

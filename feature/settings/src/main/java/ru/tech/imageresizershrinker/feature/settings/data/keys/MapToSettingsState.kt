@@ -192,7 +192,9 @@ internal fun Preferences.toSettingsState(
         ?: default.enableToolExitConfirmation,
     recentColors = this[RECENT_COLORS]?.mapNotNull { color ->
         color.toIntOrNull()?.let { ColorModel(it) }
-    } ?: default.recentColors
+    } ?: default.recentColors,
+    backgroundForNoAlphaImageFormats = this[BACKGROUND_COLOR_FOR_NA_FORMATS]?.let { ColorModel(it) }
+        ?: default.backgroundForNoAlphaImageFormats
 )
 
 private fun Set<String>?.toSettingGroupsInitialVisibility(

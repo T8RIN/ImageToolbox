@@ -147,6 +147,7 @@ data class UiSettingsState(
     val customFonts: List<UiFontFamily.Custom>,
     val enableToolExitConfirmation: Boolean,
     val recentColors: List<Color>,
+    val backgroundForNoAlphaImageFormats: Color,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -383,7 +384,8 @@ fun SettingsState.toUiState(
                 hashingTypeForFilename = hashingTypeForFilename,
                 customFonts = customFonts,
                 enableToolExitConfirmation = enableToolExitConfirmation,
-                recentColors = recentColors
+                recentColors = recentColors,
+                backgroundForNoAlphaImageFormats = Color(backgroundForNoAlphaImageFormats.colorInt)
             )
         }
     }.value

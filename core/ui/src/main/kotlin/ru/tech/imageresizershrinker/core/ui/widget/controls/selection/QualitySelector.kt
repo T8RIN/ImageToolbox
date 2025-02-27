@@ -47,7 +47,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +59,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.image.model.TiffCompressionScheme
@@ -80,18 +84,33 @@ fun QualitySelector(
     quality: Quality,
     onQualityChange: (Quality) -> Unit
 ) {
-    val visible = imageFormat.canChangeCompressionValue
+    var actualImageFormat by remember {
+        mutableStateOf(imageFormat)
+    }
 
     LaunchedEffect(imageFormat, quality) {
+        if (
+            actualImageFormat.canChangeCompressionValue == imageFormat.canChangeCompressionValue
+            || !actualImageFormat.canChangeCompressionValue
+        ) {
+            actualImageFormat = imageFormat
+        } else {
+            launch {
+                delay(1000)
+            }.invokeOnCompletion {
+                actualImageFormat = imageFormat
+            }
+        }
         onQualityChange(
             quality.coerceIn(imageFormat)
         )
     }
 
     AnimatedVisibility(
-        visible = visible,
+        visible = imageFormat.canChangeCompressionValue,
         enter = fadeIn() + expandVertically(),
-        exit = fadeOut() + shrinkVertically()
+        exit = fadeOut() + shrinkVertically(),
+        modifier = Modifier.fillMaxWidth()
     ) {
         ProvideTextStyle(
             value = TextStyle(
@@ -105,12 +124,12 @@ fun QualitySelector(
             Column(
                 modifier = Modifier.container(RoundedCornerShape(24.dp))
             ) {
-                imageFormat.compressionTypes.forEach { type ->
+                actualImageFormat.compressionTypes.forEach { type ->
                     val currentIcon by remember(quality) {
                         derivedStateOf {
                             when {
-                                imageFormat.isHighQuality(quality.qualityValue) -> Icons.Rounded.QualityHigh
-                                imageFormat.isMidQuality(quality.qualityValue) -> Icons.Rounded.QualityMedium
+                                actualImageFormat.isHighQuality(quality.qualityValue) -> Icons.Rounded.QualityHigh
+                                actualImageFormat.isMidQuality(quality.qualityValue) -> Icons.Rounded.QualityMedium
                                 else -> Icons.Rounded.QualityLow
                             }
                         }
@@ -156,7 +175,7 @@ fun QualitySelector(
                                             is Quality.Avif -> quality.copy(effort = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                             is Quality.Heic -> quality.copy(constantRateFactor = it.toInt())
-                                        }.coerceIn(imageFormat)
+                                        }.coerceIn(actualImageFormat)
                                     )
                                 }
 
@@ -169,7 +188,7 @@ fun QualitySelector(
                                             is Quality.Avif -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                             is Quality.Heic -> quality.copy(qualityValue = it.toInt())
-                                        }.coerceIn(imageFormat)
+                                        }.coerceIn(actualImageFormat)
                                     )
                                 }
                             }
@@ -199,7 +218,7 @@ fun QualitySelector(
                         }
                     }
                 }
-                AnimatedVisibility(imageFormat is ImageFormat.Jxl) {
+                AnimatedVisibility(actualImageFormat is ImageFormat.Jxl) {
                     val jxlQuality = quality as? Quality.Jxl
                     Column {
                         EnhancedSliderItem(
@@ -214,7 +233,7 @@ fun QualitySelector(
                             onValueChange = {
                                 jxlQuality?.copy(
                                     speed = it.roundToInt()
-                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                                )?.coerceIn(actualImageFormat)?.let(onQualityChange)
                             },
                             behaveAsContainer = false
                         ) {
@@ -262,13 +281,13 @@ fun QualitySelector(
                             onIndexChange = {
                                 jxlQuality?.copy(
                                     channels = Quality.Channels.fromInt(it)
-                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                                )?.coerceIn(actualImageFormat)?.let(onQualityChange)
                             },
                             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
                         )
                     }
                 }
-                AnimatedVisibility(imageFormat is ImageFormat.Png.Lossy) {
+                AnimatedVisibility(actualImageFormat is ImageFormat.Png.Lossy) {
                     val pngLossyQuality = quality as? Quality.PngLossy
                     EnhancedSliderItem(
                         value = pngLossyQuality?.maxColors ?: 0,
@@ -281,12 +300,12 @@ fun QualitySelector(
                         onValueChange = {
                             pngLossyQuality?.copy(
                                 maxColors = it.roundToInt()
-                            )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            )?.coerceIn(actualImageFormat)?.let(onQualityChange)
                         },
                         behaveAsContainer = false
                     )
                 }
-                AnimatedVisibility(imageFormat is ImageFormat.Tiff || imageFormat is ImageFormat.Tif) {
+                AnimatedVisibility(actualImageFormat is ImageFormat.Tiff || actualImageFormat is ImageFormat.Tif) {
                     val tiffQuality = quality as? Quality.Tiff
                     val compressionItems = remember {
                         TiffCompressionScheme.entries
@@ -337,7 +356,7 @@ fun QualitySelector(
                                         onClick = {
                                             tiffQuality?.copy(
                                                 compressionScheme = it.ordinal
-                                            )?.coerceIn(imageFormat)?.let(onQualityChange)
+                                            )?.coerceIn(actualImageFormat)?.let(onQualityChange)
                                         },
                                         selectedColor = MaterialTheme.colorScheme.tertiary,
                                         contentPadding = PaddingValues(
@@ -356,7 +375,7 @@ fun QualitySelector(
                         }
                     }
                 }
-                AnimatedVisibility(imageFormat is ImageFormat.Heic || imageFormat is ImageFormat.Heif) {
+                AnimatedVisibility(actualImageFormat is ImageFormat.Heic || actualImageFormat is ImageFormat.Heif) {
                     val heicQuality = quality as? Quality.Heic
                     Column {
                         EnhancedSliderItem(
@@ -371,7 +390,7 @@ fun QualitySelector(
                             onValueChange = {
                                 heicQuality?.copy(
                                     constantRateFactor = it.roundToInt()
-                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                                )?.coerceIn(actualImageFormat)?.let(onQualityChange)
                             },
                             behaveAsContainer = false
                         ) {

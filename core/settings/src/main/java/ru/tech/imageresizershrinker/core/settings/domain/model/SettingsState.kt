@@ -117,6 +117,7 @@ data class SettingsState(
     val customFonts: List<DomainFontFamily.Custom>,
     val enableToolExitConfirmation: Boolean,
     val recentColors: List<ColorModel>,
+    val backgroundForNoAlphaImageFormats: ColorModel,
 ) {
 
     companion object {
@@ -211,7 +212,8 @@ data class SettingsState(
                 hashingTypeForFilename = null,
                 customFonts = emptyList(),
                 enableToolExitConfirmation = true,
-                recentColors = emptyList()
+                recentColors = emptyList(),
+                backgroundForNoAlphaImageFormats = ColorModel(-0x1000000),
             )
         }
     }

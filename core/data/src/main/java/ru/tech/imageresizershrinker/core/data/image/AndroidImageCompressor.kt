@@ -23,6 +23,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.trickle.Trickle
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -42,8 +43,10 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.alphaContainedEntries
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
@@ -56,13 +59,14 @@ internal class AndroidImageCompressor @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageCompressor<Bitmap> {
 
-    private var overwriteFiles: Boolean = false
+    private var settingsState: SettingsState = SettingsState.Default
+    private val overwriteFiles: Boolean get() = settingsState.overwriteFiles
 
     init {
         settingsProvider
             .getSettingsStateFlow()
             .onEach {
-                overwriteFiles = it.overwriteFiles
+                settingsState = it
             }
             .launchIn(CoroutineScope(defaultDispatcher))
     }
@@ -72,6 +76,17 @@ internal class AndroidImageCompressor @Inject constructor(
         imageFormat: ImageFormat,
         quality: Quality
     ): ByteArray = withContext(encodingDispatcher) {
+        val image = image.toSoftware().let {
+            if (imageFormat !in ImageFormat.alphaContainedEntries) {
+                withContext(defaultDispatcher) {
+                    Trickle.drawColorBehind(
+                        color = settingsState.backgroundForNoAlphaImageFormats.colorInt,
+                        input = it
+                    )
+                }
+            } else it
+        }
+
         ImageCompressorBackend.Factory()
             .create(
                 imageFormat = imageFormat,
@@ -79,7 +94,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 imageScaler = imageScaler
             )
             .compress(
-                image = image.toSoftware(),
+                image = image,
                 quality = quality.coerceIn(imageFormat)
             )
     }

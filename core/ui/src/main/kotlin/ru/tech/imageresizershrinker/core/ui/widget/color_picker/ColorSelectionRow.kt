@@ -147,8 +147,11 @@ fun ColorSelectionRow(
                         onLongClick = {
                             context.pasteColorFromClipboard(
                                 onPastedColor = {
-                                    onValueChange(Color(it))
-                                    customColor = Color(it)
+                                    val color = if (allowAlpha) Color(it)
+                                    else Color(it).copy(1f)
+
+                                    onValueChange(color)
+                                    customColor = color
                                 },
                                 onPastedColorFailure = { message ->
                                     scope.launch {
@@ -226,7 +229,7 @@ fun ColorSelectionRow(
                     .transparencyChecker()
                     .background(color, shape)
                     .hapticsClickable {
-                        onValueChange(color)
+                        onValueChange(color.copy(if (allowAlpha) color.alpha else 1f))
                         customColor = null
                     },
                 contentAlignment = Alignment.Center
@@ -261,8 +264,9 @@ fun ColorSelectionRow(
         onDismiss = { showColorPicker = false },
         color = customColor,
         onColorSelected = {
-            onValueChange(it)
-            customColor = it
+            val color = it.copy(if (allowAlpha) it.alpha else 1f)
+            onValueChange(color)
+            customColor = color
         },
         allowAlpha = allowAlpha
     )

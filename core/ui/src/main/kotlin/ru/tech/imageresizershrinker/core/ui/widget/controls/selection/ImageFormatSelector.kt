@@ -19,6 +19,8 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import android.os.Build
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +33,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.rounded.Architecture
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -54,9 +57,14 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
+import ru.tech.imageresizershrinker.core.domain.image.model.alphaContainedEntries
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.rightFrom
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
@@ -107,33 +115,51 @@ fun ImageFormatSelector(
                     shape = RoundedCornerShape(24.dp),
                     color = backgroundColor
                 )
+                .padding(vertical = 8.dp)
+                .animateContentSize()
                 .alpha(if (enabled) 1f else 0.5f),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
                 text = stringResource(R.string.image_format),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp),
+                modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium
             )
-            Spacer(modifier = Modifier.height(8.dp))
 
-            AnimatedContent(entries.filtered()) { items ->
+            val formats by remember(value) {
+                derivedStateOf {
+                    entries.firstOrNull {
+                        value in it.formats
+                    }?.formats ?: emptyList()
+                }
+            }
+            val filteredFormats = formats.filteredFormats()
+            val showBackgroundSelector = value !in ImageFormat.alphaContainedEntries
+
+            val entriesSize = (if (filteredFormats.size > 1) 1 else 0)
+                .plus(if (showBackgroundSelector) 1 else 0)
+                .plus(1)
+
+            AnimatedContent(
+                targetState = entries.filtered(),
+                modifier = Modifier.fillMaxWidth()
+            ) { items ->
                 FlowRow(
                     verticalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.CenterVertically
+                        space = 8.dp,
+                        alignment = Alignment.CenterVertically
                     ),
                     horizontalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.CenterHorizontally
+                        space = 8.dp,
+                        alignment = Alignment.CenterHorizontally
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(horizontal = 8.dp)
                         .container(
+                            shape = ContainerShapeDefaults.shapeForIndex(0, entriesSize),
                             color = MaterialTheme.colorScheme.surface
                         )
                         .padding(horizontal = 8.dp, vertical = 12.dp)
@@ -156,41 +182,42 @@ fun ImageFormatSelector(
                 }
             }
 
-            val formats by remember(value) {
-                derivedStateOf {
-                    entries.firstOrNull {
-                        value in it.formats
-                    }?.formats ?: emptyList()
-                }
-            }
-            AnimatedContent(formats.filteredFormats()) { items ->
-                if (items.size > 1) {
-                    Column(
-                        modifier = Modifier
-                            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 4.dp)
-                            .container(
-                                color = MaterialTheme.colorScheme.surface,
-                                resultPadding = 0.dp
-                            )
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = stringResource(R.string.compression_type),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Medium
+            AnimatedVisibility(
+                visible = filteredFormats.size > 1,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .container(
+                            color = MaterialTheme.colorScheme.surface,
+                            resultPadding = 0.dp,
+                            shape = ContainerShapeDefaults.shapeForIndex(1, entriesSize),
                         )
-                        Spacer(modifier = Modifier.height(16.dp))
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(R.string.compression_type),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    AnimatedContent(
+                        targetState = filteredFormats,
+                        modifier = Modifier.fillMaxWidth()
+                    ) { items ->
                         FlowRow(
                             verticalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                Alignment.CenterVertically
+                                space = 8.dp,
+                                alignment = Alignment.CenterVertically
                             ),
                             horizontalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                Alignment.CenterHorizontally
-                            )
+                                space = 8.dp,
+                                alignment = Alignment.CenterHorizontally
+                            ),
+                            modifier = Modifier.fillMaxWidth()
                         ) {
                             items.forEach {
                                 EnhancedChip(
@@ -213,6 +240,42 @@ fun ImageFormatSelector(
                         }
                     }
                 }
+            }
+
+            val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
+            val settingsState = LocalSettingsState.current
+            AnimatedVisibility(
+                visible = showBackgroundSelector,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val index = if (filteredFormats.size > 1) 2 else 1
+                ColorRowSelector(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .container(
+                            color = MaterialTheme.colorScheme.surface,
+                            resultPadding = 0.dp,
+                            shape = ContainerShapeDefaults.shapeForIndex(index, entriesSize),
+                        )
+                        .fillMaxWidth(),
+                    value = settingsState.backgroundForNoAlphaImageFormats,
+                    icon = Icons.Outlined.FormatPaint,
+                    onValueChange = {
+                        scope.launch {
+                            simpleSettingsInteractor.setBackgroundColorForNoAlphaFormats(
+                                color = it.toModel()
+                            )
+                            val previous = value
+                            onValueChange(
+                                ImageFormat.entries.run {
+                                    rightFrom(indexOf(value))
+                                }
+                            )
+                            onValueChange(previous)
+                        }
+                    },
+                    allowAlpha = false
+                )
             }
         }
         if (!enabled) {

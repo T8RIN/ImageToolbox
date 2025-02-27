@@ -76,6 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
@@ -167,8 +168,11 @@ fun ScaleModeSelector(
                         .padding(horizontal = 8.dp)
                         .container(
                             color = MaterialTheme.colorScheme.surface,
-                            shape = if (isColorSpaceSelectionVisible) ContainerShapeDefaults.topShape
-                            else ContainerShapeDefaults.defaultShape
+                            shape = animateShape(
+                                if (isColorSpaceSelectionVisible) {
+                                    ContainerShapeDefaults.topShape
+                                } else ContainerShapeDefaults.defaultShape
+                            )
                         )
                         .padding(horizontal = 8.dp, vertical = 12.dp)
                 } else Modifier.padding(8.dp)
