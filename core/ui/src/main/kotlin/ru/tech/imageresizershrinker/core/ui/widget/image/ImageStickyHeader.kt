@@ -24,7 +24,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.DragInteraction
@@ -38,15 +37,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconToggleButton
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -61,13 +56,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
@@ -77,11 +70,11 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import kotlin.math.abs
 
@@ -114,7 +107,6 @@ fun LazyListScope.imageStickyHeader(
             }
         }
 
-        val haptics = LocalHapticFeedback.current
         val screenWidth = LocalScreenSize.current.width
         val density = LocalDensity.current
         Column(
@@ -239,50 +231,37 @@ fun LazyListScope.imageStickyHeader(
                             steps = 3,
                             valueRange = 0f..4f
                         )
-                        LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
-                            OutlinedIconToggleButton(
-                                checked = imageState.isBlocked,
-                                onCheckedChange = {
-                                    controlsVisible = true
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
+                        EnhancedIconButton(
+                            onClick = {
+                                controlsVisible = true
+                                onStateChange(imageState.copy(isBlocked = !imageState.isBlocked))
+                            },
+                            containerColor = takeColorFromScheme {
+                                if (imageState.isBlocked) {
+                                    tertiary.copy(0.8f)
+                                } else {
+                                    surfaceVariant.copy(0.5f)
+                                }
+                            },
+                            contentColor = takeColorFromScheme {
+                                if (imageState.isBlocked) {
+                                    onTertiary
+                                } else {
+                                    onSurfaceVariant
+                                }
+                            }
+                        ) {
+                            AnimatedContent(targetState = imageState.isBlocked) { blocked ->
+                                if (blocked) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Lock,
+                                        contentDescription = "Lock Image"
                                     )
-                                    onStateChange(imageState.copy(isBlocked = it))
-                                },
-                                modifier = Modifier.materialShadow(
-                                    shape = CircleShape,
-                                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp,
-                                    isClipped = true
-                                ),
-                                border = BorderStroke(
-                                    width = settingsState.borderWidth,
-                                    color = MaterialTheme.colorScheme
-                                        .outlineVariant()
-                                        .copy(alpha = 0.3f)
-                                ),
-                                colors = IconButtonDefaults.filledTonalIconToggleButtonColors(
-                                    checkedContainerColor = MaterialTheme.colorScheme.tertiary.copy(
-                                        0.8f
-                                    ),
-                                    checkedContentColor = MaterialTheme.colorScheme.onTertiary,
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
-                                        0.5f
-                                    ),
-                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            ) {
-                                AnimatedContent(targetState = imageState.isBlocked) { blocked ->
-                                    if (blocked) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Lock,
-                                            contentDescription = "Lock Image"
-                                        )
-                                    } else {
-                                        Icon(
-                                            imageVector = Icons.Rounded.LockOpen,
-                                            contentDescription = "Unlock Image"
-                                        )
-                                    }
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Rounded.LockOpen,
+                                        contentDescription = "Unlock Image"
+                                    )
                                 }
                             }
                         }
