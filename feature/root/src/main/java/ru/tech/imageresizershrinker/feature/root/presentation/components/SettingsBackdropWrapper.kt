@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
+import androidx.compose.material.Surface
 import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -104,6 +105,7 @@ internal fun SettingsBackdropWrapper(
     }
 
     val scope = rememberCoroutineScope()
+    val isTargetRevealed = scaffoldState.targetValue == BackdropValue.Revealed
 
     BackdropScaffold(
         scaffoldState = scaffoldState,
@@ -113,8 +115,9 @@ internal fun SettingsBackdropWrapper(
         },
         appBar = {},
         frontLayerContent = {
+
             val alpha by animateFloatAsState(
-                if (scaffoldState.targetValue == BackdropValue.Revealed) 1f else 0f
+                if (isTargetRevealed) 1f else 0f
             )
             val color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha / 2f)
             var isWantOpenSettings by remember {
@@ -140,7 +143,16 @@ internal fun SettingsBackdropWrapper(
                             onGesture = { _, _, _, _, _, _ -> }
                         )
                     },
-                    content = { children() }
+                    content = {
+                        children()
+
+                        if (isTargetRevealed || scaffoldState.isRevealed) {
+                            Surface(
+                                modifier = Modifier.fillMaxSize(),
+                                color = Color.Transparent
+                            ) {}
+                        }
+                    }
                 )
 
                 SettingsOpenButton(
@@ -158,8 +170,8 @@ internal fun SettingsBackdropWrapper(
             }
         },
         backLayerContent = {
-            if (canExpandSettings && (scaffoldState.isRevealed || scaffoldState.targetValue == BackdropValue.Revealed)) {
-                if (scaffoldState.targetValue == BackdropValue.Revealed) {
+            if (canExpandSettings && (scaffoldState.isRevealed || isTargetRevealed)) {
+                if (isTargetRevealed) {
                     PredictiveBackHandler { progress ->
                         try {
                             progress.collect { event ->
