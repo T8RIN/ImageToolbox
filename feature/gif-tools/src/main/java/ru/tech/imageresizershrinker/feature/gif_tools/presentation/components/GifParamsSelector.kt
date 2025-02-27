@@ -30,10 +30,12 @@ import androidx.compose.material.icons.outlined.Opacity
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.persistentMapOf
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -122,8 +124,13 @@ fun GifParamsSelector(
             value = value.repeatCount,
             icon = Icons.Outlined.RepeatOne,
             title = stringResource(id = R.string.repeat_count),
-            valueRange = 1f..10f,
-            steps = 9,
+            valueRange = 0f..10f,
+            steps = 10,
+            valuesPreviewMapping = remember {
+                persistentMapOf(
+                    0f to "∞"
+                )
+            },
             internalStateTransformation = { it.roundToInt() },
             onValueChange = {
                 onValueChange(

@@ -32,7 +32,7 @@ data class GifParams(
         val Default by lazy {
             GifParams(
                 size = null,
-                repeatCount = 1,
+                repeatCount = 0,
                 fps = 12,
                 quality = Quality.Base(50),
                 dontStack = false,
