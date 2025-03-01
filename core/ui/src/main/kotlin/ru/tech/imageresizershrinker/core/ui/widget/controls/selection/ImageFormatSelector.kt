@@ -103,7 +103,9 @@ fun ImageFormatSelector(
             onValueChange(
                 if (ImageFormat.Png.Lossless in allFormats) {
                     ImageFormat.Png.Lossless
-                } else allFormats.first()
+                } else {
+                    allFormats.first()
+                }
             )
         }
     }
