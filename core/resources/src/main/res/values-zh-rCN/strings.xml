@@ -4,10 +4,10 @@
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
     <string name="smth_went_wrong">发生错误：%1$s</string>
-    <string name="size">大小 %1$s</string>
+    <string name="size">大小%1$s</string>
     <string name="loading">载入中……</string>
     <string name="image_too_large_preview">图片太大，无法预览，但仍然会尝试保存</string>
-    <string name="width">宽 %1$s</string>
+    <string name="width">宽%1$s</string>
     <string name="quality">质量</string>
     <string name="extension">格式</string>
     <string name="resize_type">缩放类型</string>
@@ -52,7 +52,7 @@
     <string name="generate_palette">颜色风格</string>
     <string name="palette">颜色风格</string>
     <string name="update">更新</string>
-    <string name="new_version">新版本 %1$s</string>
+    <string name="new_version">新版本%1$s</string>
     <string name="unsupported_type">不支持的类型：%1$s</string>
     <string name="no_palette">无法生成指定图片的颜色风格</string>
     <string name="original">原图</string>
@@ -68,7 +68,7 @@
     <string name="compare_sub">对比两张指定的图片</string>
     <string name="pick_two_images">选择两张图片以开始</string>
     <string name="pick_images">选择图片</string>
-    <string name="height">高 %1$s</string>
+    <string name="height">高%1$s</string>
     <string name="pick_image_alt">选择图片</string>
     <string name="reset_image_sub">图片更改将回到初始值</string>
     <string name="restart_app">重启应用</string>
@@ -102,7 +102,7 @@
     <string name="help_translate_sub">纠正翻译错误或将项目本地化为其他语言</string>
     <string name="nothing_found_by_search">没有发现您所查询的内容</string>
     <string name="dynamic_colors_sub">如果启用，则应用颜色将更改为壁纸颜色</string>
-    <string name="failed_to_save">无法保存 %d 张图片</string>
+    <string name="failed_to_save">无法保存%d张图片</string>
     <string name="add">添加</string>
     <string name="values">值</string>
     <string name="permission">权限</string>
@@ -273,7 +273,7 @@
     <string name="image_size_warning">试图以给定的宽度和高度保存图片可能会导致 OOM 错误。请自己承担风险，勿谓言之不预！</string>
     <string name="cache">缓存</string>
     <string name="cache_size">缓存区大小</string>
-    <string name="found_s">已发现 %1$s 缓存</string>
+    <string name="found_s">已发现%1$s缓存</string>
     <string name="auto_cache_clearing">自动清理缓存</string>
     <string name="auto_cache_clearing_sub">如果开启该选项，应用缓存将会在应用启动时自动清理</string>
     <string name="tools">工具</string>
@@ -290,7 +290,7 @@
     <string name="secondary_customization">二次定制</string>
     <string name="fallback_option">后备选项</string>
     <string name="copy">复制</string>
-    <string name="warning_bytes">以 %1$s 模式保存可能不稳定，因为它是无损格式</string>
+    <string name="warning_bytes">以%1$s模式保存可能不稳定，因为它是无损格式</string>
     <string name="edit_screenshot">编辑截图</string>
     <string name="aspect_ratio">纵横比</string>
     <string name="image_crop_mask_sub">使用这个遮罩类型从给定的图片创建遮罩，注意它应该有alpha通道</string>
@@ -314,10 +314,10 @@
     <string name="using_large_fonts_warn">使用大字体可能会导致 UI 故障和问题，这是无法修复的。谨慎使用。</string>
     <string name="randomize_filename">随机文件名</string>
     <string name="randomize_filename_sub">如果启用，输出文件名将是完全随机的</string>
-    <string name="presets_sub" formatted="false">如果选择预设值 125，图片将保存为原始图片大小的 125%。如果选择预设值 50，图片将保存为原始图片大小的 50%</string>
-    <string name="presets_sub_bytes">这里的预设决定了输出文件的 %，即如果你在5mb 的图片上选择预设 50，那么保存后你将得到2.5mb的图片</string>
-    <string name="saved_to">已使用名称 %2$s 保存到 %1$s 文件夹</string>
-    <string name="saved_to_without_filename">已保存到 %1$s 文件夹</string>
+    <string name="presets_sub" formatted="false">如果选择预设值125，图片将保存为原始图片大小的125%。如果选择预设值50，图片将保存为原始图片大小的50%</string>
+    <string name="presets_sub_bytes">这里的预设决定了输出文件的%，即如果你在5mb 的图片上选择预设 50，那么保存后你将得到2.5mb的图片</string>
+    <string name="saved_to">已使用名称%2$s保存到%1$s文件夹</string>
+    <string name="saved_to_without_filename">已保存到%1$s文件夹</string>
     <string name="tg_chat">Telegram 聊天</string>
     <string name="tg_chat_sub">讨论应用程序并从其他用户那里获得反馈。你也可以在这里获得测试更新和见解</string>
     <string name="erase_mode">擦除模式</string>
@@ -350,7 +350,7 @@
     <string name="max_colors_count">最大颜色数</string>
     <string name="wait">等待</string>
     <string name="image_exif_warning">目前，%1$s格式在 Android 上只允许读取EXIF元数据。在保存时，输出图片将完全没有元数据。</string>
-    <string name="effort_sub">值为 %1$d 意味着快速压缩，导致文件大小相对较大。 %2$d 表示压缩速度较慢，文件较小。</string>
+    <string name="effort_sub">值为%1$d意味着快速压缩，导致文件大小相对较大。 %2$d表示压缩速度较慢，文件较小。</string>
     <string name="analytics_sub">允许收集匿名应用使用统计数据</string>
     <string name="allow_betas">允许 beta</string>
     <string name="jxl_sub">JXL 格式不被 Android 正式支持，所以有些东西可能无法工作。只有当你选择自定义输出目录时保存才会生效。这是一个实验版本，这里的错误不会被修复，除非谷歌添加 JXL 支持。这个版本可以查看 JXL 图片</string>
@@ -474,7 +474,7 @@
     <string name="full_filter_sub">对给定的单张或多张图片应用任意滤镜链</string>
     <string name="free_drawing_sub">绘制路径作为输入值</string>
     <string name="inverse_fill_type_sub">如果启用，将过滤掉所有非屏蔽区域并代替默认行为</string>
-    <string name="start_position">开始</string>
+    <string name="start_position">头部</string>
     <string name="highlighter">概要</string>
     <string name="buttons_shadow">按钮</string>
     <string name="rect_sub">绘制从起点到终点的矩形</string>
@@ -482,14 +482,14 @@
     <string name="sliders_shadow_sub">启用滑块后的阴影绘制</string>
     <string name="switches_shadow">开关按钮</string>
     <string name="app_bars_shadow_sub">启用在应用程序栏后的阴影绘制</string>
-    <string name="value_in_range">%1$s - %2$s 范围内的值</string>
+    <string name="value_in_range">%1$s - %2$s范围内的值</string>
     <string name="line_arrow_sub">将起点到终点的指向箭头绘制成一条线</string>
     <string name="simple_variants">简单变体</string>
     <string name="pixelation_sub">与隐私模糊相似，但像素化而非模糊化</string>
     <string name="full_filter">全滤镜</string>
     <string name="double_arrow_sub">从给定路径绘制双箭头</string>
     <string name="add_mask">添加滤镜</string>
-    <string name="end_position">结束</string>
+    <string name="end_position">尾部</string>
     <string name="outlined_rect">轮廓图</string>
     <string name="mask_preview_sub">绘制的滤镜遮罩将进行渲染，以显示大致效果</string>
     <string name="privacy_blur">隐私模糊</string>
@@ -547,13 +547,12 @@
     <string name="recognize_text_sub">从给定图片识别文字，支持 120 多种语言</string>
     <string name="picture_has_no_text">图片中不含文字，或者应用程序没有找到</string>
     <string name="standard">标准</string>
-    <string name="download_description">为使 Tesseract OCR 正常运行，将需要下载额外的训练数据 (%1$s) 到您的设备。
-\n您要下载 %2$s 数据吗？</string>
+    <string name="download_description">为使 Tesseract OCR 正常运行，将需要下载额外的训练数据 (%1$s) 到您的设备。 \n您要下载%2$s数据吗？</string>
     <string name="no_connection">无网络连接，请检查并重试，以便下载训练模型</string>
     <string name="available_languages">可用语言</string>
     <string name="use_pixel_switch_sub">将使用类似 Pixel 的开关，而不是 Google 质感设计的开关</string>
     <string name="use_pixel_switch">使用 Pixel 开关</string>
-    <string name="saved_to_original">在原始目标位置覆盖了名称为 %s 的文件</string>
+    <string name="saved_to_original">在原始目标位置覆盖了名称为%s的文件</string>
     <string name="magnifier_sub">在绘图模式下，在手指顶部启用放大镜，以提高易用性</string>
     <string name="force_exif_widget_initial_value_sub">强制初始检查 EXIF 部件</string>
     <string name="slide">滑动</string>
@@ -841,7 +840,7 @@
     <string name="generate_previews_sub">启用预览生成，这可能有助于避免在某些设备上出现崩溃，同时也会禁用单个编辑选项中的某些编辑功能</string>
     <string name="lanczos_bessel_sub">通过对像素值应用贝塞尔（jinc）函数来保持高质量插值的重采样方法</string>
     <string name="compression_type">压缩方式</string>
-    <string name="speed_sub">控制生成图片的解码速度，这将有助于更快地打开生成图片，%1$d 表示最慢的解码速度，而 %2$d 表示最快的解码速度，此设置可能会增加输出图片的大小</string>
+    <string name="speed_sub">控制生成图片的解码速度，这将有助于更快地打开生成图片，%1$d表示最慢的解码速度，而%2$d表示最快的解码速度，此设置可能会增加输出图片的大小</string>
     <string name="sorting">筛选</string>
     <string name="sort_by_date">按日期排序</string>
     <string name="sort_by_date_reversed">按日期排序（反向）</string>
@@ -1455,7 +1454,7 @@
     <string name="layout">布局</string>
     <string name="main_screen_title">主屏幕标题</string>
     <string name="constant_rate_factor">恒定比率系数 (CRF)</string>
-    <string name="crf_sub">%1$d 表示压缩速度较慢，因此文件相对较小。%2$d 表示压缩速度较快，因此文件较大。</string>
+    <string name="crf_sub">%1$d表示压缩速度较慢，因此文件相对较小。%2$d表示压缩速度较快，因此文件较大。</string>
     <string name="filter_preview_image">预览图片</string>
     <string name="lut_library">Lut 库</string>
     <string name="lut_library_sub">下载 LUT 集合，你可以在下载后应用它们</string>
@@ -1477,7 +1476,7 @@
     <string name="area">区域</string>
     <string name="enable_tonemapping">启用色调映射</string>
     <string name="area_sub">使用像素面积关系进行重采样。这可能是图片抽取的一种首选方法，因为它能产生无摩尔纹的结果。但当对图片进行放大时，它与最近邻法类似 。</string>
-    <string name="enter_percent">输入 %</string>
+    <string name="enter_percent">输入%</string>
     <string name="unknown_host">无法连接到此网站，请尝试使用VPN或检查URL是否正确</string>
     <string name="edit_layer">编辑图层</string>
     <string name="layers_on_image_sub">使用图片作为背景，并在其上添加不同的图层</string>
