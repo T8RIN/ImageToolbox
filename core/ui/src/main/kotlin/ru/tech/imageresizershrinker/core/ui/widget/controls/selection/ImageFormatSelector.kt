@@ -297,16 +297,12 @@ fun ImageFormatSelector(
 
 @Composable
 private fun List<ImageFormatGroup>.filtered(): List<ImageFormatGroup> = remember(this) {
-    if (Build.VERSION.SDK_INT <= 24) toMutableList().apply {
-        removeAll(ImageFormatGroup.highLevelFormats)
-    }
+    if (Build.VERSION.SDK_INT <= 24) this - ImageFormatGroup.highLevelFormats.toSet()
     else this
 }
 
 @Composable
 private fun List<ImageFormat>.filteredFormats(): List<ImageFormat> = remember(this) {
-    if (Build.VERSION.SDK_INT <= 24) toMutableList().apply {
-        removeAll(ImageFormat.highLevelFormats)
-    }
+    if (Build.VERSION.SDK_INT <= 24) this - ImageFormat.highLevelFormats.toSet()
     else this
 }
