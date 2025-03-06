@@ -1504,7 +1504,7 @@
     <string name="dont_stack_frames">不要堆疊影格</string>
     <string name="clustered_8x8_dithering">群集式 8x8 抖動</string>
     <string name="grid_size">網格尺寸</string>
-    <string name="resolution_x">解析度 X</string>
+    <string name="resolution_x">X軸解析度</string>
     <string name="histogram">直方圖</string>
     <string name="image_for_histogram">此圖片將用於產生 RGB 與亮度直方圖</string>
     <string name="resolution">解析度</string>
@@ -1518,7 +1518,7 @@
     <string name="hanning_sub">Hann 窗函數的一種變體，通常用於減少訊號處理應用中的頻譜洩漏</string>
     <string name="haasn_soft">Haasn Soft</string>
     <string name="haasn_soft_sub">一種由 Haasn 設計的重新取樣濾鏡，以獲得平滑與無偽影的圖像縮放</string>
-    <string name="resolution_y">解析度 Y</string>
+    <string name="resolution_y">Y軸解析度</string>
     <string name="histogram_sub">RGB 或亮度圖片直方圖幫助您進行調整</string>
     <string name="equalize_histogram_hsv">等化直方圖 HSV</string>
     <string name="equalize_histogram_adaptive_lab">等化直方圖自適應 LAB</string>
