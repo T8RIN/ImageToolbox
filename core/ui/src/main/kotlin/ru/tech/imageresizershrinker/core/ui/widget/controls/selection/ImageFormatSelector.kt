@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("UnnecessaryVariable")
+
 package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 
 import android.os.Build
