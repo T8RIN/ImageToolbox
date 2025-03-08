@@ -29,18 +29,21 @@ object ReviewHandler {
         context: Context,
         onComplete: () -> Unit = {}
     ) {
-        val reviewManager = ReviewManagerFactory.create(context)
-        reviewManager
-            .requestReviewFlow()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    reviewManager
-                        .launchReviewFlow(context as Activity, it.result)
-                        .addOnCompleteListener {
-                            onComplete()
-                        }
+        runCatching {
+            val reviewManager = ReviewManagerFactory.create(context)
+
+            reviewManager
+                .requestReviewFlow()
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        reviewManager
+                            .launchReviewFlow(context as Activity, it.result)
+                            .addOnCompleteListener {
+                                onComplete()
+                            }
+                    }
                 }
-            }
+        }
     }
 
     fun notShowReviewAgain(context: Context) = Unit

@@ -72,26 +72,35 @@ fun UpdateSheet(
     if (context.isInstalledFromPlayStore()) {
         LaunchedEffect(visible) {
             if (visible) {
-                val appUpdateManager = AppUpdateManagerFactory.create(context)
+                runCatching {
+                    val appUpdateManager = AppUpdateManagerFactory.create(context)
 
-                val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+                    val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-                appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-                    if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
-                    ) {
-                        appUpdateManager.startUpdateFlow(
-                            appUpdateInfo,
-                            context as Activity,
-                            AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE)
-                        )
-                    } else {
-                        scope.launch {
-                            toastHostState.showToast(
-                                icon = Icons.Rounded.FileDownloadOff,
-                                message = context.getString(R.string.no_updates)
+                    appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+                        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                            && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+                        ) {
+                            appUpdateManager.startUpdateFlow(
+                                appUpdateInfo,
+                                context as Activity,
+                                AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE)
                             )
+                        } else {
+                            scope.launch {
+                                toastHostState.showToast(
+                                    icon = Icons.Rounded.FileDownloadOff,
+                                    message = context.getString(R.string.no_updates)
+                                )
+                            }
                         }
+                    }
+                }.onFailure {
+                    scope.launch {
+                        toastHostState.showToast(
+                            icon = Icons.Rounded.FileDownloadOff,
+                            message = context.getString(R.string.no_updates)
+                        )
                     }
                 }
             }
