@@ -76,7 +76,7 @@ internal class AndroidImageCompressor @Inject constructor(
         imageFormat: ImageFormat,
         quality: Quality
     ): ByteArray = withContext(encodingDispatcher) {
-        val image = image.toSoftware().let {
+        val transformedImage = image.toSoftware().let {
             if (imageFormat !in ImageFormat.alphaContainedEntries) {
                 withContext(defaultDispatcher) {
                     Trickle.drawColorBehind(
@@ -94,7 +94,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 imageScaler = imageScaler
             )
             .compress(
-                image = image,
+                image = transformedImage,
                 quality = quality.coerceIn(imageFormat)
             )
     }
