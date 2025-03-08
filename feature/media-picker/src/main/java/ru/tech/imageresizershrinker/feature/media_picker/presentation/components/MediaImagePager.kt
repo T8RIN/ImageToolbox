@@ -141,7 +141,7 @@ internal fun MediaImagePager(
         ) {
             val density = LocalDensity.current
             val screenHeight =
-                LocalScreenSize.current.height + WindowInsets.Companion.systemBars.asPaddingValues()
+                LocalScreenSize.current.height + WindowInsets.systemBars.asPaddingValues()
                     .let { it.calculateTopPadding() + it.calculateBottomPadding() }
             val anchors = with(density) {
                 DraggableAnchors {
@@ -221,14 +221,13 @@ internal fun MediaImagePager(
                     pageSpacing = if (pagerState.pageCount > 1) 16.dp
                     else 0.dp
                 ) { page ->
-                    val media = media.getOrNull(page)
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         val zoomState = rememberZoomState(10f)
                         Picture(
                             showTransparencyChecker = false,
-                            model = media?.uri,
+                            model = media.getOrNull(page)?.uri,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clipToBounds()
@@ -402,9 +401,9 @@ internal fun MediaImagePager(
                             .background(MaterialTheme.colorScheme.scrim.copy(0.5f))
                             .navigationBarsPadding()
                             .padding(
-                                WindowInsets.Companion.displayCutout
+                                WindowInsets.displayCutout
                                     .only(
-                                        WindowInsetsSides.Companion.Horizontal
+                                        WindowInsetsSides.Horizontal
                                     )
                                     .asPaddingValues()
                             )
@@ -428,9 +427,9 @@ internal fun MediaImagePager(
             }
 
             if (visible) {
-                PredictiveBackHandler { progress ->
+                PredictiveBackHandler { backProgress ->
                     try {
-                        progress.collect { event ->
+                        backProgress.collect { event ->
                             if (event.progress <= 0.05f) {
                                 predictiveBackProgress = 0f
                             }

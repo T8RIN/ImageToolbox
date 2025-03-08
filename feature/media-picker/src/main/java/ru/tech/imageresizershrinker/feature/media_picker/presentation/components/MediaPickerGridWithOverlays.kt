@@ -230,15 +230,17 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                 }
             }
         }
-        val visible = mediaState.isLoading || filteredMediaState.isLoading
+
+        val isHaveNoData = mediaState.media.isEmpty() && !mediaState.isLoading
+        val showLoading = (mediaState.isLoading || filteredMediaState.isLoading) && !isHaveNoData
 
         val backgroundColor by animateColorAsState(
             MaterialTheme.colorScheme.scrim.copy(
-                if (visible && filteredMediaState.media.isNotEmpty()) 0.5f else 0f
+                if (showLoading && filteredMediaState.media.isNotEmpty()) 0.5f else 0f
             )
         )
         BoxAnimatedVisibility(
-            visible = visible,
+            visible = showLoading,
             modifier = Modifier
                 .fillMaxSize()
                 .imePadding()
@@ -250,13 +252,13 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        start = WindowInsets.Companion.displayCutout
+                        start = WindowInsets.displayCutout
                             .asPaddingValues()
                             .calculateStartPadding(layoutDirection),
-                        end = WindowInsets.Companion.displayCutout
+                        end = WindowInsets.displayCutout
                             .asPaddingValues()
                             .calculateEndPadding(layoutDirection),
-                        bottom = WindowInsets.Companion.navigationBars
+                        bottom = WindowInsets.navigationBars
                             .asPaddingValues()
                             .calculateBottomPadding()
                     ),
@@ -304,7 +306,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
         }
 
         BoxAnimatedVisibility(
-            visible = mediaState.media.isEmpty() && !mediaState.isLoading,
+            visible = isHaveNoData,
             enter = scaleIn() + fadeIn(),
             exit = scaleOut() + fadeOut(),
             modifier = Modifier
@@ -345,7 +347,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
         }
 
         BoxAnimatedVisibility(
-            visible = !mediaState.isLoading,
+            visible = !mediaState.isLoading && !isHaveNoData,
             modifier = Modifier.fillMaxSize(),
             enter = fadeIn(),
             exit = fadeOut()
@@ -368,8 +370,8 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                         RoundedTextField(
                             maxLines = 1,
                             hint = { Text(stringResource(id = R.string.search_here)) },
-                            keyboardOptions = KeyboardOptions.Companion.Default.copy(
-                                imeAction = ImeAction.Companion.Search,
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                imeAction = ImeAction.Search,
                                 autoCorrectEnabled = null
                             ),
                             value = searchKeyword,

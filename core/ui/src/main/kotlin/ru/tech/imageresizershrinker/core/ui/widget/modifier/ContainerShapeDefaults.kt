@@ -123,7 +123,10 @@ internal class AnimatedShapeState(
     val density: Density,
     val spec: FiniteAnimationSpec<Float>,
 ) {
-    private val size = Size(120f, 120f)
+    private val size = Size(
+        width = with(density) { 48.dp.toPx() },
+        height = with(density) { 48.dp.toPx() }
+    )
 
     private var topStart: Animatable<Float, AnimationVector1D> =
         Animatable(shape.topStart.toPx(size, density))

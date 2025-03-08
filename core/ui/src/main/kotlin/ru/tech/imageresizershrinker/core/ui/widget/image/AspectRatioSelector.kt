@@ -69,6 +69,7 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.domain.utils.ifCasts
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -272,15 +273,15 @@ fun AspectRatioSelector(
                     value = tempWidth,
                     onValueChange = { value ->
                         tempWidth = value
-                        val width = abs(value.toFloatOrNull() ?: 0f)
-                        val custom = selectedAspectRatio as? DomainAspectRatio.Custom
-                        custom?.let {
+                        val width = abs(value.toFloatOrNull() ?: 0f).coerceAtLeast(1f)
+
+                        selectedAspectRatio.ifCasts<DomainAspectRatio.Custom> { aspect ->
                             onAspectRatioChange(
-                                custom.copy(
+                                aspect.copy(
                                     widthProportion = width
                                 ),
                                 AspectRatio(
-                                    (width / selectedAspectRatio.heightProportion).takeIf { !it.isNaN() }
+                                    (width / aspect.heightProportion).takeIf { !it.isNaN() }
                                         ?: 1f
                                 )
                             )
@@ -306,15 +307,15 @@ fun AspectRatioSelector(
                     value = tempHeight,
                     onValueChange = { value ->
                         tempHeight = value
-                        val height = abs(value.toFloatOrNull() ?: 0f)
-                        val custom = selectedAspectRatio as? DomainAspectRatio.Custom
-                        custom?.let {
+                        val height = abs(value.toFloatOrNull() ?: 1f).coerceAtLeast(1f)
+
+                        selectedAspectRatio.ifCasts<DomainAspectRatio.Custom> { aspect ->
                             onAspectRatioChange(
-                                custom.copy(
+                                aspect.copy(
                                     heightProportion = height
                                 ),
                                 AspectRatio(
-                                    (selectedAspectRatio.widthProportion / height).takeIf { !it.isNaN() }
+                                    (aspect.widthProportion / height).takeIf { !it.isNaN() }
                                         ?: 1f
                                 )
                             )

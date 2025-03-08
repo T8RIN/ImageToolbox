@@ -52,8 +52,8 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -116,7 +116,7 @@ internal fun MainTopAppBar(
         title = {
             LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
                 val badgeText = remember {
-                    "${Screen.FEATURES_COUNT} $AppVersionPreReleaseFlavored"
+                    "${Screen.FEATURES_COUNT} $AppVersionPreReleaseFlavored".trim()
                 }
 
                 Row(

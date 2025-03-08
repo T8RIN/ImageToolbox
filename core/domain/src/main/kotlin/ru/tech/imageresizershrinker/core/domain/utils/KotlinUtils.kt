@@ -39,6 +39,8 @@ inline fun <reified T, reified R> T.cast(): R = this as R
 
 inline fun <reified T, reified R> T.safeCast(): R? = this as? R
 
+inline fun <reified R> Any?.ifCasts(action: (R) -> Unit) = (this as? R)?.let(action)
+
 
 inline operator fun CharSequence.times(
     count: Int
