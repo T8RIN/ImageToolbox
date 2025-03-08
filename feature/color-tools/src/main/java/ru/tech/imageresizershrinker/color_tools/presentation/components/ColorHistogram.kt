@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.color_tools.presentation.components
 
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,10 +28,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoGraph
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -79,7 +81,8 @@ internal fun ColorHistogram() {
                         modifier = Modifier
                             .padding(top = 16.dp)
                             .fillMaxWidth()
-                            .height(250.dp),
+                            .height(250.dp)
+                            .background(MaterialTheme.colorScheme.background),
                         initialType = HistogramType.RGB,
                         onSwapType = null,
                         linesThickness = 1.dp,
@@ -89,7 +92,8 @@ internal fun ColorHistogram() {
                         imageUri = imageUri,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp),
+                            .height(250.dp)
+                            .background(MaterialTheme.colorScheme.background),
                         initialType = HistogramType.Brightness,
                         onSwapType = null,
                         linesThickness = 1.dp,
@@ -99,7 +103,8 @@ internal fun ColorHistogram() {
                         imageUri = imageUri,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp),
+                            .height(250.dp)
+                            .background(MaterialTheme.colorScheme.background),
                         initialType = HistogramType.Camera,
                         onSwapType = null,
                         linesThickness = 1.dp,

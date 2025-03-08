@@ -25,6 +25,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -179,7 +180,8 @@ internal fun LazyItemScope.AddEditMaskSheetControls(
                                     image = component.previewBitmap,
                                     modifier = Modifier
                                         .width(100.dp)
-                                        .height(65.dp),
+                                        .height(65.dp)
+                                        .background(MaterialTheme.colorScheme.background),
                                     bordersColor = Color.White
                                 )
                             } else {
