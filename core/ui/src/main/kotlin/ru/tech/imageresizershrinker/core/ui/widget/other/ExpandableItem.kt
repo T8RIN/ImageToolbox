@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -55,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
@@ -74,29 +74,29 @@ fun ExpandableItem(
     onLongClick: (() -> Unit)? = null,
     expansionIconContainerColor: Color = Color.Transparent
 ) {
-    val shape = shapeByInteraction(
+    val animatedShape = shapeByInteraction(
         shape = shape,
         pressedShape = pressedShape,
         interactionSource = interactionSource
     )
 
     Column(
-        Modifier
-            .animateContentSize(
-                animationSpec = spec(10)
-            )
+        modifier = Modifier
             .then(modifier)
             .container(
                 color = color,
                 resultPadding = 0.dp,
-                shape = shape
+                shape = animatedShape
+            )
+            .animateContentSizeNoClip(
+                animationSpec = spec(10)
             )
     ) {
         var expanded by rememberSaveable(initialState) { mutableStateOf(initialState) }
         val rotation by animateFloatAsState(if (expanded) 180f else 0f)
         Row(
             modifier = Modifier
-                .clip(shape)
+                .clip(animatedShape)
                 .hapticsCombinedClickable(
                     interactionSource = interactionSource,
                     indication = LocalIndication.current,
