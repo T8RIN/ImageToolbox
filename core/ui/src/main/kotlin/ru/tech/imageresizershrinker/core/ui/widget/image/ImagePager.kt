@@ -461,9 +461,9 @@ fun ImagePager(
             )
 
             if (visible) {
-                PredictiveBackHandler { progress ->
+                PredictiveBackHandler { backProgress ->
                     try {
-                        progress.collect { event ->
+                        backProgress.collect { event ->
                             if (event.progress <= 0.05f) {
                                 predictiveBackProgress = 0f
                             }

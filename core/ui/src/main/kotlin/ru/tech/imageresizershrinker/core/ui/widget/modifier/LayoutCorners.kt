@@ -41,26 +41,27 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
-fun Modifier.withLayoutCorners(block: Modifier.(LayoutCorners) -> Modifier): Modifier =
-    composed {
-        val context = LocalContext.current
-        val density = LocalDensity.current
-        val screenInfo = remember(context) { context.getScreenInfo(density) }
+fun Modifier.withLayoutCorners(
+    block: Modifier.(LayoutCorners) -> Modifier
+): Modifier = composed {
+    val context = LocalContext.current
+    val density = LocalDensity.current
+    val screenInfo = remember(context) { context.getScreenInfo(density) }
 
-        if (screenInfo != null) {
-            val rootView = LocalView.current
-            val layoutDirection = LocalLayoutDirection.current
-            var positionOnScreen by remember { mutableStateOf<Rect?>(null) }
-            val corners = getLayoutCorners(screenInfo, positionOnScreen, layoutDirection)
+    if (screenInfo != null) {
+        val rootView = LocalView.current
+        val layoutDirection = LocalLayoutDirection.current
+        var positionOnScreen by remember { mutableStateOf<Rect?>(null) }
+        val corners = getLayoutCorners(screenInfo, positionOnScreen, layoutDirection)
 
-            onGloballyPositioned { coords ->
-                positionOnScreen =
-                    getBoundsOnScreen(rootView = rootView, boundsInRoot = coords.boundsInRoot())
-            }.block(corners)
-        } else {
-            block(LayoutCorners())
-        }
+        onGloballyPositioned { cords ->
+            positionOnScreen =
+                getBoundsOnScreen(rootView = rootView, boundsInRoot = cords.boundsInRoot())
+        }.block(corners)
+    } else {
+        block(LayoutCorners())
     }
+}
 
 private fun Context.getScreenInfo(density: Density): ScreenInfo? {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -94,20 +95,23 @@ private fun getLayoutCorners(
         return LayoutCorners()
     }
 
-    val (cornerRadii, screenWidth, screenHeight) = screenInfo
+    val (cornerRadius, screenWidth, screenHeight) = screenInfo
     val (left, top, right, bottom) = positionOnScreen
 
-    val topLeft = getLayoutCorner(radius = cornerRadii.topLeft, isFixed = (left <= 0) && (top <= 0))
+    val topLeft = getLayoutCorner(
+        radius = cornerRadius.topLeft,
+        isFixed = (left <= 0) && (top <= 0)
+    )
     val topRight = getLayoutCorner(
-        radius = cornerRadii.topRight,
+        radius = cornerRadius.topRight,
         isFixed = (right >= screenWidth) && (top <= 0)
     )
     val bottomRight = getLayoutCorner(
-        radius = cornerRadii.bottomRight,
+        radius = cornerRadius.bottomRight,
         isFixed = (right >= screenWidth) && (bottom >= screenHeight)
     )
     val bottomLeft = getLayoutCorner(
-        radius = cornerRadii.bottomLeft,
+        radius = cornerRadius.bottomLeft,
         isFixed = (left <= 0) && (bottom >= screenHeight)
     )
 
@@ -191,4 +195,4 @@ fun LayoutCorners.toShape(progress: Float): RoundedCornerShape =
     )
 
 private fun LayoutCorner.getProgressRadius(progress: Float): Dp =
-    if (isFixed) radius else radius * progress
+    if (isFixed && progress > 0f) radius else radius * progress

@@ -149,7 +149,7 @@ fun LibrariesInfoContent(
                     if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
                         component.selectLibrary(library)
                     } else if (!license?.url.isNullOrBlank()) {
-                        license.url?.also {
+                        license?.url?.also {
                             runCatching {
                                 linkHandler.openUri(it)
                             }.onFailure(essentials::showFailureToast)
