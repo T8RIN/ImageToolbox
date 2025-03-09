@@ -207,7 +207,7 @@ data class SettingsState(
                 mainScreenTitle = "",
                 sliderType = SliderType.Fancy,
                 isCenterAlignDialogButtons = false,
-                fastSettingsSide = FastSettingsSide.CenterStart,
+                fastSettingsSide = FastSettingsSide.CenterEnd,
                 settingGroupsInitialVisibility = emptyMap(),
                 hashingTypeForFilename = null,
                 customFonts = emptyList(),
