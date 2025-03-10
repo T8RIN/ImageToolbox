@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components.navigation
 
 import androidx.compose.runtime.Composable
-import ru.tech.imageresizershrinker.colllage_maker.presentation.CollageMakerContent
-import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
+import ru.tech.imageresizershrinker.collage_maker.presentation.CollageMakerContent
+import ru.tech.imageresizershrinker.collage_maker.presentation.screenLogic.CollageMakerComponent
 import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent

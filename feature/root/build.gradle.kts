@@ -61,7 +61,7 @@ dependencies {
     implementation(projects.feature.colorTools)
     implementation(projects.feature.webpTools)
     implementation(projects.feature.noiseGeneration)
-    implementation(projects.feature.colllageMaker)
+    implementation(projects.feature.collageMaker)
     implementation(projects.feature.librariesInfo)
     implementation(projects.feature.markupLayers)
     implementation(projects.feature.base64Tools)

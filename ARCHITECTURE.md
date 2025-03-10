@@ -67,7 +67,7 @@ graph LR
     :feature:color-tools("color-tools")
     :feature:webp-tools("webp-tools")
     :feature:noise-generation("noise-generation")
-    :feature:colllage-maker("colllage-maker")
+    :feature:collage-maker("collage-maker")
     :feature:libraries-info("libraries-info")
     :feature:markup-layers("markup-layers")
     :feature:base64-tools("base64-tools")
@@ -121,7 +121,7 @@ graph LR
   :feature:root --> :feature:color-tools
   :feature:root --> :feature:webp-tools
   :feature:root --> :feature:noise-generation
-  :feature:root --> :feature:colllage-maker
+  :feature:root --> :feature:collage-maker
   :feature:root --> :feature:libraries-info
   :feature:root --> :feature:markup-layers
   :feature:root --> :feature:base64-tools
@@ -234,13 +234,13 @@ graph LR
   :feature:markup-layers --> :core:settings
   :feature:markup-layers --> :core:di
   :feature:markup-layers --> :core:crash
-  :feature:colllage-maker --> :core:data
-  :feature:colllage-maker --> :core:ui
-  :feature:colllage-maker --> :core:domain
-  :feature:colllage-maker --> :core:resources
-  :feature:colllage-maker --> :core:settings
-  :feature:colllage-maker --> :core:di
-  :feature:colllage-maker --> :core:crash
+  :feature:collage-maker --> :core:data
+  :feature:collage-maker --> :core:ui
+  :feature:collage-maker --> :core:domain
+  :feature:collage-maker --> :core:resources
+  :feature:collage-maker --> :core:settings
+  :feature:collage-maker --> :core:di
+  :feature:collage-maker --> :core:crash
   :feature:media-picker --> :core:data
   :feature:media-picker --> :core:ui
   :feature:media-picker --> :core:domain

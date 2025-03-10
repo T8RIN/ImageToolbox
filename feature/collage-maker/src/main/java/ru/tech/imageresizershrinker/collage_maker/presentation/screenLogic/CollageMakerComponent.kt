@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic
+package ru.tech.imageresizershrinker.collage_maker.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri

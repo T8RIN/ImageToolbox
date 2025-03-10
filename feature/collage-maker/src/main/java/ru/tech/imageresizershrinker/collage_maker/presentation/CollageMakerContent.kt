@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.colllage_maker.presentation
+package ru.tech.imageresizershrinker.collage_maker.presentation
 
 import android.content.pm.ActivityInfo
 import android.net.Uri
@@ -69,7 +69,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import ru.tech.imageresizershrinker.colllage_maker.presentation.screenLogic.CollageMakerComponent
+import ru.tech.imageresizershrinker.collage_maker.presentation.screenLogic.CollageMakerComponent
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
