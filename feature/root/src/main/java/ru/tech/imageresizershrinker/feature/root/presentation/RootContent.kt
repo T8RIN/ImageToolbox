@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.root.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -52,8 +51,11 @@ fun RootContent(
         randomEmojiKey++
     }
 
-    if (component.settingsState.appOpenCount >= 2) {
-        SideEffect(effect = component::tryGetUpdate)
+    if (component.settingsState.appOpenCount >= 2 && component.settingsState.showUpdateDialogOnStartup) {
+        LaunchedEffect(Unit) {
+            delay(500)
+            component.tryGetUpdate()
+        }
     }
 
     ImageToolboxCompositionLocals(
