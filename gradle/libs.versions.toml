@@ -79,6 +79,7 @@ aboutlibrariesGradle = "12.0.0-a04"
 junit = "4.13.2"
 bouncycastle = "1.80"
 evaluator = "1.0.0"
+moduleGraphGradle = "0.12.0"
 
 [libraries]
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }
@@ -209,3 +210,4 @@ image-toolbox-hilt = { id = "image.toolbox.hilt", version = "unspecified" }
 image-toolbox-feature = { id = "image.toolbox.feature", version = "unspecified" }
 image-toolbox-compose = { id = "image.toolbox.compose", version = "unspecified" }
 image-toolbox-application = { id = "image.toolbox.application", version = "unspecified" }
+dev-iurysouza-modulegraph = { id = "dev.iurysouza.modulegraph", version.ref = "moduleGraphGradle" }
