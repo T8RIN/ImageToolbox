@@ -828,6 +828,11 @@ or click one of the badges below.
   creating and applying filters to the images on CPU
   using native cpp code.
 
+
+# 📐 App Architecture
+
+See Modules Graph at [ARCHITECTURE.md](https://github.com/T8RIN/ImageToolbox/blob/master/ARCHITECTURE.md)
+
 <div align="center">
 
 #
