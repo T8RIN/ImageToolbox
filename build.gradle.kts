@@ -50,7 +50,7 @@ tasks.register("clean", Delete::class) {
 
 moduleGraphConfig {
     readmePath.set("./ARCHITECTURE.md")
-    heading = "# 📈 Modules Graph"
+    heading = "# 📐 Modules Graph"
     theme.set(
         Theme.BASE(
             mapOf(
