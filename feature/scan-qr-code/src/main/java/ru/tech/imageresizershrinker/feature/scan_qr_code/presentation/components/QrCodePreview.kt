@@ -17,8 +17,10 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -31,24 +33,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.QrCode2
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.CaptureController
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberPrevious
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.QrCode
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
 internal fun QrCodePreview(
@@ -87,8 +97,9 @@ internal fun QrCodePreview(
                 ) {
                     val essentials = rememberLocalEssentials()
                     val previous = rememberPrevious(params)
-                    QrCode(
-                        content = params.content,
+
+                    AnimatedContent(
+                        targetState = params.content.isEmpty(),
                         modifier = Modifier
                             .padding(
                                 top = if (params.imageUri != null) 36.dp else 0.dp,
@@ -101,19 +112,50 @@ internal fun QrCodePreview(
                                         .aspectRatio(1f)
                                 } else Modifier
                             )
-                            .width(targetSize),
-                        heightRatio = params.heightRatio,
-                        type = params.type,
-                        enforceBlackAndWhite = params.enforceBlackAndWhite,
-                        cornerRadius = animateIntAsState(params.cornersSize).value.dp,
-                        onSuccess = {
-                            essentials.dismissToasts()
-                        },
-                        onFailure = {
-                            essentials.dismissToasts()
-                            if (previous != params) essentials.showFailureToast(it)
+                    ) { isEmpty ->
+                        if (isEmpty) {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .container(
+                                        resultPadding = 0.dp,
+                                        color = if (isLandscape) MaterialTheme.colorScheme.surfaceContainerLowest
+                                        else Color.Unspecified
+                                    )
+                                    .padding(12.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.QrCode2,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(targetSize / 3)
+                                )
+                                Spacer(Modifier.height(4.dp))
+                                AutoSizeText(
+                                    text = stringResource(R.string.generated_barcode_will_be_here),
+                                    textAlign = TextAlign.Center,
+                                    key = { it.length },
+                                    maxLines = 2
+                                )
+                            }
+                        } else {
+                            QrCode(
+                                content = params.content,
+                                modifier = Modifier.width(targetSize),
+                                heightRatio = params.heightRatio,
+                                type = params.type,
+                                enforceBlackAndWhite = params.enforceBlackAndWhite,
+                                cornerRadius = animateIntAsState(params.cornersSize).value.dp,
+                                onSuccess = {
+                                    essentials.dismissToasts()
+                                },
+                                onFailure = {
+                                    essentials.dismissToasts()
+                                    if (previous != params) essentials.showFailureToast(it)
+                                }
+                            )
                         }
-                    )
+                    }
 
                     BoxAnimatedVisibility(visible = params.description.isNotEmpty() && params.content.isNotEmpty()) {
                         MaterialTheme(
