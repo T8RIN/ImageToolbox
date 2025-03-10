@@ -578,7 +578,8 @@ sealed class Screen(
 
     @Serializable
     data class ScanQrCode(
-        val qrCodeContent: String? = null
+        val qrCodeContent: String? = null,
+        val uriToAnalyze: Uri? = null
     ) : Screen(
         id = 27,
         title = R.string.qr_code,

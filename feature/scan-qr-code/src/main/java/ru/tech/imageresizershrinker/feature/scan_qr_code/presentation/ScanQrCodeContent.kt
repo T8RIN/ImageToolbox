@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -26,7 +27,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.QrCodeScanner
+import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material3.Badge
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +46,9 @@ import androidx.compose.ui.unit.dp
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberBarcodeScanner
@@ -52,7 +58,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.BarcodeType
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -79,6 +87,17 @@ fun ScanQrCodeContent(
             params = params.copy(
                 content = it
             )
+        )
+    }
+
+    val analyzerImagePicker = rememberImagePicker { uri: Uri ->
+        component.readBarcodeFromImage(
+            imageUri = uri,
+            onFailure = {
+                essentials.showFailureToast(
+                    Throwable(context.getString(R.string.no_barcode_found), it)
+                )
+            }
         )
     }
 
@@ -192,8 +211,11 @@ fun ScanQrCodeContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
-                targetState = (params.content.isEmpty()) to !isLandscape,
+                targetState = (params.content.isEmpty() && !isLandscape) to !isLandscape,
                 secondaryButtonIcon = Icons.Outlined.QrCodeScanner,
                 secondaryButtonText = stringResource(R.string.start_scanning),
                 onSecondaryButtonClick = scanner::scan,
@@ -208,6 +230,25 @@ fun ScanQrCodeContent(
                 },
                 actions = {
                     if (!isLandscape) actions()
+                },
+                showColumnarFabInRow = true,
+                isPrimaryButtonVisible = !isLandscape || params.content.isNotEmpty(),
+                columnarFab = {
+                    EnhancedFloatingActionButton(
+                        onClick = analyzerImagePicker::pickImage,
+                        onLongClick = {
+                            showOneTimeImagePickingDialog = true
+                        },
+                        containerColor = takeColorFromScheme {
+                            if (params.content.isEmpty()) tertiaryContainer
+                            else secondaryContainer
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ImageSearch,
+                            contentDescription = null
+                        )
+                    }
                 }
             )
             OneTimeSaveLocationSelectionDialog(
@@ -220,6 +261,12 @@ fun ScanQrCodeContent(
                     }
                 },
                 formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Single,
+                imagePicker = analyzerImagePicker,
+                visible = showOneTimeImagePickingDialog
             )
         },
         canShowScreenData = true,

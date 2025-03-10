@@ -48,16 +48,19 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.scan_qr_code.domain.ImageBarcodeReader
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components.QrPreviewParams
 
 class ScanQrCodeComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted initialQrCodeContent: String?,
+    @Assisted uriToAnalyze: Uri?,
     @Assisted val onGoBack: () -> Unit,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
+    private val imageBarcodeReader: ImageBarcodeReader,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -79,14 +82,16 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     private var settingsState: SettingsState = SettingsState.Default
 
     init {
-        settingsProvider.getSettingsStateFlow().onEach {
-            settingsState = it
+        settingsProvider.getSettingsStateFlow().onEach { state ->
+            settingsState = state
             _params.update {
                 it.copy(
                     descriptionFont = settingsState.font.toUiFont()
                 )
             }
         }.launchIn(componentScope)
+
+        uriToAnalyze?.let(::readBarcodeFromImage)
     }
 
     fun saveBitmap(
@@ -194,11 +199,30 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         _params.update { params }
     }
 
+    fun readBarcodeFromImage(
+        imageUri: Uri,
+        onFailure: (Throwable) -> Unit = {}
+    ) {
+        componentScope.launch {
+            imageBarcodeReader
+                .readBarcode(imageUri)
+                .onSuccess {
+                    updateParams(
+                        params.copy(
+                            content = it
+                        )
+                    )
+                }
+                .onFailure(onFailure)
+        }
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
             initialQrCodeContent: String?,
+            uriToAnalyze: Uri?,
             onGoBack: () -> Unit,
         ): ScanQrCodeComponent
     }

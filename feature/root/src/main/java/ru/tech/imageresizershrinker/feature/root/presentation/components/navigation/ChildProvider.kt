@@ -52,7 +52,50 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.P
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
-import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.*
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ApngTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Base64Tools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ChecksumTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Cipher
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.CollageMaker
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ColorTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Compare
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Crop
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.DeleteExif
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.DocumentScanner
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Draw
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.EasterEgg
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.EditExif
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.EraseBackground
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Filter
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.FormatConversion
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.GeneratePalette
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.GifTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.GradientMaker
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ImageCutter
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ImagePreview
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ImageSplitting
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ImageStacking
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ImageStitching
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.JxlTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.LibrariesInfo
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.LimitResize
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.LoadNetImage
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Main
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.MarkupLayers
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.MeshGradients
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.NoiseGeneration
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.PdfTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.RecognizeText
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ResizeAndConvert
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Settings
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.SingleEdit
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.SvgMaker
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Watermarking
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.WebpTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.WeightResize
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Zip
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
@@ -372,6 +415,7 @@ internal class ChildProvider @Inject constructor(
             scanQrCodeComponentFactory(
                 componentContext = componentContext,
                 initialQrCodeContent = config.qrCodeContent,
+                uriToAnalyze = config.uriToAnalyze,
                 onGoBack = ::navigateBack
             )
         )

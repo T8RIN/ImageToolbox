@@ -121,6 +121,7 @@ internal fun List<Uri>.screenList(
                 Screen.ImageStacking(uris),
                 Screen.ImageSplitting(uris.firstOrNull()),
                 Screen.ImageCutter(uris),
+                Screen.ScanQrCode(uriToAnalyze = uris.firstOrNull()),
                 Screen.GradientMaker(uris),
                 Screen.PdfTools(
                     Screen.PdfTools.Type.ImagesToPdf(uris)

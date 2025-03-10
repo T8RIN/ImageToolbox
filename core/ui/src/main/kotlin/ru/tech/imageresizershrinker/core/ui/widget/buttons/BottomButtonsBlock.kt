@@ -87,7 +87,8 @@ fun BottomButtonsBlock(
     showNullDataButtonAsContainer: Boolean = false,
     columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit,
-    isPrimaryButtonEnabled: Boolean = true
+    isPrimaryButtonEnabled: Boolean = true,
+    showColumnarFabInRow: Boolean = false,
 ) {
     AnimatedContent(
         targetState = targetState,
@@ -97,9 +98,7 @@ fun BottomButtonsBlock(
     ) { (isNull, inside) ->
         if (isNull) {
             val button = @Composable {
-                EnhancedFloatingActionButton(
-                    onClick = onSecondaryButtonClick,
-                    onLongClick = onSecondaryButtonLongClick,
+                Row(
                     modifier = Modifier
                         .windowInsetsPadding(
                             WindowInsets.navigationBars.union(
@@ -109,14 +108,24 @@ fun BottomButtonsBlock(
                             )
                         )
                         .padding(16.dp),
-                    content = {
-                        Spacer(Modifier.width(16.dp))
-                        Icon(secondaryButtonIcon, null)
-                        Spacer(Modifier.width(16.dp))
-                        Text(secondaryButtonText)
-                        Spacer(Modifier.width(16.dp))
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    EnhancedFloatingActionButton(
+                        onClick = onSecondaryButtonClick,
+                        onLongClick = onSecondaryButtonLongClick,
+                        content = {
+                            Spacer(Modifier.width(16.dp))
+                            Icon(secondaryButtonIcon, null)
+                            Spacer(Modifier.width(16.dp))
+                            Text(secondaryButtonText)
+                            Spacer(Modifier.width(16.dp))
+                        }
+                    )
+                    if (showColumnarFabInRow && columnarFab != null) {
+                        Column { columnarFab() }
                     }
-                )
+                }
             }
             if (showNullDataButtonAsContainer) {
                 Row(
@@ -136,7 +145,9 @@ fun BottomButtonsBlock(
                 modifier = Modifier.drawHorizontalStroke(true),
                 actions = actions,
                 floatingActionButton = {
-                    Row {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         AnimatedVisibility(visible = isSecondaryButtonVisible) {
                             EnhancedFloatingActionButton(
                                 onClick = onSecondaryButtonClick,
@@ -152,43 +163,45 @@ fun BottomButtonsBlock(
                                 )
                             }
                         }
+                        AnimatedVisibility(visible = showColumnarFabInRow) {
+                            columnarFab?.let {
+                                Column { it() }
+                            }
+                        }
                         AnimatedVisibility(visible = isPrimaryButtonVisible) {
-                            Row {
-                                Spacer(Modifier.width(8.dp))
-                                EnhancedFloatingActionButton(
-                                    onClick = if (isPrimaryButtonEnabled) onPrimaryButtonClick
-                                    else null,
-                                    onLongClick = if (isPrimaryButtonEnabled) onPrimaryButtonLongClick
-                                    else null,
-                                    containerColor = takeColorFromScheme {
-                                        if (isPrimaryButtonEnabled) primaryContainer
-                                        else surfaceContainerHighest
-                                    },
-                                    contentColor = takeColorFromScheme {
-                                        if (isPrimaryButtonEnabled) onPrimaryContainer
-                                        else outline
-                                    }
-                                ) {
-                                    AnimatedContent(
-                                        targetState = primaryButtonIcon to primaryButtonText,
-                                        transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                                    ) { (icon, text) ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.Center
-                                        ) {
-                                            if (text.isNotEmpty()) {
-                                                Spacer(Modifier.width(16.dp))
-                                            }
-                                            Icon(
-                                                imageVector = icon,
-                                                contentDescription = null
-                                            )
-                                            if (text.isNotEmpty()) {
-                                                Spacer(Modifier.width(16.dp))
-                                                Text(text)
-                                                Spacer(Modifier.width(16.dp))
-                                            }
+                            EnhancedFloatingActionButton(
+                                onClick = if (isPrimaryButtonEnabled) onPrimaryButtonClick
+                                else null,
+                                onLongClick = if (isPrimaryButtonEnabled) onPrimaryButtonLongClick
+                                else null,
+                                containerColor = takeColorFromScheme {
+                                    if (isPrimaryButtonEnabled) primaryContainer
+                                    else surfaceContainerHighest
+                                },
+                                contentColor = takeColorFromScheme {
+                                    if (isPrimaryButtonEnabled) onPrimaryContainer
+                                    else outline
+                                }
+                            ) {
+                                AnimatedContent(
+                                    targetState = primaryButtonIcon to primaryButtonText,
+                                    transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                                ) { (icon, text) ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        if (text.isNotEmpty()) {
+                                            Spacer(Modifier.width(16.dp))
+                                        }
+                                        Icon(
+                                            imageVector = icon,
+                                            contentDescription = null
+                                        )
+                                        if (text.isNotEmpty()) {
+                                            Spacer(Modifier.width(16.dp))
+                                            Text(text)
+                                            Spacer(Modifier.width(16.dp))
                                         }
                                     }
                                 }
@@ -223,7 +236,10 @@ fun BottomButtonsBlock(
                     EnhancedFloatingActionButton(
                         onClick = onSecondaryButtonClick,
                         onLongClick = onSecondaryButtonLongClick,
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                        containerColor = takeColorFromScheme {
+                            if (isPrimaryButtonVisible) tertiaryContainer
+                            else primaryContainer
+                        }
                     ) {
                         Icon(
                             imageVector = secondaryButtonIcon,

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.feature.scan_qr_code.domain
 
-android.namespace = "ru.tech.imageresizershrinker.feature.scan_qr_code"
+interface ImageBarcodeReader {
 
-dependencies {
-    implementation(projects.core.filters)
-    "marketImplementation"(libs.quickie.bundled)
-    "fossImplementation"(libs.quickie.foss)
+    suspend fun readBarcode(
+        image: Any
+    ): Result<String>
+
 }
