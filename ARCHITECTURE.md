@@ -1,4 +1,4 @@
-# 📈 Module Graph
+# 📈 Modules Graph
 
 ```mermaid
 %%{
