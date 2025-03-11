@@ -26,7 +26,7 @@
     <string name="copied">Panoya kopyalandı</string>
     <string name="exception">Hata</string>
     <string name="edit_exif">EXIF\'i düzenle</string>
-    <string name="ok" tools:ignore="ButtonCase,Typos">Tamam</string>
+    <string name="ok">Tamam</string>
     <string name="no_exif">EXIF verisi bulunamadı</string>
     <string name="add_tag">Etiket ekle</string>
     <string name="save">Kaydet</string>
