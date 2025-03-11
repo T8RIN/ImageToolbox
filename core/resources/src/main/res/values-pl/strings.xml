@@ -1582,4 +1582,6 @@
     <string name="enforce_bw">Wymuś B/CZ</string>
     <string name="enforce_bw_sub">Obraz kodu kreskowego będzie w pełni czarno-biały i nie będzie kolorowany przez motyw aplikacji</string>
     <string name="barcodes_sub">Zeskanuj dowolny kod kreskowy (QR, EAN, AZTEC, ...) i pobierz jego zawartość lub wklej tekst, aby wygenerować nowy</string>
+    <string name="generated_barcode_will_be_here">Wygenerowany kod kreskowy będzie dostępny tutaj</string>
+    <string name="no_barcode_found">Nie znaleziono kodu kreskowego</string>
 </resources>
