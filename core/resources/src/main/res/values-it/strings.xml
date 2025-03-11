@@ -257,7 +257,7 @@
     <string name="group_options_by_type_sub">Raggruppa le opzioni sulla schermata principale per tipologia invece di usare la disposizione personalizzata</string>
     <string name="secondary_customization">Personalizzazione secondaria</string>
     <string name="screenshot">Immagine dello schermo</string>
-    <string name="cipher_sub">Crittografa e decrittografa qualsiasi file (non solo l\'immagine) in base all\'algoritmo crittografico AES</string>
+    <string name="cipher_sub">Crittografa e decrittografa qualsiasi file (non solo l\'immagine) in base a vari algoritmi crittografici</string>
     <string name="encrypt">Crittografare</string>
     <string name="draw">Disegno</string>
     <string name="draw_sub">Disegna sull\'immagine come in uno sketchbook o disegna sullo sfondo stesso</string>
@@ -290,11 +290,11 @@
     <string name="decryption">Decrittazione</string>
     <string name="encryption">Crittografia</string>
     <string name="key">Chiave</string>
-    <string name="implementation_sub">AES-256, modalità GCM, nessuna spaziatura interna, IV casuali a 12 byte. Le chiavi vengono utilizzate come hash SHA-3 (256 bit).</string>
+    <string name="implementation_sub">AES-256, modalità GCM, nessuna spaziatura interna, IV casuali a 12 byte. (Per impostazione predefinita, ma è possibile selezionare l\'algoritmo desiderato) Le chiavi vengono utilizzate come hash SHA-3 (256 bit).</string>
     <string name="file_size">Dimensione del file</string>
     <string name="presets_sub" formatted="false">Se hai selezionato il preset 125, l\'immagine verrà salvata con il 125% della dimensione originale. Se hai scelto il preset 50, allora l\'immagine verrà salvata con il 50% della dimensione.</string>
     <string name="reset_settings_sub">In questo modo verranno ripristinate le impostazioni ai valori predefiniti. Si noti che questa operazione non può essere annullata senza un file di backup menzionato sopra.</string>
-    <string name="something_went_wrong_emphasis">Ooops… Qualcosa è andato storto. Puoi scrivermi utilizzando le opzioni di seguito e cercherò di trovare una soluzione</string>
+    <string name="something_went_wrong_emphasis">Oops… Qualcosa è andato storto. Puoi scrivermi utilizzando le opzioni di seguito e cercherò di trovare una soluzione</string>
     <string name="tg_chat">Chat Telegram</string>
     <string name="nature_and_animals">Natura e animali</string>
     <string name="activities">Attività</string>
@@ -903,4 +903,6 @@
     <string name="convert">Converti</string>
     <string name="downscale_image_sub">La risoluzione dell\'immagine verrà ridotta per ridurre le dimensioni prima di processare, questo aiuta lo strumento ad essere più veloce e sicuro</string>
     <string name="convert_sub">Converti i batch di immagini nel formato specificato</string>
+    <string name="images_to_svg_sub">Traccia le immagini fornite in immagini SVG</string>
+    <string name="cupertino_switch_sub">Utilizza uno switch simile ad iOS basato sul cupertino design system</string>
 </resources>
