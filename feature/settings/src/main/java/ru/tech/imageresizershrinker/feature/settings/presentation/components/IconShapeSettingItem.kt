@@ -178,9 +178,7 @@ fun IconShapeSettingItem(
                 }
                 val color by animateColorAsState(
                     if (selected) MaterialTheme.colorScheme.primaryContainer
-                    else MaterialTheme.colorScheme.secondaryContainer.copy(
-                        alpha = 0.2f
-                    )
+                    else SafeLocalContainerColor
                 )
                 val borderColor by animateColorAsState(
                     if (selected) {
