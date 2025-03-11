@@ -41,8 +41,8 @@ fun GroupOptionsSettingItem(
         shape = shape,
         modifier = modifier,
         startIcon = Icons.Outlined.SettingsInputComposite,
-        title = stringResource(R.string.group_options_by_type),
-        subtitle = stringResource(R.string.group_options_by_type_sub),
+        title = stringResource(R.string.group_tools_by_type),
+        subtitle = stringResource(R.string.group_tools_by_type_sub),
         checked = settingsState.groupOptionsByTypes,
         onClick = {
             onClick()

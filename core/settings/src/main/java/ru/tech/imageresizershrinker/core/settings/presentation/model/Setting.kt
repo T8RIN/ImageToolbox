@@ -179,8 +179,8 @@ sealed class Setting(
     )
 
     data object GroupOptions : Setting(
-        title = R.string.group_options_by_type,
-        subtitle = R.string.group_options_by_type_sub
+        title = R.string.group_tools_by_type,
+        subtitle = R.string.group_tools_by_type_sub
     )
 
     data object HelpTranslate : Setting(
