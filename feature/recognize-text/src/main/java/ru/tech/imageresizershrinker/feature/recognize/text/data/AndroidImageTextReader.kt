@@ -29,7 +29,6 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
@@ -37,6 +36,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.OcrEngineMode
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitionResult
 import java.io.BufferedInputStream
@@ -122,7 +122,7 @@ internal class AndroidImageTextReader @Inject constructor(
                         it.data.forEach { data ->
                             File(
                                 "${getPathFromMode(type)}/tessdata",
-                                format(Constants.LANGUAGE_CODE, data.languageCode)
+                                format(TessConstants.LANGUAGE_CODE, data.languageCode)
                             ).delete()
                         }
                     }
@@ -161,7 +161,7 @@ internal class AndroidImageTextReader @Inject constructor(
                 languageCode.split("+").forEach { code ->
                     File(
                         path,
-                        format(Constants.LANGUAGE_CODE, code)
+                        format(TessConstants.LANGUAGE_CODE, code)
                     ).delete()
                 }
 
@@ -195,7 +195,7 @@ internal class AndroidImageTextReader @Inject constructor(
         languageCode: String
     ): Boolean = File(
         "${getPathFromMode(type)}/tessdata",
-        format(Constants.LANGUAGE_CODE, languageCode)
+        format(TessConstants.LANGUAGE_CODE, languageCode)
     ).exists()
 
     override suspend fun getLanguages(
@@ -238,7 +238,7 @@ internal class AndroidImageTextReader @Inject constructor(
         types.forEach { type ->
             File(
                 "${getPathFromMode(type)}/tessdata",
-                format(Constants.LANGUAGE_CODE, language.code)
+                format(TessConstants.LANGUAGE_CODE, language.code)
             ).delete()
         }
     }
@@ -270,9 +270,13 @@ internal class AndroidImageTextReader @Inject constructor(
     ): Boolean = withContext(defaultDispatcher) {
         var location: String
         var downloadURL = when (type) {
-            RecognitionType.Best -> format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang)
-            RecognitionType.Standard -> format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang)
-            RecognitionType.Fast -> format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang)
+            RecognitionType.Best -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang)
+            RecognitionType.Standard -> format(
+                TessConstants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD,
+                lang
+            )
+
+            RecognitionType.Fast -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang)
         }
         var url: URL
         var base: URL
@@ -305,7 +309,7 @@ internal class AndroidImageTextReader @Inject constructor(
             val output: OutputStream = FileOutputStream(
                 File(
                     "${getPathFromMode(type)}/tessdata",
-                    format(Constants.LANGUAGE_CODE, lang)
+                    format(TessConstants.LANGUAGE_CODE, lang)
                 ).apply {
                     createNewFile()
                 }

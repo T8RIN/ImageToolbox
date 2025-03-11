@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.core.domain.BackupFileExtension
 import ru.tech.imageresizershrinker.core.domain.GlobalStorageName
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
@@ -52,7 +53,99 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocati
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SliderType
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
-import ru.tech.imageresizershrinker.feature.settings.data.keys.*
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ADD_ORIGINAL_NAME_TO_FILENAME
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ADD_SEQ_NUM_TO_FILENAME
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ADD_SIZE_TO_FILENAME
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ADD_TIMESTAMP_TO_FILENAME
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ALLOW_ANALYTICS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ALLOW_AUTO_PASTE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ALLOW_BETAS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ALLOW_CRASHLYTICS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ALLOW_IMAGE_MONET
+import ru.tech.imageresizershrinker.feature.settings.data.keys.AMOLED_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.APP_COLOR_TUPLE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.APP_OPEN_COUNT
+import ru.tech.imageresizershrinker.feature.settings.data.keys.AUTO_CACHE_CLEAR
+import ru.tech.imageresizershrinker.feature.settings.data.keys.BACKGROUND_COLOR_FOR_NA_FORMATS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.BORDER_WIDTH
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CAN_ENTER_PRESETS_BY_TEXT_FIELD
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CENTER_ALIGN_DIALOG_BUTTONS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CHECKSUM_TYPE_FOR_FILENAME
+import ru.tech.imageresizershrinker.feature.settings.data.keys.COLOR_BLIND_TYPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.COLOR_TUPLES
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CONFETTI_ENABLED
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CONFETTI_HARMONIZATION_LEVEL
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CONFETTI_HARMONIZER
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CONFETTI_TYPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.COPY_TO_CLIPBOARD_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.CUSTOM_FONTS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DEFAULT_DRAW_COLOR
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DEFAULT_DRAW_LINE_WIDTH
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DEFAULT_DRAW_PATH_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DEFAULT_RESIZE_TYPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DONATE_DIALOG_OPEN_COUNT
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DRAG_HANDLE_WIDTH
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DRAW_APPBAR_SHADOWS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DRAW_BUTTON_SHADOWS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DRAW_CONTAINER_SHADOWS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DRAW_FAB_SHADOWS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DRAW_SLIDER_SHADOWS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DRAW_SWITCH_SHADOWS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.EMOJI_COUNT
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ENABLE_TOOL_EXIT_CONFIRMATION
+import ru.tech.imageresizershrinker.feature.settings.data.keys.EXIF_WIDGET_INITIAL_STATE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.FAB_ALIGNMENT
+import ru.tech.imageresizershrinker.feature.settings.data.keys.FAST_SETTINGS_SIDE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.FAVORITE_COLORS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.FAVORITE_SCREENS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.feature.settings.data.keys.FILENAME_SUFFIX
+import ru.tech.imageresizershrinker.feature.settings.data.keys.FONT_SCALE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.GENERATE_PREVIEWS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ICON_SHAPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.IMAGE_PICKER_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.IMAGE_SCALE_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.INITIAL_OCR_CODES
+import ru.tech.imageresizershrinker.feature.settings.data.keys.INITIAL_OCR_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.INVERT_THEME
+import ru.tech.imageresizershrinker.feature.settings.data.keys.IS_LINK_PREVIEW_ENABLED
+import ru.tech.imageresizershrinker.feature.settings.data.keys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.IS_TELEGRAM_GROUP_OPENED
+import ru.tech.imageresizershrinker.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
+import ru.tech.imageresizershrinker.feature.settings.data.keys.MAGNIFIER_ENABLED
+import ru.tech.imageresizershrinker.feature.settings.data.keys.MAIN_SCREEN_TITLE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.NIGHT_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PREVIEW
+import ru.tech.imageresizershrinker.feature.settings.data.keys.OVERWRITE_FILE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.PRESETS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.RANDOMIZE_FILENAME
+import ru.tech.imageresizershrinker.feature.settings.data.keys.RECENT_COLORS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SAVE_FOLDER_URI
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SCREEN_ORDER
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SCREEN_SEARCH_ENABLED
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SECURE_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SELECTED_EMOJI_INDEX
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SELECTED_FONT
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SHOW_UPDATE_DIALOG
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SKIP_IMAGE_PICKING
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SLIDER_TYPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SWITCH_TYPE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.SYSTEM_BARS_VISIBILITY
+import ru.tech.imageresizershrinker.feature.settings.data.keys.THEME_CONTRAST_LEVEL
+import ru.tech.imageresizershrinker.feature.settings.data.keys.THEME_STYLE
+import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_COMPACT_SELECTORS_LAYOUT
+import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_EMOJI_AS_PRIMARY_COLOR
+import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
+import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_FULLSCREEN_SETTINGS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_RANDOM_EMOJIS
+import ru.tech.imageresizershrinker.feature.settings.data.keys.VIBRATION_STRENGTH
+import ru.tech.imageresizershrinker.feature.settings.data.keys.toSettingsState
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -62,8 +155,6 @@ import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
-import kotlin.collections.toSet
-import kotlin.io.use
 import kotlin.random.Random
 
 internal class AndroidSettingsManager @Inject constructor(
@@ -233,7 +324,7 @@ internal class AndroidSettingsManager @Inject constructor(
             "yyyy-MM-dd_HH-mm-ss",
             Locale.getDefault()
         ).format(Date())
-        return "image_toolbox_$timeStamp.imtbx_backup"
+        return "image_toolbox_$timeStamp.$BackupFileExtension"
     }
 
     override suspend fun setFont(font: DomainFontFamily) = edit {

@@ -19,6 +19,8 @@ package ru.tech.imageresizershrinker.feature.root.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -48,11 +50,14 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
+import ru.tech.imageresizershrinker.core.domain.BackupFileExtension
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
+import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
@@ -60,6 +65,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.toSimpleSettingsInterac
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.ChildProvider
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild
@@ -76,7 +82,11 @@ class RootComponent @AssistedInject internal constructor(
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
-) : BaseComponent(dispatchersHolder, componentContext) {
+    resourceManager: ResourceManager
+) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
+
+    private val _backupRestoredEvents: Channel<Boolean> = Channel(Channel.BUFFERED)
+    val backupRestoredEvents: Flow<Boolean> = _backupRestoredEvents.receiveAsFlow()
 
     private val _isUpdateAvailable: MutableValue<Boolean> = MutableValue(false)
     val isUpdateAvailable: Value<Boolean> = _isUpdateAvailable
@@ -319,6 +329,29 @@ class RootComponent @AssistedInject internal constructor(
     }
 
     fun updateExtraImageType(type: String?) {
+        if (type?.contains(BackupFileExtension) == true) {
+            componentScope.launch {
+                settingsManager.restoreFromBackupFile(
+                    backupFileUri = type.substringAfter(BackupFileExtension).trim(),
+                    onSuccess = {
+                        _backupRestoredEvents.trySend(true)
+                    },
+                    onFailure = { throwable ->
+                        showToast(
+                            message = getString(
+                                R.string.smth_went_wrong,
+                                throwable.localizedMessage ?: ""
+                            ),
+                            icon = Icons.Rounded.ErrorOutline,
+                            duration = ToastDuration.Long
+                        )
+                        _backupRestoredEvents.trySend(false)
+                    }
+                )
+            }
+            return
+        }
+
         _extraImageType.update { null }
         _extraImageType.update { type }
     }
@@ -326,11 +359,13 @@ class RootComponent @AssistedInject internal constructor(
     fun showToast(
         message: String,
         icon: ImageVector? = null,
+        duration: ToastDuration = ToastDuration.Short
     ) {
         componentScope.launch {
             toastHostState.showToast(
                 message = message,
-                icon = icon
+                icon = icon,
+                duration = duration
             )
         }
     }

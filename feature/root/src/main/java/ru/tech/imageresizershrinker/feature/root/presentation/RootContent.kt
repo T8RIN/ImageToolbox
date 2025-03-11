@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.feature.root.presentation.components.RootDialogs
 import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs.AppExitDialog
+import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.SuccessRestoreBackup
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 
 @Composable
@@ -74,6 +75,8 @@ fun RootContent(
             ScreenSelector(component)
 
             RootDialogs(component)
+
+            SuccessRestoreBackup(component)
 
             ConfettiHost()
 

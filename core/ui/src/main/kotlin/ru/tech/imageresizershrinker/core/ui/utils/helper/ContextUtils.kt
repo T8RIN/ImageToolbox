@@ -49,6 +49,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.BackupFileExtension
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
@@ -302,8 +303,35 @@ object ContextUtils {
 
                         Intent.ACTION_SEND -> {
                             intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                                if (it.toString().contains(BackupFileExtension, true)) {
+                                    onHasExtraImageType("$BackupFileExtension $it")
+                                    return
+                                }
                                 onHasExtraImageType("file")
                                 onGetUris(listOf(it))
+                            }
+                        }
+
+                        Intent.ACTION_VIEW -> {
+                            val data = intent.data
+                            val clipData = intent.clipData
+                            val uris =
+                                clipData?.clipList() ?: data?.let { listOf(it) } ?: emptyList()
+
+                            if (uris.size == 1) {
+                                val uri = uris.first()
+
+                                if (uri.toString().contains(BackupFileExtension, true)) {
+                                    onHasExtraImageType("$BackupFileExtension $uri")
+                                    return
+                                }
+
+                                onHasExtraImageType("file")
+                                onGetUris(uris)
+                            } else if (uris.isNotEmpty()) {
+                                onNavigate(Screen.Zip(uris))
+                            } else {
+                                Unit
                             }
                         }
 
@@ -358,6 +386,7 @@ object ContextUtils {
             }
         }
 
+    @Suppress("unused", "MemberVisibilityCanBePrivate")
     tailrec fun Context.findActivity(): Activity? = when (this) {
         is Activity -> this
         is ContextWrapper -> baseContext.findActivity()

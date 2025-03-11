@@ -18,14 +18,14 @@
 package ru.tech.imageresizershrinker.feature.recognize.text.domain
 
 import kotlinx.collections.immutable.toImmutableList
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_CHOP_ENABLE
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_EDGES_MAX_CHILDREN_PER_OUTLINE
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_ENABLE_NEW_SEGSEARCH
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_LANGUAGE_MODEL_NGRAM_ON
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_PRESERVE_INTERWORD_SPACES
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_SEGMENT_SEGCOST_RATING
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_TEXTORD_FORCE_MAKE_PROP_WORDS
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants.KEY_USE_NEW_STATE_COST
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_CHOP_ENABLE
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_EDGES_MAX_CHILDREN_PER_OUTLINE
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_ENABLE_NEW_SEGSEARCH
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_LANGUAGE_MODEL_NGRAM_ON
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_PRESERVE_INTERWORD_SPACES
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_SEGMENT_SEGCOST_RATING
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_TEXTORD_FORCE_MAKE_PROP_WORDS
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessConstants.KEY_USE_NEW_STATE_COST
 
 class TessParam(
     val key: String,
