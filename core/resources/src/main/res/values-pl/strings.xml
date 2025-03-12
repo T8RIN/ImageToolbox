@@ -1584,4 +1584,6 @@
     <string name="barcodes_sub">Zeskanuj dowolny kod kreskowy (QR, EAN, AZTEC, ...) i pobierz jego zawartość lub wklej tekst, aby wygenerować nowy</string>
     <string name="generated_barcode_will_be_here">Wygenerowany kod kreskowy będzie dostępny tutaj</string>
     <string name="no_barcode_found">Nie znaleziono kodu kreskowego</string>
+    <string name="audio_cover_extractor">Ekstraktor okładek audio</string>
+    <string name="audio_cover_extractor_sub">Wyodrębnianie obrazów okładek albumów z plików audio, obsługiwane są najpopularniejsze formaty</string>
 </resources>

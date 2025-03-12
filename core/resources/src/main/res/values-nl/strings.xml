@@ -1582,4 +1582,8 @@
     <string name="barcodes_sub">Scan een streepjescode (QR, EAN, AZTEC, ...) om de inhoud te lezen of plak een tekst om een nieuwe te genereren</string>
     <string name="height_ratio">Hoogteverhouding</string>
     <string name="enforce_bw">Z/W afdwingen</string>
+    <string name="audio_cover_extractor_sub">Afbeeldingen van albumhoezen uit audiobestanden extraheren, de meest voorkomende formaten worden ondersteund</string>
+    <string name="audio_cover_extractor">Audiohoezen extraheren</string>
+    <string name="no_barcode_found">Geen barcode aangetroffen</string>
+    <string name="generated_barcode_will_be_here">Gegenereerde barcode komt hier</string>
 </resources>
