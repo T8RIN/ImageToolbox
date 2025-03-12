@@ -248,7 +248,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
 
     fun saveBitmaps(
         oneTimeSaveLocationUri: String?,
-        onComplete: (List<SaveResult>) -> Unit
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = componentScope.launch {
             _isSaving.value = true
@@ -290,7 +290,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
 
                 _done.value += 1
             }
-            onComplete(results.onSuccess(::registerSave))
+            onResult(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

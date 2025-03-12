@@ -81,7 +81,8 @@ fun ImageNotPickedWidget(
 fun FileNotPickedWidget(
     onPickFile: () -> Unit,
     modifier: Modifier = Modifier,
-    text: String = stringResource(R.string.pick_file_to_start)
+    text: String = stringResource(R.string.pick_file_to_start),
+    icon: ImageVector = Icons.TwoTone.FileOpen
 ) {
     Column(
         modifier = modifier.container(),
@@ -90,7 +91,7 @@ fun FileNotPickedWidget(
     ) {
         Spacer(Modifier.height(16.dp))
         ClickableActionIcon(
-            icon = Icons.TwoTone.FileOpen,
+            icon = icon,
             onClick = onPickFile
         )
         Text(

@@ -43,7 +43,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,6 +58,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -76,7 +79,20 @@ fun UrisPreview(
             modifier = Modifier.size(width / 3f)
         )
     },
-    onClickUri: ((Uri) -> Unit)? = null
+    onClickUri: ((Uri) -> Unit)? = null,
+    errorContent: @Composable BoxScope.(index: Int, width: Dp) -> Unit = { _, width ->
+        Icon(
+            imageVector = Icons.AutoMirrored.Outlined.InsertDriveFile,
+            contentDescription = null,
+            modifier = Modifier
+                .size(width / 3f)
+                .align(Alignment.Center),
+            tint = MaterialTheme.colorScheme.primary
+        )
+    },
+    showTransparencyChecker: Boolean = true,
+    showScrimForNonSuccess: Boolean = true,
+    filenameSource: (index: Int) -> Uri = { uris[it] }
 ) {
     val context = LocalContext.current
 
@@ -105,20 +121,20 @@ fun UrisPreview(
                             color = MaterialTheme.colorScheme.surfaceContainerHighest
                         )
                     ) {
+                        var isLoaded by remember(uri) {
+                            mutableStateOf(false)
+                        }
                         Picture(
                             model = uri,
                             error = {
-                                Box {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Outlined.InsertDriveFile,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .size(width / 3f)
-                                            .align(Alignment.Center),
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
-                                }
+                                Box(
+                                    contentAlignment = Alignment.Center,
+                                    content = {
+                                        errorContent(index, width)
+                                    }
+                                )
                             },
+                            onSuccess = { isLoaded = true },
                             modifier = Modifier
                                 .then(
                                     if (onClickUri != null) {
@@ -128,12 +144,20 @@ fun UrisPreview(
                                     } else Modifier
                                 )
                                 .width(width)
-                                .aspectRatio(1f)
+                                .aspectRatio(1f),
+                            showTransparencyChecker = showTransparencyChecker
                         )
                         Box(
                             modifier = Modifier
                                 .matchParentSize()
-                                .background(MaterialTheme.colorScheme.scrim.copy(0.5f)),
+                                .background(
+                                    takeColorFromScheme {
+                                        scrim.copy(
+                                            if (isLoaded || showScrimForNonSuccess) 0.5f
+                                            else 0f
+                                        )
+                                    }
+                                )
                         ) {
                             Text(
                                 text = (index + 1).toString(),
@@ -168,9 +192,9 @@ fun UrisPreview(
                                     ),
                                 )
                             }
-                            val filename by remember(uri) {
+                            val filename by remember(filenameSource, index) {
                                 derivedStateOf {
-                                    context.getFilename(uri)
+                                    context.getFilename(filenameSource(index))
                                 }
                             }
                             filename?.let {

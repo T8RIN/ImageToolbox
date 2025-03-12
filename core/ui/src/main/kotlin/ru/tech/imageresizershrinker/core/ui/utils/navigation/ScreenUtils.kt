@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FilterHdr
+import androidx.compose.material.icons.outlined.Album
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
@@ -34,7 +35,6 @@ import androidx.compose.material.icons.outlined.Grain
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
-import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Tag
@@ -218,7 +218,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ChecksumTools -> Icons.Rounded.Tag
     is EditExif -> Icons.Outlined.ExifEdit
     is ImageCutter -> Icons.Rounded.ContentCut
-    is AudioCoverExtractor -> Icons.Rounded.Album
+    is AudioCoverExtractor -> Icons.Outlined.Album
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

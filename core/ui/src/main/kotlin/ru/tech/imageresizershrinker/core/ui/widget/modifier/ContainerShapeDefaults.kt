@@ -219,14 +219,14 @@ fun animateShape(
 fun shapeByInteraction(
     shape: Shape,
     pressedShape: Shape,
-    interactionSource: MutableInteractionSource,
+    interactionSource: MutableInteractionSource?,
     animationSpec: FiniteAnimationSpec<Float> = spring(
         dampingRatio = Spring.DampingRatioLowBouncy,
         stiffness = Spring.StiffnessMediumLow
     ),
     enabled: Boolean = true
 ): Shape {
-    if (!enabled) return shape
+    if (!enabled || interactionSource == null) return shape
 
     val pressed by interactionSource.collectIsPressedAsState()
     val focused by interactionSource.collectIsFocusedAsState()

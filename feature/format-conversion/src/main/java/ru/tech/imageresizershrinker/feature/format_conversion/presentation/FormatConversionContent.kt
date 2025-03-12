@@ -99,7 +99,7 @@ fun FormatConversionContent(
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
             oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResults
+            onResult = essentials::parseSaveResults
         )
     }
 

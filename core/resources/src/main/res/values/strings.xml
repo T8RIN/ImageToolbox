@@ -1604,4 +1604,7 @@
     <string name="generated_barcode_will_be_here">Generated Barcode Will Be Here</string>
     <string name="audio_cover_extractor">Audio Cover Extractor</string>
     <string name="audio_cover_extractor_sub">Extract album cover images from audio files, most common formats are supported</string>
+    <string name="pick_audio_to_start">Pick audio to start</string>
+    <string name="pick_audio">Pick Audio</string>
+    <string name="no_covers_found">No Covers Found</string>
 </resources>

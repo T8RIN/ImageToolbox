@@ -22,6 +22,9 @@ import android.graphics.Bitmap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -47,18 +50,33 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
 
     override suspend fun loadCover(
         audioUri: String
-    ): Result<String> {
-        val pictureData = FFmpegMediaMetadataRetriever().apply {
-            setDataSource(
-                context,
-                audioUri.toUri()
-            )
-        }.embeddedPicture
+    ): Result<String> = withContext(defaultDispatcher) {
+        val fail = {
+            Result.failure<String>(NullPointerException(getString(R.string.no_image)))
+        }
 
-        return imageGetter.getImage(
+        val pictureData = runCatching {
+            FFmpegMediaMetadataRetriever().run {
+                setDataSource(
+                    context,
+                    audioUri.toUri()
+                )
+
+                embeddedPicture ?: frameAtTime
+            }
+        }.onFailure {
+            return@withContext Result.failure(it)
+        }.getOrNull() ?: return@withContext fail()
+
+        ensureActive()
+
+        imageGetter.getImage(
             data = pictureData,
             originalSize = true
         )?.let { bitmap ->
+            val originalName = audioUri.toUri().getFilename(context)?.substringBeforeLast('.')
+                ?: "AUDIO_${System.currentTimeMillis()}"
+
             shareProvider.cacheData(
                 writeData = {
                     it.writeBytes(
@@ -69,9 +87,9 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
                         )
                     )
                 },
-                filename = "${audioUri.substringBeforeLast('.')}.png"
+                filename = "$originalName.png"
             )?.let(Result.Companion::success)
-        } ?: Result.failure(NullPointerException(getString(R.string.no_image)))
+        } ?: fail()
     }
 
     override suspend fun loadCover(

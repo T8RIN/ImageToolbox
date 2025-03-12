@@ -64,7 +64,7 @@ fun EnhancedFloatingActionButton(
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     contentColor: Color = contentColor(containerColor),
     autoElevation: Dp = 1.5.dp,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -78,14 +78,16 @@ fun EnhancedFloatingActionButton(
         interactionSource = interactionSource
     )
 
+    val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         if (onLongClick != null) {
             val viewConfiguration = LocalViewConfiguration.current
 
-            LaunchedEffect(interactionSource) {
+            LaunchedEffect(realInteractionSource) {
                 var isLongClick = false
 
-                interactionSource.interactions.collectLatest { interaction ->
+                realInteractionSource.interactions.collectLatest { interaction ->
                     when (interaction) {
                         is PressInteraction.Press -> {
                             isLongClick = false
@@ -139,7 +141,7 @@ fun EnhancedFloatingActionButton(
             contentColor = animateColorAsState(contentColor).value,
             shape = shape,
             containerColor = animateColorAsState(containerColor).value,
-            interactionSource = interactionSource,
+            interactionSource = realInteractionSource,
             content = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
