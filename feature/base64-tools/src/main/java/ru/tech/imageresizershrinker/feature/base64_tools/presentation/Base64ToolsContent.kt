@@ -19,11 +19,14 @@ package ru.tech.imageresizershrinker.feature.base64_tools.presentation
 
 import android.net.Uri
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.toBitmap
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -165,6 +169,13 @@ fun Base64ToolsContent(
                     onSuccess = {
                         aspectRatio = it.result.image.toBitmap().safeAspectRatio
                     },
+                    error = {
+                        Icon(
+                            imageVector = Icons.Rounded.BrokenImageAlt,
+                            contentDescription = null,
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                        )
+                    },
                     shape = MaterialTheme.shapes.medium,
                     isLoadingFromDifferentPlace = component.isImageLoading
                 )
@@ -203,7 +214,8 @@ fun Base64ToolsContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uri == null) to isPortrait,
+                targetState = (component.base64String.isEmpty() && isPortrait) to isPortrait,
+                isPrimaryButtonVisible = isPortrait || component.base64String.isNotEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
