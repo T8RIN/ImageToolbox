@@ -22,12 +22,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiHighlightsAndShadowsFilter(
-    override val value: Pair<Float, Float> = 0f to 1f
-) : UiFilter<Pair<Float, Float>>(
+    override val value: Float = 0.25f
+) : UiFilter<Float>(
     title = R.string.highlights_shadows,
     value = value,
-    paramsInfo = listOf(
-        R.string.highlights paramTo 0f..1f,
-        R.string.shadows paramTo 0f..1f
-    )
+    valueRange = 0f..2f
 ), Filter.HighlightsAndShadows

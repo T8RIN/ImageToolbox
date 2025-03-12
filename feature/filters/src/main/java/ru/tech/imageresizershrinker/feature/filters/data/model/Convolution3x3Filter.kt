@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.awxkee.aire.EdgeMode
@@ -30,7 +29,6 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 internal class Convolution3x3Filter(
-    private val context: Context,
     override val value: FloatArray = floatArrayOf(
         0.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f,
@@ -39,7 +37,7 @@ internal class Convolution3x3Filter(
 ) : Transformation<Bitmap>, Filter.Convolution3x3 {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,

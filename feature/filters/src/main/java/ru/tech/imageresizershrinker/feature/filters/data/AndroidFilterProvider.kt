@@ -288,7 +288,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Color -> ColorFilter(value)
                 is Filter.ColorMatrix4x4 -> ColorMatrix4x4Filter(context, value)
                 is Filter.Contrast -> ContrastFilter(value)
-                is Filter.Convolution3x3 -> Convolution3x3Filter(context, value)
+                is Filter.Convolution3x3 -> Convolution3x3Filter(value)
                 is Filter.Crosshatch -> CrosshatchFilter(context, value)
                 is Filter.DiamondPixelation -> DiamondPixelationFilter(value)
                 is Filter.Dilation -> DilationFilter(value)

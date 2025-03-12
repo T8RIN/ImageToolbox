@@ -48,7 +48,7 @@ interface Filter<Value> : VisibilityOwner {
     interface GlassSphereRefraction : PairFilter<Float, Float>
     interface Halftone : Filter<Float>
     interface Haze : PairFilter<Float, Float>
-    interface HighlightsAndShadows : PairFilter<Float, Float>
+    interface HighlightsAndShadows : Filter<Float>
     interface Hue : Filter<Float>
     interface Kuwahara : Filter<Float>
     interface Laplacian : SimpleFilter

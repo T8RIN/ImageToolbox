@@ -19,18 +19,17 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageHighlightShadowFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.utils.GPUImageHighlightShadowWideRangeFilter
 
 
 internal class HighlightsAndShadowsFilter(
     private val context: Context,
-    override val value: Pair<Float, Float> = 0f to 1f,
+    override val value: Float = 0.25f,
 ) : GPUFilterTransformation(context), Filter.HighlightsAndShadows {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter =
-        GPUImageHighlightShadowFilter(value.first, value.second)
+    override fun createFilter(): GPUImageFilter = GPUImageHighlightShadowWideRangeFilter(value, 1f)
 }
