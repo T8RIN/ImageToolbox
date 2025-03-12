@@ -675,6 +675,7 @@ or click one of the badges below.
     - Using image cheksum as filename
     - Checksum Tools with ability to calculate and compare hashes
     - 64 different hashing algorithms
+    - Audio files Album Cover export
     - Embedded media picker
 
 **And More!**
