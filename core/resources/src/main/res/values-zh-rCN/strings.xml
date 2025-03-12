@@ -1581,4 +1581,8 @@
     <string name="height_ratio">高度比</string>
     <string name="barcode_type">条形码类型</string>
     <string name="barcodes_sub">扫描任何条形码（二维码、欧洲商品编码、阿兹特克码等）并获取其内容，或者粘贴你的文本以生成新的条形码</string>
+    <string name="generated_barcode_will_be_here">生成的条形码将显示在此处</string>
+    <string name="no_barcode_found">未找到条形码</string>
+    <string name="audio_cover_extractor_sub">从音频文件中提取专辑封面图片，支持大多数常见的音频格式</string>
+    <string name="audio_cover_extractor">音频封面提取器</string>
 </resources>
