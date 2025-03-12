@@ -46,7 +46,7 @@ internal fun RootDialogs(component: RootComponent) {
     val essentials = rememberLocalEssentials()
     ProcessImagesPreferenceSheet(
         uris = component.uris ?: emptyList(),
-        extraImageType = component.extraImageType,
+        extraDataType = component.extraDataType,
         visible = component.showSelectDialog,
         onDismiss = component::hideSelectDialog,
         onNavigate = { screen ->

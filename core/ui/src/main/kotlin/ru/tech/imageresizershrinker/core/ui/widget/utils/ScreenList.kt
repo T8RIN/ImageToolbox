@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -35,7 +36,7 @@ import java.util.Locale
 
 @Composable
 internal fun List<Uri>.screenList(
-    extraImageType: String? //TODO: Add normal sealed class instead of string
+    extraDataType: ExtraDataType?
 ): State<List<Screen>> {
     val uris = this
     val context = LocalContext.current
@@ -52,22 +53,22 @@ internal fun List<Uri>.screenList(
 
     val filesAvailableScreens by remember(uris) {
         derivedStateOf {
-            listOf(
-                Screen.Cipher(uris.firstOrNull()),
-                Screen.ChecksumTools(uris.firstOrNull()),
-                Screen.Zip(uris)
-            )
+            if (uris.size > 1) {
+                listOf(Screen.Zip(uris))
+            } else {
+                listOf(
+                    Screen.Cipher(uris.firstOrNull()),
+                    Screen.ChecksumTools(uris.firstOrNull()),
+                    Screen.Zip(uris)
+                )
+            }
         }
     }
     val audioAvailableScreens by remember(uris) {
         derivedStateOf {
             listOf(
                 Screen.AudioCoverExtractor(uris)
-            ) + if (uris.size > 1) {
-                filesAvailableScreens
-            } else {
-                listOf(Screen.Zip(uris))
-            }
+            ) + filesAvailableScreens
         }
     }
     val gifAvailableScreens by remember(uris) {
@@ -83,11 +84,8 @@ internal fun List<Uri>.screenList(
                 ),
                 Screen.GifTools(
                     Screen.GifTools.Type.GifToWebp(uris)
-                ),
-                Screen.Cipher(uris.firstOrNull()),
-                Screen.ChecksumTools(uris.firstOrNull()),
-                Screen.Zip(uris)
-            )
+                )
+            ) + filesAvailableScreens
         }
     }
     val pdfAvailableScreens by remember(uris) {
@@ -102,11 +100,8 @@ internal fun List<Uri>.screenList(
                     Screen.PdfTools.Type.PdfToImages(
                         uris.firstOrNull()
                     )
-                ),
-                Screen.Cipher(uris.firstOrNull()),
-                Screen.ChecksumTools(uris.firstOrNull()),
-                Screen.Zip(uris)
-            )
+                )
+            ) + filesAvailableScreens
         }
     }
     val singleImageScreens by remember(uris) {
@@ -141,8 +136,6 @@ internal fun List<Uri>.screenList(
                     Screen.GifTools.Type.ImageToGif(uris)
                 ),
                 Screen.Base64Tools(uris.firstOrNull()),
-                Screen.Cipher(uris.firstOrNull()),
-                Screen.ChecksumTools(uris.firstOrNull()),
                 Screen.ImagePreview(uris),
                 Screen.PickColorFromImage(uris.firstOrNull()),
                 Screen.GeneratePalette(uris.firstOrNull()),
@@ -153,36 +146,37 @@ internal fun List<Uri>.screenList(
                     Screen.JxlTools.Type.ImageToJxl(uris)
                 ),
                 Screen.SvgMaker(uris),
-                Screen.Zip(uris),
                 Screen.EditExif(uris.firstOrNull()),
                 Screen.DeleteExif(uris),
                 Screen.LimitResize(uris)
-            ).let {
+            ).let { list ->
+                val mergedList = list + filesAvailableScreens
+
                 val uri = uris.firstOrNull()
 
                 if (uri.type("png")) {
-                    it + Screen.ApngTools(
+                    mergedList + Screen.ApngTools(
                         Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
                     )
                 } else if (uri.type("jpg", "jpeg")) {
-                    it + Screen.JxlTools(
+                    mergedList + Screen.JxlTools(
                         Screen.JxlTools.Type.JpegToJxl(uris)
                     )
                 } else if (uri.type("jxl")) {
-                    it + Screen.JxlTools(
+                    mergedList + Screen.JxlTools(
                         Screen.JxlTools.Type.JxlToJpeg(uris)
                     ) + Screen.JxlTools(
                         Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
                     )
                 } else if (uri.type("webp")) {
-                    it + Screen.WebpTools(
+                    mergedList + Screen.WebpTools(
                         Screen.WebpTools.Type.WebpToImage(uris.firstOrNull())
                     )
-                } else it
+                } else mergedList
             }
         }
     }
-    val multipleImagesScreens by remember(uris) {
+    val multipleImageScreens by remember(uris) {
         derivedStateOf {
             mutableListOf(
                 Screen.ResizeAndConvert(uris),
@@ -209,7 +203,7 @@ internal fun List<Uri>.screenList(
                 add(Screen.ImageCutter(uris))
                 add(Screen.ImagePreview(uris))
                 add(Screen.LimitResize(uris))
-                add(Screen.Zip(uris))
+                addAll(filesAvailableScreens)
                 add(Screen.SvgMaker(uris))
 
                 var haveJpeg = false
@@ -261,12 +255,19 @@ internal fun List<Uri>.screenList(
             }
         }
     }
-
-    val textAvailableScreens by remember(extraImageType) {
+    val imageScreens by remember(uris) {
         derivedStateOf {
+            if (uris.size == 1) singleImageScreens
+            else multipleImageScreens
+        }
+    }
+
+    val textAvailableScreens by remember(extraDataType) {
+        derivedStateOf {
+            val text = (extraDataType as? ExtraDataType.Text)?.text ?: ""
             listOf(
-                Screen.ScanQrCode(extraImageType ?: ""),
-                Screen.LoadNetImage(extraImageType ?: "")
+                Screen.ScanQrCode(text),
+                Screen.LoadNetImage(text)
             )
         }
     }
@@ -275,23 +276,21 @@ internal fun List<Uri>.screenList(
 
     return remember(
         favoriteScreens,
-        extraImageType,
+        extraDataType,
         uris,
         pdfAvailableScreens,
-        singleImageScreens,
-        multipleImagesScreens
+        audioAvailableScreens,
+        imageScreens
     ) {
         derivedStateOf {
-            when {
-                extraImageType == "audio" -> audioAvailableScreens
-                extraImageType == "pdf" -> pdfAvailableScreens
-                extraImageType == "gif" -> gifAvailableScreens
-                extraImageType == "file" -> filesAvailableScreens
-                uris.size == 1 -> singleImageScreens
-                uris.size >= 2 -> multipleImagesScreens
-                extraImageType != null -> textAvailableScreens
-
-                else -> multipleImagesScreens
+            when (extraDataType) {
+                is ExtraDataType.Backup -> filesAvailableScreens
+                is ExtraDataType.Text -> textAvailableScreens
+                ExtraDataType.Audio -> audioAvailableScreens
+                ExtraDataType.File -> filesAvailableScreens
+                ExtraDataType.Gif -> gifAvailableScreens
+                ExtraDataType.Pdf -> pdfAvailableScreens
+                null, ExtraDataType.Jxl -> imageScreens
             }.sortedWith(compareBy(nullsLast()) { s -> favoriteScreens.find { it == s.id } })
         }
     }

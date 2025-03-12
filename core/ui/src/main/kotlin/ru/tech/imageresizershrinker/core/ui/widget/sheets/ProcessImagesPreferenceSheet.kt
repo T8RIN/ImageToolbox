@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -50,7 +51,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.screenList
 @Composable
 fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
-    extraImageType: String? = null,
+    extraDataType: ExtraDataType? = null,
     visible: Boolean,
     onDismiss: () -> Unit,
     onNavigate: (Screen) -> Unit
@@ -73,7 +74,7 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
-            val urisCorrespondingScreens by uris.screenList(extraImageType)
+            val urisCorrespondingScreens by uris.screenList(extraDataType)
 
             Box(Modifier.fillMaxWidth()) {
                 LazyVerticalStaggeredGrid(
@@ -82,7 +83,7 @@ fun ProcessImagesPreferenceSheet(
                     verticalItemSpacing = 8.dp,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    if (extraImageType in listOf("gif", null)) {
+                    if (extraDataType == null || extraDataType == ExtraDataType.Gif) {
                         item(
                             span = StaggeredGridItemSpan.FullLine
                         ) {

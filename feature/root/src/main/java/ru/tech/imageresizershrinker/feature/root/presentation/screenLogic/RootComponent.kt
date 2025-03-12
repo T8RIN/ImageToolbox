@@ -50,9 +50,9 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
-import ru.tech.imageresizershrinker.core.domain.BackupFileExtension
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -133,8 +133,8 @@ class RootComponent @AssistedInject internal constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
-    private val _extraImageType = mutableStateOf<String?>(null)
-    val extraImageType by _extraImageType
+    private val _extraDataType = mutableStateOf<ExtraDataType?>(null)
+    val extraDataType: ExtraDataType? by _extraDataType
 
     private val _showSelectDialog = mutableStateOf(false)
     val showSelectDialog by _showSelectDialog
@@ -323,16 +323,16 @@ class RootComponent @AssistedInject internal constructor(
     fun updateUris(uris: List<Uri>) {
         _uris.value = uris
 
-        if (uris.isNotEmpty() || extraImageType != null) {
+        if (uris.isNotEmpty() || extraDataType != null) {
             _showSelectDialog.value = true
         }
     }
 
-    fun updateExtraImageType(type: String?) {
-        if (type?.contains(BackupFileExtension) == true) {
+    fun updateExtraDataType(type: ExtraDataType?) {
+        if (type is ExtraDataType.Backup) {
             componentScope.launch {
                 settingsManager.restoreFromBackupFile(
-                    backupFileUri = type.substringAfter(BackupFileExtension).trim(),
+                    backupFileUri = type.uri.trim(),
                     onSuccess = {
                         _backupRestoredEvents.trySend(true)
                     },
@@ -352,8 +352,8 @@ class RootComponent @AssistedInject internal constructor(
             return
         }
 
-        _extraImageType.update { null }
-        _extraImageType.update { type }
+        _extraDataType.update { null }
+        _extraDataType.update { type }
     }
 
     fun showToast(

@@ -50,6 +50,7 @@ import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.BackupFileExtension
+import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
@@ -199,7 +200,7 @@ object ContextUtils {
         onShowToast: (message: String, icon: ImageVector) -> Unit,
         onNavigate: (Screen) -> Unit,
         onGetUris: (List<Uri>) -> Unit,
-        onHasExtraImageType: (String) -> Unit, //TODO: Add normal sealed class instead of string
+        onHasExtraDataType: (ExtraDataType) -> Unit,
         isHasUris: Boolean,
         onWantGithubReview: () -> Unit,
         isOpenEditInsteadOfPreview: Boolean,
@@ -247,7 +248,7 @@ object ContextUtils {
                                 onNavigate(Screen.PickColorFromImage(it))
                             } else {
                                 if (intent.type?.contains("gif") == true) {
-                                    onHasExtraImageType("gif")
+                                    onHasExtraDataType(ExtraDataType.Gif)
                                 }
                                 onGetUris(listOf(it))
                             }
@@ -257,7 +258,7 @@ object ContextUtils {
                     Intent.ACTION_SEND_MULTIPLE -> {
                         intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
                             if (intent.type?.contains("gif") == true) {
-                                onHasExtraImageType("gif")
+                                onHasExtraDataType(ExtraDataType.Gif)
                                 it.firstOrNull()?.let { uri ->
                                     onGetUris(listOf(uri))
                                 }
@@ -268,7 +269,7 @@ object ContextUtils {
                     else -> {
                         intent.data?.let {
                             if (intent.type?.contains("gif") == true) {
-                                onHasExtraImageType("gif")
+                                onHasExtraDataType(ExtraDataType.Gif)
                             }
                             onGetUris(listOf(it))
                         }
@@ -286,12 +287,12 @@ object ContextUtils {
                         if (intent.action == Intent.ACTION_VIEW) {
                             onNavigate(Screen.PdfTools(Screen.PdfTools.Type.Preview(it)))
                         } else {
-                            onHasExtraImageType("pdf")
+                            onHasExtraDataType(ExtraDataType.Pdf)
                             onGetUris(listOf(uri))
                         }
                     }
                 } else if (text != null) {
-                    onHasExtraImageType(text)
+                    onHasExtraDataType(ExtraDataType.Text(text))
                     onGetUris(listOf())
                 } else {
                     val isAudio = intent.type?.startsWith("audio/") == true
@@ -300,7 +301,7 @@ object ContextUtils {
                         Intent.ACTION_SEND_MULTIPLE -> {
                             intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
                                 if (isAudio) {
-                                    onHasExtraImageType("audio")
+                                    onHasExtraDataType(ExtraDataType.Audio)
                                     onGetUris(it)
                                 } else {
                                     onNavigate(Screen.Zip(it))
@@ -311,13 +312,13 @@ object ContextUtils {
                         Intent.ACTION_SEND -> {
                             intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
                                 if (it.toString().contains(BackupFileExtension, true)) {
-                                    onHasExtraImageType("$BackupFileExtension $it")
+                                    onHasExtraDataType(ExtraDataType.Backup(it.toString()))
                                     return
                                 }
                                 if (isAudio) {
-                                    onHasExtraImageType("audio")
+                                    onHasExtraDataType(ExtraDataType.Audio)
                                 } else {
-                                    onHasExtraImageType("file")
+                                    onHasExtraDataType(ExtraDataType.File)
                                 }
 
                                 onGetUris(listOf(it))
@@ -334,20 +335,20 @@ object ContextUtils {
                                 val uri = uris.first()
 
                                 if (uri.toString().contains(BackupFileExtension, true)) {
-                                    onHasExtraImageType("$BackupFileExtension $uri")
+                                    onHasExtraDataType(ExtraDataType.Backup(uri.toString()))
                                     return
                                 }
 
                                 if (isAudio) {
-                                    onHasExtraImageType("audio")
+                                    onHasExtraDataType(ExtraDataType.Audio)
                                 } else {
-                                    onHasExtraImageType("file")
+                                    onHasExtraDataType(ExtraDataType.File)
                                 }
 
                                 onGetUris(uris)
                             } else if (uris.isNotEmpty()) {
                                 if (isAudio) {
-                                    onHasExtraImageType("audio")
+                                    onHasExtraDataType(ExtraDataType.Audio)
                                     onGetUris(uris)
                                 } else {
                                     onNavigate(Screen.Zip(uris))

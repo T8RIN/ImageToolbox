@@ -57,7 +57,7 @@ class AppActivity : M3Activity() {
         parseImageFromIntent(
             intent = intent,
             onStart = component::hideSelectDialog,
-            onHasExtraImageType = component::updateExtraImageType,
+            onHasExtraDataType = component::updateExtraDataType,
             onColdStart = component::cancelShowingExitDialog,
             onGetUris = component::updateUris,
             onShowToast = component::showToast,
