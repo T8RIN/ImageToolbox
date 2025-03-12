@@ -1602,4 +1602,6 @@
     <string name="barcodes_sub">Scan any Barcode (QR, EAN, AZTEC, …) and get it\'s content or paste your text to generate new one</string>
     <string name="no_barcode_found">No Barcode Found</string>
     <string name="generated_barcode_will_be_here">Generated Barcode Will Be Here</string>
+    <string name="audio_cover_extractor">Audio Cover Extractor</string>
+    <string name="audio_cover_extractor_sub">Extract album cover images from audio files, most common formats are supported</string>
 </resources>

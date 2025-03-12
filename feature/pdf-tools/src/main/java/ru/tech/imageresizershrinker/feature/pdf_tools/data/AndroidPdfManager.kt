@@ -31,9 +31,7 @@ import coil3.request.ImageRequest
 import coil3.size.Size
 import coil3.toBitmap
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.data.utils.getSuitableConfig
@@ -108,17 +106,16 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
-    override fun convertPdfToImages(
+    override suspend fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
         preset: Preset.Percentage,
         onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, Bitmap) -> Unit,
         onComplete: suspend () -> Unit
-    ) = CoroutineScope(ioDispatcher).launch {
+    ): Unit = withContext(ioDispatcher) {
         context.contentResolver.openFileDescriptor(
-            pdfUri.toUri(),
-            "r"
+            pdfUri.toUri(), "r"
         )?.use { fileDescriptor ->
             withContext(defaultDispatcher) {
                 val pdfRenderer = PdfRenderer(fileDescriptor)

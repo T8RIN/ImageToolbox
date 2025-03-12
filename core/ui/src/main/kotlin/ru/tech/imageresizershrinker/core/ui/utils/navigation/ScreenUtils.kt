@@ -34,6 +34,7 @@ import androidx.compose.material.icons.outlined.Grain
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode
+import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Tag
@@ -71,7 +72,51 @@ import ru.tech.imageresizershrinker.core.resources.icons.Stack
 import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.VectorPolyline
 import ru.tech.imageresizershrinker.core.resources.icons.WebpBox
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.*
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ApngTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.AudioCoverExtractor
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Base64Tools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ChecksumTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Cipher
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.CollageMaker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ColorTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Compare
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Crop
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.DeleteExif
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.DocumentScanner
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Draw
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.EasterEgg
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.EditExif
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.EraseBackground
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Filter
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.FormatConversion
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GeneratePalette
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GifTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.GradientMaker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageCutter
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImagePreview
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageSplitting
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageStacking
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ImageStitching
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.JxlTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.LibrariesInfo
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.LimitResize
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.LoadNetImage
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Main
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.MarkupLayers
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.MeshGradients
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.NoiseGeneration
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.PdfTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.PickColorFromImage
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.RecognizeText
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ResizeAndConvert
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.ScanQrCode
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Settings
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.SingleEdit
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.SvgMaker
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Watermarking
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.WebpTools
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.WeightResize
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen.Zip
 import android.net.Uri as AndroidUri
 
 internal fun Screen.isBetaFeature(): Boolean = when (this) {
@@ -82,7 +127,7 @@ internal fun Screen.isBetaFeature(): Boolean = when (this) {
 internal fun Screen.simpleName(): String? = when (this) {
     is ApngTools -> "APNG_Tools"
     is Cipher -> "Cipher"
-    is Screen.Compare -> "Compare"
+    is Compare -> "Compare"
     is Crop -> "Crop"
     is DeleteExif -> "Delete_Exif"
     is Draw -> "Draw"
@@ -109,7 +154,7 @@ internal fun Screen.simpleName(): String? = when (this) {
     is Zip -> "Zip"
     is SvgMaker -> "Svg"
     is FormatConversion -> "Convert"
-    is Screen.DocumentScanner -> "Document_Scanner"
+    is DocumentScanner -> "Document_Scanner"
     is ScanQrCode -> "QR_Code"
     is ImageStacking -> "Image_Stacking"
     is ImageSplitting -> "Image_Splitting"
@@ -124,6 +169,7 @@ internal fun Screen.simpleName(): String? = when (this) {
     is MeshGradients -> "Mesh_Gradients"
     is EditExif -> "Edit_EXIF"
     is ImageCutter -> "Image_Cutting"
+    is AudioCoverExtractor -> "Audio_Cover_Extractor"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -136,7 +182,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is SingleEdit -> Icons.Outlined.ImageEdit
     is ApngTools -> Icons.Rounded.ApngBox
     is Cipher -> Icons.Outlined.Encrypted
-    is Screen.Compare -> Icons.Rounded.Compare
+    is Compare -> Icons.Rounded.Compare
     is Crop -> Icons.Rounded.CropSmall
     is DeleteExif -> Icons.Outlined.Exif
     is Draw -> Icons.Outlined.Draw
@@ -159,7 +205,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Zip -> Icons.Outlined.FolderZip
     is SvgMaker -> Icons.Outlined.VectorPolyline
     is FormatConversion -> Icons.Outlined.ImageConvert
-    is Screen.DocumentScanner -> Icons.Outlined.DocumentScanner
+    is DocumentScanner -> Icons.Outlined.DocumentScanner
     is ScanQrCode -> Icons.Outlined.QrCode
     is ImageStacking -> Icons.Outlined.ImageOverlay
     is ImageSplitting -> Icons.Outlined.SplitAlt
@@ -172,6 +218,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ChecksumTools -> Icons.Rounded.Tag
     is EditExif -> Icons.Outlined.ExifEdit
     is ImageCutter -> Icons.Rounded.ContentCut
+    is AudioCoverExtractor -> Icons.Rounded.Album
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
@@ -261,7 +308,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     Zip(),
                     JxlTools(),
                     ApngTools(),
-                    WebpTools()
+                    WebpTools(),
+                    AudioCoverExtractor()
                 ),
                 title = R.string.tools,
                 selectedIcon = Icons.Rounded.Toolbox,
@@ -274,5 +322,5 @@ internal object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 66
+    override val FEATURES_COUNT = 67
 }

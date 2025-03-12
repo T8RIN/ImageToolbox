@@ -199,7 +199,7 @@ object ContextUtils {
         onShowToast: (message: String, icon: ImageVector) -> Unit,
         onNavigate: (Screen) -> Unit,
         onGetUris: (List<Uri>) -> Unit,
-        onHasExtraImageType: (String) -> Unit,
+        onHasExtraImageType: (String) -> Unit, //TODO: Add normal sealed class instead of string
         isHasUris: Boolean,
         onWantGithubReview: () -> Unit,
         isOpenEditInsteadOfPreview: Boolean,
@@ -294,10 +294,17 @@ object ContextUtils {
                     onHasExtraImageType(text)
                     onGetUris(listOf())
                 } else {
+                    val isAudio = intent.type?.startsWith("audio/") == true
+
                     when (intent.action) {
                         Intent.ACTION_SEND_MULTIPLE -> {
                             intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                                onNavigate(Screen.Zip(it))
+                                if (isAudio) {
+                                    onHasExtraImageType("audio")
+                                    onGetUris(it)
+                                } else {
+                                    onNavigate(Screen.Zip(it))
+                                }
                             }
                         }
 
@@ -307,7 +314,12 @@ object ContextUtils {
                                     onHasExtraImageType("$BackupFileExtension $it")
                                     return
                                 }
-                                onHasExtraImageType("file")
+                                if (isAudio) {
+                                    onHasExtraImageType("audio")
+                                } else {
+                                    onHasExtraImageType("file")
+                                }
+
                                 onGetUris(listOf(it))
                             }
                         }
@@ -326,10 +338,20 @@ object ContextUtils {
                                     return
                                 }
 
-                                onHasExtraImageType("file")
+                                if (isAudio) {
+                                    onHasExtraImageType("audio")
+                                } else {
+                                    onHasExtraImageType("file")
+                                }
+
                                 onGetUris(uris)
                             } else if (uris.isNotEmpty()) {
-                                onNavigate(Screen.Zip(uris))
+                                if (isAudio) {
+                                    onHasExtraImageType("audio")
+                                    onGetUris(uris)
+                                } else {
+                                    onNavigate(Screen.Zip(uris))
+                                }
                             } else {
                                 Unit
                             }

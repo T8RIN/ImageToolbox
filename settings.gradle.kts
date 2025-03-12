@@ -109,6 +109,7 @@ include(":feature:checksum-tools")
 include(":feature:mesh-gradients")
 include(":feature:edit-exif")
 include(":feature:image-cutting")
+include(":feature:audio-cover-extractor")
 
 include(":feature:root")
 

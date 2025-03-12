@@ -24,6 +24,8 @@ import ru.tech.imageresizershrinker.color_tools.presentation.ColorToolsContent
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsContent
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import ru.tech.imageresizershrinker.feature.audio_cover_extractor.ui.AudioCoverExtractorContent
+import ru.tech.imageresizershrinker.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.Base64ToolsContent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.ChecksumToolsContent
@@ -108,230 +110,237 @@ import ru.tech.imageresizershrinker.noise_generation.presentation.NoiseGeneratio
 import ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 
 
-internal sealed class NavigationChild {
+internal sealed interface NavigationChild {
 
     @Composable
-    abstract fun Content()
+    fun Content()
 
 
-    class ApngTools(val component: ApngToolsComponent) : NavigationChild() {
+    class ApngTools(private val component: ApngToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = ApngToolsContent(component)
     }
 
-    class Cipher(val component: CipherComponent) : NavigationChild() {
+    class Cipher(private val component: CipherComponent) : NavigationChild {
         @Composable
         override fun Content() = CipherContent(component)
     }
 
-    class CollageMaker(val component: CollageMakerComponent) : NavigationChild() {
+    class CollageMaker(private val component: CollageMakerComponent) : NavigationChild {
         @Composable
         override fun Content() = CollageMakerContent(component)
     }
 
-    class ColorTools(val component: ColorToolsComponent) : NavigationChild() {
+    class ColorTools(private val component: ColorToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = ColorToolsContent(component)
     }
 
-    class Compare(val component: CompareComponent) : NavigationChild() {
+    class Compare(private val component: CompareComponent) : NavigationChild {
         @Composable
         override fun Content() = CompareContent(component)
     }
 
-    class Crop(val component: CropComponent) : NavigationChild() {
+    class Crop(private val component: CropComponent) : NavigationChild {
         @Composable
         override fun Content() = CropContent(component)
     }
 
-    class DeleteExif(val component: DeleteExifComponent) : NavigationChild() {
+    class DeleteExif(private val component: DeleteExifComponent) : NavigationChild {
         @Composable
         override fun Content() = DeleteExifContent(component)
     }
 
-    class DocumentScanner(val component: DocumentScannerComponent) : NavigationChild() {
+    class DocumentScanner(private val component: DocumentScannerComponent) : NavigationChild {
         @Composable
         override fun Content() = DocumentScannerContent(component)
     }
 
-    class Draw(val component: DrawComponent) : NavigationChild() {
+    class Draw(private val component: DrawComponent) : NavigationChild {
         @Composable
         override fun Content() = DrawContent(component)
     }
 
-    class EasterEgg(val component: EasterEggComponent) : NavigationChild() {
+    class EasterEgg(private val component: EasterEggComponent) : NavigationChild {
         @Composable
         override fun Content() = EasterEggContent(component)
     }
 
-    class EraseBackground(val component: EraseBackgroundComponent) : NavigationChild() {
+    class EraseBackground(private val component: EraseBackgroundComponent) : NavigationChild {
         @Composable
         override fun Content() = EraseBackgroundContent(component)
     }
 
-    class Filter(val component: FiltersComponent) : NavigationChild() {
+    class Filter(private val component: FiltersComponent) : NavigationChild {
         @Composable
         override fun Content() = FiltersContent(component)
     }
 
-    class FormatConversion(val component: FormatConversionComponent) : NavigationChild() {
+    class FormatConversion(private val component: FormatConversionComponent) : NavigationChild {
         @Composable
         override fun Content() = FormatConversionContent(component)
     }
 
-    class GeneratePalette(val component: GeneratePaletteComponent) : NavigationChild() {
+    class GeneratePalette(private val component: GeneratePaletteComponent) : NavigationChild {
         @Composable
         override fun Content() = GeneratePaletteContent(component)
     }
 
-    class GifTools(val component: GifToolsComponent) : NavigationChild() {
+    class GifTools(private val component: GifToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = GifToolsContent(component)
     }
 
-    class GradientMaker(val component: GradientMakerComponent) : NavigationChild() {
+    class GradientMaker(private val component: GradientMakerComponent) : NavigationChild {
         @Composable
         override fun Content() = GradientMakerContent(component)
     }
 
-    class ImagePreview(val component: ImagePreviewComponent) : NavigationChild() {
+    class ImagePreview(private val component: ImagePreviewComponent) : NavigationChild {
         @Composable
         override fun Content() = ImagePreviewContent(component)
     }
 
-    class ImageSplitting(val component: ImageSplitterComponent) : NavigationChild() {
+    class ImageSplitting(private val component: ImageSplitterComponent) : NavigationChild {
         @Composable
         override fun Content() = ImageSplitterContent(component)
     }
 
-    class ImageStacking(val component: ImageStackingComponent) : NavigationChild() {
+    class ImageStacking(private val component: ImageStackingComponent) : NavigationChild {
         @Composable
         override fun Content() = ImageStackingContent(component)
     }
 
-    class ImageStitching(val component: ImageStitchingComponent) : NavigationChild() {
+    class ImageStitching(private val component: ImageStitchingComponent) : NavigationChild {
         @Composable
         override fun Content() = ImageStitchingContent(component)
     }
 
-    class JxlTools(val component: JxlToolsComponent) : NavigationChild() {
+    class JxlTools(private val component: JxlToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = JxlToolsContent(component)
     }
 
-    class LimitResize(val component: LimitsResizeComponent) : NavigationChild() {
+    class LimitResize(private val component: LimitsResizeComponent) : NavigationChild {
         @Composable
         override fun Content() = LimitsResizeContent(component)
     }
 
-    class LoadNetImage(val component: LoadNetImageComponent) : NavigationChild() {
+    class LoadNetImage(private val component: LoadNetImageComponent) : NavigationChild {
         @Composable
         override fun Content() = LoadNetImageContent(component)
     }
 
-    class Main(val component: MainComponent) : NavigationChild() {
+    class Main(private val component: MainComponent) : NavigationChild {
         @Composable
         override fun Content() = MainContent(component)
     }
 
-    class NoiseGeneration(val component: NoiseGenerationComponent) : NavigationChild() {
+    class NoiseGeneration(private val component: NoiseGenerationComponent) : NavigationChild {
         @Composable
         override fun Content() = NoiseGenerationContent(component)
     }
 
-    class PdfTools(val component: PdfToolsComponent) : NavigationChild() {
+    class PdfTools(private val component: PdfToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = PdfToolsContent(component)
     }
 
-    class PickColorFromImage(val component: PickColorFromImageComponent) : NavigationChild() {
+    class PickColorFromImage(private val component: PickColorFromImageComponent) : NavigationChild {
         @Composable
         override fun Content() = PickColorFromImageContent(component)
     }
 
-    class RecognizeText(val component: RecognizeTextComponent) : NavigationChild() {
+    class RecognizeText(private val component: RecognizeTextComponent) : NavigationChild {
         @Composable
         override fun Content() = RecognizeTextContent(component)
     }
 
-    class ResizeAndConvert(val component: ResizeAndConvertComponent) : NavigationChild() {
+    class ResizeAndConvert(private val component: ResizeAndConvertComponent) : NavigationChild {
         @Composable
         override fun Content() = ResizeAndConvertContent(component)
     }
 
-    class ScanQrCode(val component: ScanQrCodeComponent) : NavigationChild() {
+    class ScanQrCode(private val component: ScanQrCodeComponent) : NavigationChild {
         @Composable
         override fun Content() = ScanQrCodeContent(component)
     }
 
-    class Settings(val component: SettingsComponent) : NavigationChild() {
+    class Settings(private val component: SettingsComponent) : NavigationChild {
         @Composable
         override fun Content() = SettingsContent(component)
     }
 
-    class SingleEdit(val component: SingleEditComponent) : NavigationChild() {
+    class SingleEdit(private val component: SingleEditComponent) : NavigationChild {
         @Composable
         override fun Content() = SingleEditContent(component)
     }
 
-    class SvgMaker(val component: SvgMakerComponent) : NavigationChild() {
+    class SvgMaker(private val component: SvgMakerComponent) : NavigationChild {
         @Composable
         override fun Content() = SvgMakerContent(component)
     }
 
-    class Watermarking(val component: WatermarkingComponent) : NavigationChild() {
+    class Watermarking(private val component: WatermarkingComponent) : NavigationChild {
         @Composable
         override fun Content() = WatermarkingContent(component)
     }
 
-    class WebpTools(val component: WebpToolsComponent) : NavigationChild() {
+    class WebpTools(private val component: WebpToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = WebpToolsContent(component)
     }
 
-    class WeightResize(val component: WeightResizeComponent) : NavigationChild() {
+    class WeightResize(private val component: WeightResizeComponent) : NavigationChild {
         @Composable
         override fun Content() = WeightResizeContent(component)
     }
 
-    class Zip(val component: ZipComponent) : NavigationChild() {
+    class Zip(private val component: ZipComponent) : NavigationChild {
         @Composable
         override fun Content() = ZipContent(component)
     }
 
-    class LibrariesInfo(val component: LibrariesInfoComponent) : NavigationChild() {
+    class LibrariesInfo(private val component: LibrariesInfoComponent) : NavigationChild {
         @Composable
         override fun Content() = LibrariesInfoContent(component)
     }
 
-    class MarkupLayers(val component: MarkupLayersComponent) : NavigationChild() {
+    class MarkupLayers(private val component: MarkupLayersComponent) : NavigationChild {
         @Composable
         override fun Content() = MarkupLayersContent(component)
     }
 
-    class Base64Tools(val component: Base64ToolsComponent) : NavigationChild() {
+    class Base64Tools(private val component: Base64ToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = Base64ToolsContent(component)
     }
 
-    class ChecksumTools(val component: ChecksumToolsComponent) : NavigationChild() {
+    class ChecksumTools(private val component: ChecksumToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = ChecksumToolsContent(component)
     }
 
-    class MeshGradients(val component: MeshGradientsComponent) : NavigationChild() {
+    class MeshGradients(private val component: MeshGradientsComponent) : NavigationChild {
         @Composable
         override fun Content() = MeshGradientsContent(component)
     }
 
-    class EditExif(val component: EditExifComponent) : NavigationChild() {
+    class EditExif(private val component: EditExifComponent) : NavigationChild {
         @Composable
         override fun Content() = EditExifContent(component)
     }
 
-    class ImageCutter(val component: ImageCutterComponent) : NavigationChild() {
+    class ImageCutter(private val component: ImageCutterComponent) : NavigationChild {
         @Composable
         override fun Content() = ImageCutterContent(component)
+    }
+
+    class AudioCoverExtractor(
+        private val component: AudioCoverExtractorComponent
+    ) : NavigationChild {
+        @Composable
+        override fun Content() = AudioCoverExtractorContent(component)
     }
 
 }

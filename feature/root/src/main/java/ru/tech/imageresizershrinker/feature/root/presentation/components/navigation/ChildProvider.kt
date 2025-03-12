@@ -22,6 +22,7 @@ import ru.tech.imageresizershrinker.collage_maker.presentation.screenLogic.Colla
 import ru.tech.imageresizershrinker.color_tools.presentation.screenLogic.ColorToolsComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import ru.tech.imageresizershrinker.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import ru.tech.imageresizershrinker.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 import ru.tech.imageresizershrinker.feature.cipher.presentation.screenLogic.CipherComponent
@@ -53,6 +54,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.screenLogic.
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ApngTools
+import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.AudioCoverExtractor
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Base64Tools
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.ChecksumTools
 import ru.tech.imageresizershrinker.feature.root.presentation.components.navigation.NavigationChild.Cipher
@@ -154,7 +156,8 @@ internal class ChildProvider @Inject constructor(
     private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory,
     private val meshGradientsComponentFactory: MeshGradientsComponent.Factory,
     private val editExifComponentFactory: EditExifComponent.Factory,
-    private val imageCutterComponentFactory: ImageCutterComponent.Factory
+    private val imageCutterComponentFactory: ImageCutterComponent.Factory,
+    private val audioCoverExtractorComponentFactory: AudioCoverExtractorComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -535,6 +538,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.ImageCutter -> ImageCutter(
             imageCutterComponentFactory(
+                componentContext = componentContext,
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.AudioCoverExtractor -> AudioCoverExtractor(
+            audioCoverExtractorComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
                 onGoBack = ::navigateBack,

@@ -32,7 +32,6 @@ konfettiCompose = "2.0.5"
 shadowsPlus = "1.0.4"
 exifinterface = "1.4.0"
 firebaseAnalyticsKtx = "22.3.0"
-firebaseCrashlyticsGradle = "3.0.3"
 google-segmentationSelfie = "16.0.0-beta6"
 google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.8"
@@ -75,13 +74,18 @@ zxingAndroidEmbedded = "4.3.0"
 capturable = "3.0.1"
 moshi = "1.15.2"
 aboutlibraries = "12.0.0-a02+compose_1_8"
-aboutlibrariesGradle = "12.0.0-a04"
 junit = "4.13.2"
 bouncycastle = "1.80"
 evaluator = "1.0.0"
+ffmpeg-metadata-retriever = "1.0.19"
+
+firebaseCrashlyticsGradle = "3.0.3"
+aboutlibrariesGradle = "12.0.0-a04"
 moduleGraphGradle = "0.12.0"
 
 [libraries]
+ffmpeg-metadata-retriever-core = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-core", version.ref = "ffmpeg-metadata-retriever" }
+ffmpeg-metadata-retriever-native = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native", version.ref = "ffmpeg-metadata-retriever" }
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }
 aboutlibraries-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutlibraries" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }

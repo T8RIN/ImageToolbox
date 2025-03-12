@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.pdf_tools.domain
 
-import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
@@ -34,13 +33,13 @@ interface PdfManager<I> {
         preset: Preset.Percentage
     ): ByteArray
 
-    fun convertPdfToImages(
+    suspend fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
         preset: Preset.Percentage,
         onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, I) -> Unit,
         onComplete: suspend () -> Unit = {}
-    ): Job
+    )
 
 }

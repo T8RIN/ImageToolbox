@@ -35,7 +35,7 @@ import java.util.Locale
 
 @Composable
 internal fun List<Uri>.screenList(
-    extraImageType: String?
+    extraImageType: String? //TODO: Add normal sealed class instead of string
 ): State<List<Screen>> {
     val uris = this
     val context = LocalContext.current
@@ -57,6 +57,17 @@ internal fun List<Uri>.screenList(
                 Screen.ChecksumTools(uris.firstOrNull()),
                 Screen.Zip(uris)
             )
+        }
+    }
+    val audioAvailableScreens by remember(uris) {
+        derivedStateOf {
+            listOf(
+                Screen.AudioCoverExtractor(uris)
+            ) + if (uris.size > 1) {
+                filesAvailableScreens
+            } else {
+                listOf(Screen.Zip(uris))
+            }
         }
     }
     val gifAvailableScreens by remember(uris) {
@@ -272,6 +283,7 @@ internal fun List<Uri>.screenList(
     ) {
         derivedStateOf {
             when {
+                extraImageType == "audio" -> audioAvailableScreens
                 extraImageType == "pdf" -> pdfAvailableScreens
                 extraImageType == "gif" -> gifAvailableScreens
                 extraImageType == "file" -> filesAvailableScreens

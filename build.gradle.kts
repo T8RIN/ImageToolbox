@@ -1,5 +1,3 @@
-import dev.iurysouza.modulegraph.Theme
-
 /*
  * ImageToolbox is an image editor for android
  * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
@@ -17,9 +15,35 @@ import dev.iurysouza.modulegraph.Theme
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+/** Added if needed to regenerate module graph
+
+import dev.iurysouza.modulegraph.Theme
+
 plugins {
     alias(libs.plugins.dev.iurysouza.modulegraph) apply true
 }
+
+moduleGraphConfig {
+readmePath.set("./ARCHITECTURE.md")
+heading = "# 📐 Modules Graph"
+theme.set(
+Theme.BASE(
+mapOf(
+"primaryColor" to "#00381a",
+"primaryTextColor" to "#d4fcb1",
+"primaryBorderColor" to "#14b800",
+"lineColor" to "#15c400",
+"secondaryColor" to "#283b26",
+"tertiaryColor" to "#355238",
+"nodeTextColor" to "#e0ffd6",
+"edgeLabelBackground" to "#1a1a1a",
+"fontSize" to "28px"
+)
+)
+)
+}
+
+ **/
 
 buildscript {
     repositories {
@@ -46,24 +70,4 @@ buildscript {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
-}
-
-moduleGraphConfig {
-    readmePath.set("./ARCHITECTURE.md")
-    heading = "# 📐 Modules Graph"
-    theme.set(
-        Theme.BASE(
-            mapOf(
-                "primaryColor" to "#00381a",
-                "primaryTextColor" to "#d4fcb1",
-                "primaryBorderColor" to "#14b800",
-                "lineColor" to "#15c400",
-                "secondaryColor" to "#283b26",
-                "tertiaryColor" to "#355238",
-                "nodeTextColor" to "#e0ffd6",
-                "edgeLabelBackground" to "#1a1a1a",
-                "fontSize" to "28px"
-            )
-        )
-    )
 }

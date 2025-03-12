@@ -726,6 +726,15 @@ sealed class Screen(
         subtitle = R.string.image_cutting_sub
     )
 
+    @Serializable
+    data class AudioCoverExtractor(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 39,
+        title = R.string.audio_cover_extractor,
+        subtitle = R.string.audio_cover_extractor_sub
+    )
+
     companion object : ScreenConstants by ScreenConstantsImpl
 }
 

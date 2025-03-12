@@ -215,44 +215,46 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _done.value = 0
         _left.value = 1
         val results = mutableListOf<SaveResult>()
-        savingJob = pdfManager.convertPdfToImages(
-            pdfUri = _pdfToImageState.value?.uri.toString(),
-            pages = _pdfToImageState.value?.selectedPages,
-            preset = presetSelected,
-            onProgressChange = { _, bitmap ->
-                val imageInfo = imageTransformer.applyPresetBy(
-                    image = bitmap,
-                    preset = _presetSelected.value,
-                    currentInfo = imageInfo
-                )
-
-                results.add(
-                    fileController.save(
-                        saveTarget = ImageSaveTarget(
-                            imageInfo = imageInfo,
-                            metadata = null,
-                            originalUri = _pdfToImageState.value?.uri.toString(),
-                            sequenceNumber = _done.value + 1,
-                            data = imageCompressor.compressAndTransform(
-                                image = bitmap,
-                                imageInfo = imageInfo
-                            )
-                        ),
-                        keepOriginalMetadata = false,
-                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+        savingJob = componentScope.launch {
+            pdfManager.convertPdfToImages(
+                pdfUri = _pdfToImageState.value?.uri.toString(),
+                pages = _pdfToImageState.value?.selectedPages,
+                preset = presetSelected,
+                onProgressChange = { _, bitmap ->
+                    val imageInfo = imageTransformer.applyPresetBy(
+                        image = bitmap,
+                        preset = _presetSelected.value,
+                        currentInfo = imageInfo
                     )
-                )
-                _done.value += 1
-            },
-            onGetPagesCount = { size ->
-                _left.update { size }
-                _isSaving.value = true
-            },
-            onComplete = {
-                _isSaving.value = false
-                onComplete(results.onSuccess(::registerSave))
-            }
-        )
+
+                    results.add(
+                        fileController.save(
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = imageInfo,
+                                metadata = null,
+                                originalUri = _pdfToImageState.value?.uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageCompressor.compressAndTransform(
+                                    image = bitmap,
+                                    imageInfo = imageInfo
+                                )
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
+                    )
+                    _done.value += 1
+                },
+                onGetPagesCount = { size ->
+                    _left.update { size }
+                    _isSaving.value = true
+                },
+                onComplete = {
+                    _isSaving.value = false
+                    onComplete(results.onSuccess(::registerSave))
+                }
+            )
+        }
     }
 
     fun convertImagesToPdf(onComplete: () -> Unit) {
@@ -315,39 +317,41 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     _left.value = 1
                     _isSaving.value = false
                     val uris: MutableList<String?> = mutableListOf()
-                    savingJob = pdfManager.convertPdfToImages(
-                        pdfUri = _pdfToImageState.value?.uri.toString(),
-                        pages = _pdfToImageState.value?.selectedPages,
-                        onProgressChange = { _, bitmap ->
-                            imageInfo.copy(
-                                originalUri = _pdfToImageState.value?.uri?.toString()
-                            ).let {
-                                imageTransformer.applyPresetBy(
-                                    image = bitmap,
-                                    preset = _presetSelected.value,
-                                    currentInfo = it
-                                )
-                            }.apply {
-                                uris.add(
-                                    shareProvider.cacheImage(
-                                        imageInfo = this,
-                                        image = bitmap
+                    savingJob = componentScope.launch {
+                        pdfManager.convertPdfToImages(
+                            pdfUri = _pdfToImageState.value?.uri.toString(),
+                            pages = _pdfToImageState.value?.selectedPages,
+                            onProgressChange = { _, bitmap ->
+                                imageInfo.copy(
+                                    originalUri = _pdfToImageState.value?.uri?.toString()
+                                ).let {
+                                    imageTransformer.applyPresetBy(
+                                        image = bitmap,
+                                        preset = _presetSelected.value,
+                                        currentInfo = it
                                     )
-                                )
+                                }.apply {
+                                    uris.add(
+                                        shareProvider.cacheImage(
+                                            imageInfo = this,
+                                            image = bitmap
+                                        )
+                                    )
+                                }
+                                _done.value += 1
+                            },
+                            preset = presetSelected,
+                            onGetPagesCount = { size ->
+                                _left.update { size }
+                                _isSaving.value = true
+                            },
+                            onComplete = {
+                                _isSaving.value = false
+                                shareProvider.shareUris(uris.filterNotNull())
+                                onComplete()
                             }
-                            _done.value += 1
-                        },
-                        preset = presetSelected,
-                        onGetPagesCount = { size ->
-                            _left.update { size }
-                            _isSaving.value = true
-                        },
-                        onComplete = {
-                            _isSaving.value = false
-                            shareProvider.shareUris(uris.filterNotNull())
-                            onComplete()
-                        }
-                    )
+                        )
+                    }
                 }
 
                 is Screen.PdfTools.Type.Preview -> {
