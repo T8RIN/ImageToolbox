@@ -62,7 +62,7 @@ ksp = "2.1.10-1.0.31"
 androidx-test-ext-junit = "1.2.1"
 documentfile = "1.0.1"
 uiautomator = "2.3.0"
-androidxMacroBenchmark = "1.4.0-alpha08"
+androidxMacroBenchmark = "1.4.0-alpha09"
 quickie = "1.14.0"
 
 material = "1.13.0-alpha11"
