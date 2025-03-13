@@ -456,54 +456,62 @@ or click one of the badges below.
         - Background color changing
         - Background blur drawing
     - Different Scaling Algorithms
-        - Bilinear
-        - Nearest Neighbour
-        - Cubic
-        - Mitchell-Netravalli
-        - Catmull-Rom
-        - Hermite
-        - B-Spline
-        - Hann
-        - Bicubic
-        - Hamming
-        - Hanning
-        - Blackman
-        - Welch
-        - Quadric
-        - Gaussian
-        - Sphinx
-        - Bartlett
-        - Robidoux
-        - Robidoux Sharp
-        - Spline 16
-        - Spline 36
-        - Spline 64
-        - Kaiser
-        - Bartlett-Hann
-        - Box
-        - Bohman
-        - Lanczos 2
-        - Lanczos 3
-        - Lanczos 4
-        - Lanczos 2 Jinc
-        - Lanczos 3 Jinc
-        - Lanczos 4 Jinc
-        - Ewa Hanning
-        - Ewa Robidoux
-        - Ewa Blackman
-        - Ewa Quadric
-        - Ewa Robidoux Sharp
-        - Ewa Lanczos 3 Jinc
-        - Ginseng
-        - Ginseng EWA
-        - Lanczos Sharp EWA
-        - Lanczos 4 Sharpest EWA
-        - Lanczos Soft EWA
-        - Haasn Soft
-        - Lagrange 2
-        - Lagrange 3
-        - Lanczos 6
-        - Lanczos 6 Jinc
+
+        <details>
+          <summary>Available methods</summary>
+          <br>
+
+          - Bilinear
+          - Nearest Neighbour
+          - Cubic
+          - Mitchell-Netravalli
+          - Catmull-Rom
+          - Hermite
+          - B-Spline
+          - Hann
+          - Bicubic
+          - Hamming
+          - Hanning
+          - Blackman
+          - Welch
+          - Quadric
+          - Gaussian
+          - Sphinx
+          - Bartlett
+          - Robidoux
+          - Robidoux Sharp
+          - Spline 16
+          - Spline 36
+          - Spline 64
+          - Kaiser
+          - Bartlett-Hann
+          - Box
+          - Bohman
+          - Lanczos 2
+          - Lanczos 3
+          - Lanczos 4
+          - Lanczos 2 Jinc
+          - Lanczos 3 Jinc
+          - Lanczos 4 Jinc
+          - Ewa Hanning
+          - Ewa Robidoux
+          - Ewa Blackman
+          - Ewa Quadric
+          - Ewa Robidoux Sharp
+          - Ewa Lanczos 3 Jinc
+          - Ginseng
+          - Ginseng EWA
+          - Lanczos Sharp EWA
+          - Lanczos 4 Sharpest EWA
+          - Lanczos Soft EWA
+          - Haasn Soft
+          - Lagrange 2
+          - Lagrange 3
+          - Lanczos 6
+          - Lanczos 6 Jinc
+
+        </details>
+
     - Different Scale Color Spaces
         - Linear
         - sRGB
@@ -578,6 +586,11 @@ or click one of the badges below.
     - Free corners crop (can be used as Perspective Correction)
     - Crop by aspect ratio
     - Crop with shape mask
+        
+        <details>
+          <summary>List of shapes</summary>
+          <br/>
+          
         - Rounded Corners
         - Cut Corners
         - Oval
@@ -609,6 +622,8 @@ or click one of the badges below.
           ![image](./fastlane/metadata/android/en-US/images/banner/banner_shapes.png)
 
           </details>
+        
+        </details>
 
 
 - Image Cutting (can be used as batch crop)         
@@ -718,6 +733,11 @@ or click one of the badges below.
     - Heart
     - Enhanced Heart
 - Custom fonts
+
+  <details>
+  <summary>Preinstalled fonts</summary>
+  <br>
+
     - Montserrat
     - Comfortaa
     - Caveat
@@ -744,6 +764,9 @@ or click one of the badges below.
     - Lcd Octagon
     - Lcd Moving
     - Unisource
+
+  </details>
+
 - Ability to import any font (OTF/TTF) to further use
 - In app font scale changing
 - Changing between options list and grouped view
@@ -884,12 +907,3 @@ Designed and developed by 2023 T8RIN
 
     Unless required by applicable law or agreed to in writing, softwaredistributed under the License is distributed on an "AS IS" BASIS,WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.See the License for the specific language governing permissions andlimitations under the License.
 ```
-
-
-Photos
-by <a href="https://unsplash.com/@pawel_czerwinski?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
-Pawel Czerwinski</a>
-on <a href="https://unsplash.com/photos/an-abstract-photo-of-a-green-and-black-background-pSNM2lEOnTo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
-Unsplash</a>
-
-</div>
