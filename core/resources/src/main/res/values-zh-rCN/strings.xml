@@ -1585,4 +1585,7 @@
     <string name="no_barcode_found">未找到条形码</string>
     <string name="audio_cover_extractor_sub">从音频文件中提取专辑封面图片，支持大多数常见的音频格式</string>
     <string name="audio_cover_extractor">音频封面提取器</string>
+    <string name="pick_audio_to_start">选择音频以开始</string>
+    <string name="pick_audio">选择音频</string>
+    <string name="no_covers_found">未找到专辑封面</string>
 </resources>
