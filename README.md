@@ -586,6 +586,11 @@ or click one of the badges below.
     - Free corners crop (can be used as Perspective Correction)
     - Crop by aspect ratio
     - Crop with shape mask
+        
+        <details>
+          <summary>List of shapes</summary>
+          <br/>
+          
         - Rounded Corners
         - Cut Corners
         - Oval
@@ -617,6 +622,8 @@ or click one of the badges below.
           ![image](./fastlane/metadata/android/en-US/images/banner/banner_shapes.png)
 
           </details>
+        
+        </details>
 
 
 - Image Cutting (can be used as batch crop)         
