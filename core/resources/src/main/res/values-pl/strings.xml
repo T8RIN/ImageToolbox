@@ -1586,4 +1586,7 @@
     <string name="no_barcode_found">Nie znaleziono kodu kreskowego</string>
     <string name="audio_cover_extractor">Ekstraktor okładek audio</string>
     <string name="audio_cover_extractor_sub">Wyodrębnianie obrazów okładek albumów z plików audio, obsługiwane są najpopularniejsze formaty</string>
+    <string name="no_covers_found">Brak okładek</string>
+    <string name="pick_audio_to_start">Wybierz dźwięk, aby rozpocząć</string>
+    <string name="pick_audio">Wybierz dźwięk</string>
 </resources>
