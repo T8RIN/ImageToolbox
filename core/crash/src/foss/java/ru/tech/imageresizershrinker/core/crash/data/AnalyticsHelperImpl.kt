@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash.components
+package ru.tech.imageresizershrinker.core.crash.data
 
-import ru.tech.imageresizershrinker.core.crash.AnalyticsHelper
+import ru.tech.imageresizershrinker.core.crash.domain.AnalyticsHelper
 
 private object AnalyticsHelperImpl : AnalyticsHelper {
 
@@ -25,9 +25,9 @@ private object AnalyticsHelperImpl : AnalyticsHelper {
 
     override var allowCollectAnalytics: Boolean = false
 
-    override fun setAnalyticsCollectionEnabled(value: Boolean) = Unit
+    override fun updateAnalyticsCollectionEnabled(value: Boolean) = Unit
 
-    override fun setAllowCollectCrashlytics(value: Boolean) = Unit
+    override fun updateAllowCollectCrashlytics(value: Boolean) = Unit
 
     override fun sendReport(throwable: Throwable) = Unit
 }
