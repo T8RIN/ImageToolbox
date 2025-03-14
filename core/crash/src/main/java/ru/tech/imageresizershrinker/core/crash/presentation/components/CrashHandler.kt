@@ -18,10 +18,18 @@
 package ru.tech.imageresizershrinker.core.crash.presentation.components
 
 import android.content.Intent
-import android.os.Build
+import android.os.Build.BRAND
+import android.os.Build.DEVICE
+import android.os.Build.MODEL
+import android.os.Build.VERSION.RELEASE
+import android.os.Build.VERSION.SDK_INT
 import android.util.Log
-import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import androidx.appcompat.app.AppCompatDelegate
+import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.core.resources.BuildConfig.FLAVOR
+import ru.tech.imageresizershrinker.core.resources.BuildConfig.VERSION_CODE
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersion
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getDisplayName
 
 interface CrashHandler {
 
@@ -33,13 +41,31 @@ interface CrashHandler {
 
     fun getCrashInfo(): CrashInfo {
         val crashReason = getCrashReason()
-        val exceptionName = crashReason.split("\n\n")[0].trim()
-        val stackTrace = crashReason.split("\n\n").drop(1).joinToString("\n\n")
+        val splitData = crashReason.split(DELIMITER)
+        val exceptionName = splitData.first().trim()
+        val stackTrace = splitData.drop(1).joinToString(DELIMITER)
 
         val title = "[Bug] App Crash: $exceptionName"
-        val deviceInfo =
-            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}), App: $AppVersion (${BuildConfig.VERSION_CODE})\n\n"
-        val body = "$deviceInfo$stackTrace"
+
+        val device = "$MODEL ($BRAND - $DEVICE)"
+
+        val sdk = "$SDK_INT (Android $RELEASE)"
+
+        val appVersion = "$AppVersion ($VERSION_CODE)"
+
+        val flavor = FLAVOR
+
+        val locale = AppCompatDelegate.getApplicationLocales().getDisplayName()
+
+        val deviceInfo = listOf(
+            "Device: $device",
+            "SDK: $sdk",
+            "App Version: $appVersion",
+            "Flavor: $flavor",
+            "Locale: $locale"
+        ).joinToString("\n")
+
+        val body = listOf(deviceInfo, stackTrace).joinToString(DELIMITER)
 
         return CrashInfo(
             title = title,
@@ -54,7 +80,12 @@ interface CrashHandler {
 
         fun getCrashInfoAsExtra(
             throwable: Throwable
-        ): String = "${throwable::class.java.simpleName}\n\n${Log.getStackTraceString(throwable)}"
+        ): String {
+            val exceptionName = throwable::class.java.simpleName
+            val stackTrace = Log.getStackTraceString(throwable)
+
+            return listOf(exceptionName, stackTrace).joinToString(DELIMITER)
+        }
     }
 }
 
@@ -63,4 +94,9 @@ data class CrashInfo(
     val body: String,
     val exceptionName: String,
     val stackTrace: String
-)
+) {
+    val textToSend = listOf(title, body).joinToString(DELIMITER)
+    val githubLink = "$ISSUE_TRACKER/new?title=$title&body=$body"
+}
+
+private const val DELIMITER = "\n\n"

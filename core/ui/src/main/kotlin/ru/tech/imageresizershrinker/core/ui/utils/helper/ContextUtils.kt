@@ -494,8 +494,10 @@ object ContextUtils {
         if (locales == LocaleListCompat.getEmptyLocaleList()) {
             return getString(R.string.system)
         }
-        return getDisplayName(locales.toLanguageTags())
+        return locales.getDisplayName()
     }
+
+    fun LocaleListCompat.getDisplayName(): String = getDisplayName(toLanguageTags())
 
     private fun getDisplayName(lang: String?): String {
         if (lang == null) {

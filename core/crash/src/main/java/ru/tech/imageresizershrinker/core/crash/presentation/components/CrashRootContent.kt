@@ -58,7 +58,6 @@ import androidx.exifinterface.media.ExifInterface
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import ru.tech.imageresizershrinker.core.crash.presentation.CrashActivity
-import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.R
@@ -85,7 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
 internal fun CrashActivity.CrashRootContent() {
-    val (title, body, exceptionName, stackTrace) = remember { getCrashInfo() }
+    val crashInfo = remember { getCrashInfo() }
 
     ImageToolboxCompositionLocals(
         settingsState = getSettingsState().toUiState(
@@ -95,8 +94,8 @@ internal fun CrashActivity.CrashRootContent() {
         )
     ) {
         val essentials = rememberLocalEssentials()
-        val createClip: (String) -> Unit = {
-            essentials.copyToClipboard(it)
+        val copyCrashInfo: () -> Unit = {
+            essentials.copyToClipboard(crashInfo.textToSend)
             essentials.showToast(
                 icon = Icons.Rounded.ContentCopy,
                 message = getString(R.string.copied),
@@ -141,8 +140,8 @@ internal fun CrashActivity.CrashRootContent() {
                 ) {
                     EnhancedButton(
                         onClick = {
+                            copyCrashInfo()
                             linkHandler.openUri(TELEGRAM_GROUP_LINK)
-                            createClip(title + "\n\n" + body)
                         },
                         modifier = Modifier
                             .padding(end = 8.dp)
@@ -173,8 +172,8 @@ internal fun CrashActivity.CrashRootContent() {
                     }
                     EnhancedButton(
                         onClick = {
-                            linkHandler.openUri("$ISSUE_TRACKER/new?title=$title&body=$body")
-                            createClip(title + "\n\n" + body)
+                            copyCrashInfo()
+                            linkHandler.openUri(crashInfo.githubLink)
                         },
                         modifier = Modifier
                             .weight(1f)
@@ -221,7 +220,7 @@ internal fun CrashActivity.CrashRootContent() {
                             )
                         )
                         AutoSizeText(
-                            text = exceptionName,
+                            text = crashInfo.exceptionName,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Start,
                             modifier = Modifier
@@ -233,7 +232,7 @@ internal fun CrashActivity.CrashRootContent() {
                         AnimatedVisibility(visible = it) {
                             SelectionContainer {
                                 Text(
-                                    text = stackTrace,
+                                    text = crashInfo.stackTrace,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.padding(16.dp)
                                 )
@@ -278,9 +277,7 @@ internal fun CrashActivity.CrashRootContent() {
                 Spacer(Modifier.width(8.dp))
                 EnhancedFloatingActionButton(
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    onClick = {
-                        createClip(title + "\n\n" + body)
-                    }
+                    onClick = copyCrashInfo
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.ContentCopy,
