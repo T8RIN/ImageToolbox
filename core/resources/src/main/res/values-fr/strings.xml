@@ -645,8 +645,8 @@
     <string name="speed">Vitesse</string>
     <string name="dehaze">Déhaze</string>
     <string name="omega">Oméga</string>
-    <string name="rate_app">Application de taux</string>
-    <string name="rate">Taux</string>
+    <string name="rate_app">Noter l\'App</string>
+    <string name="rate">Noter</string>
     <string name="rate_app_sub">Cette application est entièrement gratuite, si vous souhaitez qu\'elle devienne plus grande, veuillez mettre le projet en vedette sur Github 😄</string>
     <string name="color_matrix_4x4">Matrice de couleurs 4x4</string>
     <string name="simple_effects">Effets simples</string>
@@ -1033,4 +1033,5 @@
     <string name="import_word">Importer</string>
     <string name="export">Exporter</string>
     <string name="position">Position</string>
+    <string name="tag_lens_serial_number">Numéro de Série de l\'Objectif</string>
 </resources>
