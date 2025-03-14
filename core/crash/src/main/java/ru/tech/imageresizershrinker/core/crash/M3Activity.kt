@@ -83,7 +83,7 @@ abstract class M3Activity : AppCompatActivity() {
 
     open fun onFirstLaunch() = Unit
 
-    @JvmName("getSettingsState1")
+    @JvmName("obtainSettingsState")
     fun getSettingsState(): SettingsState = settingsState
 
     override fun attachBaseContext(newBase: Context) {
